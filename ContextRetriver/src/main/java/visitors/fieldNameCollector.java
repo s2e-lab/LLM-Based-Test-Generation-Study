@@ -2,7 +2,6 @@ package visitors;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
