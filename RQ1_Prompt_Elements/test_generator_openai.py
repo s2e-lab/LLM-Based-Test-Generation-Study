@@ -10,7 +10,7 @@ directory_path =  config["BASE_DIRECTORY"]+"/Part3/"
 file = open(directory_path + "id_0.java", "r")
 context = file.read()
 
-prompt = context+"\n//Write a JUNIT test class with ten test cases for the previous class\n"
+prompt = context+"\n/* Write a JUNIT test class with ten test cases for the previous class. */\n"
 
 
 response = openai.Completion.create(
