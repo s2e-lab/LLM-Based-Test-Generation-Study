@@ -11,7 +11,11 @@ directory_path = config["BASE_DIRECTORY"] + current_directory
 
 responses = []
 for i in range(164):
+    print(i)
+    if i in [32,38,50,160]:
+        continue
     with open(directory_path + "id_" + str(i) + ".java", "r") as file:
+
         context = file.read()
 
         prompt = (
@@ -31,10 +35,17 @@ for i in range(164):
         )
         time_taken = time.time() - start_time
         response["time_taken"] = time_taken
+        response["id"] = i
         responses.append(response)
+        print(time_taken)
+        time.sleep(30)
+        if (i+1)%10==0:
+          output = open("output_" + current_directory.replace("/", "") +"_"+str(i)+ ".json", "w")
+          output.write(json.dumps(responses))
+          responses = []
+          time.sleep(30)
 
-
-output = open("output_" + current_directory.replace("/", "") + ".json", "w")
+output = open("output_" + current_directory.replace("/", "") +"_"+str(i)+ ".json", "w")
 output.write(json.dumps(responses))
 
 """
