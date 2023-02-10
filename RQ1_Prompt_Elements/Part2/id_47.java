@@ -1,0 +1,25 @@
+package Part2;
+import org.junit.jupiter.api.Test;
+import static junit.framework.TestCase.assertEquals;
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+
+
+class Median {
+    /**
+     * Return median of elements in the list l.
+    
+     */
+    public static Number median(List<Integer> l) {
+        Collections.sort(l);
+        int size = l.size();
+        if (size % 2 == 0) {
+            return (l.get(size / 2) + l.get(size / 2 - 1)) / 2.0;
+        } else {
+            return l.get(size / 2);
+        }
+    }
+
+}
