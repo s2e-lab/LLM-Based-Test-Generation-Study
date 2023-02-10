@@ -1,28 +1,42 @@
-import os
 import openai
 import json
+import time
 
 config = json.load(open("config.json"))
 
+current_directory = "/Part3/"
 
 openai.api_key = config["OPEN_AI_KEY"]
-directory_path =  config["BASE_DIRECTORY"]+"/Part3/"
-file = open(directory_path + "id_0.java", "r")
-context = file.read()
+directory_path = config["BASE_DIRECTORY"] + current_directory
 
-prompt = context+"\n/* Write a JUNIT test class with ten test cases for the previous class. */\n"
+responses = []
+for i in range(164):
+    with open(directory_path + "id_" + str(i) + ".java", "r") as file:
+        context = file.read()
+
+        prompt = (
+            context
+            + "\n/* Write a JUNIT test class with ten test cases for the previous class. */\n"
+        )
+
+        start_time = time.time()
+        response = openai.Completion.create(
+            model="code-davinci-002",
+            prompt=prompt,
+            temperature=0,
+            max_tokens=1024,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
+        )
+        time_taken = time.time() - start_time
+        response["time_taken"] = time_taken
+        responses.append(response)
 
 
-response = openai.Completion.create(
-  model="code-davinci-002",
-  prompt=prompt,
-  temperature=0,
-  max_tokens=1024,
-  top_p=1,
-  frequency_penalty=0,
-  presence_penalty=0
-)
-print(response)
+output = open("output_" + current_directory.replace("/", "") + ".json", "w")
+output.write(json.dumps(responses))
+
 """
 {
   "choices": [
