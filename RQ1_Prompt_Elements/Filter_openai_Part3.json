@@ -1840,6 +1840,46 @@
         }
     },
     {
+        "id": 95,
+        "object": "text_completion",
+        "created": 1676063107,
+        "model": "code-davinci-002",
+        "choices": [
+            {
+                "text": "public class CheckDictCaseTest {\n    @Test\n    public void testCheckDictCase() {\n        assertEquals(true, CheckDictCase.checkDictCase(new HashMap<String, String>() {{\n            put(\"p\", \"pineapple\");\n            put(\"b\", \"banana\");\n        }}));\n        assertEquals(false, CheckDictCase.checkDictCase(new HashMap<String, String>() {{\n            put(\"p\", \"pineapple\");\n            put(\"A\", \"banana\");\n            put(\"B\", \"banana\");\n        }}));\n        assertEquals(false, CheckDictCase.checkDictCase(new HashMap<String, String>() {{\n            put(\"p\", \"pineapple\");\n            put(\"5\", \"banana\");\n            put(\"a\", \"apple\");\n        }}));\n        assertEquals(false, CheckDictCase.checkDictCase(new HashMap<String, String>() {{\n            put(\"Name\", \"John\");\n            put(\"Age\", \"36\");\n            put(\"City\", \"Houston\");\n        }}));\n        assertEquals(true, CheckDictCase.checkDictCase(new HashMap<String, String>() {{\n            put(\"STATE\", \"NC\");\n            put(\"ZIP\", \"12345\");\n        }}));\n        assertEquals(true, CheckDictCase.checkDictCase(new HashMap<String, String>() {{\n            put(\"fruit\", \"Orange\");\n            put(\"taste\", \"Sweet\");\n        }}));\n        assertEquals(false, CheckDictCase.checkDictCase(new HashMap<String, String>()));\n    }\n}",
+                "index": 0,
+                "logprobs": null,
+                "finish_reason": "stop"
+            }
+        ],
+        "usage": {
+            "prompt_tokens": 697,
+            "completion_tokens": 394,
+            "total_tokens": 1091
+        },
+        "time_taken": 14.357928991317749
+    },
+    {
+        "id": 96,
+        "object": "text_completion",
+        "created": 1676063151,
+        "model": "code-davinci-002",
+        "choices": [
+            {
+                "text": "class CountUpToTest {\n    @Test\n    void testCountUpTo() {\n        assertEquals(CountUpTo.countUpTo(5), Arrays.asList(2, 3));\n        assertEquals(CountUpTo.countUpTo(6), Arrays.asList(2, 3, 5));\n        assertEquals(CountUpTo.countUpTo(7), Arrays.asList(2, 3, 5));\n        assertEquals(CountUpTo.countUpTo(10), Arrays.asList(2, 3, 5, 7));\n        assertEquals(CountUpTo.countUpTo(0), Arrays.asList());\n        assertEquals(CountUpTo.countUpTo(22), Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19));\n        assertEquals(CountUpTo.countUpTo(1), Arrays.asList());\n        assertEquals(CountUpTo.countUpTo(18), Arrays.asList(2, 3, 5, 7, 11, 13, 17));\n        assertEquals(CountUpTo.countUpTo(47), Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43));\n        assertEquals(CountUpTo.countUpTo(101), Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97));\n    }\n}",
+                "index": 0,
+                "logprobs": null,
+                "finish_reason": "stop"
+            }
+        ],
+        "usage": {
+            "prompt_tokens": 685,
+            "completion_tokens": 377,
+            "total_tokens": 1062
+        },
+        "time_taken": 12.83063817024231
+    },
+    {
         "id": 97,
         "object": "text_completion",
         "created": 1676063193,

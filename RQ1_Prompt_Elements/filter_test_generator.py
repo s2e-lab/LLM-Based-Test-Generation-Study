@@ -56,7 +56,7 @@ current_directory = "/Part3/"
 openai.api_key = config["OPEN_AI_KEY"]
 directory_path = config["BASE_DIRECTORY"] + current_directory
 
-id = 152
+id = 95
 with open(directory_path + "id_"+str(id)+".java", "r") as file:
 
             context = file.read()
@@ -70,7 +70,7 @@ with open(directory_path + "id_"+str(id)+".java", "r") as file:
                 model="code-davinci-002",
                 prompt=prompt,
                 temperature=0,
-                max_tokens=4000,
+                max_tokens=1024,
                 top_p=1,
                 frequency_penalty=0,
                 presence_penalty=0,
