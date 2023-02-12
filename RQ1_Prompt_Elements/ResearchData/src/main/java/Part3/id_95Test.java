@@ -1,10 +1,14 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class CheckDictCaseTest {
+class CheckDictCaseTest {
     @Test
     public void testCheckDictCase() {
         assertEquals(true, CheckDictCase.checkDictCase(new HashMap<String, String>() {{

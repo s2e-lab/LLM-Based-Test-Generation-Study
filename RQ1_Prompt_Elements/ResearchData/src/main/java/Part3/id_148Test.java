@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class BfTest {
+class BfTest {
     @Test
     public void test1() {
         assertEquals(Arrays.asList("Saturn", "Uranus"), Bf.bf("Jupiter", "Neptune"));

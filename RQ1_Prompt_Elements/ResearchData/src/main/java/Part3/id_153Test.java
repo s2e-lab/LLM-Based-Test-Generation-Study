@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class StrongestExtensionTest {
+class StrongestExtensionTest {
     @Test
     public void testStrongestExtension() {
         assertEquals("Watashi.eIGHt8OKe", StrongestExtension.strongestExtension("Watashi", Arrays.asList("tEN", "niNE", "eIGHt8OKe")));

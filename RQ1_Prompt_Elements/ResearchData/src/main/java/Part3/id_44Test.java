@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class ChangeBaseTest {
+class ChangeBaseTest {
     @Test
     public void testChangeBase() {
         assertEquals("22", ChangeBase.changeBase(8, 3));

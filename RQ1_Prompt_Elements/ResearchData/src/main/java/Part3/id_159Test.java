@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class EatTest {
+class EatTest {
     @Test
     public void test1() {
         assertEquals(Arrays.asList(11, 4), Eat.eat(5, 6, 10));

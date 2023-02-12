@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class HistogramTest {
+class HistogramTest {
     @Test
     public void testHistogram() {
         assertEquals(Histogram.histogram("a b c"), "{a=1, b=1, c=1}");

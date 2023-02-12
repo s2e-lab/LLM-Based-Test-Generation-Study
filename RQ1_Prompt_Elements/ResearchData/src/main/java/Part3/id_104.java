@@ -1,15 +1,12 @@
 package Part3;
 
 
-import org.junit.jupiter.api.Test;
+
 
 import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
-
-import static junit.framework.TestCase.assertEquals;
-
 
 class UniqueDigits {
     /**

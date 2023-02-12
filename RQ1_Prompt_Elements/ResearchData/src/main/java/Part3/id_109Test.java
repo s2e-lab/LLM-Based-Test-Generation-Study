@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class MoveOneBallTest {
+class MoveOneBallTest {
     @Test
     public void testMoveOneBall() {
         assertEquals(true, MoveOneBall.moveOneBall(Arrays.asList(3, 4, 5, 1, 2)));

@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class DoubleTheDifferenceTest {
+class DoubleTheDifferenceTest {
     @Test
     public void testDoubleTheDifference() {
         assertEquals(10, DoubleTheDifference.doubleTheDifference(Arrays.asList(1, 3, 2, 0)));

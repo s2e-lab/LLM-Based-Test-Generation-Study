@@ -6,7 +6,7 @@ import java.lang.*;
 import java.util.*;
 import java.math.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 
 class XOrY {

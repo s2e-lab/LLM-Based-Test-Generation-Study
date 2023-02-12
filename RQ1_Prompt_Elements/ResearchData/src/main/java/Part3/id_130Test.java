@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class TriTest {
+class TriTest {
     @Test
     public void testTri() {
         assertEquals(Arrays.asList(1, 3, 2.0, 8.0), Tri.tri(3));

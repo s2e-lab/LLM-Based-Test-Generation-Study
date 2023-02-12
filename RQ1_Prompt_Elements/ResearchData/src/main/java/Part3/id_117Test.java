@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class SelectWordsTest {
+class SelectWordsTest {
     @Test
     public void testSelectWords() {
         assertEquals(SelectWords.selectWords("Mary had a little lamb", 4), Arrays.asList("little"));

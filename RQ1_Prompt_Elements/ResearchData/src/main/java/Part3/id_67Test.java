@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class FruitDistributionTest {
+class FruitDistributionTest {
     @Test
     public void testFruitDistribution() {
         assertEquals(8, FruitDistribution.fruitDistribution("5 apples and 6 oranges", 19));

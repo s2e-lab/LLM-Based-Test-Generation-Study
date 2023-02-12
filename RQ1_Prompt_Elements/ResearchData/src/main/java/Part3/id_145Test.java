@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class OrderByPointsTest {
+class OrderByPointsTest {
     @Test
     public void testOrderByPoints() {
         List<Object> nums = new ArrayList<Object>();

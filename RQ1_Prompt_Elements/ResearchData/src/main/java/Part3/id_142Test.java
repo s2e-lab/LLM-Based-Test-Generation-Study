@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class SumSquaresTest {
+class SumSquaresTest1 {
     @Test
     public void testSumSquares() {
         assertEquals(6, SumSquares1.sumSquares(Arrays.asList(1, 2, 3)));

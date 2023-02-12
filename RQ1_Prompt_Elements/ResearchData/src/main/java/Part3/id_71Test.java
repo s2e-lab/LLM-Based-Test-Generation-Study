@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class TriangleAreaTest {
+class TriangleAreaTest1 {
     @Test
     public void testTriangleArea() {
         assertEquals(6.00, TriangleArea1.triangleArea(3, 4, 5));

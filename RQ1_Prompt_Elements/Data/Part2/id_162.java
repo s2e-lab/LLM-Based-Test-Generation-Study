@@ -1,0 +1,36 @@
+package Part2;
+
+
+import static junit.framework.TestCase.assertEquals;
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+
+class StringToMd5 {
+    /**
+     * * Given a string 'text', return its md5 hash equivalent string.
+     * If 'text' is an empty string, return null.
+     */
+    public static String stringToMd5(String text) {
+        if (text.equals("")) {
+            return null;
+        }
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(text.getBytes());
+            BigInteger number = new BigInteger(1, messageDigest);
+            String hashText = number.toString(16);
+            while (hashText.length() < 32) {
+                hashText = "0" + hashText;
+            }
+            return hashText;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}

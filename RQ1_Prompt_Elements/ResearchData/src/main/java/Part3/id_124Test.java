@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class ValidDateTest {
+class ValidDateTest {
     @Test
     public void testValidDate() {
         assertEquals(true, ValidDate.validDate("03-11-2000"));

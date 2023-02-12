@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class MaximumTest {
+class MaximumTest {
     @Test
     public void testMaximum() {
         List<Integer> arr = new ArrayList<Integer>();

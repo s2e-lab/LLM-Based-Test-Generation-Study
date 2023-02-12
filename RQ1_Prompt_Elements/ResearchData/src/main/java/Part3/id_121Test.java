@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class TestSolution {
+class TestSolution {
     @Test
     public void testSolution() {
         assertEquals(12, Solution.solution(Arrays.asList(5, 8, 7, 1)));

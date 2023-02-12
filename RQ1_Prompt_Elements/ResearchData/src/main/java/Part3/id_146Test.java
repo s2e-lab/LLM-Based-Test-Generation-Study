@@ -1,10 +1,13 @@
 package Part3;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class SpecialfilterTest {
+class SpecialfilterTest {
     @Test
     public void testSpecialfilter() {
         assertEquals(0, Specialfilter.specialfilter(Arrays.asList(5, -2, 1, -5)));
