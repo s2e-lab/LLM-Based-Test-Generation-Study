@@ -1,6 +1,7 @@
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
+import searcher.JavaSearcher;
 import visitors.*;
 
 import java.io.File;
@@ -71,6 +72,12 @@ public class Extractor {
         JavaDocCollector.visit(cu, JavaDocComments);
         JavaDocComments.forEach(n->System.out.println("JavaDoc collected: "+n));
 
-        
+
+        File projectDirectory = new File("EvoSuiteBenchmark/1_tullibee/src/");
+        List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
+        for (File javaFile : javaFiles) {
+            System.out.println(javaFile.getAbsolutePath());
+        }
+
     }
 }
