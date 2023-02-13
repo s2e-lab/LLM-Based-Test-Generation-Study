@@ -4,7 +4,7 @@ import time
 
 config = json.load(open("config.json"))
 
-current_directory = "/Part3/"
+current_directory = "/Part2/"
 
 openai.api_key = config["OPEN_AI_KEY"]
 directory_path = config["BASE_DIRECTORY"] + current_directory
