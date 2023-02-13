@@ -69,7 +69,7 @@ public class Extractor {
             //collect extended class names
             List<String> extendedClassNames = new ArrayList<>();
             VoidVisitor<List<String>> extendedClassNameCollector = new ExtendedNameCollector();
-            extendedClassNameCollector.visit(javaFileCompilationUnitWashMap.get(javaFile), extendedClassNames);
+            extendedClassNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), extendedClassNames);
             System.out.println("Extended Class Names: " + extendedClassNames);
 
             //collect implemented interface names
