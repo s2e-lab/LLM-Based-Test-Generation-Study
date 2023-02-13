@@ -7,77 +7,79 @@ import visitors.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Extractor {
 
-    private static final String FILE_PATH = "EvoSuiteBenchmark/1_tullibee/src/main/java/com/ib/client/Contract.java";
+
     public static void main(String[] args) throws FileNotFoundException {
-        /*
-        Collect method names
-         */
-        CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
-        List<String> methodNames = new ArrayList<>();;
-        VoidVisitor<List<String>> methodNameCollector = new MethodNameCollector();
-        methodNameCollector.visit(cu, methodNames);
-        methodNames.forEach(System.out::println);
-        /*
-        Collect class names
-         */
-        List<String> className = new ArrayList<>();
-        VoidVisitor<List<String>> classNameVisitor = new ClassNameCollector();
-        classNameVisitor.visit(cu,className);
-        className.forEach(n->System.out.println("Class name collected: "+n));
-        /*
-        Collect extended class names (If any)
-         */
-        List<String> extendsName = new ArrayList<>();
-        VoidVisitor<List<String>> extendsVisitor = new ExtendedNameCollector();
-        extendsVisitor.visit(cu,extendsName);
-        extendsName.forEach(n->System.out.println("Extended name collected: "+n));
-        /*
-        Collect implemented class names (If any)
-         */
-        List<String> implementsName = new ArrayList<>();
-        VoidVisitor<List<String>> implementsVisitor = new ImplementedNameCollector();
-        implementsVisitor.visit(cu,implementsName);
-        implementsName.forEach(n->System.out.println("Implemented name collected: "+n));
-        /*
-        Collect field names (If any)
-         */
-        List<String> fieldNames = new ArrayList<>();
-        VoidVisitor<List<String>> fieldNameCollector = new fieldNameCollector();
-        fieldNameCollector.visit(cu, fieldNames);
-        fieldNames.forEach(n->System.out.println("Field name collected: "+n));
-        /*
-        Collect package names (If any)
-         */
-        List<String> packageName = new ArrayList<>();
-        VoidVisitor<List<String>> packageNameVisitor = new PackageNameCollector();
-        packageNameVisitor.visit(cu,packageName);
-        packageName.forEach(n->System.out.println("Package name collected: "+n));
 
-        /*
-        Collect variable names (If any)
-         */
-        List<String> variableNames = new ArrayList<>();
-        VoidVisitor<List<String>> variableNameCollector = new VarNameCollector();
-        variableNameCollector.visit(cu, variableNames);
-        variableNames.forEach(n->System.out.println("Variable name collected: "+n));
-        /*
-        Collect JavaDoc (If any)
-         */
-        List<String> JavaDocComments = new ArrayList<>();
-        VoidVisitor<List<String>> JavaDocCollector = new JavaDocCollector();
-        JavaDocCollector.visit(cu, JavaDocComments);
-        JavaDocComments.forEach(n->System.out.println("JavaDoc collected: "+n));
-
-
-        File projectDirectory = new File("EvoSuiteBenchmark/1_tullibee/src/");
+        File projectDirectory = new File("EvoSuiteBenchmark/1_tullibee/src/main");
         List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
+        HashMap<File, CompilationUnit> javaFileCompilationUnitHashMap = new HashMap<>();
+
         for (File javaFile : javaFiles) {
-            System.out.println(javaFile.getAbsolutePath());
+            CompilationUnit cu = StaticJavaParser.parse(javaFile.getAbsoluteFile());
+            javaFileCompilationUnitHashMap.putIfAbsent(javaFile, cu);
         }
 
+
+        //print the results for each file
+        for (File javaFile : javaFileCompilationUnitHashMap.keySet()) {
+            System.out.println("File: " + javaFile.getName());
+
+
+            //collect the package names
+            List<String> packageNames = new ArrayList<>();
+            VoidVisitor<List<String>> packageNameCollector = new PackageNameCollector();
+            packageNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), packageNames);
+            System.out.println("Package Names: " + packageNames);
+
+            //collect the class names
+            List<String> classNames = new ArrayList<>();
+            VoidVisitor<List<String>> classNameCollector = new ClassNameCollector();
+            classNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), classNames);
+            System.out.println("Class Names: " + classNames);
+
+            //collect the field names
+            List<String> fieldNames = new ArrayList<>();
+            VoidVisitor<List<String>> fieldNameCollector = new FieldNameCollector();
+            fieldNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), fieldNames);
+            System.out.println("Field Names: " + fieldNames);
+
+            //collect the variable names
+            List<String> varNames = new ArrayList<>();
+            VoidVisitor<List<String>> varNameCollector = new VarNameCollector();
+            varNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), varNames);
+            System.out.println("Variable Names: " + varNames);
+
+            //collect the javadoc comments
+            List<String> javadocComments = new ArrayList<>();
+            VoidVisitor<List<String>> javadocCollector = new JavaDocCollector();
+            javadocCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), javadocComments);
+            System.out.println("Javadoc Comments: " + javadocComments);
+
+            //collect the method names
+            List<String> methodNames = new ArrayList<>();
+            VoidVisitor<List<String>> methodNameCollector = new MethodNameCollector();
+            methodNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), methodNames);
+            System.out.println("Method Names: " + methodNames);
+
+            //collect extended class names
+            List<String> extendedClassNames = new ArrayList<>();
+            VoidVisitor<List<String>> extendedClassNameCollector = new ExtendedNameCollector();
+            extendedClassNameCollector.visit(javaFileCompilationUnitWashMap.get(javaFile), extendedClassNames);
+            System.out.println("Extended Class Names: " + extendedClassNames);
+
+            //collect implemented interface names
+            List<String> implementedInterfaceNames = new ArrayList<>();
+            VoidVisitor<List<String>> implementedInterfaceNameCollector = new ImplementedNameCollector();
+            implementedInterfaceNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), implementedInterfaceNames);
+            System.out.println("Implemented Interface Names: " + implementedInterfaceNames);
+
+
+
+        }
     }
 }

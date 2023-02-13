@@ -6,7 +6,7 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import java.util.List;
 
-public class fieldNameCollector extends VoidVisitorAdapter<List<String>> {
+public class FieldNameCollector extends VoidVisitorAdapter<List<String>> {
     @Override
     public void visit(ClassOrInterfaceDeclaration n, List<String> collector) {
         super.visit(n, collector);
