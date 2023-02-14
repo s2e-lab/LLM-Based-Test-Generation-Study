@@ -48,6 +48,8 @@ for i in range(164):
 output = open("output_" + current_directory.replace("/", "") +"_"+str(i)+ ".json", "w")
 output.write(json.dumps(responses))
 
+
+
 """
 {
   "choices": [

@@ -1,6 +1,4 @@
 import json
-import openai
-import time
 
 responses = json.load(open('filter_openai_Part3.json'))
 
