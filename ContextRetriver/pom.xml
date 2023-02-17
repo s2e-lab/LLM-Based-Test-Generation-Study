@@ -18,6 +18,64 @@
             <artifactId>javaparser-symbol-solver-core</artifactId>
             <version>3.24.10</version>
         </dependency>
+        <!-- Eclipse libraries, specify which ones to avoid this error:  https://github.com/wala/WALA/issues/1083 -->
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.core.resources</artifactId>
+            <version>3.14.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.equinox.common</artifactId>
+            <version>3.14.100</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.core.commands</artifactId>
+            <version>3.9.700</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- IBM Wala -->
+        <dependency> <!-- WALA Core -->
+            <groupId>com.ibm.wala</groupId>
+            <artifactId>com.ibm.wala.core</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+        <dependency> <!-- Utility library included with the (WALA) -->
+            <groupId>com.ibm.wala</groupId>
+            <artifactId>com.ibm.wala.util</artifactId>
+            <version>1.5.7</version>
+            <type>jar</type>
+        </dependency>
+        <dependency> <!-- WALA Common AST core library -->
+            <groupId>com.ibm.wala</groupId>
+            <artifactId>com.ibm.wala.cast</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+        <dependency><!-- WALA Shrike library for bytecode reading and instrumentation-->
+            <groupId>com.ibm.wala</groupId>
+            <artifactId>com.ibm.wala.shrike</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+        <dependency> <!-- WALA Common AST core Java front-end functionality -->
+            <groupId>com.ibm.wala</groupId>
+            <artifactId>com.ibm.wala.cast.java</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+        <dependency> <!-- WALA Dalvik frontend -->
+            <groupId>com.ibm.wala</groupId>
+            <artifactId>com.ibm.wala.dalvik</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+        <dependency> <!-- WALA Common AST Java ECJ front-end -->
+            <groupId>com.ibm.wala</groupId>
+            <artifactId>com.ibm.wala.cast.java.ecj</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>
