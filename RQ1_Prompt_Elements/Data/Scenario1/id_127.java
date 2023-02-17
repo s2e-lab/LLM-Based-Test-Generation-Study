@@ -1,4 +1,4 @@
-package Part1;
+package scenario1;
 
 
 import java.io.*;
