@@ -1,5 +1,4 @@
-package Part3;
-import org.junit.jupiter.api.Test;
+package scenario3;
 
 import java.io.*;
 import java.lang.*;

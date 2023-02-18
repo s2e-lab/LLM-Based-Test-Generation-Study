@@ -1,4 +1,4 @@
-package Part3;
+package scenario3;
 
 import org.junit.jupiter.api.Test;
 

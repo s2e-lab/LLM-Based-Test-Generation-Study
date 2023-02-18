@@ -6,7 +6,7 @@ import java.lang.*;
 import java.util.*;
 import java.math.*;
 
-import static junit.framework.TestCase.assertEquals;
+
 
 
 class Unique {
