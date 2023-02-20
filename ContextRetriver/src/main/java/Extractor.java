@@ -36,6 +36,11 @@ public class Extractor {
             packageNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), packageNames);
             System.out.println("Package Names: " + packageNames);
 
+            //collect the import names
+            List<String> importNames = new ArrayList<>();
+            javaFileCompilationUnitHashMap.get(javaFile).getImports().forEach(i -> importNames.add(i.getNameAsString()));
+            importNames.forEach(System.out::println);
+
             //collect the class names
             List<String> classNames = new ArrayList<>();
             VoidVisitor<List<String>> classNameCollector = new ClassNameCollector();
