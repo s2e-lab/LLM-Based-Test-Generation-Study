@@ -1,8 +1,6 @@
 import com.ibm.wala.cast.ir.ssa.AstIRFactory;
 import com.ibm.wala.cast.java.client.ECJJavaSourceAnalysisEngine;
 import com.ibm.wala.cast.java.ipa.callgraph.JavaSourceAnalysisScope;
-import com.ibm.wala.cast.java.translator.jdt.ecj.ECJClassLoaderFactory;
-import com.ibm.wala.classLoader.ClassLoaderFactory;
 import com.ibm.wala.classLoader.JarFileModule;
 import com.ibm.wala.classLoader.SourceFileModule;
 import com.ibm.wala.ipa.callgraph.*;
@@ -10,7 +8,6 @@ import com.ibm.wala.ipa.callgraph.impl.Util;
 import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
 import com.ibm.wala.ipa.callgraph.propagation.SSAPropagationCallGraphBuilder;
 import com.ibm.wala.ipa.cha.ClassHierarchyException;
-import com.ibm.wala.ipa.cha.ClassHierarchyFactory;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.ssa.SSAOptions;
 import com.ibm.wala.ssa.SymbolTable;
@@ -60,9 +57,8 @@ public class WalaSrcAnalysis {
 
 
     public static void main(String[] args) throws IOException, CancelException, ClassHierarchyException {
-
-//      File project = new File("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/EvoSuiteBenchmark/1_tullibee/src/main/java/com/ib/client/AnyWrapperMsgGenerator.java");
-        File project = new File("./resources/Example1.java");
+        File project = new File("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/EvoSuiteBenchmark/1_tullibee/src/main/java/com/ib/client/AnyWrapperMsgGenerator.java");
+        //File project = new File("./resources/Example1.java");
         System.out.println(new File(".").getAbsolutePath());
         ECJJavaSourceAnalysisEngine engine = new ECJJavaSourceAnalysisEngine();
         engine.addSystemModule(new JarFileModule(new JarFile(JAVA_RUNTIME_17, false)));
