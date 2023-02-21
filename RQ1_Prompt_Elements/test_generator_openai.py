@@ -75,18 +75,15 @@ def generate_tests(config, scenario) -> None:
     scenario_file = open(os.path.join(config["BASE_DIRECTORY"], scenario))
     prompts = json.load(scenario_file)
 
+    current_scenario = scenario.split("_")[0]
+
     openai.api_key = config["OPEN_AI_KEY"]
 
     responses = []
-    current = 0
-
-    to_be_continued = True
+    current_id = ""
     for prompt in prompts:
         print(prompt["id"])
-        if prompt["id"] =="72":
-              to_be_continued = False
-        if to_be_continued:
-            continue
+        current_id = prompt["id"]
         start_time = time.time()
         response = openai.Completion.create(
             model="code-davinci-002",
@@ -103,16 +100,15 @@ def generate_tests(config, scenario) -> None:
         response["original_code"] = prompt["original_code"]
         response["test_prompt"] = prompt["test_prompt"]
         responses.append(response)
-        time.sleep(15)
+        time.sleep(30)
         print(time_taken)
         if len(responses) % 10 == 0:
-            output = open("output_" + str(current) + ".json", "w")
+            output = open(current_scenario + "_output_" + current_id + ".json", "w")
             output.write(json.dumps(responses))
             responses = []
-            current += 1
-            time.sleep(15)
+            time.sleep(30)
 
-    output = open("output_" + str(current) + ".json", "w")
+    output = open(current_scenario + "_output_" + current_id + ".json", "w")
     output.write(json.dumps(responses))
 
 

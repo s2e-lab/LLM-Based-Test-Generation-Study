@@ -1,24 +1,31 @@
 import com.ibm.wala.cast.ir.ssa.AstIRFactory;
 import com.ibm.wala.cast.java.client.ECJJavaSourceAnalysisEngine;
 import com.ibm.wala.cast.java.ipa.callgraph.JavaSourceAnalysisScope;
-import com.ibm.wala.classLoader.JarFileModule;
-import com.ibm.wala.classLoader.SourceFileModule;
+import com.ibm.wala.cast.java.translator.jdt.ecj.ECJClassLoaderFactory;
+import com.ibm.wala.classLoader.*;
 import com.ibm.wala.ipa.callgraph.*;
+import com.ibm.wala.ipa.callgraph.cha.CHACallGraph;
 import com.ibm.wala.ipa.callgraph.impl.Util;
 import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
 import com.ibm.wala.ipa.callgraph.propagation.SSAPropagationCallGraphBuilder;
 import com.ibm.wala.ipa.cha.ClassHierarchyException;
+import com.ibm.wala.ipa.cha.ClassHierarchyFactory;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.ssa.SSAOptions;
 import com.ibm.wala.ssa.SymbolTable;
 import com.ibm.wala.util.CancelException;
+import com.ibm.wala.util.WalaException;
 import com.ibm.wala.util.config.FileOfClasses;
+import com.ibm.wala.viz.DotUtil;
 import com.ibm.wala.viz.viewer.WalaViewer;
+import searcher.JavaSearcher;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.jar.JarFile;
+
 
 public class WalaSrcAnalysis {
 
@@ -31,8 +38,13 @@ public class WalaSrcAnalysis {
         JavaSourceAnalysisScope scope = new JavaSourceAnalysisScope();
         // adds primordial (built-in) classes
         scope.addToScope(scope.getPrimordialLoader(), new JarFileModule(new JarFile(JAVA_RUNTIME_17, false)));
-        // adds application classes (source code)
-        scope.addToScope(scope.getSourceLoader(), new SourceFileModule(sourceFile, sourceFile.getName(), null));
+
+        // add the source directory
+        if (sourceFile.isDirectory())
+            scope.addToScope(JavaSourceAnalysisScope.SOURCE, new SourceDirectoryTreeModule(sourceFile));
+        else
+            scope.addToScope(JavaSourceAnalysisScope.SOURCE, new SourceFileModule(sourceFile, sourceFile.getName(), null));
+
         // sets exclusion file
         scope.setExclusions(new FileOfClasses(new FileInputStream(EXCLUSION_FILE)));
         return scope;
@@ -55,36 +67,59 @@ public class WalaSrcAnalysis {
         return builder.makeCallGraph(options, null);
     }
 
+    public static CallGraph buildChaCallGraph(JavaSourceAnalysisScope scope, IClassHierarchy classHierarchy) throws CancelException {
+        CHACallGraph cg = new CHACallGraph(classHierarchy, true);
+        Iterable<Entrypoint> entrypoints = Util.makeMainEntrypoints(scope.getSourceLoader(), classHierarchy);
+        cg.init(entrypoints);
+        return cg;
+    }
 
-    public static void main(String[] args) throws IOException, CancelException, ClassHierarchyException {
-        File project = new File("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/EvoSuiteBenchmark/1_tullibee/src/main/java/com/ib/client/AnyWrapperMsgGenerator.java");
-        //File project = new File("./resources/Example1.java");
-        System.out.println(new File(".").getAbsolutePath());
-        ECJJavaSourceAnalysisEngine engine = new ECJJavaSourceAnalysisEngine();
-        engine.addSystemModule(new JarFileModule(new JarFile(JAVA_RUNTIME_17, false)));
-        engine.setExclusionsFile(EXCLUSION_FILE);
-        engine.addSourceModule(new SourceFileModule(project, project.getName(), null));
-        engine.buildAnalysisScope();
-        IClassHierarchy cha = engine.buildClassHierarchy();
-        System.out.println("Classes: " + cha.getNumberOfClasses());
-        System.out.println(cha.getScope().toString());
-//        CallGraph callGraph = engine.buildDefaultCallGraph();
-        CallGraphBuilder<InstanceKey> builder = engine.defaultCallGraphBuilder();
+    public static void main(String[] args) throws IOException, CancelException, WalaException {
+        File project = new File("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/EvoSuiteBenchmark/1_tullibee/src/main/java/com/ib/client/");
+        //       File project = new File("./resources/Example1.java");
+//        System.out.println(new File(".").getAbsolutePath());
+//
+//        ECJJavaSourceAnalysisEngine engine = new ECJJavaSourceAnalysisEngine();
+//        engine.addSystemModule(new JarFileModule(new JarFile(JAVA_RUNTIME_17, false)));
+//        engine.setExclusionsFile(EXCLUSION_FILE);
+//
+//        engine.addSourceModule(new SourceFileModule(project, project.getName(), null));
+//
+//        // add the source directory
+//        if (project.isDirectory())
+//        {
+//            List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+//            for (File javaFile : javaFiles)
+//                engine.addSourceModule(new SourceFileModule(javaFile, javaFile.getName(), null));
+//        }
+//        else
+//            engine.addSourceModule(new SourceFileModule(project, project.getName(), null));
+//
+//        engine.buildAnalysisScope();
+//
+//        IClassHierarchy cha = engine.buildClassHierarchy();
+//        System.out.println("Classes: " + cha.getNumberOfClasses());
+//        System.out.println(cha.getScope().toString());
+////        CallGraph callGraph = engine.buildDefaultCallGraph();
 //        CallGraphBuilder<InstanceKey> builder = engine.defaultCallGraphBuilder();
-//        AnalysisOptions options = engine.getOptions();
+////        CallGraphBuilder<InstanceKey> builder = engine.defaultCallGraphBuilder();
+////        AnalysisOptions options = engine.getOptions();
+//
+//        CallGraph callGraph = builder.makeCallGraph(engine.getOptions(), null);
+//
+//        new WalaViewer(callGraph, builder.getPointerAnalysis());
 
-        CallGraph callGraph = builder.makeCallGraph(engine.getOptions(), null);
-
-        new WalaViewer(callGraph, builder.getPointerAnalysis());
+        // creates analysis scope
+        JavaSourceAnalysisScope scope = createScope(project);
 
         // creates class hierarchy
-//        JavaSourceAnalysisScope scope = createScope(project);
-//        ClassLoaderFactory factory = new ECJClassLoaderFactory(scope.getExclusions());
-//        IClassHierarchy classHierarchy = ClassHierarchyFactory.make(scope, factory);
-//
-//        System.out.println("Classes: " + classHierarchy.getNumberOfClasses());
-//        System.out.println(classHierarchy.getScope().toString());
+        IClassHierarchy classHierarchy = ClassHierarchyFactory.make(scope);
+        System.out.println("Classes: " + classHierarchy.getNumberOfClasses());
 
+
+        // CHA Call Graph
+        CallGraph chaCallGraph = buildChaCallGraph(scope, classHierarchy);
+        System.out.println("CHA Call Graph: " + chaCallGraph.getNumberOfNodes());
 
     }
 }
