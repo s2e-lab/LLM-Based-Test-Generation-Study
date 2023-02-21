@@ -76,7 +76,7 @@ public class TestPromptCreator {
             }
 
             String jsonStr = JSONArray.toJSONString(outputList);
-             FileWriter file = new FileWriter("/Users/lsiddiqsunny/Documents/Notre Dame/Reqsearch/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/OpenAI_Data/Input/Scenario2_prompt.json");
+             FileWriter file = new FileWriter("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/OpenAI_Data/Input/Scenario2_prompt.json");
              file.write(jsonStr);
              file.close();
 

@@ -79,14 +79,20 @@ def generate_tests(config, scenario) -> None:
 
     responses = []
     current = 0
+
+    to_be_continued = True
     for prompt in prompts:
         print(prompt["id"])
+        if prompt["id"] =="72":
+              to_be_continued = False
+        if to_be_continued:
+            continue
         start_time = time.time()
         response = openai.Completion.create(
             model="code-davinci-002",
             prompt=prompt["original_code"] + "\n" + prompt["test_prompt"],
             temperature=0,
-            max_tokens=1024,
+            max_tokens=2048,
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0,
