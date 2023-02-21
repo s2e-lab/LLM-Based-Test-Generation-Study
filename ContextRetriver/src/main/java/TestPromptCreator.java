@@ -8,7 +8,6 @@ import visitors.MethodNameCollector;
 import visitors.PackageNameCollector;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TestPromptCreator {
-    static String FOLDER_NAME = "/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/Data/Scenario3/src/main/java/scenario3/";
+    static String FOLDER_NAME = "/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/Data/Scenario2/";
 
     public static void main(String[] args){
         try {
@@ -54,6 +53,7 @@ public class TestPromptCreator {
                 VoidVisitor<List<String>> classNameCollector = new ClassNameCollector();
                 classNameCollector.visit(cu, classNames);
                 assert classNames.size() == 1;
+                sb.append("/**\n" + " * This is a test class generated for ").append(classNames.get(0)).append(" class.\n").append(" * It contains ten test cases for ").append(classNames.get(0)).append(" method.\n").append(" */\n");
                 sb.append("class ").append(classNames.get(0)).append("Test {\n");
                 sb.insert(0, "// "+classNames.get(0)+"Test.java\n");
 
@@ -67,6 +67,7 @@ public class TestPromptCreator {
                 sb.append("\t@Test\n");
                 sb.append("\tvoid ").append(methodNames.get(0)).append("Test1() {\n");
                 sb.append("\t\t// Test logic for ").append(methodNames.get(0)).append("\n");
+                sb.append("\t\t");
 
                 System.out.println(sb);
                 outputMap.put("test_prompt",sb.toString());
@@ -75,8 +76,7 @@ public class TestPromptCreator {
             }
 
             String jsonStr = JSONArray.toJSONString(outputList);
-            System.out.println(jsonStr);
-             FileWriter file = new FileWriter("Scenario3_prompt.json");
+             FileWriter file = new FileWriter("/Users/lsiddiqsunny/Documents/Notre Dame/Reqsearch/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/OpenAI_Data/Input/Scenario2_prompt.json");
              file.write(jsonStr);
              file.close();
 

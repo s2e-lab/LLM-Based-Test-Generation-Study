@@ -1,8 +1,7 @@
-# import openai
+import openai
 import json
 import time
 import os
-import fnmatch
 
 """
 config = json.load(open("config.json"))
@@ -53,9 +52,11 @@ output.write(json.dumps(responses))
 """
 
 
-RE_FILENAME = '^id_([0-9]+).java'
+RE_FILENAME = "^id_([0-9]+).java"
+
+
 def load_config(config_file: str) -> dict:
-    """ Loads the JSON configuration and sets the OpenAI API key.
+    """Loads the JSON configuration and sets the OpenAI API key.
     @param config_file:  Path to the JSON configuration file.
     @returns config: dictionary of the parsed configuration
     """
@@ -66,31 +67,56 @@ def load_config(config_file: str) -> dict:
     return config
 
 
-def generate_tests(data_dir: str, scenario) -> None: 
-    ''' Uses OpenAI API to generate tests.
-    @param data_dir: Path to where the Java files from HumanEval are located.
-    '''
-    scenario_dir = os.path.join(data_dir, scenario)
-    
+def generate_tests(config, scenario) -> None:
+    """Generates tests for the given scenario.
+    @param config: dictionary of the parsed configuration
+    @param scenario: path to the scenario file
+    """
+    scenario_file = open(os.path.join(config["BASE_DIRECTORY"], scenario))
+    prompts = json.load(scenario_file)
 
-    for file in os.listdir(scenario_dir):
-        if fnmatch.fnmatch(file, '*.java'):
-            full_path = os.path.join(scenario_dir, file)
-            # print(full_path)
+    openai.api_key = config["OPEN_AI_KEY"]
 
+    responses = []
+    current = 0
+    for prompt in prompts:
+        print(prompt["id"])
+        start_time = time.time()
+        response = openai.Completion.create(
+            model="code-davinci-002",
+            prompt=prompt["original_code"] + "\n" + prompt["test_prompt"],
+            temperature=0,
+            max_tokens=1024,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
+        )
+        time_taken = time.time() - start_time
+        response["time_taken"] = time_taken
+        response["id"] = prompt["id"]
+        response["original_code"] = prompt["original_code"]
+        response["test_prompt"] = prompt["test_prompt"]
+        responses.append(response)
+        time.sleep(15)
+        print(time_taken)
+        if len(responses) % 10 == 0:
+            output = open("output_" + str(current) + ".json", "w")
+            output.write(json.dumps(responses))
+            responses = []
+            current += 1
+            time.sleep(15)
+
+    output = open("output_" + str(current) + ".json", "w")
+    output.write(json.dumps(responses))
 
 
 def main():
-    print(__dir__)
     config = load_config("config.json")
-    generate_tests(config["BASE_DIRECTORY"], "scenario1")
-
-	
+    generate_tests(config, "Scenario1_prompt.json")
 
 
-
-if __name__ == '__main__':
-	main()
+if __name__ == "__main__":
+    main()
 
 
 """
