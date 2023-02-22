@@ -113,7 +113,8 @@ public class WalaSrcAnalysis {
         JavaSourceAnalysisScope scope = createScope(project);
 
         // creates class hierarchy
-        IClassHierarchy classHierarchy = ClassHierarchyFactory.make(scope);
+        ClassLoaderFactory factory = new ECJClassLoaderFactory(scope.getExclusions());
+        IClassHierarchy classHierarchy = ClassHierarchyFactory.make(scope, factory);
         System.out.println("Classes: " + classHierarchy.getNumberOfClasses());
 
 
