@@ -15,7 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TestPromptCreator {
-    static String FOLDER_NAME = "/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/Data/Scenario1/";
+    static String BASE_DIR = "/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/";
+    static String FOLDER_NAME = BASE_DIR+"RQ1_Prompt_Elements/Data/Scenario1/";
 
     public static void main(String[] args){
         try {
@@ -73,7 +74,7 @@ public class TestPromptCreator {
             }
 
             String jsonStr = JSONArray.toJSONString(outputList);
-             FileWriter file = new FileWriter("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/OpenAI_Data/Input/Scenario1_prompt.json");
+             FileWriter file = new FileWriter(BASE_DIR+"RQ1_Prompt_Elements/OpenAI_Data/Input/Scenario1_prompt.json");
              file.write(jsonStr);
              file.close();
 
