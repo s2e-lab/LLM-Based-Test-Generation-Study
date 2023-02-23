@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TestPromptCreator {
-    static String FOLDER_NAME = "/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/Data/Scenario2/";
+    static String FOLDER_NAME = "/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/Data/Scenario1/";
 
     public static void main(String[] args){
         try {
@@ -43,7 +43,7 @@ public class TestPromptCreator {
                 assert packageNames.size() == 1;
                 sb.append("package ").append(packageNames.get(0)).append(";\n\n");
 
-                cu.getImports().forEach(i -> sb.append("import ").append(i.getNameAsString()).append(";\n"));
+                cu.getImports().forEach(i -> sb.append("import ").append(i.getNameAsString()).append(".*;\n"));
                 sb.append("import org.junit.jupiter.api.Test;\n");
                 sb.append("import static org.junit.jupiter.api.Assertions.*;\n\n");
 
@@ -53,9 +53,6 @@ public class TestPromptCreator {
                 VoidVisitor<List<String>> classNameCollector = new ClassNameCollector();
                 classNameCollector.visit(cu, classNames);
                 assert classNames.size() == 1;
-                sb.append("/**\n" + " * This is a test class generated for ").append(classNames.get(0)).append(" class.\n").append(" * It contains ten test cases for ").append(classNames.get(0)).append(" method.\n").append(" */\n");
-                sb.append("class ").append(classNames.get(0)).append("Test {\n");
-                sb.insert(0, "// "+classNames.get(0)+"Test.java\n");
 
                 //collect the method names
                 List<String> methodNames = new ArrayList<>();
@@ -64,9 +61,9 @@ public class TestPromptCreator {
 //                System.out.println("Method Names: " + methodNames);
                 assert methodNames.size() == 1;
 
-                sb.append("\t@Test\n");
-                sb.append("\tvoid ").append(methodNames.get(0)).append("Test1() {\n");
-                sb.append("\t\t// Test logic for ").append(methodNames.get(0)).append("\n");
+                sb.append("/**\n" + " * Unit tests of {@link ").append(classNames.get(0)).append("}.\n").append(" * It contains ten test cases for the {@link ").append(packageNames.get(0)).append(".").append(classNames.get(0)).append("#").append(methodNames.get(0)).append("()} method.\n").append(" */\n");
+                sb.append("class ").append(classNames.get(0)).append("Test {\n");
+                sb.insert(0, "// "+classNames.get(0)+"Test.java\n");
                 sb.append("\t\t");
 
                 System.out.println(sb);
@@ -76,7 +73,7 @@ public class TestPromptCreator {
             }
 
             String jsonStr = JSONArray.toJSONString(outputList);
-             FileWriter file = new FileWriter("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/OpenAI_Data/Input/Scenario2_prompt.json");
+             FileWriter file = new FileWriter("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/RQ1_Prompt_Elements/OpenAI_Data/Input/Scenario1_prompt.json");
              file.write(jsonStr);
              file.close();
 
