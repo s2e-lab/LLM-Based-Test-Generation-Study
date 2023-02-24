@@ -37,7 +37,7 @@ class Intersection {
         return "NO";
     }
     
-    public static boolean isPrime(int n) {
+    private static boolean isPrime(int n) {
         if (n < 2) {
             return false;
         }

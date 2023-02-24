@@ -37,7 +37,7 @@ class EvenOddPalindrome {
         return result;
     }
 
-    public static boolean isPalindrome(int n) {
+    private static boolean isPalindrome(int n) {
         int m = n;
         int reversed = 0;
         while (m > 0) {

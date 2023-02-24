@@ -55,7 +55,7 @@ class WordsInSentence {
         return result.trim();
     }
 
-    public static boolean isPrime(int number) {
+    private static boolean isPrime(int number) {
         if (number <= 1) {
             return false;
         }

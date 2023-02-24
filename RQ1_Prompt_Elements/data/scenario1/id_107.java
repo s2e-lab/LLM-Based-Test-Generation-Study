@@ -28,5 +28,14 @@ class EvenOddPalindrome {
         result.add(odd);
         return result;
     }
+    private static boolean isPalindrome(int n) {
+        int m = n;
+        int reversed = 0;
+        while (m > 0) {
+            reversed = reversed * 10 + m % 10;
+            m /= 10;
+        }
+        return n == reversed;
+    }
 
 }
