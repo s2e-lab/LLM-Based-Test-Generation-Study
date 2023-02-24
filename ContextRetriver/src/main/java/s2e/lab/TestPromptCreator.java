@@ -23,7 +23,7 @@ import java.util.List;
 public class TestPromptCreator {
     public static String BASE_DIR = "../";
     public static String FOLDER_NAME = BASE_DIR + "RQ1_Prompt_Elements/data/scenario1/";
-    public static String PROMPT_OUTPUT_FILE = BASE_DIR + "RQ1_Prompt_Elements/OpenAI_Data/input/scenario1_prompt_TESTE.json";
+    public static String PROMPT_OUTPUT_FILE = BASE_DIR + "RQ1_Prompt_Elements/OpenAI_Data/input/scenario1_prompt.json";
 
     public static void main(String[] args) throws IOException {
 
