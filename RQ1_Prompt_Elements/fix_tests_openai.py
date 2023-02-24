@@ -5,7 +5,7 @@ import time
 
 from generate_tests_openai import load_config, generate_code, get_output_files
 
-NEW_TOKEN_LIMIT = 4096
+NEW_TOKEN_LIMIT = 4000 # changes the token size
 
 def fix(config: dict, scenario: str) -> None:
     output_folder, response_file = get_output_files(config, scenario)
@@ -15,8 +15,7 @@ def fix(config: dict, scenario: str) -> None:
 
     # creates a new array with responses that are fixed
     filtered_responses = []
-    OPENAI_MAX_TOKENS = 4000  # changes the token size
-
+    
     for r in previous_responses:
         print("PROMPT", r["prompt_id"])
         try:
@@ -29,10 +28,13 @@ def fix(config: dict, scenario: str) -> None:
                       "Finish Reason:", new_response["choices"][0]["finish_reason"],
                       "\n" + "-" * 20)
                 time.sleep(10)
+
             else:
                 filtered_responses.append(r)
         except Exception as e:
             print("ERROR", e)
+            mock_response = get_mock_response(prompt, str(e))
+            save_response(f, prompt, prompts, mock_response)
 
     with open(response_file.replace(".json", "_fixed.json"), "w") as f:
         f.write(json.dumps(filtered_responses, indent=4))

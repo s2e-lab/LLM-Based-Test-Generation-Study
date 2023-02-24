@@ -62,6 +62,7 @@ public class TestPromptCreator {
                 String suffix = testableMethods.size() == 1 ?
                         "" : // if only one, don't bother with the suffix
                         String.format("%0" + testableMethods.size() + "d", i);
+
                 HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, "ten", cu, classDeclaration.getNameAsString(), methodSignature, suffix);
                 System.out.println(outputMap.get("test_prompt"));
                 outputList.add(outputMap);
