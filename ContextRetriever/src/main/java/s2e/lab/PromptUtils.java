@@ -4,6 +4,7 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.Jsoner;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.apache.commons.text.StringSubstitutor;
 
@@ -118,8 +119,12 @@ public class PromptUtils {
      */
     public static List<String> getTestableMethodSignatures(ClassOrInterfaceDeclaration classDeclaration) {
         return classDeclaration.getMethods().stream()
-                .filter(m -> m.isPublic() && !m.isAbstract())
+                .filter(m -> m.isPublic() && !m.isAbstract() && isNonVoid(m))
                 .map(m -> m.getSignature().toString())
                 .collect(Collectors.toList());
+    }
+
+    private static boolean isNonVoid(MethodDeclaration m) {
+        return !m.getType().asString().toLowerCase().equals("void");
     }
 }
