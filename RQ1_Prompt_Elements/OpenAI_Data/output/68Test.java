@@ -5,16 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Pluck}.
- * It contains ten test cases for the {@link scenario1.Pluck#pluck()} method.
- */
+* Unit tests of {@link Pluck}.
+* It contains ten test cases for the {@link Pluck#pluck()} method.
+*/
 class PluckTest {
-		
-
 
     @Test
     void testPluck() {
@@ -33,9 +31,8 @@ class PluckTest {
         assertEquals(2, result.get(0));
         assertEquals(1, result.get(1));
     }
-
     @Test
-    void testPluck2() {
+    void testPluck1() {
         List<Object> arr = new ArrayList<Object>();
         arr.add(1);
         arr.add(2);
@@ -61,9 +58,8 @@ class PluckTest {
         assertEquals(2, result.get(0));
         assertEquals(1, result.get(1));
     }
-
     @Test
-    void testPluck3() {
+    void testPluck2() {
         List<Object> arr = new ArrayList<Object>();
         arr.add(1);
         arr.add(2);
@@ -99,9 +95,8 @@ class PluckTest {
         assertEquals(2, result.get(0));
         assertEquals(1, result.get(1));
     }
-
     @Test
-    void testPluck4() {
+    void testPluck3() {
         List<Object> arr = new ArrayList<Object>();
         arr.add(1);
         arr.add(2);

@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Add}.
- * It contains ten test cases for the {@link scenario1.Add#add()} method.
- */
+* Unit tests of {@link Add}.
+* It contains ten test cases for the {@link Add#add()} method.
+*/
 class AddTest {
-		
 
 
     @Test
@@ -53,13 +52,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Subtract}.
- * It contains ten test cases for the {@link scenario1.Subtract#subtract()} method.
- */
+* Unit tests of {@link Subtract}.
+* It contains ten test cases for the {@link Subtract#subtract()} method.
+*/
 class SubtractTest {
 
     @Test
@@ -99,13 +98,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Multiply}.
- * It contains ten test cases for the {@link scenario1.Multiply#multiply()} method.
- */
+* Unit tests of {@link Multiply}.
+* It contains ten test cases for the {@link Multiply#multiply()} method.
+*/
 class MultiplyTest {
 
     @Test
@@ -125,3 +124,5 @@ class MultiplyTest {
 
 // Divide.java
 package scenario1;
+
+import java.io

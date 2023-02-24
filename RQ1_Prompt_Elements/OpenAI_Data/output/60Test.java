@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link SumToN}.
- * It contains ten test cases for the {@link scenario1.SumToN#sumToN()} method.
- */
+* Unit tests of {@link SumToN}.
+* It contains ten test cases for the {@link SumToN#sumToN()} method.
+*/
 class SumToNTest {
-		
 
 
     @Test
@@ -57,13 +56,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link SumToN}.
- * It contains ten test cases for the {@link scenario2.SumToN#sumToN()} method.
- */
+* Unit tests of {@link SumToN}.
+* It contains ten test cases for the {@link SumToN#sumToN()} method.
+*/
 class SumToNTest {
 
     @Test
@@ -107,13 +106,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link SumToN}.
- * It contains ten test cases for the {@link scenario3.SumToN#sumToN()} method.
- */
+* Unit tests of {@link SumToN}.
+* It contains ten test cases for the {@link SumToN#sumToN()} method.
+*/
 class SumToNTest {
 
     @Test
@@ -126,4 +125,4 @@ class SumToNTest {
         assertEquals(21, SumToN.sumToN(6));
         assertEquals(28, SumToN.sumToN(7));
         assertEquals(36, SumToN.sumToN(8));
-        assertEquals(45, SumToN.
+        assertEquals(45, SumToN.sumToN(9));

@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link RollingMax}.
- * It contains ten test cases for the {@link scenario1.RollingMax#rollingMax()} method.
- */
+* Unit tests of {@link RollingMax}.
+* It contains ten test cases for the {@link RollingMax#rollingMax()} method.
+*/
 class RollingMaxTest {
-		
 
 
     @Test
@@ -24,14 +23,12 @@ class RollingMaxTest {
         numbers.add(3);
         numbers.add(4);
         numbers.add(5);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(3);
-        expected.add(4);
-        expected.add(5);
-        List<Object> actual = RollingMax.rollingMax(numbers);
-        assertEquals(expected, actual);
+        List<Object> result = RollingMax.rollingMax(numbers);
+        assertEquals(1, result.get(0));
+        assertEquals(2, result.get(1));
+        assertEquals(3, result.get(2));
+        assertEquals(4, result.get(3));
+        assertEquals(5, result.get(4));
     }
 
     @Test
@@ -42,70 +39,44 @@ class RollingMaxTest {
         numbers.add(3);
         numbers.add(2);
         numbers.add(1);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(5);
-        expected.add(5);
-        expected.add(5);
-        expected.add(5);
-        expected.add(5);
-        List<Object> actual = RollingMax.rollingMax(numbers);
-        assertEquals(expected, actual);
+        List<Object> result = RollingMax.rollingMax(numbers);
+        assertEquals(5, result.get(0));
+        assertEquals(5, result.get(1));
+        assertEquals(5, result.get(2));
+        assertEquals(5, result.get(3));
+        assertEquals(5, result.get(4));
     }
 
     @Test
     void testRollingMax3() {
         List<Object> numbers = new ArrayList<Object>();
         numbers.add(1);
-        numbers.add(2);
-        numbers.add(3);
-        numbers.add(4);
         numbers.add(5);
-        numbers.add(6);
-        numbers.add(7);
-        numbers.add(8);
-        numbers.add(9);
-        numbers.add(10);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(3);
-        expected.add(4);
-        expected.add(5);
-        expected.add(6);
-        expected.add(7);
-        expected.add(8);
-        expected.add(9);
-        expected.add(10);
-        List<Object> actual = RollingMax.rollingMax(numbers);
-        assertEquals(expected, actual);
+        numbers.add(2);
+        numbers.add(4);
+        numbers.add(3);
+        List<Object> result = RollingMax.rollingMax(numbers);
+        assertEquals(1, result.get(0));
+        assertEquals(5, result.get(1));
+        assertEquals(5, result.get(2));
+        assertEquals(5, result.get(3));
+        assertEquals(5, result.get(4));
     }
 
     @Test
     void testRollingMax4() {
         List<Object> numbers = new ArrayList<Object>();
-        numbers.add(10);
-        numbers.add(9);
-        numbers.add(8);
-        numbers.add(7);
-        numbers.add(6);
-        numbers.add(5);
-        numbers.add(4);
         numbers.add(3);
+        numbers.add(4);
         numbers.add(2);
+        numbers.add(5);
         numbers.add(1);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(10);
-        expected.add(10);
-        expected.add(10);
-        expected.add(10);
-        expected.add(10);
-        expected.add(10);
-        expected.add(10);
-        expected.add(10);
-        expected.add(10);
-        expected.add(10);
-        List<Object> actual = RollingMax.rollingMax(numbers);
-        assertEquals(expected, actual);
+        List<Object> result = RollingMax.rollingMax(numbers);
+        assertEquals(3, result.get(0));
+        assertEquals(4, result.get(1));
+        assertEquals(4, result.get(2));
+        assertEquals(5, result.get(3));
+        assertEquals(5, result.get(4));
     }
 
     @Test
@@ -121,20 +92,30 @@ class RollingMaxTest {
         numbers.add(8);
         numbers.add(9);
         numbers.add(10);
-        numbers.add(11);
-        numbers.add(12);
-        numbers.add(13);
-        numbers.add(14);
-        numbers.add(15);
-        numbers.add(16);
-        numbers.add(17);
-        numbers.add(18);
-        numbers.add(19);
-        numbers.add(20);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(3);
-        expected.add(4);
-        expected.add(5);
-        expected.
+        List<Object> result = RollingMax.rollingMax(numbers);
+        assertEquals(1, result.get(0));
+        assertEquals(2, result.get(1));
+        assertEquals(3, result.get(2));
+        assertEquals(4, result.get(3));
+        assertEquals(5, result.get(4));
+        assertEquals(6, result.get(5));
+        assertEquals(7, result.get(6));
+        assertEquals(8, result.get(7));
+        assertEquals(9, result.get(8));
+        assertEquals(10, result.get(9));
+    }
+
+    @Test
+    void testRollingMax6() {
+        List<Object> numbers = new ArrayList<Object>();
+        numbers.add(10);
+        numbers.add(9);
+        numbers.add(8);
+        numbers.add(7);
+        numbers.add(6);
+        numbers.add(5);
+        numbers.add(4);
+        numbers.add(3);
+        numbers.add(2);
+        numbers.add(1);
+        List<Object> result = RollingMax

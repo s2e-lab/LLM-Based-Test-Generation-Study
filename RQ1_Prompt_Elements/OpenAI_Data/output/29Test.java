@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link FilterByPrefix}.
- * It contains ten test cases for the {@link scenario1.FilterByPrefix#filterByPrefix()} method.
- */
+* Unit tests of {@link FilterByPrefix}.
+* It contains ten test cases for the {@link FilterByPrefix#filterByPrefix()} method.
+*/
 class FilterByPrefixTest {
-		
 
 
     @Test

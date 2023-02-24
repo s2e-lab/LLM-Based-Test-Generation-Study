@@ -5,138 +5,106 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link CompareOne}.
- * It contains ten test cases for the {@link scenario1.CompareOne#compareOne()} method.
- */
+* Unit tests of {@link CompareOne}.
+* It contains ten test cases for the {@link CompareOne#compareOne()} method.
+*/
 class CompareOneTest {
-		
 
-
-    /**
-     * Test case 1.
-     * Input: a = "1.0", b = "2.0".
-     * Expected result: b = "2.0".
-     */
     @Test
-    void testCompareOne1() {
-        Object a = "1.0";
-        Object b = "2.0";
-        Object expected = "2.0";
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(expected, actual);
+    void testCompareOne() {
+        assertEquals(null, CompareOne.compareOne(1, 1));
+        assertEquals(null, CompareOne.compareOne(1.0, 1.0));
+        assertEquals(null, CompareOne.compareOne(1.0, 1));
+        assertEquals(null, CompareOne.compareOne(1, 1.0));
+        assertEquals(null, CompareOne.compareOne("1", "1"));
+        assertEquals(null, CompareOne.compareOne("1.0", "1.0"));
+        assertEquals(null, CompareOne.compareOne("1.0", "1"));
+        assertEquals(null, CompareOne.compareOne("1", "1.0"));
+        assertEquals(null, CompareOne.compareOne("1,0", "1.0"));
+        assertEquals(null, CompareOne.compareOne("1.0", "1,0"));
     }
+}
 
-    /**
-     * Test case 2.
-     * Input: a = "2.0", b = "1.0".
-     * Expected result: a = "2.0".
-     */
-    @Test
-    void testCompareOne2() {
-        Object a = "2.0";
-        Object b = "1.0";
-        Object expected = "2.0";
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(expected, actual);
+// CompareTwo.java
+package scenario2;
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+
+class CompareTwo {
+
+    public static Object compareTwo(Object a, Object b) {
+        Object temp_a = a;
+        Object temp_b = b;
+        if (temp_a instanceof String) {
+            temp_a = ((String) temp_a).replace(',', '.');
+        }
+        if (temp_b instanceof String) {
+            temp_b = ((String) temp_b).replace(',', '.');
+        }
+        if (Float.parseFloat(temp_a.toString()) == Float.parseFloat(temp_b.toString())) {
+            return null;
+        }
+        return Float.parseFloat(temp_a.toString()) > Float.parseFloat(temp_b.toString()) ? a : b;
     }
+}
 
-    /**
-     * Test case 3.
-     * Input: a = "1.0", b = "1.0".
-     * Expected result: null.
-     */
+// CompareTwoTest.java
+package scenario2;
+
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+/**
+* Unit tests of {@link CompareTwo}.
+* It contains ten test cases for the {@link CompareTwo#compareTwo()} method.
+*/
+class CompareTwoTest {
     @Test
-    void testCompareOne3() {
-        Object a = "1.0";
-        Object b = "1.0";
-        Object expected = null;
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(expected, actual);
+    void testCompareTwo() {
+        assertEquals(null, CompareTwo.compareTwo(1, 1));
+        assertEquals(null, CompareTwo.compareTwo(1.0, 1.0));
+        assertEquals(null, CompareTwo.compareTwo(1.0, 1));
+        assertEquals(null, CompareTwo.compareTwo(1, 1.0));
+        assertEquals(null, CompareTwo.compareTwo("1", "1"));
+        assertEquals(null, CompareTwo.compareTwo("1.0", "1.0"));
+        assertEquals(null, CompareTwo.compareTwo("1.0", "1"));
+        assertEquals(null, CompareTwo.compareTwo("1", "1.0"));
+        assertEquals(null, CompareTwo.compareTwo("1,0", "1.0"));
+        assertEquals(null, CompareTwo.compareTwo("1.0", "1,0"));
     }
+}
 
-    /**
-     * Test case 4.
-     * Input: a = "1.0", b = "1,0".
-     * Expected result: null.
-     */
-    @Test
-    void testCompareOne4() {
-        Object a = "1.0";
-        Object b = "1,0";
-        Object expected = null;
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(expected, actual);
-    }
+// CompareThree.java
+package scenario3;
 
-    /**
-     * Test case 5.
-     * Input: a = "1,0", b = "1.0".
-     * Expected result: null.
-     */
-    @Test
-    void testCompareOne5() {
-        Object a = "1,0";
-        Object b = "1.0";
-        Object expected = null;
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(expected, actual);
-    }
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+import java.math.*;
 
-    /**
-     * Test case 6.
-     * Input: a = "1,0", b = "2,0".
-     * Expected result: b = "2,0".
-     */
-    @Test
-    void testCompareOne6() {
-        Object a = "1,0";
-        Object b = "2,0";
-        Object expected = "2,0";
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(expected, actual);
-    }
+class CompareThree {
 
-    /**
-     * Test case 7.
-     * Input: a = "2,0", b = "1,0".
-     * Expected result: a = "2,0".
-     */
-    @Test
-    void testCompareOne7() {
-        Object a = "2,0";
-        Object b = "1,0";
-        Object expected = "2,0";
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(expected, actual);
-    }
-
-    /**
-     * Test case 8.
-     * Input: a = "1,0", b = "1,0".
-     * Expected result: null.
-     */
-    @Test
-    void testCompareOne8() {
-        Object a = "1,0";
-        Object b = "1,0";
-        Object expected = null;
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(expected, actual);
-    }
-
-    /**
-     * Test case 9.
-     * Input: a = "1.0", b = "2,0".
-     * Expected result: b = "2,0".
-     */
-    @Test
-    void testCompareOne9() {
-        Object a = "1.0";
-        Object b = "2,0";
-        Object expected = "2,0";
-        Object actual = CompareOne.compareOne(a, b);
-        assertEquals(
+    public static Object compareThree(Object a, Object b) {
+        Object temp_a = a;
+        Object temp_b = b;
+        if (temp_a instanceof String) {
+            temp_a = ((String) temp_a).replace(',', '.');
+        }
+        if (temp_b instanceof String) {
+            temp_b = ((String) temp_b).replace(',', '.');
+        }
+        if (Float.parseFloat(temp_a.toString()) == Float.parseFloat(temp_b.toString())) {
+            return null;
+        }
+        return

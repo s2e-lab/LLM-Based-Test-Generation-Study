@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link BelowThreshold}.
- * It contains ten test cases for the {@link scenario1.BelowThreshold#belowThreshold()} method.
- */
+* Unit tests of {@link BelowThreshold}.
+* It contains ten test cases for the {@link BelowThreshold#belowThreshold()} method.
+*/
 class BelowThresholdTest {
-		
 
 
     @Test
@@ -22,87 +21,20 @@ class BelowThresholdTest {
         l.add(1);
         l.add(2);
         l.add(3);
+        l.add(4);
+        l.add(5);
+        assertEquals(true, BelowThreshold.belowThreshold(l, 6));
+        assertEquals(false, BelowThreshold.belowThreshold(l, 5));
         assertEquals(true, BelowThreshold.belowThreshold(l, 4));
-    }
-
-    @Test
-    void testBelowThreshold2() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        assertEquals(false, BelowThreshold.belowThreshold(l, 2));
-    }
-
-    @Test
-    void testBelowThreshold3() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
+        assertEquals(true, BelowThreshold.belowThreshold(l, 3));
+        assertEquals(true, BelowThreshold.belowThreshold(l, 2));
         assertEquals(true, BelowThreshold.belowThreshold(l, 1));
-    }
-
-    @Test
-    void testBelowThreshold4() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
         assertEquals(false, BelowThreshold.belowThreshold(l, 0));
-    }
-
-    @Test
-    void testBelowThreshold5() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        assertEquals(true, BelowThreshold.belowThreshold(l, -1));
-    }
-
-    @Test
-    void testBelowThreshold6() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        assertEquals(true, BelowThreshold.belowThreshold(l, -2));
-    }
-
-    @Test
-    void testBelowThreshold7() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        assertEquals(true, BelowThreshold.belowThreshold(l, -3));
-    }
-
-    @Test
-    void testBelowThreshold8() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        assertEquals(true, BelowThreshold.belowThreshold(l, -4));
-    }
-
-    @Test
-    void testBelowThreshold9() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        assertEquals(true, BelowThreshold.belowThreshold(l, -5));
-    }
-
-    @Test
-    void testBelowThreshold10() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        assertEquals(true, BelowThreshold.belowThreshold(l, -6));
+        l.add(6);
+        assertEquals(false, BelowThreshold.belowThreshold(l, 6));
+        l.add(7);
+        assertEquals(false, BelowThreshold.belowThreshold(l, 6));
+        l.add(8);
+        assertEquals(false, BelowThreshold.belowThreshold(l, 6));
     }
 }

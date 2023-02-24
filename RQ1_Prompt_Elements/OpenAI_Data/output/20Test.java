@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link FindClosestElements}.
- * It contains ten test cases for the {@link scenario1.FindClosestElements#findClosestElements()} method.
- */
+* Unit tests of {@link FindClosestElements}.
+* It contains ten test cases for the {@link FindClosestElements#findClosestElements()} method.
+*/
 class FindClosestElementsTest {
-		
 
 
     @Test
@@ -111,6 +110,5 @@ class FindClosestElementsTest {
         numbers.add(28.0);
         numbers.add(29.0);
         numbers.add(30.0);
-        numbers.add(31.0);
-        numbers.add(32.0);
-        numbers.add(33.0);
+        List<Double> result = FindClosestElements.findClosestElements(numbers);
+        assertEquals

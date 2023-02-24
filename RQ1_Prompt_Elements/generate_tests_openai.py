@@ -85,6 +85,29 @@ def get_output_files(config: dict, scenario: str) -> tuple:
     return output_folder, response_file
 
 
+def get_mock_response(prompt: dict, error_msg: str) -> dict:
+    """
+    Creates a mock response object to be used to record runtime errors
+    @param prompt: the prompt object
+    @param error_msg: error message to be captured in this mock response
+    @return: a mock response object with the same structure as the actual response
+    """
+    return dict(
+        choices=[{
+            "finish_reason": "ERROR - " + error_msg
+        }],
+        prompt_id=prompt["id"],
+        original_code=prompt["original_code"], test_prompt=prompt["test_prompt"]
+    )
+
+
+def save_response(f, prompt: dict, prompts: list, response: dict):
+    f.write(json.dumps(response, indent=4))  # save immediately
+    if prompt != prompts[-1]:
+        f.write(",")
+    f.write("\n")
+
+
 def generate_tests(config: dict, scenario: str, prompts: list) -> None:
     """
     Generates tests for the given scenario.
@@ -95,26 +118,27 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
 
     # sets the data output paths
     output_folder, response_file = get_output_files(config, scenario)
-    # holds all responses in memory
-    responses = []
-
-    for prompt in prompts:
-        print("PROMPT", prompt["id"])
-        try:
-            response = generate_code(prompt)
-            save_generated_code(prompt, response, output_folder)
-            responses.append(response)
-            print("Duration: ", response['time_taken'],
-                  "Finish Reason:", response["choices"][0]["finish_reason"],
-                  "\n" + "-" * 30)
-
-            time.sleep(10)
-        except Exception as e:
-            print("ERROR", e)
 
     # opens output file in write mode (overwrite prior results)
     with open(response_file, "w") as f:
-        f.write(json.dumps(responses, indent=4))
+        f.write("[\n")
+        for prompt in prompts:
+            print("PROMPT", prompt["id"])
+
+            try:
+                response = generate_code(prompt)
+                save_generated_code(prompt, response, output_folder)
+                save_response(f, prompt, prompts, response)
+                print("Duration: ", response['time_taken'],
+                      "Finish Reason:", response["choices"][0]["finish_reason"],
+                      "\n" + "-" * 30)
+                time.sleep(10)
+            except Exception as e:
+                print("ERROR", e)
+                mock_response = get_mock_response(prompt, str(e))
+                save_response(f, prompt, prompts, mock_response)
+
+        f.write("]")
 
 
 def main():

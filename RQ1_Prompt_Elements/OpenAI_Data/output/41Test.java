@@ -5,16 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link CarRaceCollision}.
- * It contains ten test cases for the {@link scenario1.CarRaceCollision#carRaceCollision()} method.
- */
+* Unit tests of {@link CarRaceCollision}.
+* It contains ten test cases for the {@link CarRaceCollision#carRaceCollision()} method.
+*/
 class CarRaceCollisionTest {
-		
-
 
     @Test
     void testCarRaceCollision() {
@@ -59,15 +57,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link CarRaceCollision}.
- * It contains ten test cases for the {@link scenario2.CarRaceCollision#carRaceCollision()} method.
- */
+* Unit tests of {@link CarRaceCollision}.
+* It contains ten test cases for the {@link CarRaceCollision#carRaceCollision()} method.
+*/
 class CarRaceCollisionTest {
-
     @Test
     void testCarRaceCollision() {
         assertEquals(1, CarRaceCollision.carRaceCollision(1));
@@ -111,18 +108,17 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link CarRaceCollision}.
- * It contains ten test cases for the {@link scenario3.CarRaceCollision#carRaceCollision()} method.
- */
+* Unit tests of {@link CarRaceCollision}.
+* It contains ten test cases for the {@link CarRaceCollision#carRaceCollision()} method.
+*/
 class CarRaceCollisionTest {
-
     @Test
     void testCarRaceCollision() {
         assertEquals(1, CarRaceCollision.carRaceCollision(1));
         assertEquals(4, CarRaceCollision.carRaceCollision(2));
         assertEquals(9, CarRaceCollision.carRaceCollision(3));
-        assert
+        assertEquals(16, Car

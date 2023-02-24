@@ -5,16 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Solution}.
- * It contains ten test cases for the {@link scenario1.Solution#solution()} method.
- */
+* Unit tests of {@link Solution}.
+* It contains ten test cases for the {@link Solution#solution()} method.
+*/
 class SolutionTest {
-		
-
 
     @Test
     void testCase1() {
@@ -31,7 +29,6 @@ class SolutionTest {
         lst.add(10);
         assertEquals(25, Solution.solution(lst));
     }
-
     @Test
     void testCase2() {
         List<Integer> lst = new ArrayList<Integer>();
@@ -55,9 +52,8 @@ class SolutionTest {
         lst.add(18);
         lst.add(19);
         lst.add(20);
-        assertEquals(100, Solution.solution(lst));
+        assertEquals(75, Solution.solution(lst));
     }
-
     @Test
     void testCase3() {
         List<Integer> lst = new ArrayList<Integer>();
@@ -91,9 +87,8 @@ class SolutionTest {
         lst.add(28);
         lst.add(29);
         lst.add(30);
-        assertEquals(225, Solution.solution(lst));
+        assertEquals(135, Solution.solution(lst));
     }
-
     @Test
     void testCase4() {
         List<Integer> lst = new ArrayList<Integer>();

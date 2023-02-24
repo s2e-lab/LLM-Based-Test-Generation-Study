@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Fib4}.
- * It contains ten test cases for the {@link scenario1.Fib4#fib4()} method.
- */
+* Unit tests of {@link Fib4}.
+* It contains ten test cases for the {@link Fib4#fib4()} method.
+*/
 class Fib4Test {
-		
 
 
     @Test
@@ -71,13 +70,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Fib5}.
- * It contains ten test cases for the {@link scenario1.Fib5#fib5()} method.
- */
+* Unit tests of {@link Fib5}.
+* It contains ten test cases for the {@link Fib5#fib5()} method.
+*/
 class Fib5Test {
 
     @Test
@@ -135,15 +134,15 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Fib6}.
- * It contains ten test cases for the {@link scenario1.Fib6#fib6()} method.
- */
+* Unit tests of {@link Fib6}.
+* It contains ten test cases for the {@link Fib6#fib6()} method.
+*/
 class Fib6Test {
 
     @Test
     void testFib6() {
-        assertEqu
+        assertEquals(0, Fib6.f

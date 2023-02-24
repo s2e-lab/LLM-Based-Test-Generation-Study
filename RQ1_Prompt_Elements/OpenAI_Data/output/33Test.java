@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link SortThird}.
- * It contains ten test cases for the {@link scenario1.SortThird#sortThird()} method.
- */
+* Unit tests of {@link SortThird}.
+* It contains ten test cases for the {@link SortThird#sortThird()} method.
+*/
 class SortThirdTest {
-		
 
 
     @Test

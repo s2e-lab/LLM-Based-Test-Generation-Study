@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link CorrectBracketing1}.
- * It contains ten test cases for the {@link scenario1.CorrectBracketing1#correctBracketing()} method.
- */
+* Unit tests of {@link CorrectBracketing1}.
+* It contains ten test cases for the {@link CorrectBracketing1#correctBracketing()} method.
+*/
 class CorrectBracketing1Test {
-		
 
 
     @Test
@@ -38,7 +37,7 @@ class CorrectBracketing1Test {
 
     @Test
     void testCorrectBracketing5() {
-        assertTrue(CorrectBracketing1.correctBracketing("(()()())"));
+        assertTrue(CorrectBracketing1.correctBracketing("()(())"));
     }
 
     @Test
@@ -53,7 +52,7 @@ class CorrectBracketing1Test {
 
     @Test
     void testCorrectBracketing8() {
-        assertFalse(CorrectBracketing1.correctBracketing("()("));
+        assertFalse(CorrectBracketing1.correctBracketing("(()"));
     }
 
     @Test
@@ -63,7 +62,7 @@ class CorrectBracketing1Test {
 
     @Test
     void testCorrectBracketing10() {
-        assertFalse(CorrectBracketing1.correctBracketing("(()()()"));
+        assertFalse(CorrectBracketing1.correctBracketing("())("));
     }
 }
 
@@ -100,13 +99,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link CorrectBracketing2}.
- * It contains ten test cases for the {@link scenario2.CorrectBracketing2#correctBracketing()} method.
- */
+* Unit tests of {@link CorrectBracketing2}.
+* It contains ten test cases for the {@link CorrectBracketing2#correctBracketing()} method.
+*/
 class CorrectBracketing2Test {
 
     @Test
@@ -131,7 +130,7 @@ class CorrectBracketing2Test {
 
     @Test
     void testCorrectBracketing5() {
-        assertTrue(CorrectBracketing2.correctBracketing("(()()())"));
+        assertTrue(CorrectBracketing2.correctBracketing("()(())"));
     }
 
     @Test
@@ -146,7 +145,7 @@ class CorrectBracketing2Test {
 
     @Test
     void testCorrectBracketing8() {
-        assertFalse(CorrectBracketing2.correctBracketing("()("));
+        assertFalse(CorrectBracketing2.correctBracketing("(()"));
     }
 
     @Test
@@ -155,4 +154,4 @@ class CorrectBracketing2Test {
     }
 
     @Test
-    void
+    void testCorrectBracketing10()

@@ -5,16 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Tri}.
- * It contains ten test cases for the {@link scenario1.Tri#tri()} method.
- */
+* Unit tests of {@link Tri}.
+* It contains ten test cases for the {@link Tri#tri()} method.
+*/
 class TriTest {
-		
-
 
     @Test
     void testTri() {

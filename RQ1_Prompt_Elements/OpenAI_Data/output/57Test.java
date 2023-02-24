@@ -5,16 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Monotonic}.
- * It contains ten test cases for the {@link scenario1.Monotonic#monotonic()} method.
- */
+* Unit tests of {@link Monotonic}.
+* It contains ten test cases for the {@link Monotonic#monotonic()} method.
+*/
 class MonotonicTest {
-		
-
 
     @Test
     void testMonotonic() {
@@ -30,11 +28,7 @@ class MonotonicTest {
         l.add(9);
         l.add(10);
         assertTrue(Monotonic.monotonic(l));
-    }
-
-    @Test
-    void testMonotonic2() {
-        List<Integer> l = new ArrayList<Integer>();
+        l.clear();
         l.add(10);
         l.add(9);
         l.add(8);
@@ -46,11 +40,7 @@ class MonotonicTest {
         l.add(2);
         l.add(1);
         assertTrue(Monotonic.monotonic(l));
-    }
-
-    @Test
-    void testMonotonic3() {
-        List<Integer> l = new ArrayList<Integer>();
+        l.clear();
         l.add(1);
         l.add(2);
         l.add(3);
@@ -72,11 +62,7 @@ class MonotonicTest {
         l.add(19);
         l.add(20);
         assertTrue(Monotonic.monotonic(l));
-    }
-
-    @Test
-    void testMonotonic4() {
-        List<Integer> l = new ArrayList<Integer>();
+        l.clear();
         l.add(20);
         l.add(19);
         l.add(18);
@@ -98,11 +84,7 @@ class MonotonicTest {
         l.add(2);
         l.add(1);
         assertTrue(Monotonic.monotonic(l));
-    }
-
-    @Test
-    void testMonotonic5() {
-        List<Integer> l = new ArrayList<Integer>();
+        l.clear();
         l.add(1);
         l.add(2);
         l.add(3);
@@ -143,4 +125,17 @@ class MonotonicTest {
         l.add(38);
         l.add(39);
         l.add(40);
-        l.add(41
+        l.add(41);
+        l.add(42);
+        l.add(43);
+        l.add(44);
+        l.add(45);
+        l.add(46);
+        l.add(47);
+        l.add(48);
+        l.add(49);
+        l.add(50);
+        assertTrue(Monotonic.monotonic(l));
+        l.clear();
+        l.add(50);
+       

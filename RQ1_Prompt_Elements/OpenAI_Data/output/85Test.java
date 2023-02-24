@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Add1}.
- * It contains ten test cases for the {@link scenario1.Add1#add()} method.
- */
+* Unit tests of {@link Add1}.
+* It contains ten test cases for the {@link Add1#add()} method.
+*/
 class Add1Test {
-		
 
 
     @Test
@@ -29,7 +28,7 @@ class Add1Test {
         lst.add(8);
         lst.add(9);
         lst.add(10);
-        assertEquals(30, Add1.add(lst));
+        assertEquals(20, Add1.add(lst));
     }
 
     @Test
@@ -45,7 +44,7 @@ class Add1Test {
         lst.add(8);
         lst.add(9);
         lst.add(10);
-        assertEquals(30, Add1.add(lst));
+        assertEquals(20, Add1.add(lst));
     }
 
     @Test
@@ -61,7 +60,7 @@ class Add1Test {
         lst.add(8);
         lst.add(9);
         lst.add(10);
-        assertEquals(30, Add1.add(lst));
+        assertEquals(20, Add1.add(lst));
     }
 
     @Test
@@ -77,7 +76,7 @@ class Add1Test {
         lst.add(8);
         lst.add(9);
         lst.add(10);
-        assertEquals(30, Add1.add(lst));
+        assertEquals(20, Add1.add(lst));
     }
 
     @Test
@@ -93,7 +92,7 @@ class Add1Test {
         lst.add(8);
         lst.add(9);
         lst.add(10);
-        assertEquals(30, Add1.add(lst));
+        assertEquals(20, Add1.add(lst));
     }
 
     @Test
@@ -109,7 +108,7 @@ class Add1Test {
         lst.add(8);
         lst.add(9);
         lst.add(10);
-        assertEquals(30, Add1.add(lst));
+        assertEquals(20, Add1.add(lst));
     }
 
     @Test
@@ -125,7 +124,7 @@ class Add1Test {
         lst.add(8);
         lst.add(9);
         lst.add(10);
-        assertEquals(30, Add1.add(lst));
+        assertEquals(20, Add1.add(lst));
     }
 
     @Test

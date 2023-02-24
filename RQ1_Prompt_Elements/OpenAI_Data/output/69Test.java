@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Search}.
- * It contains ten test cases for the {@link scenario1.Search#search()} method.
- */
+* Unit tests of {@link Search}.
+* It contains ten test cases for the {@link Search#search()} method.
+*/
 class SearchTest {
-		
 
 
     @Test

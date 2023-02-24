@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link StrangeSortList}.
- * It contains ten test cases for the {@link scenario1.StrangeSortList#strangeSortList()} method.
- */
+* Unit tests of {@link StrangeSortList}.
+* It contains ten test cases for the {@link StrangeSortList#strangeSortList()} method.
+*/
 class StrangeSortListTest {
-		
 
 
     @Test
@@ -30,17 +29,18 @@ class StrangeSortListTest {
         lst.add(9);
         lst.add(10);
         List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(10, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals(10, result.get(1));
-        assertEquals(2, result.get(2));
-        assertEquals(9, result.get(3));
-        assertEquals(3, result.get(4));
-        assertEquals(8, result.get(5));
-        assertEquals(4, result.get(6));
-        assertEquals(7, result.get(7));
-        assertEquals(5, result.get(8));
-        assertEquals(6, result.get(9));
+        List<Object> expected = new ArrayList<Object>();
+        expected.add(1);
+        expected.add(10);
+        expected.add(2);
+        expected.add(9);
+        expected.add(3);
+        expected.add(8);
+        expected.add(4);
+        expected.add(7);
+        expected.add(5);
+        expected.add(6);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -56,16 +56,17 @@ class StrangeSortListTest {
         lst.add(8);
         lst.add(9);
         List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(9, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals(9, result.get(1));
-        assertEquals(2, result.get(2));
-        assertEquals(8, result.get(3));
-        assertEquals(3, result.get(4));
-        assertEquals(7, result.get(5));
-        assertEquals(4, result.get(6));
-        assertEquals(6, result.get(7));
-        assertEquals(5, result.get(8));
+        List<Object> expected = new ArrayList<Object>();
+        expected.add(1);
+        expected.add(9);
+        expected.add(2);
+        expected.add(8);
+        expected.add(3);
+        expected.add(7);
+        expected.add(4);
+        expected.add(6);
+        expected.add(5);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -80,15 +81,16 @@ class StrangeSortListTest {
         lst.add(7);
         lst.add(8);
         List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(8, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals(8, result.get(1));
-        assertEquals(2, result.get(2));
-        assertEquals(7, result.get(3));
-        assertEquals(3, result.get(4));
-        assertEquals(6, result.get(5));
-        assertEquals(4, result.get(6));
-        assertEquals(5, result.get(7));
+        List<Object> expected = new ArrayList<Object>();
+        expected.add(1);
+        expected.add(8);
+        expected.add(2);
+        expected.add(7);
+        expected.add(3);
+        expected.add(6);
+        expected.add(4);
+        expected.add(5);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -102,10 +104,27 @@ class StrangeSortListTest {
         lst.add(6);
         lst.add(7);
         List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(7, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals(7, result.get(1));
-        assertEquals(2, result.get(2));
-        assertEquals(6, result.get(3));
-        assertEquals(3, result.get(4));
-        assertEquals(5, result.get(5
+        List<Object> expected = new ArrayList<Object>();
+        expected.add(1);
+        expected.add(7);
+        expected.add(2);
+        expected.add(6);
+        expected.add(3);
+        expected.add(5);
+        expected.add(4);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testStrangeSortList5() {
+        List<Object> lst = new ArrayList<Object>();
+        lst.add(1);
+        lst.add(2);
+        lst.add(3);
+        lst.add(4);
+        lst.add(5);
+        lst.add(6);
+        List<Object> result = StrangeSortList.strangeSortList(lst);
+        List<Object> expected = new ArrayList<Object>();
+        expected.add(1);
+        expected.add(6
