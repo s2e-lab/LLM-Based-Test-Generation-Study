@@ -1,11 +1,7 @@
-
-
 # Scripts
 
-- test_generator_openai.py: Generates test cases using OpenAI's API. Token size is 1024.
-- filter_test_generator.py: Generates test cases using OpenAI's API for samples that run out of the token size. Token size is 4000.
-- script_remove_old_test_cases.py: Removes test cases for the ICPC paper that were generated using OpenAI's API but were not used in the evaluation.
-- test_file_generation.py: Generates test file from the generated test cases. 
+- `generate_tests_openai.py`: Generates test cases using OpenAI's API. It produces a JSON containing the results metadata as well as all the generated test files in separate `.java` files. Token size is `1024`.
+- `fix_tests_openai.py`: Re-generates test cases using OpenAI's API for samples that run out of the token size. Token size is `4096`.
 
 # Configuration
 
