@@ -90,7 +90,6 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
     @param prompts: a list of parsed prompts
     """
 
-
     # sets the data output paths
     output_folder, response_file = get_output_files(config, scenario)
     # holds all responses in memory
@@ -106,7 +105,7 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
                   "Finish Reason:", response["choices"][0]["finish_reason"],
                   "\n" + "-" * 20)
 
-            time.sleep(100)
+            time.sleep(10)
         except Exception as e:
             print("ERROR", e)
 
