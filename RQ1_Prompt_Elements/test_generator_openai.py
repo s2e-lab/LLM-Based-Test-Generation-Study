@@ -1,58 +1,18 @@
-import openai
 import json
-import time
 import os
+import time
 
-"""
-config = json.load(open("config.json"))
-
-current_directory = "/Part2/"
-
-openai.api_key = config["OPEN_AI_KEY"]
-directory_path = config["BASE_DIRECTORY"] + current_directory
-
-responses = []
-for i in range(164):
-	print(i)
-	if i in [32,38,50,160]:
-		continue
-	with open(directory_path + "id_" + str(i) + ".java", "r") as file:
-
-		context = file.read()
-
-		prompt = (
-			context
-			+ "\n/* Write a JUNIT test class with ten test cases for the previous class. */\n"
-		)
-
-		start_time = time.time()
-		response = openai.Completion.create(
-			model="code-davinci-002",
-			prompt=prompt,
-			temperature=0,
-			max_tokens=1024,
-			top_p=1,
-			frequency_penalty=0,
-			presence_penalty=0,
-		)
-		time_taken = time.time() - start_time
-		response["time_taken"] = time_taken
-		response["id"] = i
-		responses.append(response)
-		print(time_taken)
-		time.sleep(30)
-		if (i+1)%10==0:
-		  output = open("output_" + current_directory.replace("/", "") +"_"+str(i)+ ".json", "w")
-		  output.write(json.dumps(responses))
-		  responses = []
-		  time.sleep(30)
-
-output = open("output_" + current_directory.replace("/", "") +"_"+str(i)+ ".json", "w")
-output.write(json.dumps(responses))
-"""
-
+import openai
 
 RE_FILENAME = "^id_([0-9]+).java"
+
+# Generation Configuration Parameters
+OPENAI_MODEL = "code-davinci-002"
+OPENAI_TEMPERATURE = 0
+OPENAI_MAX_TOKENS = 2048
+OPENAI_TOP_P = 1
+OPENAI_FREQUENCY_PENALTY = 0
+OPENAI_PRESENCE_PENALTY = 0
 
 
 def load_config(config_file: str) -> dict:
@@ -62,64 +22,59 @@ def load_config(config_file: str) -> dict:
     """
     with open(config_file) as json_file:
         config = json.load(json_file)
-        # openai.api_key = config["OPEN_AI_KEY"]
-        # directory_path = config["BASE_DIRECTORY"] + current_directory
     return config
 
 
-def generate_tests(config, scenario) -> None:
+def generate_tests(config: dict, scenario: str) -> None:
     """Generates tests for the given scenario.
     @param config: dictionary of the parsed configuration
-    @param scenario: path to the scenario file
+    @param scenario: filename for the scenario (ex: "Scenario1_prompt.json")
     """
-    scenario_file = open(os.path.join(config["BASE_DIRECTORY"], scenario))
-    prompts = json.load(scenario_file)
-
-    current_scenario = scenario.split("_")[0]
-
+    # sets the OpenAI key
     openai.api_key = config["OPEN_AI_KEY"]
-
+    scenario_path = os.path.join(config["BASE_DIRECTORY"], "input", scenario)
+    output_path = os.path.join(config["BASE_DIRECTORY"], "output/", scenario.replace("prompt", "output"))
     responses = []
-    current_id = ""
-    for prompt in prompts:
-        print(prompt["id"])
-        current_id = prompt["id"]
-        start_time = time.time()
-        response = openai.Completion.create(
-            model="code-davinci-002",
-            prompt=prompt["original_code"] + "\n" + prompt["test_prompt"],
-            temperature=0,
-            max_tokens=2048,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-        )
-        time_taken = time.time() - start_time
-        response["time_taken"] = time_taken
-        response["id"] = prompt["id"]
-        response["original_code"] = prompt["original_code"]
-        response["test_prompt"] = prompt["test_prompt"]
-        responses.append(response)
-        time.sleep(30)
-        print(time_taken)
-        if len(responses) % 10 == 0:
-            output = open(current_scenario + "_output_" + current_id + ".json", "w")
-            output.write(json.dumps(responses))
-            responses = []
-            time.sleep(30)
+    with open(scenario_path, 'r') as scenario_file:
+        prompts = json.load(scenario_file)
+        for prompt in prompts:
+            print("PROMPT", prompt["id"])
+            start_time = time.time()
+            try:
+                response = openai.Completion.create(
+                    model=OPENAI_MODEL,
+                    prompt=prompt["original_code"] + "\n" + prompt["test_prompt"].strip(),
+                    temperature=OPENAI_TEMPERATURE,
+                    max_tokens=OPENAI_MAX_TOKENS,
+                    top_p=OPENAI_TOP_P,
+                    frequency_penalty=OPENAI_FREQUENCY_PENALTY,
+                    presence_penalty=OPENAI_PRESENCE_PENALTY,
+                )
+                time_taken = time.time() - start_time
+                response["time_taken"] = time_taken
+                response["id"] = prompt["id"]
+                response["original_code"] = prompt["original_code"]
+                response["test_prompt"] = prompt["test_prompt"]
+                responses.append(response)
+                time.sleep(100)
+                print("Duration:", time_taken)
+                print(response)
+                print("-" * 20)
+            except Exception as e:
+                print("ERROR", e)
 
-    output = open(current_scenario + "_output_" + current_id + ".json", "w")
-    output.write(json.dumps(responses))
+    # opens output file in write mode (overwritte prior results)
+    with open(output_path, "w") as output_file:
+        output_file.write(json.dumps(responses, indent=4))
 
 
 def main():
     config = load_config("config.json")
-    generate_tests(config, "Scenario1_prompt.json")
+    generate_tests(config, "scenario1_prompt.json")
 
 
 if __name__ == "__main__":
     main()
-
 
 """
 {
