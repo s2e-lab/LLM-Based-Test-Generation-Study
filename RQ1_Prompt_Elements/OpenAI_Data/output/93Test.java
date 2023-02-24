@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Encode}.
- * It contains ten test cases for the {@link scenario1.Encode#encode()} method.
- */
+* Unit tests of {@link Encode}.
+* It contains ten test cases for the {@link Encode#encode()} method.
+*/
 class EncodeTest {
-		
 
 
     @Test
@@ -58,23 +57,23 @@ class EncodeTest {
         assertEquals("X", Encode.encode("W"));
         assertEquals("Y", Encode.encode("X"));
         assertEquals("Z", Encode.encode("Y"));
-        assertEquals("B", Encode.encode("A"));
-        assertEquals("C", Encode.encode("B"));
-        assertEquals("D", Encode.encode("C"));
-        assertEquals("F", Encode.encode("E"));
-        assertEquals("G", Encode.encode("F"));
-        assertEquals("H", Encode.encode("G"));
-        assertEquals("J", Encode.encode("I"));
-        assertEquals("K", Encode.encode("J"));
-        assertEquals("L", Encode.encode("K"));
-        assertEquals("N", Encode.encode("M"));
-        assertEquals("P", Encode.encode("O"));
-        assertEquals("Q", Encode.encode("P"));
-        assertEquals("R", Encode.encode("Q"));
-        assertEquals("S", Encode.encode("R"));
-        assertEquals("T", Encode.encode("S"));
-        assertEquals("V", Encode.encode("U"));
-        assertEquals("W", Encode.encode("V"));
-        assertEquals("X", Encode.encode("W"));
-        assertEquals("Y", Encode.encode("X"));
+        assertEquals("B", Encode.encode("z"));
+        assertEquals("C", Encode.encode("Z"));
+        assertEquals("D", Encode.encode("Y"));
+        assertEquals("F", Encode.encode("W"));
+        assertEquals("G", Encode.encode("V"));
+        assertEquals("H", Encode.encode("U"));
+        assertEquals("J", Encode.encode("S"));
+        assertEquals("K", Encode.encode("R"));
+        assertEquals("L", Encode.encode("Q"));
+        assertEquals("N", Encode.encode("O"));
+        assertEquals("P", Encode.encode("M"));
+        assertEquals("Q", Encode.encode("L"));
+        assertEquals("R", Encode.encode("K"));
+        assertEquals("S", Encode.encode("J"));
+        assertEquals("T", Encode.encode("I"));
+        assertEquals("V", Encode.encode("G"));
+        assertEquals("W", Encode.encode("F"));
+        assertEquals("X", Encode.encode("E"));
+        assertEquals("Y", Encode.encode("D"));
         assertEquals("Z",

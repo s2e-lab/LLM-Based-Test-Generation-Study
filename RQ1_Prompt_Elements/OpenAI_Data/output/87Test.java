@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link GetRow}.
- * It contains ten test cases for the {@link scenario1.GetRow#compare()} method.
- */
+* Unit tests of {@link GetRow}.
+* It contains ten test cases for the {@link GetRow#compare()} method.
+*/
 class GetRowTest {
-		
 
 
     @Test

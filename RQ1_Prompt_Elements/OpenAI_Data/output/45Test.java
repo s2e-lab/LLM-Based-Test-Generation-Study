@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link TriangleArea}.
- * It contains ten test cases for the {@link scenario1.TriangleArea#triangleArea()} method.
- */
+* Unit tests of {@link TriangleArea}.
+* It contains ten test cases for the {@link TriangleArea#triangleArea()} method.
+*/
 class TriangleAreaTest {
-		
 
 
     @Test
@@ -38,13 +37,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link TriangleArea}.
- * It contains ten test cases for the {@link scenario1.TriangleArea#triangleArea()} method.
- */
+* Unit tests of {@link TriangleArea}.
+* It contains ten test cases for the {@link TriangleArea#triangleArea()} method.
+*/
 class TriangleAreaTest {
 
     @Test
@@ -69,13 +68,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link TriangleArea}.
- * It contains ten test cases for the {@link scenario1.TriangleArea#triangleArea()} method.
- */
+* Unit tests of {@link TriangleArea}.
+* It contains ten test cases for the {@link TriangleArea#triangleArea()} method.
+*/
 class TriangleAreaTest {
 
     @Test
@@ -100,9 +99,9 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link TriangleArea}.
- * It contains ten test cases
+* Unit tests of {@link TriangleArea}.
+* It contains ten test cases for the {@link TriangleArea#

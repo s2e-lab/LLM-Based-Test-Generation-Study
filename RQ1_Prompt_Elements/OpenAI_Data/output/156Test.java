@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link IntToMiniRoman}.
- * It contains ten test cases for the {@link scenario1.IntToMiniRoman#intToMiniRoman()} method.
- */
+* Unit tests of {@link IntToMiniRoman}.
+* It contains ten test cases for the {@link IntToMiniRoman#intToMiniRoman()} method.
+*/
 class IntToMiniRomanTest {
-		
 
 
     @Test
@@ -62,13 +61,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link MiniRomanToInt}.
- * It contains ten test cases for the {@link scenario1.MiniRomanToInt#miniRomanToInt()} method.
- */
+* Unit tests of {@link MiniRomanToInt}.
+* It contains ten test cases for the {@link MiniRomanToInt#miniRomanToInt()} method.
+*/
 class MiniRomanToIntTest {
 
     @Test
@@ -103,4 +102,4 @@ class RomanToInt {
         for (int i = 0; i < symbols.length; i++) {
             while (roman.startsWith(symbols[i])) {
                 result += values[i];
-                roman = roman.substring(sy
+                roman = roman.substring(symbols[

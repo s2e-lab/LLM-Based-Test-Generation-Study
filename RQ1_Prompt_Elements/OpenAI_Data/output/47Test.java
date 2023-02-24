@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Median}.
- * It contains ten test cases for the {@link scenario1.Median#median()} method.
- */
+* Unit tests of {@link Median}.
+* It contains ten test cases for the {@link Median#median()} method.
+*/
 class MedianTest {
-		
 
 
     @Test

@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Compare}.
- * It contains ten test cases for the {@link scenario1.Compare#compare()} method.
- */
+* Unit tests of {@link Compare}.
+* It contains ten test cases for the {@link Compare#compare()} method.
+*/
 class CompareTest {
-		
 
 
     @Test
@@ -21,7 +20,6 @@ class CompareTest {
         List<Integer> game = new ArrayList<>();
         List<Integer> guess = new ArrayList<>();
         List<Integer> result = new ArrayList<>();
-
         game.add(1);
         game.add(2);
         game.add(3);
@@ -35,7 +33,6 @@ class CompareTest {
         result.add(0);
         result.add(0);
         assertEquals(result, Compare.compare(game, guess));
-
         game.clear();
         guess.clear();
         result.clear();
@@ -52,7 +49,6 @@ class CompareTest {
         result.add(1);
         result.add(0);
         assertEquals(result, Compare.compare(game, guess));
-
         game.clear();
         guess.clear();
         result.clear();
@@ -69,7 +65,6 @@ class CompareTest {
         result.add(0);
         result.add(1);
         assertEquals(result, Compare.compare(game, guess));
-
         game.clear();
         guess.clear();
         result.clear();
@@ -86,7 +81,6 @@ class CompareTest {
         result.add(0);
         result.add(4);
         assertEquals(result, Compare.compare(game, guess));
-
         game.clear();
         guess.clear();
         result.clear();
@@ -103,7 +97,6 @@ class CompareTest {
         result.add(0);
         result.add(2);
         assertEquals(result, Compare.compare(game, guess));
-
         game.clear();
         guess.clear();
         result.clear();
@@ -120,7 +113,6 @@ class CompareTest {
         result.add(0);
         result.add(3);
         assertEquals(result, Compare.compare(game, guess));
-
         game.clear();
         guess.clear();
         result.clear();
@@ -137,7 +129,6 @@ class CompareTest {
         result.add(0);
         result.add(4);
         assertEquals(result, Compare.compare(game, guess));
-
         game.clear();
         guess.clear();
         result.clear();

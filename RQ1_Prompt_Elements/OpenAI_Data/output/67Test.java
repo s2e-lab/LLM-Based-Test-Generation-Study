@@ -5,29 +5,27 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link FruitDistribution}.
- * It contains ten test cases for the {@link scenario1.FruitDistribution#fruitDistribution()} method.
- */
+* Unit tests of {@link FruitDistribution}.
+* It contains ten test cases for the {@link FruitDistribution#fruitDistribution()} method.
+*/
 class FruitDistributionTest {
-		
-
 
     @Test
     void testFruitDistribution() {
-        assertEquals(0, FruitDistribution.fruitDistribution("apples 2 oranges 3", 5));
-        assertEquals(1, FruitDistribution.fruitDistribution("apples 2 oranges 3", 6));
-        assertEquals(2, FruitDistribution.fruitDistribution("apples 2 oranges 3", 7));
-        assertEquals(3, FruitDistribution.fruitDistribution("apples 2 oranges 3", 8));
-        assertEquals(4, FruitDistribution.fruitDistribution("apples 2 oranges 3", 9));
-        assertEquals(5, FruitDistribution.fruitDistribution("apples 2 oranges 3", 10));
-        assertEquals(6, FruitDistribution.fruitDistribution("apples 2 oranges 3", 11));
-        assertEquals(7, FruitDistribution.fruitDistribution("apples 2 oranges 3", 12));
-        assertEquals(8, FruitDistribution.fruitDistribution("apples 2 oranges 3", 13));
-        assertEquals(9, FruitDistribution.fruitDistribution("apples 2 oranges 3", 14));
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 8), 0);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 10), 2);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 12), 4);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 14), 6);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 16), 8);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 18), 10);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 20), 12);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 22), 14);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 24), 16);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 26), 18);
     }
 }
 
@@ -38,27 +36,26 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link FruitDistribution}.
- * It contains ten test cases for the {@link scenario1.FruitDistribution#fruitDistribution()} method.
- */
+* Unit tests of {@link FruitDistribution}.
+* It contains ten test cases for the {@link FruitDistribution#fruitDistribution()} method.
+*/
 class FruitDistributionTest {
-
     @Test
     void testFruitDistribution() {
-        assertEquals(0, FruitDistribution.fruitDistribution("apples 2 oranges 3", 5));
-        assertEquals(1, FruitDistribution.fruitDistribution("apples 2 oranges 3", 6));
-        assertEquals(2, FruitDistribution.fruitDistribution("apples 2 oranges 3", 7));
-        assertEquals(3, FruitDistribution.fruitDistribution("apples 2 oranges 3", 8));
-        assertEquals(4, FruitDistribution.fruitDistribution("apples 2 oranges 3", 9));
-        assertEquals(5, FruitDistribution.fruitDistribution("apples 2 oranges 3", 10));
-        assertEquals(6, FruitDistribution.fruitDistribution("apples 2 oranges 3", 11));
-        assertEquals(7, FruitDistribution.fruitDistribution("apples 2 oranges 3", 12));
-        assertEquals(8, FruitDistribution.fruitDistribution("apples 2 oranges 3", 13));
-        assertEquals(9, FruitDistribution.fruitDistribution("apples 2 oranges 3", 14));
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 8), 0);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 10), 2);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 12), 4);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 14), 6);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 16), 8);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 18), 10);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 20), 12);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 22), 14);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 24), 16);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 26), 18);
     }
 }
 
@@ -69,24 +66,20 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link FruitDistribution}.
- * It contains ten test cases for the {@link scenario1.FruitDistribution#fruitDistribution()} method.
- */
+* Unit tests of {@link FruitDistribution}.
+* It contains ten test cases for the {@link FruitDistribution#fruitDistribution()} method.
+*/
 class FruitDistributionTest {
-
     @Test
     void testFruitDistribution() {
-        assertEquals(0, FruitDistribution.fruitDistribution("apples 2 oranges 3", 5));
-        assertEquals(1, FruitDistribution.fruitDistribution("apples 2 oranges 3", 6));
-        assertEquals(2, FruitDistribution.fruitDistribution("apples 2 oranges 3", 7));
-        assertEquals(3, FruitDistribution.fruitDistribution("apples 2 oranges 3", 8));
-        assertEquals(4, FruitDistribution.fruitDistribution("apples 2 oranges 3", 9));
-        assertEquals(5, FruitDistribution.fruitDistribution("apples 2 oranges 3", 10));
-        assertEquals(6, FruitDistribution.fruitDistribution("apples 2 oranges 3", 11));
-        assertEquals(7, FruitDistribution.fruitDistribution("apples 2 oranges 3", 12));
-        assertEquals(8, FruitDistribution.fruitDistribution("apples 2 oranges 3", 13));
-        assertEquals(9, FruitDistribution.fruitDistribution("apples 2 oranges 3", 14
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 8), 0);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 10), 2);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 12), 4);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 14), 6);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 16), 8);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 18), 10);
+        assertEquals(FruitDistribution.fruitDistribution("I have 5 apples and 3 oranges", 20),

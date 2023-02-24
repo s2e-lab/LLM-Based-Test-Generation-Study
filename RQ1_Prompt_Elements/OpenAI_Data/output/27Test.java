@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link FlipCase}.
- * It contains ten test cases for the {@link scenario1.FlipCase#flipCase()} method.
- */
+* Unit tests of {@link FlipCase}.
+* It contains ten test cases for the {@link FlipCase#flipCase()} method.
+*/
 class FlipCaseTest {
-		
 
 
     @Test
@@ -24,8 +23,8 @@ class FlipCaseTest {
         assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO WoRlD"));
         assertEquals("hello world", FlipCase.flipCase("hElLo wOrLd"));
         assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO wOrLd"));
-        assertEquals("hello world", FlipCase.flipCase("hElLo wOrLd"));
-        assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO wOrLd"));
+        assertEquals("hello world", FlipCase.flipCase("hElLo WoRlD"));
+        assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO WoRlD"));
         assertEquals("hello world", FlipCase.flipCase("hElLo wOrLd"));
         assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO wOrLd"));
     }
@@ -38,13 +37,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link FlipCase}.
- * It contains ten test cases for the {@link scenario1.FlipCase#flipCase()} method.
- */
+* Unit tests of {@link FlipCase}.
+* It contains ten test cases for the {@link FlipCase#flipCase()} method.
+*/
 class FlipCaseTest {
 
     @Test
@@ -55,8 +54,8 @@ class FlipCaseTest {
         assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO WoRlD"));
         assertEquals("hello world", FlipCase.flipCase("hElLo wOrLd"));
         assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO wOrLd"));
-        assertEquals("hello world", FlipCase.flipCase("hElLo wOrLd"));
-        assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO wOrLd"));
+        assertEquals("hello world", FlipCase.flipCase("hElLo WoRlD"));
+        assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO WoRlD"));
         assertEquals("hello world", FlipCase.flipCase("hElLo wOrLd"));
         assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO wOrLd"));
     }
@@ -69,13 +68,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link FlipCase}.
- * It contains ten test cases for the {@link scenario1.FlipCase#flipCase()} method.
- */
+* Unit tests of {@link FlipCase}.
+* It contains ten test cases for the {@link FlipCase#flipCase()} method.
+*/
 class FlipCaseTest {
 
     @Test
@@ -86,6 +85,6 @@ class FlipCaseTest {
         assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO WoRlD"));
         assertEquals("hello world", FlipCase.flipCase("hElLo wOrLd"));
         assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO wOrLd"));
-        assertEquals("hello world", FlipCase.flipCase("hElLo wOrLd"));
-        assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO wOrLd"));
-        assertEquals("hello world",
+        assertEquals("hello world", FlipCase.flipCase("hElLo WoRlD"));
+        assertEquals("HELLO WORLD", FlipCase.flipCase("HeLlO WoRlD"));
+        assertEquals("hello world", FlipCase.flipCase("h

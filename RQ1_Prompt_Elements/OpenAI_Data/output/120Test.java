@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link Maximum1}.
- * It contains ten test cases for the {@link scenario1.Maximum1#compare()} method.
- */
+* Unit tests of {@link Maximum1}.
+* It contains ten test cases for the {@link Maximum1#compare()} method.
+*/
 class Maximum1Test {
-		
 
 
     @Test

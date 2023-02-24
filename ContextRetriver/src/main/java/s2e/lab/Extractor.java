@@ -7,7 +7,7 @@ import s2e.lab.searcher.JavaSearcher;
 import s2e.lab.visitors.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public class Extractor {
 
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
 
         File projectDirectory = new File("EvoSuiteBenchmark/1_tullibee/src/main");
         List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
@@ -69,7 +69,7 @@ public class Extractor {
 
             //collect the method names
             List<String> methodNames = new ArrayList<>();
-            VoidVisitor<List<String>> methodNameCollector = new MethodNameCollector();
+            VoidVisitor<List<String>> methodNameCollector = new MethodsCollector();
             methodNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), methodNames);
             System.out.println("Method Names: " + methodNames);
 

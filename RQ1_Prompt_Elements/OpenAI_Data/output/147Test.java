@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link GetMaxTriples}.
- * It contains ten test cases for the {@link scenario1.GetMaxTriples#getMaxTriples()} method.
- */
+* Unit tests of {@link GetMaxTriples}.
+* It contains ten test cases for the {@link GetMaxTriples#getMaxTriples()} method.
+*/
 class GetMaxTriplesTest {
-		
 
 
     @Test
@@ -63,13 +62,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link GetMaxTriples}.
- * It contains ten test cases for the {@link scenario2.GetMaxTriples#getMaxTriples()} method.
- */
+* Unit tests of {@link GetMaxTriples}.
+* It contains ten test cases for the {@link GetMaxTriples#getMaxTriples()} method.
+*/
 class GetMaxTriplesTest {
 
     @Test
@@ -119,8 +118,8 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link
+* Unit tests of {@link GetMaxTri

@@ -5,15 +5,14 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link IsSimplePower}.
- * It contains ten test cases for the {@link scenario1.IsSimplePower#isSimplePower()} method.
- */
+* Unit tests of {@link IsSimplePower}.
+* It contains ten test cases for the {@link IsSimplePower#isSimplePower()} method.
+*/
 class IsSimplePowerTest {
-		
 
 
     @Test
@@ -38,13 +37,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link IsSimplePower}.
- * It contains ten test cases for the {@link scenario1.IsSimplePower#isSimplePower()} method.
- */
+* Unit tests of {@link IsSimplePower}.
+* It contains ten test cases for the {@link IsSimplePower#isSimplePower()} method.
+*/
 class IsSimplePowerTest {
 
     @Test
@@ -69,13 +68,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link IsSimplePower}.
- * It contains ten test cases for the {@link scenario1.IsSimplePower#isSimplePower()} method.
- */
+* Unit tests of {@link IsSimplePower}.
+* It contains ten test cases for the {@link IsSimplePower#isSimplePower()} method.
+*/
 class IsSimplePowerTest {
 
     @Test
@@ -100,13 +99,13 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 import java.math.*;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests of {@link IsSimplePower}.
- * It contains ten test cases for the {@link scenario1.IsSimplePower#isSimplePower()} method.
- */
+* Unit tests of {@link IsSimplePower}.
+* It contains ten test cases for the {@link IsSimplePower#isSimplePower()} method.
+*/
 class IsSimplePowerTest {
 
     @Test
@@ -115,4 +114,4 @@ class IsSimplePowerTest {
         assertTrue(IsSimplePower.isSimplePower(1, 2));
         assertTrue(IsSimplePower.isSimplePower(1, 3));
         assertTrue(IsSimplePower.isSimplePower(1, 4));
-        assert
+        assertTrue(IsSimplePower.isSimplePower
