@@ -1,7 +1,8 @@
 import json
-import openai
 import os
 import time
+
+import openai
 
 # Code Generation Configuration Parameters
 OPENAI_MODEL = "code-davinci-002"
@@ -13,7 +14,8 @@ OPENAI_PRESENCE_PENALTY = 0
 
 
 def load_config(config_file: str) -> dict:
-    """Loads the JSON configuration and sets the OpenAI API key.
+    """
+    Loads the JSON configuration and sets the OpenAI API key.
     @param config_file:  Path to the JSON configuration file.
     @returns config: dictionary of the parsed configuration
     """
@@ -25,11 +27,11 @@ def load_config(config_file: str) -> dict:
 
 
 def generate_code(prompt, max_tokens=OPENAI_MAX_TOKENS):
-    '''
+    """
     Returns a response object from OpenAI enriched with the prompt metadata.
     @param max_tokens: what is the token size limit used (default = OPENAI_MAX_TOKENS)
     @param prompt: the prompt object
-    '''
+    """
     start_time = time.time()
     response = openai.Completion.create(
         model=OPENAI_MODEL,
@@ -49,12 +51,12 @@ def generate_code(prompt, max_tokens=OPENAI_MAX_TOKENS):
 
 
 def save_generated_code(prompt: dict, response: dict, output_folder: str) -> None:
-    '''
+    """
     Saves the generated Unit Test on a separate file in the output folder.
     @param prompt: prompt used for test generation.
     @param response: the response returned by OpenAI
     @param output_folder: where to save the Unit Test.
-    '''
+    """
     with open(os.path.join(output_folder, f"{response['prompt_id']}Test.java"), "w") as gen_file:
         gen_file.write(prompt["test_prompt"] + "\n" + response['choices'][0]["text"])
 
@@ -62,6 +64,7 @@ def save_generated_code(prompt: dict, response: dict, output_folder: str) -> Non
 def get_prompts(config: dict, scenario: str) -> list:
     """
     Computes the prompts used for test generation
+    @param config: analysis configuration
     @param scenario:  filename for the scenario (ex: "Scenario1_prompt.json")
     @return: a list of parsed prompts
     """
@@ -70,16 +73,16 @@ def get_prompts(config: dict, scenario: str) -> list:
         return json.load(scenario_file)
 
 
-def get_output_files(config: dict, scenario: str):
-    '''
+def get_output_files(config: dict, scenario: str) -> tuple:
+    """
     Compute the paths to the output folder and response file.
     @param config: analysis configuration
     @param scenario: filename for the scenario (ex: "Scenario1_prompt.json")
     @return:
-    '''
+    """
     output_folder = os.path.join(config["BASE_DIRECTORY"], "output/")
     response_file = os.path.join(output_folder, scenario.replace("prompt", "output"))
-    return (output_folder, response_file,)
+    return output_folder, response_file
 
 
 def generate_tests(config: dict, scenario: str, prompts: list) -> None:
@@ -103,7 +106,7 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
             responses.append(response)
             print("Duration: ", response['time_taken'],
                   "Finish Reason:", response["choices"][0]["finish_reason"],
-                  "\n" + "-" * 20)
+                  "\n" + "-" * 30)
 
             time.sleep(10)
         except Exception as e:
