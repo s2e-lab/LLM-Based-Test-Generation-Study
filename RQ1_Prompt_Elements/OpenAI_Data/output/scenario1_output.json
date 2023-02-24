@@ -1,0 +1,25 @@
+[
+    {
+        "id": "cmpl-6nIXQGfFpDdyJ3sQ1P6pZnrIhloJQ",
+        "object": "text_completion",
+        "created": 1677207352,
+        "model": "code-davinci-002",
+        "choices": [
+            {
+                "text": "\n\n    @Test\n    void testCorrectBracketing() {\n        assertTrue(CorrectBracketing.correctBracketing(\"<<>>\"));\n        assertTrue(CorrectBracketing.correctBracketing(\"<><>\"));\n        assertTrue(CorrectBracketing.correctBracketing(\"<>><\"));\n        assertTrue(CorrectBracketing.correctBracketing(\"<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><",
+                "index": 0,
+                "logprobs": null,
+                "finish_reason": "length"
+            }
+        ],
+        "usage": {
+            "prompt_tokens": 275,
+            "completion_tokens": 1024,
+            "total_tokens": 1299
+        },
+        "time_taken": 22.771437644958496,
+        "prompt_id": "56",
+        "original_code": "package scenario1;\n\nimport java.io.*;\nimport java.lang.*;\nimport java.util.*;\nimport java.math.*;\n\nclass CorrectBracketing {\n\n    public static Boolean correctBracketing(String brackets) {\n        int count = 0;\n        for (int i = 0; i < brackets.length(); i++) {\n            if (brackets.charAt(i) == '<') {\n                count++;\n            } else {\n                count--;\n            }\n            if (count < 0) {\n                return false;\n            }\n        }\n        return count == 0;\n    }\n}\n",
+        "test_prompt": "// CorrectBracketingTest.java\npackage scenario1;\n\nimport java.io.*;\nimport java.lang.*;\nimport java.util.*;\nimport java.math.*;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n * Unit tests of {@link CorrectBracketing}.\n * It contains ten test cases for the {@link scenario1.CorrectBracketing#correctBracketing()} method.\n */\nclass CorrectBracketingTest {\n\t\t"
+    }
+]
