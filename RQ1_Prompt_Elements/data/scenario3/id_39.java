@@ -60,7 +60,7 @@ class PrimeFib {
         return c;
     }
 
-    public static Boolean isPrime(int n) {
+    private static Boolean isPrime(int n) {
         if (n <= 1) {
             return false;
         }
