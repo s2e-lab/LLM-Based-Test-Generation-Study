@@ -45,7 +45,7 @@ public class PromptUtils {
     public static void save(List<HashMap<String, String>> outputList, String outputFile) throws IOException {
         JsonArray objects = new JsonArray(outputList);
         String jsonStr = Jsoner.prettyPrint(Jsoner.serialize(objects));
-        try (FileWritser file = new FileWriter(outputFile)) {
+        try (FileWriter file = new FileWriter(outputFile)) {
             file.write(jsonStr);
         }
         System.out.println("Successfully Copied JSON Object to " + outputFile);

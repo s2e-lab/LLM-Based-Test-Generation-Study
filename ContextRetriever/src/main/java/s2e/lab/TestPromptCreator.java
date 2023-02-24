@@ -19,18 +19,29 @@ import static s2e.lab.PromptUtils.save;
  */
 public class TestPromptCreator {
     public static String BASE_DIR = "../";
-    public static String FOLDER_NAME = BASE_DIR + "RQ1_Prompt_Elements/data/scenario%d/";
-    public static String PROMPT_OUTPUT_FILE = BASE_DIR + "RQ1_Prompt_Elements/OpenAI_Data/input/scenario%d_prompt.json";
+    public static String RQ1_BASE_DIR = BASE_DIR + "RQ1_Prompt_Elements/";
+    public static String RQ1_FOLDER_NAME = RQ1_BASE_DIR + "data/scenario%d/";
+    public static String RQ1_PROMPT_OUTPUT_FILE = RQ1_BASE_DIR + "OpenAI_Data/input/scenario%d_prompt.json";
 
 
     public static void main(String[] args) throws IOException {
-        for (int i = 1; i <= 3; i++) {
-            File projectDirectory = new File(String.format(FOLDER_NAME, i));
-            List<HashMap<String, String>> outputList = generateTestPrompt(projectDirectory);
-            save(outputList, String.format(PROMPT_OUTPUT_FILE, i));
-        }
+        // generates the prompts for RQ1
+        generateHumanEvalPrompts();
+        // generates the prompts for RQ2
+        generateOSSPrompts();
     }
 
+    private static void generateOSSPrompts() {
+
+    }
+
+    private static final void generateHumanEvalPrompts() throws IOException {
+        for (int i = 1; i <= 3; i++) {
+            File projectDirectory = new File(String.format(RQ1_FOLDER_NAME, i));
+            List<HashMap<String, String>> outputList = generateTestPrompt(projectDirectory);
+            save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, i));
+        }
+    }
 
     private static List<HashMap<String, String>> generateTestPrompt(File projectDirectory) throws IOException {
         List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
