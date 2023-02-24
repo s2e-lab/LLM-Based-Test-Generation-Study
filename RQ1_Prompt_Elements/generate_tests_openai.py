@@ -3,9 +3,7 @@ import openai
 import os
 import time
 
-RE_FILENAME = "^id_([0-9]+).java"
-
-# Generation Configuration Parameters
+# Code Generation Configuration Parameters
 OPENAI_MODEL = "code-davinci-002"
 OPENAI_TEMPERATURE = 0
 OPENAI_MAX_TOKENS = 1024
@@ -21,12 +19,15 @@ def load_config(config_file: str) -> dict:
     """
     with open(config_file) as json_file:
         config = json.load(json_file)
+    # sets the OpenAI key
+    openai.api_key = config["OPEN_AI_KEY"]
     return config
 
 
-def generate_code(prompt):
+def generate_code(prompt, max_tokens=OPENAI_MAX_TOKENS):
     '''
     Returns a response object from OpenAI enriched with the prompt metadata.
+    @param max_tokens: what is the token size limit used (default = OPENAI_MAX_TOKENS)
     @param prompt: the prompt object
     '''
     start_time = time.time()
@@ -34,7 +35,7 @@ def generate_code(prompt):
         model=OPENAI_MODEL,
         prompt=prompt["original_code"] + "\n" + prompt["test_prompt"].strip(),
         temperature=OPENAI_TEMPERATURE,
-        max_tokens=OPENAI_MAX_TOKENS,
+        max_tokens=max_tokens,
         top_p=OPENAI_TOP_P,
         frequency_penalty=OPENAI_FREQUENCY_PENALTY,
         presence_penalty=OPENAI_PRESENCE_PENALTY,
@@ -69,6 +70,18 @@ def get_prompts(config: dict, scenario: str) -> list:
         return json.load(scenario_file)
 
 
+def get_output_files(config: dict, scenario: str):
+    '''
+    Compute the paths to the output folder and response file.
+    @param config: analysis configuration
+    @param scenario: filename for the scenario (ex: "Scenario1_prompt.json")
+    @return:
+    '''
+    output_folder = os.path.join(config["BASE_DIRECTORY"], "output/")
+    response_file = os.path.join(output_folder, scenario.replace("prompt", "output"))
+    return (output_folder, response_file,)
+
+
 def generate_tests(config: dict, scenario: str, prompts: list) -> None:
     """
     Generates tests for the given scenario.
@@ -77,11 +90,9 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
     @param prompts: a list of parsed prompts
     """
 
-    # sets the OpenAI key
-    openai.api_key = config["OPEN_AI_KEY"]
-    # sets the data input/output paths
 
-    output_folder = os.path.join(config["BASE_DIRECTORY"], "output/")
+    # sets the data output paths
+    output_folder, response_file = get_output_files(config, scenario)
     # holds all responses in memory
     responses = []
 
@@ -100,8 +111,8 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
             print("ERROR", e)
 
     # opens output file in write mode (overwrite prior results)
-    with open(os.path.join(output_folder, scenario.replace("prompt", "output")), "w") as output_file:
-        output_file.write(json.dumps(responses, indent=4))
+    with open(response_file, "w") as f:
+        f.write(json.dumps(responses, indent=4))
 
 
 def main():
