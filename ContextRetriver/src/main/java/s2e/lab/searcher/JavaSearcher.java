@@ -1,15 +1,17 @@
-package searcher;
+package s2e.lab.searcher;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * It  finds all Java files in a directory and its subdirectories.
+ */
 public class JavaSearcher {
 
-    private static List<File> javaFileList = new ArrayList<>();
 
     public static List<File> findJavaFiles(File directory) {
+        List<File> javaFileList = new ArrayList<>();
         File[] files = directory.listFiles();
         for (File file : files) {
             if (file.isFile() && file.getName().endsWith(".java")) {
@@ -20,7 +22,6 @@ public class JavaSearcher {
         }
         return javaFileList;
     }
-
 
 
 }

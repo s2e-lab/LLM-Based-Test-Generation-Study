@@ -1,8 +1,10 @@
+package s2e.lab;
+
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
-import searcher.JavaSearcher;
-import visitors.*;
+import s2e.lab.searcher.JavaSearcher;
+import s2e.lab.visitors.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -82,7 +84,6 @@ public class Extractor {
             VoidVisitor<List<String>> implementedInterfaceNameCollector = new ImplementedNameCollector();
             implementedInterfaceNameCollector.visit(javaFileCompilationUnitHashMap.get(javaFile), implementedInterfaceNames);
             System.out.println("Implemented Interface Names: " + implementedInterfaceNames);
-
 
 
         }

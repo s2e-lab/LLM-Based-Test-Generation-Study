@@ -1,4 +1,4 @@
-package visitors;
+package s2e.lab.visitors;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;

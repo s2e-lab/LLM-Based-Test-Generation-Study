@@ -1,4 +1,4 @@
-package visitors;
+package s2e.lab.visitors;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
