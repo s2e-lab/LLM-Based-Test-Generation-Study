@@ -15,7 +15,7 @@ def fix(config: dict, scenario: str) -> None:
 
     # creates a new array with responses that are fixed
     filtered_responses = []
-    OPENAI_MAX_TOKENS = 4096  # changes the token size
+    OPENAI_MAX_TOKENS = 4000  # changes the token size
 
     for r in previous_responses:
         print("PROMPT", r["prompt_id"])
