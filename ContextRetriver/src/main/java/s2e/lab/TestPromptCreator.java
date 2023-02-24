@@ -68,14 +68,8 @@ public class TestPromptCreator {
         List<HashMap<String, String>> outputList = new ArrayList<>();
         for (File javaFile : javaFiles) {
 
-            HashMap<String, String> outputMap = new HashMap<>();
             System.out.println("File: " + javaFile.getName());
-            String id = javaFile.getName().split("_")[1].split("\\.")[0];
-            outputMap.put("id", id);
-
             CompilationUnit cu = StaticJavaParser.parse(javaFile);
-            outputMap.put("original_code", cu.toString());
-
 
             //collect the package names
             List<String> packageNames = new ArrayList<>();
@@ -83,20 +77,17 @@ public class TestPromptCreator {
             packageNameCollector.visit(cu, packageNames);
             assert packageNames.size() == 1;
 
-
             //collect the class name
             List<String> classNames = new ArrayList<>();
             VoidVisitor<List<String>> classNameCollector = new ClassNameCollector();
             classNameCollector.visit(cu, classNames);
             assert classNames.size() == 1;
 
-
             //collect the method name
             List<String> methodNames = new ArrayList<>();
             VoidVisitor<List<String>> methodNameCollector = new MethodNameCollector();
             methodNameCollector.visit(cu, methodNames);
             assert methodNames.size() == 1;
-
 
             // fill in the template
             Map<String, Object> params = new HashMap<>();
@@ -106,9 +97,11 @@ public class TestPromptCreator {
             params.put("numberTests", "ten");
             params.put("methodName", methodNames.get(0));
 
-
+            // creates dict object to be serialized
+            HashMap<String, String> outputMap = new HashMap<>();
+            outputMap.put("id", javaFile.getName().split("_")[1].split("\\.")[0]);
+            outputMap.put("original_code", cu.toString());
             outputMap.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
-
             outputList.add(outputMap);
         }
         return outputList;
