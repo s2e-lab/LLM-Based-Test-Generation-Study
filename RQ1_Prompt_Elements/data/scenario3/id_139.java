@@ -8,7 +8,7 @@ class SpecialFactorial {
      * where n > 0
      *
      * For example:
-     * >>> special_factorial(4)
+     * >>> specialFactorial(4)
      * 288
      *
      * The function will receive an integer as input and should return the special

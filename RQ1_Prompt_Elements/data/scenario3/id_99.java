@@ -7,9 +7,9 @@ class ClosestInteger {
      * from two integers, round it away from zero.
      *
      * Examples
-     * >>> closest_integer("10")
+     * >>> closestInteger("10")
      * 10
-     * >>> closest_integer("15.3")
+     * >>> closestInteger("15.3")
      * 15
      *
      * Note:

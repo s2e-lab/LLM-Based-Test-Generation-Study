@@ -7,16 +7,13 @@ class AnyInt {
      * Returns false in any other cases.
      *
      * Examples
-     * any_int(5, 2, 7) ➞ True
+     * anyInt(5, 2, 7) ➞ True
      *
-     * any_int(3, 2, 2) ➞ False
+     * anyInt(3, 2, 2) ➞ False
      *
-     * any_int(3, -2, 1) ➞ True
+     * anyInt(3, -2, 1) ➞ True
      *
-     * any_int(3.6, -2.2, 2) ➞ False
-     *
-     *
-     *
+     * anyInt(3.6, -2.2, 2) ➞ False
      *
      * > anyInt(2, 3, 1)
      * true

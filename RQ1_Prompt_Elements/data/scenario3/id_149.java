@@ -20,8 +20,8 @@ class SortedListSum {
      * The function should return a list of strings in sorted order.
      * You may assume that all words will have the same length.
      * For example:
-     * assert list_sort(["aa", "a", "aaa"]) => ["aa"]
-     * assert list_sort(["ab", "a", "aaa", "cd"]) => ["ab", "cd"]
+     * assert sortedListSum(["aa", "a", "aaa"]) => ["aa"]
+     * assert sortedListSum(["ab", "a", "aaa", "cd"]) => ["ab", "cd"]
      *
      * > sortedListSum(["aa", "a", "aaa"])
      * ["aa"]

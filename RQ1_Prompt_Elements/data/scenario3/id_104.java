@@ -14,9 +14,9 @@ class UniqueDigits {
      * Note: Returned list should be sorted in increasing order.
      *
      * For example:
-     * >>> unique_digits([15, 33, 1422, 1])
+     * >>> uniqueDigits([15, 33, 1422, 1])
      * [1, 15, 33]
-     * >>> unique_digits([152, 323, 1422, 10])
+     * >>> uniqueDigits([152, 323, 1422, 10])
      * []
      *
      * > uniqueDigits([15, 33, 1422, 1])

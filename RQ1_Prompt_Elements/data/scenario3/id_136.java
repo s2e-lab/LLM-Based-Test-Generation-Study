@@ -12,9 +12,9 @@ class LargestSmallestIntegers {
      * If there is no negative or positive integers, return them as None.
      *
      * Examples:
-     * largest_smallest_integers([2, 4, 1, 3, 5, 7]) == (None, 1)
-     * largest_smallest_integers([]) == (None, None)
-     * largest_smallest_integers([0]) == (None, None)
+     * largestSmallestIntegers([2, 4, 1, 3, 5, 7]) == (None, 1)
+     * largestSmallestIntegers([]) == (None, None)
+     * largestSmallestIntegers([0]) == (None, None)
      *
      * > largestSmallestIntegers([2, 4, 1, 3, 5, 7])
      * [null, 1]

@@ -3,7 +3,7 @@ package scenario2;
 
 class HowManyTimes {
     /**
-     * Find how many times a given substring can be found in the original string. Count overlaping cases. 
+     * Find how many times a given substring can be found in the original string. Count overlapping cases.
      */
     public static int howManyTimes(String string, String substring) {
         int count = 0;

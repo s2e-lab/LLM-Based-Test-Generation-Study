@@ -12,6 +12,7 @@ class FruitDistribution {
      * fruitDistribution("0 apples and 1 oranges",3) -> 3 - 0 - 1 = 2
      * fruitDistribution("2 apples and 3 oranges", 100) -> 100 - 2 - 3 = 95
      * fruitDistribution("100 apples and 1 oranges",120) -> 120 - 100 - 1 = 19
+     *
      * > fruitDistribution("5 apples and 6 oranges", 19)
      * 8
      * > fruitDistribution("5 apples and 6 oranges", 21)

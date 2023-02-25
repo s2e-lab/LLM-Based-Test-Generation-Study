@@ -13,9 +13,9 @@ class AntiShuffle {
      * Note: You should keep the order of words and blank spaces in the sentence.
      *
      * For example:
-     * anti_shuffle('Hi') returns 'Hi'
-     * anti_shuffle('hello') returns 'ehllo'
-     * anti_shuffle('Hello World!!!') returns 'Hello !!!Wdlor'
+     * antiShuffle('Hi') returns 'Hi'
+     * antiShuffle('hello') returns 'ehllo'
+     * antiShuffle('Hello World!!!') returns 'Hello !!!Wdlor'
      *
      * > antiShuffle("Hi")
      * "Hi"

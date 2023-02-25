@@ -16,8 +16,8 @@ class MatchParens {
      * Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.
      *
      * Examples:
-     * match_parens(['()(', ')']) == 'Yes'
-     * match_parens([')', ')']) == 'No'
+     * matchParens(['()(', ')']) == 'Yes'
+     * matchParens([')', ')']) == 'No'
      *
      * > matchParens(["()(", ")"])
      * "Yes"

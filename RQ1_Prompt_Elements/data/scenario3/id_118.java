@@ -12,10 +12,10 @@ class GetClosestVowel {
      * You may assume that the given string contains English letter only.
      *
      * Example:
-     * get_closest_vowel("yogurt") ==> "u"
-     * get_closest_vowel("FULL") ==> "U"
-     * get_closest_vowel("quick") ==> ""
-     * get_closest_vowel("ab") ==> ""
+     * getClosestVowel("yogurt") ==> "u"
+     * getClosestVowel("FULL") ==> "U"
+     * getClosestVowel("quick") ==> ""
+     * getClosestVowel("ab") ==> ""
      *
      * > getClosestVowel("yogurt")
      * "u"

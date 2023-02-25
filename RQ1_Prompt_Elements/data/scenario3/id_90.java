@@ -9,11 +9,11 @@ class NextSmallest {
      * * You are given a list of integers.
      * Write a function next_smallest() that returns the 2nd smallest element of the list.
      * Return null if there is no such element.
-     *
-     * next_smallest([1, 2, 3, 4, 5]) == 2
-     * next_smallest([5, 1, 4, 3, 2]) == 2
-     * next_smallest([]) == None
-     * next_smallest([1, 1]) == None
+     * Examples:
+     * nextSmallest([1, 2, 3, 4, 5]) == 2
+     * nextSmallest([5, 1, 4, 3, 2]) == 2
+     * nextSmallest([]) == None
+     * nextSmallest([1, 1]) == None
      *
      * > nextSmallest([1, 2, 3, 4, 5])
      * 2

@@ -2,7 +2,7 @@ package scenario3;
 
 class StartsOneEnds {
     /**
-     * * Given a positive integer n, return the count of the numbers of n-digit
+     * Given a positive integer n, return the count of the numbers of n-digit
      * positive integers that start or end with 1.
      *
      * > startsOneEnds(1)

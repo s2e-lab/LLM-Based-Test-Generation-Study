@@ -19,13 +19,13 @@ class GetRow {
      * Also, sort coordinates of the row by columns in descending order.
      *
      * Examples:
-     * get_row([
+     * getRow([
      * [1,2,3,4,5,6],
      * [1,2,3,4,1,6],
      * [1,2,3,4,5,1]
      * ], 1) == [(0, 0), (1, 4), (1, 0), (2, 5), (2, 0)]
-     * get_row([], 1) == []
-     * get_row([[], [1], [1, 2, 3]], 3) == [(2, 2)]
+     * getRow([], 1) == []
+     * getRow([[], [1], [1, 2, 3]], 3) == [(2, 2)]
      *
      * > getRow([], 1)
      * []

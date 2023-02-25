@@ -15,7 +15,7 @@ class MakeAPile {
      * i represents the number of stones in the level (i+1).
      *
      * Examples:
-     * >>> make_a_pile(3)
+     * >>> makeAPile(3)
      * [3, 5, 7]
      *
      * > makeAPile(3)

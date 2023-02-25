@@ -12,9 +12,9 @@ class ProdSigns {
      * Note: return null for empty arr.
      *
      * Example:
-     * >>> prod_signs([1, 2, 2, -4]) == -9
-     * >>> prod_signs([0, 1]) == 0
-     * >>> prod_signs([]) == None
+     * >>> prodSigns([1, 2, 2, -4]) == -9
+     * >>> prodSigns([0, 1]) == 0
+     * >>> prodSigns([]) == None
      *
      * > prodSigns([1, 2, 2, -4])
      * -9
