@@ -3,8 +3,6 @@ package scenario3;
 import java.util.List;
 
 
-
-
 class Exchange {
     /**
      * In this problem, you will implement a function that takes two lists of numbers,
@@ -52,7 +50,6 @@ class Exchange {
             return "NO";
         }
     }
-
 
 
 }

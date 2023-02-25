@@ -4,8 +4,6 @@ package scenario3;
 import java.util.List;
 
 
-
-
 class MatchParens {
     /**
      * * You are given a list of two strings, both strings consist of open
@@ -16,7 +14,7 @@ class MatchParens {
      * are balanced. For example: the string '(())()' is good, while the string
      * '())' is not.
      * Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.
-
+     *
      * Examples:
      * match_parens(['()(', ')']) == 'Yes'
      * match_parens([')', ')']) == 'No'
@@ -60,7 +58,7 @@ class MatchParens {
             } else {
                 count--;
             }
-            if(count < 0) {
+            if (count < 0) {
                 flag = false;
             }
         }
@@ -74,7 +72,7 @@ class MatchParens {
             } else {
                 count--;
             }
-            if(count < 0) {
+            if (count < 0) {
                 return "No";
             }
         }

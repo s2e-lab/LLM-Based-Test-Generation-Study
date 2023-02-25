@@ -4,6 +4,7 @@ package scenario3;
 class Fib {
     /**
      * Return n-th Fibonacci number.
+     *
      * > fib(10)
      * 55
      * > fib(1)
@@ -19,14 +20,13 @@ class Fib {
         int a = 0;
         int b = 1;
         int c = 1;
-        for (int i = 0; i <n-1; i++) {
+        for (int i = 0; i < n - 1; i++) {
             c = a + b;
             a = b;
             b = c;
         }
         return c;
     }
-
 
 
 }

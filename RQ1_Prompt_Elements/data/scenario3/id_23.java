@@ -4,6 +4,7 @@ package scenario3;
 class Strlen {
     /**
      * Return length of given string
+     *
      * > strlen('')
      * 0
      * > strlen('abc')

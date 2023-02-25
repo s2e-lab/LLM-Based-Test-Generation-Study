@@ -7,7 +7,8 @@ import java.util.List;
 
 class Intersperse {
     /**
-     * Insert a number 'delimiter' between every two consecutive elements of input list `numbers'
+     * Insert a number 'delimiter' between every two consecutive elements of input list `numbers'.
+     *
      * > intersperse([], 4)
      * []
      * > intersperse([1, 2, 3], 4)

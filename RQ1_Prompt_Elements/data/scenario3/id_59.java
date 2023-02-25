@@ -4,6 +4,7 @@ package scenario3;
 class LargestPrimeFactor {
     /**
      * Return the largest prime factor of n. Assume n > 1 and is not a prime.
+     *
      * > largestPrimeFactor(2048)
      * 2
      * > largestPrimeFactor(15)

@@ -3,8 +3,6 @@ package scenario3;
 import java.util.Arrays;
 
 
-
-
 class SplitWords {
     /**
      * * Given a string of words, return a list of words split on whitespace, if no whitespaces exists in the text you
@@ -13,7 +11,7 @@ class SplitWords {
      * Examples
      * split_words("Hello world!") ➞ ["Hello", "world!"]
      * split_words("Hello,world!") ➞ ["Hello", "world!"]
-     * split_words("abcdef") == 3 
+     * split_words("abcdef") == 3
      *
      * > splitWords("Hello world!")
      * ["Hello", "world!"]
@@ -47,7 +45,6 @@ class SplitWords {
             return count;
         }
     }
-
 
 
 }

@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
-
 class ReverseDelete {
     /**
      * Task
@@ -54,7 +52,6 @@ class ReverseDelete {
         }
         return Arrays.asList(result, isPalindrome);
     }
-
 
 
 }

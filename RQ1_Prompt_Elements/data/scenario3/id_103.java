@@ -4,7 +4,7 @@ package scenario3;
 class RoundedAvg {
     /**
      * You are given two positive integers n and m, and your task is to compute the
-     * average of the integers from n through m (including n and m). 
+     * average of the integers from n through m (including n and m).
      * Round the answer to the nearest integer and convert that to binary.
      * If n is greater than m, return -1.
      * Example:
@@ -46,11 +46,10 @@ class RoundedAvg {
         for (int i = n; i <= m; i++) {
             sum += i;
         }
-        double avg = (sum*1.0) / (m - n + 1);
+        double avg = (sum * 1.0) / (m - n + 1);
         int roundedAvg = (int) Math.round(avg);
-        return "0b"+Integer.toBinaryString(roundedAvg);
+        return "0b" + Integer.toBinaryString(roundedAvg);
     }
-
 
 
 }
