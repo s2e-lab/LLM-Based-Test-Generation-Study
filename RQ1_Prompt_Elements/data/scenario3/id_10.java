@@ -6,13 +6,12 @@ class MakePalindrome {
      * Algorithm idea is simple:
      * - Find the longest postfix of supplied string that is a palindrome.
      * - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.
-     * >>> make_palindrome('')
+     * > makePalindrome('')
      * ''
-     * >>> make_palindrome('cat')
+     * > makePalindrome('cat')
      * 'catac'
-     * >>> make_palindrome('cata')
+     * > makePalindrome('cata')
      * 'catac'
-     *
      * > makePalindrome("")
      * ""
      * > makePalindrome("x")
