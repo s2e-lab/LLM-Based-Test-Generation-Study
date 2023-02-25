@@ -39,8 +39,9 @@ public class PromptUtilsTest {
                 "\tpublic Void nonTestableMethod2(Integer a, int n) {}\n" +
                 "\tprotected String nonTestableMethod3(Integer a, int n) {}\n" +
                 "\tpublic static List testableMethod3(Integer a, int n) {}\n" +
-                "\tpublic static List getName() {}\n" +
-                "\tpublic static void setName() {}\n" +
+                "\tpublic List getName() {}\n" +
+                "\tpublic void setName() {}\n" +
+                "\tpublic String toString() {}\n" +
                 "}\nclass PromptUtilsTest {} ");
         List<String> testableMethods = PromptUtils.getTestableMethodSignatures(PromptUtils.computePrimaryClass(cu));
         assertEquals(3, testableMethods.size());

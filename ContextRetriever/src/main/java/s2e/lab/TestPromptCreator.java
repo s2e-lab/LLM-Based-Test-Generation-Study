@@ -54,7 +54,7 @@ public class TestPromptCreator {
     private static List<HashMap<String, String>> generateTestPrompt(File javaFile) throws FileNotFoundException {
 
         List<HashMap<String, String>> outputList = new ArrayList<>();
-//        System.out.println("File: " + javaFile.getName());
+        System.out.println("File: " + javaFile.getName());
         CompilationUnit cu = StaticJavaParser.parse(javaFile);
 
         // get the class name
@@ -67,9 +67,9 @@ public class TestPromptCreator {
             String suffix = testableMethods.size() == 1 ?
                     "" : // if only one, don't bother with the suffix
                     String.format("%0" + testableMethods.size() + "d", i);
-            if(!suffix.isEmpty()) System.err.println(javaFile);
+
             HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, "ten", cu, classDeclaration.getNameAsString(), methodSignature, suffix);
-//            System.out.println(outputMap.get("test_prompt"));
+            System.out.println(outputMap.get("test_prompt"));
             outputList.add(outputMap);
         }
         return outputList;
