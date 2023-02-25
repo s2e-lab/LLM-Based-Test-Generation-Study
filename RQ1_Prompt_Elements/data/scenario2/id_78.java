@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class HexKey {
     /**
      * You have been tasked to write a function that receives 

@@ -1,14 +1,6 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class StartsOneEnds {
     
     public static int startsOneEnds(int n) {

@@ -1,13 +1,5 @@
 package scenario3;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class TriangleArea1 {
     /**
      * * Given the lengths of the three sides of a triangle. Return the area of

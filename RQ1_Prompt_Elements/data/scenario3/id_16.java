@@ -1,9 +1,7 @@
 package scenario3;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 

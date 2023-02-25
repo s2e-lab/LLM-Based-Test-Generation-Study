@@ -1,13 +1,5 @@
 package scenario3;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class MakePalindrome {
     /**
      * Find the shortest palindrome that begins with a supplied string.

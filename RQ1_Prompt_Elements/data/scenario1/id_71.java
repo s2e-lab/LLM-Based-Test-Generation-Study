@@ -1,14 +1,6 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class TriangleArea1 {
     
     public static Number triangleArea(int a, int b, int c) {

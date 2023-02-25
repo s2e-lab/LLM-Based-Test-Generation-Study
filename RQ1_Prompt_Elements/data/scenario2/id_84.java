@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class Solve1 {
     /**
      * Given a positive integer N, return the total sum of its digits in binary.

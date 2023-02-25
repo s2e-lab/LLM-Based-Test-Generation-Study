@@ -1,15 +1,6 @@
 package scenario2;
 
 
-
-
-
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class CompareOne {
     /**
      * * Create a function that takes integers, floats, or strings representing

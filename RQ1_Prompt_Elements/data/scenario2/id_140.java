@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class FixSpaces {
     /**
      * * Given a string text, replace all spaces in it with underscores, 

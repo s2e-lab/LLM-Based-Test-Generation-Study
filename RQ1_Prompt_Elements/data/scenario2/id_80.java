@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class IsHappy {
     /**
      * You are given a string s.

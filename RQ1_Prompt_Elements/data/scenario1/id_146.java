@@ -1,10 +1,10 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 

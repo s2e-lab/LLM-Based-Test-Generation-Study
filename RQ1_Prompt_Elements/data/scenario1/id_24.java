@@ -1,14 +1,6 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class LargestDivisor {
     
     public static int largestDivisor(int n) {

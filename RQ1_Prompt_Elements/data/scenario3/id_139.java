@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class SpecialFactorial {
     /**
      * The Brazilian factorial is defined as:

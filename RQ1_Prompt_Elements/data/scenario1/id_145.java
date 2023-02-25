@@ -1,10 +1,9 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 

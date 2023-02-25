@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class RoundedAvg {
     /**
      * You are given two positive integers n and m, and your task is to compute the

@@ -1,13 +1,5 @@
 package scenario3;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class SumToN {
     /**
      * sum_to_n is a function that sums numbers from 1 to n.

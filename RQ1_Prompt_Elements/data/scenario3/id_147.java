@@ -1,13 +1,5 @@
 package scenario3;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class GetMaxTriples {
     /**
      * * You are given a positive integer n. You have to create an integer array a of length n.

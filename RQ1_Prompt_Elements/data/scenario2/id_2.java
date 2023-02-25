@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class TruncateNumber {
     /**
      * Given a positive floating point number, it can be decomposed into

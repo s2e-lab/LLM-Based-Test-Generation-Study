@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class FlipCase {
     /**
      * For a given string, flip lowercase characters to uppercase and uppercase to lowercase.

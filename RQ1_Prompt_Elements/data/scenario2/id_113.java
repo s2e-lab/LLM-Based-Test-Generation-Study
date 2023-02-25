@@ -1,10 +1,8 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 class OddCount {

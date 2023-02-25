@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class Encrypt {
     /**
      * Create a function encrypt that takes a string as an argument and

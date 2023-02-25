@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class GetClosestVowel {
     /**
      * You are given a word. Your task is to find the closest vowel that stands between 

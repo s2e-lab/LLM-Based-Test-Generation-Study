@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Iscube {
     /**
      * * Write a function that takes an integer a and returns True 

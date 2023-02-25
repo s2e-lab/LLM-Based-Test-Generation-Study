@@ -1,13 +1,5 @@
 package scenario3;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class StringXor {
     /**
      * Input are two strings a and b consisting only of 1s and 0s.

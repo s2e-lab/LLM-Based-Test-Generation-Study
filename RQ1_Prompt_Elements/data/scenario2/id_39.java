@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class PrimeFib {
     /**
      * * prime_fib returns n-th number that is a Fibonacci number and it's also prime.

@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class IsMultiplyPrime {
     /**
      * Write a function that returns true if the given number is the multiplication of 3 prime numbers

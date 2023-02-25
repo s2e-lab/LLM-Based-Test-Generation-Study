@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Multiply {
     /**
      * Complete the function that takes two integers and returns 

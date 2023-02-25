@@ -1,14 +1,6 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class GreatestCommonDivisor {
     
     public static int greatestCommonDivisor(int a, int b) {

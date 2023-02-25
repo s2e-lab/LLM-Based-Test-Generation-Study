@@ -1,13 +1,6 @@
 package scenario2;
 
 
-
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class CorrectBracketing {
     /**
      * brackets is a string of "<" and ">".

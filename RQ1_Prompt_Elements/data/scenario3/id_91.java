@@ -1,12 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class IsBored {
     /**
      * * You'll be given a string of words, and your task is to count the number

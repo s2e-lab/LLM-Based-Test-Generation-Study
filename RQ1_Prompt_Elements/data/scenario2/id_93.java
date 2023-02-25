@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class Encode {
     /**
      * * Write a function that takes a message, and encodes in such a 

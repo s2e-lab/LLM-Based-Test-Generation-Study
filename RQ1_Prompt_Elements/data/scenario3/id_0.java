@@ -1,7 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 class HasCloseElements {
