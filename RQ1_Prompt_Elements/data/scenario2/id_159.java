@@ -20,7 +20,7 @@ class Eat {
      * @need : integer
      *     the number of carrots that you need to eat.
      * @remaining : integer
-     *     the number of remaining carrots thet exist in stock
+     *     the number of remaining carrots that exist in stock
      * 
      * Constrain:
      * * 0 <= number <= 1000

@@ -20,7 +20,7 @@ class StrongestExtension {
      * return 'Slices.SErviNGSliCes' since 'SErviNGSliCes' is the strongest extension
      * (its strength is -1).
      * Example:
-     * for Strongest_Extension('my_class', ['AA', 'Be', 'CC']) == 'my_class.AA'
+     * for strongestExtension('my_class', ['AA', 'Be', 'CC']) == 'my_class.AA'
      *
      * > strongestExtension("Watashi", ["tEN", "niNE", "eIGHt8OKe"])
      * "Watashi.eIGHt8OKe"

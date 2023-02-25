@@ -12,15 +12,15 @@ class ValidDate {
      * 4. The date should be in the format: mm-dd-yyyy
      *
      * for example:
-     * valid_date('03-11-2000') => True
+     * validDate('03-11-2000') => True
      *
-     * valid_date('15-01-2012') => False
+     * validDate('15-01-2012') => False
      *
-     * valid_date('04-0-2040') => False
+     * validDate('04-0-2040') => False
      *
-     * valid_date('06-04-2020') => True
+     * validDate('06-04-2020') => True
      *
-     * valid_date('06/04/2020') => False
+     * validDate('06/04/2020') => False
      *
      * > validDate("03-11-2000")
      * true

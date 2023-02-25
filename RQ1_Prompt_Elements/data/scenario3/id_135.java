@@ -12,8 +12,8 @@ class CanArrange {
      * duplicate values.
      *
      * Examples:
-     * can_arrange([1,2,4,3,5]) = 3
-     * can_arrange([1,2,3]) = -1
+     * canArrange([1,2,4,3,5]) = 3
+     * canArrange([1,2,3]) = -1
      *
      * > canArrange([1, 2, 4, 3, 5])
      * 3

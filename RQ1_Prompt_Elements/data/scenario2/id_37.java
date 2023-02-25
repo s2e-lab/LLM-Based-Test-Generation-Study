@@ -9,8 +9,8 @@ import java.util.List;
 class SortEven {
     /**
      * This function takes a list l and returns a list l' such that
-     * l' is identical to l in the odd indicies, while its values at the even indicies are equal
-     * to the values of the even indicies of l, but sorted.
+     * l' is identical to l in the odd indices, while its values at the even indicies are equal
+     * to the values of the even indices of l, but sorted.
     
      */
     public static List<Integer> sortEven(List<Integer> l) {

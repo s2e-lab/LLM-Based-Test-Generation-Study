@@ -5,9 +5,9 @@ class IsEqualToSumEven {
     /**
      * Evaluate whether the given number n can be written as the sum of exactly 4 positive even numbers
      * Example
-     * is_equal_to_sum_even(4) == False
-     * is_equal_to_sum_even(6) == False
-     * is_equal_to_sum_even(8) == True
+     * isEqualToSumEven(4) == False
+     * isEqualToSumEven(6) == False
+     * isEqualToSumEven(8) == True
      *
      * > isEqualToSumEven(4)
      * false

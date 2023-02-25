@@ -21,6 +21,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Utilities for the test prompt creation.
+ * @author Joanna C. S. Santos
+ */
 public class PromptUtils {
     /**
      * The template for the unit test prompt (template is in the resources folder).

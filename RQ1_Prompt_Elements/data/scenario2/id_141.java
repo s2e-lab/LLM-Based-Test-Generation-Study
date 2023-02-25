@@ -13,7 +13,7 @@ class FileNameCheck {
      * - There should not be more than three digits ('0'-'9') in the file's name.
      * - The file's name contains exactly one dot '.'
      * - The substring before the dot should not be empty, and it starts with a letter from 
-     * the latin alphapet ('a'-'z' and 'A'-'Z').
+     * the latin alphabet ('a'-'z' and 'A'-'Z').
      * - The substring after the dot should be one of these: ['txt', 'exe', 'dll']
      
      */

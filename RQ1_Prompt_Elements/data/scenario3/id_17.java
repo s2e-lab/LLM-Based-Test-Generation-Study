@@ -11,7 +11,7 @@ class ParseMusic {
      * Here is a legend:
      * 'o' - whole note, lasts four beats
      * 'o|' - half note, lasts two beats
-     * '.|' - quater note, lasts one beat
+     * '.|' - quarter note, lasts one beat
      *
      * > parseMusic("o o| .| o| o| .| .| .| .| o o")
      * [4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4]
