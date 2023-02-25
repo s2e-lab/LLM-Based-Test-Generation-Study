@@ -7,11 +7,11 @@ class ChangeBase {
      * base numbers are less than 10.
      *
      * > changeBase(8, 3)
-     * '22'
+     * "22"
      * > changeBase(8, 2)
-     * '1000'
+     * "1000"
      * > changeBase(7, 2)
-     * '111'
+     * "111"
      * > changeBase(8, 3)
      * "22"
      * > changeBase(9, 3)

@@ -11,9 +11,9 @@ class BelowZero {
      * at that point function should return True. Otherwise, it should return False.
      *
      * > belowZero([1, 2, 3])
-     * False
+     * false
      * > belowZero([1, 2, -4, 5])
-     * True
+     * true
      * > belowZero([])
      * false
      * > belowZero([1, 2, -3, 1, 2, -3])

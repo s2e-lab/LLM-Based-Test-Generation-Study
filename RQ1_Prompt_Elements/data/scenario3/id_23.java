@@ -5,9 +5,9 @@ class Strlen {
     /**
      * Return length of given string
      *
-     * > strlen('')
+     * > strlen("")
      * 0
-     * > strlen('abc')
+     * > strlen("abc")
      * 3
      * > strlen("")
      * 0
