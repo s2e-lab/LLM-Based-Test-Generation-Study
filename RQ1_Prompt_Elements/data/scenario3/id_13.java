@@ -3,12 +3,11 @@ package scenario3;
 
 class GreatestCommonDivisor {
     /**
-     * Return a greatest common divisor of two integers a and b
-     * >>> greatest_common_divisor(3, 5)
+     * Return the greatest common divisor of two integers a and b.
+     * > greatestCommonDivisor(3, 5)
      * 1
-     * >>> greatest_common_divisor(25, 15)
+     * > greatestCommonDivisor(25, 15)
      * 5
-     *
      * > greatestCommonDivisor(3, 7)
      * 1
      * > greatestCommonDivisor(10, 15)
@@ -24,7 +23,6 @@ class GreatestCommonDivisor {
         }
         return greatestCommonDivisor(b % a, a);
     }
-
 
 
 }

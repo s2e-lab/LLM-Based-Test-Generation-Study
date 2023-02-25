@@ -9,11 +9,10 @@ import java.util.List;
 class Concatenate {
     /**
      * Concatenate list of strings into a single string
-     * >>> concatenate([])
+     * > concatenate([])
      * ''
-     * >>> concatenate(['a', 'b', 'c'])
+     * > concatenate(['a', 'b', 'c'])
      * 'abc'
-     *
      * > concatenate([])
      * ""
      * > concatenate(["x", "y", "z"])
