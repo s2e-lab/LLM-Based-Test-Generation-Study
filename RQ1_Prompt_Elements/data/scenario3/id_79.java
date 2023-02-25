@@ -11,8 +11,8 @@ class DecimalToBinary {
      * The extra characters are there to help with the format.
      *
      * Examples:
-     * decimal_to_binary(15)   # returns "db1111db"
-     * decimal_to_binary(32)   # returns "db100000db"
+     * - decimalToBinary(15)   # returns "db1111db"
+     * - decimalToBinary(32)   # returns "db100000db"
      *
      * > decimalToBinary(0)
      * "db0db"

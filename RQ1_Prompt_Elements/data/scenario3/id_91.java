@@ -8,9 +8,9 @@ class IsBored {
      * Sentences are delimited by '.', '?' or '!'.
      *
      * For example:
-     * >>> is_bored("Hello world")
+     * >>> isBored("Hello world")
      * 0
-     * >>> is_bored("The sky is blue. The sun is shining. I love this weather")
+     * >>> isBored("The sky is blue. The sun is shining. I love this weather")
      * 1
      *
      * > isBored("Hello world")
