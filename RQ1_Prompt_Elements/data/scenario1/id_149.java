@@ -1,16 +1,14 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 class SortedListSum {
-    
+
     public static List<Object> sortedListSum(List<String> lst) {
         List<Object> result = new ArrayList<Object>();
         for (int i = 0; i < lst.size(); i++) {

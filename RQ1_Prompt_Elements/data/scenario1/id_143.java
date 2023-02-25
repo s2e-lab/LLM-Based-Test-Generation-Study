@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class WordsInSentence {
-    
+
     public static String wordsInSentence(String sentence) {
         String[] words = sentence.split(" ");
         String result = "";
@@ -21,6 +13,7 @@ class WordsInSentence {
         }
         return result.trim();
     }
+
     private static boolean isPrime(int number) {
         if (number <= 1) {
             return false;

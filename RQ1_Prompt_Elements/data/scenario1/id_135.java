@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.List;
 
 
 class CanArrange {
-    
+
     public static int canArrange(List<Object> arr) {
         int max = -1;
         for (int i = 0; i < arr.size(); i++) {

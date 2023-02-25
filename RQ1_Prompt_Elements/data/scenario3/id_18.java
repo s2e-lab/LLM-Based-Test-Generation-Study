@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class HowManyTimes {
     /**
      * Find how many times a given substring can be found in the original string. Count overlaping cases.

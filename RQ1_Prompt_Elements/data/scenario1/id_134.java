@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class CheckIfLastCharIsALetter {
-    
+
     public static Boolean checkIfLastCharIsALetter(String txt) {
         if (txt.length() == 0) {
             return false;

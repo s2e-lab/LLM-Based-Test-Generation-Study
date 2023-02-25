@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class HexKey {
-    
+
     public static int hexKey(Object num) {
         int result = 0;
         String hex = num.toString();

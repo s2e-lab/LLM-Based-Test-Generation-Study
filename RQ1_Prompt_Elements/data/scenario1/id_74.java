@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.List;
 
 
 class TotalMatch {
-    
+
     public static List<Object> totalMatch(List<Object> lst1, List<Object> lst2) {
         int sum1 = 0;
         int sum2 = 0;

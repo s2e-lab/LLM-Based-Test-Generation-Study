@@ -1,13 +1,6 @@
 package scenario2;
 
 
-
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class ClosestInteger {
     /**
      * * Create a function that takes a value (string) representing a number

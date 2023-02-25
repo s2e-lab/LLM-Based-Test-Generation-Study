@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class CircularShift {
-    
+
     public static String circularShift(int x, int shift) {
         String result = "";
         String xString = Integer.toString(x);

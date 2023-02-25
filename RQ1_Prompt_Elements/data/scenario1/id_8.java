@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class SumProduct {
-    
+
     public static List<Integer> sumProduct(List<Object> numbers) {
         Integer sum = 0;
         Integer product = 1;

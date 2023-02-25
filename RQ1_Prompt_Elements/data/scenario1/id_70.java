@@ -1,16 +1,13 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 class StrangeSortList {
-    
+
     public static List<Object> strangeSortList(List<Object> lst) {
         List<Object> result = new ArrayList<Object>();
         List<Integer> sorted = new ArrayList<Integer>();

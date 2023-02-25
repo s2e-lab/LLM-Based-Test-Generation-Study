@@ -1,13 +1,5 @@
 package scenario3;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class FruitDistribution {
     /**
      * * In this task, you will be given a string that represents a number of apples and oranges 

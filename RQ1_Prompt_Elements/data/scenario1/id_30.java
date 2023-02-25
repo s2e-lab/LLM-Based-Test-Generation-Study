@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class GetPositive {
-    
+
     public static List<Object> getPositive(List<Object> l) {
         List<Object> result = new ArrayList<Object>();
         for (Object value : l) {

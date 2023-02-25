@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class ParseNestedParens {
-    
+
     public static List<Integer> parseNestedParens(String parenString) {
         List<Integer> result = new ArrayList<Integer>();
         int count = 0;
@@ -21,7 +17,7 @@ class ParseNestedParens {
                 maximum_depth = Math.max(maximum_depth, count);
             } else if (parenString.charAt(i) == ')') {
                 count--;
-                if(count==0){
+                if (count == 0) {
                     result.add(maximum_depth);
                     maximum_depth = 0;
 

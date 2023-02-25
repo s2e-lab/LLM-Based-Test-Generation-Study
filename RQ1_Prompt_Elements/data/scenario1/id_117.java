@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class SelectWords {
-    
+
     public static List<Object> selectWords(String s, int n) {
         List<Object> result = new ArrayList<>();
         String[] words = s.split(" ");

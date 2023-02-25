@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class CycpatternCheck {
     /**
      * You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word

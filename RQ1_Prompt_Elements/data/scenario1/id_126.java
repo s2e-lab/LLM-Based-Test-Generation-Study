@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.HashMap;
+import java.util.List;
 
 
 class IsSorted {
-    
+
     public static Boolean isSorted(List<Object> lst) {
         if (lst.size() <= 1) {
             return true;

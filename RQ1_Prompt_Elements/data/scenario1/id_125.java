@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.Arrays;
 
 
 class SplitWords {
-    
+
     public static Object splitWords(String txt) {
         if (txt.contains(" ")) {
             return Arrays.asList(txt.split(" "));

@@ -1,22 +1,17 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class Intersperse {
     /**
-     * Insert a number 'delimeter' between every two consecutive elements of input list `numbers'
-     * >>> intersperse([], 4)
+     * Insert a number 'delimiter' between every two consecutive elements of input list `numbers'
+     * > intersperse([], 4)
      * []
-     * >>> intersperse([1, 2, 3], 4)
+     * > intersperse([1, 2, 3], 4)
      * [1, 4, 2, 4, 3]
-     *
      * > intersperse([], 7)
      * []
      * > intersperse([5, 6, 3, 2], 8)
@@ -34,7 +29,6 @@ class Intersperse {
         }
         return result;
     }
-
 
 
 }

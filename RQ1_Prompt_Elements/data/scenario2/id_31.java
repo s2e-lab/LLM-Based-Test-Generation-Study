@@ -1,11 +1,5 @@
 package scenario2;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class IsPrime {
     /**
      * Return true if a given number is prime, and false otherwise.

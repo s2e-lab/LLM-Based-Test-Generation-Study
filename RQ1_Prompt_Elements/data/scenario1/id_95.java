@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.Map;
 
 
 class CheckDictCase {
-    
+
     public static Boolean checkDictCase(Object dict) {
         if (dict instanceof Map) {
             Map m = (Map) dict;

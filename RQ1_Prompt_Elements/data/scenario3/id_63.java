@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Fibfib {
     /**
      * The FibFib number sequence is a sequence similar to the Fibbonacci sequnece that's defined as follows:

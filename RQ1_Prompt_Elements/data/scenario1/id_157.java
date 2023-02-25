@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class RightAngleTriangle {
-    
+
     public static Boolean rightAngleTriangle(int a, int b, int c) {
         if (a == b || b == c || a == c) {
             return false;

@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class Fib4 {
     /**
      * The Fib4 number sequence is a sequence similar to the Fibbonacci sequnece that's defined as follows:

@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class VowelsCount {
-    
+
     public static int vowelsCount(String s) {
         int count = 0;
         for (int i = 0; i < s.length(); i++) {

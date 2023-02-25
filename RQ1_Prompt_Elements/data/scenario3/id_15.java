@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class StringSequence {
     /**
      * Return a string containing space-delimited numbers starting from 0 upto n inclusive.

@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Encrypt {
-    
+
     public static String encrypt(String s) {
         String result = "";
         for (int i = 0; i < s.length(); i++) {

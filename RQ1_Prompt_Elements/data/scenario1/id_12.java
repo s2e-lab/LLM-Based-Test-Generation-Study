@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.List;
 
 
 class Longest {
-    
+
     public static String longest(List<Object> strings) {
         if (strings.size() == 0) {
             return null;

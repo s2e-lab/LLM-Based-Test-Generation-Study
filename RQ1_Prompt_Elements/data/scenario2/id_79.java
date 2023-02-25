@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class DecimalToBinary {
     /**
      * You will be given a number in decimal form and your task is to convert it to

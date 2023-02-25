@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class VowelsCount {
     /**
      * Write a function vowels_count which takes a string representing

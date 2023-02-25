@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class CarRaceCollision {
     /**
      * * Imagine a road that's a perfectly straight infinitely long line.

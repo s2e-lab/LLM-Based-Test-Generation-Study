@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class LargestDivisor {
     /**
      * For a given number n, find the largest number that divides n evenly, smaller than n

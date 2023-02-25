@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class MakePalindrome {
-    
+
     public static String makePalindrome(String string) {
         if (string.length() == 0) {
             return "";

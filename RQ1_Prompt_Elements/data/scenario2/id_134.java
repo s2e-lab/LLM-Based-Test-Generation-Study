@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class CheckIfLastCharIsALetter {
     /**
      * * Create a function that returns True if the last character

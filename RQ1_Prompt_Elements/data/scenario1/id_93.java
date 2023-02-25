@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Encode {
-    
+
     public static String encode(String message) {
         String result = "";
         for (int i = 0; i < message.length(); i++) {

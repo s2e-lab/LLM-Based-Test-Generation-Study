@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Digits {
-    
+
     public static int digits(int n) {
         int res = 1;
         boolean hasOdd = false;

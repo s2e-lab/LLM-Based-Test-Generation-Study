@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class IntToMiniRoman {
     /**
      * * Given a positive integer, obtain its roman numeral equivalent as a string,

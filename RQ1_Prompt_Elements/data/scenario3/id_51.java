@@ -1,13 +1,5 @@
 package scenario3;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class RemoveVowels {
     /**
      * * remove_vowels is a function that takes string and returns string without vowels.

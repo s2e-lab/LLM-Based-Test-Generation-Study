@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class EvenOddPalindrome {
-    
+
     public static List<Integer> evenOddPalindrome(int n) {
         List<Integer> result = new ArrayList<Integer>();
         int even = 0;
@@ -28,6 +24,7 @@ class EvenOddPalindrome {
         result.add(odd);
         return result;
     }
+
     private static boolean isPalindrome(int n) {
         int m = n;
         int reversed = 0;

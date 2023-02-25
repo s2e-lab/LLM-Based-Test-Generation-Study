@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class FizzBuzz {
     /**
      * Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.

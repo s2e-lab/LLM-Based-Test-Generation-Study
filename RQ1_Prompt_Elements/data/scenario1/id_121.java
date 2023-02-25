@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.List;
 
 
 class Solution {
-    
+
     public static int solution(List<Integer> lst) {
         int sum = 0;
         for (int i = 0; i < lst.size(); i++) {

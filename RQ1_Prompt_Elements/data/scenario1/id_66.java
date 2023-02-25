@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Digitsum {
-    
+
     public static int digitsum(String s) {
         int sum = 0;
         for (int i = 0; i < s.length(); i++) {

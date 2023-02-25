@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class AllPrefixes {
-    
+
     public static List<Object> allPrefixes(String string) {
         List<Object> result = new ArrayList<Object>();
         for (int i = 0; i < string.length(); i++) {

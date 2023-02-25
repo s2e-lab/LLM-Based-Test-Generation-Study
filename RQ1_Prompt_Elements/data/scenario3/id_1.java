@@ -1,23 +1,18 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class SeparateParenGroups {
     /**
-     * Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
-     * separate those group into separate strings and return the list of those.
-     * Separate groups are balanced (each open brace is properly closed) and not nested within each other
+     * Input to this function is a string containing multiple groups of nested parentheses.
+     * Your goal is to separate those group into separate strings and return the list of those.
+     * Separate groups are balanced (each open brace is properly closed) and not nested within each other.
      * Ignore any spaces in the input string.
-     * >>> separate_paren_groups('( ) (( )) (( )( ))')
+     * > separateParenGroups('( ) (( )) (( )( ))')
      * ['()', '(())', '(()())']
-     *
      * > separateParenGroups("(()()) ((())) () ((())()())")
      * ["(()())", "((()))", "()", "((())()())"]
      * > separateParenGroups("() (()) ((())) (((())))")
@@ -38,7 +33,7 @@ class SeparateParenGroups {
             } else if (parenString.charAt(i) == ')') {
                 count--;
                 curString.append(')');
-                if(count==0){
+                if (count == 0) {
                     result.add(curString.toString());
                     curString = new StringBuilder();
 

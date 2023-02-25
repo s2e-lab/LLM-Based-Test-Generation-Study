@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class FruitDistribution {
-    
+
     public static int fruitDistribution(String s, int n) {
         int apples = 0;
         int oranges = 0;

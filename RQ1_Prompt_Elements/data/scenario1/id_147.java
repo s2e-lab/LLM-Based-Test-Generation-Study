@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class GetMaxTriples {
-    
+
     public static int getMaxTriples(int n) {
         int count = 0;
         for (int i = 1; i <= n; i++) {

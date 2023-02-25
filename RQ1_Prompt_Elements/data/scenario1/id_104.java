@@ -1,16 +1,14 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 class UniqueDigits {
-    
+
     public static List<Object> uniqueDigits(List<Integer> x) {
         List<Object> result = new ArrayList<Object>();
         for (int value : x) {

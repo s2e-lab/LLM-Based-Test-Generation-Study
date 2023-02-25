@@ -1,16 +1,14 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 class SortArray {
-    
+
     public static List<Object> sortArray(List<Object> arr) {
         List<Object> sorted = new ArrayList<Object>();
         for (int i = 0; i < arr.size(); i++) {
@@ -20,7 +18,7 @@ class SortArray {
                 ones += num % 2;
                 num /= 2;
             }
-            sorted.add(new int[] {ones, ((Number) arr.get(i)).intValue()});
+            sorted.add(new int[]{ones, ((Number) arr.get(i)).intValue()});
         }
         Collections.sort(sorted, new Comparator<Object>() {
             public int compare(Object o1, Object o2) {

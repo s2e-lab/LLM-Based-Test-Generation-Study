@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Modp {
-    
+
     public static int modp(int n, int p) {
         int result = 1;
         for (int i = 0; i < n; i++) {

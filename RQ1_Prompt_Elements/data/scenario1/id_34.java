@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
 import java.util.*;
-import java.math.*;
-
-
 
 
 class Unique {
-    
+
     public static List<Integer> unique(List<Integer> l) {
         Set<Integer> set = new HashSet<Integer>();
         for (Integer i : l) {

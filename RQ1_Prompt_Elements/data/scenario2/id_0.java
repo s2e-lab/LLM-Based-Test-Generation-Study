@@ -1,9 +1,6 @@
 package scenario2;
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
+import java.util.List;
 
 
 

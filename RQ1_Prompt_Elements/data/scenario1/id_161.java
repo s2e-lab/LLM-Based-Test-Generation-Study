@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class Solve {
-    
+
     public static String solve(String s) {
         String result = "";
         boolean hasLetters = false;

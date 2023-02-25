@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class OddCount {
-    
+
     public static List<String> oddCount(List<String> lst) {
         List<String> result = new ArrayList<String>();
         for (int i = 0; i < lst.size(); i++) {

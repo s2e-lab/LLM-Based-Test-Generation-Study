@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.List;
 
 
 class Monotonic {
-    
+
     public static Boolean monotonic(List<Integer> l) {
         int size = l.size();
         if (size == 1) {

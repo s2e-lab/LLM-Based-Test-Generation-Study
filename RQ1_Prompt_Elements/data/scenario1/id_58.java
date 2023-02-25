@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
 import java.util.*;
-import java.math.*;
-
-
 
 
 class Common {
-    
+
     public static List<Object> common(List<Integer> l1, List<Object> l2) {
         Set<Integer> set = new HashSet<Integer>();
         for (Integer value : l1) {

@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.List;
 
 
 class SmallestChange {
-    
+
     public static int smallestChange(List<Integer> arr) {
         int result = 0;
         int i = 0;

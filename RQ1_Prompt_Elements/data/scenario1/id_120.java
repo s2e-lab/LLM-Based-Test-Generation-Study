@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
 import java.util.*;
-import java.math.*;
-
-
 
 
 class Maximum1 {
-    
+
     public static List<Object> maximum(List<Integer> arr, int k) {
         int n = arr.size();
         if (n == 0 || k == 0) {

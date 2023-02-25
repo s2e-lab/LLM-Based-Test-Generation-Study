@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class PrimeLength {
-    
+
     public static Boolean primeLength(String string) {
         int length = string.length();
         if (length == 0 || length == 1) {

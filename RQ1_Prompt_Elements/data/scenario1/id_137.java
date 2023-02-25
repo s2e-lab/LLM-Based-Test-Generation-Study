@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class CompareOne {
-    
+
     public static Object compareOne(Object a, Object b) {
         Object temp_a = a;
         Object temp_b = b;

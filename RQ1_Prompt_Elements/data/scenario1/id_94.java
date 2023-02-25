@@ -1,16 +1,11 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.List;
 
 
 class Skjkasdkd {
-    
+
     public static int skjkasdkd(List<Integer> lst) {
         int largestPrime = 0;
         for (int value : lst) {

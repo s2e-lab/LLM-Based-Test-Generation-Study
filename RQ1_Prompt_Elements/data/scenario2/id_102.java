@@ -1,12 +1,6 @@
 package scenario2;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
 class ChooseNum {
     /**
      * This function takes two positive numbers x and y and returns the

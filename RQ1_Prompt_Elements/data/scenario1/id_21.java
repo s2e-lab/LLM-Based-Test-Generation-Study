@@ -1,15 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class RescaleToUnit {
-    
+
     public static List<Double> rescaleToUnit(List<Double> numbers) {
         List<Double> result = new ArrayList<Double>();
         double min = Double.MAX_VALUE;

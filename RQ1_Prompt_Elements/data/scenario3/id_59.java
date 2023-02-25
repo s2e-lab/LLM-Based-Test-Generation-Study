@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class LargestPrimeFactor {
     /**
      * Return the largest prime factor of n. Assume n > 1 and is not a prime.

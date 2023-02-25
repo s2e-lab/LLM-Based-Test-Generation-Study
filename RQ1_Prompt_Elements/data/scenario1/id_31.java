@@ -1,16 +1,8 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class IsPrime {
-    
+
     public static Boolean isPrime(int n) {
         if (n <= 1) {
             return false;

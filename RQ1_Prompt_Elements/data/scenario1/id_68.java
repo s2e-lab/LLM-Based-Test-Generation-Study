@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 class Pluck {
-    
+
     public static List<Object> pluck(List<Object> arr) {
         List<Object> result = new ArrayList<Object>();
         int min = Integer.MAX_VALUE;

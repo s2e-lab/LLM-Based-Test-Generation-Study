@@ -1,14 +1,6 @@
 package scenario3;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
-
-
 class CircularShift {
     /**
      * Circular shift the digits of the integer x, shift the digits right by shift

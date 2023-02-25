@@ -1,16 +1,12 @@
 package scenario1;
 
 
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-import java.math.*;
-
-
+import java.util.Collections;
+import java.util.List;
 
 
 class Median {
-    
+
     public static Number median(List<Integer> l) {
         Collections.sort(l);
         int size = l.size();
