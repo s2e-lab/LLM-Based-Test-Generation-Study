@@ -17,7 +17,7 @@ import static s2e.lab.PromptUtils.save;
 
 /**
  * This class is used to create the OpenAI prompt for the RQ1.
- * All of these are save in JSON files.
+ * All of these are saved in JSON files.
  */
 public class TestPromptCreator {
     public static String BASE_DIR = "../";
