@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class FilterBySubstring {
     /**
      * Filter an input list of strings only for ones that contain given substring
-     * >>> filter_by_substring([], 'a')
+     * > filterBySubstring([], 'a')
      * []
-     * >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')
+     * > filterBySubstring(['abc', 'bacd', 'cde', 'array'], 'a')
      * ['abc', 'bacd', 'array']
-     *
      * > filterBySubstring([], "john")
      * []
      * > filterBySubstring(["xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx"], "xxx")

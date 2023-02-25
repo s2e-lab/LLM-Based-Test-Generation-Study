@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class FilterIntegers {
     /**
-     * Filter given list of any Java values only for integers
-     * >>> filter_integers(['a', 3.14, 5])
+     * Filter given list of any Java values only for integers.
+     * > filterIntegers(['a', 3.14, 5])
      * [5]
-     * >>> filter_integers([1, 2, 3, 'abc', {}, []])
+     * > filterIntegers([1, 2, 3, 'abc', {}, []])
      * [1, 2, 3]
-     *
      * > filterIntegers([])
      * []
      * > filterIntegers([4, {}, [], 23.2, 9, "adasd"])

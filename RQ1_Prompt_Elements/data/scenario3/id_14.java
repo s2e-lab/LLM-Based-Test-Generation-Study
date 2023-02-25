@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class AllPrefixes {
     /**
-     * Return list of all prefixes from shortest to longest of the input string
-     * >>> all_prefixes('abc')
-     * ['a', 'ab', 'abc']
-     *
+     * Return list of all prefixes from shortest to longest of the input string.
+     * > allPrefixes("abc")
+     * ["a", "ab", "abc"]
      * > allPrefixes("")
      * []
      * > allPrefixes("asdfgh")

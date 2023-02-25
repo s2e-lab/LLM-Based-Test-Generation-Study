@@ -4,17 +4,16 @@ package scenario3;
 class PrimeFib {
     /**
      * * prime_fib returns n-th number that is a Fibonacci number and it's also prime.
-     * >>> prime_fib(1)
+     * > primeFib(1)
      * 2
-     * >>> prime_fib(2)
+     * > primeFib(2)
      * 3
-     * >>> prime_fib(3)
+     * > primeFib(3)
      * 5
-     * >>> prime_fib(4)
+     * > primeFib(4)
      * 13
-     * >>> prime_fib(5)
+     * > primeFib(5)
      * 89
-     *
      * > primeFib(1)
      * 2
      * > primeFib(2)

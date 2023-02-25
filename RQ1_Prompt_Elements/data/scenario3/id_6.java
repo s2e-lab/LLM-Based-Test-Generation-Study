@@ -5,16 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class ParseNestedParens {
     /**
      * Input to this function is a string represented multiple groups for nested parentheses separated by spaces.
      * For each of the group, output the deepest level of nesting of parentheses.
      * E.g. (()()) has maximum two levels of nesting while ((())) has three.
-
-     * > parseNestedParens('(()()) ((())) () ((())()())')
-     * [2, 3, 1, 3]
      * > parseNestedParens("(()()) ((())) () ((())()())")
      * [2, 3, 1, 3]
      * > parseNestedParens("() (()) ((())) (((())))")
@@ -32,7 +27,7 @@ class ParseNestedParens {
                 maximum_depth = Math.max(maximum_depth, count);
             } else if (parenString.charAt(i) == ')') {
                 count--;
-                if(count==0){
+                if (count == 0) {
                     result.add(maximum_depth);
                     maximum_depth = 0;
 

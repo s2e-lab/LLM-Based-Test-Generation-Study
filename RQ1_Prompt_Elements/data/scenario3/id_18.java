@@ -3,14 +3,13 @@ package scenario3;
 
 class HowManyTimes {
     /**
-     * Find how many times a given substring can be found in the original string. Count overlaping cases.
-     * >>> how_many_times('', 'a')
+     * Find how many times a given substring can be found in the original string. Count overlapping cases.
+     * > howManyTimes("", "a")
      * 0
-     * >>> how_many_times('aaa', 'a')
+     * > howManyTimes("aaa", "a")
      * 3
-     * >>> how_many_times('aaaa', 'aa')
+     * > howManyTimes("aaaa", "aa")
      * 3
-     *
      * > howManyTimes("", "x")
      * 0
      * > howManyTimes("xyxyxyx", "x")

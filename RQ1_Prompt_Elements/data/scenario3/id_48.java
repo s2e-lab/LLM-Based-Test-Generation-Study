@@ -3,15 +3,6 @@ package scenario3;
 class IsPalindrome {
     /**
      * * Checks if given string is a palindrome
-     * >>> is_palindrome('')
-     * True
-     * >>> is_palindrome('aba')
-     * True
-     * >>> is_palindrome('aaaaa')
-     * True
-     * >>> is_palindrome('zbcd')
-     * False
-     *
      * > isPalindrome("")
      * true
      * > isPalindrome("aba")

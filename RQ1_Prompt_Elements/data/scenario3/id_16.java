@@ -4,16 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-
-
 class CountDistinctCharacters {
     /**
-     * Given a string, find out how many distinct characters (regardless of case) does it consist of
-     * >>> count_distinct_characters('xyzXYZ')
+     * Given a string, find out how many distinct characters (regardless of case)  it consists  of.
+     * > countDistinctCharacters("xyzXYZ")
      * 3
-     * >>> count_distinct_characters('Jerry')
+     * > countDistinctCharacters("Jerry")
      * 4
-     *
      * > countDistinctCharacters("")
      * 0
      * > countDistinctCharacters("abcde")

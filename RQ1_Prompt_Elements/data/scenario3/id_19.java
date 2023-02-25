@@ -4,16 +4,13 @@ package scenario3;
 import java.util.Arrays;
 
 
-
-
 class SortNumbers {
     /**
-     * Input is a space-delimited string of numberals from 'zero' to 'nine'.
+     * Input is a space-delimited string of numbers from 'zero' to 'nine'.
      * Valid choices are 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight' and 'nine'.
      * Return the string with numbers sorted from smallest to largest
-     * >>> sort_numbers('three one five')
-     * 'one three five'
-     *
+     * > sortNumbers("three one five")
+     * "one three five"
      * > sortNumbers("")
      * ""
      * > sortNumbers("three")
@@ -30,7 +27,7 @@ class SortNumbers {
 
         int[] numbersInt = new int[numbersArray.length];
         for (int i = 0; i < numbersArray.length; i++) {
-            
+
             if (numbersArray[i].equals("zero")) {
                 numbersInt[i] = 0;
             } else if (numbersArray[i].equals("one")) {
@@ -51,8 +48,7 @@ class SortNumbers {
                 numbersInt[i] = 8;
             } else if (numbersArray[i].equals("nine")) {
                 numbersInt[i] = 9;
-            }
-            else{
+            } else {
                 numbersInt[i] = -1;
             }
         }

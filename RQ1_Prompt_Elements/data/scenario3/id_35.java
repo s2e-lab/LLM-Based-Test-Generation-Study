@@ -6,12 +6,11 @@ import java.util.List;
 
 class MaxElement {
     /**
-     * Return maximum element in the list.
-     * >>> max_element([1, 2, 3])
+     * Return the maximum element in the list.
+     * > maxElement([1, 2, 3])
      * 3
-     * >>> max_element([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
+     * > maxElement([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
      * 123
-     *
      * > maxElement([1, 2, 3])
      * 3
      * > maxElement([5, 3, -5, 2, -3, 3, 9, 0, 124, 1, -10])

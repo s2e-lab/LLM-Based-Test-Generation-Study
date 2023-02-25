@@ -5,13 +5,12 @@ class ChangeBase {
      * Change numerical base of input number x to base.
      * return string representation after the conversion.
      * base numbers are less than 10.
-     * >>> change_base(8, 3)
+     * > changeBase(8, 3)
      * '22'
-     * >>> change_base(8, 2)
+     * > changeBase(8, 2)
      * '1000'
-     * >>> change_base(7, 2)
+     * > changeBase(7, 2)
      * '111'
-     *
      * > changeBase(8, 3)
      * "22"
      * > changeBase(9, 3)
