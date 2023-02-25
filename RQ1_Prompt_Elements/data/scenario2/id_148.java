@@ -7,7 +7,7 @@ import java.util.List;
 
 class Bf {
     /**
-     * * There are eight planets in our solar system: the closerst to the Sun 
+     * * There are eight planets in our solar system: the closest to the Sun 
      * is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn, 
      * Uranus, Neptune.
      * Write a function that takes two planet names as strings planet1 and planet2. 
