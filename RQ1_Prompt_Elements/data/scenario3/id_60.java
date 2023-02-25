@@ -2,18 +2,11 @@ package scenario3;
 
 class SumToN {
     /**
-     * sum_to_n is a function that sums numbers from 1 to n.
-     * >>> sum_to_n(30)
-     * 465
-     * >>> sum_to_n(100)
-     * 5050
-     * >>> sum_to_n(5)
+     * sumToN is a function that sums numbers from 1 to n.
+     * > sumToN(5)
      * 15
-     * >>> sum_to_n(10)
+     * > sumToN(10)
      * 55
-     * >>> sum_to_n(1)
-     * 1
-     *
      * > sumToN(1)
      * 1
      * > sumToN(6)
@@ -32,7 +25,6 @@ class SumToN {
         }
         return sum;
     }
-
 
 
 }

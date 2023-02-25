@@ -3,8 +3,6 @@ package scenario2;
 import java.util.List;
 
 
-
-
 class HasCloseElements {
     /**
      * Check if in given list of numbers, are any two numbers closer to each other than

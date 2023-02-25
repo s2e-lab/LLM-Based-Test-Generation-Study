@@ -4,11 +4,6 @@ package scenario3;
 class Add {
     /**
      * Add two numbers x and y
-     * >>> add(2, 3)
-     * 5
-     * >>> add(5, 7)
-     * 12
-     *
      * > add(0, 1)
      * 1
      * > add(1, 0)
@@ -221,7 +216,6 @@ class Add {
     public static int add(int x, int y) {
         return x + y;
     }
-
 
 
 }

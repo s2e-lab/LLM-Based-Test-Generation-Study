@@ -2,20 +2,15 @@ package scenario3;
 
 class RemoveVowels {
     /**
-     * * remove_vowels is a function that takes string and returns string without vowels.
-     * >>> remove_vowels('')
-     * ''
-     * >>> remove_vowels("abcdef\nghijklm")
-     * 'bcdf\nghjklm'
-     * >>> remove_vowels('abcdef')
-     * 'bcdf'
-     * >>> remove_vowels('aaaaa')
-     * ''
-     * >>> remove_vowels('aaBAA')
-     * 'B'
-     * >>> remove_vowels('zbcd')
-     * 'zbcd'
-     *
+     * removeVowels is a function that takes string and returns string without vowels.
+     * > removeVowels("abcdef")
+     * "bcdf"
+     * > removeVowels("aaaaa")
+     * ""
+     * > removeVowels("aaBAA")
+     * "B"
+     * > removeVowels("zbcd")
+     * "zbcd"
      * > removeVowels("")
      * ""
      * > removeVowels("abcdef\nghijklm")
