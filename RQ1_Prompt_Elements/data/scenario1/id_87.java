@@ -7,8 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 
 
-
-
 class GetRow {
 
     public static List<Object> getRow(List<Object> lst, int x) {

@@ -2,7 +2,7 @@ package scenario1;
 
 
 class GetClosestVowel {
-    
+
     public static String getClosestVowel(String word) {
         String vowels = "aeiouAEIOU";
         int i = word.length() - 2;

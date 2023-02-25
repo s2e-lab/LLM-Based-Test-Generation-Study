@@ -2,7 +2,7 @@ package scenario1;
 
 
 class FizzBuzz {
-    
+
     public static int fizzBuzz(int n) {
         int count = 0;
         for (int i = 1; i < n; i++) {

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class Intersperse {
 
     public static List<Object> intersperse(List<Object> numbers, int delimeter) {

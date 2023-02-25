@@ -2,7 +2,7 @@ package scenario1;
 
 
 class CountUpper {
-    
+
     public static int countUpper(String s) {
         int result = 0;
         for (int i = 0; i < s.length(); i++) {

@@ -2,7 +2,7 @@ package scenario1;
 
 
 class Digits {
-    
+
     public static int digits(int n) {
         int res = 1;
         boolean hasOdd = false;

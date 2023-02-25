@@ -4,10 +4,8 @@ package scenario1;
 import java.util.*;
 
 
-
-
 class Unique {
-    
+
     public static List<Integer> unique(List<Integer> l) {
         Set<Integer> set = new HashSet<Integer>();
         for (Integer i : l) {

@@ -2,7 +2,7 @@ package scenario1;
 
 
 class CompareOne {
-    
+
     public static Object compareOne(Object a, Object b) {
         Object temp_a = a;
         Object temp_b = b;

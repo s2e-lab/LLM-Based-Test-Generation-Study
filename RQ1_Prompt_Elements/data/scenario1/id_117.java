@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class SelectWords {
-    
+
     public static List<Object> selectWords(String s, int n) {
         List<Object> result = new ArrayList<>();
         String[] words = s.split(" ");

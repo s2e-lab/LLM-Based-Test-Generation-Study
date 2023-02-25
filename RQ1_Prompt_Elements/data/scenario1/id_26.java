@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class RemoveDuplicates {
-    
+
     public static List<Object> removeDuplicates(List<Object> numbers) {
         List<Object> result = new ArrayList<Object>();
         for (int i = 0; i < numbers.size(); i++) {

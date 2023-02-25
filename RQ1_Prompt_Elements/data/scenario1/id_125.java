@@ -4,10 +4,8 @@ package scenario1;
 import java.util.Arrays;
 
 
-
-
 class SplitWords {
-    
+
     public static Object splitWords(String txt) {
         if (txt.contains(" ")) {
             return Arrays.asList(txt.split(" "));

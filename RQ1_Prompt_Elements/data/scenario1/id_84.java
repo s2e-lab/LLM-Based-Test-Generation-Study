@@ -2,7 +2,7 @@ package scenario1;
 
 
 class Solve1 {
-    
+
     public static String solve(int n) {
         int sum = 0;
         while (n > 0) {

@@ -6,10 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 
-
-
 class FindClosestElements {
-    
+
     public static List<Double> findClosestElements(List<Double> numbers) {
         List<Double> result = new ArrayList<Double>();
         double minDiff = Double.MAX_VALUE;

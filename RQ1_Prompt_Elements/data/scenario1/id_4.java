@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class MeanAbsoluteDeviation {
-    
+
     public static Double meanAbsoluteDeviation(List<Double> numbers) {
         Double mean = 0.0;
         for (Double number : numbers) {

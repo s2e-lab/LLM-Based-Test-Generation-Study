@@ -4,10 +4,8 @@ package scenario1;
 import java.util.Map;
 
 
-
-
 class CheckDictCase {
-    
+
     public static Boolean checkDictCase(Object dict) {
         if (dict instanceof Map) {
             Map m = (Map) dict;

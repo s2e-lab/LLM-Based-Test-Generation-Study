@@ -2,7 +2,7 @@ package scenario1;
 
 
 class ValidDate {
-    
+
     public static Boolean validDate(String date) {
         if (date.length() != 10) {
             return false;

@@ -4,10 +4,8 @@ package scenario1;
 import java.util.Arrays;
 
 
-
-
 class AntiShuffle {
-    
+
     public static String antiShuffle(String s) {
         String[] words = s.split(" ");
         for (int i = 0; i < words.length; i++) {

@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class RollingMax {
-    
+
     public static List<Object> rollingMax(List<Object> numbers) {
         List<Object> result = new ArrayList<Object>();
         Integer max = null;

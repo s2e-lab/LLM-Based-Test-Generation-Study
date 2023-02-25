@@ -4,10 +4,8 @@ package scenario1;
 import java.util.*;
 
 
-
-
 class Common {
-    
+
     public static List<Object> common(List<Integer> l1, List<Object> l2) {
         Set<Integer> set = new HashSet<Integer>();
         for (Integer value : l1) {

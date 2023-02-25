@@ -2,7 +2,7 @@ package scenario1;
 
 
 class IsPalindrome {
-    
+
     public static Boolean isPalindrome(String text) {
         int i = 0;
         int j = text.length() - 1;

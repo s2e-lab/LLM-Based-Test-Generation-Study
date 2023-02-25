@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 
-
-
 class GetOddCollatz {
 
     public static List<Integer> getOddCollatz(int n) {

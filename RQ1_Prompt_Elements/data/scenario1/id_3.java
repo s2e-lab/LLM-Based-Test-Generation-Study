@@ -4,9 +4,6 @@ package scenario1;
 import java.util.List;
 
 
-
-
-
 class BelowZero {
 
     public static Boolean belowZero(List<Object> operations) {

@@ -2,7 +2,7 @@ package scenario1;
 
 
 class CircularShift {
-    
+
     public static String circularShift(int x, int shift) {
         String result = "";
         String xString = Integer.toString(x);

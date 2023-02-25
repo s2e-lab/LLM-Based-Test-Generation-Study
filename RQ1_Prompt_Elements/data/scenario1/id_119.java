@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class MatchParens {
-    
+
     public static String matchParens(List<String> lst) {
         String s1 = lst.get(0);
         String s2 = lst.get(1);
@@ -22,7 +20,7 @@ class MatchParens {
             } else {
                 count--;
             }
-            if(count < 0) {
+            if (count < 0) {
                 flag = false;
             }
         }
@@ -36,7 +34,7 @@ class MatchParens {
             } else {
                 count--;
             }
-            if(count < 0) {
+            if (count < 0) {
                 return "No";
             }
         }

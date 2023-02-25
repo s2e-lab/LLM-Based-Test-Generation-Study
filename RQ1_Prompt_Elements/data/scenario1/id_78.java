@@ -2,7 +2,7 @@ package scenario1;
 
 
 class HexKey {
-    
+
     public static int hexKey(Object num) {
         int result = 0;
         String hex = num.toString();

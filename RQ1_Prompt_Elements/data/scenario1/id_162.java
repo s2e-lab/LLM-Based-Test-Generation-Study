@@ -6,10 +6,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
-
-
 class StringToMd5 {
-    
+
     public static String stringToMd5(String text) {
         if (text.equals("")) {
             return null;

@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class Add1 {
-    
+
     public static int add(List<Integer> lst) {
         int result = 0;
         for (int i = 0; i < lst.size(); i++) {

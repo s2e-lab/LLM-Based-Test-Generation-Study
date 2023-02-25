@@ -2,7 +2,7 @@ package scenario1;
 
 
 class IsHappy {
-    
+
     public static Boolean isHappy(String s) {
         if (s.length() < 3) {
             return false;

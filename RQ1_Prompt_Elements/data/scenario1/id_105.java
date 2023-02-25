@@ -6,10 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 
-
-
 class ByLength {
-    
+
     public static List<Object> byLength(List<Object> arr) {
         List<Integer> sorted = new ArrayList<Integer>();
         for (Object value : arr) {

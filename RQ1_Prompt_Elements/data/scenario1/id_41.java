@@ -2,7 +2,7 @@ package scenario1;
 
 
 class CarRaceCollision {
-    
+
     public static int carRaceCollision(int n) {
         int count = 0;
         for (int i = 0; i < n; i++) {

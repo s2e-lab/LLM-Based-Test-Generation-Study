@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class StrongestExtension {
-    
+
     public static String strongestExtension(String className, List<String> extensions) {
         int max = Integer.MIN_VALUE;
         String result = "";

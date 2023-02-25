@@ -2,7 +2,7 @@ package scenario1;
 
 
 class ClosestInteger {
-    
+
     public static int closestInteger(String value) {
         double d = Double.parseDouble(value);
         if (d > 0) {

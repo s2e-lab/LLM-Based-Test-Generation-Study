@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class Factorize {
-    
+
     public static List<Integer> factorize(int n) {
         List<Integer> result = new ArrayList<Integer>();
         for (int i = 2; i <= n; i++) {

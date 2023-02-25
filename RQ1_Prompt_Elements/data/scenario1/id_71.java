@@ -2,7 +2,7 @@ package scenario1;
 
 
 class TriangleArea1 {
-    
+
     public static Number triangleArea(int a, int b, int c) {
         if (a + b <= c || a + c <= b || b + c <= a) {
             return -1;

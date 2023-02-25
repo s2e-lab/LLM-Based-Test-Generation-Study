@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class ParseMusic {
-    
+
     public static List<Object> parseMusic(String musicString) {
         List<Object> result = new ArrayList<Object>();
         for (int i = 0; i < musicString.length(); i++) {

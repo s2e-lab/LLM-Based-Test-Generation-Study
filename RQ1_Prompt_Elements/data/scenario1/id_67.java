@@ -2,7 +2,7 @@ package scenario1;
 
 
 class FruitDistribution {
-    
+
     public static int fruitDistribution(String s, int n) {
         int apples = 0;
         int oranges = 0;

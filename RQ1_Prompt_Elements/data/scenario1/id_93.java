@@ -2,7 +2,7 @@ package scenario1;
 
 
 class Encode {
-    
+
     public static String encode(String message) {
         String result = "";
         for (int i = 0; i < message.length(); i++) {

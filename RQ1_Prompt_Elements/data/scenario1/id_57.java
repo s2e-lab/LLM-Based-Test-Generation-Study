@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class Monotonic {
-    
+
     public static Boolean monotonic(List<Integer> l) {
         int size = l.size();
         if (size == 1) {

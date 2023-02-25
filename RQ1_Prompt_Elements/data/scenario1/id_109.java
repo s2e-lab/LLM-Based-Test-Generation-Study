@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class MoveOneBall {
-    
+
     public static Boolean moveOneBall(List<Object> arr) {
         if (arr.size() == 0) {
             return true;

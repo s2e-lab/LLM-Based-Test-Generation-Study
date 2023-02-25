@@ -2,7 +2,7 @@ package scenario1;
 
 
 class PrimeLength {
-    
+
     public static Boolean primeLength(String string) {
         int length = string.length();
         if (length == 0 || length == 1) {

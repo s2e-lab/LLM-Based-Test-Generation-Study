@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 class SeparateParenGroups {
-  
+
     public static List<String> separateParenGroups(String parenString) {
         List<String> result = new ArrayList<String>();
         int count = 0;
@@ -19,7 +18,7 @@ class SeparateParenGroups {
             } else if (parenString.charAt(i) == ')') {
                 count--;
                 curString.append(')');
-                if(count==0){
+                if (count == 0) {
                     result.add(curString.toString());
                     curString = new StringBuilder();
 

@@ -2,7 +2,7 @@ package scenario1;
 
 
 class IsPrime {
-    
+
     public static Boolean isPrime(int n) {
         if (n <= 1) {
             return false;

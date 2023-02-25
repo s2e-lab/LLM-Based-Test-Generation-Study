@@ -2,7 +2,7 @@ package scenario1;
 
 
 class XOrY {
-    
+
     public static int xOrY(int n, int x, int y) {
         if (n == 1) {
             return y;

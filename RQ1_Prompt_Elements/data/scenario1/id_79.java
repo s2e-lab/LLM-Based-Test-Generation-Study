@@ -2,7 +2,7 @@ package scenario1;
 
 
 class DecimalToBinary {
-    
+
     public static String decimalToBinary(int decimal) {
         String binary = "";
         if (decimal == 0) {

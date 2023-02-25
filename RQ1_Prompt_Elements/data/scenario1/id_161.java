@@ -2,7 +2,7 @@ package scenario1;
 
 
 class Solve {
-    
+
     public static String solve(String s) {
         String result = "";
         boolean hasLetters = false;

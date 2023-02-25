@@ -2,7 +2,7 @@ package scenario1;
 
 
 class CorrectBracketing1 {
-    
+
     public static Boolean correctBracketing(String brackets) {
         int count = 0;
         for (int i = 0; i < brackets.length(); i++) {

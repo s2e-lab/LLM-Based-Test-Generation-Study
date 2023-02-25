@@ -2,7 +2,7 @@ package scenario1;
 
 
 class PrimeFib {
-    
+
     public static int primeFib(int n) {
         int a = 1;
         int b = 1;
@@ -18,6 +18,7 @@ class PrimeFib {
         }
         return c;
     }
+
     private static Boolean isPrime(int n) {
         if (n <= 1) {
             return false;

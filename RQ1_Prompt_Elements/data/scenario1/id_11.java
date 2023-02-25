@@ -2,7 +2,7 @@ package scenario1;
 
 
 class StringXor {
-    
+
     public static String stringXor(String a, String b) {
         String result = "";
         for (int i = 0; i < a.length(); i++) {

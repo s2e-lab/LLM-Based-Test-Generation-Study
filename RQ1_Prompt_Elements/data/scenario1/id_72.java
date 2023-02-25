@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class WillItFly {
-    
+
     public static Boolean willItFly(List<Integer> q, int w) {
         int sum = 0;
         for (int i = 0; i < q.size(); i++) {

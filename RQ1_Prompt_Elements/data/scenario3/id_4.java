@@ -3,8 +3,6 @@ package scenario3;
 import java.util.List;
 
 
-
-
 class MeanAbsoluteDeviation {
     /**
      * For a given list of input numbers, calculate Mean Absolute Deviation
@@ -12,9 +10,8 @@ class MeanAbsoluteDeviation {
      * Mean Absolute Deviation is the average absolute difference between each
      * element and a centerpoint (mean in this case):
      * MAD = average | x - x_mean |
-     * >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
+     * > meanAbsoluteDeviation([1.0, 2.0, 3.0, 4.0])
      * 1.0
-     *
      * > meanAbsoluteDeviation([1.0, 2.0, 3.0])
      * 0.6666666666666666
      * > meanAbsoluteDeviation([1.0, 2.0, 3.0, 4.0])
@@ -34,7 +31,6 @@ class MeanAbsoluteDeviation {
         }
         return mad / numbers.size();
     }
-
 
 
 }

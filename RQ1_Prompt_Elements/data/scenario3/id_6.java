@@ -13,9 +13,8 @@ class ParseNestedParens {
      * For each of the group, output the deepest level of nesting of parentheses.
      * E.g. (()()) has maximum two levels of nesting while ((())) has three.
 
-     * >>> parse_nested_parens('(()()) ((())) () ((())()())')
+     * > parseNestedParens('(()()) ((())) () ((())()())')
      * [2, 3, 1, 3]
-     *
      * > parseNestedParens("(()()) ((())) () ((())()())")
      * [2, 3, 1, 3]
      * > parseNestedParens("() (()) ((())) (((())))")

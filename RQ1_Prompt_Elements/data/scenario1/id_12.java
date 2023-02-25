@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class Longest {
-    
+
     public static String longest(List<Object> strings) {
         if (strings.size() == 0) {
             return null;

@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
-
 class ReverseDelete {
-    
+
     public static List<Object> reverseDelete(String s, String c) {
         String result = "";
         for (int i = 0; i < s.length(); i++) {

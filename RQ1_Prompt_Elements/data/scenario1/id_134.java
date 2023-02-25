@@ -2,7 +2,7 @@ package scenario1;
 
 
 class CheckIfLastCharIsALetter {
-    
+
     public static Boolean checkIfLastCharIsALetter(String txt) {
         if (txt.length() == 0) {
             return false;

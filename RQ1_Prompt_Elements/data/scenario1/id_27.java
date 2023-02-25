@@ -2,7 +2,7 @@ package scenario1;
 
 
 class FlipCase {
-    
+
     public static String flipCase(String string) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {

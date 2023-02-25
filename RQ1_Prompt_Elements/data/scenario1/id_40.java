@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class TriplesSumToZero {
-    
+
     public static Boolean triplesSumToZero(List<Integer> l) {
         for (int i = 0; i < l.size(); i++) {
             for (int j = i + 1; j < l.size(); j++) {

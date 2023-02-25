@@ -6,7 +6,7 @@ import java.util.List;
 
 
 class IncrList {
-    
+
     public static List<Object> incrList(List<Object> l) {
         List<Object> result = new ArrayList<Object>();
         for (Object value : l) {

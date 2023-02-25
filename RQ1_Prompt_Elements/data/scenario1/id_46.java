@@ -2,7 +2,7 @@ package scenario1;
 
 
 class Fib4 {
-    
+
     public static int fib4(int n) {
         if (n < 2) {
             return 0;

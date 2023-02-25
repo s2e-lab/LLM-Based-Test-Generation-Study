@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class CountUpTo {
 
     public static List<Object> countUpTo(int n) {
@@ -20,6 +18,7 @@ class CountUpTo {
         }
         return result;
     }
+
     private static boolean isPrime(int n) {
         int i = 2;
         while (i < n) {

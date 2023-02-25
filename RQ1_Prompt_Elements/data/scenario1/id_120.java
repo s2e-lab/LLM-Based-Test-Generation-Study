@@ -4,10 +4,8 @@ package scenario1;
 import java.util.*;
 
 
-
-
 class Maximum1 {
-    
+
     public static List<Object> maximum(List<Integer> arr, int k) {
         int n = arr.size();
         if (n == 0 || k == 0) {

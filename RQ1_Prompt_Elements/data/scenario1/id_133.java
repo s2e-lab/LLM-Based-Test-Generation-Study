@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class SumSquares {
-    
+
     public static int sumSquares(List<Number> lst) {
         int sum = 0;
         for (Number n : lst) {

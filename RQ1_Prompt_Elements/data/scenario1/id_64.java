@@ -2,7 +2,7 @@ package scenario1;
 
 
 class VowelsCount {
-    
+
     public static int vowelsCount(String s) {
         int count = 0;
         for (int i = 0; i < s.length(); i++) {

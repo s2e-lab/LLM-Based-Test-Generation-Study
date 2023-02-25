@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class Search {
-    
+
     public static int search(List<Integer> lst) {
         int max = -1;
         int[] freq = new int[11];

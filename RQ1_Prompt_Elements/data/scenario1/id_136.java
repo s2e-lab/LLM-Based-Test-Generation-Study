@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class LargestSmallestIntegers {
-    
+
     public static List<Integer> largestSmallestIntegers(List<Object> lst) {
         List<Integer> result = new ArrayList<Integer>();
         int largestNegative = Integer.MIN_VALUE;

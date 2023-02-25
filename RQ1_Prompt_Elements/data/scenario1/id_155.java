@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
-
 class EvenOddCount {
-    
+
     public static List<Integer> evenOddCount(int num) {
         int even = 0;
         int odd = 0;

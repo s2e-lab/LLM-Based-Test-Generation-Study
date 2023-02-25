@@ -2,7 +2,7 @@ package scenario1;
 
 
 class MakePalindrome {
-    
+
     public static String makePalindrome(String string) {
         if (string.length() == 0) {
             return "";

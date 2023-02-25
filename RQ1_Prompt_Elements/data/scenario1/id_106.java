@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class F {
-    
+
     public static List<Integer> f(int n) {
         List<Integer> result = new ArrayList<Integer>();
         for (int i = 1; i <= n; i++) {

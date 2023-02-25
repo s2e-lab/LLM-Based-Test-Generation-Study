@@ -2,7 +2,7 @@ package scenario1;
 
 
 class RightAngleTriangle {
-    
+
     public static Boolean rightAngleTriangle(int a, int b, int c) {
         if (a == b || b == c || a == c) {
             return false;

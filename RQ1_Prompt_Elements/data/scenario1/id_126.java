@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 
-
-
 class IsSorted {
-    
+
     public static Boolean isSorted(List<Object> lst) {
         if (lst.size() <= 1) {
             return true;

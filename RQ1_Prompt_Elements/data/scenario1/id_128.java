@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class ProdSigns {
-    
+
     public static Integer prodSigns(List<Object> arr) {
         if (arr.isEmpty()) {
             return null;

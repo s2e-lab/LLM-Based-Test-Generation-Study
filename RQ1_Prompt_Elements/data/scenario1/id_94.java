@@ -4,10 +4,8 @@ package scenario1;
 import java.util.List;
 
 
-
-
 class Skjkasdkd {
-    
+
     public static int skjkasdkd(List<Integer> lst) {
         int largestPrime = 0;
         for (int value : lst) {

@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class NumericalLetterGrade {
-    
+
     public static List<String> numericalLetterGrade(List<Number> grades) {
         List<String> result = new ArrayList<String>();
         for (Number grade : grades) {

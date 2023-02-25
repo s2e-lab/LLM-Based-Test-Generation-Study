@@ -2,9 +2,9 @@ package scenario1;
 
 
 class StartsOneEnds {
-    
+
     public static int startsOneEnds(int n) {
-      
+
         int count = 0;
         int start = 1;
         int end = 1;

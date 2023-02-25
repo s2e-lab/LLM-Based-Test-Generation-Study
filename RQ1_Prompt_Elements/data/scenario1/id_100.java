@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class MakeAPile {
-    
+
     public static List<Integer> makeAPile(int n) {
         List<Integer> result = new ArrayList<Integer>();
         int i = 1;
