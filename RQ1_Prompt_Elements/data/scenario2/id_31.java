@@ -1,8 +1,5 @@
 package scenario2;
 
-
-
-import static junit.framework.TestCase.assertTrue;
 import java.io.*;
 import java.lang.*;
 import java.util.*;

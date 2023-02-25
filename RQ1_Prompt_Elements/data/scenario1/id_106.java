@@ -23,4 +23,20 @@ class F {
         return result;
     }
 
+    private static int factorial(int n) {
+        int result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    private static int sum(int n) {
+        int result = 0;
+        for (int i = 1; i <= n; i++) {
+            result += i;
+        }
+        return result;
+    }
+
 }
