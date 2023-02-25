@@ -4,7 +4,6 @@ package scenario2;
 class SameChars {
     /**
      * * Check if two words have the same characters.
-    
      */
     public static Boolean sameChars(String s0, String s1) {
         int[] count0 = new int[26];

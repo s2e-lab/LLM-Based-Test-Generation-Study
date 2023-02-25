@@ -6,7 +6,6 @@ class IntToMiniRoman {
      * * Given a positive integer, obtain its roman numeral equivalent as a string,
      * and return it in lowercase.
      * Restrictions: 1 <= num <= 1000
-
      */
     public static String intToMiniRoman(int number) {
         String result = "";

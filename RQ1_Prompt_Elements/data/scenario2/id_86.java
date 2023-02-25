@@ -11,7 +11,6 @@ class AntiShuffle {
      * are replaced by a new word where all the characters arranged in
      * ascending order based on ascii value.
      * Note: You should keep the order of words and blank spaces in the sentence.
-
      */
     public static String antiShuffle(String s) {
         String[] words = s.split(" ");

@@ -5,7 +5,6 @@ class StringXor {
     /**
      * Input are two strings a and b consisting only of 1s and 0s.
      * Perform binary XOR on these inputs and return result also as a string.
-    
      */
     public static String stringXor(String a, String b) {
         String result = "";

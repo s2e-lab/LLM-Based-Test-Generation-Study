@@ -11,7 +11,6 @@ class StrangeSortList {
      * * Given list of integers, return list in strange order.
      * Strange sorting, is when you start with the minimum value,
      * then maximum of the remaining integers, then minimum and so on.
-
      */
     public static List<Object> strangeSortList(List<Object> lst) {
         List<Object> result = new ArrayList<Object>();

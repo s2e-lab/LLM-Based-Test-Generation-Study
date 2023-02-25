@@ -7,7 +7,6 @@ import java.util.*;
 class Unique {
     /**
      * Return sorted unique elements in a list
-   
      */
     public static List<Integer> unique(List<Integer> l) {
         Set<Integer> set = new HashSet<Integer>();

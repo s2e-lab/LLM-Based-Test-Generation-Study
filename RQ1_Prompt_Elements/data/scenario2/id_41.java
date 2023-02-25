@@ -13,7 +13,6 @@ class CarRaceCollision {
 
      * This function outputs the number of such collisions.
      *
-
      */
     public static int carRaceCollision(int n) {
         int count = 0;

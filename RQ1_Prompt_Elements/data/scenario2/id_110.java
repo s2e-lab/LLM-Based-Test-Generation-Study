@@ -13,7 +13,6 @@ class Exchange {
      * If it is possible to exchange elements between the lst1 and lst2 to make
      * all the elements of lst1 to be even, return "YES".
      * Otherwise, return "NO".
-    
      */
     public static String exchange(List<Integer> lst1, List<Integer> lst2) {
         int count = 0;

@@ -9,7 +9,6 @@ class Simplify {
      * <numerator>/<denominator> where both numerator and denominator are positive whole numbers.
 
      * You can assume that x, and n are valid fractions, and do not have zero as denominator.
-
      */
     public static Boolean simplify(String x, String n) {
     // a, b = x.split("/")

@@ -16,7 +16,6 @@ class ParseMusic {
      * 'o|' - half note, lasts two beats
      * '.|' - quarter note, lasts one beat
 
-    
      */
     public static List<Object> parseMusic(String musicString) {
         List<Object> result = new ArrayList<Object>();

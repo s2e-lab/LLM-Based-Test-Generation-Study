@@ -15,7 +15,6 @@ class EvenOddPalindrome {
      *     1. 1 <= n <= 10^3
      *     2. returned tuple has the number of even and odd integer palindromes respectively.
      *
-    
      */
     public static List<Integer> evenOddPalindrome(int n) {
         List<Integer> result = new ArrayList<Integer>();

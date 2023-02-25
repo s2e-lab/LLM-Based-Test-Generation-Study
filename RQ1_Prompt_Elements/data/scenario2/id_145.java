@@ -12,8 +12,6 @@ class OrderByPoints {
      * in ascending order according to the sum of their digits.
      * Note: if there are several items with similar sum of their digits,
      * order them based on their index in original list.
-
-    
      */
     public static List<Object> orderByPoints(List<Object> nums) {
        Collections.sort(nums, new Comparator<Object>(){

@@ -4,7 +4,6 @@ package scenario2;
 class IsPalindrome {
     /**
      * * Checks if given string is a palindrome
-    
      */
     public static Boolean isPalindrome(String text) {
         int i = 0;

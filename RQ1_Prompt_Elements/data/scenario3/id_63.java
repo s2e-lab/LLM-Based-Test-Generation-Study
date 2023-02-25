@@ -3,7 +3,7 @@ package scenario3;
 
 class Fibfib {
     /**
-     * The FibFib number sequence is a sequence similar to the Fibonacci sequence that's defined as follows:
+     * The FibFib number sequence is a sequence similar to the Fibbonacci sequence that's defined as follows:
      * fibfib(0) == 0
      * fibfib(1) == 0
      * fibfib(2) == 1

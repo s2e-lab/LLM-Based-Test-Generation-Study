@@ -12,7 +12,6 @@ class ReverseDelete {
      * then check if the result string is palindrome.
      * A string is called palindrome if it reads the same backward as forward.
      * You should return a tuple containing the result string and True/False for the check.
-    
      */
     public static List<Object> reverseDelete(String s, String c) {
         String result = "";

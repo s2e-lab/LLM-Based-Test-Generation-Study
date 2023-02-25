@@ -9,7 +9,6 @@ class NextSmallest {
      * * You are given a list of integers.
      * Write a function next_smallest() that returns the 2nd smallest element of the list.
      * Return null if there is no such element.
-    
      */
     public static Integer nextSmallest(List<Object> lst) {
         if (lst.size() <= 1) {

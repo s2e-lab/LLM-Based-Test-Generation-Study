@@ -9,7 +9,6 @@ class RollingMax {
     /**
      * From a given list of integers, generate a list of rolling maximum element found until given moment
      * in the sequence.
-   
      */
     public static List<Object> rollingMax(List<Object> numbers) {
         List<Object> result = new ArrayList<Object>();

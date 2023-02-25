@@ -8,7 +8,6 @@ class Solve {
      * otherwise keep it as it is.
      * If the string contains no letters, reverse the string.
      * The function should return the resulted string.
-    
      */
     public static String solve(String s) {
         String result = "";

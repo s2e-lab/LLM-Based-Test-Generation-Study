@@ -7,7 +7,6 @@ class GetMaxTriples {
      *     For each i (1 ≤ i ≤ n), the value of a[i] = i * i - i + 1.
      *     Return the number of triples (a[i], a[j], a[k]) of a where i < j < k, 
      * and a[i] + a[j] + a[k] is a multiple of 3.
-
      */
     public static int getMaxTriples(int n) {
         int count = 0;

@@ -4,7 +4,6 @@ package scenario2;
 class Modp {
     /**
      * Return 2^n modulo p (be aware of numerics).
-    
      */
     public static int modp(int n, int p) {
         int result = 1;

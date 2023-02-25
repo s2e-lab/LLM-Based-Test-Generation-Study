@@ -2,8 +2,7 @@ package scenario2;
 
 class IsPrime {
     /**
-     * Return true if a given number is prime, and false otherwise.
-     
+     * Return true if a given number is prime, and false otherwise. 
      */
     public static Boolean isPrime(int n) {
         if (n <= 1) {

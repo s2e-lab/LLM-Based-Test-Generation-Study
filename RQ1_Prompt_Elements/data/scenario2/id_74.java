@@ -10,7 +10,6 @@ class TotalMatch {
      * total number of chars in the all strings of the list less than the other list.
 
      * if the two lists have the same number of chars, return the first list.
-
      */
     public static List<Object> totalMatch(List<Object> lst1, List<Object> lst2) {
         int sum1 = 0;

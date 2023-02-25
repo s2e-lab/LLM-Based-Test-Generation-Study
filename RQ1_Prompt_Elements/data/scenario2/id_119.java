@@ -14,7 +14,6 @@ class MatchParens {
      * are balanced. For example: the string '(())()' is good, while the string
      * '())' is not.
      * Return 'Yes' if there's a way to make a good string, and return 'No' otherwise.
-
      */
     public static String matchParens(List<String> lst) {
         String s1 = lst.get(0);

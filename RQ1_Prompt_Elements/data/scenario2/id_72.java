@@ -8,7 +8,6 @@ class WillItFly {
     /**
      * * Write a function that returns True if the object q will fly, and False otherwise.
      * The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.
-
      */
     public static Boolean willItFly(List<Integer> q, int w) {
         int sum = 0;

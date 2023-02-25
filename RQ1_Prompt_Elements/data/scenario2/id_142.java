@@ -12,7 +12,6 @@ class SumSquares1 {
      * multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3. The function will not 
      * change the entries in the list whose indexes are not a multiple of 3 or 4. The function shall then return the sum of all entries. 
      * 
-    
      */
     public static int sumSquares(List<Object> lst) {
     List<Integer> result = new ArrayList<Integer>();

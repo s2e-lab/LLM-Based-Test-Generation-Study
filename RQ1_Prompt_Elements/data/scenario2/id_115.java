@@ -19,7 +19,6 @@ class MaxFill {
      *     * 1 <= grid[:,1].length <= 10^2
      *     * grid[i][j] -> 0 | 1
      *     * 1 <= capacity <= 10
-   
      */
     public static int maxFill(List<List<Integer>> grid, int capacity) {
         int sum = 0;

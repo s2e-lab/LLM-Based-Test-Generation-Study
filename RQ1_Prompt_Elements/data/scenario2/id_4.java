@@ -11,7 +11,6 @@ class MeanAbsoluteDeviation {
      * Mean Absolute Deviation is the average absolute difference between each
      * element and a centerpoint (mean in this case):
      * MAD = average | x - x_mean |
-    
      */
     public static Double meanAbsoluteDeviation(List<Double> numbers) {
         Double mean = 0.0;

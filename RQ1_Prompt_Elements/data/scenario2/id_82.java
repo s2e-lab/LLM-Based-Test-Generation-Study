@@ -5,7 +5,6 @@ class PrimeLength {
     /**
      * Write a function that takes a string and returns True if the string
      * length is a prime number or False otherwise
-    
      */
     public static Boolean primeLength(String string) {
         int length = string.length();

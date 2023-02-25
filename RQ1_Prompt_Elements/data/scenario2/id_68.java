@@ -18,7 +18,6 @@ class Pluck {
      * Constraints:
      *     * 1 <= nodes.length <= 10000
      *     * 0 <= node.value
-    
      */
     public static List<Object> pluck(List<Object> arr) {
         List<Object> result = new ArrayList<Object>();

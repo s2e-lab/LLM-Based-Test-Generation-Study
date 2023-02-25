@@ -7,8 +7,7 @@ class FruitDistribution {
      * that are distributed in a basket of fruit this basket contains 
      * apples, oranges, and mango fruits. Given the string that represents the total number of 
      * the oranges and apples and an integer that represent the total number of the fruits 
-     * in the basket return the number of the mango fruits in the basket.
-     
+     * in the basket return the number of the mango fruits in the basket. 
      */
     public static int fruitDistribution(String s, int n) {
         int apples = 0;

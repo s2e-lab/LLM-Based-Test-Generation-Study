@@ -14,8 +14,6 @@ class MakeAPile {
      *     - the next even number if n is even.
      * Return the number of stones in each level in a list, where element at index
      * i represents the number of stones in the level (i+1).
-
-    
      */
     public static List<Integer> makeAPile(int n) {
         List<Integer> result = new ArrayList<Integer>();

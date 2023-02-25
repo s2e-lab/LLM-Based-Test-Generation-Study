@@ -10,7 +10,6 @@ class Solve1 {
      *          Constraints: 0 ≤ N ≤ 10000.
      * Output:
      *      a string of binary number
-    
      */
     public static String solve(int n) {
         int sum = 0;

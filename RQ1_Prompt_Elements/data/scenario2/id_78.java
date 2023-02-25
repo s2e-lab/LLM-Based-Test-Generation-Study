@@ -13,7 +13,6 @@ class HexKey {
      * B (=decimal 11), D (=decimal 13).
      * Note: you may assume the input is always correct or empty string, 
      * and symbols A,B,C,D,E,F are always uppercase.
-    
      */
     public static int hexKey(Object num) {
         int result = 0;

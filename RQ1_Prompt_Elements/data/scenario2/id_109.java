@@ -21,8 +21,6 @@ class MoveOneBall {
      * If the given array is empty then return True.
 
      * Note: The given list is guaranteed to have unique elements.
-
-    
      */
     public static Boolean moveOneBall(List<Object> arr) {
         if (arr.size() == 0) {
