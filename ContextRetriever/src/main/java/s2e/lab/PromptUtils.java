@@ -98,7 +98,7 @@ public class PromptUtils {
      * @param cu Compilation unit
      * @return the primary class of the compilation unit
      */
-    public static ClassOrInterfaceDeclaration getPrimaryClass(CompilationUnit cu) {
+    public static ClassOrInterfaceDeclaration computePrimaryClass(CompilationUnit cu) {
         Optional<TypeDeclaration<?>> primaryType = cu.getPrimaryType();
         if (primaryType.isPresent()) {
             TypeDeclaration<?> typeDeclaration = primaryType.get();
@@ -119,12 +119,33 @@ public class PromptUtils {
      */
     public static List<String> getTestableMethodSignatures(ClassOrInterfaceDeclaration classDeclaration) {
         return classDeclaration.getMethods().stream()
-                .filter(m -> m.isPublic() && !m.isAbstract() && isNonVoid(m))
+                .filter(m -> isTestable(m))
                 .map(m -> m.getSignature().toString())
                 .collect(Collectors.toList());
     }
 
-    private static boolean isNonVoid(MethodDeclaration m) {
-        return !m.getType().asString().toLowerCase().equals("void");
+    /**
+     * Method to check if a method is testable:
+     * - public
+     * - non-abstract
+     * - non-void
+     * - non-getter/setter
+     * - non-toString
+     *
+     * @param m a method declaration
+     * @return true if testable, false otherwise.
+     */
+    private static boolean isTestable(MethodDeclaration m) {
+        if (!m.isPublic())
+            return false;
+        if (m.isAbstract())
+            return false;
+        if (m.getType().asString().equalsIgnoreCase("void"))
+            return false;
+        if (!m.isStatic() && (m.getNameAsString().startsWith("get") || m.getNameAsString().startsWith("set")))
+            return false;
+        if (m.getNameAsString().equals("toString"))
+            return false;
+        return true;
     }
 }
