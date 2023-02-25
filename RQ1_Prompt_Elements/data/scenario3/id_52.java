@@ -4,11 +4,10 @@ package scenario3;
 import java.util.List;
 
 
-
-
 class BelowThreshold {
     /**
      * Return True if all numbers in the list l are below threshold t.
+     *
      * > belowThreshold([1, 2, 4, 10], 100)
      * true
      * > belowThreshold([1, 20, 4, 10], 5)

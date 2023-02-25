@@ -17,7 +17,7 @@ class StartsOneEnds {
      * 18000
      */
     public static int startsOneEnds(int n) {
-      
+
         int count = 0;
         int start = 1;
         int end = 1;

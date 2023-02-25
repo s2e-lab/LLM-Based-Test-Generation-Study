@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class IncrList {
     /**
      * Return list with elements incremented by 1.
+     *
      * > incrList([1, 2, 3])
      * [2, 3, 4]
      * > incrList([5, 3, 5, 2, 3, 3, 9, 0, 123])

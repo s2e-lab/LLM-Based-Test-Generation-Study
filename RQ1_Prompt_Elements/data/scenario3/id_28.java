@@ -4,11 +4,10 @@ package scenario3;
 import java.util.List;
 
 
-
-
 class Concatenate {
     /**
      * Concatenate list of strings into a single string
+     *
      * > concatenate([])
      * ''
      * > concatenate(['a', 'b', 'c'])
@@ -27,7 +26,6 @@ class Concatenate {
         }
         return result;
     }
-
 
 
 }

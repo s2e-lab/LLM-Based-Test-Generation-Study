@@ -3,6 +3,7 @@ package scenario3;
 class SumToN {
     /**
      * sumToN is a function that sums numbers from 1 to n.
+     *
      * > sumToN(5)
      * 15
      * > sumToN(10)

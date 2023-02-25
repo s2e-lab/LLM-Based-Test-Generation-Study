@@ -10,6 +10,7 @@ class CarRaceCollision {
      * However, the cars are infinitely sturdy and strong; as a result, they continue moving
      * in their trajectory as if they did not collide.
      * This function outputs the number of such collisions.
+     *
      * > carRaceCollision(2)
      * 4
      * > carRaceCollision(3)

@@ -4,6 +4,7 @@ package scenario3;
 class SameChars {
     /**
      * Check if two words have the same characters.
+     *
      * > sameChars("abcd", "dddddddabce")
      * false
      * > sameChars("eabcdzzzz", "dddzzzzzzzddeddabc")

@@ -10,6 +10,7 @@ class FindClosestElements {
     /**
      * From a supplied list of numbers (of length at least two) select and return two that are the closest to each
      * other and return them in order (smaller number, larger number).
+     *
      * > findClosestElements([1.0, 2.0, 3.9, 4.0, 5.0, 2.2])
      * [3.9, 4.0]
      * > findClosestElements([1.0, 2.0, 5.9, 4.0, 5.0])

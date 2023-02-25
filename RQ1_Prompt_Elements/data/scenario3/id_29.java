@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class FilterByPrefix {
     /**
      * Filter an input list of strings only for ones that start with a given prefix.
+     *
      * > filterByPrefix([], 'a')
      * []
      * > filterByPrefix(['abc', 'bcd', 'cde', 'array'], 'a')

@@ -6,17 +6,15 @@ import java.util.Comparator;
 import java.util.List;
 
 
-
-
 class SortArray1 {
     /**
      * * Given an array of non-negative integers, return a copy of the given array after sorting,
      * you will sort the given array in ascending order if the sum( first index value, last index value) is odd,
      * or sort it in descending order if the sum( first index value, last index value) is even.
-
+     *
      * Note:
      * * don't change the given array.
-
+     *
      * Examples:
      * * sort_array([]) => []
      * * sort_array([5]) => [5]
@@ -42,12 +40,12 @@ class SortArray1 {
         if (array.size() <= 1) {
             return array;
         }
-        int sum = (Integer)array.get(0) + (Integer)array.get(array.size() - 1);
+        int sum = (Integer) array.get(0) + (Integer) array.get(array.size() - 1);
         List<Object> sortedArray = new ArrayList<Object>(array);
         Collections.sort(sortedArray, new Comparator<Object>() {
             @Override
             public int compare(Object o1, Object o2) {
-                return (Integer)o1 - (Integer)o2;
+                return (Integer) o1 - (Integer) o2;
             }
         });
         if (sum % 2 == 0) {
@@ -55,7 +53,6 @@ class SortArray1 {
         }
         return sortedArray;
     }
-
 
 
 }

@@ -4,6 +4,7 @@ package scenario3;
 class HowManyTimes {
     /**
      * Find how many times a given substring can be found in the original string. Count overlapping cases.
+     *
      * > howManyTimes("", "a")
      * 0
      * > howManyTimes("aaa", "a")

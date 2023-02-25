@@ -3,6 +3,7 @@ package scenario3;
 class RemoveVowels {
     /**
      * removeVowels is a function that takes string and returns string without vowels.
+     *
      * > removeVowels("abcdef")
      * "bcdf"
      * > removeVowels("aaaaa")

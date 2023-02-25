@@ -4,8 +4,6 @@ package scenario3;
 import java.util.List;
 
 
-
-
 class CountNums {
     /**
      * * Write a function count_nums which takes an array of integers and returns
@@ -38,19 +36,18 @@ class CountNums {
         for (int i = 0; i < arr.size(); i++) {
             int sum = 0;
             int num = (int) arr.get(i);
-            boolean isNegative = num<0;
+            boolean isNegative = num < 0;
             if (isNegative) {
                 num = -num;
             }
             while (num != 0) {
-                if (isNegative && num/10 == 0) {
+                if (isNegative && num / 10 == 0) {
                     sum -= num % 10;
-                }
-                else{
+                } else {
                     sum += num % 10;
                 }
                 num /= 10;
-                
+
             }
             if (sum > 0) {
                 count++;

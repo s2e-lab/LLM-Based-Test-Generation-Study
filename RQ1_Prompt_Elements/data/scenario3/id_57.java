@@ -3,11 +3,10 @@ package scenario3;
 import java.util.List;
 
 
-
-
 class Monotonic {
     /**
      * Return True is list elements are monotonically increasing or decreasing.
+     *
      * > monotonic([1, 2, 4, 10])
      * true
      * > monotonic([1, 2, 4, 20])

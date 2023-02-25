@@ -4,6 +4,7 @@ package scenario3;
 class GreatestCommonDivisor {
     /**
      * Return the greatest common divisor of two integers a and b.
+     *
      * > greatestCommonDivisor(3, 5)
      * 1
      * > greatestCommonDivisor(25, 15)

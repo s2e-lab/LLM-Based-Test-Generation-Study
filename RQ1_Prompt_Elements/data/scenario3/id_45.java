@@ -4,6 +4,7 @@ package scenario3;
 class TriangleArea {
     /**
      * Given length of a side and high return area for a triangle.
+     *
      * > triangleArea(5, 3)
      * 7.5
      * > triangleArea(2, 2)

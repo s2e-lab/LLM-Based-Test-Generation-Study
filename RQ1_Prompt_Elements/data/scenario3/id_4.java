@@ -10,6 +10,7 @@ class MeanAbsoluteDeviation {
      * Mean Absolute Deviation is the average absolute difference between each
      * element and a centerpoint (mean in this case):
      * MAD = average | x - x_mean |
+     *
      * > meanAbsoluteDeviation([1.0, 2.0, 3.0])
      * 0.6666666666666666
      * > meanAbsoluteDeviation([1.0, 2.0, 3.0, 4.0])

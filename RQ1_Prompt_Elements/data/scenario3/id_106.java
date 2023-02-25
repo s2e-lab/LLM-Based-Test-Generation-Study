@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class F {
     /**
      * Implement the function f that takes n as a parameter,
