@@ -16,7 +16,7 @@ public class PromptUtilsTest {
     @Test
     void testPrimaryClassIsFirst() {
         CompilationUnit cu = StaticJavaParser.parse("package s2e.lab;\nclass PromptUtils {}\nclass PromptUtilsTest {} ");
-        ClassOrInterfaceDeclaration primaryClass = PromptUtils.computePrimaryClass(cu);
+        ClassOrInterfaceDeclaration primaryClass = PromptUtils.getPrimaryClass(cu);
         assertEquals("PromptUtils", primaryClass.getNameAsString());
     }
 
@@ -25,7 +25,7 @@ public class PromptUtilsTest {
     void testPrimaryPublicClass() throws FileNotFoundException {
         String path = PromptUtils.class.getClassLoader().getResource("Example1.java").getPath();
         CompilationUnit cu = StaticJavaParser.parse(new File(path));
-        ClassOrInterfaceDeclaration primaryClass = PromptUtils.computePrimaryClass(cu);
+        ClassOrInterfaceDeclaration primaryClass = PromptUtils.getPrimaryClass(cu);
         assertEquals("Example1", primaryClass.getNameAsString());
     }
 
@@ -43,7 +43,7 @@ public class PromptUtilsTest {
                 "\tpublic void setName() {}\n" +
                 "\tpublic String toString() {}\n" +
                 "}\nclass PromptUtilsTest {} ");
-        List<String> testableMethods = PromptUtils.getTestableMethodSignatures(PromptUtils.computePrimaryClass(cu));
+        List<String> testableMethods = PromptUtils.getTestableMethodSignatures(PromptUtils.getPrimaryClass(cu));
         assertEquals(3, testableMethods.size());
         assertEquals("testableMethod1(int)", testableMethods.get(0));
         assertEquals("testableMethod2(Integer, int)", testableMethods.get(1));
