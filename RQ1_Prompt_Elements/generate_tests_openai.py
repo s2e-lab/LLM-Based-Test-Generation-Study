@@ -26,7 +26,7 @@ def load_config(config_file: str) -> dict:
     return config
 
 
-def generate_code(prompt, max_tokens=OPENAI_MAX_TOKENS):
+def generate_code(prompt, max_tokens=OPENAI_MAX_TOKENS, IS_FIX=False):
     """
     Returns a response object from OpenAI enriched with the prompt metadata.
     @param max_tokens: what is the token size limit used (default = OPENAI_MAX_TOKENS)
@@ -35,7 +35,7 @@ def generate_code(prompt, max_tokens=OPENAI_MAX_TOKENS):
     start_time = time.time()
     response = openai.Completion.create(
         model=OPENAI_MODEL,
-        prompt=prompt["original_code"] + "\n" + prompt["test_prompt"].strip(),
+        prompt=prompt["original_code"] + "\n" + prompt["test_prompt"].strip()+ "\n\t\t",
         temperature=OPENAI_TEMPERATURE,
         max_tokens=max_tokens,
         top_p=OPENAI_TOP_P,
@@ -44,7 +44,10 @@ def generate_code(prompt, max_tokens=OPENAI_MAX_TOKENS):
     )
     time_taken = time.time() - start_time
     response["time_taken"] = time_taken
-    response["prompt_id"] = prompt["id"]
+    if IS_FIX:
+        response["prompt_id"] = prompt["prompt_id"]
+    else:
+        response["prompt_id"] = prompt["id"]
     response["original_code"] = prompt["original_code"]
     response["test_prompt"] = prompt["test_prompt"]
     return response
@@ -132,7 +135,7 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
                 print("Duration: ", response['time_taken'],
                       "Finish Reason:", response["choices"][0]["finish_reason"],
                       "\n" + "-" * 30)
-                time.sleep(10)
+                time.sleep(30)
             except Exception as e:
                 print("ERROR", e)
                 mock_response = get_mock_response(prompt, str(e))
