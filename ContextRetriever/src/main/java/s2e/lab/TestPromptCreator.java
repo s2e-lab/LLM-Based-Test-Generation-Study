@@ -6,6 +6,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import s2e.lab.searcher.JavaSearcher;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,41 +33,44 @@ public class TestPromptCreator {
     }
 
     private static void generateOSSPrompts() {
-
+        //TODO traverse the project under test
+        // and pass each class under test to  generateTestPrompt(File javaFile)
     }
 
     private static final void generateHumanEvalPrompts() throws IOException {
         for (int i = 1; i <= 3; i++) {
             File projectDirectory = new File(String.format(RQ1_FOLDER_NAME, i));
-            List<HashMap<String, String>> outputList = generateTestPrompt(projectDirectory);
+            List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
+
+            List<HashMap<String, String>> outputList = new ArrayList<>();
+            for (File javaFile : javaFiles)
+                outputList.addAll(generateTestPrompt(javaFile));
+
             save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, i));
         }
     }
 
-    private static List<HashMap<String, String>> generateTestPrompt(File projectDirectory) throws IOException {
-        List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
+
+    private static List<HashMap<String, String>> generateTestPrompt(File javaFile) throws FileNotFoundException {
 
         List<HashMap<String, String>> outputList = new ArrayList<>();
-        for (File javaFile : javaFiles) {
+//        System.out.println("File: " + javaFile.getName());
+        CompilationUnit cu = StaticJavaParser.parse(javaFile);
 
-            System.out.println("File: " + javaFile.getName());
-            CompilationUnit cu = StaticJavaParser.parse(javaFile);
+        // get the class name
+        ClassOrInterfaceDeclaration classDeclaration = PromptUtils.computePrimaryClass(cu);
 
-            // get the class name
-            ClassOrInterfaceDeclaration classDeclaration = PromptUtils.getPrimaryClass(cu);
-
-            // collect the method name
-            List<String> testableMethods = PromptUtils.getTestableMethodSignatures(classDeclaration);
-            for (int i = 0; i < testableMethods.size(); i++) {
-                String methodSignature = testableMethods.get(i);
-                String suffix = testableMethods.size() == 1 ?
-                        "" : // if only one, don't bother with the suffix
-                        String.format("%0" + testableMethods.size() + "d", i);
-
-                HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, "ten", cu, classDeclaration.getNameAsString(), methodSignature, suffix);
-                System.out.println(outputMap.get("test_prompt"));
-                outputList.add(outputMap);
-            }
+        // collect the method name
+        List<String> testableMethods = PromptUtils.getTestableMethodSignatures(classDeclaration);
+        for (int i = 0; i < testableMethods.size(); i++) {
+            String methodSignature = testableMethods.get(i);
+            String suffix = testableMethods.size() == 1 ?
+                    "" : // if only one, don't bother with the suffix
+                    String.format("%0" + testableMethods.size() + "d", i);
+            if(!suffix.isEmpty()) System.err.println(javaFile);
+            HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, "ten", cu, classDeclaration.getNameAsString(), methodSignature, suffix);
+//            System.out.println(outputMap.get("test_prompt"));
+            outputList.add(outputMap);
         }
         return outputList;
     }
