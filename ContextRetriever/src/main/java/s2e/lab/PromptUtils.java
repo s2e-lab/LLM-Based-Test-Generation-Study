@@ -23,18 +23,26 @@ import java.util.stream.Collectors;
 
 /**
  * Utilities for the test prompt creation.
+ *
  * @author Joanna C. S. Santos
  */
 public class PromptUtils {
     /**
-     * The template for the unit test prompt (template is in the resources folder).
+     * The template for the unit test prompt (template is in the resources' folder).
      */
     public static String UNIT_TEST_TEMPLATE;
+
+    /**
+     * Used for generating Unit Tests for the HumanEval dataset (RQ1).
+     */
+    public static String HUMAN_EVAL_TEST_TEMPLATE;
 
     static {
         try {
             URL templateUrl = TestPromptCreator.class.getClassLoader().getResource("UnitTestTemplate.java");
             UNIT_TEST_TEMPLATE = new String(Files.readAllBytes(Paths.get(templateUrl.getPath())), StandardCharsets.UTF_8);
+            URL humanEvalUrl = TestPromptCreator.class.getClassLoader().getResource("HumanEvalTestTemplate.java");
+            HUMAN_EVAL_TEST_TEMPLATE = new String(Files.readAllBytes(Paths.get(humanEvalUrl.getPath())), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -72,14 +80,12 @@ public class PromptUtils {
                 .map(p -> p.get().toString().strip())
                 .orElse("");
 
-        String importedPackages = cu.getImports().stream()
-                .map(i -> i.toString().strip())
-                .collect(Collectors.joining("\n"));
+
         // fill in the template
         Map<String, Object> params = new HashMap<>();
         params.put("className", className);
         params.put("packageDeclaration", packageDeclaration);
-        params.put("importedPackages", importedPackages);
+        params.put("importedPackages", getImportedPackages(cu));
         params.put("numberTests", numberTests);
         params.put("methodSignature", methodSignature);
         params.put("suffix", suffix);
@@ -94,6 +100,18 @@ public class PromptUtils {
     }
 
     /**
+     * Given a compilation unit, it returns the import statements (ie: `package ... ;`, separated by newline).
+     *
+     * @param cu compilation unit
+     * @return the import statements
+     */
+    public static String getImportedPackages(CompilationUnit cu) {
+        return cu.getImports().stream()
+                .map(i -> i.toString().strip())
+                .collect(Collectors.joining("\n"));
+    }
+
+    /**
      * Get the primary class of the compilation unit.
      * Algorithm:
      * - the class that matches the filename (ex: StringBuilder in a file named StringBuilder.java)
@@ -102,7 +120,7 @@ public class PromptUtils {
      * @param cu Compilation unit
      * @return the primary class of the compilation unit
      */
-    public static ClassOrInterfaceDeclaration computePrimaryClass(CompilationUnit cu) {
+    public static ClassOrInterfaceDeclaration getPrimaryClass(CompilationUnit cu) {
         Optional<TypeDeclaration<?>> primaryType = cu.getPrimaryType();
         if (primaryType.isPresent()) {
             TypeDeclaration<?> typeDeclaration = primaryType.get();

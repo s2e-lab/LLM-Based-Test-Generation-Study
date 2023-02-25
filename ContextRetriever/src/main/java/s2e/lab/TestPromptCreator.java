@@ -59,7 +59,7 @@ public class TestPromptCreator {
         CompilationUnit cu = StaticJavaParser.parse(javaFile);
 
         // get the class name
-        ClassOrInterfaceDeclaration classDeclaration = PromptUtils.computePrimaryClass(cu);
+        ClassOrInterfaceDeclaration classDeclaration = PromptUtils.getPrimaryClass(cu);
 
         // collect the method name
         List<String> testableMethods = PromptUtils.getTestableMethodSignatures(classDeclaration);

@@ -13,7 +13,7 @@ class NumericalLetterGrade {
      * She has given you a list of GPAs for some students and you have to write
      * a function that can output a list of letter grades using the following table:
      * GPA       |    Letter grade
-     * > 4.0                A+
+     * 4.0                A+
      * > 3.7                A
      * > 3.3                A-
      * > 3.0                B+
@@ -25,7 +25,7 @@ class NumericalLetterGrade {
      * > 1.0                D+
      * > 0.7                D
      * > 0.0                D-
-     * > 0.0                E
+     *   0.0                E
      *
      *
      * Example:
