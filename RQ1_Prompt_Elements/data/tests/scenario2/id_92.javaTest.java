@@ -2,6 +2,7 @@ package scenario2;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class AnyIntTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(true, scenario2.AnyInt.anyInt(2, 3, 1));
 		assertEquals(false, scenario2.AnyInt.anyInt(2.5, 2, 3));
 		assertEquals(false, scenario2.AnyInt.anyInt(1.5, 5, 3.5));
@@ -19,7 +21,6 @@ class AnyIntTest {
 		assertEquals(true, scenario2.AnyInt.anyInt(2, 1, 1));
 		assertEquals(true, scenario2.AnyInt.anyInt(3, 4, 7));
 		assertEquals(false, scenario2.AnyInt.anyInt(3.0, 4, 7));
-		assertEquals(public static Boolean anyInt(Number x, Number y, Number z) {, scenario2.AnyInt.*/);
 		
     }
 

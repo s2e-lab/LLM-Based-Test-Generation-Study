@@ -2,6 +2,7 @@ package scenario3;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,9 +10,10 @@ class ChangeBaseTest {
 
     @Test
     public void test() throws Exception{
-        assertEquals('22', scenario3.ChangeBase.changeBase(8, 3));
-		assertEquals('1000', scenario3.ChangeBase.changeBase(8, 2));
-		assertEquals('111', scenario3.ChangeBase.changeBase(7, 2));
+
+        assertEquals("22", scenario3.ChangeBase.changeBase(8, 3));
+		assertEquals("1000", scenario3.ChangeBase.changeBase(8, 2));
+		assertEquals("111", scenario3.ChangeBase.changeBase(7, 2));
 		assertEquals("22", scenario3.ChangeBase.changeBase(8, 3));
 		assertEquals("100", scenario3.ChangeBase.changeBase(9, 3));
 		assertEquals("11101010", scenario3.ChangeBase.changeBase(234, 2));
@@ -24,7 +26,6 @@ class ChangeBaseTest {
 		assertEquals("5", scenario3.ChangeBase.changeBase(5, 6));
 		assertEquals("6", scenario3.ChangeBase.changeBase(6, 7));
 		assertEquals("7", scenario3.ChangeBase.changeBase(7, 8));
-		assertEquals(public static String changeBase(int x, int base) {, scenario3.ChangeBase.*/);
 		
     }
 

@@ -2,6 +2,7 @@ package scenario2;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class FizzBuzzTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(0, scenario2.FizzBuzz.fizzBuzz(50));
 		assertEquals(2, scenario2.FizzBuzz.fizzBuzz(78));
 		assertEquals(3, scenario2.FizzBuzz.fizzBuzz(79));
@@ -20,7 +22,6 @@ class FizzBuzzTest {
 		assertEquals(192, scenario2.FizzBuzz.fizzBuzz(4000));
 		assertEquals(639, scenario2.FizzBuzz.fizzBuzz(10000));
 		assertEquals(8026, scenario2.FizzBuzz.fizzBuzz(100000));
-		assertEquals(public static int fizzBuzz(int n) {, scenario2.FizzBuzz.*/);
 		
     }
 

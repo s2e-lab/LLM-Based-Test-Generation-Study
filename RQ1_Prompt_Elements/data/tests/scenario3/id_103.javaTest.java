@@ -2,6 +2,7 @@ package scenario3;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class RoundedAvgTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals("0b11", scenario3.RoundedAvg.roundedAvg(1, 5));
 		assertEquals("0b1010", scenario3.RoundedAvg.roundedAvg(7, 13));
 		assertEquals("0b1111001010", scenario3.RoundedAvg.roundedAvg(964, 977));
@@ -21,7 +23,6 @@ class RoundedAvgTest {
 		assertEquals(-1, scenario3.RoundedAvg.roundedAvg(7, 5));
 		assertEquals(-1, scenario3.RoundedAvg.roundedAvg(5, 1));
 		assertEquals("0b101", scenario3.RoundedAvg.roundedAvg(5, 5));
-		assertEquals(public static Object roundedAvg(int n, int m) {, scenario3.RoundedAvg.*/);
 		
     }
 

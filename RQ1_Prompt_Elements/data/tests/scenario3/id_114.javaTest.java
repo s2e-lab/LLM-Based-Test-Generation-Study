@@ -2,6 +2,7 @@ package scenario3;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class MinsubarraysumTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(1, scenario3.Minsubarraysum.minsubarraysum(Arrays.asList(2, 3, 4, 1, 2, 4)));
 		assertEquals(-6, scenario3.Minsubarraysum.minsubarraysum(Arrays.asList(-1, -2, -3)));
 		assertEquals(-14, scenario3.Minsubarraysum.minsubarraysum(Arrays.asList(-1, -2, -3, 2, -10)));
@@ -21,7 +23,6 @@ class MinsubarraysumTest {
 		assertEquals(-10, scenario3.Minsubarraysum.minsubarraysum(Arrays.asList(-10)));
 		assertEquals(7, scenario3.Minsubarraysum.minsubarraysum(Arrays.asList(7)));
 		assertEquals(-1, scenario3.Minsubarraysum.minsubarraysum(Arrays.asList(1, -1)));
-		assertEquals(public static long minsubarraysum(List<Object> nums) {, scenario3.Minsubarraysum.*/);
 		
     }
 

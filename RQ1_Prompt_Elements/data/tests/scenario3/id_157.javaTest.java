@@ -2,6 +2,7 @@ package scenario3;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class RightAngleTriangleTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(true, scenario3.RightAngleTriangle.rightAngleTriangle(3, 4, 5));
 		assertEquals(false, scenario3.RightAngleTriangle.rightAngleTriangle(1, 2, 3));
 		assertEquals(true, scenario3.RightAngleTriangle.rightAngleTriangle(10, 6, 8));
@@ -20,7 +22,6 @@ class RightAngleTriangleTest {
 		assertEquals(true, scenario3.RightAngleTriangle.rightAngleTriangle(48, 55, 73));
 		assertEquals(false, scenario3.RightAngleTriangle.rightAngleTriangle(1, 1, 1));
 		assertEquals(false, scenario3.RightAngleTriangle.rightAngleTriangle(2, 2, 10));
-		assertEquals(public static Boolean rightAngleTriangle(int a, int b, int c) {, scenario3.RightAngleTriangle.*/);
 		
     }
 

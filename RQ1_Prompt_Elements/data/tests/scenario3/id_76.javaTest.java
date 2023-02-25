@@ -2,6 +2,7 @@ package scenario3;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class IsSimplePowerTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(true, scenario3.IsSimplePower.isSimplePower(16, 2));
 		assertEquals(false, scenario3.IsSimplePower.isSimplePower(143214, 16));
 		assertEquals(true, scenario3.IsSimplePower.isSimplePower(4, 2));
@@ -19,7 +21,6 @@ class IsSimplePowerTest {
 		assertEquals(false, scenario3.IsSimplePower.isSimplePower(12, 6));
 		assertEquals(true, scenario3.IsSimplePower.isSimplePower(1, 1));
 		assertEquals(true, scenario3.IsSimplePower.isSimplePower(1, 12));
-		assertEquals(public static Boolean isSimplePower(int x, int n) {, scenario3.IsSimplePower.*/);
 		
     }
 

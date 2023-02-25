@@ -58,17 +58,22 @@ public class HumanEvalTestGenerator {
                 break;
         // finds the test cases
         for (int i = start; i < lines.size() - 1; i += 2) {
-            if(!lines.get(i).trim().startsWith("*")) break;
+            if (!lines.get(i).trim().startsWith("*") || !lines.get(i + 1).trim().startsWith("*")) break;
             String invocation = lines.get(i).replace("* > ", "").trim();
             String expected = lines.get(i + 1).replace("* ", "").trim();
-            testBody.append(String.format("assertEquals(%s, scenario%d.%s.%s);\n\t\t", replaceByArray(expected), scenarioNo, className, replaceByArray(invocation)));
+            testBody.append(String.format("assertEquals(%s, scenario%d.%s.%s);\n\t\t", replaceCollection(expected), scenarioNo, className, replaceCollection(invocation)));
         }
         return testBody.toString();
 
 
     }
 
-    private static String replaceByArray(String s) {
-        return s.replace("[", "Arrays.asList(").replace("]", ")");
+    private static String replaceCollection(String s) {
+        String out = s;
+        if (s.contains("["))
+            out = out.replace("[", "Arrays.asList(").replace("]", ")");
+        if (s.contains("{"))
+            out = out.replace("{", "Map.of(").replace("}", ")").replace(": ", ", ");
+        return out;
     }
 }

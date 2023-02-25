@@ -2,6 +2,7 @@ package scenario3;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class RemoveVowelsTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals("bcdf", scenario3.RemoveVowels.removeVowels("abcdef"));
 		assertEquals("", scenario3.RemoveVowels.removeVowels("aaaaa"));
 		assertEquals("B", scenario3.RemoveVowels.removeVowels("aaBAA"));
@@ -20,7 +22,6 @@ class RemoveVowelsTest {
 		assertEquals("cB", scenario3.RemoveVowels.removeVowels("acBAA"));
 		assertEquals("cB", scenario3.RemoveVowels.removeVowels("EcBOO"));
 		assertEquals("ybcd", scenario3.RemoveVowels.removeVowels("ybcd"));
-		assertEquals(public static String removeVowels(String text) {, scenario3.RemoveVowels.*/);
 		
     }
 

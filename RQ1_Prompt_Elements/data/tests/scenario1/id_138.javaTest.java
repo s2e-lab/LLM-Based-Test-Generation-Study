@@ -2,6 +2,7 @@ package scenario1;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class IsEqualToSumEvenTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(false, scenario1.IsEqualToSumEven.isEqualToSumEven(4));
 		assertEquals(false, scenario1.IsEqualToSumEven.isEqualToSumEven(6));
 		assertEquals(true, scenario1.IsEqualToSumEven.isEqualToSumEven(8));
@@ -17,7 +19,6 @@ class IsEqualToSumEvenTest {
 		assertEquals(true, scenario1.IsEqualToSumEven.isEqualToSumEven(12));
 		assertEquals(false, scenario1.IsEqualToSumEven.isEqualToSumEven(13));
 		assertEquals(true, scenario1.IsEqualToSumEven.isEqualToSumEven(16));
-		assertEquals(public static Boolean isEqualToSumEven(int n) {, scenario1.IsEqualToSumEven.*/);
 		
     }
 

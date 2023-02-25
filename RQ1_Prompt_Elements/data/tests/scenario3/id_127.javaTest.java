@@ -2,6 +2,7 @@ package scenario3;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class IntersectionTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals("NO", scenario3.Intersection.intersection(Arrays.asList(1, 2), Arrays.asList(2, 3)));
 		assertEquals("NO", scenario3.Intersection.intersection(Arrays.asList(-1, 1), Arrays.asList(0, 4)));
 		assertEquals("YES", scenario3.Intersection.intersection(Arrays.asList(-3, -1), Arrays.asList(-5, 5)));
@@ -17,7 +19,6 @@ class IntersectionTest {
 		assertEquals("NO", scenario3.Intersection.intersection(Arrays.asList(1, 2), Arrays.asList(3, 5)));
 		assertEquals("NO", scenario3.Intersection.intersection(Arrays.asList(1, 2), Arrays.asList(1, 2)));
 		assertEquals("NO", scenario3.Intersection.intersection(Arrays.asList(-2, -2), Arrays.asList(-3, -2)));
-		assertEquals(public static String intersection(List<Integer> interval1, List<Integer> interval2) {, scenario3.Intersection.*/);
 		
     }
 

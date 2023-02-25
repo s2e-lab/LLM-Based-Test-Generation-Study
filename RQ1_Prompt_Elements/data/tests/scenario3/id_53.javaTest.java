@@ -2,6 +2,7 @@ package scenario3;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class AddTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(1, scenario3.Add.add(0, 1));
 		assertEquals(1, scenario3.Add.add(1, 0));
 		assertEquals(5, scenario3.Add.add(2, 3));
@@ -113,7 +115,6 @@ class AddTest {
 		assertEquals(1468, scenario3.Add.add(886, 582));
 		assertEquals(1598, scenario3.Add.add(886, 712));
 		assertEquals(1795, scenario3.Add.add(842, 953));
-		assertEquals(public static int add(int x, int y) {, scenario3.Add.*/);
 		
     }
 

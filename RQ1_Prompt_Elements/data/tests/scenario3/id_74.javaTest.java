@@ -2,6 +2,7 @@ package scenario3;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class TotalMatchTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(Arrays.asList(), scenario3.TotalMatch.totalMatch(Arrays.asList(), Arrays.asList()));
 		assertEquals(Arrays.asList("hi", "hi"), scenario3.TotalMatch.totalMatch(Arrays.asList("hi", "admin"), Arrays.asList("hi", "hi")));
 		assertEquals(Arrays.asList("hi", "admin"), scenario3.TotalMatch.totalMatch(Arrays.asList("hi", "admin"), Arrays.asList("hi", "hi", "admin", "project")));
@@ -18,7 +20,6 @@ class TotalMatchTest {
 		assertEquals(Arrays.asList("hi", "admin"), scenario3.TotalMatch.totalMatch(Arrays.asList("hi", "admin"), Arrays.asList("hI", "hi", "hii")));
 		assertEquals(Arrays.asList(), scenario3.TotalMatch.totalMatch(Arrays.asList(), Arrays.asList("this")));
 		assertEquals(Arrays.asList(), scenario3.TotalMatch.totalMatch(Arrays.asList("this"), Arrays.asList()));
-		assertEquals(public static List<Object> totalMatch(List<Object> lst1, List<Object> lst2) {, scenario3.TotalMatch.*/);
 		
     }
 

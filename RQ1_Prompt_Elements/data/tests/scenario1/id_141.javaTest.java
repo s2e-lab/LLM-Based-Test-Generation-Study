@@ -2,6 +2,7 @@ package scenario1;
 
 import java.util.Arrays;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class FileNameCheckTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals("Yes", scenario1.FileNameCheck.fileNameCheck("example.txt"));
 		assertEquals("No", scenario1.FileNameCheck.fileNameCheck("1example.dll"));
 		assertEquals("No", scenario1.FileNameCheck.fileNameCheck("s1sdf3.asd"));
@@ -35,7 +37,6 @@ class FileNameCheckTest {
 		assertEquals("No", scenario1.FileNameCheck.fileNameCheck("_f4indsartal132."));
 		assertEquals("No", scenario1.FileNameCheck.fileNameCheck(".txt"));
 		assertEquals("No", scenario1.FileNameCheck.fileNameCheck("s."));
-		assertEquals(public static String fileNameCheck(String fileName) {, scenario1.FileNameCheck.*/);
 		
     }
 

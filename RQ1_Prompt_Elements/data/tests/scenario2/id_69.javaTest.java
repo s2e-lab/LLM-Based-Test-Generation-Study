@@ -2,6 +2,7 @@ package scenario2;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class SearchTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(1, scenario2.Search.search(Arrays.asList(5, 5, 5, 5, 1)));
 		assertEquals(4, scenario2.Search.search(Arrays.asList(4, 1, 4, 1, 4, 4)));
 		assertEquals(-1, scenario2.Search.search(Arrays.asList(3, 3)));
@@ -34,7 +36,6 @@ class SearchTest {
 		assertEquals(1, scenario2.Search.search(Arrays.asList(5, 4, 10, 2, 1, 1, 10, 3, 6, 1, 8)));
 		assertEquals(1, scenario2.Search.search(Arrays.asList(7, 9, 9, 9, 3, 4, 1, 5, 9, 1, 2, 1, 1, 10, 7, 5, 6, 7, 6, 7, 7, 6)));
 		assertEquals(-1, scenario2.Search.search(Arrays.asList(3, 10, 10, 9, 2)));
-		assertEquals(public static int search(List<Integer> lst) {, scenario2.Search.*/);
 		
     }
 

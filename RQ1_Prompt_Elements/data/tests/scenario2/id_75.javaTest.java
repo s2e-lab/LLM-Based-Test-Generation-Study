@@ -2,6 +2,7 @@ package scenario2;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class IsMultiplyPrimeTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(false, scenario2.IsMultiplyPrime.isMultiplyPrime(5));
 		assertEquals(true, scenario2.IsMultiplyPrime.isMultiplyPrime(30));
 		assertEquals(true, scenario2.IsMultiplyPrime.isMultiplyPrime(8));
@@ -19,7 +21,6 @@ class IsMultiplyPrimeTest {
 		assertEquals(false, scenario2.IsMultiplyPrime.isMultiplyPrime(729));
 		assertEquals(false, scenario2.IsMultiplyPrime.isMultiplyPrime(891));
 		assertEquals(true, scenario2.IsMultiplyPrime.isMultiplyPrime(1001));
-		assertEquals(public static Boolean isMultiplyPrime(int a) {, scenario2.IsMultiplyPrime.*/);
 		
     }
 
