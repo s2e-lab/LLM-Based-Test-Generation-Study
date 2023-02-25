@@ -9,7 +9,6 @@ class SpecialFactorial {
 
      * The function will receive an integer as input and should return the special
      * factorial of this integer.
-    
      */
     public static long specialFactorial(int n) {
         long res = 1;

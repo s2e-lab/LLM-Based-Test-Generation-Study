@@ -4,7 +4,6 @@ package scenario2;
 class CycpatternCheck {
     /**
      * You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word
-    
      */
     public static Boolean cycpatternCheck(String a, String b) {
     int l = b.length();

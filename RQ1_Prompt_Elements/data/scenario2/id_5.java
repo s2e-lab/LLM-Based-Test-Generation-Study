@@ -8,7 +8,6 @@ import java.util.List;
 class Intersperse {
     /**
      * Insert a number 'delimeter' between every two consecutive elements of input list `numbers'
-    
      */
     public static List<Object> intersperse(List<Object> numbers, int delimeter) {
         List<Object> result = new ArrayList<Object>();

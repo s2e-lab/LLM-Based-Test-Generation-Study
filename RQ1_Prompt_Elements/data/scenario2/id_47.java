@@ -8,7 +8,6 @@ import java.util.List;
 class Median {
     /**
      * Return median of elements in the list l.
-    
      */
     public static Number median(List<Integer> l) {
         Collections.sort(l);

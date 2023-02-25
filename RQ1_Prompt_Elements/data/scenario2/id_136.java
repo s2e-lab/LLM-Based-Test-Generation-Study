@@ -11,8 +11,6 @@ class LargestSmallestIntegers {
      * the largest of negative integers, and 'b' is the smallest
      * of positive integers in a list.
      * If there is no negative or positive integers, return them as None.
-
-    
      */
     public static List<Integer> largestSmallestIntegers(List<Object> lst) {
         List<Integer> result = new ArrayList<Integer>();

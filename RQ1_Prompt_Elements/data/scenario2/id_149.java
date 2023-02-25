@@ -18,8 +18,7 @@ class SortedListSum {
      * should return the list sorted by that rule.
      * If two words have the same length, sort the list alphabetically.
      * The function should return a list of strings in sorted order.
-     * You may assume that all words will have the same length.
-     
+     * You may assume that all words will have the same length. 
      */
     public static List<Object> sortedListSum(List<String> lst) {
         List<Object> result = new ArrayList<Object>();

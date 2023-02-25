@@ -5,8 +5,7 @@ class IsMultiplyPrime {
     /**
      * Write a function that returns true if the given number is the multiplication of 3 prime numbers
      * and false otherwise.
-     * Knowing that (a) is less then 100. 
-     
+     * Knowing that (a) is less then 100.  
      */
     public static Boolean isMultiplyPrime(int a) {
         int count = 0;

@@ -19,8 +19,6 @@ class GetOddCollatz {
      * Note: 
      *     1. Collatz(1) is [1].
      *     2. returned list sorted in increasing order.
-
-    
      */
     public static List<Integer> getOddCollatz(int n) {
         List<Integer> result = new ArrayList<Integer>();

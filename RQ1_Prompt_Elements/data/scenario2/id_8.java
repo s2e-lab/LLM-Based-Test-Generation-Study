@@ -9,7 +9,6 @@ class SumProduct {
     /**
      * For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
      * Empty sum should be equal to 0 and empty product should be equal to 1.
-    
      */
     public static List<Integer> sumProduct(List<Object> numbers) {
         Integer sum = 0;

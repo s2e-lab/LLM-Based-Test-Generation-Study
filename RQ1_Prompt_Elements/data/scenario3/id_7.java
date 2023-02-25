@@ -8,10 +8,10 @@ import java.util.List;
 class FilterBySubstring {
     /**
      * Filter an input list of strings only for ones that contain given substring
-     * > filterBySubstring([], 'a')
+     * > filterBySubstring([], "a")
      * []
-     * > filterBySubstring(['abc', 'bacd', 'cde', 'array'], 'a')
-     * ['abc', 'bacd', 'array']
+     * > filterBySubstring(["abc", "bacd", "cde", "array"], "a")
+     * ["abc", "bacd", "array"]
      * > filterBySubstring([], "john")
      * []
      * > filterBySubstring(["xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx"], "xxx")

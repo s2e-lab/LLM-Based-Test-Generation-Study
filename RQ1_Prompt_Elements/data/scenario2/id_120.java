@@ -15,7 +15,6 @@ class Maximum1 {
      *     2. The elements in the array will be in the range of [-1000, 1000].
      *     3. 0 <= k <= len(arr)
      *
-    
      */
     public static List<Object> maximum(List<Integer> arr, int k) {
         int n = arr.size();

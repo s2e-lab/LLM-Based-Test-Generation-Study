@@ -14,8 +14,7 @@ class FileNameCheck {
      * - The file's name contains exactly one dot '.'
      * - The substring before the dot should not be empty, and it starts with a letter from 
      * the latin alphapet ('a'-'z' and 'A'-'Z').
-     * - The substring after the dot should be one of these: ['txt', 'exe', 'dll']
-     
+     * - The substring after the dot should be one of these: ['txt', 'exe', 'dll'] 
      */
     public static String fileNameCheck(String fileName) {
     String[] suf = {"txt", "exe", "dll"};

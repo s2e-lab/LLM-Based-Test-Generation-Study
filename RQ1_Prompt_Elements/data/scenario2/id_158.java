@@ -11,7 +11,6 @@ class FindMax {
      * of unique characters. If multiple strings have maximum number of unique
      * characters, return the one which comes first in lexicographical order.
 
-   
      */
     public static String findMax(List<String> words) {
         String max = "";

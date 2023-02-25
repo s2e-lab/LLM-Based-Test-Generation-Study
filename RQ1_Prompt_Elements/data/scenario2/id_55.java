@@ -3,8 +3,7 @@ package scenario2;
 
 class Fib {
     /**
-     * Return n-th Fibonacci number.
-     
+     * Return n-th Fibonacci number. 
      */
     public static int fib(int n) {
         int a = 0;

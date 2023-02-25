@@ -10,7 +10,6 @@ class ProdSigns {
      * sum of magnitudes of integers multiplied by product of all signs
      * of each number in the array, represented by 1, -1 or 0.
      * Note: return null for empty arr.
-
      */
     public static Integer prodSigns(List<Object> arr) {
         if (arr.isEmpty()) {

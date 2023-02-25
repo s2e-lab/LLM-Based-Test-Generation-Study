@@ -7,7 +7,6 @@ class RightAngleTriangle {
      * sides form a right-angled triangle, False otherwise.
      * A right-angled triangle is a triangle in which one angle is right angle or 
      * 90 degree.
-    
      */
     public static Boolean rightAngleTriangle(int a, int b, int c) {
         if (a == b || b == c || a == c) {

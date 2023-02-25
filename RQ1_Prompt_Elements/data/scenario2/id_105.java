@@ -11,8 +11,6 @@ class ByLength {
      * * Given an array of integers, sort the integers that are between 1 and 9 inclusive,
      * reverse the resulting array, and then replace each digit by its corresponding name from
      * "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine".
-
-    
      */
     public static List<Object> byLength(List<Object> arr) {
         List<Integer> sorted = new ArrayList<Integer>();

@@ -9,9 +9,8 @@ import java.util.List;
 class SortThird {
     /**
      * This function takes a list l and returns a list l' such that
-     * l' is identical to l in the indicies that are not divisible by three, while its values at the indicies that are divisible by three are equal
-     * to the values of the corresponding indicies of l, but sorted.
-    
+     * l' is identical to l in the indices that are not divisible by three, while its values at the indices that are divisible by three are equal
+     * to the values of the corresponding indices of l, but sorted.
      */
     public static List<Integer> sortThird(List<Integer> l) {
         List<Integer> l2 = new ArrayList<Integer>(l);

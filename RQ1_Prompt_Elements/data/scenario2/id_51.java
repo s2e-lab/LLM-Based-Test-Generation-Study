@@ -4,7 +4,6 @@ package scenario2;
 class RemoveVowels {
     /**
      * * remove_vowels is a function that takes string and returns string without vowels.
-    
      */
     public static String removeVowels(String text) {
         String result = "";

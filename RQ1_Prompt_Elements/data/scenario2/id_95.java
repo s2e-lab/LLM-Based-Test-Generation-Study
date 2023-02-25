@@ -8,8 +8,7 @@ class CheckDictCase {
     /**
      * * Given a dictionary, return True if all keys are strings in lower 
      * case or all keys are strings in upper case, else return False.
-     * The function should return False is the given dictionary is empty.
-     
+     * The function should return False is the given dictionary is empty. 
      */
     public static Boolean checkDictCase(Object dict) {
         if (dict instanceof Map) {

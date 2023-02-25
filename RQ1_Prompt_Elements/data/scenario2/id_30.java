@@ -8,7 +8,6 @@ import java.util.List;
 class GetPositive {
     /**
      * Return only positive numbers in the list.
-
      */
     public static List<Object> getPositive(List<Object> l) {
         List<Object> result = new ArrayList<Object>();

@@ -10,7 +10,6 @@ class GetClosestVowel {
      * find any vowel met the above condition. 
 
      * You may assume that the given string contains English letter only.
-
      */
     public static String getClosestVowel(String word) {
         String vowels = "aeiouAEIOU";

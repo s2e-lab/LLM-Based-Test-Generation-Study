@@ -8,8 +8,6 @@ import java.util.List;
 class EvenOddCount {
     /**
      * Given an integer. return a tuple that has the number of even and odd digits respectively.
-
-    
      */
     public static List<Integer> evenOddCount(int num) {
         int even = 0;

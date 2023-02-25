@@ -15,7 +15,6 @@ class StrongestExtension {
      * format: ClassName.StrongestExtensionName.
      * If there are two or more extensions with the same strength, you should
      * choose the one that comes first in the list.
-    
      */
     public static String strongestExtension(String className, List<String> extensions) {
         int max = Integer.MIN_VALUE;

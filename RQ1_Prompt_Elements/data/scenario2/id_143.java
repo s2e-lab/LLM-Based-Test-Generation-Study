@@ -13,7 +13,6 @@ class WordsInSentence {
      *     * 1 <= len(sentence) <= 100
      *     * sentence contains only letters
      *
-    
      */
     public static String wordsInSentence(String sentence) {
         String[] words = sentence.split(" ");

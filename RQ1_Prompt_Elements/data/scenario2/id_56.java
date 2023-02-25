@@ -5,8 +5,6 @@ class CorrectBracketing {
     /**
      * brackets is a string of "<" and ">".
      * return True if every opening bracket has a corresponding closing bracket.
-
-    
      */
     public static Boolean correctBracketing(String brackets) {
         int count = 0;

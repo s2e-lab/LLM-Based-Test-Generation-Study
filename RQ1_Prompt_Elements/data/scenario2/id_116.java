@@ -12,7 +12,6 @@ class SortArray {
      * * In this Kata, you have to sort an array of non-negative integers according to
      * number of ones in their binary representation in ascending order.
      * For similar number of ones, sort based on decimal value.
-
      */
     public static List<Object> sortArray(List<Object> arr) {
         List<Object> sorted = new ArrayList<Object>();

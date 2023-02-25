@@ -4,7 +4,6 @@ package scenario2;
 class PrimeFib {
     /**
      * * prime_fib returns n-th number that is a Fibonacci number and it's also prime.
-    
      */
     public static int primeFib(int n) {
         int a = 1;

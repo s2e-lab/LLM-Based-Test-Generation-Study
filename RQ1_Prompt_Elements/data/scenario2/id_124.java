@@ -10,7 +10,6 @@ class ValidDate {
      * 2. The number of days is not less than 1 or higher than 31 days for months 1,3,5,7,8,10,12. And the number of days is not less than 1 or higher than 30 days for months 4,6,9,11. And, the number of days is not less than 1 or higher than 29 for the month 2.
      * 3. The months should not be less than 1 or higher than 12.
      * 4. The date should be in the format: mm-dd-yyyy
-
      */
     public static Boolean validDate(String date) {
         if (date.length() != 10) {

@@ -19,7 +19,6 @@ class Intersection {
      * otherwise, return "NO".
      * If the two intervals don't intersect, return "NO".
 
-
      */
     public static String intersection(List<Integer> interval1, List<Integer> interval2) {
         

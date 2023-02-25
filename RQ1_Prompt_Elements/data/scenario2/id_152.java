@@ -16,7 +16,6 @@ class Compare {
      * the value is 0, and if not, the value is the absolute difference between the guess and the score.
      * 
      * 
-   
      */
     public static List<Integer> compare(List<Integer> game, List<Integer> guess) {
         List<Integer> result = new ArrayList<>();

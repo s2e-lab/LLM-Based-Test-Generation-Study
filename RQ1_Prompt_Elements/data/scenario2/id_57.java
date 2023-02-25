@@ -7,7 +7,6 @@ import java.util.List;
 class Monotonic {
     /**
      * Return True is list elements are monotonically increasing or decreasing.
-   
      */
     public static Boolean monotonic(List<Integer> l) {
         int size = l.size();

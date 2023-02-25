@@ -4,7 +4,6 @@ package scenario2;
 class LargestPrimeFactor {
     /**
      * Return the largest prime factor of n. Assume n > 1 and is not a prime.
-    
      */
     public static int largestPrimeFactor(int n) {
         int max = 0;

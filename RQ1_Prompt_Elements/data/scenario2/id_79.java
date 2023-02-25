@@ -10,7 +10,6 @@ class DecimalToBinary {
      * There will be an extra couple of characters 'db' at the beginning and at the end of the string.
      * The extra characters are there to help with the format.
 
-   
      */
     public static String decimalToBinary(int decimal) {
         String binary = "";
