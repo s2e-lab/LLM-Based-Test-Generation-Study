@@ -8,6 +8,7 @@ import java.util.List;
 class FilterIntegers {
     /**
      * Filter given list of any Java values only for integers.
+     *
      * > filterIntegers(['a', 3.14, 5])
      * [5]
      * > filterIntegers([1, 2, 3, 'abc', {}, []])

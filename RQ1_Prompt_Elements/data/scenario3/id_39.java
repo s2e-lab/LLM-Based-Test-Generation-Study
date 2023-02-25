@@ -3,7 +3,8 @@ package scenario3;
 
 class PrimeFib {
     /**
-     * * prime_fib returns n-th number that is a Fibonacci number and it's also prime.
+     * Returns n-th number that is a Fibonacci number and it's also prime.
+     *
      * > primeFib(1)
      * 2
      * > primeFib(2)

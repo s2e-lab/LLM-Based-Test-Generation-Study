@@ -10,7 +10,7 @@ class CycpatternCheck {
      * cycpattern_check("abab","baa") => True
      * cycpattern_check("efef","eeff") => False
      * cycpattern_check("himenss","simen") => True
-
+     *
      *
      * > cycpatternCheck("xyzw", "xyw")
      * false
@@ -26,18 +26,17 @@ class CycpatternCheck {
      * true
      */
     public static Boolean cycpatternCheck(String a, String b) {
-    int l = b.length();
-    String pat = b + b;
-    for (int i = 0; i < a.length() - l + 1; i++){
-        for (int j = 0; j < l + 1; j++){
-            if (a.substring(i, i+l).equals(pat.substring(j, j+l))){
-                return true;
+        int l = b.length();
+        String pat = b + b;
+        for (int i = 0; i < a.length() - l + 1; i++) {
+            for (int j = 0; j < l + 1; j++) {
+                if (a.substring(i, i + l).equals(pat.substring(j, j + l))) {
+                    return true;
+                }
             }
         }
+        return false;
     }
-    return false;
-    }
-
 
 
 }

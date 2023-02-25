@@ -7,6 +7,7 @@ import java.util.Set;
 class CountDistinctCharacters {
     /**
      * Given a string, find out how many distinct characters (regardless of case)  it consists  of.
+     *
      * > countDistinctCharacters("xyzXYZ")
      * 3
      * > countDistinctCharacters("Jerry")

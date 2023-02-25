@@ -4,6 +4,7 @@ package scenario3;
 class Add {
     /**
      * Add two numbers x and y
+     *
      * > add(0, 1)
      * 1
      * > add(1, 0)

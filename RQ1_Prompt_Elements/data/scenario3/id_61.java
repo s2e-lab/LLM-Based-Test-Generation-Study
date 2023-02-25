@@ -4,6 +4,7 @@ class CorrectBracketing1 {
     /**
      * brackets is a string of "(" and ")".
      * return True if every opening bracket has a corresponding closing bracket.
+     *
      * > correctBracketing("()")
      * true
      * > correctBracketing("(()())")
@@ -43,7 +44,6 @@ class CorrectBracketing1 {
         }
         return count == 0;
     }
-
 
 
 }

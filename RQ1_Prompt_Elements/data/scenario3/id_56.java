@@ -4,6 +4,7 @@ class CorrectBracketing {
     /**
      * Brackets is a string of "<" and ">".
      * return true if every opening bracket has a corresponding closing bracket.
+     *
      * > correctBracketing("<>")
      * true
      * > correctBracketing("<<><>>")

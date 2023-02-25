@@ -6,14 +6,12 @@ import java.util.Comparator;
 import java.util.List;
 
 
-
-
 class SortArray {
     /**
      * * In this Kata, you have to sort an array of non-negative integers according to
      * number of ones in their binary representation in ascending order.
      * For similar number of ones, sort based on decimal value.
-
+     *
      * It must be implemented like this:
      * >>> sort_array([1, 5, 2, 3, 4]) == [1, 2, 3, 4, 5]
      * >>> sort_array([-2, -3, -4, -5, -6]) == [-6, -5, -4, -3, -2]
@@ -45,7 +43,7 @@ class SortArray {
                 ones += num % 2;
                 num /= 2;
             }
-            sorted.add(new int[] {ones, ((Number) arr.get(i)).intValue()});
+            sorted.add(new int[]{ones, ((Number) arr.get(i)).intValue()});
         }
         Collections.sort(sorted, new Comparator<Object>() {
             public int compare(Object o1, Object o2) {
@@ -63,7 +61,6 @@ class SortArray {
         }
         return result;
     }
-
 
 
 }

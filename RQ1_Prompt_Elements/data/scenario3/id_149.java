@@ -7,8 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 
 
-
-
 class SortedListSum {
     /**
      * Write a function that accepts a list of strings as a parameter,
@@ -59,7 +57,6 @@ class SortedListSum {
         });
         return result;
     }
-
 
 
 }

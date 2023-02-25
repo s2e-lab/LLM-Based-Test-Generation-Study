@@ -3,36 +3,34 @@ package scenario3;
 
 class Digitsum {
     /**
-     * Task
      * Write a function that takes a string as input and returns the sum of the upper characters only'
      * ASCII codes.
-
      * Examples:
-     *     digitSum("") => 0
-     *     digitSum("abAB") => 131
-     *     digitSum("abcCd") => 67
-     *     digitSum("helloE") => 69
-     *     digitSum("woArBld") => 131
-     *     digitSum("aAaaaXa") => 153
+     * digitSum("") => 0
+     * digitSum("abAB") => 131
+     * digitSum("abcCd") => 67
+     * digitSum("helloE") => 69
+     * digitSum("woArBld") => 131
+     * digitSum("aAaaaXa") => 153
      *
-     * > digitsum("")
+     * > digitSum("")
      * 0
-     * > digitsum("abAB")
+     * > digitSum("abAB")
      * 131
-     * > digitsum("abcCd")
+     * > digitSum("abcCd")
      * 67
-     * > digitsum("helloE")
+     * > digitSum("helloE")
      * 69
-     * > digitsum("woArBld")
+     * > digitSum("woArBld")
      * 131
-     * > digitsum("aAaaaXa")
+     * > digitSum("aAaaaXa")
      * 153
-     * > digitsum(" How are yOu?")
+     * > digitSum(" How are yOu?")
      * 151
-     * > digitsum("You arE Very Smart")
+     * > digitSum("You arE Very Smart")
      * 327
      */
-    public static int digitsum(String s) {
+    public static int digitSum(String s) {
         int sum = 0;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);

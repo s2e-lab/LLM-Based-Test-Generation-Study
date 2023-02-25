@@ -3,11 +3,9 @@ package scenario3;
 import java.util.Map;
 
 
-
-
 class CheckDictCase {
     /**
-     * * Given a dictionary, return True if all keys are strings in lower 
+     * * Given a dictionary, return True if all keys are strings in lower
      * case or all keys are strings in upper case, else return False.
      * The function should return False is the given dictionary is empty.
      * Examples:

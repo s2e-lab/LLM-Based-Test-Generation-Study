@@ -4,6 +4,7 @@ package scenario3;
 class StringSequence {
     /**
      * Return a string containing space-delimited numbers starting from 0 up to n inclusive.
+     *
      * > stringSequence(0)
      * "0"
      * > stringSequence(5)

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 class CountUpTo {
     /**
      * Implement a function that takes an non-negative integer and returns an array of the first n
@@ -62,7 +60,6 @@ class CountUpTo {
         }
         return true;
     }
-
 
 
 }
