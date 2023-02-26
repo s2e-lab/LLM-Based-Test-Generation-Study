@@ -11,19 +11,31 @@ class Histogram {
      * If several letters have the same occurrence, return all of them.
      */
     public static Object histogram(String test) {
-        HashMap<String, Integer> map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
+        if (test == null || test.length() == 0) {
+            return map;
+        }
+
         String[] arr = test.split(" ");
-        for (int i = 0; i < arr.length; i++) {
-            if(arr[i].equals("")){
-                continue;
-            }
-            if (map.containsKey(arr[i])) {
-                map.put(arr[i], map.get(arr[i]) + 1);
+        for (String s : arr) {
+            if (map.containsKey(s)) {
+                map.put(s, map.get(s) + 1);
             } else {
-                map.put(arr[i], 1);
+                map.put(s, 1);
             }
         }
-        return map;
-    }
 
+        int max = 0;
+        for (int i : map.values()) {
+            max = Math.max(max, i);
+        }
+
+        Map<String, Integer> res = new HashMap<>();
+        for (String s : map.keySet()) {
+            if (map.get(s) == max) {
+                res.put(s, map.get(s));
+            }
+        }
+        return res;
+    }
 }
