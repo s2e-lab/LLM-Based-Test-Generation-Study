@@ -50,6 +50,9 @@ def generate_code(prompt, max_tokens=OPENAI_MAX_TOKENS, IS_FIX=False):
         response["prompt_id"] = prompt["id"]
     response["original_code"] = prompt["original_code"]
     response["test_prompt"] = prompt["test_prompt"]
+
+    if time_taken <= 60:
+        time.sleep(60 - time_taken + 5) # wait 5 seconds more to avoid rate limit
     return response
 
 
@@ -135,7 +138,7 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
                 print("Duration: ", response['time_taken'],
                       "Finish Reason:", response["choices"][0]["finish_reason"],
                       "\n" + "-" * 30)
-                time.sleep(30)
+                
             except Exception as e:
                 print("ERROR", e)
                 mock_response = get_mock_response(prompt, str(e))

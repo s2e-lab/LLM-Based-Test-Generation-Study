@@ -27,8 +27,6 @@ def fix(config: dict, scenario: str) -> None:
                 print("Duration: ", new_response['time_taken'],
                       "Finish Reason:", new_response["choices"][0]["finish_reason"],
                       "\n" + "-" * 20)
-                time.sleep(30)
-
             else:
                 filtered_responses.append(r)
         except Exception as e:

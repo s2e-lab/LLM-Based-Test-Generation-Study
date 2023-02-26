@@ -37,15 +37,26 @@ class FindMax {
      * "play"
      */
     public static String findMax(List<String> words) {
-        String max = "";
-        for (int i = 0; i < words.size(); i++) {
-            if (words.get(i).length() >= max.length()) {
-                if (words.get(i).length() == max.length() && words.get(i).compareTo(max) >= 0)
-                    continue;
-                max = words.get(i);
+        if (words == null || words.size() == 0) {
+            return null;
+        }
+        
+        String maxWord = words.get(0);
+        int maxUnique = 0;
+        for (String word : words) {
+            Set<Character> seen = new HashSet<>();
+            for (int i = 0; i < word.length(); i++) {
+                seen.add(word.charAt(i));
+            }
+            if (seen.size() > maxUnique) {
+                maxWord = word;
+                maxUnique = seen.size();
+            } else if (seen.size() == maxUnique && word.compareTo(maxWord) < 0) {
+                maxWord = word;
             }
         }
-        return max;
+        
+        return maxWord;
     }
 
 
