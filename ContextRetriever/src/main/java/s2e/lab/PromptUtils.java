@@ -3,6 +3,7 @@ package s2e.lab;
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.Jsoner;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
@@ -12,7 +13,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -40,9 +40,9 @@ public class PromptUtils {
     static {
         try {
             URL templateUrl = TestPromptCreator.class.getClassLoader().getResource("UnitTestTemplate.java");
-            UNIT_TEST_TEMPLATE = new String(Files.readAllBytes(Paths.get(templateUrl.getPath())), StandardCharsets.UTF_8);
+            UNIT_TEST_TEMPLATE = Files.readString(Paths.get(templateUrl.getPath()));
             URL humanEvalUrl = TestPromptCreator.class.getClassLoader().getResource("HumanEvalTestTemplate.java");
-            HUMAN_EVAL_TEST_TEMPLATE = new String(Files.readAllBytes(Paths.get(humanEvalUrl.getPath())), StandardCharsets.UTF_8);
+            HUMAN_EVAL_TEST_TEMPLATE = Files.readString(Paths.get(humanEvalUrl.getPath()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -73,9 +73,8 @@ public class PromptUtils {
      * @param className       the name of the class under test
      * @param methodSignature the signature of the method under test
      * @param suffix          to distinguish between different test classes
-     * @return
      */
-    public static HashMap<String, String> computeUnitTestPrompt(File javaFile, String numberTests, CompilationUnit cu, String className, String methodSignature, String suffix) {
+    public static HashMap<String, String> computeUnitTestPrompt(File javaFile, String numberTests, CompilationUnit cu, String className, String methodSignature, String suffix, boolean isHumanEval) {
         String packageDeclaration = Optional.of(cu.getPackageDeclaration())
                 .map(p -> p.get().toString().strip())
                 .orElse("");
@@ -92,7 +91,12 @@ public class PromptUtils {
 
         // creates dict object to be serialized
         HashMap<String, String> outputMap = new HashMap<>();
-        outputMap.put("id", javaFile.getName().split("_")[1].split("\\.")[0]);
+        if(isHumanEval){
+            outputMap.put("id", javaFile.getName().split("_")[1].split("\\.")[0]);
+        }
+        else{
+            outputMap.put("id", javaFile.getPath().split("\\.\\./")[1]);
+        }
         outputMap.put("original_code", String.format("// %s.java\n%s", className, cu));
         outputMap.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
 
@@ -127,8 +131,8 @@ public class PromptUtils {
             return cu.getClassByName(typeDeclaration.getNameAsString()).get();
         }
         return cu.getTypes().stream()
-                .filter(t -> t.isClassOrInterfaceDeclaration())
-                .map(t -> t.asClassOrInterfaceDeclaration())
+                .filter(BodyDeclaration::isClassOrInterfaceDeclaration)
+                .map(BodyDeclaration::asClassOrInterfaceDeclaration)
                 .findFirst()
                 .get();
     }
@@ -141,7 +145,7 @@ public class PromptUtils {
      */
     public static List<String> getTestableMethodSignatures(ClassOrInterfaceDeclaration classDeclaration) {
         return classDeclaration.getMethods().stream()
-                .filter(m -> isTestable(m))
+                .filter(PromptUtils::isTestable)
                 .map(m -> m.getSignature().toString())
                 .collect(Collectors.toList());
     }

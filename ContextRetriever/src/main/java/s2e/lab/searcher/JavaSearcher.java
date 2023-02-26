@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +22,10 @@ public class JavaSearcher {
                 .filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".java"))
                 .map(Path::toFile)
                 .collect(Collectors.toList());
+    }
+    public static List<File> getProjectList(String directory){
+        File projectDirectory = new File(directory);
+        return Arrays.stream(Objects.requireNonNull(projectDirectory.listFiles())).filter(File::isDirectory).collect(Collectors.toList());
     }
 
 
