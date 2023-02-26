@@ -2,6 +2,7 @@ package scenario3;
 
 import java.util.*;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class Maximum1Test {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(Arrays.asList(-4, -3, 5), scenario3.Maximum1.maximum(Arrays.asList(-3, -4, 5), 3));
 		assertEquals(Arrays.asList(4, 4), scenario3.Maximum1.maximum(Arrays.asList(4, -4, 4), 2));
 		assertEquals(Arrays.asList(2), scenario3.Maximum1.maximum(Arrays.asList(-3, 2, 1, 2, -1, -2, 1), 1));
@@ -20,7 +22,6 @@ class Maximum1Test {
 		assertEquals(Arrays.asList(-4, 4), scenario3.Maximum1.maximum(Arrays.asList(4, -4), 2));
 		assertEquals(Arrays.asList(-10, 10), scenario3.Maximum1.maximum(Arrays.asList(-10, 10), 2));
 		assertEquals(Arrays.asList(), scenario3.Maximum1.maximum(Arrays.asList(1, 2, 3, -23, 243, -400, 0), 0));
-		assertEquals(public static List<Object> maximum(List<Integer> arr, int k) {, scenario3.Maximum1.*/);
 		
     }
 

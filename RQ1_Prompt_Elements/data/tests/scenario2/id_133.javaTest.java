@@ -2,6 +2,7 @@ package scenario2;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class SumSquaresTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(14, scenario2.SumSquares.sumSquares(Arrays.asList(1, 2, 3)));
 		assertEquals(14, scenario2.SumSquares.sumSquares(Arrays.asList(1.0, 2, 3)));
 		assertEquals(84, scenario2.SumSquares.sumSquares(Arrays.asList(1, 3, 5, 7)));
@@ -21,7 +23,6 @@ class SumSquaresTest {
 		assertEquals(0, scenario2.SumSquares.sumSquares(Arrays.asList(0)));
 		assertEquals(1, scenario2.SumSquares.sumSquares(Arrays.asList(-1)));
 		assertEquals(2, scenario2.SumSquares.sumSquares(Arrays.asList(-1, 1, 0)));
-		assertEquals(public static int sumSquares(List<Number> lst) {, scenario2.SumSquares.*/);
 		
     }
 

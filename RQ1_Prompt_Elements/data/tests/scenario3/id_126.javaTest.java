@@ -3,6 +3,7 @@ package scenario3;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +11,7 @@ class IsSortedTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(true, scenario3.IsSorted.isSorted(Arrays.asList(5)));
 		assertEquals(true, scenario3.IsSorted.isSorted(Arrays.asList(1, 2, 3, 4, 5)));
 		assertEquals(false, scenario3.IsSorted.isSorted(Arrays.asList(1, 3, 2, 4, 5)));
@@ -23,7 +25,6 @@ class IsSortedTest {
 		assertEquals(false, scenario3.IsSorted.isSorted(Arrays.asList(1, 2, 3, 3, 3, 4)));
 		assertEquals(true, scenario3.IsSorted.isSorted(Arrays.asList(1, 2, 2, 3, 3, 4)));
 		assertEquals(true, scenario3.IsSorted.isSorted(Arrays.asList(1, 2, 3, 4)));
-		assertEquals(public static Boolean isSorted(List<Object> lst) {, scenario3.IsSorted.*/);
 		
     }
 

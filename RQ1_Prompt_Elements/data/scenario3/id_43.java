@@ -7,19 +7,19 @@ import java.util.List;
 class PairsSumToZero {
     /**
      * * pairs_sum_to_zero takes a list of integers as an input.
-     * it returns True if there are two distinct elements in the list that
-     * sum to zero, and False otherwise.
+     * it returns true if there are two distinct elements in the list that
+     * sum to zero, and false otherwise.
      *
      * > pairsSumToZero([1, 3, 5, 0])
-     * False
+     * false
      * > pairsSumToZero([1, 3, -2, 1])
-     * False
+     * false
      * > pairsSumToZero([1, 2, 3, 7])
-     * False
+     * false
      * > pairsSumToZero([2, 4, -5, 3, 5, 7])
-     * True
+     * true
      * > pairsSumToZero([1])
-     * False
+     * false
      * > pairsSumToZero([1, 3, 5, 0])
      * false
      * > pairsSumToZero([1, 3, -2, 1])

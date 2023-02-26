@@ -2,6 +2,7 @@ package scenario2;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class CheckIfLastCharIsALetterTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(false, scenario2.CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple"));
 		assertEquals(true, scenario2.CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple pi e"));
 		assertEquals(false, scenario2.CheckIfLastCharIsALetter.checkIfLastCharIsALetter("eeeee"));
@@ -19,7 +21,6 @@ class CheckIfLastCharIsALetterTest {
 		assertEquals(false, scenario2.CheckIfLastCharIsALetter.checkIfLastCharIsALetter("eeeee e "));
 		assertEquals(false, scenario2.CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple pie"));
 		assertEquals(false, scenario2.CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple pi e "));
-		assertEquals(public static Boolean checkIfLastCharIsALetter(String txt) {, scenario2.CheckIfLastCharIsALetter.*/);
 		
     }
 

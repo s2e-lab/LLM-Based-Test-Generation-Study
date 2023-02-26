@@ -2,6 +2,7 @@ package scenario2;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class EncryptTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals("lm", scenario2.Encrypt.encrypt("hi"));
 		assertEquals("ewhjklnop", scenario2.Encrypt.encrypt("asdfghjkl"));
 		assertEquals("kj", scenario2.Encrypt.encrypt("gf"));
@@ -17,7 +19,6 @@ class EncryptTest {
 		assertEquals("lippsqcjvmirh", scenario2.Encrypt.encrypt("hellomyfriend"));
 		assertEquals("hbdhpqrmpjylqmpyjlpmlyjrqpmqryjlpmqryjljygyjl", scenario2.Encrypt.encrypt("dxzdlmnilfuhmilufhlihufnmlimnufhlimnufhfucufh"));
 		assertEquals("e", scenario2.Encrypt.encrypt("a"));
-		assertEquals(public static String encrypt(String s) {, scenario2.Encrypt.*/);
 		
     }
 

@@ -2,6 +2,7 @@ package scenario2;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class PrimeFibTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(2, scenario2.PrimeFib.primeFib(1));
 		assertEquals(3, scenario2.PrimeFib.primeFib(2));
 		assertEquals(5, scenario2.PrimeFib.primeFib(3));
@@ -24,7 +26,6 @@ class PrimeFibTest {
 		assertEquals(28657, scenario2.PrimeFib.primeFib(8));
 		assertEquals(514229, scenario2.PrimeFib.primeFib(9));
 		assertEquals(433494437, scenario2.PrimeFib.primeFib(10));
-		assertEquals(public static int primeFib(int n) {, scenario2.PrimeFib.*/);
 		
     }
 

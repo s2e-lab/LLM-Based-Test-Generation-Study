@@ -9,10 +9,10 @@ class FilterByPrefix {
     /**
      * Filter an input list of strings only for ones that start with a given prefix.
      *
-     * > filterByPrefix([], 'a')
+     * > filterByPrefix([], "a")
      * []
-     * > filterByPrefix(['abc', 'bcd', 'cde', 'array'], 'a')
-     * ['abc', 'array']
+     * > filterByPrefix(["abc", "bcd", "cde", "array"], "a")
+     * ["abc", "array"]
      * > filterByPrefix([], "john")
      * []
      * > filterByPrefix(["xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx"], "xxx")

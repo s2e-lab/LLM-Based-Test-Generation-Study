@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,6 +12,7 @@ class SortThirdTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(Arrays.asList(1, 2, 3), scenario3.SortThird.sortThird(Arrays.asList(1, 2, 3)));
 		assertEquals(Arrays.asList(2, 6, 3, 4, 8, 9, 5), scenario3.SortThird.sortThird(Arrays.asList(5, 6, 3, 4, 8, 9, 2)));
 		assertEquals(Arrays.asList(1, 2, 3), scenario3.SortThird.sortThird(Arrays.asList(1, 2, 3)));
@@ -20,7 +22,6 @@ class SortThirdTest {
 		assertEquals(Arrays.asList(2, 8, 3, 4, 6, 9, 5), scenario3.SortThird.sortThird(Arrays.asList(5, 8, 3, 4, 6, 9, 2)));
 		assertEquals(Arrays.asList(2, 6, 9, 4, 8, 3, 5), scenario3.SortThird.sortThird(Arrays.asList(5, 6, 9, 4, 8, 3, 2)));
 		assertEquals(Arrays.asList(2, 6, 3, 4, 8, 9, 5, 1), scenario3.SortThird.sortThird(Arrays.asList(5, 6, 3, 4, 8, 9, 2, 1)));
-		assertEquals(public static List<Integer> sortThird(List<Integer> l) {, scenario3.SortThird.*/);
 		
     }
 

@@ -2,6 +2,7 @@ package scenario1;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class IntToMiniRomanTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals("xix", scenario1.IntToMiniRoman.intToMiniRoman(19));
 		assertEquals("clii", scenario1.IntToMiniRoman.intToMiniRoman(152));
 		assertEquals("ccli", scenario1.IntToMiniRoman.intToMiniRoman(251));
@@ -23,7 +25,6 @@ class IntToMiniRomanTest {
 		assertEquals("cm", scenario1.IntToMiniRoman.intToMiniRoman(900));
 		assertEquals("cmxciv", scenario1.IntToMiniRoman.intToMiniRoman(994));
 		assertEquals("m", scenario1.IntToMiniRoman.intToMiniRoman(1000));
-		assertEquals(public static String intToMiniRoman(int number) {, scenario1.IntToMiniRoman.*/);
 		
     }
 

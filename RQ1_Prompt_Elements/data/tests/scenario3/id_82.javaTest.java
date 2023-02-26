@@ -2,6 +2,7 @@ package scenario3;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class PrimeLengthTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(true, scenario3.PrimeLength.primeLength("Hello"));
 		assertEquals(true, scenario3.PrimeLength.primeLength("abcdcba"));
 		assertEquals(true, scenario3.PrimeLength.primeLength("kittens"));
@@ -25,7 +27,6 @@ class PrimeLengthTest {
 		assertEquals(true, scenario3.PrimeLength.primeLength("Madam"));
 		assertEquals(false, scenario3.PrimeLength.primeLength("M"));
 		assertEquals(false, scenario3.PrimeLength.primeLength("0"));
-		assertEquals(public static Boolean primeLength(String string) {, scenario3.PrimeLength.*/);
 		
     }
 

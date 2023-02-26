@@ -2,6 +2,7 @@ package scenario3;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class TriplesSumToZeroTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(false, scenario3.TriplesSumToZero.triplesSumToZero(Arrays.asList(1, 3, 5, 0)));
 		assertEquals(false, scenario3.TriplesSumToZero.triplesSumToZero(Arrays.asList(1, 3, 5, -1)));
 		assertEquals(true, scenario3.TriplesSumToZero.triplesSumToZero(Arrays.asList(1, 3, -2, 1)));
@@ -18,7 +20,6 @@ class TriplesSumToZeroTest {
 		assertEquals(false, scenario3.TriplesSumToZero.triplesSumToZero(Arrays.asList(1)));
 		assertEquals(false, scenario3.TriplesSumToZero.triplesSumToZero(Arrays.asList(1, 3, 5, -100)));
 		assertEquals(false, scenario3.TriplesSumToZero.triplesSumToZero(Arrays.asList(100, 3, 5, -100)));
-		assertEquals(public static Boolean triplesSumToZero(List<Integer> l) {, scenario3.TriplesSumToZero.*/);
 		
     }
 

@@ -2,6 +2,7 @@ package scenario2;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class GetClosestVowelTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals("u", scenario2.GetClosestVowel.getClosestVowel("yogurt"));
 		assertEquals("u", scenario2.GetClosestVowel.getClosestVowel("full"));
 		assertEquals("", scenario2.GetClosestVowel.getClosestVowel("easy"));
@@ -22,7 +24,6 @@ class GetClosestVowelTest {
 		assertEquals("i", scenario2.GetClosestVowel.getClosestVowel("anime"));
 		assertEquals("", scenario2.GetClosestVowel.getClosestVowel("Asia"));
 		assertEquals("o", scenario2.GetClosestVowel.getClosestVowel("Above"));
-		assertEquals(public static String getClosestVowel(String word) {, scenario2.GetClosestVowel.*/);
 		
     }
 

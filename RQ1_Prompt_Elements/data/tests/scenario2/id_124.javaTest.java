@@ -2,6 +2,7 @@ package scenario2;
 
 
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +10,7 @@ class ValidDateTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(true, scenario2.ValidDate.validDate("03-11-2000"));
 		assertEquals(false, scenario2.ValidDate.validDate("15-01-2012"));
 		assertEquals(false, scenario2.ValidDate.validDate("04-0-2040"));
@@ -25,7 +27,6 @@ class ValidDateTest {
 		assertEquals(false, scenario2.ValidDate.validDate("2003-04"));
 		assertEquals(false, scenario2.ValidDate.validDate("2003-04-12"));
 		assertEquals(false, scenario2.ValidDate.validDate("04-2003"));
-		assertEquals(public static Boolean validDate(String date) {, scenario2.ValidDate.*/);
 		
     }
 

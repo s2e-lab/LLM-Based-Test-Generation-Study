@@ -3,6 +3,7 @@ package scenario3;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +11,7 @@ class LargestSmallestIntegersTest {
 
     @Test
     public void test() throws Exception{
+
         assertEquals(Arrays.asList(null, 1), scenario3.LargestSmallestIntegers.largestSmallestIntegers(Arrays.asList(2, 4, 1, 3, 5, 7)));
 		assertEquals(Arrays.asList(null, 1), scenario3.LargestSmallestIntegers.largestSmallestIntegers(Arrays.asList(2, 4, 1, 3, 5, 7, 0)));
 		assertEquals(Arrays.asList(-2, 1), scenario3.LargestSmallestIntegers.largestSmallestIntegers(Arrays.asList(1, 3, 2, 4, 5, 6, -2)));
@@ -21,7 +23,6 @@ class LargestSmallestIntegersTest {
 		assertEquals(Arrays.asList(-1, null), scenario3.LargestSmallestIntegers.largestSmallestIntegers(Arrays.asList(-1, -3, -5, -6, 0)));
 		assertEquals(Arrays.asList(-3, 1), scenario3.LargestSmallestIntegers.largestSmallestIntegers(Arrays.asList(-6, -4, -4, -3, 1)));
 		assertEquals(Arrays.asList(-3, 1), scenario3.LargestSmallestIntegers.largestSmallestIntegers(Arrays.asList(-6, -4, -4, -3, -100, 1)));
-		assertEquals(public static List<Integer> largestSmallestIntegers(List<Object> lst) {, scenario3.LargestSmallestIntegers.*/);
 		
     }
 
