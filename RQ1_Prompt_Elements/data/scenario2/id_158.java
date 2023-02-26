@@ -1,7 +1,7 @@
 package scenario2;
 
 
-import java.util.List;
+import java.util.*;
 
 
 class FindMax {

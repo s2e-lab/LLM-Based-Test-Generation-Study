@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.String.format;
 import static s2e.lab.PromptUtils.HUMAN_EVAL_TEST_TEMPLATE;
 import static s2e.lab.TestPromptCreator.RQ1_BASE_DIR;
 import static s2e.lab.TestPromptCreator.RQ1_FOLDER_NAME;
@@ -26,7 +27,7 @@ public class HumanEvalTestGenerator {
 
     public static void main(String[] args) throws IOException {
 
-        File projectDirectory = new File(String.format(RQ1_FOLDER_NAME, 3));
+        File projectDirectory = new File(format(RQ1_FOLDER_NAME, 3));
 
 
         for (File javaFile : JavaSearcher.findJavaFiles(projectDirectory)) {
@@ -39,7 +40,7 @@ public class HumanEvalTestGenerator {
                 params.put("packageName", "scenario" + i);
                 params.put("assertions", getTestMethods(javaFile, i, params.get("className")));
                 String unitTest = StringSubstitutor.replace(HUMAN_EVAL_TEST_TEMPLATE, params);
-                File outputFile = new File(String.format(RQ1_TEST_FOLDER_NAME, i, javaFile.getName()));
+                File outputFile = new File(format(RQ1_TEST_FOLDER_NAME, i, params.get("className")));
                 try (FileWriter file = new FileWriter(outputFile)) {
                     file.write(unitTest);
                 }
@@ -61,14 +62,31 @@ public class HumanEvalTestGenerator {
             if (!lines.get(i).trim().startsWith("*") || !lines.get(i + 1).trim().startsWith("*")) break;
             String invocation = lines.get(i).replace("* > ", "").trim();
             String expected = lines.get(i + 1).replace("* ", "").trim();
-            testBody.append(String.format("assertEquals(%s, scenario%d.%s.%s);\n\t\t", replaceCollection(expected), scenarioNo, className, replaceCollection(invocation)));
+            testBody.append(
+                    format("assertEquals(%s, scenario%d.%s.%s);\n\t\t",
+                            escape(expected, javaFile),
+                            scenarioNo,
+                            className,
+                            escape(invocation, javaFile))
+            );
         }
         return testBody.toString();
 
 
     }
 
-    private static String replaceCollection(String s) {
+    /**
+     * Given an input/output, it escapes python syntax to java syntax.
+     *
+     * @param s        string to be escaped
+     * @param javaFile Java file under test
+     * @return escaped string
+     */
+    private static String escape(String s, File javaFile) {
+        //TODO: this is a quick fix to avoid parsing arrays within a string -- ex: "()"
+        // we should use a more generalizable approach
+        if (javaFile.getName().equals("id_132.java")) return s; // this is a special case, QUICK FIX
+
         String out = s;
         if (s.contains("["))
             out = out.replace("[", "Arrays.asList(").replace("]", ")");
