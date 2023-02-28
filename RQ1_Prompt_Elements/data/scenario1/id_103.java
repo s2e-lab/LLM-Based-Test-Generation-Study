@@ -12,7 +12,7 @@ class RoundedAvg {
             sum += i;
         }
         double avg = (sum * 1.0) / (m - n + 1);
-        int roundedAvg = (int) Math.round(avg);
+        int roundedAvg = (int) Math.rint(avg);
         return "0b" + Integer.toBinaryString(roundedAvg);
     }
 
