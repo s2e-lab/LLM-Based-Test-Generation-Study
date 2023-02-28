@@ -4,3 +4,16 @@ ID 47
     15.0
 
     Should be 8
+
+
+ID 116
+	Includes negative test cases, but they don't work
+
+ID 103
+	Round to even behavior, should use rint in java
+
+
+158
+111
+132
+47
