@@ -110,6 +110,7 @@ class WordsInSentenceTest {
 		
 		@Test
 		void testWordsInSentence8() {
+				assertEquals("", WordsInSentence.wordsInSentence("a b"));
 				assertEquals("", WordsInSentence.wordsInSentence("a b "));
 				assertEquals("", WordsInSentence.wordsInSentence("a b  "));
 				assertEquals("", WordsInSentence.wordsInSentence("a b   "));
@@ -118,4 +119,100 @@ class WordsInSentenceTest {
 				assertEquals("", WordsInSentence.wordsInSentence("a b      "));
 				assertEquals("", WordsInSentence.wordsInSentence("a b       "));
 				assertEquals("", WordsInSentence.wordsInSentence("a b        "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b         "));
+		}
+		
+		@Test
+		void testWordsInSentence9() {
+				assertEquals("", WordsInSentence.wordsInSentence(" a b"));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b  "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b   "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b    "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b     "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b      "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b       "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b        "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b         "));
+		}
+		
+		@Test
+		void testWordsInSentence10() {
+				assertEquals("", WordsInSentence.wordsInSentence("a b c"));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c  "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c   "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c    "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c     "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c      "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c       "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c        "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c         "));
+		}
+		
+		@Test
+		void testWordsInSentence11() {
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c"));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c  "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c   "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c    "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c     "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c      "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c       "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c        "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c         "));
+		}
+		
+		@Test
+		void testWordsInSentence12() {
+				assertEquals("", WordsInSentence.wordsInSentence("a b c"));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c  "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c   "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c    "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c     "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c      "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c       "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c        "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c         "));
+		}
+		
+		@Test
+		void testWordsInSentence13() {
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c"));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c  "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c   "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c    "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c     "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c      "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c       "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c        "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c         "));
+		}
+		
+		@Test
+		void testWordsInSentence14() {
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d"));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d  "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d   "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d    "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d     "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d      "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d       "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d        "));
+				assertEquals("", WordsInSentence.wordsInSentence("a b c d         "));
+		}
+		
+		@Test
+		void testWordsInSentence15() {
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c d"));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c d "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c d  "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c d   "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c d    "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c d     "));
+				assertEquals("", WordsInSentence.wordsInSentence(" a b c d      "));
 				assertEquals("", WordsIn

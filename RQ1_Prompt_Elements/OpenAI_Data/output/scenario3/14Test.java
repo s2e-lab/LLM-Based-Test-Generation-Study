@@ -124,9 +124,9 @@ class AllPrefixesTest {
 	void testAllPrefixesWithStringOfLength3WithCapitalLettersAndSpecialCharacters() {
 		List<Object> expected = new ArrayList<Object>();
 		expected.add("W");
-		expected.add("WW");
-		expected.add("WWW");
-		assertEquals(expected, AllPrefixes.allPrefixes("WWW"));
+		expected.add("W@");
+		expected.add("W@$");
+		assertEquals(expected, AllPrefixes.allPrefixes("W@$"));
 	}
 	
 	/**
@@ -137,8 +137,8 @@ class AllPrefixesTest {
 	void testAllPrefixesWithStringOfLength3WithCapitalLettersAndSpecialCharactersAndNumbers() {
 		List<Object> expected = new ArrayList<Object>();
 		expected.add("A");
-		expected.add("AB");
-		expected.add("ABC");
-		assertEquals(expected, AllPrefixes.allPrefixes("ABC"));
+		expected.add("A@");
+		expected.add("A@$");
+		assertEquals(expected, AllPrefixes.allPrefixes("A@$"));
 	}
 }

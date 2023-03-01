@@ -108,8 +108,9 @@ class CommonTest {
 				l1.add(3);
 				List<Object> l2 = new ArrayList<Object>();
 				l2.add(4);
-				l2.add(2);
+				l2.add(5);
 				l2.add(3);
+				l2.add(2);
 				List<Object> result = Common.common(l1, l2);
 				assertEquals(2, result.size());
 				assertEquals(2, result.get(0));
@@ -128,9 +129,11 @@ class CommonTest {
 				l1.add(2);
 				l1.add(3);
 				List<Object> l2 = new ArrayList<Object>();
-				l2.add(1);
-				l2.add(2);
+				l2.add(4);
+				l2.add(5);
 				l2.add(3);
+				l2.add(2);
+				l2.add(1);
 				List<Object> result = Common.common(l1, l2);
 				assertEquals(3, result.size());
 				assertEquals(1, result.get(0));
@@ -150,10 +153,13 @@ class CommonTest {
 				l1.add(2);
 				l1.add(3);
 				l1.add(2);
+				l1.add(1);
 				List<Object> l2 = new ArrayList<Object>();
-				l2.add(1);
-				l2.add(2);
+				l2.add(4);
+				l2.add(5);
 				l2.add(3);
+				l2.add(2);
+				l2.add(1);
 				List<Object> result = Common.common(l1, l2);
 				assertEquals(3, result.size());
 				assertEquals(1, result.get(0));
@@ -173,12 +179,45 @@ class CommonTest {
 				l1.add(2);
 				l1.add(3);
 				List<Object> l2 = new ArrayList<Object>();
-				l2.add(1);
-				l2.add(2);
+				l2.add(4);
+				l2.add(5);
 				l2.add(3);
 				l2.add(2);
+				l2.add(1);
+				l2.add(2);
+				l2.add(1);
 				List<Object> result = Common.common(l1, l2);
 				assertEquals(3, result.size());
 				assertEquals(1, result.get(0));
 				assertEquals(2, result.get(1));
 				assertEquals(3, result.get(2));
+		}
+		
+		/**
+		* Test case 10.
+		* The method {@link Common#common(List, List)} should return a list with three elements
+		* when the two lists have three common elements and both lists have duplicates.
+		*/
+		@Test
+		void test10() {
+				List<Integer> l1 = new ArrayList<Integer>();
+				l1.add(1);
+				l1.add(2);
+				l1.add(3);
+				l1.add(2);
+				l1.add(1);
+				List<Object> l2 = new ArrayList<Object>();
+				l2.add(4);
+				l2.add(5);
+				l2.add(3);
+				l2.add(2);
+				l2.add(1);
+				l2.add(2);
+				l2.add(1);
+				List<Object> result = Common.common(l1, l2);
+				assertEquals(3, result.size());
+				assertEquals(1, result.get(0));
+				assertEquals(2, result.get(1));
+				assertEquals(3, result.get(2));
+		}
+}

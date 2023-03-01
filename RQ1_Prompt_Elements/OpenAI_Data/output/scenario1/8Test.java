@@ -214,4 +214,10 @@ class SumProductTest {
 		numbers.add(8);
 		numbers.add(9);
 		numbers.add(10);
-		List<Integer> expected = new ArrayList<Integer>
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(55);
+		expected.add(3628800);
+		List<Integer> actual = SumProduct.sumProduct(numbers);
+		assertEquals(expected, actual);
+	}
+}

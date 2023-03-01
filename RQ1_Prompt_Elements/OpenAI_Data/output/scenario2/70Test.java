@@ -214,4 +214,194 @@ class StrangeSortListTest {
 		input.add(6);
 		input.add(7);
 		input.add(8);
-		input.add
+		input.add(9);
+		input.add(10);
+		input.add(11);
+		input.add(12);
+		input.add(13);
+		input.add(14);
+		input.add(15);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(1);
+		expected.add(15);
+		expected.add(2);
+		expected.add(14);
+		expected.add(3);
+		expected.add(13);
+		expected.add(4);
+		expected.add(12);
+		expected.add(5);
+		expected.add(11);
+		expected.add(6);
+		expected.add(10);
+		expected.add(7);
+		expected.add(9);
+		expected.add(8);
+		List<Object> actual = StrangeSortList.strangeSortList(input);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case 7.
+	* Input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+	* Expected output: [1, 16, 2, 15, 3, 14, 4, 13, 5, 12, 6, 11, 7, 10, 8, 9]
+	*/
+	@Test
+	void testCase7() {
+		List<Object> input = new ArrayList<Object>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(6);
+		input.add(7);
+		input.add(8);
+		input.add(9);
+		input.add(10);
+		input.add(11);
+		input.add(12);
+		input.add(13);
+		input.add(14);
+		input.add(15);
+		input.add(16);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(1);
+		expected.add(16);
+		expected.add(2);
+		expected.add(15);
+		expected.add(3);
+		expected.add(14);
+		expected.add(4);
+		expected.add(13);
+		expected.add(5);
+		expected.add(12);
+		expected.add(6);
+		expected.add(11);
+		expected.add(7);
+		expected.add(10);
+		expected.add(8);
+		expected.add(9);
+		List<Object> actual = StrangeSortList.strangeSortList(input);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case 8.
+	* Input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+	* Expected output: [1, 17, 2, 16, 3, 15, 4, 14, 5, 13, 6, 12, 7, 11, 8, 10, 9]
+	*/
+	@Test
+	void testCase8() {
+		List<Object> input = new ArrayList<Object>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(6);
+		input.add(7);
+		input.add(8);
+		input.add(9);
+		input.add(10);
+		input.add(11);
+		input.add(12);
+		input.add(13);
+		input.add(14);
+		input.add(15);
+		input.add(16);
+		input.add(17);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(1);
+		expected.add(17);
+		expected.add(2);
+		expected.add(16);
+		expected.add(3);
+		expected.add(15);
+		expected.add(4);
+		expected.add(14);
+		expected.add(5);
+		expected.add(13);
+		expected.add(6);
+		expected.add(12);
+		expected.add(7);
+		expected.add(11);
+		expected.add(8);
+		expected.add(10);
+		expected.add(9);
+		List<Object> actual = StrangeSortList.strangeSortList(input);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case 9.
+	* Input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+	* Expected output: [1, 18, 2, 17, 3, 16, 4, 15, 5, 14, 6, 13, 7, 12, 8, 11, 9, 10]
+	*/
+	@Test
+	void testCase9() {
+		List<Object> input = new ArrayList<Object>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(6);
+		input.add(7);
+		input.add(8);
+		input.add(9);
+		input.add(10);
+		input.add(11);
+		input.add(12);
+		input.add(13);
+		input.add(14);
+		input.add(15);
+		input.add(16);
+		input.add(17);
+		input.add(18);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(1);
+		expected.add(18);
+		expected.add(2);
+		expected.add(17);
+		expected.add(3);
+		expected.add(16);
+		expected.add(4);
+		expected.add(15);
+		expected.add(5);
+		expected.add(14);
+		expected.add(6);
+		expected.add(13);
+		expected.add(7);
+		expected.add(12);
+		expected.add(8);
+		expected.add(11);
+		expected.add(9);
+		expected.add(10);
+		List<Object> actual = StrangeSortList.strangeSortList(input);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case 10.
+	* Input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+	* Expected output: [1, 19, 2, 18, 3, 17, 4, 16, 5, 15, 6, 14, 7, 13, 8, 12, 9, 11, 10]
+	*/
+	@Test
+	void testCase10() {
+		List<Object> input = new ArrayList<Object>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(6);
+		input.add(7);
+		input.add(8);
+		input.add(9);
+		input.add(10);
+		input.add(11);
+		input.add(12);
+		input.add(13);
+		input.add(14);
+		input.add(15

@@ -218,4 +218,187 @@ class UniqueTest {
 		expected.add(1);
 		expected.add(2);
 		expected.add(3);
-		expected.add
+		expected.add(4);
+		expected.add(5);
+		List<Integer> actual = Unique.unique(input);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * Test case 7:
+	 * Input: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
+	 * Expected output: [1, 2, 3, 4, 5]
+	 */
+	@Test
+	void test7() {
+		List<Integer> input = new ArrayList<Integer>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(1);
+		expected.add(2);
+		expected.add(3);
+		expected.add(4);
+		expected.add(5);
+		List<Integer> actual = Unique.unique(input);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * Test case 8:
+	 * Input: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
+	 * Expected output: [1, 2, 3, 4, 5]
+	 */
+	@Test
+	void test8() {
+		List<Integer> input = new ArrayList<Integer>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(1);
+		expected.add(2);
+		expected.add(3);
+		expected.add(4);
+		expected.add(5);
+		List<Integer> actual = Unique.unique(input);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * Test case 9:
+	 * Input: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
+	 * Expected output: [1, 2, 3, 4, 5]
+	 */
+	@Test
+	void test9() {
+		List<Integer> input = new ArrayList<Integer>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(1);
+		expected.add(2);
+		expected.add(3);
+		expected.add(4);
+		expected.add(5);
+		List<Integer> actual = Unique.unique(input);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * Test case 10:
+	 * Input: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
+	 * Expected

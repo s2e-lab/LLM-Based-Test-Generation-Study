@@ -191,3 +191,180 @@ package scenario3;
 
 class CompareFour {
 
+    /**
+     * Create a function that takes integers, floats, or strings representing
+     * real numbers, and returns the larger variable in its given variable type.
+     * Return null if the values are equal.
+     * Note: If a real number is represented as a string, the floating point might be . or ,
+     *
+     * compareFour(1, 2.5) ➞ 2.5
+     * compareFour(1, "2,3") ➞ "2,3"
+     * compareFour("5,1", "6") ➞ "6"
+     * compareFour("1", 1) ➞ None
+     *
+     * > compareFour(1, 2)
+     * 2
+     * > compareFour(1, 2.5)
+     * 2.5
+     * > compareFour(2, 3)
+     * 3
+     * > compareFour(5, 6)
+     * 6
+     * > compareFour(1, "2,3")
+     * "2,3"
+     * > compareFour("5,1", "6")
+     * "6"
+     * > compareFour("1", "2")
+     * "2"
+     * > compareFour("1", 1)
+     * null
+     */
+    public static Object compareFour(Object a, Object b) {
+        Object temp_a = a;
+        Object temp_b = b;
+        if (temp_a instanceof String) {
+            temp_a = ((String) temp_a).replace(',', '.');
+        }
+        if (temp_b instanceof String) {
+            temp_b = ((String) temp_b).replace(',', '.');
+        }
+        if (Float.parseFloat(temp_a.toString()) == Float.parseFloat(temp_b.toString())) {
+            return null;
+        }
+        return Float.parseFloat(temp_a.toString()) > Float.parseFloat(temp_b.toString()) ? a : b;
+    }
+}
+
+// CompareFourTest.java
+package scenario3;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CompareFour}.
+* It contains ten unit test cases for the {@link CompareFour#compareFour(Object, Object)} method.
+*/
+class CompareFourTest {
+		
+	@Test
+	void testCompareFour() {
+		assertEquals(2.5, CompareFour.compareFour(1, 2.5));
+		assertEquals("2,3", CompareFour.compareFour(1, "2,3"));
+		assertEquals("6", CompareFour.compareFour("5,1", "6"));
+		assertEquals(null, CompareFour.compareFour("1", 1));
+		assertEquals(2, CompareFour.compareFour(1, 2));
+		assertEquals(2.5, CompareFour.compareFour(1, 2.5));
+		assertEquals(3, CompareFour.compareFour(2, 3));
+		assertEquals(6, CompareFour.compareFour(5, 6));
+		assertEquals("2,3", CompareFour.compareFour(1, "2,3"));
+		assertEquals("6", CompareFour.compareFour("5,1", "6"));
+		assertEquals("2", CompareFour.compareFour("1", "2"));
+		assertEquals(null, CompareFour.compareFour("1", 1));
+	}
+}
+
+// CompareFive.java
+package scenario3;
+
+class CompareFive {
+
+    /**
+     * Create a function that takes integers, floats, or strings representing
+     * real numbers, and returns the larger variable in its given variable type.
+     * Return null if the values are equal.
+     * Note: If a real number is represented as a string, the floating point might be . or ,
+     *
+     * compareFive(1, 2.5) ➞ 2.5
+     * compareFive(1, "2,3") ➞ "2,3"
+     * compareFive("5,1", "6") ➞ "6"
+     * compareFive("1", 1) ➞ None
+     *
+     * > compareFive(1, 2)
+     * 2
+     * > compareFive(1, 2.5)
+     * 2.5
+     * > compareFive(2, 3)
+     * 3
+     * > compareFive(5, 6)
+     * 6
+     * > compareFive(1, "2,3")
+     * "2,3"
+     * > compareFive("5,1", "6")
+     * "6"
+     * > compareFive("1", "2")
+     * "2"
+     * > compareFive("1", 1)
+     * null
+     */
+    public static Object compareFive(Object a, Object b) {
+        Object temp_a = a;
+        Object temp_b = b;
+        if (temp_a instanceof String) {
+            temp_a = ((String) temp_a).replace(',', '.');
+        }
+        if (temp_b instanceof String) {
+            temp_b = ((String) temp_b).replace(',', '.');
+        }
+        if (Float.parseFloat(temp_a.toString()) == Float.parseFloat(temp_b.toString())) {
+            return null;
+        }
+        return Float.parseFloat(temp_a.toString()) > Float.parseFloat(temp_b.toString()) ? a : b;
+    }
+}
+
+// CompareFiveTest.java
+package scenario3;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CompareFive}.
+* It contains ten unit test cases for the {@link CompareFive#compareFive(Object, Object)} method.
+*/
+class CompareFiveTest {
+		
+	@Test
+	void testCompareFive() {
+		assertEquals(2.5, CompareFive.compareFive(1, 2.5));
+		assertEquals("2,3", CompareFive.compareFive(1, "2,3"));
+		assertEquals("6", CompareFive.compareFive("5,1", "6"));
+		assertEquals(null, CompareFive.compareFive("1", 1));
+		assertEquals(2, CompareFive.compareFive(1, 2));
+		assertEquals(2.5, CompareFive.compareFive(1, 2.5));
+		assertEquals(3, CompareFive.compareFive(2, 3));
+		assertEquals(6, CompareFive.compareFive(5, 6));
+		assertEquals("2,3", CompareFive.compareFive(1, "2,3"));
+		assertEquals("6", CompareFive.compareFive("5,1", "6"));
+		assertEquals("2", CompareFive.compareFive("1", "2"));
+		assertEquals(null, CompareFive.compareFive("1", 1));
+	}
+}
+
+// CompareSix.java
+package scenario3;
+
+class CompareSix {
+
+    /**
+     * Create a function that takes integers, floats, or strings representing
+     * real numbers, and returns the larger variable in its given variable type.
+     * Return null if the values are equal.
+     * Note: If a real number is represented as a string, the floating point might be . or ,
+     *
+     * compareSix(1, 2.5) ➞ 2.5
+     * compareSix(1, "2,3") ➞ "2,3"
+     * compareSix("5,1", "6") ➞ "6"
+     * compareSix("1", 1) ➞ None
+     *
+     * > compareSix(1, 2)
+     * 2
+     * > compareSix(1, 2.5)
+     * 2.5
+     * > compareSix(2, 3)
+     * 3
+     * > compareSix(5, 6)
+     * 6

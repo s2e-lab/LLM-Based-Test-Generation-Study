@@ -11,59 +11,164 @@ import static org.junit.jupiter.api.Assertions.*;
 */
 class CheckIfLastCharIsALetterTest {
 
+		/**
+		* Test case 1.
+		* The input string is empty.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_1() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a"));
+		void testCase1() {
+				String txt = "";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 2.
+		* The input string contains only one letter.
+		* The expected result is true.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_2() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1"));
+		void testCase2() {
+				String txt = "a";
+				Boolean expected = true;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 3.
+		* The input string contains only one digit.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_3() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b"));
+		void testCase3() {
+				String txt = "1";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 4.
+		* The input string contains only one special character.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_4() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2"));
+		void testCase4() {
+				String txt = "!";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 5.
+		* The input string contains two letters.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_5() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c"));
+		void testCase5() {
+				String txt = "ab";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 6.
+		* The input string contains two digits.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_6() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3"));
+		void testCase6() {
+				String txt = "12";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 7.
+		* The input string contains two special characters.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_7() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d"));
+		void testCase7() {
+				String txt = "!!";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 8.
+		* The input string contains a letter and a digit.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_8() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d4"));
+		void testCase8() {
+				String txt = "a1";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 9.
+		* The input string contains a letter and a special character.
+		* The expected result is true.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_9() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d4e"));
+		void testCase9() {
+				String txt = "a!";
+				Boolean expected = true;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 10.
+		* The input string contains a digit and a special character.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_10() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter(""));
+		void testCase10() {
+				String txt = "1!";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 }
+```
 
+## Scenario 2
+
+### Description
+
+The method `checkIfLastCharIsALetter` is used to check if the last character of a string is a letter.
+
+### Test Cases
+
+| # | Description | Input | Expected Result |
+|---|-------------|-------|-----------------|
+| 1 | The input string is empty. | `""` | `false` |
+| 2 | The input string contains only one letter. | `"a"` | `true` |
+| 3 | The input string contains only one digit. | `"1"` | `false` |
+| 4 | The input string contains only one special character. | `"!"` | `false` |
+| 5 | The input string contains two letters. | `"ab"` | `false` |
+| 6 | The input string contains two digits. | `"12"` | `false` |
+| 7 | The input string contains two special characters. | `"!!"` | `false` |
+| 8 | The input string contains a letter and a digit. | `"a1"` | `false` |
+| 9 | The input string contains a letter and a special character. | `"a!"` | `true` |
+| 10 | The input string contains a digit and a special character. | `"1!"` | `false` |
+
+### Test Suite
+
+```java
 // CheckIfLastCharIsALetterTest.java
-package scenario1;
+package scenario2;
 
 
 import org.junit.jupiter.api.Test;
@@ -75,59 +180,164 @@ import static org.junit.jupiter.api.Assertions.*;
 */
 class CheckIfLastCharIsALetterTest {
 		
+		/**
+		* Test case 1.
+		* The input string is empty.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_1() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a"));
+		void testCase1() {
+				String txt = "";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 2.
+		* The input string contains only one letter.
+		* The expected result is true.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_2() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1"));
+		void testCase2() {
+				String txt = "a";
+				Boolean expected = true;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 3.
+		* The input string contains only one digit.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_3() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b"));
+		void testCase3() {
+				String txt = "1";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 4.
+		* The input string contains only one special character.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_4() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2"));
+		void testCase4() {
+				String txt = "!";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 5.
+		* The input string contains two letters.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_5() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c"));
+		void testCase5() {
+				String txt = "ab";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 6.
+		* The input string contains two digits.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_6() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3"));
+		void testCase6() {
+				String txt = "12";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 7.
+		* The input string contains two special characters.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_7() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d"));
+		void testCase7() {
+				String txt = "!!";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 8.
+		* The input string contains a letter and a digit.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_8() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d4"));
+		void testCase8() {
+				String txt = "a1";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 9.
+		* The input string contains a letter and a special character.
+		* The expected result is true.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_9() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d4e"));
+		void testCase9() {
+				String txt = "a!";
+				Boolean expected = true;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 10.
+		* The input string contains a digit and a special character.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_10() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter(""));
+		void testCase10() {
+				String txt = "1!";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 }
+```
 
+## Scenario 3
+
+### Description
+
+The method `checkIfLastCharIsALetter` is used to check if the last character of a string is a letter.
+
+### Test Cases
+
+| # | Description | Input | Expected Result |
+|---|-------------|-------|-----------------|
+| 1 | The input string is empty. | `""` | `false` |
+| 2 | The input string contains only one letter. | `"a"` | `true` |
+| 3 | The input string contains only one digit. | `"1"` | `false` |
+| 4 | The input string contains only one special character. | `"!"` | `false` |
+| 5 | The input string contains two letters. | `"ab"` | `false` |
+| 6 | The input string contains two digits. | `"12"` | `false` |
+| 7 | The input string contains two special characters. | `"!!"` | `false` |
+| 8 | The input string contains a letter and a digit. | `"a1"` | `false` |
+| 9 | The input string contains a letter and a special character. | `"a!"` | `true` |
+| 10 | The input string contains a digit and a special character. | `"1!"` | `false` |
+
+### Test Suite
+
+```java
 // CheckIfLastCharIsALetterTest.java
-package scenario1;
+package scenario3;
 
 
 import org.junit.jupiter.api.Test;
@@ -139,64 +349,78 @@ import static org.junit.jupiter.api.Assertions.*;
 */
 class CheckIfLastCharIsALetterTest {
 		
+		/**
+		* Test case 1.
+		* The input string is empty.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_1() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a"));
+		void testCase1() {
+				String txt = "";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 2.
+		* The input string contains only one letter.
+		* The expected result is true.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_2() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1"));
+		void testCase2() {
+				String txt = "a";
+				Boolean expected = true;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 3.
+		* The input string contains only one digit.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_3() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b"));
+		void testCase3() {
+				String txt = "1";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 4.
+		* The input string contains only one special character.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_4() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2"));
+		void testCase4() {
+				String txt = "!";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 5.
+		* The input string contains two letters.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_5() {
-			assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c"));
+		void testCase5() {
+				String txt = "ab";
+				Boolean expected = false;
+				Boolean actual = CheckIfLastCharIsALetter.checkIfLastCharIsALetter(txt);
+				assertEquals(expected, actual);
 		}
 		
+		/**
+		* Test case 6.
+		* The input string contains two digits.
+		* The expected result is false.
+		*/
 		@Test
-		void testCheckIfLastCharIsALetter_6() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3"));
-		}
-		
-		@Test
-		void testCheckIfLastCharIsALetter_7() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d"));
-		}
-		
-		@Test
-		void testCheckIfLastCharIsALetter_8() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d4"));
-		}
-		
-		@Test
-		void testCheckIfLastCharIsALetter_9() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("a1b2c3d4e"));
-		}
-		
-		@Test
-		void testCheckIfLastCharIsALetter_10() {
-			assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter(""));
-		}
-}
-
-// CheckIfLastCharIsALetterTest.java
-package scenario1;
-
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
-* Test class of {@link CheckIfLastCharIsALetter}.
-* It contains ten unit test cases for the {@link CheckIfLastCharIs
+		void testCase6() {
+				String txt = "12";
+				Boolean expected = false;
+				Boolean actual =

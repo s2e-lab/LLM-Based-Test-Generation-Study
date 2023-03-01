@@ -237,4 +237,203 @@ class IscubeTest {
 		}
 		
 		@Test
-		void test_isc
+		void test_iscube_2147483659() {
+			assertFalse(Iscube.iscube(2147483659));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483659() {
+			assertFalse(Iscube.iscube(-2147483659));
+		}
+		
+		@Test
+		void test_iscube_2147483660() {
+			assertFalse(Iscube.iscube(2147483660));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483660() {
+			assertFalse(Iscube.iscube(-2147483660));
+		}
+		
+		@Test
+		void test_iscube_2147483661() {
+			assertFalse(Iscube.iscube(2147483661));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483661() {
+			assertFalse(Iscube.iscube(-2147483661));
+		}
+		
+		@Test
+		void test_iscube_2147483662() {
+			assertFalse(Iscube.iscube(2147483662));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483662() {
+			assertFalse(Iscube.iscube(-2147483662));
+		}
+		
+		@Test
+		void test_iscube_2147483663() {
+			assertFalse(Iscube.iscube(2147483663));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483663() {
+			assertFalse(Iscube.iscube(-2147483663));
+		}
+		
+		@Test
+		void test_iscube_2147483664() {
+			assertFalse(Iscube.iscube(2147483664));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483664() {
+			assertFalse(Iscube.iscube(-2147483664));
+		}
+		
+		@Test
+		void test_iscube_2147483665() {
+			assertFalse(Iscube.iscube(2147483665));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483665() {
+			assertFalse(Iscube.iscube(-2147483665));
+		}
+		
+		@Test
+		void test_iscube_2147483666() {
+			assertFalse(Iscube.iscube(2147483666));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483666() {
+			assertFalse(Iscube.iscube(-2147483666));
+		}
+		
+		@Test
+		void test_iscube_2147483667() {
+			assertFalse(Iscube.iscube(2147483667));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483667() {
+			assertFalse(Iscube.iscube(-2147483667));
+		}
+		
+		@Test
+		void test_iscube_2147483668() {
+			assertFalse(Iscube.iscube(2147483668));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483668() {
+			assertFalse(Iscube.iscube(-2147483668));
+		}
+		
+		@Test
+		void test_iscube_2147483669() {
+			assertFalse(Iscube.iscube(2147483669));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483669() {
+			assertFalse(Iscube.iscube(-2147483669));
+		}
+		
+		@Test
+		void test_iscube_2147483670() {
+			assertFalse(Iscube.iscube(2147483670));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483670() {
+			assertFalse(Iscube.iscube(-2147483670));
+		}
+		
+		@Test
+		void test_iscube_2147483671() {
+			assertFalse(Iscube.iscube(2147483671));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483671() {
+			assertFalse(Iscube.iscube(-2147483671));
+		}
+		
+		@Test
+		void test_iscube_2147483672() {
+			assertFalse(Iscube.iscube(2147483672));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483672() {
+			assertFalse(Iscube.iscube(-2147483672));
+		}
+		
+		@Test
+		void test_iscube_2147483673() {
+			assertFalse(Iscube.iscube(2147483673));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483673() {
+			assertFalse(Iscube.iscube(-2147483673));
+		}
+		
+		@Test
+		void test_iscube_2147483674() {
+			assertFalse(Iscube.iscube(2147483674));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483674() {
+			assertFalse(Iscube.iscube(-2147483674));
+		}
+		
+		@Test
+		void test_iscube_2147483675() {
+			assertFalse(Iscube.iscube(2147483675));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483675() {
+			assertFalse(Iscube.iscube(-2147483675));
+		}
+		
+		@Test
+		void test_iscube_2147483676() {
+			assertFalse(Iscube.iscube(2147483676));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483676() {
+			assertFalse(Iscube.iscube(-2147483676));
+		}
+		
+		@Test
+		void test_iscube_2147483677() {
+			assertFalse(Iscube.iscube(2147483677));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483677() {
+			assertFalse(Iscube.iscube(-2147483677));
+		}
+		
+		@Test
+		void test_iscube_2147483678() {
+			assertFalse(Iscube.iscube(2147483678));
+		}
+		
+		@Test
+		void test_iscube_negative_2147483678() {
+			assertFalse(Iscube.iscube(-2147483678));
+		}
+		
+		@

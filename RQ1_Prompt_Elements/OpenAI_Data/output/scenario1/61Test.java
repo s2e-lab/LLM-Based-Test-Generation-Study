@@ -278,4 +278,259 @@ class CorrectBracketing4Test {
 	
 	@Test
 	void testCorrectBracketing3() {
-		assertTrue(CorrectBr
+		assertTrue(CorrectBracketing4.correctBracketing("()()"));
+	}
+	
+	@Test
+	void testCorrectBracketing4() {
+		assertTrue(CorrectBracketing4.correctBracketing("(()())"));
+	}
+	
+	@Test
+	void testCorrectBracketing5() {
+		assertTrue(CorrectBracketing4.correctBracketing("(()()())"));
+	}
+	
+	@Test
+	void testCorrectBracketing6() {
+		assertFalse(CorrectBracketing4.correctBracketing("("));
+	}
+	
+	@Test
+	void testCorrectBracketing7() {
+		assertFalse(CorrectBracketing4.correctBracketing(")"));
+	}
+	
+	@Test
+	void testCorrectBracketing8() {
+		assertFalse(CorrectBracketing4.correctBracketing("()("));
+	}
+	
+	@Test
+	void testCorrectBracketing9() {
+		assertFalse(CorrectBracketing4.correctBracketing("())"));
+	}
+	
+	@Test
+	void testCorrectBracketing10() {
+		assertFalse(CorrectBracketing4.correctBracketing("(()()()"));
+	}
+}
+
+// CorrectBracketing5.java
+package scenario5;
+
+class CorrectBracketing5 {
+
+    public static Boolean correctBracketing(String brackets) {
+        int count = 0;
+        for (int i = 0; i < brackets.length(); i++) {
+            if (brackets.charAt(i) == '(') {
+                count++;
+            } else {
+                count--;
+            }
+            if (count < 0) {
+                return false;
+            }
+        }
+        return count == 0;
+    }
+}
+
+// CorrectBracketing5Test.java
+package scenario5;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CorrectBracketing5}.
+* It contains ten unit test cases for the {@link CorrectBracketing5#correctBracketing(String)} method.
+*/
+class CorrectBracketing5Test {
+		
+	@Test
+	void testCorrectBracketing1() {
+		assertTrue(CorrectBracketing5.correctBracketing("()"));
+	}
+	
+	@Test
+	void testCorrectBracketing2() {
+		assertTrue(CorrectBracketing5.correctBracketing("(())"));
+	}
+	
+	@Test
+	void testCorrectBracketing3() {
+		assertTrue(CorrectBracketing5.correctBracketing("()()"));
+	}
+	
+	@Test
+	void testCorrectBracketing4() {
+		assertTrue(CorrectBracketing5.correctBracketing("(()())"));
+	}
+	
+	@Test
+	void testCorrectBracketing5() {
+		assertTrue(CorrectBracketing5.correctBracketing("(()()())"));
+	}
+	
+	@Test
+	void testCorrectBracketing6() {
+		assertFalse(CorrectBracketing5.correctBracketing("("));
+	}
+	
+	@Test
+	void testCorrectBracketing7() {
+		assertFalse(CorrectBracketing5.correctBracketing(")"));
+	}
+	
+	@Test
+	void testCorrectBracketing8() {
+		assertFalse(CorrectBracketing5.correctBracketing("()("));
+	}
+	
+	@Test
+	void testCorrectBracketing9() {
+		assertFalse(CorrectBracketing5.correctBracketing("())"));
+	}
+	
+	@Test
+	void testCorrectBracketing10() {
+		assertFalse(CorrectBracketing5.correctBracketing("(()()()"));
+	}
+}
+
+// CorrectBracketing6.java
+package scenario6;
+
+class CorrectBracketing6 {
+
+    public static Boolean correctBracketing(String brackets) {
+        int count = 0;
+        for (int i = 0; i < brackets.length(); i++) {
+            if (brackets.charAt(i) == '(') {
+                count++;
+            } else {
+                count--;
+            }
+            if (count < 0) {
+                return false;
+            }
+        }
+        return count == 0;
+    }
+}
+
+// CorrectBracketing6Test.java
+package scenario6;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CorrectBracketing6}.
+* It contains ten unit test cases for the {@link CorrectBracketing6#correctBracketing(String)} method.
+*/
+class CorrectBracketing6Test {
+		
+	@Test
+	void testCorrectBracketing1() {
+		assertTrue(CorrectBracketing6.correctBracketing("()"));
+	}
+	
+	@Test
+	void testCorrectBracketing2() {
+		assertTrue(CorrectBracketing6.correctBracketing("(())"));
+	}
+	
+	@Test
+	void testCorrectBracketing3() {
+		assertTrue(CorrectBracketing6.correctBracketing("()()"));
+	}
+	
+	@Test
+	void testCorrectBracketing4() {
+		assertTrue(CorrectBracketing6.correctBracketing("(()())"));
+	}
+	
+	@Test
+	void testCorrectBracketing5() {
+		assertTrue(CorrectBracketing6.correctBracketing("(()()())"));
+	}
+	
+	@Test
+	void testCorrectBracketing6() {
+		assertFalse(CorrectBracketing6.correctBracketing("("));
+	}
+	
+	@Test
+	void testCorrectBracketing7() {
+		assertFalse(CorrectBracketing6.correctBracketing(")"));
+	}
+	
+	@Test
+	void testCorrectBracketing8() {
+		assertFalse(CorrectBracketing6.correctBracketing("()("));
+	}
+	
+	@Test
+	void testCorrectBracketing9() {
+		assertFalse(CorrectBracketing6.correctBracketing("())"));
+	}
+	
+	@Test
+	void testCorrectBracketing10() {
+		assertFalse(CorrectBracketing6.correctBracketing("(()()()"));
+	}
+}
+
+// CorrectBracketing7.java
+package scenario7;
+
+class CorrectBracketing7 {
+
+    public static Boolean correctBracketing(String brackets) {
+        int count = 0;
+        for (int i = 0; i < brackets.length(); i++) {
+            if (brackets.charAt(i) == '(') {
+                count++;
+            } else {
+                count--;
+            }
+            if (count < 0) {
+                return false;
+            }
+        }
+        return count == 0;
+    }
+}
+
+// CorrectBracketing7Test.java
+package scenario7;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CorrectBracketing7}.
+* It contains ten unit test cases for the {@link CorrectBracketing7#correctBracketing(String)} method.
+*/
+class CorrectBracketing7Test {
+		
+	@Test
+	void testCorrectBracketing1() {
+		assertTrue(CorrectBracketing7.correctBracketing("()"));
+	}
+	
+	@Test
+	void testCorrectBracketing2() {
+		assertTrue(CorrectBracketing7.correctBracketing("(())"));
+	}
+	
+	@Test
+	void testCorrectBracketing3() {
+		assertTrue(CorrectBracketing7.correctBracketing

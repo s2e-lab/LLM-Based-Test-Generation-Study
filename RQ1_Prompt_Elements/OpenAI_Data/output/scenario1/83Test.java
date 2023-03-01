@@ -224,4 +224,60 @@ class StartsOneEndsTest {
 	*/
 	@Test
 	void testStartsOneEndsZero8() {
+		assertEquals(0, StartsOneEnds.startsOneEnds(0));
+	}
 	
+	/**
+	* Test case for {@link StartsOneEnds#startsOneEnds(int)} method.
+	* It tests the method with a positive integer.
+	*/
+	@Test
+	void testStartsOneEndsPositive9() {
+		assertEquals(2000000000, StartsOneEnds.startsOneEnds(9));
+	}
+	
+	/**
+	* Test case for {@link StartsOneEnds#startsOneEnds(int)} method.
+	* It tests the method with a negative integer.
+	*/
+	@Test
+	void testStartsOneEndsNegative9() {
+		assertEquals(0, StartsOneEnds.startsOneEnds(-9));
+	}
+	
+	/**
+	* Test case for {@link StartsOneEnds#startsOneEnds(int)} method.
+	* It tests the method with a zero.
+	*/
+	@Test
+	void testStartsOneEndsZero9() {
+		assertEquals(0, StartsOneEnds.startsOneEnds(0));
+	}
+	
+	/**
+	* Test case for {@link StartsOneEnds#startsOneEnds(int)} method.
+	* It tests the method with a positive integer.
+	*/
+	@Test
+	void testStartsOneEndsPositive10() {
+		assertEquals(20000000000L, StartsOneEnds.startsOneEnds(10));
+	}
+	
+	/**
+	* Test case for {@link StartsOneEnds#startsOneEnds(int)} method.
+	* It tests the method with a negative integer.
+	*/
+	@Test
+	void testStartsOneEndsNegative10() {
+		assertEquals(0, StartsOneEnds.startsOneEnds(-10));
+	}
+	
+	/**
+	* Test case for {@link StartsOneEnds#startsOneEnds(int)} method.
+	* It tests the method with a zero.
+	*/
+	@Test
+	void testStartsOneEndsZero10() {
+		assertEquals(0, StartsOneEnds.startsOneEnds(0));
+	}
+}

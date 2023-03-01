@@ -232,4 +232,36 @@ class ByLengthTest {
 		expected.add("Three");
 		expected.add("Two");
 		expected.add("One");
-		assertEquals(expected, ByLength.
+		assertEquals(expected, ByLength.byLength(arr));
+	}
+	
+	@Test
+	void testByLengthStrangeNumber10() {
+		List<Object> arr = new ArrayList<Object>();
+		arr.add(9);
+		arr.add(4);
+		arr.add(8);
+		arr.add(1);
+		arr.add(2);
+		arr.add(3);
+		arr.add(5);
+		arr.add(6);
+		arr.add(7);
+		arr.add(10);
+		arr.add(11);
+		arr.add(12);
+		arr.add(13);
+		arr.add(14);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add("Nine");
+		expected.add("Eight");
+		expected.add("Seven");
+		expected.add("Six");
+		expected.add("Five");
+		expected.add("Four");
+		expected.add("Three");
+		expected.add("Two");
+		expected.add("One");
+		assertEquals(expected, ByLength.byLength(arr));
+	}
+}

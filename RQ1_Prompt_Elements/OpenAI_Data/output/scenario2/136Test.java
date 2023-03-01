@@ -220,3 +220,8 @@ class LargestSmallestIntegersTest {
 		lst.add(0);
 		lst.add(0);
 		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(-1);
+		expected.add(1);
+		assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+	}
+}

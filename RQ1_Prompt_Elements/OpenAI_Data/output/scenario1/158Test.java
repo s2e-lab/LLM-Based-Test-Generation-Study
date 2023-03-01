@@ -12,109 +12,127 @@ import static org.junit.jupiter.api.Assertions.*;
 class FindMaxTest {
 
 		@Test
-		void testFindMax_1() {
-				List<String> words = new ArrayList<>();
-				words.add("abc");
-				words.add("abcd");
-				words.add("abcde");
-				words.add("abcdef");
-				words.add("abcdefg");
-				words.add("abcdefgh");
-				words.add("abcdefghi");
-				words.add("abcdefghij");
-				words.add("abcdefghijk");
-				words.add("abcdefghijkl");
-				words.add("abcdefghijklm");
-				words.add("abcdefghijklmn");
-				words.add("abcdefghijklmno");
-				words.add("abcdefghijklmnop");
-				words.add("abcdefghijklmnopq");
-				words.add("abcdefghijklmnopqr");
-				words.add("abcdefghijklmnopqrs");
-				words.add("abcdefghijklmnopqrst");
-				words.add("abcdefghijklmnopqrstu");
-				words.add("abcdefghijklmnopqrstuv");
-				words.add("abcdefghijklmnopqrstuvw");
-				words.add("abcdefghijklmnopqrstuvwx");
-				words.add("abcdefghijklmnopqrstuvwxy");
-				words.add("abcdefghijklmnopqrstuvwxyz");
-				assertEquals("abcdefghijklmnopqrstuvwxyz", FindMax.findMax(words));
+		void testFindMax_null() {
+				assertNull(FindMax.findMax(null));
 		}
 		
 		@Test
-		void testFindMax_2() {
-				List<String> words = new ArrayList<>();
-				words.add("abc");
-				words.add("abcd");
-				words.add("abcde");
-				words.add("abcdef");
-				words.add("abcdefg");
-				words.add("abcdefgh");
-				words.add("abcdefghi");
-				words.add("abcdefghij");
-				words.add("abcdefghijk");
-				words.add("abcdefghijkl");
-				words.add("abcdefghijklm");
-				words.add("abcdefghijklmn");
-				words.add("abcdefghijklmno");
-				words.add("abcdefghijklmnop");
-				words.add("abcdefghijklmnopq");
-				words.add("abcdefghijklmnopqr");
-				words.add("abcdefghijklmnopqrs");
-				words.add("abcdefghijklmnopqrst");
-				words.add("abcdefghijklmnopqrstu");
-				words.add("abcdefghijklmnopqrstuv");
-				words.add("abcdefghijklmnopqrstuvw");
-				words.add("abcdefghijklmnopqrstuvwx");
-				words.add("abcdefghijklmnopqrstuvwxy");
-				words.add("abcdefghijklmnopqrstuvwxyz");
-				words.add("abcdefghijklmnopqrstuvwxyza");
-				words.add("abcdefghijklmnopqrstuvwxyzab");
-				words.add("abcdefghijklmnopqrstuvwxyzabc");
-				words.add("abcdefghijklmnopqrstuvwxyzabcd");
-				words.add("abcdefghijklmnopqrstuvwxyzabcde");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdef");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefg");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefgh");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghi");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghij");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijk");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijkl");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklm");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmn");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmno");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnop");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopq");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqr");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrs");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrst");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstu");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvw");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy");
-				words.add("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz");
-				assertEquals("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", FindMax.findMax(words));
+		void testFindMax_empty() {
+				assertNull(FindMax.findMax(new ArrayList<String>()));
 		}
 		
 		@Test
-		void testFindMax_3() {
+		void testFindMax_one() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				assertEquals("abc", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_two() {
 				List<String> words = new ArrayList<>();
 				words.add("abc");
 				words.add("abcd");
-				words.add("abcde");
-				words.add("abcdef");
-				words.add("abcdefg");
-				words.add("abcdefgh");
-				words.add("abcdefghi");
-				words.add("abcdefghij");
-				words.add("abcdefghijk");
-				words.add("abcdefghijkl");
-				words.add("abcdefghijklm");
-				words.add("abcdefghijklmn");
-				words.add("abcdefghijklmno");
-				words.add("abcdefghijklmnop");
-				words.add("abcdefghijklmnopq");
-				words.add("abcdefghijklmnopqr");
-				words.add("abcdefghijklmnopqrs");
-				
+				assertEquals("abcd", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_three() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				words.add("abcd");
+				words.add("ab");
+				assertEquals("abcd", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_four() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				words.add("abcd");
+				words.add("ab");
+				words.add("abce");
+				assertEquals("abce", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_five() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				words.add("abcd");
+				words.add("ab");
+				words.add("abce");
+				words.add("abcef");
+				assertEquals("abcef", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_six() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				words.add("abcd");
+				words.add("ab");
+				words.add("abce");
+				words.add("abcef");
+				words.add("abcefg");
+				assertEquals("abcefg", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_seven() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				words.add("abcd");
+				words.add("ab");
+				words.add("abce");
+				words.add("abcef");
+				words.add("abcefg");
+				words.add("abcefgh");
+				assertEquals("abcefgh", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_eight() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				words.add("abcd");
+				words.add("ab");
+				words.add("abce");
+				words.add("abcef");
+				words.add("abcefg");
+				words.add("abcefgh");
+				words.add("abcefghi");
+				assertEquals("abcefghi", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_nine() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				words.add("abcd");
+				words.add("ab");
+				words.add("abce");
+				words.add("abcef");
+				words.add("abcefg");
+				words.add("abcefgh");
+				words.add("abcefghi");
+				words.add("abcefghij");
+				assertEquals("abcefghij", FindMax.findMax(words));
+		}
+		
+		@Test
+		void testFindMax_ten() {
+				List<String> words = new ArrayList<>();
+				words.add("abc");
+				words.add("abcd");
+				words.add("ab");
+				words.add("abce");
+				words.add("abcef");
+				words.add("abcefg");
+				words.add("abcefgh");
+				words.add("abcefghi");
+				words.add("abcefghij");
+				words.add("abcefghijk");
+				assertEquals("abcefghijk", FindMax.findMax(words));
+		}
+}

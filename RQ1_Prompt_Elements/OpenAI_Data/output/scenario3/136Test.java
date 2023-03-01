@@ -183,4 +183,75 @@ class LargestSmallestIntegersTest {
 		lst.add(-6);
 		List<Integer> expected = new ArrayList<Integer>();
 		expected.add(-1);
+		expected.add(null);
+		List<Integer> actual = LargestSmallestIntegers.largestSmallestIntegers(lst);
+		assertEquals(expected, actual);
+	}
 	
+	/**
+	* Test case for {@link LargestSmallestIntegers#largestSmallestIntegers(List)} method.
+	* It tests the method with a list of integers.
+	* The expected result is a list of two integers, where the first integer is the largest of negative integers,
+	* and the second integer is the smallest of positive integers.
+	* If there is no negative or positive integers, return them as None.
+	*/
+	@Test
+	void testLargestSmallestIntegers7() {
+		List<Object> lst = new ArrayList<Object>();
+		lst.add(-1);
+		lst.add(-3);
+		lst.add(-5);
+		lst.add(-6);
+		lst.add(0);
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(-1);
+		expected.add(null);
+		List<Integer> actual = LargestSmallestIntegers.largestSmallestIntegers(lst);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link LargestSmallestIntegers#largestSmallestIntegers(List)} method.
+	* It tests the method with a list of integers.
+	* The expected result is a list of two integers, where the first integer is the largest of negative integers,
+	* and the second integer is the smallest of positive integers.
+	* If there is no negative or positive integers, return them as None.
+	*/
+	@Test
+	void testLargestSmallestIntegers8() {
+		List<Object> lst = new ArrayList<Object>();
+		lst.add(-6);
+		lst.add(-4);
+		lst.add(-4);
+		lst.add(-3);
+		lst.add(1);
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(-3);
+		expected.add(1);
+		List<Integer> actual = LargestSmallestIntegers.largestSmallestIntegers(lst);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link LargestSmallestIntegers#largestSmallestIntegers(List)} method.
+	* It tests the method with a list of integers.
+	* The expected result is a list of two integers, where the first integer is the largest of negative integers,
+	* and the second integer is the smallest of positive integers.
+	* If there is no negative or positive integers, return them as None.
+	*/
+	@Test
+	void testLargestSmallestIntegers9() {
+		List<Object> lst = new ArrayList<Object>();
+		lst.add(-6);
+		lst.add(-4);
+		lst.add(-4);
+		lst.add(-3);
+		lst.add(-100);
+		lst.add(1);
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(-3);
+		expected.add(1);
+		List<Integer> actual = LargestSmallestIntegers.largestSmallestIntegers(lst);
+		assertEquals(expected, actual);
+	}
+}

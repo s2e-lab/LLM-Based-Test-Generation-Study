@@ -12,15 +12,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class DoubleTheDifferenceTest {
 
 	/**
-	* Test case 1.
-	* The input list contains only one element.
+	* Test case 1 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
 	* The element is an integer.
-	* The integer is odd.
-	* The integer is positive.
+	* The integer is odd and positive.
 	* The expected result is the square of the integer.
 	*/
 	@Test
-	void test1() {
+	void testDoubleTheDifference_1() {
 		List<Object> lst = List.of(1);
 		int expected = 1;
 		int actual = DoubleTheDifference.doubleTheDifference(lst);
@@ -28,15 +27,14 @@ class DoubleTheDifferenceTest {
 	}
 	
 	/**
-	* Test case 2.
-	* The input list contains only one element.
+	* Test case 2 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
 	* The element is an integer.
-	* The integer is even.
-	* The integer is positive.
+	* The integer is even and positive.
 	* The expected result is zero.
 	*/
 	@Test
-	void test2() {
+	void testDoubleTheDifference_2() {
 		List<Object> lst = List.of(2);
 		int expected = 0;
 		int actual = DoubleTheDifference.doubleTheDifference(lst);
@@ -44,15 +42,14 @@ class DoubleTheDifferenceTest {
 	}
 	
 	/**
-	* Test case 3.
-	* The input list contains only one element.
+	* Test case 3 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
 	* The element is an integer.
-	* The integer is odd.
-	* The integer is negative.
+	* The integer is odd and negative.
 	* The expected result is zero.
 	*/
 	@Test
-	void test3() {
+	void testDoubleTheDifference_3() {
 		List<Object> lst = List.of(-1);
 		int expected = 0;
 		int actual = DoubleTheDifference.doubleTheDifference(lst);
@@ -60,15 +57,14 @@ class DoubleTheDifferenceTest {
 	}
 	
 	/**
-	* Test case 4.
-	* The input list contains only one element.
+	* Test case 4 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
 	* The element is an integer.
-	* The integer is even.
-	* The integer is negative.
+	* The integer is even and negative.
 	* The expected result is zero.
 	*/
 	@Test
-	void test4() {
+	void testDoubleTheDifference_4() {
 		List<Object> lst = List.of(-2);
 		int expected = 0;
 		int actual = DoubleTheDifference.doubleTheDifference(lst);
@@ -76,27 +72,55 @@ class DoubleTheDifferenceTest {
 	}
 	
 	/**
-	* Test case 5.
-	* The input list contains only one element.
-	* The element is not an integer.
+	* Test case 5 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
+	* The element is a string.
 	* The expected result is zero.
 	*/
 	@Test
-	void test5() {
-		List<Object> lst = List.of("1");
+	void testDoubleTheDifference_5() {
+		List<Object> lst = List.of("Hello");
 		int expected = 0;
 		int actual = DoubleTheDifference.doubleTheDifference(lst);
 		assertEquals(expected, actual);
 	}
 	
 	/**
-	* Test case 6.
-	* The input list contains only one element.
+	* Test case 6 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
+	* The element is a double.
+	* The expected result is zero.
+	*/
+	@Test
+	void testDoubleTheDifference_6() {
+		List<Object> lst = List.of(1.5);
+		int expected = 0;
+		int actual = DoubleTheDifference.doubleTheDifference(lst);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case 7 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
+	* The element is a boolean.
+	* The expected result is zero.
+	*/
+	@Test
+	void testDoubleTheDifference_7() {
+		List<Object> lst = List.of(true);
+		int expected = 0;
+		int actual = DoubleTheDifference.doubleTheDifference(lst);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case 8 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
 	* The element is null.
 	* The expected result is zero.
 	*/
 	@Test
-	void test6() {
+	void testDoubleTheDifference_8() {
 		List<Object> lst = List.of(null);
 		int expected = 0;
 		int actual = DoubleTheDifference.doubleTheDifference(lst);
@@ -104,77 +128,31 @@ class DoubleTheDifferenceTest {
 	}
 	
 	/**
-	* Test case 7.
-	* The input list contains two elements.
-	* The first element is an integer.
-	* The second element is an integer.
-	* The first integer is odd.
-	* The first integer is positive.
-	* The second integer is odd.
-	* The second integer is positive.
-	* The expected result is the sum of the squares of the two integers.
+	* Test case 9 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
+	* The element is an integer.
+	* The integer is odd and positive.
+	* The expected result is the square of the integer.
 	*/
 	@Test
-	void test7() {
-		List<Object> lst = List.of(1, 3);
-		int expected = 10;
+	void testDoubleTheDifference_9() {
+		List<Object> lst = List.of(3);
+		int expected = 9;
 		int actual = DoubleTheDifference.doubleTheDifference(lst);
 		assertEquals(expected, actual);
 	}
 	
 	/**
-	* Test case 8.
-	* The input list contains two elements.
-	* The first element is an integer.
-	* The second element is an integer.
-	* The first integer is odd.
-	* The first integer is positive.
-	* The second integer is even.
-	* The second integer is positive.
-	* The expected result is the square of the first integer.
+	* Test case 10 for {@link DoubleTheDifference#doubleTheDifference(List)}.
+	* The test case tests the method with a list containing only one element.
+	* The element is an integer.
+	* The integer is odd and positive.
+	* The expected result is the square of the integer.
 	*/
 	@Test
-	void test8() {
-		List<Object> lst = List.of(1, 2);
-		int expected = 1;
-		int actual = DoubleTheDifference.doubleTheDifference(lst);
-		assertEquals(expected, actual);
-	}
-	
-	/**
-	* Test case 9.
-	* The input list contains two elements.
-	* The first element is an integer.
-	* The second element is an integer.
-	* The first integer is odd.
-	* The first integer is positive.
-	* The second integer is odd.
-	* The second integer is negative.
-	* The expected result is the square of the first integer.
-	*/
-	@Test
-	void test9() {
-		List<Object> lst = List.of(1, -3);
-		int expected = 1;
-		int actual = DoubleTheDifference.doubleTheDifference(lst);
-		assertEquals(expected, actual);
-	}
-	
-	/**
-	* Test case 10.
-	* The input list contains two elements.
-	* The first element is an integer.
-	* The second element is an integer.
-	* The first integer is odd.
-	* The first integer is positive.
-	* The second integer is even.
-	* The second integer is negative.
-	* The expected result is the square of the first integer.
-	*/
-	@Test
-	void test10() {
-		List<Object> lst = List.of(1, -2);
-		int expected = 1;
+	void testDoubleTheDifference_10() {
+		List<Object> lst = List.of(5);
+		int expected = 25;
 		int actual = DoubleTheDifference.doubleTheDifference(lst);
 		assertEquals(expected, actual);
 	}

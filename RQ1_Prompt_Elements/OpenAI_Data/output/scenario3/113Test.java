@@ -163,4 +163,72 @@ class OddCountTest {
 		List<String> expected = new ArrayList<String>();
 		expected.add("the number of odd elements 4n the str4ng 4 of the 4nput.");
 		expected.add("the number of odd elements 1n the str1ng 1 of the 1nput.");
-		expected.add("the number of odd elements 8n
+		expected.add("the number of odd elements 8n the str8ng 8 of the 8nput.");
+		expected.add("the number of odd elements 2n the str2ng 2 of the 2nput.");
+		expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+		expected.add("the number of odd elements 2n the str2ng 2 of the 2nput.");
+		expected.add("the number of odd elements 4n the str4ng 4 of the 4nput.");
+		expected.add("the number of odd elements 1n the str1ng 1 of the 1nput.");
+		assertEquals(expected, OddCount.oddCount(lst));
+	}
+	
+	/**
+	* Test case for {@link OddCount#oddCount(List)} method.
+	* It tests the method with a list of nine strings.
+	*/
+	@Test
+	void testOddCount_NineStrings() {
+		List<String> lst = new ArrayList<String>();
+		lst.add("1234567");
+		lst.add("3");
+		lst.add("11111111");
+		lst.add("271");
+		lst.add("137");
+		lst.add("314");
+		lst.add("1234567");
+		lst.add("3");
+		lst.add("11111111");
+		List<String> expected = new ArrayList<String>();
+		expected.add("the number of odd elements 4n the str4ng 4 of the 4nput.");
+		expected.add("the number of odd elements 1n the str1ng 1 of the 1nput.");
+		expected.add("the number of odd elements 8n the str8ng 8 of the 8nput.");
+		expected.add("the number of odd elements 2n the str2ng 2 of the 2nput.");
+		expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+		expected.add("the number of odd elements 2n the str2ng 2 of the 2nput.");
+		expected.add("the number of odd elements 4n the str4ng 4 of the 4nput.");
+		expected.add("the number of odd elements 1n the str1ng 1 of the 1nput.");
+		expected.add("the number of odd elements 8n the str8ng 8 of the 8nput.");
+		assertEquals(expected, OddCount.oddCount(lst));
+	}
+	
+	/**
+	* Test case for {@link OddCount#oddCount(List)} method.
+	* It tests the method with a list of ten strings.
+	*/
+	@Test
+	void testOddCount_TenStrings() {
+		List<String> lst = new ArrayList<String>();
+		lst.add("1234567");
+		lst.add("3");
+		lst.add("11111111");
+		lst.add("271");
+		lst.add("137");
+		lst.add("314");
+		lst.add("1234567");
+		lst.add("3");
+		lst.add("11111111");
+		lst.add("271");
+		List<String> expected = new ArrayList<String>();
+		expected.add("the number of odd elements 4n the str4ng 4 of the 4nput.");
+		expected.add("the number of odd elements 1n the str1ng 1 of the 1nput.");
+		expected.add("the number of odd elements 8n the str8ng 8 of the 8nput.");
+		expected.add("the number of odd elements 2n the str2ng 2 of the 2nput.");
+		expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+		expected.add("the number of odd elements 2n the str2ng 2 of the 2nput.");
+		expected.add("the number of odd elements 4n the str4ng 4 of the 4nput.");
+		expected.add("the number of odd elements 1n the str1ng 1 of the 1nput.");
+		expected.add("the number of odd elements 8n the str8ng 8 of the 8nput.");
+		expected.add("the number of odd elements 2n the str2ng 2 of the 2nput.");
+		assertEquals(expected, OddCount.oddCount(lst));
+	}
+}

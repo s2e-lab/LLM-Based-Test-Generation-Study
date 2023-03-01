@@ -71,7 +71,7 @@ class RollingMaxTest {
 	}
 	
 	@Test
-	void testRollingMaxPeaks() {
+	void testRollingMaxPeak() {
 		List<Object> numbers = new ArrayList<Object>();
 		numbers.add(3);
 		numbers.add(2);
@@ -84,48 +84,6 @@ class RollingMaxTest {
 		expected.add(3);
 		expected.add(100);
 		expected.add(100);
-		assertEquals(expected, RollingMax.rollingMax(numbers));
-	}
-	
-	@Test
-	void testRollingMaxOneElement() {
-		List<Object> numbers = new ArrayList<Object>();
-		numbers.add(1);
-		List<Object> expected = new ArrayList<Object>();
-		expected.add(1);
-		assertEquals(expected, RollingMax.rollingMax(numbers));
-	}
-	
-	@Test
-	void testRollingMaxTwoElements() {
-		List<Object> numbers = new ArrayList<Object>();
-		numbers.add(1);
-		numbers.add(2);
-		List<Object> expected = new ArrayList<Object>();
-		expected.add(1);
-		expected.add(2);
-		assertEquals(expected, RollingMax.rollingMax(numbers));
-	}
-	
-	@Test
-	void testRollingMaxTwoElementsDescending() {
-		List<Object> numbers = new ArrayList<Object>();
-		numbers.add(2);
-		numbers.add(1);
-		List<Object> expected = new ArrayList<Object>();
-		expected.add(2);
-		expected.add(2);
-		assertEquals(expected, RollingMax.rollingMax(numbers));
-	}
-	
-	@Test
-	void testRollingMaxTwoElementsSame() {
-		List<Object> numbers = new ArrayList<Object>();
-		numbers.add(1);
-		numbers.add(1);
-		List<Object> expected = new ArrayList<Object>();
-		expected.add(1);
-		expected.add(1);
 		assertEquals(expected, RollingMax.rollingMax(numbers));
 	}
 	
@@ -151,72 +109,117 @@ class RollingMaxTest {
 	}
 	
 	@Test
-	void testRollingMaxNegativeAndPositive() {
+	void testRollingMaxNegativeAscending() {
 		List<Object> numbers = new ArrayList<Object>();
 		numbers.add(-1);
 		numbers.add(-2);
 		numbers.add(-3);
-		numbers.add(2);
-		numbers.add(3);
-		numbers.add(4);
-		numbers.add(2);
+		numbers.add(-4);
 		List<Object> expected = new ArrayList<Object>();
 		expected.add(-1);
 		expected.add(-1);
+		expected.add(-1);
+		expected.add(-1);
+		assertEquals(expected, RollingMax.rollingMax(numbers));
+	}
+	
+	@Test
+	void testRollingMaxNegativeDescending() {
+		List<Object> numbers = new ArrayList<Object>();
+		numbers.add(-4);
+		numbers.add(-3);
+		numbers.add(-2);
+		numbers.add(-1);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(-4);
+		expected.add(-3);
+		expected.add(-2);
+		expected.add(-1);
+		assertEquals(expected, RollingMax.rollingMax(numbers));
+	}
+	
+	@Test
+	void testRollingMaxNegativePeak() {
+		List<Object> numbers = new ArrayList<Object>();
+		numbers.add(-3);
+		numbers.add(-2);
+		numbers.add(-3);
+		numbers.add(-100);
+		numbers.add(-3);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(-3);
+		expected.add(-2);
+		expected.add(-2);
+		expected.add(-2);
+		expected.add(-2);
+		assertEquals(expected, RollingMax.rollingMax(numbers));
+	}
+	
+	@Test
+	void testRollingMaxMixed() {
+		List<Object> numbers = new ArrayList<Object>();
+		numbers.add(-1);
+		numbers.add(2);
+		numbers.add(-3);
+		numbers.add(2);
+		numbers.add(-3);
+		numbers.add(4);
+		numbers.add(-2);
+		List<Object> expected = new ArrayList<Object>();
 		expected.add(-1);
 		expected.add(2);
-		expected.add(3);
+		expected.add(2);
+		expected.add(2);
+		expected.add(2);
 		expected.add(4);
 		expected.add(4);
 		assertEquals(expected, RollingMax.rollingMax(numbers));
 	}
 	
 	@Test
-	void testRollingMaxNegativeAndPositivePeaks() {
-		List<Object> numbers = new ArrayList<Object>();
-		numbers.add(-3);
-		numbers.add(-2);
-		numbers.add(-3);
-		numbers.add(100);
-		numbers.add(3);
-		List<Object> expected = new ArrayList<Object>();
-		expected.add(-3);
-		expected.add(-2);
-		expected.add(-2);
-		expected.add(100);
-		expected.add(100);
-		assertEquals(expected, RollingMax.rollingMax(numbers));
-	}
-	
-	@Test
-	void testRollingMaxNegativeAndPositiveSame() {
+	void testRollingMaxMixedAscending() {
 		List<Object> numbers = new ArrayList<Object>();
 		numbers.add(-1);
-		numbers.add(-2);
-		numbers.add(-3);
-		numbers.add(3);
 		numbers.add(2);
-		numbers.add(1);
-		numbers.add(-2);
+		numbers.add(-3);
+		numbers.add(4);
 		List<Object> expected = new ArrayList<Object>();
 		expected.add(-1);
-		expected.add(-1);
-		expected.add(-1);
-		expected.add(3);
-		expected.add(3);
-		expected.add(3);
-		expected.add(3);
+		expected.add(2);
+		expected.add(2);
+		expected.add(4);
 		assertEquals(expected, RollingMax.rollingMax(numbers));
 	}
 	
 	@Test
-	void testRollingMaxNegativeAndPositiveSamePeaks() {
+	void testRollingMaxMixedDescending() {
+		List<Object> numbers = new ArrayList<Object>();
+		numbers.add(4);
+		numbers.add(-3);
+		numbers.add(2);
+		numbers.add(-1);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(4);
+		expected.add(4);
+		expected.add(4);
+		expected.add(4);
+		assertEquals(expected, RollingMax.rollingMax(numbers));
+	}
+	
+	@Test
+	void testRollingMaxMixedPeak() {
 		List<Object> numbers = new ArrayList<Object>();
 		numbers.add(-3);
-		numbers.add(-2);
+		numbers.add(2);
 		numbers.add(-3);
 		numbers.add(100);
 		numbers.add(-3);
 		List<Object> expected = new ArrayList<Object>();
 		expected.add(-3);
-		
+		expected.add(2);
+		expected.add(2);
+		expected.add(100);
+		expected.add(100);
+		assertEquals(expected, RollingMax.rollingMax(numbers));
+	}
+}

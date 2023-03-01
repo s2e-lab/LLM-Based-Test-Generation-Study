@@ -185,4 +185,17 @@ class FilterBySubstringTest {
 				input.add("string1");
 				input.add("substring");
 				input.add("string3");
-	
+				input.add("substring");
+				input.add("string5");
+				input.add("substring");
+				input.add("string7");
+				input.add("substring");
+				List<Object> expected = new ArrayList<Object>();
+				expected.add("substring");
+				expected.add("substring");
+				expected.add("substring");
+				expected.add("substring");
+				List<Object> actual = FilterBySubstring.filterBySubstring(input, "substring");
+				assertEquals(expected, actual);
+		}
+}

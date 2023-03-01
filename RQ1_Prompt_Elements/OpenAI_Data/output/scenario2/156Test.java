@@ -77,14 +77,63 @@ class MiniRomanToIntTest {
 	}
 }
 
+// IntToRoman.java
+package scenario3;
+
+class IntToRoman {
+
+    /**
+     * Given a positive integer, obtain its roman numeral equivalent as a string.
+     * Restrictions: 1 <= num <= 3999
+     */
+    public static String intToRoman(int number) {
+        String result = "";
+        int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        String[] symbols = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+        for (int i = 0; i < values.length; i++) {
+            while (number >= values[i]) {
+                number -= values[i];
+                result += symbols[i];
+            }
+        }
+        return result;
+    }
+}
+
+// IntToRomanTest.java
+package scenario3;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link IntToRoman}.
+* It contains ten unit test cases for the {@link IntToRoman#intToRoman(int)} method.
+*/
+class IntToRomanTest {
+		
+	@Test
+	void testIntToRoman() {
+		assertEquals("I", IntToRoman.intToRoman(1));
+		assertEquals("II", IntToRoman.intToRoman(2));
+		assertEquals("III", IntToRoman.intToRoman(3));
+		assertEquals("IV", IntToRoman.intToRoman(4));
+		assertEquals("V", IntToRoman.intToRoman(5));
+		assertEquals("VI", IntToRoman.intToRoman(6));
+		assertEquals("VII", IntToRoman.intToRoman(7));
+		assertEquals("VIII", IntToRoman.intToRoman(8));
+		assertEquals("IX", IntToRoman.intToRoman(9));
+		assertEquals("X", IntToRoman.intToRoman(10));
+	}
+}
+
 // RomanToInt.java
-package scenario2;
+package scenario3;
 
 class RomanToInt {
 
     /**
      * Given a string representing a roman numeral, return its integer equivalent.
-     * The string is guaranteed to be in uppercase.
      * Restrictions: 1 <= num <= 3999
      */
     public static int romanToInt(String roman) {
@@ -102,7 +151,7 @@ class RomanToInt {
 }
 
 // RomanToIntTest.java
-package scenario2;
+package scenario3;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -129,13 +178,12 @@ class RomanToIntTest {
 }
 
 // IntToRoman.java
-package scenario2;
+package scenario4;
 
 class IntToRoman {
 
     /**
-     * Given a positive integer, obtain its roman numeral equivalent as a string,
-     * and return it in uppercase.
+     * Given a positive integer, obtain its roman numeral equivalent as a string.
      * Restrictions: 1 <= num <= 3999
      */
     public static String intToRoman(int number) {
@@ -153,7 +201,7 @@ class IntToRoman {
 }
 
 // IntToRomanTest.java
-package scenario2;
+package scenario4;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -179,19 +227,147 @@ class IntToRomanTest {
 	}
 }
 
-// RomanToMiniRoman.java
-package scenario2;
+// RomanToInt.java
+package scenario4;
 
-class RomanToMiniRoman {
+class RomanToInt {
 
     /**
-     * Given a string representing a roman numeral, return its equivalent in lowercase.
-     * The string is guaranteed to be in uppercase.
+     * Given a string representing a roman numeral, return its integer equivalent.
      * Restrictions: 1 <= num <= 3999
      */
-    public static String romanToMiniRoman(String roman) {
-        return roman.toLowerCase();
+    public static int romanToInt(String roman) {
+        int result = 0;
+        String[] symbols = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+        int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        for (int i = 0; i < symbols.length; i++) {
+            while (roman.startsWith(symbols[i])) {
+                result += values[i];
+                roman = roman.substring(symbols[i].length());
+            }
+        }
+        return result;
     }
 }
 
-// RomanToMiniRoman
+// RomanToIntTest.java
+package scenario4;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RomanToInt}.
+* It contains ten unit test cases for the {@link RomanToInt#romanToInt(String)} method.
+*/
+class RomanToIntTest {
+		
+	@Test
+	void testRomanToInt() {
+		assertEquals(1, RomanToInt.romanToInt("I"));
+		assertEquals(2, RomanToInt.romanToInt("II"));
+		assertEquals(3, RomanToInt.romanToInt("III"));
+		assertEquals(4, RomanToInt.romanToInt("IV"));
+		assertEquals(5, RomanToInt.romanToInt("V"));
+		assertEquals(6, RomanToInt.romanToInt("VI"));
+		assertEquals(7, RomanToInt.romanToInt("VII"));
+		assertEquals(8, RomanToInt.romanToInt("VIII"));
+		assertEquals(9, RomanToInt.romanToInt("IX"));
+		assertEquals(10, RomanToInt.romanToInt("X"));
+	}
+}
+
+// IntToRoman.java
+package scenario5;
+
+class IntToRoman {
+
+    /**
+     * Given a positive integer, obtain its roman numeral equivalent as a string.
+     * Restrictions: 1 <= num <= 3999
+     */
+    public static String intToRoman(int number) {
+        String result = "";
+        int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        String[] symbols = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+        for (int i = 0; i < values.length; i++) {
+            while (number >= values[i]) {
+                number -= values[i];
+                result += symbols[i];
+            }
+        }
+        return result;
+    }
+}
+
+// IntToRomanTest.java
+package scenario5;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link IntToRoman}.
+* It contains ten unit test cases for the {@link IntToRoman#intToRoman(int)} method.
+*/
+class IntToRomanTest {
+		
+	@Test
+	void testIntToRoman() {
+		assertEquals("I", IntToRoman.intToRoman(1));
+		assertEquals("II", IntToRoman.intToRoman(2));
+		assertEquals("III", IntToRoman.intToRoman(3));
+		assertEquals("IV", IntToRoman.intToRoman(4));
+		assertEquals("V", IntToRoman.intToRoman(5));
+		assertEquals("VI", IntToRoman.intToRoman(6));
+		assertEquals("VII", IntToRoman.intToRoman(7));
+		assertEquals("VIII", IntToRoman.intToRoman(8));
+		assertEquals("IX", IntToRoman.intToRoman(9));
+		assertEquals("X", IntToRoman.intToRoman(10));
+	}
+}
+
+// RomanToInt.java
+package scenario5;
+
+class RomanToInt {
+
+    /**
+     * Given a string representing a roman numeral, return its integer equivalent.
+     * Restrictions: 1 <= num <= 3999
+     */
+    public static int romanToInt(String roman) {
+        int result = 0;
+        String[] symbols = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+        int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        for (int i = 0; i < symbols.length; i++) {
+            while (roman.startsWith(symbols[i])) {
+                result += values[i];
+                roman = roman.substring(symbols[i].length());
+            }
+        }
+        return result;
+    }
+}
+
+// RomanToIntTest.java
+package scenario5;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RomanToInt}.
+* It contains ten unit test cases for the {@link RomanToInt#romanToInt(String)} method.
+*/
+class RomanToIntTest {
+		
+	@Test
+	void testRomanToInt() {
+		assertEquals(1, RomanToInt.romanToInt("I"));
+		assertEquals(2, RomanToInt.romanToInt("II"));
+		assertEquals(3, RomanToInt.romanToInt("III"));
+		assertEquals(4, RomanToInt.romanToInt("IV"));
+		assertEquals(5, RomanToInt.romanToInt("V"));
+		assertEquals(6, RomanToInt.romanToInt("VI"));
+		assertEquals(7,

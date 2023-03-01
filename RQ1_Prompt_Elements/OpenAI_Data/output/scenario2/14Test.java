@@ -207,4 +207,18 @@ class AllPrefixesTest {
 		List<Object> expected = new ArrayList<Object>();
 		expected.add(" ");
 		expected.add(" h");
-		
+		expected.add(" he");
+		expected.add(" hel");
+		expected.add(" hell");
+		expected.add(" hello");
+		expected.add(" hello ");
+		expected.add(" hello w");
+		expected.add(" hello wo");
+		expected.add(" hello wor");
+		expected.add(" hello worl");
+		expected.add(" hello world");
+		expected.add(" hello world ");
+		List<Object> actual = AllPrefixes.allPrefixes(input);
+		assertEquals(expected, actual);
+	}
+}

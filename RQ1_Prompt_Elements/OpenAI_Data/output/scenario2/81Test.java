@@ -203,4 +203,54 @@ class NumericalLetterGradeTest {
 		grades.add(3.7);
 		grades.add(3.3);
 		grades.add(3.0);
-		grades.add(2
+		grades.add(2.7);
+		grades.add(2.3);
+		grades.add(2.0);
+		grades.add(1.7);
+		grades.add(1.3);
+		List<String> expected = new ArrayList<String>();
+		expected.add("A+");
+		expected.add("A");
+		expected.add("A-");
+		expected.add("B+");
+		expected.add("B");
+		expected.add("B-");
+		expected.add("C+");
+		expected.add("C");
+		expected.add("C-");
+		List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link NumericalLetterGrade#numericalLetterGrade(List)} method.
+	* It tests the case when the input list contains only ten elements.
+	*/
+	@Test
+	void testTenElementList() {
+		List<Number> grades = new ArrayList<Number>();
+		grades.add(4.0);
+		grades.add(3.7);
+		grades.add(3.3);
+		grades.add(3.0);
+		grades.add(2.7);
+		grades.add(2.3);
+		grades.add(2.0);
+		grades.add(1.7);
+		grades.add(1.3);
+		grades.add(1.0);
+		List<String> expected = new ArrayList<String>();
+		expected.add("A+");
+		expected.add("A");
+		expected.add("A-");
+		expected.add("B+");
+		expected.add("B");
+		expected.add("B-");
+		expected.add("C+");
+		expected.add("C");
+		expected.add("C-");
+		expected.add("D+");
+		List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+		assertEquals(expected, actual);
+	}
+}

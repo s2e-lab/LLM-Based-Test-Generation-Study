@@ -255,4 +255,244 @@ package scenario1;
 
 class Fib9 {
 
-    public static
+    public static int fib9(int n) {
+        if (n < 2) {
+            return 0;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int a = 0;
+        int b = 0;
+        int c = 2;
+        int d = 0;
+        int e = 0;
+        for (int i = 4; i <= n; i++) {
+            e = a + b + c + d;
+            a = b;
+            b = c;
+            c = d;
+            d = e;
+        }
+        return e;
+    }
+}
+
+// Fib9Test.java
+package scenario1;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Fib9}.
+* It contains ten unit test cases for the {@link Fib9#fib9(int)} method.
+*/
+class Fib9Test {
+		
+	@Test
+	void testFib9() {
+		assertEquals(0, Fib9.fib9(1));
+		assertEquals(0, Fib9.fib9(2));
+		assertEquals(2, Fib9.fib9(3));
+		assertEquals(2, Fib9.fib9(4));
+		assertEquals(4, Fib9.fib9(5));
+		assertEquals(6, Fib9.fib9(6));
+		assertEquals(10, Fib9.fib9(7));
+		assertEquals(16, Fib9.fib9(8));
+		assertEquals(26, Fib9.fib9(9));
+		assertEquals(42, Fib9.fib9(10));
+	}
+}
+
+// Fib10.java
+package scenario1;
+
+class Fib10 {
+
+    public static int fib10(int n) {
+        if (n < 2) {
+            return 0;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int a = 0;
+        int b = 0;
+        int c = 2;
+        int d = 0;
+        int e = 0;
+        for (int i = 4; i <= n; i++) {
+            e = a + b + c + d;
+            a = b;
+            b = c;
+            c = d;
+            d = e;
+        }
+        return e;
+    }
+}
+
+// Fib10Test.java
+package scenario1;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Fib10}.
+* It contains ten unit test cases for the {@link Fib10#fib10(int)} method.
+*/
+class Fib10Test {
+		
+	@Test
+	void testFib10() {
+		assertEquals(0, Fib10.fib10(1));
+		assertEquals(0, Fib10.fib10(2));
+		assertEquals(2, Fib10.fib10(3));
+		assertEquals(2, Fib10.fib10(4));
+		assertEquals(4, Fib10.fib10(5));
+		assertEquals(6, Fib10.fib10(6));
+		assertEquals(10, Fib10.fib10(7));
+		assertEquals(16, Fib10.fib10(8));
+		assertEquals(26, Fib10.fib10(9));
+		assertEquals(42, Fib10.fib10(10));
+	}
+}
+
+// Fib11.java
+package scenario1;
+
+class Fib11 {
+
+    public static int fib11(int n) {
+        if (n < 2) {
+            return 0;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int a = 0;
+        int b = 0;
+        int c = 2;
+        int d = 0;
+        int e = 0;
+        for (int i = 4; i <= n; i++) {
+            e = a + b + c + d;
+            a = b;
+            b = c;
+            c = d;
+            d = e;
+        }
+        return e;
+    }
+}
+
+// Fib11Test.java
+package scenario1;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Fib11}.
+* It contains ten unit test cases for the {@link Fib11#fib11(int)} method.
+*/
+class Fib11Test {
+		
+	@Test
+	void testFib11() {
+		assertEquals(0, Fib11.fib11(1));
+		assertEquals(0, Fib11.fib11(2));
+		assertEquals(2, Fib11.fib11(3));
+		assertEquals(2, Fib11.fib11(4));
+		assertEquals(4, Fib11.fib11(5));
+		assertEquals(6, Fib11.fib11(6));
+		assertEquals(10, Fib11.fib11(7));
+		assertEquals(16, Fib11.fib11(8));
+		assertEquals(26, Fib11.fib11(9));
+		assertEquals(42, Fib11.fib11(10));
+	}
+}
+
+// Fib12.java
+package scenario1;
+
+class Fib12 {
+
+    public static int fib12(int n) {
+        if (n < 2) {
+            return 0;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int a = 0;
+        int b = 0;
+        int c = 2;
+        int d = 0;
+        int e = 0;
+        for (int i = 4; i <= n; i++) {
+            e = a + b + c + d;
+            a = b;
+            b = c;
+            c = d;
+            d = e;
+        }
+        return e;
+    }
+}
+
+// Fib12Test.java
+package scenario1;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Fib12}.
+* It contains ten unit test cases for the {@link Fib12#fib12(int)} method.
+*/
+class Fib12Test {
+		
+	@Test
+	void testFib12() {
+		assertEquals(0, Fib12.fib12(1));
+		assertEquals(0, Fib12.fib12(2));
+		assertEquals(2, Fib12.fib12(3));
+		assertEquals(2, Fib12.fib12(4));
+		assertEquals(4, Fib12.fib12(5));
+		assertEquals(6, Fib12.fib12(6));
+		assertEquals(10, Fib12.fib12(7));
+		assertEquals(16, Fib12.fib12(8));
+		assertEquals(26, Fib12.fib12(9));
+		assertEquals(42, Fib12.fib12(10));
+	}
+}
+
+// Fib13.java
+package scenario1;
+
+class Fib13 {
+
+    public static int fib13(int n) {
+        if (n < 2) {
+            return 0;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int a = 0;
+        int b = 0;
+        int c = 2;
+        int d = 0;
+        int e = 0;
+        for (int i = 4; i <= n; i++) {
+            e = a + b + c + d;
+            a = b;
+            b = c;
+            c = d;

@@ -235,4 +235,6 @@ class Maximum1Test {
 		expected.add(4);
 		expected.add(5);
 		List<Object> actual = Maximum1.maximum(arr, k);
-		assert
+		assertEquals(expected, actual);
+	}
+}

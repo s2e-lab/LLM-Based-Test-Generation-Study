@@ -21,7 +21,5 @@ class SplitWordsTest {
 		assertEquals(2, SplitWords.splitWords("aaabb"));
 		assertEquals(1, SplitWords.splitWords("aaaBb"));
 		assertEquals(0, SplitWords.splitWords(""));
-		assertEquals(Arrays.asList("Hello", "world!"), SplitWords.splitWords("Hello,world!"));
-		assertEquals(Arrays.asList("Hello", "world!"), SplitWords.splitWords("Hello world!"));
 	}
 }

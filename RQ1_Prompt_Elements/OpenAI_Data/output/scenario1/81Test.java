@@ -196,4 +196,49 @@ class NumericalLetterGradeTest {
 		grades.add(0.0);
 		grades.add(0.0);
 		grades.add(0.0);
-		List<String> expected
+		List<String> expected = new ArrayList<String>();
+		expected.add("A+");
+		expected.add("B+");
+		expected.add("C+");
+		expected.add("D+");
+		expected.add("E");
+		expected.add("E");
+		expected.add("E");
+		expected.add("E");
+		expected.add("E");
+		List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link NumericalLetterGrade#numericalLetterGrade(List)} method.
+	* It tests the method with a list of grades that contains only ten grades.
+	*/
+	@Test
+	void testNumericalLetterGrade_TenGrades() {
+		List<Number> grades = new ArrayList<Number>();
+		grades.add(4.0);
+		grades.add(3.0);
+		grades.add(2.0);
+		grades.add(1.0);
+		grades.add(0.0);
+		grades.add(0.0);
+		grades.add(0.0);
+		grades.add(0.0);
+		grades.add(0.0);
+		grades.add(0.0);
+		List<String> expected = new ArrayList<String>();
+		expected.add("A+");
+		expected.add("B+");
+		expected.add("C+");
+		expected.add("D+");
+		expected.add("E");
+		expected.add("E");
+		expected.add("E");
+		expected.add("E");
+		expected.add("E");
+		expected.add("E");
+		List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+		assertEquals(expected, actual);
+	}
+}

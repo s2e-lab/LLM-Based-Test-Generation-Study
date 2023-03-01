@@ -12,184 +12,142 @@ import static org.junit.jupiter.api.Assertions.*;
 class FruitDistributionTest {
 
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is zero.
+		* Test case 1.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 30.
+		* The expected result is 0.
 		*/
 		@Test
-		void testFruitDistribution_ZeroFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 0 oranges 0", 0);
+		void testCase1() {
+				String s = "10 apples 20 oranges";
+				int n = 30;
 				int expected = 0;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is positive.
+		* Test case 2.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 40.
+		* The expected result is 10.
 		*/
 		@Test
-		void testFruitDistribution_PositiveFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 2 oranges 3", 5);
-				int expected = 0;
+		void testCase2() {
+				String s = "10 apples 20 oranges";
+				int n = 40;
+				int expected = 10;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is negative.
+		* Test case 3.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 50.
+		* The expected result is 20.
 		*/
 		@Test
-		void testFruitDistribution_NegativeFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples -2 oranges -3", -5);
-				int expected = 0;
+		void testCase3() {
+				String s = "10 apples 20 oranges";
+				int n = 50;
+				int expected = 20;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is positive and negative.
+		* Test case 4.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 60.
+		* The expected result is 30.
 		*/
 		@Test
-		void testFruitDistribution_PositiveAndNegativeFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 2 oranges -3", -1);
-				int expected = 0;
+		void testCase4() {
+				String s = "10 apples 20 oranges";
+				int n = 60;
+				int expected = 30;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is zero and negative.
+		* Test case 5.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 70.
+		* The expected result is 40.
 		*/
 		@Test
-		void testFruitDistribution_ZeroAndNegativeFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 0 oranges -3", -3);
-				int expected = 0;
+		void testCase5() {
+				String s = "10 apples 20 oranges";
+				int n = 70;
+				int expected = 40;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is zero and positive.
+		* Test case 6.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 80.
+		* The expected result is 50.
 		*/
 		@Test
-		void testFruitDistribution_ZeroAndPositiveFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 0 oranges 3", 3);
-				int expected = 0;
+		void testCase6() {
+				String s = "10 apples 20 oranges";
+				int n = 80;
+				int expected = 50;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is positive and zero.
+		* Test case 7.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 90.
+		* The expected result is 60.
 		*/
 		@Test
-		void testFruitDistribution_PositiveAndZeroFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 2 oranges 0", 2);
-				int expected = 0;
+		void testCase7() {
+				String s = "10 apples 20 oranges";
+				int n = 90;
+				int expected = 60;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is negative and zero.
+		* Test case 8.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 100.
+		* The expected result is 70.
 		*/
 		@Test
-		void testFruitDistribution_NegativeAndZeroFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples -2 oranges 0", -2);
-				int expected = 0;
+		void testCase8() {
+				String s = "10 apples 20 oranges";
+				int n = 100;
+				int expected = 70;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is positive and positive.
+		* Test case 9.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 110.
+		* The expected result is 80.
 		*/
 		@Test
-		void testFruitDistribution_PositiveAndPositiveFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 2 oranges 3", 5);
-				int expected = 0;
+		void testCase9() {
+				String s = "10 apples 20 oranges";
+				int n = 110;
+				int expected = 80;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 		
 		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is negative and negative.
+		* Test case 10.
+		* The input string is "10 apples 20 oranges" and the number of fruits is 120.
+		* The expected result is 90.
 		*/
 		@Test
-		void testFruitDistribution_NegativeAndNegativeFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples -2 oranges -3", -5);
-				int expected = 0;
+		void testCase10() {
+				String s = "10 apples 20 oranges";
+				int n = 120;
+				int expected = 90;
+				int actual = FruitDistribution.fruitDistribution(s, n);
 				assertEquals(expected, actual);
 		}
 }
-
-// FruitDistributionTest.java
-package scenario1;
-
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
-* Test class of {@link FruitDistribution}.
-* It contains ten unit test cases for the {@link FruitDistribution#fruitDistribution(String, int)} method.
-*/
-class FruitDistributionTest {
-		
-		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is zero.
-		*/
-		@Test
-		void testFruitDistribution_ZeroFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 0 oranges 0", 0);
-				int expected = 0;
-				assertEquals(expected, actual);
-		}
-		
-		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is positive.
-		*/
-		@Test
-		void testFruitDistribution_PositiveFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 2 oranges 3", 5);
-				int expected = 0;
-				assertEquals(expected, actual);
-		}
-		
-		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is negative.
-		*/
-		@Test
-		void testFruitDistribution_NegativeFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples -2 oranges -3", -5);
-				int expected = 0;
-				assertEquals(expected, actual);
-		}
-		
-		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is positive and negative.
-		*/
-		@Test
-		void testFruitDistribution_PositiveAndNegativeFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 2 oranges -3", -1);
-				int expected = 0;
-				assertEquals(expected, actual);
-		}
-		
-		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is zero and negative.
-		*/
-		@Test
-		void testFruitDistribution_ZeroAndNegativeFruits() {
-				int actual = FruitDistribution.fruitDistribution("apples 0 oranges -3", -3);
-				int expected = 0;
-				assertEquals(expected, actual);
-		}
-		
-		/**
-		* Test case for {@link FruitDistribution#fruitDistribution(String, int)} method.
-		* It tests the case when the number of fruits is zero and positive.

@@ -97,12 +97,11 @@ class Maximum1Test {
 				arr.add(3);
 				arr.add(4);
 				arr.add(5);
-				int k = 3;
+				int k = 2;
 				List<Object> res = Maximum1.maximum(arr, k);
-				assertEquals(3, res.size());
-				assertEquals(3, res.get(0));
-				assertEquals(4, res.get(1));
-				assertEquals(5, res.get(2));
+				assertEquals(2, res.size());
+				assertEquals(4, res.get(0));
+				assertEquals(5, res.get(1));
 		}
 		
 		/**
@@ -119,12 +118,10 @@ class Maximum1Test {
 				arr.add(3);
 				arr.add(4);
 				arr.add(5);
-				int k = 3;
+				int k = 1;
 				List<Object> res = Maximum1.maximum(arr, k);
-				assertEquals(3, res.size());
-				assertEquals(3, res.get(0));
-				assertEquals(4, res.get(1));
-				assertEquals(5, res.get(2));
+				assertEquals(1, res.size());
+				assertEquals(5, res.get(0));
 		}
 		
 		/**
@@ -141,12 +138,14 @@ class Maximum1Test {
 				arr.add(3);
 				arr.add(4);
 				arr.add(5);
-				int k = 3;
+				int k = 5;
 				List<Object> res = Maximum1.maximum(arr, k);
-				assertEquals(3, res.size());
-				assertEquals(3, res.get(0));
-				assertEquals(4, res.get(1));
-				assertEquals(5, res.get(2));
+				assertEquals(5, res.size());
+				assertEquals(1, res.get(0));
+				assertEquals(2, res.get(1));
+				assertEquals(3, res.get(2));
+				assertEquals(4, res.get(3));
+				assertEquals(5, res.get(4));
 		}
 		
 		/**
@@ -163,12 +162,13 @@ class Maximum1Test {
 				arr.add(3);
 				arr.add(4);
 				arr.add(5);
-				int k = 3;
+				int k = 4;
 				List<Object> res = Maximum1.maximum(arr, k);
-				assertEquals(3, res.size());
-				assertEquals(3, res.get(0));
-				assertEquals(4, res.get(1));
-				assertEquals(5, res.get(2));
+				assertEquals(4, res.size());
+				assertEquals(2, res.get(0));
+				assertEquals(3, res.get(1));
+				assertEquals(4, res.get(2));
+				assertEquals(5, res.get(3));
 		}
 		
 		/**
@@ -198,3 +198,19 @@ class Maximum1Test {
 		* The input array is not empty.
 		* The input k is less than the size of the input array.
 		* The expected result is the sorted input array.
+		*/
+		@Test
+		void testCase10() {
+				List<Integer> arr = new ArrayList<Integer>();
+				arr.add(1);
+				arr.add(2);
+				arr.add(3);
+				arr.add(4);
+				arr.add(5);
+				int k = 2;
+				List<Object> res = Maximum1.maximum(arr, k);
+				assertEquals(2, res.size());
+				assertEquals(4, res.get(0));
+				assertEquals(5, res.get(1));
+		}
+}

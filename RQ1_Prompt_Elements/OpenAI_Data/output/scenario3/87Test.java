@@ -206,4 +206,189 @@ class GetRowTest {
 		row.add(1);
 		lst.add(row);
 		List<Object> expected = new ArrayList<Object>();
-		List<Object> actual = GetRow.getRow(l
+		List<Object> actual = GetRow.getRow(lst, 4);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link GetRow#getRow(List, int)} method.
+	* It tests the case when the given list contains multiple rows.
+	*/
+	@Test
+	void testGetRow_MultipleRowsList_MultipleElements() {
+		List<Object> lst = new ArrayList<Object>();
+		List<Object> row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		List<Object> expected = new ArrayList<Object>();
+		List<Object> coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(1);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(3);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(4);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(1);
+		coordinate.add(1);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(1);
+		coordinate.add(3);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(1);
+		coordinate.add(4);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(2);
+		coordinate.add(1);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(2);
+		coordinate.add(3);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(2);
+		coordinate.add(4);
+		expected.add(coordinate);
+		List<Object> actual = GetRow.getRow(lst, 2);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link GetRow#getRow(List, int)} method.
+	* It tests the case when the given list contains multiple rows.
+	*/
+	@Test
+	void testGetRow_MultipleRowsList_MultipleElements_DifferentRows() {
+		List<Object> lst = new ArrayList<Object>();
+		List<Object> row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		List<Object> expected = new ArrayList<Object>();
+		List<Object> coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(1);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(3);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(4);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(1);
+		coordinate.add(1);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(1);
+		coordinate.add(3);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(1);
+		coordinate.add(4);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(2);
+		coordinate.add(1);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(2);
+		coordinate.add(3);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(2);
+		coordinate.add(4);
+		expected.add(coordinate);
+		List<Object> actual = GetRow.getRow(lst, 2);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link GetRow#getRow(List, int)} method.
+	* It tests the case when the given list contains multiple rows.
+	*/
+	@Test
+	void testGetRow_MultipleRowsList_MultipleElements_DifferentRows_DifferentColumns() {
+		List<Object> lst = new ArrayList<Object>();
+		List<Object> row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		row = new ArrayList<Object>();
+		row.add(1);
+		row.add(2);
+		row.add(3);
+		row.add(2);
+		row.add(1);
+		lst.add(row);
+		List<Object> expected = new ArrayList<Object>();
+		List<Object> coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(1);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(3);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(0);
+		coordinate.add(4);
+		expected.add(coordinate);
+		coordinate = new ArrayList<Object>();
+		coordinate.add(1);
+		coordinate.add(1);

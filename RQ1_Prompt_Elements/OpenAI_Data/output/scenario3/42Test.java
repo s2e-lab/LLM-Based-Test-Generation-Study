@@ -227,4 +227,6 @@ class IncrListTest {
 		expected.add(1);
 		expected.add(124);
 		List<Object> actual = IncrList.incrList(l);
-	
+		assertEquals(expected, actual);
+	}
+}

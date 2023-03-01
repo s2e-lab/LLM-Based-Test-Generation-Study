@@ -209,4 +209,93 @@ class AddTest8 {
 		
 	@Test
 	void testAdd() {
-		assertEquals
+		assertEquals(995, Add.add(471, 524));
+		assertEquals(551, Add.add(122, 429));
+		assertEquals(930, Add.add(735, 195));
+		assertEquals(819, Add.add(335, 484));
+		assertEquals(837, Add.add(28, 809));
+		assertEquals(450, Add.add(430, 20));
+		assertEquals(1551, Add.add(916, 635));
+		assertEquals(1300, Add.add(301, 999));
+		assertEquals(920, Add.add(454, 466));
+		assertEquals(1164, Add.add(905, 259));
+	}
+}
+
+// AddTest9.java
+package scenario3;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Add}.
+* It contains ten unit test cases for the {@link Add#add(int, int)} method.
+*/
+class AddTest9 {
+		
+	@Test
+	void testAdd() {
+		assertEquals(373, Add.add(168, 205));
+		assertEquals(1004, Add.add(570, 434));
+		assertEquals(1023, Add.add(64, 959));
+		assertEquals(1467, Add.add(957, 510));
+		assertEquals(1320, Add.add(722, 598));
+		assertEquals(996, Add.add(770, 226));
+		assertEquals(645, Add.add(579, 66));
+		assertEquals(791, Add.add(117, 674));
+		assertEquals(560, Add.add(530, 30));
+		assertEquals(1121, Add.add(776, 345));
+	}
+}
+
+// AddTest10.java
+package scenario3;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Add}.
+* It contains ten unit test cases for the {@link Add#add(int, int)} method.
+*/
+class AddTest10 {
+		
+	@Test
+	void testAdd() {
+		assertEquals(716, Add.add(327, 389));
+		assertEquals(608, Add.add(596, 12));
+		assertEquals(1110, Add.add(599, 511));
+		assertEquals(1412, Add.add(936, 476));
+		assertEquals(475, Add.add(461, 14));
+		assertEquals(1123, Add.add(966, 157));
+		assertEquals(417, Add.add(326, 91));
+		assertEquals(847, Add.add(392, 455));
+		assertEquals(923, Add.add(446, 477));
+		assertEquals(1184, Add.add(324, 860));
+	}
+}
+
+// AddTest11.java
+package scenario3;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Add}.
+* It contains ten unit test cases for the {@link Add#add(int, int)} method.
+*/
+class AddTest11 {
+		
+	@Test
+	void testAdd() {
+		assertEquals(1030, Add.add(945, 85));
+		assertEquals(1468, Add.add(886, 582));
+		assertEquals(1598, Add.add(886, 712));
+		assertEquals(1795, Add.add(842, 953));
+	}
+}

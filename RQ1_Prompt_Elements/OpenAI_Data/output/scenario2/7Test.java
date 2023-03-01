@@ -186,4 +186,8 @@ class FilterBySubstringTest {
 		strings.add("!");
 		List<Object> expected = new ArrayList<Object>();
 		expected.add("Hello");
-		expected.add("
+		expected.add("World");
+		List<Object> actual = FilterBySubstring.filterBySubstring(strings, "H");
+		assertEquals(expected, actual);
+	}
+}

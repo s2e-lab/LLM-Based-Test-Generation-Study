@@ -44,4 +44,19 @@ class FixSpacesTest {
 				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b"));
 				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c"));
 				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d"));
-				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n_o", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r"));
+				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s"));
+				

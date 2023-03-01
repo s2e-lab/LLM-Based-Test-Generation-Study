@@ -40,7 +40,8 @@ class CountUpToTest {
 		expected.add(83);
 		expected.add(89);
 		expected.add(97);
-		assertEquals(expected, CountUpTo.countUpTo(100));
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -71,7 +72,8 @@ class CountUpToTest {
 		expected.add(83);
 		expected.add(89);
 		expected.add(97);
-		assertEquals(expected, CountUpTo.countUpTo(100));
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -102,7 +104,8 @@ class CountUpToTest {
 		expected.add(83);
 		expected.add(89);
 		expected.add(97);
-		assertEquals(expected, CountUpTo.countUpTo(100));
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -133,7 +136,8 @@ class CountUpToTest {
 		expected.add(83);
 		expected.add(89);
 		expected.add(97);
-		assertEquals(expected, CountUpTo.countUpTo(100));
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -164,7 +168,8 @@ class CountUpToTest {
 		expected.add(83);
 		expected.add(89);
 		expected.add(97);
-		assertEquals(expected, CountUpTo.countUpTo(100));
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -195,7 +200,8 @@ class CountUpToTest {
 		expected.add(83);
 		expected.add(89);
 		expected.add(97);
-		assertEquals(expected, CountUpTo.countUpTo(100));
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -226,7 +232,8 @@ class CountUpToTest {
 		expected.add(83);
 		expected.add(89);
 		expected.add(97);
-		assertEquals(expected, CountUpTo.countUpTo(100));
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -238,4 +245,90 @@ class CountUpToTest {
 		expected.add(7);
 		expected.add(11);
 		expected.add(13);
-		
+		expected.add(17);
+		expected.add(19);
+		expected.add(23);
+		expected.add(29);
+		expected.add(31);
+		expected.add(37);
+		expected.add(41);
+		expected.add(43);
+		expected.add(47);
+		expected.add(53);
+		expected.add(59);
+		expected.add(61);
+		expected.add(67);
+		expected.add(71);
+		expected.add(73);
+		expected.add(79);
+		expected.add(83);
+		expected.add(89);
+		expected.add(97);
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void testCountUpTo_9() {
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(2);
+		expected.add(3);
+		expected.add(5);
+		expected.add(7);
+		expected.add(11);
+		expected.add(13);
+		expected.add(17);
+		expected.add(19);
+		expected.add(23);
+		expected.add(29);
+		expected.add(31);
+		expected.add(37);
+		expected.add(41);
+		expected.add(43);
+		expected.add(47);
+		expected.add(53);
+		expected.add(59);
+		expected.add(61);
+		expected.add(67);
+		expected.add(71);
+		expected.add(73);
+		expected.add(79);
+		expected.add(83);
+		expected.add(89);
+		expected.add(97);
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void testCountUpTo_10() {
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(2);
+		expected.add(3);
+		expected.add(5);
+		expected.add(7);
+		expected.add(11);
+		expected.add(13);
+		expected.add(17);
+		expected.add(19);
+		expected.add(23);
+		expected.add(29);
+		expected.add(31);
+		expected.add(37);
+		expected.add(41);
+		expected.add(43);
+		expected.add(47);
+		expected.add(53);
+		expected.add(59);
+		expected.add(61);
+		expected.add(67);
+		expected.add(71);
+		expected.add(73);
+		expected.add(79);
+		expected.add(83);
+		expected.add(89);
+		expected.add(97);
+		List<Object> actual = CountUpTo.countUpTo(100);
+		assertEquals(expected, actual);
+	}
+}

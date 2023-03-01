@@ -210,3 +210,80 @@ class IntersperseTest {
 	@Test
 	void testIntersperse_list1234_delimiter6() {
 		List<Object> numbers = new ArrayList<Object>();
+		numbers.add(1);
+		numbers.add(2);
+		numbers.add(3);
+		numbers.add(4);
+		int delimiter = 6;
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(1);
+		expected.add(6);
+		expected.add(2);
+		expected.add(6);
+		expected.add(3);
+		expected.add(6);
+		expected.add(4);
+		List<Object> actual = Intersperse.intersperse(numbers, delimiter);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void testIntersperse_list1234_delimiter7() {
+		List<Object> numbers = new ArrayList<Object>();
+		numbers.add(1);
+		numbers.add(2);
+		numbers.add(3);
+		numbers.add(4);
+		int delimiter = 7;
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(1);
+		expected.add(7);
+		expected.add(2);
+		expected.add(7);
+		expected.add(3);
+		expected.add(7);
+		expected.add(4);
+		List<Object> actual = Intersperse.intersperse(numbers, delimiter);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void testIntersperse_list1234_delimiter8() {
+		List<Object> numbers = new ArrayList<Object>();
+		numbers.add(1);
+		numbers.add(2);
+		numbers.add(3);
+		numbers.add(4);
+		int delimiter = 8;
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(1);
+		expected.add(8);
+		expected.add(2);
+		expected.add(8);
+		expected.add(3);
+		expected.add(8);
+		expected.add(4);
+		List<Object> actual = Intersperse.intersperse(numbers, delimiter);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void testIntersperse_list1234_delimiter9() {
+		List<Object> numbers = new ArrayList<Object>();
+		numbers.add(1);
+		numbers.add(2);
+		numbers.add(3);
+		numbers.add(4);
+		int delimiter = 9;
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(1);
+		expected.add(9);
+		expected.add(2);
+		expected.add(9);
+		expected.add(3);
+		expected.add(9);
+		expected.add(4);
+		List<Object> actual = Intersperse.intersperse(numbers, delimiter);
+		assertEquals(expected, actual);
+	}
+}

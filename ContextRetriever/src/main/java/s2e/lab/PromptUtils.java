@@ -95,7 +95,20 @@ public class PromptUtils {
             outputMap.put("id", javaFile.getName().split("_")[1].split("\\.")[0]);
         }
         else{
-            outputMap.put("id", javaFile.getPath().split("\\.\\./")[1]);
+            String id = javaFile.getPath().split("\\.\\./")[1];
+            String[] split = id.split("/");
+            String newId = "";
+            for(int i=0;i<split.length;i++){
+                if(i==split.length-1){
+                    newId += split[i].split("\\.")[0]+"Test"+suffix+".java";
+                }
+                else{
+                    newId += split[i] + "/";
+                }
+            }
+            id = newId;
+            System.out.println(id);
+            outputMap.put("id", id);
         }
         outputMap.put("original_code", String.format("// %s.java\n%s", className, cu));
         outputMap.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));

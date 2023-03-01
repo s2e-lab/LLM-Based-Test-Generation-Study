@@ -242,4 +242,237 @@ public class EvenOddCountTestSuite12 {
 // EvenOddCountTestSuite13.java
 package scenario1;
 
-import org.junit.platform.runner
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite13 {
+}
+
+// EvenOddCountTestSuite14.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite14 {
+}
+
+// EvenOddCountTestSuite15.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite15 {
+}
+
+// EvenOddCountTestSuite16.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite16 {
+}
+
+// EvenOddCountTestSuite17.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite17 {
+}
+
+// EvenOddCountTestSuite18.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite18 {
+}
+
+// EvenOddCountTestSuite19.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite19 {
+}
+
+// EvenOddCountTestSuite20.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite20 {
+}
+
+// EvenOddCountTestSuite21.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite21 {
+}
+
+// EvenOddCountTestSuite22.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite22 {
+}
+
+// EvenOddCountTestSuite23.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite23 {
+}
+
+// EvenOddCountTestSuite24.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite24 {
+}
+
+// EvenOddCountTestSuite25.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite25 {
+}
+
+// EvenOddCountTestSuite26.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite26 {
+}
+
+// EvenOddCountTestSuite27.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite27 {
+}
+
+// EvenOddCountTestSuite28.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite28 {
+}
+
+// EvenOddCountTestSuite29.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite29 {
+}
+
+// EvenOddCountTestSuite30.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite30 {
+}
+
+// EvenOddCountTestSuite31.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages("scenario1")
+public class EvenOddCountTestSuite31 {
+}
+
+// EvenOddCountTestSuite32.java
+package scenario1;
+
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
+@SelectPackages

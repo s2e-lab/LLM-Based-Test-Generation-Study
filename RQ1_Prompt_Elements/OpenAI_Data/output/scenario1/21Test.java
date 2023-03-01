@@ -205,4 +205,40 @@ class RescaleToUnitTest {
 		expected.add(0.625);
 		expected.add(0.75);
 		expected.add(0.875);
-		expected.add(
+		expected.add(1.0);
+		List<Double> actual = RescaleToUnit.rescaleToUnit(numbers);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case 10.
+	* The input list contains only ten elements.
+	*/
+	@Test
+	void testRescaleToUnit_10() {
+		List<Double> numbers = new ArrayList<Double>();
+		numbers.add(1.0);
+		numbers.add(2.0);
+		numbers.add(3.0);
+		numbers.add(4.0);
+		numbers.add(5.0);
+		numbers.add(6.0);
+		numbers.add(7.0);
+		numbers.add(8.0);
+		numbers.add(9.0);
+		numbers.add(10.0);
+		List<Double> expected = new ArrayList<Double>();
+		expected.add(0.0);
+		expected.add(0.1111111111111111);
+		expected.add(0.2222222222222222);
+		expected.add(0.3333333333333333);
+		expected.add(0.4444444444444444);
+		expected.add(0.5555555555555556);
+		expected.add(0.6666666666666666);
+		expected.add(0.7777777777777777);
+		expected.add(0.8888888888888888);
+		expected.add(1.0);
+		List<Double> actual = RescaleToUnit.rescaleToUnit(numbers);
+		assertEquals(expected, actual);
+	}
+}

@@ -64,7 +64,7 @@ class FilterByPrefixTest {
 			expected.add("vwx");
 			expected.add("wxy");
 			expected.add("xyz");
-			List<Object> actual = FilterByPrefix.filterByPrefix(strings, "a");
+			List<Object> actual = FilterByPrefix.filterByPrefix(strings, "");
 			assertEquals(expected, actual);
 		}
 		
@@ -176,7 +176,7 @@ class FilterByPrefixTest {
 			expected.add("vwx");
 			expected.add("wxy");
 			expected.add("xyz");
-			List<Object> actual = FilterByPrefix.filterByPrefix(strings, "a");
+			List<Object> actual = FilterByPrefix.filterByPrefix(strings, "ab");
 			assertEquals(expected, actual);
 		}
 		
@@ -197,4 +197,180 @@ class FilterByPrefixTest {
 			strings.add("lmn");
 			strings.add("mno");
 			strings.add("nop");
-	
+			strings.add("opq");
+			strings.add("pqr");
+			strings.add("qrs");
+			strings.add("rst");
+			strings.add("stu");
+			strings.add("tuv");
+			strings.add("uvw");
+			strings.add("vwx");
+			strings.add("wxy");
+			strings.add("xyz");
+			List<Object> expected = new ArrayList<Object>();
+			expected.add("abc");
+			expected.add("bcd");
+			expected.add("cde");
+			expected.add("def");
+			expected.add("efg");
+			expected.add("fgh");
+			expected.add("ghi");
+			expected.add("hij");
+			expected.add("ijk");
+			expected.add("jkl");
+			expected.add("klm");
+			expected.add("lmn");
+			expected.add("mno");
+			expected.add("nop");
+			expected.add("opq");
+			expected.add("pqr");
+			expected.add("qrs");
+			expected.add("rst");
+			expected.add("stu");
+			expected.add("tuv");
+			expected.add("uvw");
+			expected.add("vwx");
+			expected.add("wxy");
+			expected.add("xyz");
+			List<Object> actual = FilterByPrefix.filterByPrefix(strings, "abc");
+			assertEquals(expected, actual);
+		}
+		
+		@Test
+		void testFilterByPrefix_5() {
+			List<Object> strings = new ArrayList<Object>();
+			strings.add("abc");
+			strings.add("bcd");
+			strings.add("cde");
+			strings.add("def");
+			strings.add("efg");
+			strings.add("fgh");
+			strings.add("ghi");
+			strings.add("hij");
+			strings.add("ijk");
+			strings.add("jkl");
+			strings.add("klm");
+			strings.add("lmn");
+			strings.add("mno");
+			strings.add("nop");
+			strings.add("opq");
+			strings.add("pqr");
+			strings.add("qrs");
+			strings.add("rst");
+			strings.add("stu");
+			strings.add("tuv");
+			strings.add("uvw");
+			strings.add("vwx");
+			strings.add("wxy");
+			strings.add("xyz");
+			List<Object> expected = new ArrayList<Object>();
+			expected.add("abc");
+			expected.add("bcd");
+			expected.add("cde");
+			expected.add("def");
+			expected.add("efg");
+			expected.add("fgh");
+			expected.add("ghi");
+			expected.add("hij");
+			expected.add("ijk");
+			expected.add("jkl");
+			expected.add("klm");
+			expected.add("lmn");
+			expected.add("mno");
+			expected.add("nop");
+			expected.add("opq");
+			expected.add("pqr");
+			expected.add("qrs");
+			expected.add("rst");
+			expected.add("stu");
+			expected.add("tuv");
+			expected.add("uvw");
+			expected.add("vwx");
+			expected.add("wxy");
+			expected.add("xyz");
+			List<Object> actual = FilterByPrefix.filterByPrefix(strings, "abcd");
+			assertEquals(expected, actual);
+		}
+		
+		@Test
+		void testFilterByPrefix_6() {
+			List<Object> strings = new ArrayList<Object>();
+			strings.add("abc");
+			strings.add("bcd");
+			strings.add("cde");
+			strings.add("def");
+			strings.add("efg");
+			strings.add("fgh");
+			strings.add("ghi");
+			strings.add("hij");
+			strings.add("ijk");
+			strings.add("jkl");
+			strings.add("klm");
+			strings.add("lmn");
+			strings.add("mno");
+			strings.add("nop");
+			strings.add("opq");
+			strings.add("pqr");
+			strings.add("qrs");
+			strings.add("rst");
+			strings.add("stu");
+			strings.add("tuv");
+			strings.add("uvw");
+			strings.add("vwx");
+			strings.add("wxy");
+			strings.add("xyz");
+			List<Object> expected = new ArrayList<Object>();
+			expected.add("abc");
+			expected.add("bcd");
+			expected.add("cde");
+			expected.add("def");
+			expected.add("efg");
+			expected.add("fgh");
+			expected.add("ghi");
+			expected.add("hij");
+			expected.add("ijk");
+			expected.add("jkl");
+			expected.add("klm");
+			expected.add("lmn");
+			expected.add("mno");
+			expected.add("nop");
+			expected.add("opq");
+			expected.add("pqr");
+			expected.add("qrs");
+			expected.add("rst");
+			expected.add("stu");
+			expected.add("tuv");
+			expected.add("uvw");
+			expected.add("vwx");
+			expected.add("wxy");
+			expected.add("xyz");
+			List<Object> actual = FilterByPrefix.filterByPrefix(strings, "abcde");
+			assertEquals(expected, actual);
+		}
+		
+		@Test
+		void testFilterByPrefix_7() {
+			List<Object> strings = new ArrayList<Object>();
+			strings.add("abc");
+			strings.add("bcd");
+			strings.add("cde");
+			strings.add("def");
+			strings.add("efg");
+			strings.add("fgh");
+			strings.add("ghi");
+			strings.add("hij");
+			strings.add("ijk");
+			strings.add("jkl");
+			strings.add("klm");
+			strings.add("lmn");
+			strings.add("mno");
+			strings.add("nop");
+			strings.add("opq");
+			strings.add("pqr");
+			strings.add("qrs");
+			strings.add("rst");
+			strings.add("stu");
+			strings.add("tuv");
+			strings.add("uvw");
+			strings.add("vwx");
+			

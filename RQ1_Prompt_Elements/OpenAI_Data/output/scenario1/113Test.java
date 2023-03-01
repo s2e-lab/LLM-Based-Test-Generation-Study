@@ -155,4 +155,100 @@ class OddCountTest {
 				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
 				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
 				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
-				List<String> actual = OddCount.odd
+				List<String> actual = OddCount.oddCount(input);
+				assertEquals(expected, actual);
+		}
+		
+		/**
+		* Test case 8.
+		* The input is a list of strings with eight elements.
+		* The expected result is a list of strings with eight elements.
+		*/
+		@Test
+		void testCase8() {
+				List<String> input = new ArrayList<String>();
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				List<String> expected = new ArrayList<String>();
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				List<String> actual = OddCount.oddCount(input);
+				assertEquals(expected, actual);
+		}
+		
+		/**
+		* Test case 9.
+		* The input is a list of strings with nine elements.
+		* The expected result is a list of strings with nine elements.
+		*/
+		@Test
+		void testCase9() {
+				List<String> input = new ArrayList<String>();
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				List<String> expected = new ArrayList<String>();
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				List<String> actual = OddCount.oddCount(input);
+				assertEquals(expected, actual);
+		}
+		
+		/**
+		* Test case 10.
+		* The input is a list of strings with ten elements.
+		* The expected result is a list of strings with ten elements.
+		*/
+		@Test
+		void testCase10() {
+				List<String> input = new ArrayList<String>();
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				input.add("12345");
+				List<String> expected = new ArrayList<String>();
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				expected.add("the number of odd elements 3n the str3ng 3 of the 3nput.");
+				List<String> actual = OddCount.oddCount(input);
+				assertEquals(expected, actual);
+		}
+}

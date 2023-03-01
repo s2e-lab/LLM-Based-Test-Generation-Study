@@ -226,4 +226,54 @@ class SortThirdTest {
 	*/
 	@Test
 	void test9() {
-		List<
+		List<Integer> l = new ArrayList<Integer>();
+		l.add(5);
+		l.add(6);
+		l.add(3);
+		l.add(4);
+		l.add(8);
+		l.add(9);
+		l.add(2);
+		l.add(1);
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(2);
+		expected.add(6);
+		expected.add(3);
+		expected.add(4);
+		expected.add(8);
+		expected.add(9);
+		expected.add(5);
+		expected.add(1);
+		assertEquals(expected, SortThird.sortThird(l));
+	}
+	
+	/**
+	* Test case 10.
+	* The input list is [5, 6, 3, 4, 8, 9, 2, 1, 0].
+	* The expected output is [2, 6, 3, 4, 8, 9, 5, 1, 0].
+	*/
+	@Test
+	void test10() {
+		List<Integer> l = new ArrayList<Integer>();
+		l.add(5);
+		l.add(6);
+		l.add(3);
+		l.add(4);
+		l.add(8);
+		l.add(9);
+		l.add(2);
+		l.add(1);
+		l.add(0);
+		List<Integer> expected = new ArrayList<Integer>();
+		expected.add(2);
+		expected.add(6);
+		expected.add(3);
+		expected.add(4);
+		expected.add(8);
+		expected.add(9);
+		expected.add(5);
+		expected.add(1);
+		expected.add(0);
+		assertEquals(expected, SortThird.sortThird(l));
+	}
+}

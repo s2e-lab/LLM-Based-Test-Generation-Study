@@ -194,4 +194,118 @@ class SolveTest {
 		@Test
 		void test37() {
 			assertEquals("AaAaAaAaAaAaAaAaAa", Solve.solve("AaAaAaAaAaAaAaAaAa"));
-	
+		}
+		
+		@Test
+		void test38() {
+			assertEquals("aAaAaAaAaAaAaAaAaAa", Solve.solve("aAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test39() {
+			assertEquals("AaAaAaAaAaAaAaAaAaA", Solve.solve("AaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test40() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaA", Solve.solve("aAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test41() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAa", Solve.solve("AaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test42() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAa", Solve.solve("aAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test43() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaA", Solve.solve("AaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test44() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaA", Solve.solve("aAaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test45() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaAa", Solve.solve("AaAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test46() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaAa", Solve.solve("aAaAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test47() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaAaA", Solve.solve("AaAaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test48() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaAaA", Solve.solve("aAaAaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test49() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaAaAa", Solve.solve("AaAaAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test50() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaAaAa", Solve.solve("aAaAaAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test51() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaAaAaA", Solve.solve("AaAaAaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test52() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaAaAaA", Solve.solve("aAaAaAaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test53() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaAaAaAa", Solve.solve("AaAaAaAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test54() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaAaAaAa", Solve.solve("aAaAaAaAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test55() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaAaAaAaA", Solve.solve("AaAaAaAaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test56() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaAaAaAaA", Solve.solve("aAaAaAaAaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test57() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaAaAaAaAa", Solve.solve("AaAaAaAaAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test58() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaAaAaAaAa", Solve.solve("aAaAaAaAaAaAaAaAaAaAaAaAaAaAa"));
+		}
+		
+		@Test
+		void test59() {
+			assertEquals("AaAaAaAaAaAaAaAaAaAaAaAaAaAaA", Solve.solve("AaAaAaAaAaAaAaAaAaAaAaAaAaAaA"));
+		}
+		
+		@Test
+		void test60() {
+			assertEquals("aAaAaAaAaAaAaAaAaAaAaAaAaAaAaA", Solve.solve("aAaAaAaAaAaAaAaAaAa

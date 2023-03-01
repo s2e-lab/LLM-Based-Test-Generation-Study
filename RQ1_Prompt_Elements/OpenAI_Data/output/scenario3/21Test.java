@@ -190,4 +190,43 @@ class RescaleToUnitTest {
 	* The smallest number will become 0 and the largest will become 1.
 	*/
 	@Test
-	void testRescaleTo
+	void testRescaleToUnit9() {
+		List<Double> numbers = new ArrayList<Double>();
+		numbers.add(12.0);
+		numbers.add(11.0);
+		numbers.add(15.0);
+		numbers.add(13.0);
+		numbers.add(14.0);
+		List<Double> expected = new ArrayList<Double>();
+		expected.add(0.25);
+		expected.add(0.0);
+		expected.add(1.0);
+		expected.add(0.5);
+		expected.add(0.75);
+		List<Double> actual = RescaleToUnit.rescaleToUnit(numbers);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link RescaleToUnit#rescaleToUnit(List)} method.
+	* It tests the method with a list of numbers of at least two elements.
+	* The smallest number will become 0 and the largest will become 1.
+	*/
+	@Test
+	void testRescaleToUnit10() {
+		List<Double> numbers = new ArrayList<Double>();
+		numbers.add(1.0);
+		numbers.add(2.0);
+		numbers.add(3.0);
+		numbers.add(4.0);
+		numbers.add(5.0);
+		List<Double> expected = new ArrayList<Double>();
+		expected.add(0.0);
+		expected.add(0.25);
+		expected.add(0.5);
+		expected.add(0.75);
+		expected.add(1.0);
+		List<Double> actual = RescaleToUnit.rescaleToUnit(numbers);
+		assertEquals(expected, actual);
+	}
+}

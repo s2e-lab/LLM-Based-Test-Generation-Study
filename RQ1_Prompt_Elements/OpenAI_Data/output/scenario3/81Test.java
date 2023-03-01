@@ -196,4 +196,47 @@ class NumericalLetterGradeTest {
 		expected.add("A");
 		expected.add("A-");
 		expected.add("B+");
-		expected
+		expected.add("B");
+		expected.add("B-");
+		expected.add("C+");
+		expected.add("C");
+		expected.add("C-");
+		expected.add("D+");
+		expected.add("D");
+		expected.add("E");
+		assertEquals(expected, NumericalLetterGrade.numericalLetterGrade(grades));
+	}
+	
+	/**
+	* Test case for {@link NumericalLetterGrade#numericalLetterGrade(List)} method.
+	* It tests if the method returns the correct list of letter grades for the given list of GPAs.
+	*/
+	@Test
+	void testNumericalLetterGrade10() {
+		List<Number> grades = new ArrayList<Number>();
+		grades.add(3.7);
+		grades.add(3.3);
+		grades.add(3.0);
+		grades.add(2.7);
+		grades.add(2.3);
+		grades.add(2.0);
+		grades.add(1.7);
+		grades.add(1.3);
+		grades.add(1.0);
+		grades.add(0.7);
+		grades.add(0.0);
+		List<String> expected = new ArrayList<String>();
+		expected.add("A");
+		expected.add("A-");
+		expected.add("B+");
+		expected.add("B");
+		expected.add("B-");
+		expected.add("C+");
+		expected.add("C");
+		expected.add("C-");
+		expected.add("D+");
+		expected.add("D");
+		expected.add("E");
+		assertEquals(expected, NumericalLetterGrade.numericalLetterGrade(grades));
+	}
+}

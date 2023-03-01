@@ -224,4 +224,51 @@ class DerivativeTest {
 		input.add(10);
 		input.add(11);
 		List<Object> expected = new ArrayList<Object>();
+		expected.add(2);
+		expected.add(6);
+		expected.add(12);
+		expected.add(20);
+		expected.add(30);
+		expected.add(42);
+		expected.add(56);
+		expected.add(72);
+		expected.add(90);
+		expected.add(110);
+		assertEquals(expected, Derivative.derivative(input));
+	}
 	
+	/**
+	 * Test case 10:
+	 * Input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+	 * Expected output: [2, 6, 12, 20, 30, 42, 56, 72, 90, 110, 132]
+	 */
+	@Test
+	void testDerivative10() {
+		List<Integer> input = new ArrayList<Integer>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		input.add(6);
+		input.add(7);
+		input.add(8);
+		input.add(9);
+		input.add(10);
+		input.add(11);
+		input.add(12);
+		List<Object> expected = new ArrayList<Object>();
+		expected.add(2);
+		expected.add(6);
+		expected.add(12);
+		expected.add(20);
+		expected.add(30);
+		expected.add(42);
+		expected.add(56);
+		expected.add(72);
+		expected.add(90);
+		expected.add(110);
+		expected.add(132);
+		assertEquals(expected, Derivative.derivative(input));
+	}
+}
