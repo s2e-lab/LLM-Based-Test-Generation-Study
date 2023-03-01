@@ -9,7 +9,7 @@ NEW_TOKEN_LIMIT = 4000 # changes the token size
 
 def fix(config: dict, scenario: str) -> None:
     output_folder, response_file = get_output_files(config, scenario)
-    #  load previously computed response
+    # load previously computed response
     with open(response_file, "r") as f:
         previous_responses = json.load(f)
 
@@ -31,6 +31,7 @@ def fix(config: dict, scenario: str) -> None:
                 filtered_responses.append(r)
         except Exception as e:
             print("ERROR", e)
+            filtered_responses.append(r)
             # mock_response = get_mock_response(r, str(e))
             # save_response(f, r, previous_responses, mock_response)
 
