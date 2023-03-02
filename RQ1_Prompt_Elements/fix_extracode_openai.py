@@ -33,13 +33,13 @@ def fix_extracode(config: dict, scenario: str) -> None:
         print("PROMPT", r["prompt_id"])
         if not r["choices"][0]["finish_reason"] == "stop":
             # generates new code, with token limit size increased
-            old_code = r["choices"][0]["text"]
+            old_code = r["choices"][0]["text"].strip()
 
             r["choices"][0]["text"] = remove_extracode(old_code)
             if old_code != r["choices"][0]["text"]:
                 r["removed_extracode"] = True
                 print("Code was fixed")
-            save_generated_code(r, r, output_folder)
+            # save_generated_code(r, r, output_folder)
             filtered_responses.append(r)
 
         else:
@@ -51,7 +51,7 @@ def fix_extracode(config: dict, scenario: str) -> None:
 
 def main():
     config = load_config("config.json")
-    fix_extracode(config, "scenario1_prompt.json")
+    fix_extracode(config, "scenario3_prompt.json")
 
 
 if __name__ == "__main__":

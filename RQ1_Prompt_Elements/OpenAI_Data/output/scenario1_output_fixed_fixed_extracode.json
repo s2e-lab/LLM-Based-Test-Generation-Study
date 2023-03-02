@@ -229,8 +229,7 @@
         "time_taken": 143.08655285835266,
         "prompt_id": "140",
         "original_code": "// FixSpaces.java\npackage scenario1;\n\nclass FixSpaces {\n\n    public static String fixSpaces(String text) {\n        String new_text = \"\";\n        int i = 0;\n        int start = 0;\n        int end = 0;\n        while (i < text.length()) {\n            if (text.charAt(i) == ' ') {\n                end += 1;\n            } else {\n                if (end - start > 2) {\n                    new_text += \"-\" + text.charAt(i);\n                } else if (end - start > 0) {\n                    new_text += \"_\".repeat(end - start) + text.charAt(i);\n                } else {\n                    new_text += text.charAt(i);\n                }\n                start = i + 1;\n                end = i + 1;\n            }\n            i += 1;\n        }\n        if (end - start > 2) {\n            new_text += \"-\";\n        } else if (end - start > 0) {\n            new_text += \"_\";\n        }\n        return new_text;\n    }\n}\n",
-        "test_prompt": "// FixSpacesTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link FixSpaces}.\n* It contains ten unit test cases for the {@link FixSpaces#fixSpaces(String)} method.\n*/\nclass FixSpacesTest {",
-        "removed_extracode": true
+        "test_prompt": "// FixSpacesTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link FixSpaces}.\n* It contains ten unit test cases for the {@link FixSpaces#fixSpaces(String)} method.\n*/\nclass FixSpacesTest {"
     },
     {
         "id": "cmpl-6pAElNmhZDSejdVYazS7XDK9I9HmB",
@@ -605,8 +604,7 @@
         "time_taken": 196.41701555252075,
         "prompt_id": "161",
         "original_code": "// Solve.java\npackage scenario1;\n\nclass Solve {\n\n    public static String solve(String s) {\n        String result = \"\";\n        boolean hasLetters = false;\n        for (int i = 0; i < s.length(); i++) {\n            if (Character.isLetter(s.charAt(i))) {\n                hasLetters = true;\n                if (Character.isUpperCase(s.charAt(i))) {\n                    result += Character.toLowerCase(s.charAt(i));\n                } else {\n                    result += Character.toUpperCase(s.charAt(i));\n                }\n            } else {\n                result += s.charAt(i);\n            }\n        }\n        if (!hasLetters) {\n            result = new StringBuilder(result).reverse().toString();\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// SolveTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Solve}.\n* It contains ten unit test cases for the {@link Solve#solve(String)} method.\n*/\nclass SolveTest {",
-        "removed_extracode": true
+        "test_prompt": "// SolveTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Solve}.\n* It contains ten unit test cases for the {@link Solve#solve(String)} method.\n*/\nclass SolveTest {"
     },
     {
         "id": "cmpl-6pAim1ynOEvXs6rjnRnngWX3CCb9u",
@@ -629,8 +627,7 @@
         "time_taken": 95.39515542984009,
         "prompt_id": "136",
         "original_code": "// LargestSmallestIntegers.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass LargestSmallestIntegers {\n\n    public static List<Integer> largestSmallestIntegers(List<Object> lst) {\n        List<Integer> result = new ArrayList<Integer>();\n        int largestNegative = Integer.MIN_VALUE;\n        int smallestPositive = Integer.MAX_VALUE;\n        for (int i = 0; i < lst.size(); i++) {\n            int curr = (Integer) lst.get(i);\n            if (curr < 0) {\n                if (curr > largestNegative) {\n                    largestNegative = curr;\n                }\n            } else if (curr > 0) {\n                if (curr < smallestPositive) {\n                    smallestPositive = curr;\n                }\n            }\n        }\n        if (largestNegative == Integer.MIN_VALUE) {\n            result.add(null);\n        } else {\n            result.add(largestNegative);\n        }\n        if (smallestPositive == Integer.MAX_VALUE) {\n            result.add(null);\n        } else {\n            result.add(smallestPositive);\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// LargestSmallestIntegersTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link LargestSmallestIntegers}.\n* It contains ten unit test cases for the {@link LargestSmallestIntegers#largestSmallestIntegers(List)} method.\n*/\nclass LargestSmallestIntegersTest {",
-        "removed_extracode": true
+        "test_prompt": "// LargestSmallestIntegersTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link LargestSmallestIntegers}.\n* It contains ten unit test cases for the {@link LargestSmallestIntegers#largestSmallestIntegers(List)} method.\n*/\nclass LargestSmallestIntegersTest {"
     },
     {
         "id": "cmpl-6p0exS5ml8rXftyaQ2nKpJp9eJ7Bk",
@@ -794,8 +791,7 @@
         "time_taken": 96.11796879768372,
         "prompt_id": "9",
         "original_code": "// RollingMax.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass RollingMax {\n\n    public static List<Object> rollingMax(List<Object> numbers) {\n        List<Object> result = new ArrayList<Object>();\n        Integer max = null;\n        for (Object number : numbers) {\n            if (number instanceof Integer) {\n                if (max == null || (Integer) number > max) {\n                    max = (Integer) number;\n                }\n                result.add(max);\n            } else {\n                throw new IllegalArgumentException(\"Invalid number type\");\n            }\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// RollingMaxTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link RollingMax}.\n* It contains ten unit test cases for the {@link RollingMax#rollingMax(List)} method.\n*/\nclass RollingMaxTest {",
-        "removed_extracode": true
+        "test_prompt": "// RollingMaxTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link RollingMax}.\n* It contains ten unit test cases for the {@link RollingMax#rollingMax(List)} method.\n*/\nclass RollingMaxTest {"
     },
     {
         "id": "cmpl-6pAvPat2b75IxTyizLXAqY8RE3xbv",
@@ -1219,8 +1215,7 @@
         "time_taken": 15.654754161834717,
         "prompt_id": "93",
         "original_code": "// Encode.java\npackage scenario1;\n\nclass Encode {\n\n    public static String encode(String message) {\n        String result = \"\";\n        for (int i = 0; i < message.length(); i++) {\n            char c = message.charAt(i);\n            if (c >= 'a' && c <= 'z') {\n                c -= 32;\n            } else if (c >= 'A' && c <= 'Z') {\n                c += 32;\n            }\n            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {\n                c += 2;\n            }\n            result += c;\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// EncodeTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Encode}.\n* It contains ten unit test cases for the {@link Encode#encode(String)} method.\n*/\nclass EncodeTest {",
-        "removed_extracode": true
+        "test_prompt": "// EncodeTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Encode}.\n* It contains ten unit test cases for the {@link Encode#encode(String)} method.\n*/\nclass EncodeTest {"
     },
     {
         "id": "cmpl-6pBQdTbRlo9lMTuBLfRbFLvOVsSUJ",
@@ -1243,8 +1238,7 @@
         "time_taken": 233.52820563316345,
         "prompt_id": "146",
         "original_code": "// Specialfilter.java\npackage scenario1;\n\nimport java.util.Arrays;\nimport java.util.HashSet;\nimport java.util.List;\nimport java.util.Set;\n\nclass Specialfilter {\n\n    public static int specialfilter(List<Object> nums) {\n        int count = 0;\n        for (Object num : nums) {\n            if ((int) num > 10) {\n                Set odd_digits = new HashSet<Integer>(Arrays.asList(1, 3, 5, 7, 9));\n                String number_as_string = Integer.toString((int) num);\n                if (odd_digits.contains(Integer.parseInt(number_as_string.substring(0, 1))) && odd_digits.contains(Integer.parseInt(number_as_string.substring(number_as_string.length() - 1)))) {\n                    count += 1;\n                }\n            }\n        }\n        return count;\n    }\n}\n",
-        "test_prompt": "// SpecialfilterTest.java\npackage scenario1;\n\nimport java.util.Arrays;\nimport java.util.HashSet;\nimport java.util.List;\nimport java.util.Set;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Specialfilter}.\n* It contains ten unit test cases for the {@link Specialfilter#specialfilter(List)} method.\n*/\nclass SpecialfilterTest {",
-        "removed_extracode": true
+        "test_prompt": "// SpecialfilterTest.java\npackage scenario1;\n\nimport java.util.Arrays;\nimport java.util.HashSet;\nimport java.util.List;\nimport java.util.Set;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Specialfilter}.\n* It contains ten unit test cases for the {@link Specialfilter#specialfilter(List)} method.\n*/\nclass SpecialfilterTest {"
     },
     {
         "id": "cmpl-6pBUOBcyN4IF2wbTEJMJ1oeDlukyC",
@@ -1338,8 +1332,7 @@
         "time_taken": 238.4732527732849,
         "prompt_id": "106",
         "original_code": "// F.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass F {\n\n    public static List<Integer> f(int n) {\n        List<Integer> result = new ArrayList<Integer>();\n        for (int i = 1; i <= n; i++) {\n            if (i % 2 == 0) {\n                result.add(factorial(i));\n            } else {\n                result.add(sum(i));\n            }\n        }\n        return result;\n    }\n\n    private static int factorial(int n) {\n        int result = 1;\n        for (int i = 1; i <= n; i++) {\n            result *= i;\n        }\n        return result;\n    }\n\n    private static int sum(int n) {\n        int result = 0;\n        for (int i = 1; i <= n; i++) {\n            result += i;\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// FTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link F}.\n* It contains ten unit test cases for the {@link F#f(int)} method.\n*/\nclass FTest {",
-        "removed_extracode": true
+        "test_prompt": "// FTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link F}.\n* It contains ten unit test cases for the {@link F#f(int)} method.\n*/\nclass FTest {"
     },
     {
         "id": "cmpl-6pBfzRfooXoYLe87KIMsrPoFH5ggH",
@@ -1362,8 +1355,7 @@
         "time_taken": 94.16633248329163,
         "prompt_id": "151",
         "original_code": "// DoubleTheDifference.java\npackage scenario1;\n\nimport java.util.List;\n\nclass DoubleTheDifference {\n\n    public static int doubleTheDifference(List<Object> lst) {\n        int sum = 0;\n        for (int i = 0; i < lst.size(); i++) {\n            if (lst.get(i) instanceof Integer) {\n                int num = (int) lst.get(i);\n                if (num % 2 != 0 && num > 0) {\n                    sum += num * num;\n                }\n            }\n        }\n        return sum;\n    }\n}\n",
-        "test_prompt": "// DoubleTheDifferenceTest.java\npackage scenario1;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link DoubleTheDifference}.\n* It contains ten unit test cases for the {@link DoubleTheDifference#doubleTheDifference(List)} method.\n*/\nclass DoubleTheDifferenceTest {",
-        "removed_extracode": true
+        "test_prompt": "// DoubleTheDifferenceTest.java\npackage scenario1;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link DoubleTheDifference}.\n* It contains ten unit test cases for the {@link DoubleTheDifference#doubleTheDifference(List)} method.\n*/\nclass DoubleTheDifferenceTest {"
     },
     {
         "id": "cmpl-6pBhV6sNtDeoqnRj6EpTQd1330xXY",
@@ -1386,8 +1378,7 @@
         "time_taken": 234.45944094657898,
         "prompt_id": "84",
         "original_code": "// Solve1.java\npackage scenario1;\n\nclass Solve1 {\n\n    public static String solve(int n) {\n        int sum = 0;\n        while (n > 0) {\n            sum += n % 10;\n            n /= 10;\n        }\n        return Integer.toBinaryString(sum);\n    }\n}\n",
-        "test_prompt": "// Solve1Test.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Solve1}.\n* It contains ten unit test cases for the {@link Solve1#solve(int)} method.\n*/\nclass Solve1Test {",
-        "removed_extracode": true
+        "test_prompt": "// Solve1Test.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Solve1}.\n* It contains ten unit test cases for the {@link Solve1#solve(int)} method.\n*/\nclass Solve1Test {"
     },
     {
         "id": "cmpl-6p1KUbB0YT74gS6baBnUVmUTYxQre",
@@ -1504,8 +1495,7 @@
         "time_taken": 200.86036372184753,
         "prompt_id": "26",
         "original_code": "// RemoveDuplicates.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass RemoveDuplicates {\n\n    public static List<Object> removeDuplicates(List<Object> numbers) {\n        List<Object> result = new ArrayList<Object>();\n        for (int i = 0; i < numbers.size(); i++) {\n            if (numbers.indexOf(numbers.get(i)) == numbers.lastIndexOf(numbers.get(i))) {\n                result.add(numbers.get(i));\n            }\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// RemoveDuplicatesTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link RemoveDuplicates}.\n* It contains ten unit test cases for the {@link RemoveDuplicates#removeDuplicates(List)} method.\n*/\nclass RemoveDuplicatesTest {",
-        "removed_extracode": true
+        "test_prompt": "// RemoveDuplicatesTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link RemoveDuplicates}.\n* It contains ten unit test cases for the {@link RemoveDuplicates#removeDuplicates(List)} method.\n*/\nclass RemoveDuplicatesTest {"
     },
     {
         "id": "cmpl-6p1QxxxY4FuNiBl6e4U51cPgf3dbE",
@@ -1574,8 +1564,7 @@
         "time_taken": 72.37106037139893,
         "prompt_id": "67",
         "original_code": "// FruitDistribution.java\npackage scenario1;\n\nclass FruitDistribution {\n\n    public static int fruitDistribution(String s, int n) {\n        int apples = 0;\n        int oranges = 0;\n        int mangoes = 0;\n        String[] words = s.split(\" \");\n        for (int i = 0; i < words.length; i++) {\n            if (words[i].equals(\"apples\")) {\n                apples = Integer.parseInt(words[i - 1]);\n            }\n            if (words[i].equals(\"oranges\")) {\n                oranges = Integer.parseInt(words[i - 1]);\n            }\n        }\n        mangoes = n - apples - oranges;\n        return mangoes;\n    }\n}\n",
-        "test_prompt": "// FruitDistributionTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link FruitDistribution}.\n* It contains ten unit test cases for the {@link FruitDistribution#fruitDistribution(String, int)} method.\n*/\nclass FruitDistributionTest {",
-        "removed_extracode": true
+        "test_prompt": "// FruitDistributionTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link FruitDistribution}.\n* It contains ten unit test cases for the {@link FruitDistribution#fruitDistribution(String, int)} method.\n*/\nclass FruitDistributionTest {"
     },
     {
         "id": "cmpl-6pBzWADayrigis0se7GpHL44z8u7M",
@@ -1807,8 +1796,7 @@
         "time_taken": 237.82498860359192,
         "prompt_id": "64",
         "original_code": "// VowelsCount.java\npackage scenario1;\n\nclass VowelsCount {\n\n    public static int vowelsCount(String s) {\n        int count = 0;\n        for (int i = 0; i < s.length(); i++) {\n            char c = s.charAt(i);\n            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {\n                count++;\n            }\n        }\n        if (s.length() > 0 && (s.charAt(s.length() - 1) == 'y' || s.charAt(s.length() - 1) == 'Y')) {\n            count++;\n        }\n        return count;\n    }\n}\n",
-        "test_prompt": "// VowelsCountTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link VowelsCount}.\n* It contains ten unit test cases for the {@link VowelsCount#vowelsCount(String)} method.\n*/\nclass VowelsCountTest {",
-        "removed_extracode": true
+        "test_prompt": "// VowelsCountTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link VowelsCount}.\n* It contains ten unit test cases for the {@link VowelsCount#vowelsCount(String)} method.\n*/\nclass VowelsCountTest {"
     },
     {
         "id": "cmpl-6p1gmjpUeKfg8MDnOhWbhnS8yhmjv",
@@ -1947,8 +1935,7 @@
         "time_taken": 209.40174651145935,
         "prompt_id": "113",
         "original_code": "// OddCount.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass OddCount {\n\n    public static List<String> oddCount(List<String> lst) {\n        List<String> result = new ArrayList<String>();\n        for (int i = 0; i < lst.size(); i++) {\n            int count = 0;\n            for (int j = 0; j < lst.get(i).length(); j++) {\n                if (Integer.parseInt(lst.get(i).substring(j, j + 1)) % 2 != 0) {\n                    count++;\n                }\n            }\n            result.add(\"the number of odd elements \" + count + \"n the str\" + count + \"ng \" + count + \" of the \" + count + \"nput.\");\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// OddCountTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link OddCount}.\n* It contains ten unit test cases for the {@link OddCount#oddCount(List)} method.\n*/\nclass OddCountTest {",
-        "removed_extracode": true
+        "test_prompt": "// OddCountTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link OddCount}.\n* It contains ten unit test cases for the {@link OddCount#oddCount(List)} method.\n*/\nclass OddCountTest {"
     },
     {
         "id": "cmpl-6pCJTSDHu8DNjWzA71nrzZe4V91Xk",
@@ -1971,8 +1958,7 @@
         "time_taken": 240.51725721359253,
         "prompt_id": "29",
         "original_code": "// FilterByPrefix.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass FilterByPrefix {\n\n    public static List<Object> filterByPrefix(List<Object> strings, String prefix) {\n        List<Object> result = new ArrayList<Object>();\n        for (Object string : strings) {\n            if (string.toString().startsWith(prefix)) {\n                result.add(string);\n            }\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// FilterByPrefixTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link FilterByPrefix}.\n* It contains ten unit test cases for the {@link FilterByPrefix#filterByPrefix(List, String)} method.\n*/\nclass FilterByPrefixTest {",
-        "removed_extracode": true
+        "test_prompt": "// FilterByPrefixTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link FilterByPrefix}.\n* It contains ten unit test cases for the {@link FilterByPrefix#filterByPrefix(List, String)} method.\n*/\nclass FilterByPrefixTest {"
     },
     {
         "id": "cmpl-6p1pKBp7bgplzWrjKEFG40msOQI49",
@@ -2088,8 +2074,7 @@
         "time_taken": 273.5050094127655,
         "prompt_id": "129",
         "original_code": "// Minpath.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\n\nclass Minpath {\n\n    public static List<Integer> minpath(List<List<Integer>> grid, int k) {\n        int n = grid.size();\n        int val = n * n + 1;\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                if (grid.get(i).get(j) == 1) {\n                    List<Integer> temp = new ArrayList<>();\n                    if (i != 0) {\n                        temp.add(grid.get(i - 1).get(j));\n                    }\n                    if (j != 0) {\n                        temp.add(grid.get(i).get(j - 1));\n                    }\n                    if (i != n - 1) {\n                        temp.add(grid.get(i + 1).get(j));\n                    }\n                    if (j != n - 1) {\n                        temp.add(grid.get(i).get(j + 1));\n                    }\n                    val = Collections.min(temp);\n                }\n            }\n        }\n        List<Integer> ans = new ArrayList<>();\n        for (int i = 0; i < k; i++) {\n            if (i % 2 == 0) {\n                ans.add(1);\n            } else {\n                ans.add(val);\n            }\n        }\n        return ans;\n    }\n}\n",
-        "test_prompt": "// MinpathTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Minpath}.\n* It contains ten unit test cases for the {@link Minpath#minpath(List, int)} method.\n*/\nclass MinpathTest {",
-        "removed_extracode": true
+        "test_prompt": "// MinpathTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Minpath}.\n* It contains ten unit test cases for the {@link Minpath#minpath(List, int)} method.\n*/\nclass MinpathTest {"
     },
     {
         "id": "cmpl-6p1veYaSvxjqW0sCqtyztlfG5HePa",
@@ -2159,8 +2144,7 @@
         "time_taken": 209.70258402824402,
         "prompt_id": "52",
         "original_code": "// BelowThreshold.java\npackage scenario1;\n\nimport java.util.List;\n\nclass BelowThreshold {\n\n    public static Boolean belowThreshold(List<Integer> l, int t) {\n        for (int i = 0; i < l.size(); i++) {\n            if (l.get(i) >= t) {\n                return false;\n            }\n        }\n        return true;\n    }\n}\n",
-        "test_prompt": "// BelowThresholdTest.java\npackage scenario1;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link BelowThreshold}.\n* It contains ten unit test cases for the {@link BelowThreshold#belowThreshold(List, int)} method.\n*/\nclass BelowThresholdTest {",
-        "removed_extracode": true
+        "test_prompt": "// BelowThresholdTest.java\npackage scenario1;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link BelowThreshold}.\n* It contains ten unit test cases for the {@link BelowThreshold#belowThreshold(List, int)} method.\n*/\nclass BelowThresholdTest {"
     },
     {
         "id": "cmpl-6pCdsfFarPMEWeFqLPKjzbnhUQHs6",
@@ -2231,8 +2215,7 @@
         "time_taken": 28.17932939529419,
         "prompt_id": "12",
         "original_code": "// Longest.java\npackage scenario1;\n\nimport java.util.List;\n\nclass Longest {\n\n    public static String longest(List<Object> strings) {\n        if (strings.size() == 0) {\n            return null;\n        }\n        String longest = strings.get(0).toString();\n        for (int i = 1; i < strings.size(); i++) {\n            if (strings.get(i).toString().length() > longest.length()) {\n                longest = strings.get(i).toString();\n            }\n        }\n        return longest;\n    }\n}\n",
-        "test_prompt": "// LongestTest.java\npackage scenario1;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Longest}.\n* It contains ten unit test cases for the {@link Longest#longest(List)} method.\n*/\nclass LongestTest {",
-        "removed_extracode": true
+        "test_prompt": "// LongestTest.java\npackage scenario1;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Longest}.\n* It contains ten unit test cases for the {@link Longest#longest(List)} method.\n*/\nclass LongestTest {"
     },
     {
         "id": "cmpl-6pCmqOfTbZWNYGgxlPCMgLW2EFutb",
@@ -2255,8 +2238,7 @@
         "time_taken": 46.027090549468994,
         "prompt_id": "128",
         "original_code": "// ProdSigns.java\npackage scenario1;\n\nimport java.util.List;\n\nclass ProdSigns {\n\n    public static Integer prodSigns(List<Object> arr) {\n        if (arr.isEmpty()) {\n            return null;\n        }\n        int prod = 1;\n        int sum = 0;\n        for (Object value : arr) {\n            if (value instanceof Integer) {\n                int num = (Integer) value;\n                if (num > 0) {\n                    prod *= 1;\n                } else if (num < 0) {\n                    prod *= -1;\n                } else {\n                    prod *= 0;\n                }\n                sum += Math.abs(num);\n            }\n        }\n        return sum * prod;\n    }\n}\n",
-        "test_prompt": "// ProdSignsTest.java\npackage scenario1;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link ProdSigns}.\n* It contains ten unit test cases for the {@link ProdSigns#prodSigns(List)} method.\n*/\nclass ProdSignsTest {",
-        "removed_extracode": true
+        "test_prompt": "// ProdSignsTest.java\npackage scenario1;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link ProdSigns}.\n* It contains ten unit test cases for the {@link ProdSigns#prodSigns(List)} method.\n*/\nclass ProdSignsTest {"
     },
     {
         "id": "cmpl-6p24FlcC2nTn6sdXwm2eP9xoLUjNL",
@@ -2675,8 +2657,7 @@
         "time_taken": 80.08595561981201,
         "prompt_id": "142",
         "original_code": "// SumSquares1.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass SumSquares1 {\n\n    public static int sumSquares(List<Object> lst) {\n        List<Integer> result = new ArrayList<Integer>();\n        for (int i = 0; i < lst.size(); i++) {\n            if (i % 3 == 0) {\n                result.add((int) lst.get(i) * (int) lst.get(i));\n            } else if (i % 4 == 0 && i % 3 != 0) {\n                result.add((int) lst.get(i) * (int) lst.get(i) * (int) lst.get(i));\n            } else {\n                result.add((int) lst.get(i));\n            }\n        }\n        int sum = 0;\n        for (int i = 0; i < result.size(); i++) {\n            sum += result.get(i);\n        }\n        return sum;\n    }\n}\n",
-        "test_prompt": "// SumSquares1Test.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link SumSquares1}.\n* It contains ten unit test cases for the {@link SumSquares1#sumSquares(List)} method.\n*/\nclass SumSquares1Test {",
-        "removed_extracode": true
+        "test_prompt": "// SumSquares1Test.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link SumSquares1}.\n* It contains ten unit test cases for the {@link SumSquares1#sumSquares(List)} method.\n*/\nclass SumSquares1Test {"
     },
     {
         "id": "cmpl-6pDFqeEdxcrwqBRuE6FZJO6njQ6GS",
@@ -3049,8 +3030,7 @@
         "time_taken": 248.7664954662323,
         "prompt_id": "62",
         "original_code": "// Derivative.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass Derivative {\n\n    public static List<Object> derivative(List<Integer> xs) {\n        List<Object> result = new ArrayList<Object>();\n        for (int i = 1; i < xs.size(); i++) {\n            result.add(xs.get(i) * i);\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// DerivativeTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Derivative}.\n* It contains ten unit test cases for the {@link Derivative#derivative(List)} method.\n*/\nclass DerivativeTest {",
-        "removed_extracode": true
+        "test_prompt": "// DerivativeTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Derivative}.\n* It contains ten unit test cases for the {@link Derivative#derivative(List)} method.\n*/\nclass DerivativeTest {"
     },
     {
         "id": "cmpl-6p2ffLBYTSvPGvlCS3Ud1KnykonHJ",
@@ -3166,8 +3146,7 @@
         "time_taken": 128.50216507911682,
         "prompt_id": "58",
         "original_code": "// Common.java\npackage scenario1;\n\nimport java.util.*;\n\nclass Common {\n\n    public static List<Object> common(List<Integer> l1, List<Object> l2) {\n        Set<Integer> set = new HashSet<Integer>();\n        for (Integer value : l1) {\n            set.add(value);\n        }\n        List<Object> result = new ArrayList<Object>();\n        for (Object value : l2) {\n            if (value instanceof Integer) {\n                int i = (Integer) value;\n                if (set.contains(i) && !result.contains(i)) {\n                    result.add(i);\n                }\n            }\n        }\n        Collections.sort(result, new Comparator<Object>() {\n\n            public int compare(Object o1, Object o2) {\n                if (o1 instanceof Integer && o2 instanceof Integer) {\n                    return (Integer) o1 - (Integer) o2;\n                }\n                return 0;\n            }\n        });\n        return result;\n    }\n}\n",
-        "test_prompt": "// CommonTest.java\npackage scenario1;\n\nimport java.util.*;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Common}.\n* It contains ten unit test cases for the {@link Common#common(List, List)} method.\n*/\nclass CommonTest {",
-        "removed_extracode": true
+        "test_prompt": "// CommonTest.java\npackage scenario1;\n\nimport java.util.*;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link Common}.\n* It contains ten unit test cases for the {@link Common#common(List, List)} method.\n*/\nclass CommonTest {"
     },
     {
         "id": "cmpl-6p2l7t4Ctn6x9xq9CgPWW0B1gwTWG",
@@ -3237,8 +3216,7 @@
         "time_taken": 236.7431354522705,
         "prompt_id": "134",
         "original_code": "// CheckIfLastCharIsALetter.java\npackage scenario1;\n\nclass CheckIfLastCharIsALetter {\n\n    public static Boolean checkIfLastCharIsALetter(String txt) {\n        if (txt.length() == 0) {\n            return false;\n        }\n        char lastChar = txt.charAt(txt.length() - 1);\n        if (Character.isLetter(lastChar)) {\n            if (txt.length() == 1) {\n                return true;\n            }\n            char secondLastChar = txt.charAt(txt.length() - 2);\n            if (Character.isLetter(secondLastChar)) {\n                return false;\n            }\n            return true;\n        }\n        return false;\n    }\n}\n",
-        "test_prompt": "// CheckIfLastCharIsALetterTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link CheckIfLastCharIsALetter}.\n* It contains ten unit test cases for the {@link CheckIfLastCharIsALetter#checkIfLastCharIsALetter(String)} method.\n*/\nclass CheckIfLastCharIsALetterTest {",
-        "removed_extracode": true
+        "test_prompt": "// CheckIfLastCharIsALetterTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link CheckIfLastCharIsALetter}.\n* It contains ten unit test cases for the {@link CheckIfLastCharIsALetter#checkIfLastCharIsALetter(String)} method.\n*/\nclass CheckIfLastCharIsALetterTest {"
     },
     {
         "id": "cmpl-6pDu2tw3lF8cG9xSCkPacem5r2jpJ",
@@ -3473,8 +3451,7 @@
         "time_taken": 72.45373511314392,
         "prompt_id": "22",
         "original_code": "// FilterIntegers.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass FilterIntegers {\n\n    public static List<Object> filterIntegers(List<Object> values) {\n        List<Object> result = new ArrayList<Object>();\n        for (Object value : values) {\n            if (value instanceof Integer) {\n                result.add(value);\n            }\n        }\n        return result;\n    }\n}\n",
-        "test_prompt": "// FilterIntegersTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link FilterIntegers}.\n* It contains ten unit test cases for the {@link FilterIntegers#filterIntegers(List)} method.\n*/\nclass FilterIntegersTest {",
-        "removed_extracode": true
+        "test_prompt": "// FilterIntegersTest.java\npackage scenario1;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link FilterIntegers}.\n* It contains ten unit test cases for the {@link FilterIntegers#filterIntegers(List)} method.\n*/\nclass FilterIntegersTest {"
     },
     {
         "id": "cmpl-6pESoeoot5ykVfgvbjkvuvG2HoJxQ",
@@ -3757,7 +3734,6 @@
         "time_taken": 214.63758444786072,
         "prompt_id": "143",
         "original_code": "// WordsInSentence.java\npackage scenario1;\n\nclass WordsInSentence {\n\n    public static String wordsInSentence(String sentence) {\n        String[] words = sentence.split(\" \");\n        String result = \"\";\n        for (int i = 0; i < words.length; i++) {\n            if (isPrime(words[i].length())) {\n                result += words[i] + \" \";\n            }\n        }\n        return result.trim();\n    }\n\n    private static boolean isPrime(int number) {\n        if (number <= 1) {\n            return false;\n        }\n        for (int i = 2; i < number; i++) {\n            if (number % i == 0) {\n                return false;\n            }\n        }\n        return true;\n    }\n}\n",
-        "test_prompt": "// WordsInSentenceTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link WordsInSentence}.\n* It contains ten unit test cases for the {@link WordsInSentence#wordsInSentence(String)} method.\n*/\nclass WordsInSentenceTest {",
-        "removed_extracode": true
+        "test_prompt": "// WordsInSentenceTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link WordsInSentence}.\n* It contains ten unit test cases for the {@link WordsInSentence#wordsInSentence(String)} method.\n*/\nclass WordsInSentenceTest {"
     }
 ]
