@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FindMax#findMax(List)} method.
 */
 class FindMaxTest {
-
-	@Test
+@Test
 	void testFindMax_null() {
 		assertNull(FindMax.findMax(null));
 	}

@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link RemoveDuplicates#removeDuplicates(List)} method.
 */
 class RemoveDuplicatesTest {
-
-	/**
+/**
 	* Test case 1 for {@link RemoveDuplicates#removeDuplicates(List)}.
 	* It tests the method with a list of integers.
 	*/

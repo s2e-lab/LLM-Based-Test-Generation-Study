@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link F#f(int)} method.
 */
 class FTest {
-
-	@Test
+@Test
 	void testF() {
 		List<Integer> expected = new ArrayList<Integer>();
 		expected.add(1);

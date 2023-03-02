@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Modp#modp(int, int)} method.
 */
 class ModpTest {
-
-	/**
+/**
 	 * Test case for {@link Modp#modp(int, int)} method.
 	 * It tests the case when the first parameter is negative.
 	 */

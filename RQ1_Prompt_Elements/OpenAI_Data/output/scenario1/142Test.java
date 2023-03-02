@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SumSquares1#sumSquares(List)} method.
 */
 class SumSquares1Test {
-
-	/**
+/**
 	* Test case 1.
 	* The input list contains only integers.
 	* The expected result is the sum of the squares of the integers in the input list.

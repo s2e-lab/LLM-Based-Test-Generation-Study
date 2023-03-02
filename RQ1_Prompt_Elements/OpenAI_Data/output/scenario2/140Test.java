@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FixSpaces#fixSpaces(String)} method.
 */
 class FixSpacesTest {
-
-		@Test
+@Test
 		void testFixSpaces() {
 				assertEquals("", FixSpaces.fixSpaces(""));
 				assertEquals("a", FixSpaces.fixSpaces("a"));
@@ -59,4 +58,3 @@ class FixSpacesTest {
 				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q"));
 				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r"));
 				assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s"));
-				

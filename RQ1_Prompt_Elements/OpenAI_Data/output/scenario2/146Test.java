@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Specialfilter#specialfilter(List)} method.
 */
 class SpecialfilterTest {
-
-	/**
+/**
 	* Test case for {@link Specialfilter#specialfilter(List)} method.
 	* It tests the method with a list of numbers.
 	* The expected result is the number of elements in the array that are greater than 10 and both

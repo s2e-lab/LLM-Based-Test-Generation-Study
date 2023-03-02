@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link ProdSigns#prodSigns(List)} method.
 */
 class ProdSignsTest {
-
-	@Test
+@Test
 	void testProdSigns_1() {
 		List<Object> arr = List.of(1, 2, 3, 4, 5);
 		assertEquals(Integer.valueOf(15), ProdSigns.prodSigns(arr));

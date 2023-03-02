@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SortThird#sortThird(List)} method.
 */
 class SortThirdTest {
-
-	/**
+/**
 	* Test case 1.
 	* The input list is [1, 2, 3].
 	* The expected output is [1, 2, 3].

@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CountUpTo#countUpTo(int)} method.
 */
 class CountUpToTest {
-
-	@Test
+@Test
 	void testCountUpTo_1() {
 		List<Object> expected = new ArrayList<Object>();
 		expected.add(2);

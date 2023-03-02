@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SortArray#sortArray(List)} method.
 */
 class SortArrayTest {
-
-	/**
+/**
 	* Test case for {@link SortArray#sortArray(List)} method.
 	* It tests the method with a list of integers.
 	*/
@@ -456,4 +455,3 @@ class SortArrayTest {
 		list.add(189);
 		list.add(190);
 		list.add(191);
-		

@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FilterIntegers#filterIntegers(List)} method.
 */
 class FilterIntegersTest {
-
-	@Test
+@Test
 	void testFilterIntegers_1() {
 		List<Object> values = new ArrayList<Object>();
 		values.add(1);

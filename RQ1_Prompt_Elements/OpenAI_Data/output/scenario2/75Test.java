@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsMultiplyPrime#isMultiplyPrime(int)} method.
 */
 class IsMultiplyPrimeTest {
-
-	@Test
+@Test
 	void testIsMultiplyPrime() {
 		assertTrue(IsMultiplyPrime.isMultiplyPrime(2));
 		assertTrue(IsMultiplyPrime.isMultiplyPrime(3));

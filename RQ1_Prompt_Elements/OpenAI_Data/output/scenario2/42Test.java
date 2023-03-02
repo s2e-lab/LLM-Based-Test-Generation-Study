@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IncrList#incrList(List)} method.
 */
 class IncrListTest {
-
-	/**
+/**
 	 * Test case for {@link IncrList#incrList(List)} method.
 	 * It tests the case when the input list is empty.
 	 */

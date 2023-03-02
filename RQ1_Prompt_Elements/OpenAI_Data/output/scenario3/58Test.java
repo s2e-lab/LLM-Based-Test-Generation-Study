@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Common#common(List, List)} method.
 */
 class CommonTest {
-
-		/**
+/**
 		* Test case for {@link Common#common(List, List)} method.
 		* It tests the case when the first list is empty.
 		*/

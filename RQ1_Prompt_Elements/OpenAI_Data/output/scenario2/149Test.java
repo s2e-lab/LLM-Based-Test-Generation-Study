@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SortedListSum#sortedListSum(List)} method.
 */
 class SortedListSumTest {
-
-	/**
+/**
 	* Test case for {@link SortedListSum#sortedListSum(List)} method.
 	* The test case checks if the method returns the correct list of strings
 	* when the input list contains only strings with even length.

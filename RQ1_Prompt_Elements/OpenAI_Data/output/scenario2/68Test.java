@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Pluck#pluck(List)} method.
 */
 class PluckTest {
-
-	@Test
+@Test
 	void testPluck() {
 		List<Object> arr = new ArrayList<Object>();
 		arr.add(1);

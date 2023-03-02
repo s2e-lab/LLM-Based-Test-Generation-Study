@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link OddCount#oddCount(List)} method.
 */
 class OddCountTest {
-
-	/**
+/**
 	* Test case for {@link OddCount#oddCount(List)} method.
 	* It tests the method with a list of one string.
 	*/

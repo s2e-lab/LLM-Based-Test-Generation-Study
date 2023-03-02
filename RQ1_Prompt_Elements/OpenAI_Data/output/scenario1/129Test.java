@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Minpath#minpath(List, int)} method.
 */
 class MinpathTest {
-
-	/**
+/**
 	* Test case 1.
 	* The input grid is empty.
 	* The expected output is an empty list.

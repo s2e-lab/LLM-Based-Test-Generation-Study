@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Longest#longest(List)} method.
 */
 class LongestTest {
-
-		@Test
+@Test
 		void testLongest_EmptyList() {
 				List<Object> list = List.of();
 				assertNull(Longest.longest(list));

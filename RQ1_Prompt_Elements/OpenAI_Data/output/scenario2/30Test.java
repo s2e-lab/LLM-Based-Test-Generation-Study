@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link GetPositive#getPositive(List)} method.
 */
 class GetPositiveTest {
-
-	/**
+/**
 	 * Test case 1:
 	 * Input: [1, 2, 3, 4, 5]
 	 * Expected output: [1, 2, 3, 4, 5]

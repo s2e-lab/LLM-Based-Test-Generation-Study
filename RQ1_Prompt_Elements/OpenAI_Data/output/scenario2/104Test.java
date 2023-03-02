@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link UniqueDigits#uniqueDigits(List)} method.
 */
 class UniqueDigitsTest {
-
-	/**
+/**
 	* Test case 1.
 	* Test method with following arguments:
 	* <ul>

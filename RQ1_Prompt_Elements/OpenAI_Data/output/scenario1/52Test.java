@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link BelowThreshold#belowThreshold(List, int)} method.
 */
 class BelowThresholdTest {
-
-	/**
+/**
 	* Test case 1.
 	* The input list is empty.
 	* The threshold is 0.

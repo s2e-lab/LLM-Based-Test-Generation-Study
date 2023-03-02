@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Encode#encode(String)} method.
 */
 class EncodeTest {
-
-		/**
+/**
 		* Test case for {@link Encode#encode(String)} method.
 		* It tests if the method returns the correct encoded string for a given string.
 		*/

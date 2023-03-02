@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link ValidDate#validDate(String)} method.
 */
 class ValidDateTest {
-
-		@Test
+@Test
 		void testValidDate() {
 			assertTrue(ValidDate.validDate("01-01-2000"));
 			assertTrue(ValidDate.validDate("01-31-2000"));

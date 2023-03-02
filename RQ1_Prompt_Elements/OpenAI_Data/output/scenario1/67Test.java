@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FruitDistribution#fruitDistribution(String, int)} method.
 */
 class FruitDistributionTest {
-
-		/**
+/**
 		* Test case 1.
 		* The input string is "10 apples 20 oranges" and the number of fruits is 30.
 		* The expected result is 0.

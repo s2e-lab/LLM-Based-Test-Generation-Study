@@ -90,6 +90,17 @@ def get_output_files(config: dict, scenario: str) -> tuple:
     response_file = os.path.join(output_folder, scenario.replace("prompt", "output"))
     return output_folder, response_file
 
+def get_fixed_files(config: dict, scenario: str) -> tuple:
+    """
+    Compute the paths to the output folder and response file.
+    @param config: analysis configuration
+    @param scenario: filename for the scenario (ex: "Scenario1_prompt.json")
+    @return:
+    """
+    output_folder = os.path.join(config["BASE_DIRECTORY"], "output/")
+    response_file = os.path.join(output_folder, scenario.replace("prompt", "output").replace(".json", "_fixed.json"))
+    return output_folder, response_file
+
 
 def get_mock_response(prompt: dict, error_msg: str) -> dict:
     """

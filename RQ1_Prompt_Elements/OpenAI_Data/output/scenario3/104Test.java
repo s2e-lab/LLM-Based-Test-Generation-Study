@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link UniqueDigits#uniqueDigits(List)} method.
 */
 class UniqueDigitsTest {
-
-	/**
+/**
 	* Test case for {@link UniqueDigits#uniqueDigits(List)} method.
 	* It tests the method with a list of positive integers.
 	* The expected result is a sorted list of all elements that hasn't any even digit.

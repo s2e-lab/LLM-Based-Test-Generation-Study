@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link ParseMusic#parseMusic(String)} method.
 */
 class ParseMusicTest {
-
-	@Test
+@Test
 	void testParseMusic() {
 		List<Object> expected = new ArrayList<Object>();
 		expected.add(4);
@@ -456,4 +455,3 @@ class ParseMusicTest {
 		expected.add(2);
 		expected.add(4);
 		expected.add(1);
-	

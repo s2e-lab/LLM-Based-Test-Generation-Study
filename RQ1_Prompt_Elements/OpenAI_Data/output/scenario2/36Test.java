@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FizzBuzz#fizzBuzz(int)} method.
 */
 class FizzBuzzTest {
-
-	@Test
+@Test
 	void testFizzBuzz() {
 		assertEquals(0, FizzBuzz.fizzBuzz(1));
 		assertEquals(0, FizzBuzz.fizzBuzz(2));

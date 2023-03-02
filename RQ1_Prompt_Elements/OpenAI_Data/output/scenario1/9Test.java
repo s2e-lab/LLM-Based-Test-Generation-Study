@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link RollingMax#rollingMax(List)} method.
 */
 class RollingMaxTest {
-
-		/**
+/**
 		* Test case 1.
 		* The input list is empty.
 		* The expected result is an empty list.
