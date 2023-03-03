@@ -8,7 +8,7 @@ def fix(config: dict, scenario: str) -> None:
     # sets the data output paths
     output_folder, response_file = get_generate_output_files(config, scenario)
     projectName = scenario.split(".")[0]
-    
+
     # load previously computed response
     with open(response_file, "r") as f:
         previous_responses = json.load(f)
@@ -38,8 +38,8 @@ def fix(config: dict, scenario: str) -> None:
             # mock_response = get_mock_response(r, str(e))
             # save_response(f, r, previous_responses, mock_response)
 
-    # with open(response_file.replace(".json", "_fixed.json"), "w") as f:
-    #     f.write(json.dumps(filtered_responses, indent=4))
+    with open(response_file.replace(".json", "_fixed.json"), "w") as f:
+        f.write(json.dumps(filtered_responses, indent=4))
 
 
 def main():

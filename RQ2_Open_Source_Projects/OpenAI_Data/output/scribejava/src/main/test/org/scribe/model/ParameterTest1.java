@@ -225,28 +225,28 @@ class ParameterTest3 {
 		void testCompareTo7() {
 				Parameter p1 = new Parameter("key", "value");
 				Parameter p2 = new Parameter("key", "value");
-				assertEquals(0, p1.compareTo(new Parameter("key", "value2")));
+				assertEquals(-1, p1.compareTo(new Parameter("key2", "value")));
 		}
 		
 		@Test
 		void testCompareTo8() {
 				Parameter p1 = new Parameter("key", "value");
 				Parameter p2 = new Parameter("key", "value");
-				assertEquals(0, p2.compareTo(new Parameter("key", "value2")));
+				assertEquals(1, p2.compareTo(new Parameter("key2", "value")));
 		}
 		
 		@Test
 		void testCompareTo9() {
 				Parameter p1 = new Parameter("key", "value");
 				Parameter p2 = new Parameter("key", "value");
-				assertEquals(0, p1.compareTo(new Parameter("key2", "value")));
+				assertEquals(-1, p1.compareTo(new Parameter("key", "value2")));
 		}
 		
 		@Test
 		void testCompareTo10() {
 				Parameter p1 = new Parameter("key", "value");
 				Parameter p2 = new Parameter("key", "value");
-				assertEquals(0, p2.compareTo(new Parameter("key2", "value")));
+				assertEquals(1, p2.compareTo(new Parameter("key", "value2")));
 		}
 }
 

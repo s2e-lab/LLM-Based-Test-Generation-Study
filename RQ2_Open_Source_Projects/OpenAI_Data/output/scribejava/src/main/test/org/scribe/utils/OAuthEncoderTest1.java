@@ -410,7 +410,7 @@ public class OAuthRequest {
         } catch (java.net.MalformedURLException mue) {
             throw new OAuthException("Malformed URL", mue);
         } catch (java.io.UnsupportedEncodingException uee) {
-            throw new OAuthException("Could not decode query string", uee);
+            throw new OAuthException("Could not decode", uee);
         }
     }
 
@@ -440,4 +440,4 @@ public class OAuthRequest {
      */
     public String getBodyContents() {
         try {
-            if (!bodyPar
+            String body = new String(

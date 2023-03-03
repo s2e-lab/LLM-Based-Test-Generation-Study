@@ -46,8 +46,6 @@ class ServiceBuilderTest2 {
 		
 		private static final String ILLEGAL_ARGUMENT_EXCEPTION = "IllegalArgumentException";
 		
-		private static final String NULL_POINTER_EXCEPTION = "NullPointerException";
-		
 		private static final String UNSUPPORTED_ENCODING_EXCEPTION = "UnsupportedEncodingException";
 		
 		private static final String IO_EXCEPTION = "IOException";
@@ -110,102 +108,122 @@ class ServiceBuilderTest2 {
 		
 		private static final String CALLBACK_URL_ENCODED_IS_NOT_OOB = "Callback url encoded is not oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK = "Callback url encoded is not callback";
+		private static final String CALLBACK_IS_NULL = "Callback is null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK = "Callback url encoded is callback";
+		private static final String CALLBACK_IS_EMPTY = "Callback is empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED = "Callback url encoded is not callback url encoded";
+		private static final String CALLBACK_IS_SPACE = "Callback is space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED = "Callback url encoded is callback url encoded";
+		private static final String CALLBACK_IS_OOB = "Callback is oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB = "Callback url encoded is not callback oob";
+		private static final String CALLBACK_IS_NOT_NULL = "Callback is not null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB = "Callback url encoded is callback oob";
+		private static final String CALLBACK_IS_NOT_EMPTY = "Callback is not empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY = "Callback url encoded is not callback empty";
+		private static final String CALLBACK_IS_NOT_SPACE = "Callback is not space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY = "Callback url encoded is callback empty";
+		private static final String CALLBACK_IS_NOT_OOB = "Callback is not oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL = "Callback url encoded is not callback null";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED = "Callback is not url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL = "Callback url encoded is callback null";
+		private static final String CALLBACK_IS_URL_ENCODED = "Callback is url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_SPACE = "Callback url encoded is not callback space";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_OOB = "Callback is not url encoded oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_SPACE = "Callback url encoded is callback space";
+		private static final String CALLBACK_IS_URL_ENCODED_OOB = "Callback is url encoded oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_EMPTY = "Callback is not url encoded empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_EMPTY = "Callback is url encoded empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB_URL_ENCODED = "Callback url encoded is not callback oob url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_NULL = "Callback is not url encoded null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB_URL_ENCODED = "Callback url encoded is callback oob url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_NULL = "Callback is url encoded null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY_URL_ENCODED = "Callback url encoded is not callback empty url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_SPACE = "Callback is not url encoded space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY_URL_ENCODED = "Callback url encoded is callback empty url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_SPACE = "Callback is url encoded space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL_URL_ENCODED = "Callback url encoded is not callback null url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED = "Callback is not url encoded url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL_URL_ENCODED = "Callback url encoded is callback null url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED = "Callback is url encoded url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_SPACE_URL_ENCODED = "Callback url encoded is not callback space url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_OOB = "Callback is not url encoded url encoded oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_SPACE_URL_ENCODED = "Callback url encoded is callback space url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_OOB = "Callback is url encoded url encoded oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_EMPTY = "Callback is not url encoded url encoded empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_EMPTY = "Callback is url encoded url encoded empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback oob url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_NULL = "Callback is not url encoded url encoded null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback oob url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_NULL = "Callback is url encoded url encoded null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback empty url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_SPACE = "Callback is not url encoded url encoded space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback empty url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_SPACE = "Callback is url encoded url encoded space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback null url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback is not url encoded url encoded url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback null url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback is url encoded url encoded url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_SPACE_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback space url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_OOB = "Callback is not url encoded url encoded url encoded oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_SPACE_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback space url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_OOB = "Callback is url encoded url encoded url encoded oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_EMPTY = "Callback is not url encoded url encoded url encoded empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_EMPTY = "Callback is url encoded url encoded url encoded empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback oob url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_NULL = "Callback is not url encoded url encoded url encoded null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback oob url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_NULL = "Callback is url encoded url encoded url encoded null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback empty url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_SPACE = "Callback is not url encoded url encoded url encoded space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback empty url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_SPACE = "Callback is url encoded url encoded url encoded space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback null url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback is not url encoded url encoded url encoded url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback null url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback is url encoded url encoded url encoded url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_SPACE_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback space url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_OOB = "Callback is not url encoded url encoded url encoded url encoded oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_SPACE_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback space url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_OOB = "Callback is url encoded url encoded url encoded url encoded oob";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback url encoded url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_EMPTY = "Callback is not url encoded url encoded url encoded url encoded empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback url encoded url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_EMPTY = "Callback is url encoded url encoded url encoded url encoded empty";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback oob url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_NULL = "Callback is not url encoded url encoded url encoded url encoded null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback oob url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_NULL = "Callback is url encoded url encoded url encoded url encoded null";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback empty url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_SPACE = "Callback is not url encoded url encoded url encoded url encoded space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback empty url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_SPACE = "Callback is url encoded url encoded url encoded url encoded space";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback null url encoded url encoded url encoded url encoded";
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback is not url encoded url encoded url encoded url encoded url encoded";
 		
-		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback null url encoded url
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback is url encoded url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_OOB = "Callback is not url encoded url encoded url encoded url encoded url encoded oob";
+		
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_OOB = "Callback is url encoded url encoded url encoded url encoded url encoded oob";
+		
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_EMPTY = "Callback is not url encoded url encoded url encoded url encoded url encoded empty";
+		
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_EMPTY = "Callback is url encoded url encoded url encoded url encoded url encoded empty";
+		
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_NULL = "Callback is not url encoded url encoded url encoded url encoded url encoded null";
+		
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_NULL = "Callback is url encoded url encoded url encoded url encoded url encoded null";
+		
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_SPACE = "Callback is not url encoded url encoded url encoded url encoded url encoded space";
+		
+		private static final String CALLBACK_IS_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_SPACE = "Callback is url encoded url encoded url encoded url encoded url encoded space";
+		
+		private static final String CALLBACK_IS_NOT_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback is not url encoded url encoded url encoded url encoded url encoded url encoded";
+		
+		private static final String CALL

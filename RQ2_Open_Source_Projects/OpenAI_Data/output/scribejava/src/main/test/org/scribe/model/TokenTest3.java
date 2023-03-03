@@ -75,7 +75,7 @@ class TokenTest3 {
 		}
 }
 
-// TokenTest2.java
+// TokenTest4.java
 package org.scribe.model;
 
 import java.io.*;
@@ -87,72 +87,72 @@ import static org.junit.jupiter.api.Assertions.*;
 * Test class of {@link Token}.
 * It contains ten unit test cases for the {@link Token#equals(Object)} method.
 */
-class TokenTest2 {
+class TokenTest4 {
 		
 		private Token token;
 		
 		@Test
 		public void testEquals() {
 				token = new Token("token", "secret");
-				assertEquals(token.equals(new Token("token", "secret")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals2() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals3() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals4() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals5() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals6() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals7() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals8() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals9() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 		
 		@Test
 		public void testEquals10() {
 				token = new Token("token", "secret", "rawResponse");
-				assertEquals(token.equals(new Token("token", "secret", "rawResponse")), true);
+				assertEquals(token.equals(token), true);
 		}
 }
 
-// TokenTest.java
+// TokenTest5.java
 package org.scribe.model;
 
 import java.io.*;
@@ -164,7 +164,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * Test class of {@link Token}.
 * It contains ten unit test cases for the {@link Token#toString()} method.
 */
-class TokenTest {
+class TokenTest5 {
 		
 		private Token token;
 		
@@ -229,7 +229,7 @@ class TokenTest {
 		}
 }
 
-// TokenTest4.java
+// TokenTest6.java
 package org.scribe.model;
 
 import java.io.*;
@@ -241,7 +241,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * Test class of {@link Token}.
 * It contains ten unit test cases for the {@link Token#isEmpty()} method.
 */
-class TokenTest4 {
+class TokenTest6 {
 		
 		private Token token;
 		
@@ -306,7 +306,7 @@ class TokenTest4 {
 		}
 }
 
-// TokenTest5.java
+// TokenTest7.java
 package org.scribe.model;
 
 import java.io.*;
@@ -318,7 +318,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * Test class of {@link Token}.
 * It contains ten unit test cases for the {@link Token#getRawResponse()} method.
 */
-class TokenTest5 {
+class TokenTest7 {
 		
 		private Token token;
 		
@@ -385,7 +385,7 @@ class TokenTest5 {
 		}
 }
 
-// TokenTest6.java
+// TokenTest8.java
 package org.scribe.model;
 
 import java.io.*;
@@ -397,7 +397,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * Test class of {@link Token}.
 * It contains ten unit test cases for the {@link Token#getSecret()} method.
 */
-class TokenTest6 {
+class TokenTest8 {
 		
 		private Token token;
 		
@@ -423,3 +423,15 @@ class TokenTest6 {
 		public void testGetSecret4() {
 				token = new Token("token", "secret", "rawResponse");
 				assertEquals(token.getSecret(), "secret");
+		}
+		
+		@Test
+		public void testGetSecret5() {
+				token = new Token("token", "secret", "rawResponse");
+				assertEquals(token.getSecret(), "secret");
+		}
+		
+		@Test
+		public void testGetSecret6() {
+				token = new Token("token", "secret", "rawResponse");
+			
