@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Digitsum#digitSum(String)} method.
 */
 class DigitsumTest {
-@Test
+
+		@Test
 		void testDigitSum1() {
 			assertEquals(0, Digitsum.digitSum(""));
 		}

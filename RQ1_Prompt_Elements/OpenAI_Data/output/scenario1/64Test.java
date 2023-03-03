@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link VowelsCount#vowelsCount(String)} method.
 */
 class VowelsCountTest {
-@Test
+
+		@Test
 		void testVowelsCount() {
 			assertEquals(0, VowelsCount.vowelsCount(""));
 			assertEquals(0, VowelsCount.vowelsCount("b"));

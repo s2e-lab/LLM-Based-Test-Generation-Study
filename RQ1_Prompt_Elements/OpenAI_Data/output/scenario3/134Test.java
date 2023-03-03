@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CheckIfLastCharIsALetter#checkIfLastCharIsALetter(String)} method.
 */
 class CheckIfLastCharIsALetterTest {
-@Test
+
+	@Test
 	void testCheckIfLastCharIsALetter() {
 		assertEquals(false, CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple"));
 		assertEquals(true, CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple pi e"));

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link ClosestInteger#closestInteger(String)} method.
 */
 class ClosestIntegerTest {
-@Test
+
+	@Test
 	void testClosestInteger() {
 		assertEquals(0, ClosestInteger.closestInteger("0.0"));
 		assertEquals(1, ClosestInteger.closestInteger("0.5"));

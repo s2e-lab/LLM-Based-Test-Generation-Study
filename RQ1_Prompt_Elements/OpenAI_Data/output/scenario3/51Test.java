@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link RemoveVowels#removeVowels(String)} method.
 */
 class RemoveVowelsTest {
-@Test
+
+	@Test
 	void testRemoveVowels() {
 		assertEquals("bcdf", RemoveVowels.removeVowels("abcdef"));
 		assertEquals("", RemoveVowels.removeVowels("aaaaa"));

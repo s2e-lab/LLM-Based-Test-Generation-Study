@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Multiply#multiply(int, int)} method.
 */
 class MultiplyTest {
-@Test
+
+	@Test
 	void testMultiply() {
 		assertEquals(16, Multiply.multiply(148, 412));
 		assertEquals(72, Multiply.multiply(19, 28));

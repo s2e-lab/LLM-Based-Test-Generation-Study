@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsEqualToSumEven#isEqualToSumEven(int)} method.
 */
 class IsEqualToSumEvenTest {
-@Test
+
+	@Test
 	void testIsEqualToSumEven() {
 		assertFalse(IsEqualToSumEven.isEqualToSumEven(4));
 		assertFalse(IsEqualToSumEven.isEqualToSumEven(6));

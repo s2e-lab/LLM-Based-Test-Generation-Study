@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CompareOne#compareOne(Object, Object)} method.
 */
 class CompareOneTest {
-@Test
+
+	@Test
 	void testCompareOne() {
 		assertEquals(2.5, CompareOne.compareOne(1, 2.5));
 		assertEquals("2,3", CompareOne.compareOne(1, "2,3"));

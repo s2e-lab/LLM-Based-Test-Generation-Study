@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsPalindrome#isPalindrome(String)} method.
 */
 class IsPalindromeTest {
-@Test
+
+	@Test
 	void testIsPalindrome_emptyString() {
 		assertTrue(IsPalindrome.isPalindrome(""));
 	}

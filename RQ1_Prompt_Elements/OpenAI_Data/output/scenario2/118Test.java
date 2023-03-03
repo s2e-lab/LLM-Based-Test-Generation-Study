@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link GetClosestVowel#getClosestVowel(String)} method.
 */
 class GetClosestVowelTest {
-@Test
+
+	@Test
 	void testGetClosestVowel() {
 		assertEquals("", GetClosestVowel.getClosestVowel(""));
 		assertEquals("", GetClosestVowel.getClosestVowel("a"));

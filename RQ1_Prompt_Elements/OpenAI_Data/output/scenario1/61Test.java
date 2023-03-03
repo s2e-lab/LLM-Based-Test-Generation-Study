@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CorrectBracketing1#correctBracketing(String)} method.
 */
 class CorrectBracketing1Test {
-@Test
+
+	@Test
 	void testCorrectBracketing1() {
 		assertTrue(CorrectBracketing1.correctBracketing("()"));
 	}

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CycpatternCheck#cycpatternCheck(String, String)} method.
 */
 class CycpatternCheckTest {
-/**
+
+		/**
 		* Test case 1.
 		* The method should return true if the second word or any of its rotations is a substring in the first word.
 		*/

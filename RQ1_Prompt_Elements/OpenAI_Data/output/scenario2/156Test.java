@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IntToMiniRoman#intToMiniRoman(int)} method.
 */
 class IntToMiniRomanTest {
-@Test
+
+	@Test
 	void testIntToMiniRoman() {
 		assertEquals("i", IntToMiniRoman.intToMiniRoman(1));
 		assertEquals("ii", IntToMiniRoman.intToMiniRoman(2));

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsBored#isBored(String)} method.
 */
 class IsBoredTest {
-@Test
+
+	@Test
 	void testIsBored() {
 		assertEquals(0, IsBored.isBored(""));
 		assertEquals(0, IsBored.isBored("I"));

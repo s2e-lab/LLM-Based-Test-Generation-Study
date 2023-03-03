@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Intersection#intersection(List, List)} method.
 */
 class IntersectionTest {
-@Test
+
+	@Test
 	void testIntersection() {
 		assertEquals("NO", Intersection.intersection(List.of(1, 5), List.of(6, 10)));
 		assertEquals("YES", Intersection.intersection(List.of(1, 5), List.of(2, 10)));

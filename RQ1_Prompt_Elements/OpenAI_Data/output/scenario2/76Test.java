@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsSimplePower#isSimplePower(int, int)} method.
 */
 class IsSimplePowerTest {
-@Test
+
+	@Test
 	void testIsSimplePower() {
 		assertTrue(IsSimplePower.isSimplePower(1, 1));
 		assertTrue(IsSimplePower.isSimplePower(1, 2));

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Encrypt#encrypt(String)} method.
 */
 class EncryptTest {
-@Test
+
+		@Test
 		void testEncrypt() {
 				assertEquals("jgnnq", Encrypt.encrypt("hello"));
 				assertEquals("jgnnq", Encrypt.encrypt("Hello"));

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Iscube#iscube(int)} method.
 */
 class IscubeTest {
-@Test
+
+		@Test
 		void test_iscube_0() {
 			assertTrue(Iscube.iscube(0));
 		}

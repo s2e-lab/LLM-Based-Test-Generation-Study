@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CheckIfLastCharIsALetter#checkIfLastCharIsALetter(String)} method.
 */
 class CheckIfLastCharIsALetterTest {
-/**
+
+		/**
 		* Test case 1.
 		* The input string is empty.
 		* The expected result is false.

@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link MakeAPile#makeAPile(int)} method.
 */
 class MakeAPileTest {
-@Test
+
+	@Test
 	void testMakeAPile() {
 		List<Integer> expected = new ArrayList<Integer>();
 		expected.add(1);

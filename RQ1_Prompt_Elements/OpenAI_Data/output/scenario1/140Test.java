@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FixSpaces#fixSpaces(String)} method.
 */
 class FixSpacesTest {
-@Test
+
+		@Test
 		void testFixSpaces1() {
 				assertEquals("", FixSpaces.fixSpaces(""));
 		}

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FlipCase#flipCase(String)} method.
 */
 class FlipCaseTest {
-@Test
+
+	@Test
 	void testFlipCase() {
 		assertEquals("hELLO", FlipCase.flipCase("Hello"));
 		assertEquals("", FlipCase.flipCase(""));

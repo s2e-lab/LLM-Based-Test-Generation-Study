@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link MeanAbsoluteDeviation#meanAbsoluteDeviation(List)} method.
 */
 class MeanAbsoluteDeviationTest {
-@Test
+
+	@Test
 	void testMeanAbsoluteDeviation() {
 		List<Double> numbers = List.of(1.0, 2.0, 3.0, 4.0, 5.0);
 		Double expected = 1.0;

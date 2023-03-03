@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link RoundedAvg#roundedAvg(int, int)} method.
 */
 class RoundedAvgTest {
-@Test
+
+	@Test
 	void testRoundedAvg() {
 		assertEquals("0b11", RoundedAvg.roundedAvg(1, 3));
 		assertEquals("0b11", RoundedAvg.roundedAvg(3, 1));

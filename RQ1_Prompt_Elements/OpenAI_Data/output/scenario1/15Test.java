@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link StringSequence#stringSequence(int)} method.
 */
 class StringSequenceTest {
-@Test
+
+	@Test
 	void testStringSequence() {
 		assertEquals("0", StringSequence.stringSequence(0));
 		assertEquals("0 1", StringSequence.stringSequence(1));

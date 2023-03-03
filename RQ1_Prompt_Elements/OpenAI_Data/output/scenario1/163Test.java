@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link GenerateIntegers#generateIntegers(int, int)} method.
 */
 class GenerateIntegersTest {
-@Test
+
+	@Test
 	void testGenerateIntegers_1() {
 		List<Object> expected = new ArrayList<>();
 		expected.add(2);

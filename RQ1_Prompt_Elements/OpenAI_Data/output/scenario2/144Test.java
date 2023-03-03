@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Simplify#simplify(String, String)} method.
 */
 class SimplifyTest {
-@Test
+
+	@Test
 	void testSimplify() {
 		assertTrue(Simplify.simplify("1/2", "1/2"));
 		assertTrue(Simplify.simplify("1/2", "2/4"));

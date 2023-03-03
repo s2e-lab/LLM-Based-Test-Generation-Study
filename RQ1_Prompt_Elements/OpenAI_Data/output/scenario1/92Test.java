@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link AnyInt#anyInt(Number, Number, Number)} method.
 */
 class AnyIntTest {
-@Test
+
+	@Test
 	void testAnyInt() {
 		assertTrue(AnyInt.anyInt(1, 2, 3));
 		assertTrue(AnyInt.anyInt(1, 3, 2));

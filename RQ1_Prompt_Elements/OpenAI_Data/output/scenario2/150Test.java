@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link XOrY#xOrY(int, int, int)} method.
 */
 class XOrYTest {
-@Test
+
+	@Test
 	void testXOrY() {
 		assertEquals(1, XOrY.xOrY(1, 1, 2));
 		assertEquals(2, XOrY.xOrY(2, 1, 2));

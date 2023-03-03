@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Compare#compare(List, List)} method.
 */
 class CompareTest {
-/**
+
+	/**
 	* Test case 1.
 	* The game list is empty.
 	* The guess list is empty.

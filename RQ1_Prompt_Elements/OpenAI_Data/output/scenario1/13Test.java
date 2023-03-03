@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link GreatestCommonDivisor#greatestCommonDivisor(int, int)} method.
 */
 class GreatestCommonDivisorTest {
-/**
+
+		/**
 		* Test case 1.
 		* The method should return the greatest common divisor of two positive integers.
 		*/

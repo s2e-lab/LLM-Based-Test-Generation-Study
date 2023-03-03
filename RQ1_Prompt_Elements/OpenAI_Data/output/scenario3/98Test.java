@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CountUpper#countUpper(String)} method.
 */
 class CountUpperTest {
-@Test
+
+	@Test
 	void testCountUpper() {
 		assertEquals(0, CountUpper.countUpper("abcdefg"));
 		assertEquals(0, CountUpper.countUpper("dBBE"));

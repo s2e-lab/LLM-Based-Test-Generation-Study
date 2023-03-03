@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Eat#eat(int, int, int)} method.
 */
 class EatTest {
-@Test
+
+	@Test
 	void testEat() {
 		List<Integer> result = Eat.eat(0, 0, 0);
 		assertEquals(Arrays.asList(0, 0), result);

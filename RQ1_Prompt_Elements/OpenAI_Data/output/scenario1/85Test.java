@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Add1#add(List)} method.
 */
 class Add1Test {
-@Test
+
+		@Test
 		void testAdd1() {
 				List<Integer> lst = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 				assertEquals(30, Add1.add(lst));

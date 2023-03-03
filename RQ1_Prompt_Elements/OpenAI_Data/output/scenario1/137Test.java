@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CompareOne#compareOne(Object, Object)} method.
 */
 class CompareOneTest {
-/**
+
+		/**
 		* Test case 1.
 		* The method should return null if the two objects are equal.
 		*/

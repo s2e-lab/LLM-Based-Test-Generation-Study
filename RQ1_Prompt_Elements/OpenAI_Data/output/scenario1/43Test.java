@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link PairsSumToZero#pairsSumToZero(List)} method.
 */
 class PairsSumToZeroTest {
-@Test
+
+	@Test
 	void testPairsSumToZero_1() {
 		List<Integer> l = List.of(1, 2, 3, 4, 5);
 		assertFalse(PairsSumToZero.pairsSumToZero(l));

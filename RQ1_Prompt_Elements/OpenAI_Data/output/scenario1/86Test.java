@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link AntiShuffle#antiShuffle(String)} method.
 */
 class AntiShuffleTest {
-@Test
+
+	@Test
 	void testAntiShuffle() {
 		assertEquals("a", AntiShuffle.antiShuffle("a"));
 		assertEquals("a b", AntiShuffle.antiShuffle("a b"));

@@ -13,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link GetRow#getRow(List, int)} method.
 */
 class GetRowTest {
-/**
+
+	/**
 	* Test case for {@link GetRow#getRow(List, int)} method.
 	* It tests the case when the given list is empty.
 	*/

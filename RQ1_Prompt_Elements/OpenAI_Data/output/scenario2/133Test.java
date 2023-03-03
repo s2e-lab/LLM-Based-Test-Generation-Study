@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SumSquares#sumSquares(List)} method.
 */
 class SumSquaresTest {
-@Test
+
+	@Test
 	void testSumSquares() {
 		List<Number> lst = List.of(1.2, 2.3, 3.4);
 		assertEquals(38, SumSquares.sumSquares(lst));

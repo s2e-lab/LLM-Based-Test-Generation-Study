@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link WillItFly#willItFly(List, int)} method.
 */
 class WillItFlyTest {
-@Test
+
+	@Test
 	void testWillItFly1() {
 		List<Integer> q = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		int w = 10;

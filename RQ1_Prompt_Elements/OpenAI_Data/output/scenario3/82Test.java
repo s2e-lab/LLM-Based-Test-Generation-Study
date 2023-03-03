@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link PrimeLength#primeLength(String)} method.
 */
 class PrimeLengthTest {
-@Test
+
+		@Test
 		void testPrimeLength() {
 			assertTrue(PrimeLength.primeLength("Hello"));
 			assertTrue(PrimeLength.primeLength("abcdcba"));

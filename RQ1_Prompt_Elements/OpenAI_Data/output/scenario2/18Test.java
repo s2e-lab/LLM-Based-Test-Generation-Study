@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link HowManyTimes#howManyTimes(String, String)} method.
 */
 class HowManyTimesTest {
-@Test
+
+	@Test
 	void testHowManyTimes() {
 		assertEquals(0, HowManyTimes.howManyTimes("", ""));
 		assertEquals(0, HowManyTimes.howManyTimes("", "a"));

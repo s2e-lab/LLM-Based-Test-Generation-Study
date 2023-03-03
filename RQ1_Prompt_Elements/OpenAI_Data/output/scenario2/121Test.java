@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Solution#solution(List)} method.
 */
 class SolutionTest {
-@Test
+
+	@Test
 	void testSolution() {
 		assertEquals(0, Solution.solution(List.of()));
 		assertEquals(0, Solution.solution(List.of(1)));

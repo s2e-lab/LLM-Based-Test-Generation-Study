@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link ChooseNum#chooseNum(int, int)} method.
 */
 class ChooseNumTest {
-@Test
+
+	@Test
 	void test1() {
 		assertEquals(2, ChooseNum.chooseNum(1, 2));
 	}

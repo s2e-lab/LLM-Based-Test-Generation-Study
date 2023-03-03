@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link GetMaxTriples#getMaxTriples(int)} method.
 */
 class GetMaxTriplesTest {
-@Test
+
+	@Test
 	void testGetMaxTriples() {
 		assertEquals(1, GetMaxTriples.getMaxTriples(5));
 		assertEquals(4, GetMaxTriples.getMaxTriples(6));

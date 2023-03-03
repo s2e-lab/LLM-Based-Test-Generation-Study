@@ -12,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link StrangeSortList#strangeSortList(List)} method.
 */
 class StrangeSortListTest {
-/**
+
+	/**
 	* Test case 1.
 	* Input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	* Expected output: [1, 10, 2, 9, 3, 8, 4, 7, 5, 6]

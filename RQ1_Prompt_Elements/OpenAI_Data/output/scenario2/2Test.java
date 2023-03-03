@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link TruncateNumber#truncateNumber(Double)} method.
 */
 class TruncateNumberTest {
-@Test
+
+	@Test
 	void testTruncateNumber() {
 		assertEquals(0.0, TruncateNumber.truncateNumber(0.0));
 		assertEquals(0.0, TruncateNumber.truncateNumber(0.1));

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link BelowZero#belowZero(List)} method.
 */
 class BelowZeroTest {
-@Test
+
+	@Test
 	void testBelowZero() {
 		assertFalse(BelowZero.belowZero(List.of(10.0, -20.0, 30.0)));
 		assertTrue(BelowZero.belowZero(List.of(10.0, -20.0, -30.0)));

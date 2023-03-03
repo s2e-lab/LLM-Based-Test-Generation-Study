@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link HasCloseElements#hasCloseElements(List, Double)} method.
 */
 class HasCloseElementsTest {
-@Test
+
+	@Test
 	void testHasCloseElements_1() {
 		List<Double> numbers = List.of(1.0, 2.0, 3.0, 4.0, 5.0);
 		Double threshold = 0.5;

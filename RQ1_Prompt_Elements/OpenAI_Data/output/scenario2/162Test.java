@@ -12,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link StringToMd5#stringToMd5(String)} method.
 */
 class StringToMd5Test {
-/**
+
+	/**
 	* Test case 1.
 	* Given a string 'text', return its md5 hash equivalent string.
 	* If 'text' is an empty string, return null.

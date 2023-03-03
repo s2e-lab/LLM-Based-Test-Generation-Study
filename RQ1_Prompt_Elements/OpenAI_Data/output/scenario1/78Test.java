@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link HexKey#hexKey(Object)} method.
 */
 class HexKeyTest {
-/**
+
+		/**
 		* Test case 1 for {@link HexKey#hexKey(Object)}.
 		* It tests the method with a {@link String} object.
 		*/

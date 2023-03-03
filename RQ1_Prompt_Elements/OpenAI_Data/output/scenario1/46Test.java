@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Fib4#fib4(int)} method.
 */
 class Fib4Test {
-@Test
+
+	@Test
 	void testFib4() {
 		assertEquals(0, Fib4.fib4(1));
 		assertEquals(0, Fib4.fib4(2));

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link PrimeFib#primeFib(int)} method.
 */
 class PrimeFibTest {
-@Test
+
+		@Test
 		void testPrimeFib1() {
 			assertEquals(2, PrimeFib.primeFib(1));
 		}

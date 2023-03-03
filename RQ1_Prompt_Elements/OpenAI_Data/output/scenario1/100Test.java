@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link MakeAPile#makeAPile(int)} method.
 */
 class MakeAPileTest {
-/**
+
+		/**
 		* Test case 1.
 		* The input is 1.
 		* The expected output is [1].

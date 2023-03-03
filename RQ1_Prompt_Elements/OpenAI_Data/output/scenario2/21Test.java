@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link RescaleToUnit#rescaleToUnit(List)} method.
 */
 class RescaleToUnitTest {
-/**
+
+	/**
 	* Test case 1:
 	* Input: [1, 2, 3, 4, 5]
 	* Expected output: [0.0, 0.25, 0.5, 0.75, 1.0]

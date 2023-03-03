@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link ChangeBase#changeBase(int, int)} method.
 */
 class ChangeBaseTest {
-@Test
+
+	@Test
 	void testChangeBase() {
 		assertEquals("0", ChangeBase.changeBase(0, 2));
 		assertEquals("1", ChangeBase.changeBase(1, 2));

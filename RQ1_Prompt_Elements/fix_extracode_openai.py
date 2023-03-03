@@ -13,7 +13,7 @@ def remove_extracode(code: str) -> str:
     # removes the extra code
     if EOF in code:
         code = code[:code.index(EOF)]
-    return code.strip()
+    return code
 
 
 def fix_extracode(config: dict, scenario: str) -> None:
@@ -31,19 +31,18 @@ def fix_extracode(config: dict, scenario: str) -> None:
     filtered_responses = []
     for r in previous_responses:
         print("PROMPT", r["prompt_id"])
-        if not r["choices"][0]["finish_reason"] == "stop":
-            # generates new code, with token limit size increased
-            old_code = r["choices"][0]["text"].strip()
+        
+        old_code = r["choices"][0]["text"]
 
-            r["choices"][0]["text"] = remove_extracode(old_code)
-            if old_code != r["choices"][0]["text"]:
+        r["choices"][0]["text"] = remove_extracode(old_code)
+
+        if old_code != r["choices"][0]["text"]:
                 r["removed_extracode"] = True
                 print("Code was fixed")
-            # save_generated_code(r, r, output_folder)
-            filtered_responses.append(r)
+            
+        save_generated_code(r, r, output_folder)
+        filtered_responses.append(r)
 
-        else:
-            filtered_responses.append(r)
 
     with open(response_file.replace(".json", "_fixed_extracode.json"), "w") as f:
         f.write(json.dumps(filtered_responses, indent=4))
@@ -51,7 +50,7 @@ def fix_extracode(config: dict, scenario: str) -> None:
 
 def main():
     config = load_config("config.json")
-    fix_extracode(config, "scenario3_prompt.json")
+    fix_extracode(config, "scenario1_prompt.json")
 
 
 if __name__ == "__main__":

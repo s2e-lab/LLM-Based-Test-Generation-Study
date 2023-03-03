@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Multiply#multiply(int, int)} method.
 */
 class MultiplyTest {
-/**
+
+		/**
 		* Test case 1.
 		* The method {@link Multiply#multiply(int, int)} should return 0 when the first parameter is 0.
 		*/

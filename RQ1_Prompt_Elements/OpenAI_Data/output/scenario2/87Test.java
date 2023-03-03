@@ -13,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link GetRow#getRow(List, int)} method.
 */
 class GetRowTest {
-/**
+
+	/**
 	* Test case 1.
 	* Test case for {@link GetRow#getRow(List, int)} method.
 	* Test case with a list of lists of integers and an integer.

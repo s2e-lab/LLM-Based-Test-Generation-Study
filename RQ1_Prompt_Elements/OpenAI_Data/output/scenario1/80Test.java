@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsHappy#isHappy(String)} method.
 */
 class IsHappyTest {
-/**
+
+		/**
 		* Test case 1.
 		* The input string is "abc".
 		* The expected result is true.

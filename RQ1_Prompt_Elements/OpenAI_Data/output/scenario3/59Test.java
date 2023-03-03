@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link LargestPrimeFactor#largestPrimeFactor(int)} method.
 */
 class LargestPrimeFactorTest {
-@Test
+
+	@Test
 	void testLargestPrimeFactor() {
 		assertEquals(2, LargestPrimeFactor.largestPrimeFactor(2048));
 		assertEquals(5, LargestPrimeFactor.largestPrimeFactor(15));

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Concatenate#concatenate(List)} method.
 */
 class ConcatenateTest {
-@Test
+
+	@Test
 	void testConcatenate_EmptyList() {
 		List<Object> list = List.of();
 		String expected = "";

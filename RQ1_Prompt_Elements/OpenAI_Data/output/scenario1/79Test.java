@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link DecimalToBinary#decimalToBinary(int)} method.
 */
 class DecimalToBinaryTest {
-/**
+
+		/**
 		* Test case for {@link DecimalToBinary#decimalToBinary(int)} method.
 		* It tests if the method returns the correct binary representation of the decimal number 0.
 		*/

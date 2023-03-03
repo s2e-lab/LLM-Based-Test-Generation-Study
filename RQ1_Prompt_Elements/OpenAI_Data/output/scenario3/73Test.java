@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SmallestChange#smallestChange(List)} method.
 */
 class SmallestChangeTest {
-@Test
+
+	@Test
 	void testSmallestChange() {
 		assertEquals(4, SmallestChange.smallestChange(List.of(1, 2, 3, 5, 4, 7, 9, 6)));
 		assertEquals(1, SmallestChange.smallestChange(List.of(1, 2, 3, 4, 3, 2, 2)));

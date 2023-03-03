@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsPrime#isPrime(int)} method.
 */
 class IsPrimeTest {
-@Test
+
+		@Test
 		void testIsPrime() {
 			assertTrue(IsPrime.isPrime(2));
 			assertTrue(IsPrime.isPrime(3));

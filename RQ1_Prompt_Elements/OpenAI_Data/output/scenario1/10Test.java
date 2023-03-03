@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link MakePalindrome#makePalindrome(String)} method.
 */
 class MakePalindromeTest {
-@Test
+
+		@Test
 		void testMakePalindrome() {
 				assertEquals("", MakePalindrome.makePalindrome(""));
 				assertEquals("a", MakePalindrome.makePalindrome("a"));

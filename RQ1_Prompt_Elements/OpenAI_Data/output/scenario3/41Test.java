@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CarRaceCollision#carRaceCollision(int)} method.
 */
 class CarRaceCollisionTest {
-@Test
+
+	@Test
 	void testCarRaceCollision() {
 		assertEquals(4, CarRaceCollision.carRaceCollision(2));
 		assertEquals(9, CarRaceCollision.carRaceCollision(3));

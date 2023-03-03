@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CountDistinctCharacters#countDistinctCharacters(String)} method.
 */
 class CountDistinctCharactersTest {
-@Test
+
+	@Test
 	void testCountDistinctCharacters_1() {
 		String string = "";
 		int expected = 0;

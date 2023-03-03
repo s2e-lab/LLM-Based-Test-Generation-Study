@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Strlen#strlen(String)} method.
 */
 class StrlenTest {
-@Test
+
+	@Test
 	void testStrlen_emptyString() {
 		assertEquals(0, Strlen.strlen(""));
 	}

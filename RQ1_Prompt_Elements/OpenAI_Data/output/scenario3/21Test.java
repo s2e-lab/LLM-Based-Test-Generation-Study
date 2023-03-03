@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link RescaleToUnit#rescaleToUnit(List)} method.
 */
 class RescaleToUnitTest {
-/**
+
+	/**
 	* Test case for {@link RescaleToUnit#rescaleToUnit(List)} method.
 	* It tests the method with a list of numbers of at least two elements.
 	* The smallest number will become 0 and the largest will become 1.

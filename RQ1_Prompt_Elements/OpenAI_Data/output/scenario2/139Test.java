@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SpecialFactorial#specialFactorial(int)} method.
 */
 class SpecialFactorialTest {
-@Test
+
+	@Test
 	void testSpecialFactorial() {
 		assertEquals(1, SpecialFactorial.specialFactorial(1));
 		assertEquals(2, SpecialFactorial.specialFactorial(2));

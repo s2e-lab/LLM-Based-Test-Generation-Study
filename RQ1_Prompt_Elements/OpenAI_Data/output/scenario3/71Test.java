@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link TriangleArea1#triangleArea(int, int, int)} method.
 */
 class TriangleArea1Test {
-@Test
+
+	@Test
 	void testTriangleArea1() {
 		assertEquals(6.0, TriangleArea1.triangleArea(3, 4, 5));
 	}

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link DecimalToBinary#decimalToBinary(int)} method.
 */
 class DecimalToBinaryTest {
-@Test
+
+	@Test
 	void testDecimalToBinary() {
 		assertEquals("db0db", DecimalToBinary.decimalToBinary(0));
 		assertEquals("db1db", DecimalToBinary.decimalToBinary(1));

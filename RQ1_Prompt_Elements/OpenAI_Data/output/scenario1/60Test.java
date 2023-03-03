@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SumToN#sumToN(int)} method.
 */
 class SumToNTest {
-@Test
+
+	@Test
 	void testSumToN_1() {
 		assertEquals(1, SumToN.sumToN(1));
 	}

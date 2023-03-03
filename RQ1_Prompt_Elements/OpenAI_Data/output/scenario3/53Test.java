@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Add#add(int, int)} method.
 */
 class AddTest {
-@Test
+
+	@Test
 	void testAdd() {
 		assertEquals(1, Add.add(0, 1));
 		assertEquals(1, Add.add(1, 0));

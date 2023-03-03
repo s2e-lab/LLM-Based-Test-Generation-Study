@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SameChars#sameChars(String, String)} method.
 */
 class SameCharsTest {
-@Test
+
+		@Test
 		void testSameChars() {
 			assertFalse(SameChars.sameChars("abcd", "dddddddabce"));
 			assertTrue(SameChars.sameChars("eabcdzzzz", "dddzzzzzzzddeddabc"));

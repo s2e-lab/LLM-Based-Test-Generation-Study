@@ -12,7 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FindClosestElements#findClosestElements(List)} method.
 */
 class FindClosestElementsTest {
-@Test
+
+	@Test
 	void testFindClosestElements() {
 		List<Double> numbers = new ArrayList<Double>();
 		numbers.add(1.0);
@@ -344,3 +345,4 @@ class FindClosestElementsTest {
 		numbers.add(63.0);
 		numbers.add(64.0);
 		numbers.add(65.0);
+	

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link RightAngleTriangle#rightAngleTriangle(int, int, int)} method.
 */
 class RightAngleTriangleTest {
-/**
+
+		/**
 		* Test case 1.
 		* Input: 3, 4, 5
 		* Expected output: true

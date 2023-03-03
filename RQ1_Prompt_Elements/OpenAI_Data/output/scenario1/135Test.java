@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CanArrange#canArrange(List)} method.
 */
 class CanArrangeTest {
-/**
+
+	/**
 	* Test case 1.
 	* The input list contains only one element.
 	* The element is an integer.

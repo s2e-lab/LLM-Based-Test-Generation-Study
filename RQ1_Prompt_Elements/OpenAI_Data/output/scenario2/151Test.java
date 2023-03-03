@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link DoubleTheDifference#doubleTheDifference(List)} method.
 */
 class DoubleTheDifferenceTest {
-/**
+
+	/**
 	* Test case 1:
 	* Input: [1, 2, 3, 4, 5]
 	* Expected output: 35

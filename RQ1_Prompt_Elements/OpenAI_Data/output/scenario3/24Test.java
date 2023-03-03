@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link LargestDivisor#largestDivisor(int)} method.
 */
 class LargestDivisorTest {
-@Test
+
+	@Test
 	void testLargestDivisor() {
 		assertEquals(5, LargestDivisor.largestDivisor(15));
 		assertEquals(1, LargestDivisor.largestDivisor(3));

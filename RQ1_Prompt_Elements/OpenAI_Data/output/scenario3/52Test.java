@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link BelowThreshold#belowThreshold(List, int)} method.
 */
 class BelowThresholdTest {
-@Test
+
+	@Test
 	void testBelowThreshold() {
 		List<Integer> l = List.of(1, 2, 4, 10);
 		assertTrue(BelowThreshold.belowThreshold(l, 100));

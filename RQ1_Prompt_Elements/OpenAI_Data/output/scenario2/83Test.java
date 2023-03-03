@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link StartsOneEnds#startsOneEnds(int)} method.
 */
 class StartsOneEndsTest {
-@Test
+
+	@Test
 	void testStartsOneEnds() {
 		assertEquals(9, StartsOneEnds.startsOneEnds(1));
 		assertEquals(90, StartsOneEnds.startsOneEnds(2));

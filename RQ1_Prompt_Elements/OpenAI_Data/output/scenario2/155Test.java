@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link EvenOddCount#evenOddCount(int)} method.
 */
 class EvenOddCountTest {
-@Test
+
+	@Test
 	void testEvenOddCount() {
 		List<Integer> expected = Arrays.asList(1, 0);
 		List<Integer> actual = EvenOddCount.evenOddCount(0);

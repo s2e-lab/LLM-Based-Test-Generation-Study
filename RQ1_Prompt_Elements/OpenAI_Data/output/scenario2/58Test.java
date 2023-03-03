@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Common#common(List, List)} method.
 */
 class CommonTest {
-/**
+
+		/**
 		* Test case 1:
 		* Input:
 		* l1 = [1, 2, 3, 4, 5]

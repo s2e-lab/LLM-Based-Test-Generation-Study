@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link TriplesSumToZero#triplesSumToZero(List)} method.
 */
 class TriplesSumToZeroTest {
-@Test
+
+	@Test
 	void testTriplesSumToZero_1() {
 		List<Integer> l = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		assertFalse(TriplesSumToZero.triplesSumToZero(l));

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link WordsInSentence#wordsInSentence(String)} method.
 */
 class WordsInSentenceTest {
-@Test
+
+		@Test
 		void testWordsInSentence() {
 				assertEquals("", WordsInSentence.wordsInSentence(""));
 				assertEquals("", WordsInSentence.wordsInSentence(" "));

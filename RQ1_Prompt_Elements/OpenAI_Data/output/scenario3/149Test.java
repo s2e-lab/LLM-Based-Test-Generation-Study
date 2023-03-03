@@ -13,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SortedListSum#sortedListSum(List)} method.
 */
 class SortedListSumTest {
-/**
+
+	/**
 	* Test case for {@link SortedListSum#sortedListSum(List)} method.
 	* It tests the method with a list of strings that contains duplicates.
 	* The expected result is a list of strings in sorted order.

@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FizzBuzz#fizzBuzz(int)} method.
 */
 class FizzBuzzTest {
-/**
+
+		/**
 		* Test case 1.
 		* The input is a negative number.
 		* The expected result is 0.

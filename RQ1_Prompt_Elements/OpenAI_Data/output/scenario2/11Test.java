@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link StringXor#stringXor(String, String)} method.
 */
 class StringXorTest {
-@Test
+
+	@Test
 	void testStringXor() {
 		assertEquals("10011", StringXor.stringXor("10101", "00110"));
 		assertEquals("11001", StringXor.stringXor("11111", "00100"));

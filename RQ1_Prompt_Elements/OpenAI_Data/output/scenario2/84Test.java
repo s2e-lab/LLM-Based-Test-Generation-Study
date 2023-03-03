@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Solve1#solve(int)} method.
 */
 class Solve1Test {
-@Test
+
+	@Test
 	void testSolve1() {
 		assertEquals("1010", Solve1.solve(10));
 	}
