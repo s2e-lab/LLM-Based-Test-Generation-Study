@@ -144,4 +144,126 @@ class ServiceBuilderTest1 {
 		
 		private static final String API_KEY_19 = "apiKey19";
 		private static final String API_SECRET_19 = "apiSecret19";
-		private static final String CALLBACK_19 =
+		private static final String CALLBACK_19 = "callback19";
+		private static final String SCOPE_19 = "scope19";
+		private static final SignatureType SIGNATURE_TYPE_19 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_19 = System.err;
+		
+		private static final String API_KEY_20 = "apiKey20";
+		private static final String API_SECRET_20 = "apiSecret20";
+		private static final String CALLBACK_20 = "callback20";
+		private static final String SCOPE_20 = "scope20";
+		private static final SignatureType SIGNATURE_TYPE_20 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_20 = System.err;
+		
+		private static final String API_KEY_21 = "apiKey21";
+		private static final String API_SECRET_21 = "apiSecret21";
+		private static final String CALLBACK_21 = "callback21";
+		private static final String SCOPE_21 = "scope21";
+		private static final SignatureType SIGNATURE_TYPE_21 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_21 = System.err;
+		
+		private static final String API_KEY_22 = "apiKey22";
+		private static final String API_SECRET_22 = "apiSecret22";
+		private static final String CALLBACK_22 = "callback22";
+		private static final String SCOPE_22 = "scope22";
+		private static final SignatureType SIGNATURE_TYPE_22 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_22 = System.err;
+		
+		private static final String API_KEY_23 = "apiKey23";
+		private static final String API_SECRET_23 = "apiSecret23";
+		private static final String CALLBACK_23 = "callback23";
+		private static final String SCOPE_23 = "scope23";
+		private static final SignatureType SIGNATURE_TYPE_23 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_23 = System.err;
+		
+		private static final String API_KEY_24 = "apiKey24";
+		private static final String API_SECRET_24 = "apiSecret24";
+		private static final String CALLBACK_24 = "callback24";
+		private static final String SCOPE_24 = "scope24";
+		private static final SignatureType SIGNATURE_TYPE_24 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_24 = System.err;
+		
+		private static final String API_KEY_25 = "apiKey25";
+		private static final String API_SECRET_25 = "apiSecret25";
+		private static final String CALLBACK_25 = "callback25";
+		private static final String SCOPE_25 = "scope25";
+		private static final SignatureType SIGNATURE_TYPE_25 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_25 = System.err;
+		
+		private static final String API_KEY_26 = "apiKey26";
+		private static final String API_SECRET_26 = "apiSecret26";
+		private static final String CALLBACK_26 = "callback26";
+		private static final String SCOPE_26 = "scope26";
+		private static final SignatureType SIGNATURE_TYPE_26 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_26 = System.err;
+		
+		private static final String API_KEY_27 = "apiKey27";
+		private static final String API_SECRET_27 = "apiSecret27";
+		private static final String CALLBACK_27 = "callback27";
+		private static final String SCOPE_27 = "scope27";
+		private static final SignatureType SIGNATURE_TYPE_27 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_27 = System.err;
+		
+		private static final String API_KEY_28 = "apiKey28";
+		private static final String API_SECRET_28 = "apiSecret28";
+		private static final String CALLBACK_28 = "callback28";
+		private static final String SCOPE_28 = "scope28";
+		private static final SignatureType SIGNATURE_TYPE_28 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_28 = System.err;
+		
+		private static final String API_KEY_29 = "apiKey29";
+		private static final String API_SECRET_29 = "apiSecret29";
+		private static final String CALLBACK_29 = "callback29";
+		private static final String SCOPE_29 = "scope29";
+		private static final SignatureType SIGNATURE_TYPE_29 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_29 = System.err;
+		
+		private static final String API_KEY_30 = "apiKey30";
+		private static final String API_SECRET_30 = "apiSecret30";
+		private static final String CALLBACK_30 = "callback30";
+		private static final String SCOPE_30 = "scope30";
+		private static final SignatureType SIGNATURE_TYPE_30 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_30 = System.err;
+		
+		private static final String API_KEY_31 = "apiKey31";
+		private static final String API_SECRET_31 = "apiSecret31";
+		private static final String CALLBACK_31 = "callback31";
+		private static final String SCOPE_31 = "scope31";
+		private static final SignatureType SIGNATURE_TYPE_31 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_31 = System.err;
+		
+		private static final String API_KEY_32 = "apiKey32";
+		private static final String API_SECRET_32 = "apiSecret32";
+		private static final String CALLBACK_32 = "callback32";
+		private static final String SCOPE_32 = "scope32";
+		private static final SignatureType SIGNATURE_TYPE_32 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_32 = System.err;
+		
+		private static final String API_KEY_33 = "apiKey33";
+		private static final String API_SECRET_33 = "apiSecret33";
+		private static final String CALLBACK_33 = "callback33";
+		private static final String SCOPE_33 = "scope33";
+		private static final SignatureType SIGNATURE_TYPE_33 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_33 = System.err;
+		
+		private static final String API_KEY_34 = "apiKey34";
+		private static final String API_SECRET_34 = "apiSecret34";
+		private static final String CALLBACK_34 = "callback34";
+		private static final String SCOPE_34 = "scope34";
+		private static final SignatureType SIGNATURE_TYPE_34 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_34 = System.err;
+		
+		private static final String API_KEY_35 = "apiKey35";
+		private static final String API_SECRET_35 = "apiSecret35";
+		private static final String CALLBACK_35 = "callback35";
+		private static final String SCOPE_35 = "scope35";
+		private static final SignatureType SIGNATURE_TYPE_35 = SignatureType.QueryString;
+		private static final OutputStream DEBUG_STREAM_35 = System.err;
+		
+		private static final String API_KEY_36 = "apiKey36";
+		private static final String API_SECRET_36 = "apiSecret36";
+		private static final String CALLBACK_36 = "callback36";
+		private static final String SCOPE_36 = "scope36";
+		private static final SignatureType SIGNATURE_TYPE_36 = SignatureType.QueryString;
+		private static final Output

@@ -32,81 +32,116 @@ class JsonTokenExtractorTest {
 		
 		@Test
 		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallback() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\"}";
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuff() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshToken() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLines() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\n\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScope() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabs() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\n\t\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndState() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabsAndCarriageReturns() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\r\n\t\r\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParam() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabsAndCarriageReturnsAndSpaces() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\r\n \t\r\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabsAndCarriageReturnsAndSpacesAndQuotes() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\r\n \"\t\r\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabsAndCarriageReturnsAndSpacesAndQuotesAndColons() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\r\n \":\t\r\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabsAndCarriageReturnsAndSpacesAndQuotesAndColonsAndCommas() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\r\n \",:\t\r\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabsAndCarriageReturnsAndSpacesAndQuotesAndColonsAndCommasAndBraces() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\r\n \",:{\t\r\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5AndExtraParam6() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\",\"extra6\":\"extra6\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabsAndCarriageReturnsAndSpacesAndQuotesAndColonsAndCommasAndBracesAndBrackets() {
-				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://example.com/callback\",\"other\":\"stuff\"}\r\n \",:{[\t\r\n";
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5AndExtraParam6AndExtraParam7() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\",\"extra6\":\"extra6\",\"extra7\":\"extra7\"}";
 				Token extracted = extractor.extract(response);
 				assertEquals("I0122HHJKLEU", extracted.getToken());
 		}
 		
 		@Test
-		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndOtherStuffAndNewLinesAndTabsAndCarriageReturnsAndSpacesAndQuotesAndColonsAndCommasAndBracesAndBracketsAndSlashes() {
-				String response = "{\"access_token\":
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5AndExtraParam6AndExtraParam7AndExtraParam8() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\",\"extra6\":\"extra6\",\"extra7\":\"extra7\",\"extra8\":\"extra8\"}";
+				Token extracted = extractor.extract(response);
+				assertEquals("I0122HHJKLEU", extracted.getToken());
+		}
+		
+		@Test
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5AndExtraParam6AndExtraParam7AndExtraParam8AndExtraParam9() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\",\"extra6\":\"extra6\",\"extra7\":\"extra7\",\"extra8\":\"extra8\",\"extra9\":\"extra9\"}";
+				Token extracted = extractor.extract(response);
+				assertEquals("I0122HHJKLEU", extracted.getToken());
+		}
+		
+		@Test
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5AndExtraParam6AndExtraParam7AndExtraParam8AndExtraParam9AndExtraParam10() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\",\"extra6\":\"extra6\",\"extra7\":\"extra7\",\"extra8\":\"extra8\",\"extra9\":\"extra9\",\"extra10\":\"extra10\"}";
+				Token extracted = extractor.extract(response);
+				assertEquals("I0122HHJKLEU", extracted.getToken());
+		}
+		
+		@Test
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5AndExtraParam6AndExtraParam7AndExtraParam8AndExtraParam9AndExtraParam10AndExtraParam11() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\",\"extra6\":\"extra6\",\"extra7\":\"extra7\",\"extra8\":\"extra8\",\"extra9\":\"extra9\",\"extra10\":\"extra10\",\"extra11\":\"extra11\"}";
+				Token extracted = extractor.extract(response);
+				assertEquals("I0122HHJKLEU", extracted.getToken());
+		}
+		
+		@Test
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5AndExtraParam6AndExtraParam7AndExtraParam8AndExtraParam9AndExtraParam10AndExtraParam11AndExtraParam12() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\",\"extra6\":\"extra6\",\"extra7\":\"extra7\",\"extra8\":\"extra8\",\"extra9\":\"extra9\",\"extra10\":\"extra10\",\"extra11\":\"extra11\",\"extra12\":\"extra12\"}";
+				Token extracted = extractor.extract(response);
+				assertEquals("I0122HHJKLEU", extracted.getToken());
+		}
+		
+		@Test
+		public void shouldExtractTokenFromJsonResponseWithExpiresParamAndCallbackAndRefreshTokenAndScopeAndStateAndExtraParamAndExtraParam2AndExtraParam3AndExtraParam4AndExtraParam5AndExtraParam6AndExtraParam7AndExtraParam8AndExtraParam9AndExtraParam10AndExtraParam11AndExtraParam12AndExtraParam13() {
+				String response = "{\"access_token\":\"I0122HHJKLEU\",\"token_type\":\"bearer\",\"expires_in\":3600,\"callback\":\"http://www.example.com/callback\",\"refresh_token\":\"I0122HHJKLEU\",\"scope\":\"read\",\"state\":\"state\",\"extra\":\"extra\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\",\"extra6\":\"extra6\",\"extra7\":\"extra7\",\"extra8\":\"extra8\",\"extra9\":\"extra9\",\"extra10\":\"extra10\",\"extra11\":\"extra11\",\"extra12\":\"extra12\",\"extra13\":\"

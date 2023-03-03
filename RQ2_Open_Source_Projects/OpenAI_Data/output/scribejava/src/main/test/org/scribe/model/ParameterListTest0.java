@@ -18,142 +18,279 @@ class ParameterListTest0 {
 
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is empty.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {}}
+		* Expected output: {@code "http://example.com/"}
 		*/
 		@Test
-		public void testAppendTo0() {
+		void testAppendTo0() {
 				ParameterList parameterList = new ParameterList();
-				String url = "http://www.google.com";
-				String result = parameterList.appendTo(url);
-				assertEquals(url, result);
+				String url = "http://example.com/";
+				String expected = "http://example.com/";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b")}}
+		* Expected output: {@code "http://example.com/?a=b"}
 		*/
 		@Test
-		public void testAppendTo1() {
+		void testAppendTo1() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "?key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty and the url already contains a query string.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b"), ("c", "d")}}
+		* Expected output: {@code "http://example.com/?a=b&c=d"}
 		*/
 		@Test
-		public void testAppendTo2() {
+		void testAppendTo2() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com?key3=value3";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "&key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b&c=d";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty and the url already contains a query string.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b"), ("c", "d"), ("e", "f")}}
+		* Expected output: {@code "http://example.com/?a=b&c=d&e=f"}
 		*/
 		@Test
-		public void testAppendTo3() {
+		void testAppendTo3() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com?key3=value3&key4=value4";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "&key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				parameterList.add("e", "f");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b&c=d&e=f";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty and the url already contains a query string.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b"), ("c", "d"), ("e", "f"), ("g", "h")}}
+		* Expected output: {@code "http://example.com/?a=b&c=d&e=f&g=h"}
 		*/
 		@Test
-		public void testAppendTo4() {
+		void testAppendTo4() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com?key3=value3&key4=value4&key5=value5";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "&key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				parameterList.add("e", "f");
+				parameterList.add("g", "h");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b&c=d&e=f&g=h";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty and the url already contains a query string.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b"), ("c", "d"), ("e", "f"), ("g", "h"), ("i", "j")}}
+		* Expected output: {@code "http://example.com/?a=b&c=d&e=f&g=h&i=j"}
 		*/
 		@Test
-		public void testAppendTo5() {
+		void testAppendTo5() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com?key3=value3&key4=value4&key5=value5&key6=value6";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "&key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				parameterList.add("e", "f");
+				parameterList.add("g", "h");
+				parameterList.add("i", "j");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b&c=d&e=f&g=h&i=j";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty and the url already contains a query string.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b"), ("c", "d"), ("e", "f"), ("g", "h"), ("i", "j"), ("k", "l")}}
+		* Expected output: {@code "http://example.com/?a=b&c=d&e=f&g=h&i=j&k=l"}
 		*/
 		@Test
-		public void testAppendTo6() {
+		void testAppendTo6() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com?key3=value3&key4=value4&key5=value5&key6=value6&key7=value7";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "&key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				parameterList.add("e", "f");
+				parameterList.add("g", "h");
+				parameterList.add("i", "j");
+				parameterList.add("k", "l");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b&c=d&e=f&g=h&i=j&k=l";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty and the url already contains a query string.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b"), ("c", "d"), ("e", "f"), ("g", "h"), ("i", "j"), ("k", "l"), ("m", "n")}}
+		* Expected output: {@code "http://example.com/?a=b&c=d&e=f&g=h&i=j&k=l&m=n"}
 		*/
 		@Test
-		public void testAppendTo7() {
+		void testAppendTo7() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com?key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "&key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				parameterList.add("e", "f");
+				parameterList.add("g", "h");
+				parameterList.add("i", "j");
+				parameterList.add("k", "l");
+				parameterList.add("m", "n");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b&c=d&e=f&g=h&i=j&k=l&m=n";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty and the url already contains a query string.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b"), ("c", "d"), ("e", "f"), ("g", "h"), ("i", "j"), ("k", "l"), ("m", "n"), ("o", "p")}}
+		* Expected output: {@code "http://example.com/?a=b&c=d&e=f&g=h&i=j&k=l&m=n&o=p"}
 		*/
 		@Test
-		public void testAppendTo8() {
+		void testAppendTo8() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com?key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "&key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				parameterList.add("e", "f");
+				parameterList.add("g", "h");
+				parameterList.add("i", "j");
+				parameterList.add("k", "l");
+				parameterList.add("m", "n");
+				parameterList.add("o", "p");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b&c=d&e=f&g=h&i=j&k=l&m=n&o=p";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 		/**
 		* Test case for {@link ParameterList#appendTo(String)} method.
-		* Test case for the scenario when the parameter list is not empty and the url already contains a query string.
+		* Test case for the following inputs:
+		* {@code url = "http://example.com/"}
+		* {@code params = {("a", "b"), ("c", "d"), ("e", "f"), ("g", "h"), ("i", "j"), ("k", "l"), ("m", "n"), ("o", "p"), ("q", "r")}}
+		* Expected output: {@code "http://example.com/?a=b&c=d&e=f&g=h&i=j&k=l&m=n&o=p&q=r"}
 		*/
 		@Test
-		public void testAppendTo9() {
+		void testAppendTo9() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1", "value1");
-				parameterList.add("key2", "value2");
-				String url = "http://www.google.com?key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9&key10=value10";
-				String result = parameterList.appendTo(url);
-				assertEquals(url + "&key1=value1&key2=value2", result);
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				parameterList.add("e", "f");
+				parameterList.add("g", "h");
+				parameterList.add("i", "j");
+				parameterList.add("k", "l");
+				parameterList.add("m", "n");
+				parameterList.add("o", "p");
+				parameterList.add("q", "r");
+				String url = "http://example.com/";
+				String expected = "http://example.com/?a=b&c=d&e=f&g=h&i=j&k=l&m=n&o=p&q=r";
+				String actual = parameterList.appendTo(url);
+				assertEquals(expected, actual);
 		}
 		
 }
 
-// ParameterListTest
+// ParameterListTest1.java
+package org.scribe.model;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import org.scribe.utils.OAuthEncoder;
+import org.scribe.utils.Preconditions;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ParameterList}.
+* It contains ten unit test cases for the {@link ParameterList#asFormUrlEncodedString()} method.
+*/
+class ParameterListTest1 {
+		
+		/**
+		* Test case for {@link ParameterList#asFormUrlEncodedString()} method.
+		* Test case for the following inputs:
+		* {@code params = {}}
+		* Expected output: {@code ""}
+		*/
+		@Test
+		void testAsFormUrlEncodedString0() {
+				ParameterList parameterList = new ParameterList();
+				String expected = "";
+				String actual = parameterList.asFormUrlEncodedString();
+				assertEquals(expected, actual);
+		}
+		
+		/**
+		* Test case for {@link ParameterList#asFormUrlEncodedString()} method.
+		* Test case for the following inputs:
+		* {@code params = {("a", "b")}}
+		* Expected output: {@code "a=b"}
+		*/
+		@Test
+		void testAsFormUrlEncodedString1() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("a", "b");
+				String expected = "a=b";
+				String actual = parameterList.asFormUrlEncodedString();
+				assertEquals(expected, actual);
+		}
+		
+		/**
+		* Test case for {@link ParameterList#asFormUrlEncodedString()} method.
+		* Test case for the following inputs:
+		* {@code params = {("a", "b"), ("c", "d")}}
+		* Expected output: {@code "a=b&c=d"}
+		*/
+		@Test
+		void testAsFormUrlEncodedString2() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("a", "b");
+				parameterList.add("c", "d");
+				String expected = "a=b&c=d";
+				String actual = parameterList.asFormUrlEncodedString();
+				assertEquals(expected, actual);
+		}
+		
+		/**
+		* Test case for {@link ParameterList#asFormUrlEncodedString()} method.
+		* Test case for the following inputs:
+		* {@code params = {("a", "b"), ("c", "d"), ("e", "f")}}
+		* Expected output: {@code "a=b&c=d&e=f"}
+		*/
+		@Test
+		void testAsForm

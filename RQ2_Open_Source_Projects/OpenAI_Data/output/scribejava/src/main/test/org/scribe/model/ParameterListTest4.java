@@ -176,4 +176,113 @@ class ParameterListTest5 {
 				parameterList.add("key9", "value9");
 				parameterList.add("key10", "value10");
 				parameterList.sort();
-				assertEquals("key1=value1&key
+				assertEquals("key1=value1&key10=value10&key2=value2&key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9", parameterList.asFormUrlEncodedString());
+		}
+		
+		@Test
+		void testSort3() {
+				parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				parameterList.add("key7", "value7");
+				parameterList.add("key8", "value8");
+				parameterList.add("key9", "value9");
+				parameterList.add("key10", "value10");
+				parameterList.sort();
+				assertEquals("key1=value1&key10=value10&key2=value2&key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9", parameterList.asFormUrlEncodedString());
+		}
+		
+		@Test
+		void testSort4() {
+				parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				parameterList.add("key7", "value7");
+				parameterList.add("key8", "value8");
+				parameterList.add("key9", "value9");
+				parameterList.add("key10", "value10");
+				parameterList.sort();
+				assertEquals("key1=value1&key10=value10&key2=value2&key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9", parameterList.asFormUrlEncodedString());
+		}
+		
+		@Test
+		void testSort5() {
+				parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				parameterList.add("key7", "value7");
+				parameterList.add("key8", "value8");
+				parameterList.add("key9", "value9");
+				parameterList.add("key10", "value10");
+				parameterList.sort();
+				assertEquals("key1=value1&key10=value10&key2=value2&key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9", parameterList.asFormUrlEncodedString());
+		}
+		
+		@Test
+		void testSort6() {
+				parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				parameterList.add("key7", "value7");
+				parameterList.add("key8", "value8");
+				parameterList.add("key9", "value9");
+				parameterList.add("key10", "value10");
+				parameterList.sort();
+				assertEquals("key1=value1&key10=value10&key2=value2&key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9", parameterList.asFormUrlEncodedString());
+		}
+		
+		@Test
+		void testSort7() {
+				parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				parameterList.add("key7", "value7");
+				parameterList.add("key8", "value8");
+				parameterList.add("key9", "value9");
+				parameterList.add("key10", "value10");
+				parameterList.sort();
+				assertEquals("key1=value1&key10=value10&key2=value2&key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9", parameterList.asFormUrlEncodedString());
+		}
+		
+		@Test
+		void testSort8() {
+				parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				parameterList.add("key7", "value7");
+				parameterList.add("key8", "value8");
+				parameterList.add("key9", "value9");
+				parameterList.add("key10", "value10");
+				parameterList.sort();
+				assertEquals("key1=value1&key10=value10&key2=value2&key3=value3&key4=value4&key5=value5&key6=value6&key7=value7&key8=value8&key9=value9", parameterList.asFormUrlEncodedString());
+		}
+		
+		@Test
+		void testSort9() {
+				parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				param

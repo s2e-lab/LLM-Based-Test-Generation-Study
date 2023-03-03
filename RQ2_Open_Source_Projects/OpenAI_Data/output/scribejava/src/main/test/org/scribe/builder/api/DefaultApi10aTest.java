@@ -119,4 +119,104 @@ class DefaultApi10aTest {
 		private static final String AUTHORIZATION_URL_25 = "authorizationUrl25";
 		
 		private static final String REQUEST_TOKEN_ENDPOINT_26 = "requestTokenEndpoint26";
-		private static final String ACCESS_TOKEN_ENDPOINT_26 = "accessToken
+		private static final String ACCESS_TOKEN_ENDPOINT_26 = "accessTokenEndpoint26";
+		private static final String AUTHORIZATION_URL_26 = "authorizationUrl26";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_27 = "requestTokenEndpoint27";
+		private static final String ACCESS_TOKEN_ENDPOINT_27 = "accessTokenEndpoint27";
+		private static final String AUTHORIZATION_URL_27 = "authorizationUrl27";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_28 = "requestTokenEndpoint28";
+		private static final String ACCESS_TOKEN_ENDPOINT_28 = "accessTokenEndpoint28";
+		private static final String AUTHORIZATION_URL_28 = "authorizationUrl28";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_29 = "requestTokenEndpoint29";
+		private static final String ACCESS_TOKEN_ENDPOINT_29 = "accessTokenEndpoint29";
+		private static final String AUTHORIZATION_URL_29 = "authorizationUrl29";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_30 = "requestTokenEndpoint30";
+		private static final String ACCESS_TOKEN_ENDPOINT_30 = "accessTokenEndpoint30";
+		private static final String AUTHORIZATION_URL_30 = "authorizationUrl30";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_31 = "requestTokenEndpoint31";
+		private static final String ACCESS_TOKEN_ENDPOINT_31 = "accessTokenEndpoint31";
+		private static final String AUTHORIZATION_URL_31 = "authorizationUrl31";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_32 = "requestTokenEndpoint32";
+		private static final String ACCESS_TOKEN_ENDPOINT_32 = "accessTokenEndpoint32";
+		private static final String AUTHORIZATION_URL_32 = "authorizationUrl32";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_33 = "requestTokenEndpoint33";
+		private static final String ACCESS_TOKEN_ENDPOINT_33 = "accessTokenEndpoint33";
+		private static final String AUTHORIZATION_URL_33 = "authorizationUrl33";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_34 = "requestTokenEndpoint34";
+		private static final String ACCESS_TOKEN_ENDPOINT_34 = "accessTokenEndpoint34";
+		private static final String AUTHORIZATION_URL_34 = "authorizationUrl34";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_35 = "requestTokenEndpoint35";
+		private static final String ACCESS_TOKEN_ENDPOINT_35 = "accessTokenEndpoint35";
+		private static final String AUTHORIZATION_URL_35 = "authorizationUrl35";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_36 = "requestTokenEndpoint36";
+		private static final String ACCESS_TOKEN_ENDPOINT_36 = "accessTokenEndpoint36";
+		private static final String AUTHORIZATION_URL_36 = "authorizationUrl36";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_37 = "requestTokenEndpoint37";
+		private static final String ACCESS_TOKEN_ENDPOINT_37 = "accessTokenEndpoint37";
+		private static final String AUTHORIZATION_URL_37 = "authorizationUrl37";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_38 = "requestTokenEndpoint38";
+		private static final String ACCESS_TOKEN_ENDPOINT_38 = "accessTokenEndpoint38";
+		private static final String AUTHORIZATION_URL_38 = "authorizationUrl38";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_39 = "requestTokenEndpoint39";
+		private static final String ACCESS_TOKEN_ENDPOINT_39 = "accessTokenEndpoint39";
+		private static final String AUTHORIZATION_URL_39 = "authorizationUrl39";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_40 = "requestTokenEndpoint40";
+		private static final String ACCESS_TOKEN_ENDPOINT_40 = "accessTokenEndpoint40";
+		private static final String AUTHORIZATION_URL_40 = "authorizationUrl40";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_41 = "requestTokenEndpoint41";
+		private static final String ACCESS_TOKEN_ENDPOINT_41 = "accessTokenEndpoint41";
+		private static final String AUTHORIZATION_URL_41 = "authorizationUrl41";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_42 = "requestTokenEndpoint42";
+		private static final String ACCESS_TOKEN_ENDPOINT_42 = "accessTokenEndpoint42";
+		private static final String AUTHORIZATION_URL_42 = "authorizationUrl42";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_43 = "requestTokenEndpoint43";
+		private static final String ACCESS_TOKEN_ENDPOINT_43 = "accessTokenEndpoint43";
+		private static final String AUTHORIZATION_URL_43 = "authorizationUrl43";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_44 = "requestTokenEndpoint44";
+		private static final String ACCESS_TOKEN_ENDPOINT_44 = "accessTokenEndpoint44";
+		private static final String AUTHORIZATION_URL_44 = "authorizationUrl44";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_45 = "requestTokenEndpoint45";
+		private static final String ACCESS_TOKEN_ENDPOINT_45 = "accessTokenEndpoint45";
+		private static final String AUTHORIZATION_URL_45 = "authorizationUrl45";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_46 = "requestTokenEndpoint46";
+		private static final String ACCESS_TOKEN_ENDPOINT_46 = "accessTokenEndpoint46";
+		private static final String AUTHORIZATION_URL_46 = "authorizationUrl46";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_47 = "requestTokenEndpoint47";
+		private static final String ACCESS_TOKEN_ENDPOINT_47 = "accessTokenEndpoint47";
+		private static final String AUTHORIZATION_URL_47 = "authorizationUrl47";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_48 = "requestTokenEndpoint48";
+		private static final String ACCESS_TOKEN_ENDPOINT_48 = "accessTokenEndpoint48";
+		private static final String AUTHORIZATION_URL_48 = "authorizationUrl48";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_49 = "requestTokenEndpoint49";
+		private static final String ACCESS_TOKEN_ENDPOINT_49 = "accessTokenEndpoint49";
+		private static final String AUTHORIZATION_URL_49 = "authorizationUrl49";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_50 = "requestTokenEndpoint50";
+		private static final String ACCESS_TOKEN_ENDPOINT_50 = "accessTokenEndpoint50";
+		private static final String AUTHORIZATION_URL_50 = "authorizationUrl50";
+		
+		private static final String REQUEST_TOKEN_ENDPOINT_51 = "requestTokenEndpoint51";
+		private static final String ACCESS_TOKEN_ENDPOINT_51 = "accessTokenEndpoint

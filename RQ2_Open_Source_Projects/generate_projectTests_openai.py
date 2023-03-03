@@ -22,7 +22,7 @@ def load_config(config_file: str) -> dict:
     with open(config_file) as json_file:
         config = json.load(json_file)
     # sets the OpenAI key
-    openai.api_key = config["OPEN_AI_KEY_3"]
+    openai.api_key = config["OPEN_AI_KEY"]
     return config
 
 
@@ -97,6 +97,21 @@ def get_generate_output_files(config: dict, scenario: str) -> tuple:
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     response_file = os.path.join(output_folder, f"{projectName}_response.json")
+    return output_folder, response_file
+
+
+def get_fixed_files(config: dict, scenario: str) -> tuple:
+    """
+    Compute the paths to the output folder and response file.
+    @param config: analysis configuration
+    @param scenario: filename for the scenario (ex: "Scenario1_prompt.json")
+    @return:
+    """
+    projectName = scenario.split(".")[0]
+    output_folder = os.path.join(config["BASE_DIRECTORY"], f"output/{projectName}")
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    response_file = os.path.join(output_folder, f"{projectName}_response_fixed.json")
     return output_folder, response_file
 
 

@@ -149,4 +149,140 @@ class ParameterListTest1 {
 		@Test
 		public void testAsOauthBaseString10() {
 				ParameterList parameterList = new ParameterList();
-				parameterList.add("key1
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				parameterList.add("key7", "value7");
+				parameterList.add("key8", "value8");
+				parameterList.add("key9", "value9");
+				assertEquals("key1%3Dvalue1%26key2%3Dvalue2%26key3%3Dvalue3%26key4%3Dvalue4%26key5%3Dvalue5%26key6%3Dvalue6%26key7%3Dvalue7%26key8%3Dvalue8%26key9%3Dvalue9", parameterList.asOauthBaseString());
+		}
+}
+
+// ParameterListTest2.java
+package org.scribe.model;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import org.scribe.utils.OAuthEncoder;
+import org.scribe.utils.Preconditions;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ParameterList}.
+* It contains ten unit test cases for the {@link ParameterList#asFormUrlEncodedString()} method.
+*/
+class ParameterListTest2 {
+		
+		/**
+		* Test case 1 for {@link ParameterList#asFormUrlEncodedString()}.
+		* This test case checks the functionality of the method when the parameter list is empty.
+		*/
+		@Test
+		public void testAsFormUrlEncodedString1() {
+				ParameterList parameterList = new ParameterList();
+				assertEquals("", parameterList.asFormUrlEncodedString());
+		}
+		
+		/**
+		* Test case 2 for {@link ParameterList#asFormUrlEncodedString()}.
+		* This test case checks the functionality of the method when the parameter list contains one parameter.
+		*/
+		@Test
+		public void testAsFormUrlEncodedString2() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("key", "value");
+				assertEquals("key=value", parameterList.asFormUrlEncodedString());
+		}
+		
+		/**
+		* Test case 3 for {@link ParameterList#asFormUrlEncodedString()}.
+		* This test case checks the functionality of the method when the parameter list contains two parameters.
+		*/
+		@Test
+		public void testAsFormUrlEncodedString3() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				assertEquals("key1=value1&key2=value2", parameterList.asFormUrlEncodedString());
+		}
+		
+		/**
+		* Test case 4 for {@link ParameterList#asFormUrlEncodedString()}.
+		* This test case checks the functionality of the method when the parameter list contains three parameters.
+		*/
+		@Test
+		public void testAsFormUrlEncodedString4() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				assertEquals("key1=value1&key2=value2&key3=value3", parameterList.asFormUrlEncodedString());
+		}
+		
+		/**
+		* Test case 5 for {@link ParameterList#asFormUrlEncodedString()}.
+		* This test case checks the functionality of the method when the parameter list contains four parameters.
+		*/
+		@Test
+		public void testAsFormUrlEncodedString5() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				assertEquals("key1=value1&key2=value2&key3=value3&key4=value4", parameterList.asFormUrlEncodedString());
+		}
+		
+		/**
+		* Test case 6 for {@link ParameterList#asFormUrlEncodedString()}.
+		* This test case checks the functionality of the method when the parameter list contains five parameters.
+		*/
+		@Test
+		public void testAsFormUrlEncodedString6() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				assertEquals("key1=value1&key2=value2&key3=value3&key4=value4&key5=value5", parameterList.asFormUrlEncodedString());
+		}
+		
+		/**
+		* Test case 7 for {@link ParameterList#asFormUrlEncodedString()}.
+		* This test case checks the functionality of the method when the parameter list contains six parameters.
+		*/
+		@Test
+		public void testAsFormUrlEncodedString7() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				assertEquals("key1=value1&key2=value2&key3=value3&key4=value4&key5=value5&key6=value6", parameterList.asFormUrlEncodedString());
+		}
+		
+		/**
+		* Test case 8 for {@link ParameterList#asFormUrlEncodedString()}.
+		* This test case checks the functionality of the method when the parameter list contains seven parameters.
+		*/
+		@Test
+		public void testAsFormUrlEncodedString8() {
+				ParameterList parameterList = new ParameterList();
+				parameterList.add("key1", "value1");
+				parameterList.add("key2", "value2");
+				parameterList.add("key3", "value3");
+				parameterList.add("key4", "value4");
+				parameterList.add("key5", "value5");
+				parameterList.add("key6", "value6");
+				parameterList.add("key7", "value7");
+				assertEquals("key1=value1&key2=value2&key3=value3&key4=

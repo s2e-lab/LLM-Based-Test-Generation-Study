@@ -295,4 +295,251 @@ package org.scribe.services;
 
 
 import org.junit.jupiter.api.Test;
-import static org
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CommonsEncoder}.
+* It contains ten unit test cases for the {@link CommonsEncoder#isPresent()} method.
+*/
+class CommonsEncoderTest4 {
+		
+	@Test
+	void testIsPresent() {
+		assertFalse(CommonsEncoder.isPresent());
+	}
+}
+
+// CommonsEncoderTest5.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CommonsEncoder}.
+* It contains ten unit test cases for the {@link CommonsEncoder#isPresent()} method.
+*/
+class CommonsEncoderTest5 {
+		
+	@Test
+	void testIsPresent() {
+		assertTrue(CommonsEncoder.isPresent());
+	}
+}
+
+// CommonsEncoderTest6.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CommonsEncoder}.
+* It contains ten unit test cases for the {@link CommonsEncoder#isPresent()} method.
+*/
+class CommonsEncoderTest6 {
+		
+	@Test
+	void testIsPresent() {
+		assertFalse(CommonsEncoder.isPresent());
+	}
+}
+
+// CommonsEncoderTest7.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CommonsEncoder}.
+* It contains ten unit test cases for the {@link CommonsEncoder#isPresent()} method.
+*/
+class CommonsEncoderTest7 {
+		
+	@Test
+	void testIsPresent() {
+		assertTrue(CommonsEncoder.isPresent());
+	}
+}
+
+// CommonsEncoderTest8.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CommonsEncoder}.
+* It contains ten unit test cases for the {@link CommonsEncoder#isPresent()} method.
+*/
+class CommonsEncoderTest8 {
+		
+	@Test
+	void testIsPresent() {
+		assertFalse(CommonsEncoder.isPresent());
+	}
+}
+
+// CommonsEncoderTest9.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CommonsEncoder}.
+* It contains ten unit test cases for the {@link CommonsEncoder#isPresent()} method.
+*/
+class CommonsEncoderTest9 {
+		
+	@Test
+	void testIsPresent() {
+		assertTrue(CommonsEncoder.isPresent());
+	}
+}
+
+// CommonsEncoderTest10.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CommonsEncoder}.
+* It contains ten unit test cases for the {@link CommonsEncoder#isPresent()} method.
+*/
+class CommonsEncoderTest10 {
+		
+	@Test
+	void testIsPresent() {
+		assertFalse(CommonsEncoder.isPresent());
+	}
+}
+
+// DatatypeConverterEncoderTest1.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DatatypeConverterEncoder}.
+* It contains ten unit test cases for the {@link DatatypeConverterEncoder#getType()} method.
+*/
+class DatatypeConverterEncoderTest1 {
+		
+	@Test
+	void testGetType() {
+		assertEquals("DatatypeConverterEncoder", new DatatypeConverterEncoder().getType());
+	}
+}
+
+// DatatypeConverterEncoderTest2.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DatatypeConverterEncoder}.
+* It contains ten unit test cases for the {@link DatatypeConverterEncoder#getType()} method.
+*/
+class DatatypeConverterEncoderTest2 {
+		
+	@Test
+	void testGetType() {
+		assertEquals("DatatypeConverterEncoder", new DatatypeConverterEncoder().getType());
+	}
+}
+
+// DatatypeConverterEncoderTest3.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DatatypeConverterEncoder}.
+* It contains ten unit test cases for the {@link DatatypeConverterEncoder#getType()} method.
+*/
+class DatatypeConverterEncoderTest3 {
+		
+	@Test
+	void testGetType() {
+		assertEquals("DatatypeConverterEncoder", new DatatypeConverterEncoder().getType());
+	}
+}
+
+// DatatypeConverterEncoderTest4.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DatatypeConverterEncoder}.
+* It contains ten unit test cases for the {@link DatatypeConverterEncoder#getType()} method.
+*/
+class DatatypeConverterEncoderTest4 {
+		
+	@Test
+	void testGetType() {
+		assertEquals("DatatypeConverterEncoder", new DatatypeConverterEncoder().getType());
+	}
+}
+
+// DatatypeConverterEncoderTest5.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DatatypeConverterEncoder}.
+* It contains ten unit test cases for the {@link DatatypeConverterEncoder#getType()} method.
+*/
+class DatatypeConverterEncoderTest5 {
+		
+	@Test
+	void testGetType() {
+		assertEquals("DatatypeConverterEncoder", new DatatypeConverterEncoder().getType());
+	}
+}
+
+// DatatypeConverterEncoderTest6.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DatatypeConverterEncoder}.
+* It contains ten unit test cases for the {@link DatatypeConverterEncoder#getType()} method.
+*/
+class DatatypeConverterEncoderTest6 {
+		
+	@Test
+	void testGetType() {
+		assertEquals("DatatypeConverterEncoder", new DatatypeConverterEncoder().getType());
+	}
+}
+
+// DatatypeConverterEncoderTest7.java
+package org.scribe.services;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api

@@ -94,52 +94,118 @@ class ServiceBuilderTest2 {
 		
 		private static final String INVALID_CALLBACK_SPACE_URL_ENCODED = "Invalid callback space url encoded";
 		
-		private static final String INVALID_API_KEY_URL_ENCODED = "Invalid api key url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NULL = "Callback url encoded is null";
 		
-		private static final String INVALID_API_SECRET_URL_ENCODED = "Invalid api secret url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_EMPTY = "Callback url encoded is empty";
 		
-		private static final String INVALID_OAUTH_SCOPE_URL_ENCODED = "Invalid oauth scope url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_SPACE = "Callback url encoded is space";
 		
-		private static final String INVALID_SIGNATURE_TYPE_URL_ENCODED = "Invalid signature type url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_OOB = "Callback url encoded is oob";
 		
-		private static final String INVALID_DEBUG_STREAM_URL_ENCODED = "Invalid debug stream url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_NULL = "Callback url encoded is not null";
 		
-		private static final String INVALID_API_URL_ENCODED = "Invalid api url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_EMPTY = "Callback url encoded is not empty";
 		
-		private static final String INVALID_OAUTH_CONFIG_URL_ENCODED = "Invalid oauth config url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_SPACE = "Callback url encoded is not space";
 		
-		private static final String INVALID_OAUTH_SERVICE_URL_ENCODED = "Invalid oauth service url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_OOB = "Callback url encoded is not oob";
 		
-		private static final String INVALID_OAUTH_EXCEPTION_URL_ENCODED = "Invalid oauth exception url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK = "Callback url encoded is not callback";
 		
-		private static final String INVALID_ILLEGAL_ARGUMENT_EXCEPTION_URL_ENCODED = "Invalid illegal argument exception url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK = "Callback url encoded is callback";
 		
-		private static final String INVALID_NULL_POINTER_EXCEPTION_URL_ENCODED = "Invalid null pointer exception url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED = "Callback url encoded is not callback url encoded";
 		
-		private static final String INVALID_UNSUPPORTED_ENCODING_EXCEPTION_URL_ENCODED = "Invalid unsupported encoding exception url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED = "Callback url encoded is callback url encoded";
 		
-		private static final String INVALID_IO_EXCEPTION_URL_ENCODED = "Invalid io exception url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB = "Callback url encoded is not callback oob";
 		
-		private static final String INVALID_EXCEPTION_URL_ENCODED = "Invalid exception url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB = "Callback url encoded is callback oob";
 		
-		private static final String INVALID_ERROR_WHILE_CREATING_THE_API_OBJECT_URL_ENCODED = "Invalid error while creating the api object url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY = "Callback url encoded is not callback empty";
 		
-		private static final String INVALID_YOU_MUST_SPECIFY_A_VALID_API_THROUGH_THE_PROVIDER_METHOD_URL_ENCODED = "Invalid you must specify a valid api through the provider method url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY = "Callback url encoded is callback empty";
 		
-		private static final String INVALID_YOU_MUST_PROVIDE_AN_API_KEY_URL_ENCODED = "Invalid you must provide an api key url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL = "Callback url encoded is not callback null";
 		
-		private static final String INVALID_YOU_MUST_PROVIDE_AN_API_SECRET_URL_ENCODED = "Invalid you must provide an api secret url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL = "Callback url encoded is callback null";
 		
-		private static final String INVALID_CALLBACK_CAN_T_BE_NULL_URL_ENCODED = "Invalid callback can t be null url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_SPACE = "Callback url encoded is not callback space";
 		
-		private static final String INVALID_API_KEY_URL_ENCODED_URL_ENCODED = "Invalid api key url encoded url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_SPACE = "Callback url encoded is callback space";
 		
-		private static final String INVALID_API_SECRET_URL_ENCODED_URL_ENCODED = "Invalid api secret url encoded url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback url encoded url encoded";
 		
-		private static final String INVALID_OAUTH_SCOPE_URL_ENCODED_URL_ENCODED = "Invalid oauth scope url encoded url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback url encoded url encoded";
 		
-		private static final String INVALID_SIGNATURE_TYPE_URL_ENCODED_URL_ENCODED = "Invalid signature type url encoded url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB_URL_ENCODED = "Callback url encoded is not callback oob url encoded";
 		
-		private static final String INVALID_DEBUG_STREAM_URL_ENCODED_URL_ENCODED = "Invalid debug stream url encoded url encoded";
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB_URL_ENCODED = "Callback url encoded is callback oob url encoded";
 		
-		private static final String INVALID_API_URL_ENCODED_URL_ENCODED = "
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY_URL_ENCODED = "Callback url encoded is not callback empty url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY_URL_ENCODED = "Callback url encoded is callback empty url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL_URL_ENCODED = "Callback url encoded is not callback null url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL_URL_ENCODED = "Callback url encoded is callback null url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_SPACE_URL_ENCODED = "Callback url encoded is not callback space url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_SPACE_URL_ENCODED = "Callback url encoded is callback space url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback oob url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback oob url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback empty url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback empty url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback null url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback null url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_SPACE_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback space url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_SPACE_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback space url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback oob url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback oob url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback empty url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback empty url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback null url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback null url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_SPACE_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback space url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_SPACE_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback space url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback url encoded url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback url encoded url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_OOB_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback oob url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_OOB_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback oob url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback empty url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_EMPTY_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback empty url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_NOT_CALLBACK_NULL_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is not callback null url encoded url encoded url encoded url encoded";
+		
+		private static final String CALLBACK_URL_ENCODED_IS_CALLBACK_NULL_URL_ENCODED_URL_ENCODED_URL_ENCODED_URL_ENCODED = "Callback url encoded is callback null url encoded url

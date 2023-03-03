@@ -14,50 +14,137 @@ import static org.junit.jupiter.api.Assertions.*;
 */
 class TokenExtractor20ImplTest {
 
-	private static final String TOKEN_REGEX = "access_token=([^&]+)";
+	private TokenExtractor20Impl extractor = new TokenExtractor20Impl();
 	
-	private static final String EMPTY_SECRET = "";
+	@Test
+	void shouldThrowExceptionIfResponseIsNull() {
+		assertThrows(OAuthException.class, () -> {
+			extractor.extract(null);
+		});
+	}
 	
-	private static final String RESPONSE = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldThrowExceptionIfResponseIsEmptyString() {
+		assertThrows(OAuthException.class, () -> {
+			extractor.extract("");
+		});
+	}
 	
-	private static final String TOKEN = "166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldThrowExceptionIfResponseIsBlank() {
+		assertThrows(OAuthException.class, () -> {
+			extractor.extract(" ");
+		});
+	}
 	
-	private static final String RESPONSE_WITHOUT_TOKEN = "access_token=|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldThrowExceptionIfResponseDoesNotContainToken() {
+		assertThrows(OAuthException.class, () -> {
+			extractor.extract("{\"error\":\"invalid_request\"}");
+		});
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsToken() {
+		Token token = extractor.extract("access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_EQUAL = "access_token166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithExclamationMark() {
+		Token token = extractor.extract("access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!.");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!.", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE = "access_token=166942940015970.2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncoding() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_2 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMark() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!.");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!.", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_3 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersand() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_4 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEquals() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_5 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMark() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_6 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHash() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_7 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlash() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_8 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColon() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/:");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_9 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColonAndAt() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/:@");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_10 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColonAndAtAndDollar() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/:@$");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_11 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColonAndAtAndDollarAndComma() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/:@$,;");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_12 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColonAndAtAndDollarAndCommaAndSemicolon() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/:@$,;=");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_13 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColonAndAtAndDollarAndCommaAndSemicolonAndPlus() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/:@$,;=+");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_14 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColonAndAtAndDollarAndCommaAndSemicolonAndPlusAndAsterisk() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/:@$,;=+*");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_15 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColonAndAtAndDollarAndCommaAndSemicolonAndPlusAndAsteriskAndTilde() {
+		Token token = extractor.extract("access_token=166942940015970%7C2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159%7CRsXNdKrpxg8L6QNLWcs2TVTmcaE!&expires=5108&other=value?q=1#_=_/:@$,;=+*~");
+		assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE!", token.getToken());
+	}
 	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_16 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
-	
-	private static final String RESPONSE_WITHOUT_ACCESS_TOKEN_PIPE_17 = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdK
+	@Test
+	void shouldReturnTokenIfResponseContainsTokenWithPercentEncodingAndExclamationMarkAndAmpersandAndEqualsAndQuestionMarkAndHashAndSlashAndColonAndAtAndDollarAndCommaAndSemicolonAndPlusAnd
