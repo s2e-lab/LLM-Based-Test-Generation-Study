@@ -60,7 +60,7 @@ public class TestPromptCreator {
 
 
     private static void generateHumanEvalPrompts() throws IOException {
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 4; i++) {
             File projectDirectory = new File(String.format(RQ1_FOLDER_NAME, i));
             List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
 
