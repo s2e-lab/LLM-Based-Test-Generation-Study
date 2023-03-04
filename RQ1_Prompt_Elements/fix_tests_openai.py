@@ -18,12 +18,15 @@ def fix(config: dict, scenario: str) -> None:
     
     for r in previous_responses:
         print("PROMPT", r["prompt_id"])
+        if r["prompt_id"] not in ["144","163"]:
+            continue
         try:
             if not r["choices"][0]["finish_reason"] == "stop":
                 # generates new code, with token limit size increased
                 new_response = generate_code(r, NEW_TOKEN_LIMIT, True)
                 save_generated_code(r, new_response, output_folder)
                 filtered_responses.append(new_response)
+                print(new_response)
                 print("Duration: ", new_response['time_taken'],
                       "Finish Reason:", new_response["choices"][0]["finish_reason"],
                       "\n" + "-" * 20)
@@ -35,13 +38,13 @@ def fix(config: dict, scenario: str) -> None:
             # mock_response = get_mock_response(r, str(e))
             # save_response(f, r, previous_responses, mock_response)
 
-    with open(response_file.replace(".json", "_fixed.json"), "w") as f:
-        f.write(json.dumps(filtered_responses, indent=4))
+    # with open(response_file.replace(".json", "_fixed.json"), "w") as f:
+    #     f.write(json.dumps(filtered_responses, indent=4))
 
 
 def main():
     config = load_config("config.json")
-    fix(config, "scenario1_prompt.json")
+    fix(config, "scenario3_prompt.json")
 
 
 if __name__ == "__main__":
