@@ -50,7 +50,7 @@ def fix_extracode(config: dict, scenario: str) -> None:
 
 def main():
     config = load_config("config.json")
-    fix_extracode(config, "scenario3_prompt.json")
+    fix_extracode(config, "scenario4_prompt.json")
 
 
 if __name__ == "__main__":
