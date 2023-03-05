@@ -25,14 +25,14 @@ public class TestPromptCreator {
     public static String RQ1_PROMPT_OUTPUT_FILE = RQ1_BASE_DIR + "OpenAI_Data/input/scenario%d_prompt.json";
 
     public static String RQ2_BASE_DIR = BASE_DIR + "RQ2_Open_Source_Projects/";
-    public static String RQ2_BENCHMARK_DIR = BASE_DIR + "GitHubDataBenchmark/Github_Data/";
-    public static String RQ2_PROMPT_OUTPUT_FILE = RQ2_BASE_DIR + "OpenAI_Data/input/%s.json";
+    public static String RQ2_BENCHMARK_DIR = BASE_DIR + "EvoSuiteBenchmark/";
+    public static String RQ2_PROMPT_OUTPUT_FILE = RQ2_BASE_DIR + "OpenAI_Data/SF110_input/%s.json";
 
     public static String NUMBER_OF_PROMPTS = "ten";
 
 
     public static void main(String[] args) throws IOException {
-        // generates the prompts for RQ1
+        /// generates the prompts for RQ1
         generateHumanEvalPrompts();
         // generates the prompts for RQ2
         generateOSSPrompts();
@@ -42,6 +42,7 @@ public class TestPromptCreator {
 
         List<File> projectList = JavaSearcher.getProjectList(RQ2_BENCHMARK_DIR);
         for (File project : projectList) {
+
             System.out.println(project.getName());
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);
             List<HashMap<String, String>> outputList = new ArrayList<>();
