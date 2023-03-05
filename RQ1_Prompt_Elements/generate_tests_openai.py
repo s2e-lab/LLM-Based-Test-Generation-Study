@@ -109,6 +109,7 @@ def get_mock_response(prompt: dict, error_msg: str) -> dict:
     @param error_msg: error message to be captured in this mock response
     @return: a mock response object with the same structure as the actual response
     """
+    time.sleep(60)
     return dict(
         choices=[{
             "finish_reason": "ERROR - " + error_msg

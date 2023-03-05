@@ -1,6 +1,4 @@
 import json
-import openai
-import os
 import time
 
 from generate_tests_openai import load_config, generate_code, get_output_files, save_generated_code, get_mock_response, save_response
@@ -35,6 +33,7 @@ def fix(config: dict, scenario: str) -> None:
         except Exception as e:
             print("ERROR", e)
             filtered_responses.append(r)
+            time.sleep(60)
             # mock_response = get_mock_response(r, str(e))
             # save_response(f, r, previous_responses, mock_response)
 
