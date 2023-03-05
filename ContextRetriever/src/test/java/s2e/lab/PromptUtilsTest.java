@@ -49,4 +49,5 @@ public class PromptUtilsTest {
         assertEquals("testableMethod2(Integer, int)", testableMethods.get(1));
         assertEquals("testableMethod3(Integer, int)", testableMethods.get(2));
     }
+
 }
