@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.List;
@@ -20,7 +20,11 @@ class Concatenate {
      * "xyzwk"
      */
     public static String concatenate(List<Object> strings) {
-
+        String result = "";
+        for (Object string : strings) {
+            result += string.toString();
+        }
+        return result;
     }
 
 

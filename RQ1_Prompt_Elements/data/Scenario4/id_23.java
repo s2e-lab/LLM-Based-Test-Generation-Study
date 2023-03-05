@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 class Strlen {
@@ -17,6 +17,7 @@ class Strlen {
      * 9
      */
     public static int strlen(String string) {
+        return string.length();
     }
 
 }

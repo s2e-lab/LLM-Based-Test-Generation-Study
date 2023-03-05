@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.ArrayList;
@@ -21,7 +21,14 @@ class Intersperse {
      * [2, 2, 2, 2, 2]
      */
     public static List<Object> intersperse(List<Object> numbers, int delimiter) {
-      
+        List<Object> result = new ArrayList<Object>();
+        for (int i = 0; i < numbers.size(); i++) {
+            result.add(numbers.get(i));
+            if (i < numbers.size() - 1) {
+                result.add(delimiter);
+            }
+        }
+        return result;
     }
 
 

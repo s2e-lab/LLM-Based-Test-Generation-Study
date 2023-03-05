@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.ArrayList;
@@ -39,10 +39,27 @@ class CountUpTo {
      * [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
      */
     public static List<Object> countUpTo(int n) {
-      
+        List<Object> result = new ArrayList<Object>();
+        int i = 2;
+        while (i < n) {
+            if (isPrime(i)) {
+                result.add(i);
+            }
+            i++;
+        }
+        return result;
     }
 
- 
+    private static boolean isPrime(int n) {
+        int i = 2;
+        while (i < n) {
+            if (n % i == 0) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
 
 
 }

@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.*;
@@ -14,7 +14,13 @@ class Unique {
      * [0, 2, 3, 5, 9, 123]
      */
     public static List<Integer> unique(List<Integer> l) {
-       
+        Set<Integer> set = new HashSet<Integer>();
+        for (Integer i : l) {
+            set.add(i);
+        }
+        List<Integer> result = new ArrayList<Integer>(set);
+        Collections.sort(result);
+        return result;
     }
 
 }

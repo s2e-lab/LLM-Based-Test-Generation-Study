@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.ArrayList;
@@ -33,7 +33,20 @@ class GetOddCollatz {
      * [1]
      */
     public static List<Integer> getOddCollatz(int n) {
-       
+        List<Integer> result = new ArrayList<Integer>();
+        while (n != 1) {
+            if (n % 2 == 1) {
+                result.add(n);
+            }
+            if (n % 2 == 0) {
+                n = n / 2;
+            } else {
+                n = 3 * n + 1;
+            }
+        }
+        result.add(1);
+        Collections.sort(result);
+        return result;
     }
 
 

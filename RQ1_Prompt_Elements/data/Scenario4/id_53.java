@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 class Add {
@@ -215,6 +215,7 @@ class Add {
      * 1795
      */
     public static int add(int x, int y) {
+        return x + y;
     }
 
 

@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 class Digitsum {
@@ -31,7 +31,14 @@ class Digitsum {
      * 327
      */
     public static int digitSum(String s) {
-       
+        int sum = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= 'A' && c <= 'Z') {
+                sum += c;
+            }
+        }
+        return sum;
     }
 
 

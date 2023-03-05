@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 class LargestDivisor {
@@ -19,7 +19,12 @@ class LargestDivisor {
      * 7
      */
     public static int largestDivisor(int n) {
-       
+        for (int i = n - 1; i > 0; i--) {
+            if (n % i == 0) {
+                return i;
+            }
+        }
+        return 1;
     }
 
 

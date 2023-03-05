@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 class DecimalToBinary {
@@ -24,7 +24,15 @@ class DecimalToBinary {
      * "db1111db"
      */
     public static String decimalToBinary(int decimal) {
-       
+        String binary = "";
+        if (decimal == 0) {
+            return "db0db";
+        }
+        while (decimal > 0) {
+            binary = (decimal % 2) + binary;
+            decimal = decimal / 2;
+        }
+        return "db" + binary + "db";
     }
 
 

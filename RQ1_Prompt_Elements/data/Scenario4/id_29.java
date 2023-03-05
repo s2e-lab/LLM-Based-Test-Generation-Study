@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.ArrayList;
@@ -19,7 +19,13 @@ class FilterByPrefix {
      * ["xxx", "xxxAAA", "xxx"]
      */
     public static List<Object> filterByPrefix(List<Object> strings, String prefix) {
-
+        List<Object> result = new ArrayList<Object>();
+        for (Object string : strings) {
+            if (string.toString().startsWith(prefix)) {
+                result.add(string);
+            }
+        }
+        return result;
     }
 
 }

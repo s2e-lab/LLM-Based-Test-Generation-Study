@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.List;
@@ -22,7 +22,12 @@ class BelowThreshold {
      * false
      */
     public static Boolean belowThreshold(List<Integer> l, int t) {
-
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i) >= t) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.ArrayList;
@@ -19,7 +19,11 @@ class AllPrefixes {
      * ["W", "WW", "WWW"]
      */
     public static List<Object> allPrefixes(String string) {
-
+        List<Object> result = new ArrayList<Object>();
+        for (int i = 0; i < string.length(); i++) {
+            result.add(string.substring(0, i + 1));
+        }
+        return result;
     }
 
 

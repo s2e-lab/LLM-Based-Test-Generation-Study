@@ -1,4 +1,4 @@
-package scenario3;
+package scenario4;
 
 
 import java.util.ArrayList;
@@ -22,7 +22,13 @@ class FilterBySubstring {
      * ["grunt", "prune"]
      */
     public static List<Object> filterBySubstring(List<Object> strings, String substring) {
-       
+        List<Object> result = new ArrayList<Object>();
+        for (int i = 0; i < strings.size(); i++) {
+            if (strings.get(i).toString().contains(substring)) {
+                result.add(strings.get(i));
+            }
+        }
+        return result;
     }
 
 

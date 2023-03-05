@@ -38,12 +38,7 @@ class ChangeBase {
      * "7"
      */
     public static String changeBase(int x, int base) {
-        String result = "";
-        while (x > 0) {
-            result = (x % base) + result;
-            x = x / base;
-        }
-        return result;
+       
     }
 
 
