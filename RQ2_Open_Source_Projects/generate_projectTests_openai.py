@@ -12,6 +12,8 @@ OPENAI_TOP_P = 1
 OPENAI_FREQUENCY_PENALTY = 0
 OPENAI_PRESENCE_PENALTY = 0
 
+PROJECT_PREFIX = "SF110_"
+
 
 def load_config(config_file: str) -> dict:
     """
@@ -80,7 +82,7 @@ def get_prompts(config: dict, scenario: str) -> list:
     @param scenario:  filename for the scenario (ex: "Scenario1_prompt.json")
     @return: a list of parsed prompts
     """
-    scenario_path = os.path.join(config["BASE_DIRECTORY"], "input", scenario)
+    scenario_path = os.path.join(config["BASE_DIRECTORY"], PROJECT_PREFIX+"input", scenario)
     with open(scenario_path, "r") as scenario_file:
         return json.load(scenario_file)
 
@@ -93,7 +95,7 @@ def get_generate_output_files(config: dict, scenario: str) -> tuple:
     @return:
     """
     projectName = scenario.split(".")[0]
-    output_folder = os.path.join(config["BASE_DIRECTORY"], f"output/{projectName}")
+    output_folder = os.path.join(config["BASE_DIRECTORY"], f"{PROJECT_PREFIX}output/{projectName}")
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     response_file = os.path.join(output_folder, f"{projectName}_response.json")
@@ -108,7 +110,7 @@ def get_fixed_files(config: dict, scenario: str) -> tuple:
     @return:
     """
     projectName = scenario.split(".")[0]
-    output_folder = os.path.join(config["BASE_DIRECTORY"], f"output/{projectName}")
+    output_folder = os.path.join(config["BASE_DIRECTORY"], f"{PROJECT_PREFIX}output/{projectName}")
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     response_file = os.path.join(output_folder, f"{projectName}_response_fixed.json")
@@ -178,9 +180,12 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
 
 def main():
     config = load_config("config.json")
-    for scenario in ["scribejava.json"]:
+    for scenario in ["11_imsmart.json","30_bpmail.json","42_asphodel.json","14_omjstate.json","7_sfmis.json","4_rif.json","97_feudalismgame.json","12_dsachat.json","19_jmca.json","32_httpanalyzer.json"]:
+        print("Started: ",scenario)
         prompts = get_prompts(config, scenario)
         generate_tests(config, scenario, prompts)
+        print("Done: ",scenario)
+        print()
 
 
 if __name__ == "__main__":

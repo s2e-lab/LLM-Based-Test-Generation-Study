@@ -1,6 +1,6 @@
 import json
 
-EOF = "\n\n// "
+EOF = ["\n\n// ","\n```\n\n##"]
 
 from generate_projectTests_openai import load_config, generate_code, get_fixed_files, save_generated_code
 
@@ -11,8 +11,9 @@ def remove_extracode(code: str) -> str:
     @return: code without the extra code
     """
     # removes the extra code
-    if EOF in code:
-        code = code[:code.index(EOF)]
+    for e in EOF:
+        if e in code:
+            code = code[:code.index(e)]
     return code
 
 
