@@ -44,7 +44,9 @@ def fix(config: dict, scenario: str) -> None:
 
 def main():
     config = load_config("config.json")
-    fix(config, "scribejava.json")
+    with open("SF110_projects.txt", "r") as f:
+        for project in f.read().splitlines():
+            fix(config, project.split()[0])
 
 
 if __name__ == "__main__":

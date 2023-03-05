@@ -180,13 +180,14 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
 
 def main():
     config = load_config("config.json")
-    for scenario in ["11_imsmart.json","30_bpmail.json","42_asphodel.json","14_omjstate.json","7_sfmis.json","4_rif.json","97_feudalismgame.json","12_dsachat.json","19_jmca.json","32_httpanalyzer.json"]:
-        print("Started: ",scenario)
-        prompts = get_prompts(config, scenario)
-        generate_tests(config, scenario, prompts)
-        print("Done: ",scenario)
-        print()
-
-
+    with open("SF110_projects.txt", "r") as f:
+        for project in f.read().splitlines():
+            
+            scenario = project.split()[0]
+            print("Starting: ",scenario)
+            prompts = get_prompts(config, scenario)
+            generate_tests(config, scenario, prompts)
+            print("Done: ",scenario)
+   
 if __name__ == "__main__":
     main()
