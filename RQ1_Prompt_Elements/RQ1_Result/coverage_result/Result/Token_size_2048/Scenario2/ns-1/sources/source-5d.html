@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Minpath</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">scenario2</a>
+</div>
+
+<h1>Coverage Summary for Class: Minpath (scenario2)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Minpath</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package scenario2;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;class Minpath {</b>
+&nbsp;    /**
+&nbsp;     * * Given a grid with N rows and N columns (N &gt;= 2) and a positive integer k, 
+&nbsp;     * each cell of the grid contains a value. Every integer in the range [1, N * N]
+&nbsp;     * inclusive appears exactly once on the cells of the grid.
+&nbsp;
+&nbsp;     * You have to find the minimum path of length k in the grid. You can start
+&nbsp;     * from any cell, and in each step you can move to any of the neighbor cells,
+&nbsp;     * in other words, you can go to cells which share an edge with you current
+&nbsp;     * cell.
+&nbsp;     * Please note that a path of length k means visiting exactly k cells (not
+&nbsp;     * necessarily distinct).
+&nbsp;     * You CANNOT go off the grid.
+&nbsp;     * A path A (of length k) is considered less than a path B (of length k) if
+&nbsp;     * after making the ordered lists of the values on the cells that A and B go
+&nbsp;     * through (let&#39;s call them lst_A and lst_B), lst_A is lexicographically less
+&nbsp;     * than lst_B, in other words, there exist an integer index i (1 &lt;= i &lt;= k)
+&nbsp;     * such that lst_A[i] &lt; lst_B[i] and for any j (1 &lt;= j &lt; i) we have
+&nbsp;     * lst_A[j] = lst_B[j].
+&nbsp;     * It is guaranteed that the answer is unique.
+&nbsp;     * Return an ordered list of the values on the cells that the minimum path go through.
+&nbsp;*/
+&nbsp;    public static List&lt;Integer&gt; minpath(List&lt;List&lt;Integer&gt;&gt; grid, int k) {
+<b class="nc">&nbsp;        int n = grid.size();</b>
+<b class="nc">&nbsp;        int val = n * n + 1;</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; n; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; n; j++) {</b>
+<b class="nc">&nbsp;                if (grid.get(i).get(j) == 1) {</b>
+<b class="nc">&nbsp;                    List&lt;Integer&gt; temp = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;                    if (i != 0) {</b>
+<b class="nc">&nbsp;                        temp.add(grid.get(i - 1).get(j));</b>
+&nbsp;                    }
+&nbsp;    
+<b class="nc">&nbsp;                    if (j != 0) {</b>
+<b class="nc">&nbsp;                        temp.add(grid.get(i).get(j - 1));</b>
+&nbsp;                    }
+&nbsp;    
+<b class="nc">&nbsp;                    if (i != n - 1) {</b>
+<b class="nc">&nbsp;                        temp.add(grid.get(i + 1).get(j));</b>
+&nbsp;                    }
+&nbsp;    
+<b class="nc">&nbsp;                    if (j != n - 1) {</b>
+<b class="nc">&nbsp;                        temp.add(grid.get(i).get(j + 1));</b>
+&nbsp;                    }
+&nbsp;    
+<b class="nc">&nbsp;                    val = Collections.min(temp);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;Integer&gt; ans =new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; k; i++) {</b>
+<b class="nc">&nbsp;            if (i % 2 == 0) {</b>
+<b class="nc">&nbsp;                ans.add(1);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                ans.add(val);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return ans;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-05 17:29</div>
+</div>
+</body>
+</html>
