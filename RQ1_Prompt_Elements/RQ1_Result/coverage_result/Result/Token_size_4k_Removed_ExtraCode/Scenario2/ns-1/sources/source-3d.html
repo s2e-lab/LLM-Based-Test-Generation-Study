@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GetRow</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">scenario2</a>
+</div>
+
+<h1>Coverage Summary for Class: GetRow (scenario2)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GetRow</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GetRow$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package scenario2;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;class GetRow {</b>
+&nbsp;    /**
+&nbsp;     * * You are given a 2 dimensional data, as a nested lists,
+&nbsp;     * which is similar to matrix, however, unlike matrices,
+&nbsp;     * each row may contain a different number of columns.
+&nbsp;     * Given lst, and integer x, find integers x in the list,
+&nbsp;     * and return list of tuples, [(x1, y1), (x2, y2) ...] such that
+&nbsp;     * each tuple is a coordinate - (row, columns), starting with 0.
+&nbsp;     * Sort coordinates initially by rows in ascending order.
+&nbsp;     * Also, sort coordinates of the row by columns in descending order.
+&nbsp;     * 
+&nbsp;     */
+&nbsp;    public static List&lt;Object&gt; getRow(List&lt;Object&gt; lst, int x) {
+<b class="nc">&nbsp;        List&lt;Object&gt; result = new ArrayList&lt;Object&gt;();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; lst.size(); i++) {</b>
+<b class="nc">&nbsp;            List&lt;Object&gt; row = (List&lt;Object&gt;) lst.get(i);</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; row.size(); j++) {</b>
+<b class="nc">&nbsp;                if (row.get(j).equals(x)) {</b>
+<b class="nc">&nbsp;                    List&lt;Object&gt; coordinate = new ArrayList&lt;Object&gt;();</b>
+<b class="nc">&nbsp;                    coordinate.add(i);</b>
+<b class="nc">&nbsp;                    coordinate.add(j);</b>
+<b class="nc">&nbsp;                    result.add(coordinate);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        Collections.sort(result, new Comparator&lt;Object&gt;() {</b>
+&nbsp;            public int compare(Object o1, Object o2) {
+<b class="nc">&nbsp;                List&lt;Object&gt; c1 = (List&lt;Object&gt;) o1;</b>
+<b class="nc">&nbsp;                List&lt;Object&gt; c2 = (List&lt;Object&gt;) o2;</b>
+<b class="nc">&nbsp;                int row1 = (Integer) c1.get(0);</b>
+<b class="nc">&nbsp;                int row2 = (Integer) c2.get(0);</b>
+<b class="nc">&nbsp;                if (row1 != row2) {</b>
+<b class="nc">&nbsp;                    return row1 - row2;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                int col1 = (Integer) c1.get(1);</b>
+<b class="nc">&nbsp;                int col2 = (Integer) c2.get(1);</b>
+<b class="nc">&nbsp;                return col2 - col1;</b>
+&nbsp;            }
+&nbsp;        });
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-05 18:04</div>
+</div>
+</body>
+</html>

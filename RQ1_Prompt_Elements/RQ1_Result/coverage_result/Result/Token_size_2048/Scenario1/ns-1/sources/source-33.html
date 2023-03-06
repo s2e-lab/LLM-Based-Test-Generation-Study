@@ -1,0 +1,147 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > FindMax</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">scenario1</a>
+</div>
+
+<h1>Coverage Summary for Class: FindMax (scenario1)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FindMax</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package scenario1;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;class FindMax {</b>
+&nbsp;
+&nbsp;    public static String findMax(List&lt;String&gt; words) {
+<b class="nc">&nbsp;        if (words == null || words.size() == 0) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        String maxWord = words.get(0);</b>
+<b class="nc">&nbsp;        int maxUnique = 0;</b>
+<b class="nc">&nbsp;        for (String word : words) {</b>
+<b class="nc">&nbsp;            Set&lt;Character&gt; seen = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; word.length(); i++) {</b>
+<b class="nc">&nbsp;                seen.add(word.charAt(i));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (seen.size() &gt; maxUnique) {</b>
+<b class="nc">&nbsp;                maxWord = word;</b>
+<b class="nc">&nbsp;                maxUnique = seen.size();</b>
+<b class="nc">&nbsp;            } else if (seen.size() == maxUnique &amp;&amp; word.compareTo(maxWord) &lt; 0) {</b>
+<b class="nc">&nbsp;                maxWord = word;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        
+<b class="nc">&nbsp;        return maxWord;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-05 17:09</div>
+</div>
+</body>
+</html>

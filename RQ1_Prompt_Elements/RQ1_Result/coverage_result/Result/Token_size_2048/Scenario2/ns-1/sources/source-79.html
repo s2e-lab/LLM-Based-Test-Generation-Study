@@ -1,0 +1,135 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Simplify</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">scenario2</a>
+</div>
+
+<h1>Coverage Summary for Class: Simplify (scenario2)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Simplify</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package scenario2;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;class Simplify {</b>
+&nbsp;    /**
+&nbsp;     * Your task is to implement a function that will simplify the expression
+&nbsp;     * x * n. The function returns True if x * n evaluates to a whole number and False
+&nbsp;     * otherwise. Both x and n, are string representation of a fraction, and have the following format,
+&nbsp;     * &lt;numerator&gt;/&lt;denominator&gt; where both numerator and denominator are positive whole numbers.
+&nbsp;
+&nbsp;     * You can assume that x, and n are valid fractions, and do not have zero as denominator.
+&nbsp;     */
+&nbsp;    public static Boolean simplify(String x, String n) {
+&nbsp;    // a, b = x.split(&quot;/&quot;)
+&nbsp;    // c, d = n.split(&quot;/&quot;)
+&nbsp;    // numerator = int(a) * int(c)
+&nbsp;    // denom = int(b) * int(d)
+&nbsp;    // if (numerator/denom == int(numerator/denom)):
+&nbsp;    //     return True
+&nbsp;    // return False
+&nbsp;    // convert to java
+<b class="nc">&nbsp;    String[] a = x.split(&quot;/&quot;);</b>
+<b class="nc">&nbsp;    String[] b = n.split(&quot;/&quot;);</b>
+<b class="nc">&nbsp;    int numerator = Integer.parseInt(a[0]) * Integer.parseInt(b[0]);</b>
+<b class="nc">&nbsp;    int denom = Integer.parseInt(a[1]) * Integer.parseInt(b[1]);</b>
+<b class="nc">&nbsp;    if (numerator%denom == 0){</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-05 17:29</div>
+</div>
+</body>
+</html>

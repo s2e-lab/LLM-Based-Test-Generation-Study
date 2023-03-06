@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SortedListSum</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">scenario2</a>
+</div>
+
+<h1>Coverage Summary for Class: SortedListSum (scenario2)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SortedListSum</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SortedListSum$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package scenario2;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;class SortedListSum {</b>
+&nbsp;    /**
+&nbsp;     * Write a function that accepts a list of strings as a parameter,
+&nbsp;     * deletes the strings that have odd lengths from it,
+&nbsp;     * and returns the resulted list with a sorted order,
+&nbsp;     * The list is always a list of strings and never an array of numbers,
+&nbsp;     * and it may contain duplicates.
+&nbsp;     * The order of the list should be ascending by length of each word, and you
+&nbsp;     * should return the list sorted by that rule.
+&nbsp;     * If two words have the same length, sort the list alphabetically.
+&nbsp;     * The function should return a list of strings in sorted order.
+&nbsp;     * You may assume that all words will have the same length. 
+&nbsp;     */
+&nbsp;    public static List&lt;Object&gt; sortedListSum(List&lt;String&gt; lst) {
+<b class="nc">&nbsp;        List&lt;Object&gt; result = new ArrayList&lt;Object&gt;();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; lst.size(); i++) {</b>
+<b class="nc">&nbsp;            if (lst.get(i).length() % 2 == 0) {</b>
+<b class="nc">&nbsp;                result.add(lst.get(i));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        Collections.sort(result, new Comparator&lt;Object&gt;() {</b>
+&nbsp;            @Override
+&nbsp;            public int compare(Object o1, Object o2) {
+<b class="nc">&nbsp;                if (o1.toString().length() == o2.toString().length()) {</b>
+<b class="nc">&nbsp;                    return o1.toString().compareTo(o2.toString());</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    return o1.toString().length() - o2.toString().length();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        });
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-05 18:04</div>
+</div>
+</body>
+</html>

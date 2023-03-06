@@ -1,0 +1,133 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SplitWords</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">scenario2</a>
+</div>
+
+<h1>Coverage Summary for Class: SplitWords (scenario2)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SplitWords</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package scenario2;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;class SplitWords {</b>
+&nbsp;    /**
+&nbsp;     * * Given a string of words, return a list of words split on whitespace, if no whitespaces exists in the text you
+&nbsp;     * should split on commas &#39;,&#39; if no commas exists you should return the number of lower-case letters with odd order in the
+&nbsp;     * alphabet, ord(&#39;a&#39;) = 0, ord(&#39;b&#39;) = 1, ... ord(&#39;z&#39;) = 25
+&nbsp;     */
+&nbsp;    public static Object splitWords(String txt) {
+<b class="fc">&nbsp;        if (txt.contains(&quot; &quot;)) {</b>
+<b class="fc">&nbsp;            return Arrays.asList(txt.split(&quot; &quot;));</b>
+<b class="fc">&nbsp;        } else if (txt.contains(&quot;,&quot;)) {</b>
+<b class="fc">&nbsp;            return Arrays.asList(txt.split(&quot;,&quot;));</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            int count = 0;</b>
+<b class="fc">&nbsp;            for (int i = 0; i &lt; txt.length(); i++) {</b>
+<b class="fc">&nbsp;                if (txt.charAt(i) &gt;= &#39;a&#39; &amp;&amp; txt.charAt(i) &lt;= &#39;z&#39; &amp;&amp; (txt.charAt(i) - &#39;a&#39;) % 2 == 1) {</b>
+<b class="fc">&nbsp;                    count++;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            return count;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-05 17:29</div>
+</div>
+</body>
+</html>

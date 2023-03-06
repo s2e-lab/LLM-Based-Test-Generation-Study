@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > FileNameCheck</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">scenario1</a>
+</div>
+
+<h1>Coverage Summary for Class: FileNameCheck (scenario1)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FileNameCheck</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    64.3%
+  </span>
+  <span class="absValue">
+    (9/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (12/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package scenario1;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;class FileNameCheck {</b>
+&nbsp;
+&nbsp;    public static String fileNameCheck(String fileName) {
+<b class="fc">&nbsp;        String[] suf = {&quot;txt&quot;, &quot;exe&quot;, &quot;dll&quot;};</b>
+<b class="fc">&nbsp;        String[] lst = fileName.split(&quot;\\.&quot;);</b>
+<b class="fc">&nbsp;        if (lst.length != 2) {</b>
+<b class="fc">&nbsp;            return &quot;No&quot;;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (!Arrays.asList(suf).contains(lst[1])) {</b>
+<b class="nc">&nbsp;            return &quot;No&quot;;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (lst[0].length() == 0) {</b>
+<b class="nc">&nbsp;            return &quot;No&quot;;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (!Character.isLetter(lst[0].charAt(0))) {</b>
+<b class="nc">&nbsp;            return &quot;No&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        int t = 0;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; lst[0].length(); i++) {</b>
+<b class="pc">&nbsp;            if (Character.isDigit(lst[0].charAt(i))) {</b>
+<b class="nc">&nbsp;                t++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="pc">&nbsp;        if (t &gt; 3) {</b>
+<b class="nc">&nbsp;            return &quot;No&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return &quot;Yes&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-05 17:56</div>
+</div>
+</body>
+</html>

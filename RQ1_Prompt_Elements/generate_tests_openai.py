@@ -109,6 +109,7 @@ def get_mock_response(prompt: dict, error_msg: str) -> dict:
     @param error_msg: error message to be captured in this mock response
     @return: a mock response object with the same structure as the actual response
     """
+    time.sleep(60)
     return dict(
         choices=[{
             "finish_reason": "ERROR - " + error_msg
@@ -141,6 +142,8 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
         f.write("[\n")
         for prompt in prompts:
             print("PROMPT", prompt["id"])
+            if prompt["id"] not in ["144","163"]:
+                continue
 
             try:
                 response = generate_code(prompt)
@@ -160,7 +163,7 @@ def generate_tests(config: dict, scenario: str, prompts: list) -> None:
 
 def main():
     config = load_config("config.json")
-    for scenario in ["scenario1_prompt.json"]:
+    for scenario in ["scenario3_prompt.json"]:
         prompts = get_prompts(config, scenario)
         generate_tests(config, scenario, prompts)
 

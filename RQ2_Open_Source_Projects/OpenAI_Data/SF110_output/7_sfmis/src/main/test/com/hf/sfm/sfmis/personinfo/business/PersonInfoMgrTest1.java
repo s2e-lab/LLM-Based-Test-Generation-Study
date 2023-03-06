@@ -1,0 +1,187 @@
+// PersonInfoMgrTest1.java
+package com.hf.sfm.sfmis.personinfo.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.pdo.APersonInfo;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link PersonInfoMgr}.
+* It contains ten unit test cases for the {@link PersonInfoMgr#deleteByIds(String[])} method.
+*/
+class PersonInfoMgrTest1 {
+
+	/**
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case

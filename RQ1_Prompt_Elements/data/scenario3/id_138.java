@@ -27,10 +27,7 @@ class IsEqualToSumEven {
      * true
      */
     public static Boolean isEqualToSumEven(int n) {
-        if (n < 8) {
-            return false;
-        }
-        return n % 2 == 0;
+       
     }
 
 

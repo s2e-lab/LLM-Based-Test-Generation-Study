@@ -23,20 +23,7 @@ class SortEven {
      * [-12, 8, 3, 4, 5, 2, 12, 11, 23, -10]
      */
     public static List<Integer> sortEven(List<Integer> l) {
-        List<Integer> l2 = new ArrayList<Integer>(l);
-        for (int i = 0; i < l.size(); i++) {
-            if (i % 2 == 0) {
-                List<Integer> subl = new ArrayList<Integer>();
-                for (int j = 0; j < l.size(); j++) {
-                    if (j % 2 == 0) {
-                        subl.add(l.get(j));
-                    }
-                }
-                Collections.sort(subl);
-                l2.set(i, subl.get(i / 2));
-            }
-        }
-        return l2;
+        
     }
 
 

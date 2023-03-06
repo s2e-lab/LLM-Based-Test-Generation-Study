@@ -30,21 +30,7 @@ class MakeAPile {
      * [8, 10, 12, 14, 16, 18, 20, 22]
      */
     public static List<Integer> makeAPile(int n) {
-        List<Integer> result = new ArrayList<Integer>();
-        int i = 1;
-        while (i <= n) {
-            if (i == 1) {
-                result.add(n);
-            } else {
-                if (n % 2 == 0) {
-                    result.add(result.get(i - 2) + 2);
-                } else {
-                    result.add(result.get(i - 2) + 2);
-                }
-            }
-            i++;
-        }
-        return result;
+      
     }
 
 

@@ -13,7 +13,6 @@ class TriangleArea {
      * 40.0
      */
     public static Double triangleArea(int a, int h) {
-        return (a * h) / 2.0;
     }
 
 
