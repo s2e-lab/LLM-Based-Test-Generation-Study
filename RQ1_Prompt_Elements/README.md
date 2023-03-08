@@ -1,12 +1,3 @@
-# Scripts
-
-- `generate_tests_openai.py`: Generates test cases using OpenAI's API. It produces a JSON containing the results metadata as well as all the generated test files in separate `.java` files. Token size is `1024`.
-- `fix_tests_openai.py`: Re-generates test cases using OpenAI's API for samples that run out of the token size. Token size is `4096`.
-
-# Configuration
-
-
-- `example_config.json`: File used for configuring the script `test_file_generation.py`: 
-	- `API_KEY`: You OpenAI API developer key.
-	- `BASE_DIRECTORY`: Full/relative path to the **OpenAI_Data** folder that contains the HumanEval dataset decomposed into 3 scenarios. For example: `/Users/abcd/Documents/study_repo/RQ1_Prompt_Elements/OpenAI_Data/`.
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:296ed9270547abedfee0fdb1acac18b77a9331d1605be018b898fe427ed6576c
+size 727
