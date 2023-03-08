@@ -31,7 +31,7 @@ class NextSmallest {
      * -35
      */
     public static Integer nextSmallest(List<Object> lst) {
-       
+
     }
 
 

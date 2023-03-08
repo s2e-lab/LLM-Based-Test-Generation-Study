@@ -27,7 +27,7 @@ class CanArrange {
      * -1
      */
     public static int canArrange(List<Object> arr) {
-        
+
     }
 
 

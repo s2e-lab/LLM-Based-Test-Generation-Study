@@ -25,7 +25,7 @@ class NumericalLetterGrade {
      * > 1.0                D+
      * > 0.7                D
      * > 0.0                D-
-     *   0.0                E
+     * 0.0                E
      *
      *
      * Example:

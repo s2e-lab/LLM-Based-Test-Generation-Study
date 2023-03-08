@@ -32,7 +32,7 @@ class IsHappy {
      * false
      */
     public static Boolean isHappy(String s) {
-      
+
     }
 
 

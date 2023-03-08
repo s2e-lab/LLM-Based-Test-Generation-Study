@@ -1,6 +1,6 @@
 package scenario3;
 
-import java.util.*;
+import java.util.List;
 
 
 class Maximum1 {
@@ -52,7 +52,7 @@ class Maximum1 {
      * []
      */
     public static List<Object> maximum(List<Integer> arr, int k) {
-       
+
     }
 
 

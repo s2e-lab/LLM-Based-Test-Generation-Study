@@ -24,7 +24,7 @@ class GetMaxTriples {
      * 53361
      */
     public static int getMaxTriples(int n) {
-       
+
     }
 
 

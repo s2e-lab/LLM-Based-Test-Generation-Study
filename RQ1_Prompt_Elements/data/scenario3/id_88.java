@@ -1,8 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -37,7 +34,7 @@ class SortArray1 {
      * [23, 21, 14, 11]
      */
     public static List<Object> sortArray(List<Object> array) {
-       
+
     }
 
 

@@ -43,7 +43,7 @@ class SumSquares {
      * 2
      */
     public static int sumSquares(List<Number> lst) {
-       
+
     }
 
 

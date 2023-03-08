@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,7 +29,7 @@ class MakeAPile {
      * [8, 10, 12, 14, 16, 18, 20, 22]
      */
     public static List<Integer> makeAPile(int n) {
-      
+
     }
 
 

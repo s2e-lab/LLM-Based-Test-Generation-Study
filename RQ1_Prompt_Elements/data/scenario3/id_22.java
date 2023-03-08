@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,7 +20,7 @@ class FilterIntegers {
      * [3, 3, 3]
      */
     public static List<Object> filterIntegers(List<Object> values) {
-       
+
     }
 
 

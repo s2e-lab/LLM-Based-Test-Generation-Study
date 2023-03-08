@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,7 +25,7 @@ class OddCount {
      * ["the number of odd elements 2n the str2ng 2 of the 2nput.", "the number of odd elements 3n the str3ng 3 of the 3nput.", "the number of odd elements 2n the str2ng 2 of the 2nput."]
      */
     public static List<String> oddCount(List<String> lst) {
-      
+
     }
 
 

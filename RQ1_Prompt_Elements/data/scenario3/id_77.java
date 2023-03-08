@@ -32,7 +32,7 @@ class Iscube {
      * false
      */
     public static Boolean iscube(int a) {
-       
+
     }
 
 

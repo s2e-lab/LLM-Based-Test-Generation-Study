@@ -9,10 +9,10 @@ import java.util.List;
 
 class UniqueDigits {
     /**
-     * Given a list of positive integers x. return a sorted list of all 
+     * Given a list of positive integers x. return a sorted list of all
      * elements that hasn't any even digit.
-
-     * Note: Returned list should be sorted in increasing order. 
+     *
+     * Note: Returned list should be sorted in increasing order.
      */
     public static List<Object> uniqueDigits(List<Integer> x) {
         List<Object> result = new ArrayList<Object>();

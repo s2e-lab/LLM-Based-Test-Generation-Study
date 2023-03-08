@@ -22,7 +22,7 @@ class SortArray {
                 ones += num % 2;
                 num /= 2;
             }
-            sorted.add(new int[] {ones, ((Number) arr.get(i)).intValue()});
+            sorted.add(new int[]{ones, ((Number) arr.get(i)).intValue()});
         }
         Collections.sort(sorted, new Comparator<Object>() {
             public int compare(Object o1, Object o2) {

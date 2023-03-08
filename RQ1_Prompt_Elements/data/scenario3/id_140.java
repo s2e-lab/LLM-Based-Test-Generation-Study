@@ -23,7 +23,7 @@ class FixSpaces {
      * "-Exa_1_2_2_mple"
      */
     public static String fixSpaces(String text) {
-       
+
     }
 
 

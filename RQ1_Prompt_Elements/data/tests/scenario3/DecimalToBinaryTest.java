@@ -1,21 +1,20 @@
 package scenario3;
 
 
-import java.util.Arrays;
-import java.util.Map;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DecimalToBinaryTest {
 
     @Test
-    public void test() throws Exception{
+    public void test() throws Exception {
 
         assertEquals("db0db", scenario3.DecimalToBinary.decimalToBinary(0));
-		assertEquals("db100000db", scenario3.DecimalToBinary.decimalToBinary(32));
-		assertEquals("db1100111db", scenario3.DecimalToBinary.decimalToBinary(103));
-		assertEquals("db1111db", scenario3.DecimalToBinary.decimalToBinary(15));
-		
+        assertEquals("db100000db", scenario3.DecimalToBinary.decimalToBinary(32));
+        assertEquals("db1100111db", scenario3.DecimalToBinary.decimalToBinary(103));
+        assertEquals("db1111db", scenario3.DecimalToBinary.decimalToBinary(15));
+
     }
 
 }

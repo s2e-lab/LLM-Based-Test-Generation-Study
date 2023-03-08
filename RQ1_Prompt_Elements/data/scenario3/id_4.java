@@ -19,7 +19,7 @@ class MeanAbsoluteDeviation {
      * 1.2
      */
     public static Double meanAbsoluteDeviation(List<Double> numbers) {
-       
+
     }
 
 

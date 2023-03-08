@@ -37,9 +37,8 @@ class WordsInSentence {
      * "is"
      */
     public static String wordsInSentence(String sentence) {
-      
+
     }
 
-   
 
 }

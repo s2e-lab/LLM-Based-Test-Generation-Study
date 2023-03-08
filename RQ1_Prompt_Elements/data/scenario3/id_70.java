@@ -1,7 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -36,7 +34,7 @@ class StrangeSortList {
      * [111111]
      */
     public static List<Object> strangeSortList(List<Object> lst) {
-       
+
     }
 
 

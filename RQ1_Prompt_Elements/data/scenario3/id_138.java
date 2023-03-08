@@ -27,7 +27,7 @@ class IsEqualToSumEven {
      * true
      */
     public static Boolean isEqualToSumEven(int n) {
-       
+
     }
 
 

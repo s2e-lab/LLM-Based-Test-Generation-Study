@@ -20,28 +20,28 @@ public class DatasetStaticsCollector {
 
     public static void main(String[] args) {
         // collect stats about the datasets
-        collectStatsHumanEval();
+//        collectStatsHumanEval();
     }
 
-    private static void collectStatsHumanEval() throws IOException {
-
-
-        File projectDirectory = new File(String.format(RQ1_FOLDER_NAME, 3));
-        List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
-
-        List<HashMap<String, String>> outputList = new ArrayList<>();
-        for (File javaFile : javaFiles) {
-
-            HashMap<String, String> output = new HashMap<>();
-            output.put("file", javaFile.getName());
-            output.put("number_of_tests", String.valueOf(JavaSearcher.getNumberOfTests(javaFile)));
-            output.put("number_of_methods", String.valueOf(JavaSearcher.getNumberOfMethods(javaFile)));
-            output.put("number_of_lines", String.valueOf(JavaSearcher.getNumberOfLines(javaFile)));
-            outputList.add(output);
-        }
-        save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, i));
-    }
-
-
-}
+//    private static void collectStatsHumanEval() throws IOException {
+//
+//
+//        File projectDirectory = new File(String.format(RQ1_FOLDER_NAME, 3));
+//        List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
+//
+//        List<HashMap<String, String>> outputList = new ArrayList<>();
+//        for (File javaFile : javaFiles) {
+//
+//            HashMap<String, String> output = new HashMap<>();
+//            output.put("file", javaFile.getName());
+//            output.put("number_of_tests", String.valueOf(JavaSearcher.getNumberOfTests(javaFile)));
+//            output.put("number_of_methods", String.valueOf(JavaSearcher.getNumberOfMethods(javaFile)));
+//            output.put("number_of_lines", String.valueOf(JavaSearcher.getNumberOfLines(javaFile)));
+//            outputList.add(output);
+//        }
+//        save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, i));
+//    }
+//
+//
+//}
 }

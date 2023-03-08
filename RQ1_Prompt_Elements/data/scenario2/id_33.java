@@ -14,11 +14,11 @@ class SortThird {
      */
     public static List<Integer> sortThird(List<Integer> l) {
         List<Integer> l2 = new ArrayList<Integer>(l);
-        for(int i = 0; i < l.size(); i++){
-            if(i % 3 == 0){
+        for (int i = 0; i < l.size(); i++) {
+            if (i % 3 == 0) {
                 List<Integer> subl = new ArrayList<Integer>();
-                for(int j = 0; j < l.size(); j++){
-                    if(j % 3 == 0){
+                for (int j = 0; j < l.size(); j++) {
+                    if (j % 3 == 0) {
                         subl.add(l.get(j));
                     }
                 }

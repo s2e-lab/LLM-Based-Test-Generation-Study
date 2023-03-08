@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,7 +26,7 @@ class ParseMusic {
      * [2, 1, 2, 1, 4, 2, 4, 2]
      */
     public static List<Object> parseMusic(String musicString) {
-       
+
     }
 
 }

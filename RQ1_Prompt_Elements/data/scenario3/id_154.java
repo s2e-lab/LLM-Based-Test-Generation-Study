@@ -26,7 +26,7 @@ class CycpatternCheck {
      * true
      */
     public static Boolean cycpatternCheck(String a, String b) {
-       
+
     }
 
 

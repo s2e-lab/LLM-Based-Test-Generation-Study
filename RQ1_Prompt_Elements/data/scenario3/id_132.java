@@ -1,10 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-
 class IsNested {
     /**
      * * Create a function that takes a string as input which contains only square brackets.
@@ -48,7 +44,7 @@ class IsNested {
      * false
      */
     public static Boolean isNested(String string) {
-       
+
     }
 
 

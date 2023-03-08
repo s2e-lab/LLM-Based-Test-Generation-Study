@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.HashMap;
 import java.util.List;
 
 class IsSorted {
@@ -47,7 +46,7 @@ class IsSorted {
      * true
      */
     public static Boolean isSorted(List<Object> lst) {
-       
+
     }
 
 }

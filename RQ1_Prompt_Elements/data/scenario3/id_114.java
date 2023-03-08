@@ -38,7 +38,7 @@ class Minsubarraysum {
      * -1
      */
     public static long minsubarraysum(List<Object> nums) {
-       
+
     }
 
 

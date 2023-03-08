@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,7 +33,7 @@ class Factorize {
      * [2, 3, 3]
      */
     public static List<Integer> factorize(int n) {
-      
+
     }
 
 

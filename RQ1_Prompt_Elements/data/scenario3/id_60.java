@@ -20,7 +20,7 @@ class SumToN {
      * 5050
      */
     public static int sumToN(int n) {
-       
+
     }
 
 

@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,7 +39,7 @@ class LargestSmallestIntegers {
      * [-3, 1]
      */
     public static List<Integer> largestSmallestIntegers(List<Object> lst) {
-       
+
     }
 
 

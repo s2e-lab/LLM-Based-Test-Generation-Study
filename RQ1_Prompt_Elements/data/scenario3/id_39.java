@@ -37,9 +37,8 @@ class PrimeFib {
      * 433494437
      */
     public static int primeFib(int n) {
-       
+
     }
 
-    
 
 }

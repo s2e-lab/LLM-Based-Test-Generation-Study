@@ -34,7 +34,7 @@ class ProdSigns {
      * 0
      */
     public static Integer prodSigns(List<Object> arr) {
-       
+
     }
 
 

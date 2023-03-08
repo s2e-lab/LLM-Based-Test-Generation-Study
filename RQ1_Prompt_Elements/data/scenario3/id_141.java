@@ -1,7 +1,5 @@
 package scenario3;
 
-import java.util.Arrays;
-
 class FileNameCheck {
     /**
      * Create a function which takes a string representing a file's name, and returns
@@ -71,7 +69,7 @@ class FileNameCheck {
      * "No"
      */
     public static String fileNameCheck(String fileName) {
-       
+
     }
 
 }

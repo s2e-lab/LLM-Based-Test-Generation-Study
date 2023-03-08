@@ -19,7 +19,7 @@ class LargestDivisor {
      * 7
      */
     public static int largestDivisor(int n) {
-       
+
     }
 
 

@@ -9,12 +9,11 @@ class EvenOddPalindrome {
     /**
      * * Given a positive integer n, return a tuple that has the number of even and odd
      * integer palindromes that fall within the range(1, n), inclusive.
-
-    
-     * Note:
-     *     1. 1 <= n <= 10^3
-     *     2. returned tuple has the number of even and odd integer palindromes respectively.
      *
+     *
+     * Note:
+     * 1. 1 <= n <= 10^3
+     * 2. returned tuple has the number of even and odd integer palindromes respectively.
      */
     public static List<Integer> evenOddPalindrome(int n) {
         List<Integer> result = new ArrayList<Integer>();

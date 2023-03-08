@@ -1,8 +1,6 @@
 package scenario3;
 
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -31,7 +29,7 @@ class OrderByPoints {
      * [-76, -21, 0, 4, 23, 6, 6]
      */
     public static List<Object> orderByPoints(List<Object> nums) {
-        
+
     }
 
 

@@ -14,7 +14,7 @@ class FlipCase {
      * "tHESE VIOLENT DELIGHTS HAVE VIOLENT ENDS"
      */
     public static String flipCase(String string) {
-      
+
     }
 
 

@@ -1,8 +1,5 @@
 package scenario3;
 
-import java.util.*;
-
-
 class Histogram {
     /**
      * Given a string representing a space separated lowercase letters, return a dictionary
@@ -35,6 +32,6 @@ class Histogram {
      * {"a": 1}
      */
     public static Object histogram(String test) {
-      
+
     }
 }

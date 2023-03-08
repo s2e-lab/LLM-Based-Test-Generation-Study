@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,7 +20,7 @@ class RollingMax {
      * [3, 3, 3, 100, 100]
      */
     public static List<Object> rollingMax(List<Object> numbers) {
-       
+
     }
 
 

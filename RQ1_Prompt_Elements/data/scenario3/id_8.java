@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +22,7 @@ class SumProduct {
      * [10, 10]
      */
     public static List<Integer> sumProduct(List<Object> numbers) {
-       
+
     }
 
 

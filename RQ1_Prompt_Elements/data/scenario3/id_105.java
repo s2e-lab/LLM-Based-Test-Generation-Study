@@ -1,8 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -40,7 +38,7 @@ class ByLength {
      * ["Nine", "Eight", "Four"]
      */
     public static List<Object> byLength(List<Object> arr) {
-       
+
     }
 
 }

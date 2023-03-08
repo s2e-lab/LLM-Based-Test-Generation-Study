@@ -32,7 +32,7 @@ class XOrY {
      * 2
      */
     public static int xOrY(int n, int x, int y) {
-       
+
     }
 
 

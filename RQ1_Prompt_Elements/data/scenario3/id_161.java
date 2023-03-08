@@ -30,7 +30,7 @@ class Solve {
      * "#CCC"
      */
     public static String solve(String s) {
-       
+
     }
 
 

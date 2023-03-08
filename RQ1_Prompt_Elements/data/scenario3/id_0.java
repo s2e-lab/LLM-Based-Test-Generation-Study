@@ -26,7 +26,7 @@ class HasCloseElements {
      * false
      */
     public static Boolean hasCloseElements(List<Double> numbers, Double threshold) {
-       
+
     }
 
 }

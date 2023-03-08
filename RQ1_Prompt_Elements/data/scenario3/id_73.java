@@ -33,7 +33,7 @@ class SmallestChange {
      * 1
      */
     public static int smallestChange(List<Integer> arr) {
-       
+
     }
 
 

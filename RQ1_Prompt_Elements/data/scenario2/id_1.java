@@ -23,7 +23,7 @@ class SeparateParenGroups {
             } else if (parenString.charAt(i) == ')') {
                 count--;
                 curString.append(')');
-                if(count==0){
+                if (count == 0) {
                     result.add(curString.toString());
                     curString = new StringBuilder();
 

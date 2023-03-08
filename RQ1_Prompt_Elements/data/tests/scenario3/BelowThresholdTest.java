@@ -1,23 +1,23 @@
 package scenario3;
 
-import java.util.List;
-import java.util.Arrays;
-import java.util.Map;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BelowThresholdTest {
 
     @Test
-    public void test() throws Exception{
+    public void test() throws Exception {
 
         assertEquals(true, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 2, 4, 10), 100));
-		assertEquals(false, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 20, 4, 10), 5));
-		assertEquals(true, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 20, 4, 10), 21));
-		assertEquals(true, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 20, 4, 10), 22));
-		assertEquals(true, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 8, 4, 10), 11));
-		assertEquals(false, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 8, 4, 10), 10));
-		
+        assertEquals(false, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 20, 4, 10), 5));
+        assertEquals(true, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 20, 4, 10), 21));
+        assertEquals(true, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 20, 4, 10), 22));
+        assertEquals(true, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 8, 4, 10), 11));
+        assertEquals(false, scenario3.BelowThreshold.belowThreshold(Arrays.asList(1, 8, 4, 10), 10));
+
     }
 
 }

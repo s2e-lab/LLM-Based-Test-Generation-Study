@@ -7,7 +7,6 @@ import java.util.List;
 class Add1 {
     /**
      * Given a non-empty list of integers lst. add the even elements that are at odd indices..
-
      */
     public static int add(List<Integer> lst) {
         int result = 0;

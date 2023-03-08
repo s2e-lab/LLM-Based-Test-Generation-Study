@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,7 +35,7 @@ class Bf {
      * []
      */
     public static List<Object> bf(String planet1, String planet2) {
-       
+
     }
 
 

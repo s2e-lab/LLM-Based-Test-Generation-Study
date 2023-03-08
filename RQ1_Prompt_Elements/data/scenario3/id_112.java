@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -37,7 +36,7 @@ class ReverseDelete {
      * ["", true]
      */
     public static List<Object> reverseDelete(String s, String c) {
-       
+
     }
 
 

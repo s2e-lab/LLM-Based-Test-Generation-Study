@@ -15,7 +15,7 @@ class StringXor {
      * "0101"
      */
     public static String stringXor(String a, String b) {
-      
+
     }
 
 

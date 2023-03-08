@@ -26,7 +26,7 @@ class Encode {
      * "k dQnT kNqW wHcT Tq wRkTg"
      */
     public static String encode(String message) {
-       
+
     }
 
 

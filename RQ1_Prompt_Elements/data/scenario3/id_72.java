@@ -35,7 +35,7 @@ class WillItFly {
      * true
      */
     public static Boolean willItFly(List<Integer> q, int w) {
-       
+
     }
 
 

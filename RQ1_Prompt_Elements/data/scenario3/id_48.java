@@ -20,7 +20,7 @@ class IsPalindrome {
      * false
      */
     public static Boolean isPalindrome(String text) {
-      
+
     }
 
 

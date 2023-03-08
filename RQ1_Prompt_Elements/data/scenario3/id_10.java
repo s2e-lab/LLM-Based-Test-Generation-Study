@@ -25,7 +25,7 @@ class MakePalindrome {
      * "jerryrrej"
      */
     public static String makePalindrome(String string) {
-       
+
     }
 
 

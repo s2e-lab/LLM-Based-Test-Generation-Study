@@ -34,7 +34,7 @@ class RightAngleTriangle {
      * false
      */
     public static Boolean rightAngleTriangle(int a, int b, int c) {
-       
+
     }
 
 

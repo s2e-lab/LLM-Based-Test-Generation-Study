@@ -37,7 +37,7 @@ class AnyInt {
      * false
      */
     public static Boolean anyInt(Number x, Number y, Number z) {
-       
+
     }
 
 }

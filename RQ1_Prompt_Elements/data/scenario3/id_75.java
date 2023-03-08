@@ -32,7 +32,7 @@ class IsMultiplyPrime {
      * true
      */
     public static Boolean isMultiplyPrime(int a) {
-       
+
     }
 
 

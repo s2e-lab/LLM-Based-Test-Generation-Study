@@ -28,7 +28,7 @@ class BelowZero {
      * true
      */
     public static Boolean belowZero(List<Object> operations) {
-       
+
     }
 
 

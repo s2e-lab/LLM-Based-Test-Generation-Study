@@ -36,7 +36,7 @@ class CheckIfLastCharIsALetter {
      * false
      */
     public static Boolean checkIfLastCharIsALetter(String txt) {
-      
+
     }
 
 

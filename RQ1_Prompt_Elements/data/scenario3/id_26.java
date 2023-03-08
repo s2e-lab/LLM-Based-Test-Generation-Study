@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,7 +18,7 @@ class RemoveDuplicates {
      * [1, 4, 5]
      */
     public static List<Object> removeDuplicates(List<Object> numbers) {
-       
+
     }
 
 

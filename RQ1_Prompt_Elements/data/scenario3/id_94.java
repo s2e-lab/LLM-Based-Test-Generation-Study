@@ -36,9 +36,8 @@ class Skjkasdkd {
      * 10
      */
     public static int skjkasdkd(List<Integer> lst) {
-       
-    }
 
+    }
 
 
 }

@@ -1,8 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -33,7 +31,7 @@ class GetOddCollatz {
      * [1]
      */
     public static List<Integer> getOddCollatz(int n) {
-       
+
     }
 
 

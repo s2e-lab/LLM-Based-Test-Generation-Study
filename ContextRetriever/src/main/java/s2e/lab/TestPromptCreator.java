@@ -32,11 +32,10 @@ public class TestPromptCreator {
 
 
     public static void main(String[] args) throws IOException {
-        /// generates the prompts for RQ1
+        // generates the prompts for RQ1
         generateHumanEvalPrompts();
         // generates the prompts for RQ2
         generateOSSPrompts();
-
     }
 
     private static void generateOSSPrompts() throws IOException {

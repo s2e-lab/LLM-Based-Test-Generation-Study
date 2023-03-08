@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,7 +24,7 @@ class GenerateIntegers {
      * []
      */
     public static List<Object> generateIntegers(int a, int b) {
-       
+
     }
 
 

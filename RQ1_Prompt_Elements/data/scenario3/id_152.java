@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,7 +30,7 @@ class Compare {
      * [2, 0, 0, 1]
      */
     public static List<Integer> compare(List<Integer> game, List<Integer> guess) {
-       
+
     }
 
 

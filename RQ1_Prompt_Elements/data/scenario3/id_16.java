@@ -1,9 +1,5 @@
 package scenario3;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
 class CountDistinctCharacters {
     /**
      * Given a string, find out how many distinct characters (regardless of case)  it consists  of.
@@ -24,7 +20,7 @@ class CountDistinctCharacters {
      * 5
      */
     public static int countDistinctCharacters(String string) {
-      
+
     }
 
 }

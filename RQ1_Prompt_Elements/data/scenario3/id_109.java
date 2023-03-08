@@ -43,7 +43,7 @@ class MoveOneBall {
      * true
      */
     public static Boolean moveOneBall(List<Object> arr) {
-       
+
     }
 
 

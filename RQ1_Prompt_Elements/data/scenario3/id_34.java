@@ -1,7 +1,7 @@
 package scenario3;
 
 
-import java.util.*;
+import java.util.List;
 
 
 class Unique {
@@ -14,7 +14,7 @@ class Unique {
      * [0, 2, 3, 5, 9, 123]
      */
     public static List<Integer> unique(List<Integer> l) {
-       
+
     }
 
 }

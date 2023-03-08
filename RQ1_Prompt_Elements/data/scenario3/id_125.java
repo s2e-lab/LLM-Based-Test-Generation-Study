@@ -1,8 +1,5 @@
 package scenario3;
 
-import java.util.Arrays;
-
-
 class SplitWords {
     /**
      * * Given a string of words, return a list of words split on whitespace, if no whitespaces exists in the text you
@@ -31,7 +28,7 @@ class SplitWords {
      * 0
      */
     public static Object splitWords(String txt) {
-       
+
     }
 
 

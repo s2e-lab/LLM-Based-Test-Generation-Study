@@ -1,7 +1,7 @@
 package scenario3;
 
 
-import java.util.*;
+import java.util.List;
 
 
 class FindMax {
@@ -37,7 +37,7 @@ class FindMax {
      * "play"
      */
     public static String findMax(List<String> words) {
-       
+
     }
 
 

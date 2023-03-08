@@ -1,7 +1,9 @@
 package scenario2;
 
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 class FindMax {
@@ -10,13 +12,12 @@ class FindMax {
      * The list contains different words. Return the word with maximum number
      * of unique characters. If multiple strings have maximum number of unique
      * characters, return the one which comes first in lexicographical order.
-
      */
     public static String findMax(List<String> words) {
         if (words == null || words.size() == 0) {
             return null;
         }
-        
+
         String maxWord = words.get(0);
         int maxUnique = 0;
         for (String word : words) {
@@ -31,7 +32,7 @@ class FindMax {
                 maxWord = word;
             }
         }
-        
+
         return maxWord;
     }
 

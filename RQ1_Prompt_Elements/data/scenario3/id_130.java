@@ -1,7 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -45,7 +43,7 @@ class Tri {
      * [1, 3]
      */
     public static List<Number> tri(int n) {
-       
+
     }
 
 

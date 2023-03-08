@@ -17,7 +17,6 @@ class GetRow {
      * each tuple is a coordinate - (row, columns), starting with 0.
      * Sort coordinates initially by rows in ascending order.
      * Also, sort coordinates of the row by columns in descending order.
-     * 
      */
     public static List<Object> getRow(List<Object> lst, int x) {
         List<Object> result = new ArrayList<Object>();

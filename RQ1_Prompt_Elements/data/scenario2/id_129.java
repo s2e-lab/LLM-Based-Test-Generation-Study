@@ -8,10 +8,10 @@ import java.util.List;
 
 class Minpath {
     /**
-     * * Given a grid with N rows and N columns (N >= 2) and a positive integer k, 
+     * * Given a grid with N rows and N columns (N >= 2) and a positive integer k,
      * each cell of the grid contains a value. Every integer in the range [1, N * N]
      * inclusive appears exactly once on the cells of the grid.
-
+     *
      * You have to find the minimum path of length k in the grid. You can start
      * from any cell, and in each step you can move to any of the neighbor cells,
      * in other words, you can go to cells which share an edge with you current
@@ -27,7 +27,7 @@ class Minpath {
      * lst_A[j] = lst_B[j].
      * It is guaranteed that the answer is unique.
      * Return an ordered list of the values on the cells that the minimum path go through.
-*/
+     */
     public static List<Integer> minpath(List<List<Integer>> grid, int k) {
         int n = grid.size();
         int val = n * n + 1;
@@ -38,24 +38,24 @@ class Minpath {
                     if (i != 0) {
                         temp.add(grid.get(i - 1).get(j));
                     }
-    
+
                     if (j != 0) {
                         temp.add(grid.get(i).get(j - 1));
                     }
-    
+
                     if (i != n - 1) {
                         temp.add(grid.get(i + 1).get(j));
                     }
-    
+
                     if (j != n - 1) {
                         temp.add(grid.get(i).get(j + 1));
                     }
-    
+
                     val = Collections.min(temp);
                 }
             }
         }
-        List<Integer> ans =new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
         for (int i = 0; i < k; i++) {
             if (i % 2 == 0) {
                 ans.add(1);

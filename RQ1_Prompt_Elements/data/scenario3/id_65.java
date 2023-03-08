@@ -19,7 +19,7 @@ class CircularShift {
      * "11"
      */
     public static String circularShift(int x, int shift) {
-       
+
     }
 
 

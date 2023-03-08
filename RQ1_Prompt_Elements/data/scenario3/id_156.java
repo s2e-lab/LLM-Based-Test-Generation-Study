@@ -41,7 +41,7 @@ class IntToMiniRoman {
      * "m"
      */
     public static String intToMiniRoman(int number) {
-       
+
     }
 
 

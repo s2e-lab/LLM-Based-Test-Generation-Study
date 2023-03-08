@@ -19,7 +19,7 @@ class GreatestCommonDivisor {
      * 12
      */
     public static int greatestCommonDivisor(int a, int b) {
-      
+
     }
 
 

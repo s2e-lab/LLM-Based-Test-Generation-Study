@@ -28,7 +28,7 @@ class Solve1 {
      * "10010"
      */
     public static String solve(int n) {
-       
+
     }
 
 

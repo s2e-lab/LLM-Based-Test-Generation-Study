@@ -42,7 +42,7 @@ class StrongestExtension {
      * "Sp.671235"
      */
     public static String strongestExtension(String className, List<String> extensions) {
-       
+
     }
 
 

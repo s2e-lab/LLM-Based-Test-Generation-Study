@@ -32,7 +32,7 @@ class IsPrime {
      * false
      */
     public static Boolean isPrime(int n) {
-      
+
     }
 
 

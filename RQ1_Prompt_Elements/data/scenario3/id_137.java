@@ -30,7 +30,7 @@ class CompareOne {
      * null
      */
     public static Object compareOne(Object a, Object b) {
-       
+
     }
 
 

@@ -29,7 +29,7 @@ class MatchParens {
             } else {
                 count--;
             }
-            if(count < 0) {
+            if (count < 0) {
                 flag = false;
             }
         }
@@ -43,7 +43,7 @@ class MatchParens {
             } else {
                 count--;
             }
-            if(count < 0) {
+            if (count < 0) {
                 return "No";
             }
         }

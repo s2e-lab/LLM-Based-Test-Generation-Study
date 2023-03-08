@@ -30,7 +30,7 @@ class Encrypt {
      * "e"
      */
     public static String encrypt(String s) {
-        
+
     }
 
 

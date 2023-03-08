@@ -8,7 +8,7 @@ import java.util.List;
 class RemoveDuplicates {
     /**
      * From a list of integers, remove all elements that occur more than once.
-     * Keep order of elements left the same as in the input. 
+     * Keep order of elements left the same as in the input.
      */
     public static List<Object> removeDuplicates(List<Object> numbers) {
         List<Object> result = new ArrayList<Object>();

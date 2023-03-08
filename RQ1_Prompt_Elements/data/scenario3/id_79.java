@@ -24,7 +24,7 @@ class DecimalToBinary {
      * "db1111db"
      */
     public static String decimalToBinary(int decimal) {
-       
+
     }
 
 

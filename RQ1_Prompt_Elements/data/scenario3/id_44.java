@@ -38,7 +38,7 @@ class ChangeBase {
      * "7"
      */
     public static String changeBase(int x, int base) {
-       
+
     }
 
 

@@ -1,9 +1,6 @@
 package scenario3;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 class Specialfilter {
@@ -31,7 +28,7 @@ class Specialfilter {
      * 0
      */
     public static int specialfilter(List<Object> nums) {
-       
+
     }
 
 }

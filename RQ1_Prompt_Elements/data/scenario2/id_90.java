@@ -14,10 +14,10 @@ class NextSmallest {
         if (lst.size() <= 1) {
             return null;
         }
-        Integer smallest = (Integer)lst.get(0);
+        Integer smallest = (Integer) lst.get(0);
         Integer nextSmallest = null;
         for (int i = 1; i < lst.size(); i++) {
-            Integer current = (Integer)lst.get(i);
+            Integer current = (Integer) lst.get(i);
             if (current < smallest) {
                 nextSmallest = smallest;
                 smallest = current;

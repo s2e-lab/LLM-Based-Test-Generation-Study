@@ -29,7 +29,7 @@ class ChooseNum {
      * 546
      */
     public static int chooseNum(int x, int y) {
-       
+
     }
 
 

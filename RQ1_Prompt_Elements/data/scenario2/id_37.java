@@ -14,11 +14,11 @@ class SortEven {
      */
     public static List<Integer> sortEven(List<Integer> l) {
         List<Integer> l2 = new ArrayList<Integer>(l);
-        for(int i = 0; i < l.size(); i++){
-            if(i % 2 == 0){
+        for (int i = 0; i < l.size(); i++) {
+            if (i % 2 == 0) {
                 List<Integer> subl = new ArrayList<Integer>();
-                for(int j = 0; j < l.size(); j++){
-                    if(j % 2 == 0){
+                for (int j = 0; j < l.size(); j++) {
+                    if (j % 2 == 0) {
                         subl.add(l.get(j));
                     }
                 }

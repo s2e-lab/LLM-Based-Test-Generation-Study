@@ -35,7 +35,7 @@ class IsSimplePower {
      * true
      */
     public static Boolean isSimplePower(int x, int n) {
-       
+
     }
 
 

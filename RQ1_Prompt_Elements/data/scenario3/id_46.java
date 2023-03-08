@@ -26,7 +26,7 @@ class Fib4 {
      * 386
      */
     public static int fib4(int n) {
-       
+
     }
 
 

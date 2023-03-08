@@ -6,7 +6,7 @@ import java.util.*;
 
 class Common {
     /**
-     * Return sorted unique common elements for two lists. 
+     * Return sorted unique common elements for two lists.
      */
     public static List<Object> common(List<Integer> l1, List<Object> l2) {
         Set<Integer> set = new HashSet<Integer>();

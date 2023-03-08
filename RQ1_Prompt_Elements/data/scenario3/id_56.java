@@ -31,7 +31,7 @@ class CorrectBracketing {
      * false
      */
     public static Boolean correctBracketing(String brackets) {
-        
+
     }
 
 

@@ -15,7 +15,7 @@ class SortNumbers {
 
         int[] numbersInt = new int[numbersArray.length];
         for (int i = 0; i < numbersArray.length; i++) {
-            
+
             if (numbersArray[i].equals("zero")) {
                 numbersInt[i] = 0;
             } else if (numbersArray[i].equals("one")) {
@@ -36,8 +36,7 @@ class SortNumbers {
                 numbersInt[i] = 8;
             } else if (numbersArray[i].equals("nine")) {
                 numbersInt[i] = 9;
-            }
-            else{
+            } else {
                 numbersInt[i] = -1;
             }
         }

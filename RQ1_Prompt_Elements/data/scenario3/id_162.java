@@ -1,11 +1,6 @@
 package scenario3;
 
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-
 class StringToMd5 {
     /**
      * Given a string 'text', return its md5 hash equivalent string.
@@ -23,7 +18,7 @@ class StringToMd5 {
      * "5f4dcc3b5aa765d61d8327deb882cf99"
      */
     public static String stringToMd5(String text) {
-       
+
     }
 
 

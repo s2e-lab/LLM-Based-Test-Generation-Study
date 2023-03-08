@@ -4,7 +4,6 @@ package scenario2;
 class CountUpper {
     /**
      * * Given a string s, count the number of uppercase vowels in even indices.
-     * 
      */
     public static int countUpper(String s) {
         int result = 0;

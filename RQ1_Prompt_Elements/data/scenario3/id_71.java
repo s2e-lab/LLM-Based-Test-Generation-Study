@@ -31,7 +31,7 @@ class TriangleArea1 {
      * -1
      */
     public static Number triangleArea(int a, int b, int c) {
-       
+
     }
 
 

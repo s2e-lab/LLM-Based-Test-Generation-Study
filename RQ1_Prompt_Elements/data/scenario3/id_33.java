@@ -1,7 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -30,7 +28,7 @@ class SortThird {
      * [2, 6, 3, 4, 8, 9, 5, 1]
      */
     public static List<Integer> sortThird(List<Integer> l) {
-       
+
     }
 
 

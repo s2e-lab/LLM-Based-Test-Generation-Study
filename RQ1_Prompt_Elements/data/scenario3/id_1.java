@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,7 +21,7 @@ class SeparateParenGroups {
      * ["()", "(())", "(()())"]
      */
     public static List<String> separateParenGroups(String parenString) {
-       
+
     }
 
 

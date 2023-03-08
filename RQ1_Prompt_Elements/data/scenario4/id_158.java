@@ -1,7 +1,9 @@
 package scenario4;
 
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 class FindMax {
@@ -40,7 +42,7 @@ class FindMax {
         if (words == null || words.size() == 0) {
             return null;
         }
-        
+
         String maxWord = words.get(0);
         int maxUnique = 0;
         for (String word : words) {
@@ -55,7 +57,7 @@ class FindMax {
                 maxWord = word;
             }
         }
-        
+
         return maxWord;
     }
 

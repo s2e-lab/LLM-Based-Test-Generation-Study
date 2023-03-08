@@ -1,9 +1,6 @@
 package scenario3;
 
 
-import java.util.Arrays;
-
-
 class AntiShuffle {
     /**
      * * Write a function that takes a string and returns an ordered version of it.
@@ -33,9 +30,8 @@ class AntiShuffle {
      * ".Hi My aemn is Meirst .Rboot How aer ?ouy"
      */
     public static String antiShuffle(String s) {
-      
-    }
 
+    }
 
 
 }

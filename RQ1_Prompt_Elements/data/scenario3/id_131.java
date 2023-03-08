@@ -25,7 +25,7 @@ class Digits {
      * 0
      */
     public static int digits(int n) {
-       
+
     }
 
 

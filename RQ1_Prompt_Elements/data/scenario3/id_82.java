@@ -44,7 +44,7 @@ class PrimeLength {
      * false
      */
     public static Boolean primeLength(String string) {
-       
+
     }
 
 

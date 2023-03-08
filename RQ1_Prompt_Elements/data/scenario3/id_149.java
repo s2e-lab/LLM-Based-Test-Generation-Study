@@ -1,9 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -39,7 +36,7 @@ class SortedListSum {
      * ["cc", "dd", "aaaa", "bbbb"]
      */
     public static List<Object> sortedListSum(List<String> lst) {
-      
+
     }
 
 

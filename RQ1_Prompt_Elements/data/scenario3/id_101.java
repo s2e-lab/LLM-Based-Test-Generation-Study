@@ -1,8 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -29,7 +27,7 @@ class WordsString {
      * ["ahmed", "gamal"]
      */
     public static List<Object> wordsString(String s) {
-      
+
     }
 
 

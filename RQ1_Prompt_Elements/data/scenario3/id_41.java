@@ -23,7 +23,7 @@ class CarRaceCollision {
      * 100
      */
     public static int carRaceCollision(int n) {
-       
+
     }
 
 

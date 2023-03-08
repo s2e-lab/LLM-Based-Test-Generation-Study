@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +22,7 @@ class RescaleToUnit {
      * [0.25, 0.0, 1.0, 0.5, 0.75]
      */
     public static List<Double> rescaleToUnit(List<Double> numbers) {
-       
+
     }
 
 

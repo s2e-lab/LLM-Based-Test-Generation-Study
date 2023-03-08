@@ -1,6 +1,7 @@
 package scenario4;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 class Histogram {

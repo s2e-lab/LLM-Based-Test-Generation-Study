@@ -3,7 +3,7 @@ package scenario2;
 
 class Iscube {
     /**
-     * * Write a function that takes an integer a and returns True 
+     * * Write a function that takes an integer a and returns True
      * if this integer is a cube of some integer number.
      * Note: you may assume the input is always valid.
      */

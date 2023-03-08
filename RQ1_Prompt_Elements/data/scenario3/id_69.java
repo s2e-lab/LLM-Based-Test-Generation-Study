@@ -67,7 +67,7 @@ class Search {
      * -1
      */
     public static int search(List<Integer> lst) {
-       
+
     }
 
 

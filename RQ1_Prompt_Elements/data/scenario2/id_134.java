@@ -7,7 +7,6 @@ class CheckIfLastCharIsALetter {
      * of a given string is an alphabetical character and is not
      * a part of a word, and False otherwise.
      * Note: "word" is a group of characters separated by space.
-
      */
     public static Boolean checkIfLastCharIsALetter(String txt) {
         if (txt.length() == 0) {

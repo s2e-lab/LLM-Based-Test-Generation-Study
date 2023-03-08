@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,9 +23,8 @@ class F {
      * [1, 2, 6]
      */
     public static List<Integer> f(int n) {
-       
+
     }
 
-   
 
 }

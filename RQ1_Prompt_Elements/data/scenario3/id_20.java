@@ -1,8 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -23,7 +21,7 @@ class FindClosestElements {
      * [2.2, 3.1]
      */
     public static List<Double> findClosestElements(List<Double> numbers) {
-       
+
     }
 
 }

@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,7 +44,7 @@ class EvenOddPalindrome {
      * [0, 1]
      */
     public static List<Integer> evenOddPalindrome(int n) {
-      
+
     }
 
 }

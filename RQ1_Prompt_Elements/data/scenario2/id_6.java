@@ -20,7 +20,7 @@ class ParseNestedParens {
                 maximum_depth = Math.max(maximum_depth, count);
             } else if (parenString.charAt(i) == ')') {
                 count--;
-                if(count==0){
+                if (count == 0) {
                     result.add(maximum_depth);
                     maximum_depth = 0;
 

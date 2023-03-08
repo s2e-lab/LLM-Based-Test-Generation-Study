@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +22,7 @@ class Derivative {
      * []
      */
     public static List<Object> derivative(List<Integer> xs) {
-       
+
     }
 
 

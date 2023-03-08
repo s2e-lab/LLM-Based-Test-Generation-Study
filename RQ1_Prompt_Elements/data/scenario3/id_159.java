@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -50,7 +49,7 @@ class Eat {
      */
     public static List<Integer> eat(int number, int need, int remaining) {
 
-       
+
     }
 
 

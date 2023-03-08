@@ -1,9 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 class UniqueDigits {
@@ -29,7 +26,7 @@ class UniqueDigits {
      * [31, 135]
      */
     public static List<Object> uniqueDigits(List<Integer> x) {
-       
+
     }
 
 }

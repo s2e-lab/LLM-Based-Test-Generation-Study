@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,7 +18,7 @@ class ParseNestedParens {
      * [4]
      */
     public static List<Integer> parseNestedParens(String parenString) {
-      
+
     }
 
 

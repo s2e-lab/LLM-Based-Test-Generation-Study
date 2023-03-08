@@ -3,7 +3,7 @@ package scenario2;
 
 class XOrY {
     /**
-     * A simple program which should return the value of x if n is 
+     * A simple program which should return the value of x if n is
      * a prime number and should return the value of y otherwise.
      */
     public static int xOrY(int n, int x, int y) {

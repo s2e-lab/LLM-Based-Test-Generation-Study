@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,7 +20,7 @@ class IncrList {
      * [6, 3, 6, 3, 4, 4, 10, 1, 124]
      */
     public static List<Object> incrList(List<Object> l) {
-       
+
     }
 
 }

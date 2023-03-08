@@ -29,7 +29,7 @@ class FizzBuzz {
      * 8026
      */
     public static int fizzBuzz(int n) {
-       
+
     }
 
 

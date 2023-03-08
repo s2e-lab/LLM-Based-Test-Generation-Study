@@ -1,7 +1,7 @@
 package scenario3;
 
 
-import java.util.*;
+import java.util.List;
 
 
 class Common {
@@ -18,7 +18,7 @@ class Common {
      * []
      */
     public static List<Object> common(List<Integer> l1, List<Object> l2) {
-       
+
     }
 
 

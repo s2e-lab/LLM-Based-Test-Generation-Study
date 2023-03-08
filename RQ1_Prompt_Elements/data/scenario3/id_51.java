@@ -28,7 +28,7 @@ class RemoveVowels {
      * "ybcd"
      */
     public static String removeVowels(String text) {
-       
+
     }
 
 

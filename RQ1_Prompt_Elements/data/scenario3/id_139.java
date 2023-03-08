@@ -24,9 +24,8 @@ class SpecialFactorial {
      * 1
      */
     public static long specialFactorial(int n) {
-       
-    }
 
+    }
 
 
 }

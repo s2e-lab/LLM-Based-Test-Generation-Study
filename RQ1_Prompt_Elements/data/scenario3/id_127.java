@@ -43,9 +43,8 @@ class Intersection {
      */
     public static String intersection(List<Integer> interval1, List<Integer> interval2) {
 
-       
+
     }
 
-   
 
 }

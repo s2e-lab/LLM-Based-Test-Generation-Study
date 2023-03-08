@@ -1,9 +1,6 @@
 package scenario3;
 
 
-import java.util.Arrays;
-
-
 class SortNumbers {
     /**
      * Input is a space-delimited string of numbers from 'zero' to 'nine'.

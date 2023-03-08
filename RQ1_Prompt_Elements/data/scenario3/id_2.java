@@ -15,7 +15,7 @@ class TruncateNumber {
      */
     // write a code with solving floating point issue
     public static Double truncateNumber(Double number) {
-       
+
     }
 
 

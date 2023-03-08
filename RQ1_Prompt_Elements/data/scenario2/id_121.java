@@ -7,7 +7,6 @@ import java.util.List;
 class Solution {
     /**
      * Given a non-empty list of integers, return the sum of all of the odd elements that are in even positions.
-     * 
      */
     public static int solution(List<Integer> lst) {
         int sum = 0;

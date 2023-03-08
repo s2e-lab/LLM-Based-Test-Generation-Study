@@ -1,7 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -23,7 +21,7 @@ class SortEven {
      * [-12, 8, 3, 4, 5, 2, 12, 11, 23, -10]
      */
     public static List<Integer> sortEven(List<Integer> l) {
-        
+
     }
 
 

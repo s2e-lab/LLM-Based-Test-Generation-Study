@@ -26,7 +26,7 @@ class Fibfib {
      * 927
      */
     public static int fibfib(int n) {
-       
+
     }
 
 

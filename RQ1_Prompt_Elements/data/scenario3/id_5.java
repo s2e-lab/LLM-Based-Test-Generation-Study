@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,7 +20,7 @@ class Intersperse {
      * [2, 2, 2, 2, 2]
      */
     public static List<Object> intersperse(List<Object> numbers, int delimiter) {
-      
+
     }
 
 

@@ -27,7 +27,7 @@ class Solution {
      * 3
      */
     public static int solution(List<Integer> lst) {
-       
+
     }
 
 

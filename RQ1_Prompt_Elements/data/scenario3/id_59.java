@@ -19,7 +19,7 @@ class LargestPrimeFactor {
      * 29
      */
     public static int largestPrimeFactor(int n) {
-       
+
     }
 
 

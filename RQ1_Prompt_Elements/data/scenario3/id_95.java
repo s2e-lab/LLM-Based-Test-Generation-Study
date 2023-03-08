@@ -1,8 +1,5 @@
 package scenario3;
 
-import java.util.Map;
-
-
 class CheckDictCase {
     /**
      * * Given a dictionary, return True if all keys are strings in lower
@@ -31,7 +28,7 @@ class CheckDictCase {
      * false
      */
     public static Boolean checkDictCase(Object dict) {
-       
+
     }
 
 

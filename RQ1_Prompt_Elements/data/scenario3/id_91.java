@@ -27,7 +27,7 @@ class IsBored {
      * 0
      */
     public static int isBored(String s) {
-       
+
     }
 
 }

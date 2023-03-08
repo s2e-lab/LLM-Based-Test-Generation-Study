@@ -23,7 +23,7 @@ class VowelsCount {
      * 3
      */
     public static int vowelsCount(String s) {
-       
+
     }
 
 

@@ -45,7 +45,7 @@ class GetClosestVowel {
      * "o"
      */
     public static String getClosestVowel(String word) {
-       
+
     }
 
 

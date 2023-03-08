@@ -1,7 +1,6 @@
 package scenario3;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,7 +40,7 @@ class SumSquares1 {
      * -1448
      */
     public static int sumSquares(List<Object> lst) {
-      
+
     }
 
 }

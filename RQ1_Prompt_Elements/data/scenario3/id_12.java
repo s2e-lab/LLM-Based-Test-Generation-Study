@@ -20,7 +20,7 @@ class Longest {
      * "zzzz"
      */
     public static String longest(List<Object> strings) {
-       
+
     }
 
 

@@ -25,7 +25,7 @@ class Monotonic {
      * true
      */
     public static Boolean monotonic(List<Integer> l) {
-        
+
     }
 
 

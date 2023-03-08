@@ -29,7 +29,7 @@ class FruitDistribution {
      * 19
      */
     public static int fruitDistribution(String s, int n) {
-       
+
     }
 
 

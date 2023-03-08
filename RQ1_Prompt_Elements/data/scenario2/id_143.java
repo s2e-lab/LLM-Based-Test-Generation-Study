@@ -8,11 +8,10 @@ class WordsInSentence {
      * and you have to return a string that contains the words from the original sentence,
      * whose lengths are prime numbers,
      * the order of the words in the new string should be the same as the original one.
-
-     * Constraints:
-     *     * 1 <= len(sentence) <= 100
-     *     * sentence contains only letters
      *
+     * Constraints:
+     * * 1 <= len(sentence) <= 100
+     * * sentence contains only letters
      */
     public static String wordsInSentence(String sentence) {
         String[] words = sentence.split(" ");

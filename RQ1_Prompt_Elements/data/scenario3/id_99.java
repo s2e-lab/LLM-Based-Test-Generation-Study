@@ -30,7 +30,7 @@ class ClosestInteger {
      * 0
      */
     public static int closestInteger(String value) {
-       
+
     }
 
 

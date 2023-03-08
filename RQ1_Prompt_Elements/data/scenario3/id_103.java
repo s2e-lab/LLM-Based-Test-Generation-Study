@@ -39,7 +39,7 @@ class RoundedAvg {
      * "0b101"
      */
     public static Object roundedAvg(int n, int m) {
-       
+
     }
 
 

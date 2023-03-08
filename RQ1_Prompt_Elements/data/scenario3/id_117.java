@@ -1,6 +1,5 @@
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,7 +33,7 @@ class SelectWords {
      * ["b", "c", "d", "f"]
      */
     public static List<Object> selectWords(String s, int n) {
-       
+
     }
 
 
