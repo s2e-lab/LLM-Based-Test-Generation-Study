@@ -1,0 +1,25 @@
+[
+{
+    "id": "cmpl-6rfJ6B4kgPMKVo5roKBGpjcwgx0OQ",
+    "object": "text_completion",
+    "created": 1678248188,
+    "model": "code-davinci-002",
+    "choices": [
+        {
+            "text": "\n\t\t/**\n\t\t* Test case 1.\n\t\t* The input is a string with no brackets.\n\t\t* The expected result is true.\n\t\t*/\n\t\t@Test\n\t\tvoid test1() {\n\t\t\t\tassertTrue(CorrectBracketing.correctBracketing(\"\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 2.\n\t\t* The input is a string with one opening bracket.\n\t\t* The expected result is false.\n\t\t*/\n\t\t@Test\n\t\tvoid test2() {\n\t\t\t\tassertFalse(CorrectBracketing.correctBracketing(\"<\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 3.\n\t\t* The input is a string with one closing bracket.\n\t\t* The expected result is false.\n\t\t*/\n\t\t@Test\n\t\tvoid test3() {\n\t\t\t\tassertFalse(CorrectBracketing.correctBracketing(\">\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 4.\n\t\t* The input is a string with one opening bracket and one closing bracket.\n\t\t* The expected result is true.\n\t\t*/\n\t\t@Test\n\t\tvoid test4() {\n\t\t\t\tassertTrue(CorrectBracketing.correctBracketing(\"<>\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 5.\n\t\t* The input is a string with two opening brackets and one closing bracket.\n\t\t* The expected result is false.\n\t\t*/\n\t\t@Test\n\t\tvoid test5() {\n\t\t\t\tassertFalse(CorrectBracketing.correctBracketing(\"<<>\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 6.\n\t\t* The input is a string with one opening bracket and two closing brackets.\n\t\t* The expected result is false.\n\t\t*/\n\t\t@Test\n\t\tvoid test6() {\n\t\t\t\tassertFalse(CorrectBracketing.correctBracketing(\"<>>\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 7.\n\t\t* The input is a string with two opening brackets and two closing brackets.\n\t\t* The expected result is true.\n\t\t*/\n\t\t@Test\n\t\tvoid test7() {\n\t\t\t\tassertTrue(CorrectBracketing.correctBracketing(\"<<>>\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 8.\n\t\t* The input is a string with two opening brackets and three closing brackets.\n\t\t* The expected result is false.\n\t\t*/\n\t\t@Test\n\t\tvoid test8() {\n\t\t\t\tassertFalse(CorrectBracketing.correctBracketing(\"<<>>>\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 9.\n\t\t* The input is a string with three opening brackets and two closing brackets.\n\t\t* The expected result is false.\n\t\t*/\n\t\t@Test\n\t\tvoid test9() {\n\t\t\t\tassertFalse(CorrectBracketing.correctBracketing(\"<<<>>\"));\n\t\t}\n\t\t\n\t\t/**\n\t\t* Test case 10.\n\t\t* The input is a string with three opening brackets and three closing brackets.\n\t\t* The expected result is true.\n\t\t*/\n\t\t@Test\n\t\tvoid test10() {\n\t\t\t\tassertTrue(CorrectBracketing.correctBracketing(\"<<<>>>\"));\n\t\t}\n}\n\n// CorrectBracketingTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link CorrectBracketing}.\n* It contains ten unit test cases for the {@link CorrectBracketing#correctBracketing(String)} method.\n*/\nclass CorrectBracketingTest {\n\t\t\n\t\t/**\n\t\t* Test case 1.\n\t\t* The input is a string with no brackets.\n\t\t* The expected result is true.\n\t\t*/\n\t\t@Test\n\t\tvoid test1() {",
+            "index": 0,
+            "logprobs": null,
+            "finish_reason": "length"
+        }
+    ],
+    "usage": {
+        "prompt_tokens": 229,
+        "completion_tokens": 1000,
+        "total_tokens": 1229
+    },
+    "time_taken": 281.4665560722351,
+    "prompt_id": "56",
+    "original_code": "// CorrectBracketing.java\npackage scenario1;\n\nclass CorrectBracketing {\n\n    public static Boolean correctBracketing(String brackets) {\n        int count = 0;\n        for (int i = 0; i < brackets.length(); i++) {\n            if (brackets.charAt(i) == '<') {\n                count++;\n            } else {\n                count--;\n            }\n            if (count < 0) {\n                return false;\n            }\n        }\n        return count == 0;\n    }\n}\n",
+    "test_prompt": "// CorrectBracketingTest.java\npackage scenario1;\n\n\nimport org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\n/**\n* Test class of {@link CorrectBracketing}.\n* It contains ten unit test cases for the {@link CorrectBracketing#correctBracketing(String)} method.\n*/\nclass CorrectBracketingTest {"
+},
+]

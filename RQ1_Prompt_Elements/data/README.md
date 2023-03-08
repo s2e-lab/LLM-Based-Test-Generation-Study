@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Overview
 
 This directory contains the source code from HumanEval that are modified to represent 3 scenarios:
@@ -12,3 +13,8 @@ This directory contains the source code from HumanEval that are modified to repr
 The folder `/tests/` contains JUnit tests we semi-automatically created for these samples.
 
 The file `HumanEval_java_v1.jsonl` is the original JSONL file from the extended HumanEval dataset.
+=======
+version https://git-lfs.github.com/spec/v1
+oid sha256:dc02fcadd504f4cd2b0eb56508fe9df2a4352a173853fd292ced83fac66e6597
+size 455
+>>>>>>> e7946f3d89dad12ea41ef86c503910bf4f1261d9

@@ -58,15 +58,15 @@ def generate_code(prompt, max_tokens, is_fix=False):
     return response
 
 
-def save_generated_code(prompt: dict, response: dict, output_folder: str) -> None:
+def save_generated_code(prompt: dict, response: dict, max_tokens: int, output_folder: str) -> None:
     """
     Saves the generated Unit Test on a separate file in the output folder.
-    @param max_tokens: maximum number of tokens used for generation
+    @param max_tokens:
     @param prompt: prompt used for test generation.
     @param response: the response returned by OpenAI
-    @param output_folder: where to save the Unit Test.
+    @param output_folder: where to save the Unit Test. The file will be named as {response['prompt_id']}Test.java
     """
-    with open(os.path.join(output_folder, f"{response['prompt_id']}Test.java"), "w") as gen_file:
+    with open(os.path.join(output_folder, f"{response['prompt_id']}T{max_tokens}Test.java"), "w") as gen_file:
         gen_file.write(prompt["test_prompt"] + "\n" + response['choices'][0]["text"])
 
 
@@ -88,14 +88,18 @@ def get_output_files(config: dict, scenario: str, max_tokens: int) -> tuple:
     @param max_tokens: maximum number of tokens
     @param config: analysis configuration
     @param scenario: filename for the scenario (ex: "Scenario1_prompt.json")
-    @return:
+    @return: a tuple:
+    - output_folder: <BASE_DIR>/output/"
+    - scenario_folder: output_folder/<scenario>
+    - json_file = output_folder/<scenario>_output_<max_tokens>.json
+    - csv_file = output_folder/<scenario>_output_<max_tokens>.csv
     """
+    scenario_name = scenario.split("_")[0]
     output_folder = os.path.join(config["BASE_DIRECTORY"], "output/")
-    scenario_folder = os.path.join(output_folder, scenario.split("_")[0])
-    response_file = os.path.join(output_folder, scenario.replace("prompt", f"output-{max_tokens}"))
-    csv_file = response_file.replace(".json", ".csv")
-    # JSON file in the format scenariox_output-token.json
-    return output_folder, scenario_folder, response_file, csv_file
+    scenario_folder = os.path.join(output_folder, scenario_name)
+    json_file = os.path.join(output_folder, f"{scenario_name}_output_{max_tokens}.json")
+    csv_file = json_file.replace(".json", ".csv")
+    return output_folder, scenario_folder, json_file, csv_file
 
 
 def get_fixed_files(config: dict, scenario: str, max_tokens: int) -> tuple:
@@ -145,7 +149,12 @@ def save_response(json_file, csv_file, prompt: dict, prompts: list, response: di
     json_file.write("\n")
 
     csv_file.writerow(
-        [response['id'], response['prompt_id'], response['time_taken'], response["choices"][0]["finish_reason"]])
+        [response['id'], response['prompt_id'], response['time_taken'],
+         response["choices"][0]["finish_reason"],
+         response["original_code"],
+         response['test_prompt'],
+         prompt["test_prompt"] + "\n" + response['choices'][0]["text"]
+    ])
 
 
 def generate_tests(config: dict, scenario: str, prompts: list, max_tokens: int) -> None:
@@ -159,19 +168,19 @@ def generate_tests(config: dict, scenario: str, prompts: list, max_tokens: int) 
 
     # sets the data output paths
     output_folder, scenario_folder, response_file, csv_file = get_output_files(config, scenario, max_tokens)
-
     # opens output file in write mode (overwrite prior results)
     with open(response_file, "w") as json_file, open(csv_file, "w") as csv_out:
         csv_file = csv.writer(csv_out, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
+        csv_file.writerow(["ID","PROMPT_ID","DURATION","FINISH_REASON","ORIGINAL_CODE","TEST_PROMPT", "GENERATED_TEST"])
         json_file.write("[\n")
-        for prompt in prompts[0:2]:
+        for prompt in prompts[0:1]:
             print("PROMPT", prompt["id"])
             try:
                 # query Open AI to generate the unit test
                 response = generate_code(prompt, max_tokens)
                 # save the generated test in a file
-                save_generated_code(prompt, response, output_folder)
+                print("Saving", prompt["id"], "at", scenario_folder)
+                save_generated_code(prompt, response, max_tokens, scenario_folder)
                 # save the response's metadata in CSV and JSON
                 save_response(json_file, csv_file, prompt, prompts, response)
                 print("Duration: ", response['time_taken'],

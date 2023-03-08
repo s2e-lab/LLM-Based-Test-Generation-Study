@@ -41,8 +41,8 @@ def fix_extracode(config: dict, scenario: str) -> None:
         if old_code != r["choices"][0]["text"]:
                 r["removed_extracode"] = True
                 print("Code was fixed")
-            
-        save_generated_code(r, r, output_folder)
+
+        save_generated_code(r, r, max_tokens, output_folder)
         filtered_responses.append(r)
 
 

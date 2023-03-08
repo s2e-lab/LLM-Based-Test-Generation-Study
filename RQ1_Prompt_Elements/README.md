@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Scripts
 
 - `generate_tests_openai.py`:
@@ -18,3 +19,4 @@ The token size and scenario under analysis are specified as program arguments.
 
 - `data`: Java samples extracted from HumanEval (java version)
 - `OpenAI_Data`: JSON files with prompts used to generate tests (`inputs`) and the outcome of the results (`output`) 
+- `RQ1_Result`

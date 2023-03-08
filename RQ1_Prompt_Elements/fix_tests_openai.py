@@ -22,7 +22,7 @@ def fix(config: dict, scenario: str) -> None:
             if not r["choices"][0]["finish_reason"] == "stop":
                 # generates new code, with token limit size increased
                 new_response = generate_code(r, NEW_TOKEN_LIMIT, True)
-                save_generated_code(r, new_response, output_folder)
+                save_generated_code(r, new_response, max_tokens, output_folder)
                 filtered_responses.append(new_response)
                 print(new_response)
                 print("Duration: ", new_response['time_taken'],
