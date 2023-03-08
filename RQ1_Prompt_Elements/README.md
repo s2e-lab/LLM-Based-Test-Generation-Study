@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Scripts
 
 - `generate_tests_openai.py`:

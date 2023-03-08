@@ -15,7 +15,7 @@ import static s2e.lab.PromptUtils.computeUnitTestPrompt;
 import static s2e.lab.PromptUtils.save;
 
 /**
- * This class is used to create the OpenAI prompt for the RQ1.
+ * This class is used to create the OpenAI prompts for the RQ2 according to each different scenario.
  * All of these are saved in JSON files.
  */
 public class TestPromptCreator {
