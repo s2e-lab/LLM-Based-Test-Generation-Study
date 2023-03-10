@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static s2e.lab.PromptUtils.save;
-import static s2e.lab.TestPromptCreator.RQ1_FOLDER_NAME;
+//import static s2e.lab.TestPromptCreator.RQ1_FOLDER_NAME;
 
 /**
  * This class aims to collect basic statics about the datasets.

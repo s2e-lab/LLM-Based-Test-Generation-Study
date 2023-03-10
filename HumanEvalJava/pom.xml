@@ -4,109 +4,127 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>s2e.lab</groupId>
-    <artifactId>ContextRetriever</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>mbxp</groupId>
+    <artifactId>HumanEvalJava</artifactId>
+    <version>1.0</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--        <jdk.version>11</jdk.version>-->
+
     </properties>
+
     <dependencies>
+        <!-- JUnit 5-->
         <dependency>
-            <groupId>com.github.javaparser</groupId>
-            <artifactId>javaparser-symbol-solver-core</artifactId>
-            <version>3.24.10</version>
-        </dependency>
-
-        <!-- for named placeholders -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>1.10.0</version>
-        </dependency>
-        <!-- Eclipse libraries, specify which ones to avoid this error:  https://github.com/wala/WALA/issues/1083 -->
-        <dependency>
-            <groupId>org.eclipse.platform</groupId>
-            <artifactId>org.eclipse.core.resources</artifactId>
-            <version>3.14.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.platform</groupId>
-            <artifactId>org.eclipse.equinox.common</artifactId>
-            <version>3.14.100</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.platform</groupId>
-            <artifactId>org.eclipse.core.commands</artifactId>
-            <version>3.9.700</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- IBM Wala -->
-        <dependency> <!-- WALA Core -->
-            <groupId>com.ibm.wala</groupId>
-            <artifactId>com.ibm.wala.core</artifactId>
-            <version>1.5.7</version>
-        </dependency>
-        <dependency> <!-- Utility library included with the (WALA) -->
-            <groupId>com.ibm.wala</groupId>
-            <artifactId>com.ibm.wala.util</artifactId>
-            <version>1.5.7</version>
-            <type>jar</type>
-        </dependency>
-        <dependency> <!-- WALA Common AST core library -->
-            <groupId>com.ibm.wala</groupId>
-            <artifactId>com.ibm.wala.cast</artifactId>
-            <version>1.5.7</version>
-        </dependency>
-        <dependency><!-- WALA Shrike library for bytecode reading and instrumentation-->
-            <groupId>com.ibm.wala</groupId>
-            <artifactId>com.ibm.wala.shrike</artifactId>
-            <version>1.5.7</version>
-        </dependency>
-        <dependency> <!-- WALA Common AST core Java front-end functionality -->
-            <groupId>com.ibm.wala</groupId>
-            <artifactId>com.ibm.wala.cast.java</artifactId>
-            <version>1.5.7</version>
-        </dependency>
-        <dependency> <!-- WALA Dalvik frontend -->
-            <groupId>com.ibm.wala</groupId>
-            <artifactId>com.ibm.wala.dalvik</artifactId>
-            <version>1.5.7</version>
-        </dependency>
-        <dependency> <!-- WALA Common AST Java ECJ front-end -->
-            <groupId>com.ibm.wala</groupId>
-            <artifactId>com.ibm.wala.cast.java.ecj</artifactId>
-            <version>1.5.7</version>
-        </dependency>
-
-        <dependency>  <!-- JUnit -->
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.8.1</version>
             <scope>compile</scope>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.googlecode.json-simple</groupId>-->
-<!--            <artifactId>json-simple</artifactId>-->
-<!--            <version>1.1.1</version>-->
-<!--        </dependency>-->
-
         <dependency>
-            <groupId>com.github.cliftonlabs</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>4.0.1</version>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.agent</artifactId>
+            <classifier>runtime</classifier>
+            <scope>test</scope>
+            <version>0.8.8</version>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-        </dependency>
-
 
     </dependencies>
 
+    <build>
+
+        <plugins>
+            <!-- JaCoCo to compute code coverage -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-site-plugin</artifactId>-->
+
+<!--            </plugin>-->
+
+<!--            <plugin>-->
+<!--                <groupId>org.jacoco</groupId>-->
+<!--                <artifactId>jacoco-maven-plugin</artifactId>-->
+<!--                <version>0.8.8</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>default-prepare-agent</id>-->
+<!--                        <goals>-->
+<!--                            <goal>prepare-agent</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                    <execution>-->
+<!--                        <id>default-report</id>-->
+<!--                        <goals>-->
+<!--                            <goal>report</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                    <execution>-->
+<!--                        <id>default-check</id>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <rules>-->
+<!--                                <rule>-->
+<!--                                    <element>BUNDLE</element>-->
+<!--                                    <limits>-->
+<!--                                        <limit>-->
+<!--                                            <counter>COMPLEXITY</counter>-->
+<!--                                            <value>COVEREDRATIO</value>-->
+<!--                                            <minimum>0.60</minimum>-->
+<!--                                        </limit>-->
+<!--                                    </limits>-->
+<!--                                </rule>-->
+<!--                            </rules>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-surefire-plugin</artifactId>-->
+<!--&lt;!&ndash;                <version>3.</version>&ndash;&gt;-->
+
+<!--            </plugin>-->
+            <!-- Ignore scenario 3 because its empty implementation generates compilation errors -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/scenario3/*.java</exclude>
+                    </excludes>
+                    <testExcludes>
+                        <testExclude>**/scenario3/*.java</testExclude>
+                    </testExcludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
