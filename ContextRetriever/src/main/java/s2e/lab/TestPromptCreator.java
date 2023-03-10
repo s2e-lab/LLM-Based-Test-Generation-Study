@@ -20,9 +20,9 @@ import static s2e.lab.PromptUtils.save;
  */
 public class TestPromptCreator {
     public static String BASE_DIR = "../";
-    public static String HUMAN_EVAL_JAVA = BASE_DIR + "HumanEvalJava/src/";
-    public static String HUMAN_EVAL_SCENARIO = HUMAN_EVAL_JAVA + "main/java/scenario%d/";
-    public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "test/scenario%d/";
+    public static String HUMAN_EVAL_JAVA = BASE_DIR + "HumanEvalJava/";
+    public static String HUMAN_EVAL_SCENARIO = HUMAN_EVAL_JAVA + "src/main/java/scenario%d/";
+    public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "src/test/scenario%d/";
     public static String RQ2_BASE_DIR = BASE_DIR + "RQ2_Prompt_Elements/";
     public static String RQ2_PROMPT_OUTPUT_FILE = RQ2_BASE_DIR + "OpenAI_Data/input/scenario%d_prompt.json";
 

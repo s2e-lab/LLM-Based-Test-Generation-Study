@@ -3,20 +3,19 @@ package s2e.lab;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import org.apache.commons.text.StringSubstitutor;
-import org.junit.jupiter.api.Test;
 import s2e.lab.searcher.JavaSearcher;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.String.format;
 import static s2e.lab.PromptUtils.HUMAN_EVAL_TEST_TEMPLATE;
-import static s2e.lab.TestPromptCreator.HUMAN_EVAL_SCENARIO;
-import static s2e.lab.TestPromptCreator.HUMAN_EVAL_TEST_FOLDER;
+import static s2e.lab.TestPromptCreator.*;
 
 /**
  * This class creates JUnit tests for the HumanEval dataset (RQ1).
@@ -29,7 +28,7 @@ public class HumanEvalJUnitTestGenerator {
     public static void main(String[] args) throws IOException {
         // scenario 4 is the one that has the full implementation
         File projectDirectory = new File(format(HUMAN_EVAL_SCENARIO, 4));
-
+        StringBuilder stats = new StringBuilder("Scenario\tFile\t#Unique Tests Methods\t#Declared Methods\n");
         // retrieves all classes under test
         for (File javaFile : JavaSearcher.findJavaFiles(projectDirectory)) {
             System.out.println(javaFile.getName());
@@ -38,21 +37,50 @@ public class HumanEvalJUnitTestGenerator {
             params.put("className", PromptUtils.getPrimaryClass(cu).getNameAsString());
             params.put("importedPackages", PromptUtils.getImportedPackages(cu));
             for (int i = 1; i <= 4; i++) {
+                List<String> testMethodsList = getTestMethods(javaFile, i, params.get("className"));
                 params.put("packageName", "scenario" + i);
-                params.put("testMethods", getTestMethods(javaFile, i, params.get("className")));
+                params.put("testMethods", String.join("", testMethodsList));
                 String unitTest = StringSubstitutor.replace(HUMAN_EVAL_TEST_TEMPLATE, params);
-                File outputFile = new File(format(RQ1_TEST_FOLDER_NAME, i, javaFile.getName().replace(".java","")));
-                System.out.println(outputFile);
+                File outputFile = new File(format(RQ1_TEST_FOLDER_NAME, i, javaFile.getName().replace(".java", "")));
                 System.out.println(unitTest);
                 try (FileWriter file = new FileWriter(outputFile)) {
                     file.write(unitTest);
                 }
+
+                stats.append(params.get("packageName"))
+                        .append("\t")
+                        .append(javaFile.getName())
+                        .append("\t")
+                        .append(testMethodsList.size())
+                        .append("\t")
+                        .append(PromptUtils.getPrimaryClass(cu).getMethods().size())
+                        .append("\n");
             }
         }
+
+        try (FileWriter file = new FileWriter(HUMAN_EVAL_JAVA + "statistics.txt")) {
+            file.write(stats.toString());
+        }
+
     }
 
-    private static String getTestMethods(File javaFile, int scenarioNo, String className) throws IOException {
-        StringBuilder testBody = new StringBuilder();
+    /**
+     * Returns a list of strings. Each string contains one test method like this:
+     * <code>
+     * &#64;Test
+     * public void testN() throws Exception{
+     * assertEquals(...,...);
+     * }
+     * </code>
+     *
+     * @param javaFile   HumanEvalJava file under analysis
+     * @param scenarioNo number of the current scenario (ex: 1)
+     * @param className  the name of the primary class
+     * @return a list of test methods
+     * @throws IOException in case of I/O problems
+     */
+    private static List<String> getTestMethods(File javaFile, int scenarioNo, String className) throws IOException {
+        List<String> result = new ArrayList<>();
         List<String> lines = Files.readAllLines(javaFile.toPath());
         int start = 0;
         // finds the first line that starts with "* > " (test case)
@@ -66,9 +94,9 @@ public class HumanEvalJUnitTestGenerator {
             if (!lines.get(i).trim().startsWith("*") || !lines.get(i + 1).trim().startsWith("*")) break;
             String invocation = lines.get(i).replace("* > ", "").trim();
             String expected = lines.get(i + 1).replace("* ", "").trim();
-
+            StringBuilder testBody = new StringBuilder();
             testBody.append("@Test\n");
-            testBody.append(String.format("\tpublic void test%d() throws Exception {\n",testId++));
+            testBody.append(String.format("\tpublic void test%d() throws Exception {\n", testId++));
             testBody.append(
                     format("\t\tassertEquals(%s, scenario%d.%s.%s);\n",
                             escape(expected, javaFile),
@@ -77,8 +105,9 @@ public class HumanEvalJUnitTestGenerator {
                             escape(invocation, javaFile))
             );
             testBody.append("\t}\n\n\t");
+            result.add(testBody.toString());
         }
-        return testBody.toString();
+        return result;
 
 
     }
