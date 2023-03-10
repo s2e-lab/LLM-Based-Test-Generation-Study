@@ -15,16 +15,16 @@ import static s2e.lab.PromptUtils.computeUnitTestPrompt;
 import static s2e.lab.PromptUtils.save;
 
 /**
- * This class is used to create the OpenAI prompts for the RQ2 according to each different scenario.
+ * This class is used to create the OpenAI prompts for the RQ1 and RQ2 according to each different scenario.
  * All of these are saved in JSON files.
  */
 public class TestPromptCreator {
     public static String BASE_DIR = "../";
     public static String HUMAN_EVAL_JAVA = BASE_DIR + "HumanEvalJava/";
-    public static String HUMAN_EVAL_SCENARIO = HUMAN_EVAL_JAVA + "src/main/java/scenario%d/";
-    public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "src/test/scenario%d/";
+    public static String HUMAN_EVAL_SCENARIO = HUMAN_EVAL_JAVA + "src/main/java/%s/";
+    public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "src/test/%s/";
     public static String RQ2_BASE_DIR = BASE_DIR + "RQ2_Prompt_Elements/";
-    public static String RQ2_PROMPT_OUTPUT_FILE = RQ2_BASE_DIR + "OpenAI_Data/input/scenario%d_prompt.json";
+    public static String RQ2_PROMPT_OUTPUT_FILE = RQ2_BASE_DIR + "OpenAI_Data/input/%s_prompt.json";
 
 //    public static String RQ2_BASE_DIR = BASE_DIR + "RQ2_Open_Source_Projects/";
 //    public static String RQ2_BENCHMARK_DIR = BASE_DIR + "EvoSuiteBenchmark/";
@@ -34,7 +34,7 @@ public class TestPromptCreator {
 
 
     public static void main(String[] args) throws IOException {
-        // generates the prompts for RQ1
+        // generates the prompts for RQ1 and RQ2
         generateHumanEvalPrompts();
         // generates the prompts for RQ2
 //        generateOSSPrompts();
@@ -64,21 +64,27 @@ public class TestPromptCreator {
 
 
     private static void generateHumanEvalPrompts() throws IOException {
+
+        // generates the JSON prompts for RQ1 and RQ2
         for (int i = 1; i <= 4; i++) {
             File projectDirectory = new File(String.format(HUMAN_EVAL_SCENARIO, i));
-            List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
+            // scenario 4 is the original code, change package to original
+            if (i == 4) projectDirectory = new File(projectDirectory + "../original");
+            assert  projectDirectory.exists();
 
-            List<HashMap<String, String>> outputList = new ArrayList<>();
-            for (File javaFile : javaFiles)
-                outputList.addAll(generateTestPrompt(javaFile, true));
-
-            save(outputList, String.format(RQ2_PROMPT_OUTPUT_FILE, i));
+//            List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
+//            List<HashMap<String, String>> outputList = new ArrayList<>();
+//            for (File javaFile : javaFiles)
+//                outputList.addAll(generateTestPrompt(javaFile, true));
+//
+//            save(outputList, String.format(RQ2_PROMPT_OUTPUT_FILE, i));
         }
     }
 
     /**
      * Use the template to create the JUnit test skeleton (header)
-     * @param javaFile file that contains the method under test
+     *
+     * @param javaFile    file that contains the method under test
      * @param isHumanEval true if we are generating the skeleton for HumanEval
      * @return
      */

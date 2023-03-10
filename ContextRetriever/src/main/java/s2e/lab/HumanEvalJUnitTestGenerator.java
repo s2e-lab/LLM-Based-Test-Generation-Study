@@ -26,30 +26,42 @@ public class HumanEvalJUnitTestGenerator {
     public static String RQ1_TEST_FOLDER_NAME = HUMAN_EVAL_TEST_FOLDER + "%sTest.java";
 
     public static void main(String[] args) throws IOException {
-        // scenario 4 is the one that has the full implementation
-        File projectDirectory = new File(format(HUMAN_EVAL_SCENARIO, 4));
-        StringBuilder stats = new StringBuilder("Scenario\tFile\t#Unique Tests Methods\t#Declared Methods\n");
+        // the original package is the one that has the full implementation "AS IS"
+        File projectDirectory = new File(format(HUMAN_EVAL_SCENARIO, "original"));
+
+        // header for the stats CSV file
+        StringBuilder stats = new StringBuilder("Scenario\tFile\t#Unique Input-Output pairs\t#Declared Methods in CUT\n");
+
         // retrieves all classes under test
-        for (File javaFile : JavaSearcher.findJavaFiles(projectDirectory)) {
-            System.out.println(javaFile.getName());
-            CompilationUnit cu = StaticJavaParser.parse(javaFile);
+        for (File originalCode : JavaSearcher.findJavaFiles(projectDirectory)) {
+            System.out.println("GENERATING FOR " + originalCode.getName());
+            CompilationUnit cu = StaticJavaParser.parse(originalCode);
             HashMap<String, String> params = new HashMap<>();
             params.put("className", PromptUtils.getPrimaryClass(cu).getNameAsString());
             params.put("importedPackages", PromptUtils.getImportedPackages(cu));
-            for (int i = 1; i <= 4; i++) {
-                List<String> testMethodsList = getTestMethods(javaFile, i, params.get("className"));
-                params.put("packageName", "scenario" + i);
+
+            // generates the JUnit test for each scenario (scenario 0 is the original one)
+            for (int i = 0; i <= 3; i++) {
+                String packageName = (i == 0 ? "original" : ("scenario" + i));
+                List<String> testMethodsList = getTestMethods(originalCode, packageName, params.get("className"));
+
+                // creates the JUnit test from the template
                 params.put("testMethods", String.join("", testMethodsList));
+                params.put("packageName", packageName);
                 String unitTest = StringSubstitutor.replace(HUMAN_EVAL_TEST_TEMPLATE, params);
-                File outputFile = new File(format(RQ1_TEST_FOLDER_NAME, i, javaFile.getName().replace(".java", "")));
-                System.out.println(unitTest);
+
+
+                // save the JUnit test in a Java file in the tests folder
+                String jUnitFilename = originalCode.getName().replace(".java", "");
+                File outputFile = new File(format(RQ1_TEST_FOLDER_NAME, packageName, jUnitFilename));
+                System.out.println("\t" + outputFile.getCanonicalPath());
                 try (FileWriter file = new FileWriter(outputFile)) {
                     file.write(unitTest);
                 }
-
-                stats.append(params.get("packageName"))
+                // collect statistics about the generated JUnit test
+                stats.append(packageName)
                         .append("\t")
-                        .append(javaFile.getName())
+                        .append(originalCode.getName())
                         .append("\t")
                         .append(testMethodsList.size())
                         .append("\t")
@@ -58,6 +70,7 @@ public class HumanEvalJUnitTestGenerator {
             }
         }
 
+        // save basic stats about each class under test on the HumanEvalJava folder
         try (FileWriter file = new FileWriter(HUMAN_EVAL_JAVA + "statistics.txt")) {
             file.write(stats.toString());
         }
@@ -73,13 +86,13 @@ public class HumanEvalJUnitTestGenerator {
      * }
      * </code>
      *
-     * @param javaFile   HumanEvalJava file under analysis
-     * @param scenarioNo number of the current scenario (ex: 1)
-     * @param className  the name of the primary class
+     * @param javaFile    HumanEvalJava file under analysis
+     * @param packageName the package name of the class under test
+     * @param className   the name of the primary class
      * @return a list of test methods
      * @throws IOException in case of I/O problems
      */
-    private static List<String> getTestMethods(File javaFile, int scenarioNo, String className) throws IOException {
+    private static List<String> getTestMethods(File javaFile, String packageName, String className) throws IOException {
         List<String> result = new ArrayList<>();
         List<String> lines = Files.readAllLines(javaFile.toPath());
         int start = 0;
@@ -98,9 +111,9 @@ public class HumanEvalJUnitTestGenerator {
             testBody.append("@Test\n");
             testBody.append(String.format("\tpublic void test%d() throws Exception {\n", testId++));
             testBody.append(
-                    format("\t\tassertEquals(%s, scenario%d.%s.%s);\n",
+                    format("\t\tassertEquals(%s, %s.%s.%s);\n",
                             escape(expected, javaFile),
-                            scenarioNo,
+                            packageName,
                             className,
                             escape(invocation, javaFile))
             );
