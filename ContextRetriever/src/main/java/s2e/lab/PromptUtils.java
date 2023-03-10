@@ -39,7 +39,7 @@ public class PromptUtils {
 
     static {
         try {
-            URL templateUrl = TestPromptCreator.class.getClassLoader().getResource("UnitTestTemplate.java");
+            URL templateUrl = TestPromptCreator.class.getClassLoader().getResource("JUnitTestTemplate.java");
             UNIT_TEST_TEMPLATE = Files.readString(Paths.get(templateUrl.getPath()));
             URL humanEvalUrl = TestPromptCreator.class.getClassLoader().getResource("HumanEvalTestTemplate.java");
             HUMAN_EVAL_TEST_TEMPLATE = Files.readString(Paths.get(humanEvalUrl.getPath()));
@@ -91,11 +91,12 @@ public class PromptUtils {
 
         // creates dict object to be serialized
         HashMap<String, String> outputMap = new HashMap<>();
+        String id = null;
         if(isHumanEval){
-            outputMap.put("id", javaFile.getName().split("_")[1].split("\\.")[0]);
+            id= javaFile.getName().split("_")[1].split("\\.")[0];
         }
         else{
-            String id = javaFile.getPath().split("\\.\\./")[1];
+            id = javaFile.getPath().split("\\.\\./")[1];
             String[] split = id.split("/");
             String newId = "";
             for(int i=0;i<split.length;i++){
@@ -107,9 +108,8 @@ public class PromptUtils {
                 }
             }
             id = newId;
-            System.out.println(id);
-            outputMap.put("id", id);
         }
+        outputMap.put("id", id);
         outputMap.put("original_code", String.format("// %s.java\n%s", className, cu));
         outputMap.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
 
