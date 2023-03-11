@@ -4,3 +4,4 @@ GitHubDataBenchmark/** filter=lfs diff=lfs merge=lfs -text
 EvoSuiteBenchmark filter=lfs diff=lfs merge=lfs -text
 EvoSuiteBenchmark/ filter=lfs diff=lfs merge=lfs -text
 EvoSuiteBenchmark/** filter=lfs diff=lfs merge=lfs -text
+*.json filter=lfs diff=lfs merge=lfs -text
