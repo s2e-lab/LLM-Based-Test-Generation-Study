@@ -15,10 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -91,19 +88,18 @@ public class PromptUtils {
 
         // creates dict object to be serialized
         HashMap<String, String> outputMap = new HashMap<>();
-        String id = null;
-        if(isHumanEval){
-            id= javaFile.getName().split("_")[1].split("\\.")[0];
-        }
-        else{
+        String id;
+        if (isHumanEval) {
+            System.out.println(javaFile);
+            id = javaFile.getName().split("_")[1].split("\\.")[0];
+        } else {
             id = javaFile.getPath().split("\\.\\./")[1];
             String[] split = id.split("/");
             String newId = "";
-            for(int i=0;i<split.length;i++){
-                if(i==split.length-1){
-                    newId += split[i].split("\\.")[0]+"Test"+suffix+".java";
-                }
-                else{
+            for (int i = 0; i < split.length; i++) {
+                if (i == split.length - 1) {
+                    newId += split[i].split("\\.")[0] + "Test" + suffix + ".java";
+                } else {
                     newId += split[i] + "/";
                 }
             }
@@ -157,6 +153,10 @@ public class PromptUtils {
      * @return testable methods signatures
      */
     public static List<String> getTestableMethodSignatures(ClassOrInterfaceDeclaration classDeclaration) {
+        // class is not testable, so don't even bother retrieving its declared methods
+        if (!isTestable(classDeclaration))
+            return Collections.emptyList();
+        // finds all methods that are testable in the class under test
         return classDeclaration.getMethods().stream()
                 .filter(PromptUtils::isTestable)
                 .map(m -> m.getSignature().toString())
@@ -186,5 +186,17 @@ public class PromptUtils {
         if (m.getNameAsString().equals("toString"))
             return false;
         return true;
+    }
+
+    /**
+     * Method to check if a class is testable:
+     * - non-abstract
+     * - non-interface
+     *
+     * @param c a class/interface declaration
+     * @return true if testable, false otherwise.
+     */
+    private static boolean isTestable(ClassOrInterfaceDeclaration c) {
+        return (!c.isInterface() && !c.isAbstract());
     }
 }

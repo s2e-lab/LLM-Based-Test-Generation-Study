@@ -13,6 +13,7 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
     <dependencies>
+        <!-- for Java AST parsing -->
         <dependency>
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-symbol-solver-core</artifactId>
@@ -25,6 +26,15 @@
             <artifactId>commons-text</artifactId>
             <version>1.10.0</version>
         </dependency>
+
+        <!-- For filename utilities -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+
         <!-- Eclipse libraries, specify which ones to avoid this error:  https://github.com/wala/WALA/issues/1083 -->
         <dependency>
             <groupId>org.eclipse.platform</groupId>
@@ -89,17 +99,13 @@
             <scope>compile</scope>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.googlecode.json-simple</groupId>-->
-<!--            <artifactId>json-simple</artifactId>-->
-<!--            <version>1.1.1</version>-->
-<!--        </dependency>-->
-
+        <!-- For JSON parsing capabilities -->
         <dependency>
             <groupId>com.github.cliftonlabs</groupId>
             <artifactId>json-simple</artifactId>
             <version>4.0.1</version>
         </dependency>
+        <!-- For JSON parsing capabilities -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

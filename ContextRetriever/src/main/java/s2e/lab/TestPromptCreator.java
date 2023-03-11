@@ -46,9 +46,9 @@ public class TestPromptCreator {
 
     public static void main(String[] args) throws IOException {
         // generates the prompts for RQ1 and RQ2 for HumanEvalJava
-//        generateHumanEvalJavaPrompts();
+        generateHumanEvalJavaPrompts();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-        generateOSSPrompts();
+//        generateOSSPrompts();
     }
 
     /**
@@ -125,12 +125,12 @@ public class TestPromptCreator {
             // get the class name
             ClassOrInterfaceDeclaration classDeclaration = PromptUtils.getPrimaryClass(cu);
 
-            // collect the method name
+            // collect the testable method's names (only if the class is also testable)
             List<String> testableMethods = PromptUtils.getTestableMethodSignatures(classDeclaration);
             for (int i = 0; i < testableMethods.size(); i++) {
                 String methodSignature = testableMethods.get(i);
                 String suffix = testableMethods.size() == 1 ?
-                        "" : // if only one, don't bother with the suffix
+                        "" : // if only one, don't bother with the test name suffix
                         format("%d", i);
 
                 HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, NUMBER_OF_PROMPTS, cu, classDeclaration.getNameAsString(), methodSignature, suffix, isHumanEval);
