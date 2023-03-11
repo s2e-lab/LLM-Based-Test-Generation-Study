@@ -78,7 +78,7 @@ public class PromptUtils {
         String filename = javaFile.getName();
         // if a suffix is provided, then append
         if (suffix != null && !suffix.isEmpty())
-            filename = format("%s_%s.java", FilenameUtils.removeExtension(filename), suffix);
+            filename = format("%s_%sTest.java", FilenameUtils.removeExtension(filename), suffix);
 
         // get relative path
         String parentPath = javaFile.getParentFile().getAbsolutePath().replace(new File(BASE_DIR).getAbsolutePath(), "");
@@ -110,7 +110,7 @@ public class PromptUtils {
         params.put("importedPackages", getImportedPackages(cu));
         params.put("numberTests", numberTests);
         params.put("methodSignature", methodSignature);
-        params.put("suffix", suffix);
+        params.put("suffix", suffix.isEmpty() ? suffix : "_" + suffix);
 
         // creates dict object to be serialized
         HashMap<String, String> outputMap = new HashMap<>();
@@ -146,7 +146,9 @@ public class PromptUtils {
         Optional<TypeDeclaration<?>> primaryType = cu.getPrimaryType();
         if (primaryType.isPresent()) {
             TypeDeclaration<?> typeDeclaration = primaryType.get();
-            return cu.getClassByName(typeDeclaration.getNameAsString()).get();
+            // checks whether it is a class/interface being declared (and not something else, like an enumeration)
+            if (typeDeclaration instanceof ClassOrInterfaceDeclaration)
+                return ((ClassOrInterfaceDeclaration) typeDeclaration);
         }
         return cu.getTypes().stream()
                 .filter(BodyDeclaration::isClassOrInterfaceDeclaration)
@@ -206,6 +208,6 @@ public class PromptUtils {
      * @return true if testable, false otherwise.
      */
     private static boolean isTestable(ClassOrInterfaceDeclaration c) {
-        return (!c.isInterface() && !c.isAbstract());
+        return !c.isInterface() && !c.isAbstract() && !c.getNameAsString().endsWith("Test");
     }
 }

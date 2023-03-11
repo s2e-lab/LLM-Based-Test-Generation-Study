@@ -46,9 +46,9 @@ public class TestPromptCreator {
 
     public static void main(String[] args) throws IOException {
         // generates the prompts for RQ1 and RQ2 for HumanEvalJava
-        generateHumanEvalJavaPrompts();
+//        generateHumanEvalJavaPrompts();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-//        generateOSSPrompts();
+        generateOSSPrompts();
     }
 
     /**
@@ -66,9 +66,10 @@ public class TestPromptCreator {
             List<HashMap<String, String>> outputList = new ArrayList<>();
 
             for (File javaFile : javaFiles) {
+                // is it a test class?
                 if (javaFile.getPath().toLowerCase().contains("/test/"))
                     continue;
-                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, false);
+                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile);
                 if (!promptList.isEmpty())
                     outputList.addAll(promptList);
 
@@ -95,7 +96,7 @@ public class TestPromptCreator {
             List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
             List<HashMap<String, String>> outputList = new ArrayList<>();
             for (File javaFile : javaFiles)
-                outputList.addAll(generateTestPrompt(javaFile, true));
+                outputList.addAll(generateTestPrompt(javaFile));
 
             // original sample = RQ1, otherwise, RQ2 folder
             if (packageName.equals("original"))
@@ -108,11 +109,10 @@ public class TestPromptCreator {
     /**
      * Use the template to create the JUnit test skeleton (header)
      *
-     * @param javaFile    file that contains the method under test
-     * @param isHumanEval true if we are generating the skeleton for HumanEval
+     * @param javaFile file that contains the method under test
      * @return
      */
-    private static List<HashMap<String, String>> generateTestPrompt(File javaFile, boolean isHumanEval) {
+    private static List<HashMap<String, String>> generateTestPrompt(File javaFile) {
 
         List<HashMap<String, String>> outputList = new ArrayList<>();
         System.out.println("File: " + javaFile.getName());
@@ -133,10 +133,12 @@ public class TestPromptCreator {
                         format("%d", i);
 
                 HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, NUMBER_OF_PROMPTS, cu, classDeclaration.getNameAsString(), methodSignature, suffix);
+                System.out.println(outputMap.get("id"));
                 System.out.println(outputMap.get("test_prompt"));
                 outputList.add(outputMap);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

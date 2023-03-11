@@ -1,4 +1,4 @@
-// ${className}Test${suffix}.java
+// ${className}${suffix}Test.java
 ${packageDeclaration}
 
 ${importedPackages}
@@ -9,4 +9,4 @@ import static org.junit.jupiter.api.Assertions.*;
 * Test class of {@link ${className}}.
 * It contains ${numberTests} unit test cases for the {@link ${className}#${methodSignature}} method.
 */
-class ${className}Test${suffix} {
+class ${className}${suffix}Test {
