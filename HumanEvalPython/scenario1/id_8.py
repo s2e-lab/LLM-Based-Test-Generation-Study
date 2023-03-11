@@ -2,8 +2,6 @@ from typing import List, Tuple
 
 
 def sum_product(numbers: List[int]) -> Tuple[int, int]:
-    
-    
 
     sum_value = 0
     prod_value = 1

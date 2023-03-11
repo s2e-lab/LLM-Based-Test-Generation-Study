@@ -1,7 +1,5 @@
 
 def numerical_letter_grade(grades):
-    
-    
 
 
    

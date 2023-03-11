@@ -1,7 +1,5 @@
 
 def get_odd_collatz(n):
-    
-    
 
     if n%2==0:
         odd_collatz = [] 

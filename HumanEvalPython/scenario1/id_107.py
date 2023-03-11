@@ -1,7 +1,5 @@
 
 def even_odd_palindrome(n):
-    
-    
 
     def is_palindrome(n):
         return str(n) == str(n)[::-1]

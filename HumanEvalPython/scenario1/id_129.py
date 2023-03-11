@@ -1,7 +1,5 @@
 
 def minPath(grid, k):
-    
-    
 
     n = len(grid)
     val = n * n + 1

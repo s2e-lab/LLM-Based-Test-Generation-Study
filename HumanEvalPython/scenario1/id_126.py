@@ -1,7 +1,5 @@
 
 def is_sorted(lst):
-    
-    
 
     count_digit = dict([(i, 0) for i in lst])
     for i in lst:
@@ -12,5 +10,3 @@ def is_sorted(lst):
         return True
     else:
         return False
-    
-    

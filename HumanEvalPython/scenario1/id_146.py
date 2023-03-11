@@ -1,7 +1,5 @@
 
 def specialFilter(nums):
-    
-    
     count = 0
     for num in nums:
         if num > 10:

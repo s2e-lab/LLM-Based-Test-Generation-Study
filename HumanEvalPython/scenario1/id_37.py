@@ -1,8 +1,6 @@
 
 
 def sort_even(l: list):
-    
-    
 
     evens = l[::2]
     odds = l[1::2]

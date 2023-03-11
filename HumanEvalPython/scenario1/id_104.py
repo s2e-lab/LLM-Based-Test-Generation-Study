@@ -1,7 +1,5 @@
 
 def unique_digits(x):
-    
-    
 
     odd_digit_elements = []
     for i in x:

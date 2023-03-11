@@ -1,8 +1,6 @@
 
 
 def largest_prime_factor(n: int):
-    
-    
 
     def is_prime(k):
         if k < 2:

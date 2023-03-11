@@ -1,7 +1,5 @@
 
 def generate_integers(a, b):
-    
-    
 
     lower = max(2, min(a, b))
     upper = min(8, max(a, b))

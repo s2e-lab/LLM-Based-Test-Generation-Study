@@ -1,7 +1,5 @@
 
 def histogram(test):
-    
-    
 
     dict1={}
     list1=test.split(" ")

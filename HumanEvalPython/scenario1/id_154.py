@@ -1,7 +1,5 @@
 
 def cycpattern_check(a , b):
-    
-    
 
     l = len(b)
     pat = b + b

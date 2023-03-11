@@ -1,7 +1,5 @@
 
 def sorted_list_sum(lst):
-    
-    
 
     lst.sort()
     new_lst = []

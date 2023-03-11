@@ -1,8 +1,6 @@
 
 
 def fizz_buzz(n: int):
-    
-    
 
     ns = []
     for i in range(n):

@@ -2,8 +2,6 @@
 
 
 def sum_squares(lst):
-    
-    
 
     result =[]
     for i in range(len(lst)):

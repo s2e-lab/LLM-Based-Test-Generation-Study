@@ -1,7 +1,5 @@
 
 def is_nested(string):
-    
-    
 
     opening_bracket_index = []
     closing_bracket_index = []

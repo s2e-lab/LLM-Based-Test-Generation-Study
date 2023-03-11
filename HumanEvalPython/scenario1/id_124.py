@@ -1,7 +1,5 @@
 
 def valid_date(date):
-    
-    
 
     try:
         date = date.strip()

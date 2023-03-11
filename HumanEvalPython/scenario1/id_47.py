@@ -1,8 +1,6 @@
 
 
 def median(l: list):
-    
-    
 
     l = sorted(l)
     if len(l) % 2 == 1:
