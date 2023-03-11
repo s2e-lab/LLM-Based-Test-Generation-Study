@@ -3,10 +3,7 @@ package s2e.lab;
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.Jsoner;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.body.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
 
@@ -98,9 +95,10 @@ public class PromptUtils {
      * @param suffix          to distinguish between different test classes
      */
     public static HashMap<String, String> computeUnitTestPrompt(File javaFile, String numberTests, CompilationUnit cu, String className, String methodSignature, String suffix) {
-        String packageDeclaration = Optional.of(cu.getPackageDeclaration())
-                .map(p -> p.get().toString().strip())
-                .orElse("");
+        // get package declaration or set to empty string if in the default package
+        String packageDeclaration = "";
+        if (cu.getPackageDeclaration().isPresent())
+            packageDeclaration = cu.getPackageDeclaration().get().toString().strip();
 
 
         // fill in the template
@@ -149,12 +147,15 @@ public class PromptUtils {
             // checks whether it is a class/interface being declared (and not something else, like an enumeration)
             if (typeDeclaration instanceof ClassOrInterfaceDeclaration)
                 return ((ClassOrInterfaceDeclaration) typeDeclaration);
+            // enums, annotations, records are disregarded
+            if (typeDeclaration instanceof AnnotationDeclaration || typeDeclaration instanceof EnumDeclaration || typeDeclaration instanceof RecordDeclaration)
+                return null;
         }
+        // finds the first declared class/interface, returns null if none is found
         return cu.getTypes().stream()
                 .filter(BodyDeclaration::isClassOrInterfaceDeclaration)
                 .map(BodyDeclaration::asClassOrInterfaceDeclaration)
-                .findFirst()
-                .get();
+                .findFirst().orElse(null);
     }
 
     /**

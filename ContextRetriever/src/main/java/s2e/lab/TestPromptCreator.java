@@ -121,8 +121,13 @@ public class TestPromptCreator {
         try {
             CompilationUnit cu = StaticJavaParser.parse(javaFile);
 
-            // get the class name
+            // get the class declaration
             ClassOrInterfaceDeclaration classDeclaration = PromptUtils.getPrimaryClass(cu);
+            // Sometimes a Java file contains just a single enumeration or something else other than a class
+            // getPrimaryClass(...) will return null in this case
+            if (classDeclaration == null)
+                return outputList;
+
 
             // collect the testable method's names (only if the class is also testable)
             List<String> testableMethods = PromptUtils.getTestableMethodSignatures(classDeclaration);
