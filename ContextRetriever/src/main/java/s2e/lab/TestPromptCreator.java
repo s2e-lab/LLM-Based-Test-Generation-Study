@@ -74,7 +74,6 @@ public class TestPromptCreator {
 
             }
             save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
-
         }
     }
 
@@ -133,7 +132,7 @@ public class TestPromptCreator {
                         "" : // if only one, don't bother with the test name suffix
                         format("%d", i);
 
-                HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, NUMBER_OF_PROMPTS, cu, classDeclaration.getNameAsString(), methodSignature, suffix, isHumanEval);
+                HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, NUMBER_OF_PROMPTS, cu, classDeclaration.getNameAsString(), methodSignature, suffix);
                 System.out.println(outputMap.get("test_prompt"));
                 outputList.add(outputMap);
             }

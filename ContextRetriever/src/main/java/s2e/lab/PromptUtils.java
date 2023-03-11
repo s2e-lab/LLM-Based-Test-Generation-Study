@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
 
 import java.io.File;
@@ -17,6 +18,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.lang.String.format;
+import static s2e.lab.TestPromptCreator.BASE_DIR;
 
 /**
  * Utilities for the test prompt creation.
@@ -58,7 +62,29 @@ public class PromptUtils {
         try (FileWriter file = new FileWriter(outputFile)) {
             file.write(jsonStr);
         }
-        System.out.println("Successfully Copied JSON Object to " + outputFile);
+        System.out.println("Successfully saved JSON to " + outputFile);
+    }
+
+    /**
+     * ID is equals to the relative path to the file under analysis appended with a suffix (if not empty).
+     * Ex: suffix = 001 and javaFile = /path/to/HumanEvalJava/src/main/scenario1/id_1.java
+     * ID = /HumanEvalJava/src/main/scenario1/id_1_001.java
+     *
+     * @param javaFile java file under analysis
+     * @param suffix   suffix to be appended to the ID
+     * @return a unique identifier for the prompt being generated
+     */
+    private static String computeID(File javaFile, String suffix) {
+        String filename = javaFile.getName();
+        // if a suffix is provided, then append
+        if (suffix != null && !suffix.isEmpty())
+            filename = format("%s_%s.java", FilenameUtils.removeExtension(filename), suffix);
+
+        // get relative path
+        String parentPath = javaFile.getParentFile().getAbsolutePath().replace(new File(BASE_DIR).getAbsolutePath(), "");
+
+        // concatenate with the computed filename
+        return FilenameUtils.concat(parentPath, filename);
     }
 
     /**
@@ -71,7 +97,7 @@ public class PromptUtils {
      * @param methodSignature the signature of the method under test
      * @param suffix          to distinguish between different test classes
      */
-    public static HashMap<String, String> computeUnitTestPrompt(File javaFile, String numberTests, CompilationUnit cu, String className, String methodSignature, String suffix, boolean isHumanEval) {
+    public static HashMap<String, String> computeUnitTestPrompt(File javaFile, String numberTests, CompilationUnit cu, String className, String methodSignature, String suffix) {
         String packageDeclaration = Optional.of(cu.getPackageDeclaration())
                 .map(p -> p.get().toString().strip())
                 .orElse("");
@@ -88,25 +114,8 @@ public class PromptUtils {
 
         // creates dict object to be serialized
         HashMap<String, String> outputMap = new HashMap<>();
-        String id;
-        if (isHumanEval) {
-            System.out.println(javaFile);
-            id = javaFile.getName().split("_")[1].split("\\.")[0];
-        } else {
-            id = javaFile.getPath().split("\\.\\./")[1];
-            String[] split = id.split("/");
-            String newId = "";
-            for (int i = 0; i < split.length; i++) {
-                if (i == split.length - 1) {
-                    newId += split[i].split("\\.")[0] + "Test" + suffix + ".java";
-                } else {
-                    newId += split[i] + "/";
-                }
-            }
-            id = newId;
-        }
-        outputMap.put("id", id);
-        outputMap.put("original_code", String.format("// %s.java\n%s", className, cu));
+        outputMap.put("id", computeID(javaFile, suffix));
+        outputMap.put("original_code", format("// %s.java\n%s", className, cu));
         outputMap.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
 
         return outputMap;

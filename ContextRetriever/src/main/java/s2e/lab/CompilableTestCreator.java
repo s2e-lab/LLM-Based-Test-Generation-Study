@@ -21,8 +21,8 @@ import java.util.List;
 
 
 public class CompilableTestCreator {
-    public static String BASE_DIR = "../";
-    public static String RQ1_BASE_DIR = BASE_DIR + "RQ1_Prompt_Elements/";
+    public static String BASE_DIR = "../"; // FIXME: this is duplicated
+    public static String RQ1_BASE_DIR = BASE_DIR + "RQ1_Prompt_Elements/";  // FIXME: this is duplicated
     public static String RQ1_INPUT_FILE_NAME = RQ1_BASE_DIR + "OpenAI_Data/output/scenario2_output_fixed_fixed_extracode.json";
     public static String RQ1_OUTPUT_FILE = RQ1_BASE_DIR + "RQ1_Result/coverage_result/src/test/java/scenario2/";
 
