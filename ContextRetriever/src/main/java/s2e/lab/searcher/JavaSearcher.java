@@ -34,7 +34,7 @@ public class JavaSearcher {
     /**
      * Collects all folders in a specific directory.
      *
-     * @param directory directory to be searced
+     * @param directory directory to be searched
      * @return a list of folders
      */
     public static List<File> getProjectList(String directory) {

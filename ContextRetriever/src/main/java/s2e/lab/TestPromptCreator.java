@@ -66,7 +66,6 @@ public class TestPromptCreator {
      * @throws IOException
      */
     private static void generateOSSPrompts() throws IOException {
-
         List<File> projectList = JavaSearcher.getProjectList(SF100_EVOSUITE);
         for (File project : projectList) {
 //            System.out.println(project.getName());

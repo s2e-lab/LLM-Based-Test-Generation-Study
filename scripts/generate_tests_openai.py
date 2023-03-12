@@ -82,9 +82,10 @@ def get_prompts(config: dict, prompt_file: str) -> list:
         return json.load(scenario_file)
 
 
-def get_output_files(config: dict, prompt_file: str, max_tokens: int) -> tuple:
+def get_output_files(config: dict, rq: str, prompt_file: str, max_tokens: int) -> tuple:
     """
     Compute the paths to the output folder and response file.
+
     @param max_tokens: maximum number of tokens
     @param config: analysis configuration
     @param prompt_file:  path to the JSON file containing prompts (ex: "RQ1_Test_Generation/OpenAI_Data/HumanEvalJava_input/original_prompt.json")
