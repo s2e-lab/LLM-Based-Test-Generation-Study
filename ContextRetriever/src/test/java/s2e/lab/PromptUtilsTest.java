@@ -43,6 +43,9 @@ public class PromptUtilsTest {
                 "\tpublic List getName() {}\n" +
                 "\tpublic void setName() {}\n" +
                 "\tpublic String toString() {}\n" +
+                "\tpublic void setNewRecord(boolean isNewRecord) { this.isNewRecord = isNewRecord; }\n"+
+                "\tpublic boolean isNewRecord() { return this.isNewRecord; }\n"+
+                "\tpublic Boolean getNewRecord() { return this.isNewRecord; }\n"+
                 "}\nclass PromptUtilsTest {} ");
         List<String> testableMethods = PromptUtils.getTestableMethods(PromptUtils.getPrimaryClass(cu)).stream().map(m -> m.getSignature().toString()).collect(Collectors.toList());
         assertEquals(3, testableMethods.size());
