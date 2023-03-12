@@ -48,13 +48,13 @@ public class TestPromptCreator {
 
 
     // criteria used to filter out projects
-    public static int MIN_UNITS_UNDER_TEST = 13; // Quartile 1
-    public static int MAX_UNITS_UNDER_TEST = 165; // Quartile 3
+    public static int MIN_UNITS_UNDER_TEST = 2; // Quartile 1
+    public static int MAX_UNITS_UNDER_TEST = 85; // Quartile 3
 
 
     public static void main(String[] args) throws IOException {
         // generates the prompts for RQ1 and RQ2 for HumanEvalJava
-//        generateHumanEvalJavaPrompts();
+        generateHumanEvalJavaPrompts();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
         generateOSSPrompts();
     }
@@ -77,16 +77,11 @@ public class TestPromptCreator {
                 // is it a test class?
                 if (javaFile.getPath().toLowerCase().contains("/test/"))
                     continue;
-                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, new Predicate<MethodDeclaration>() {
-                    @Override
-                    public boolean test(MethodDeclaration methodDeclaration) {
-                        return true;
-                    }
-                });
+                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, decl -> decl.getJavadoc().isPresent());
                 if (!promptList.isEmpty())
                     outputList.addAll(promptList);
             }
-            System.out.println(format("%s\t%d", project.getName(), outputList.size()));
+            System.out.println(project.getName() + "\t" + outputList.size());
             // only includes projects that have # units under tests between MIN and MAX (inclusive)
             if (outputList.size() >= MIN_UNITS_UNDER_TEST && outputList.size() <= MAX_UNITS_UNDER_TEST)
                 save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
@@ -144,9 +139,10 @@ public class TestPromptCreator {
             List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDeclaration);
             for (int i = 0; i < testableMethods.size(); i++) {
                 // method ought to be ignored per the passed predicate
-                if (predicate != null && !predicate.test(testableMethods.get(i)))
+                MethodDeclaration methodDeclaration = testableMethods.get(i);
+                if (predicate != null && !predicate.test(methodDeclaration))
                     continue;
-                String methodSignature = testableMethods.get(i).getSignature().toString();
+                String methodSignature = methodDeclaration.getSignature().toString();
                 String suffix = testableMethods.size() == 1 ?
                         "" : // if only one, don't bother with the test name suffix
                         format("%d", i);
@@ -156,7 +152,7 @@ public class TestPromptCreator {
                 outputList.add(outputMap);
             }
         } catch (ParseProblemException e) {
-            System.err.println(format("Parsing error for Java File %s", javaFile.getName()));
+            // System.err.println(format("Parsing error for Java File %s", javaFile.getName()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

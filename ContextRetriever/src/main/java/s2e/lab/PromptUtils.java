@@ -181,21 +181,46 @@ public class PromptUtils {
      * - non-void
      * - non-getter/setter
      * - non-toString
+     * - non-hashCode
+     * - non-equals
      *
      * @param m a method declaration
      * @return true if testable, false otherwise.
      */
     private static boolean isTestable(MethodDeclaration m) {
+        // has to be public
         if (!m.isPublic())
             return false;
+        // has to be concrete (non-abstract)
         if (m.isAbstract())
             return false;
+        // has to return a value (non-void)
         if (m.getType().asString().equalsIgnoreCase("void"))
             return false;
-        if (!m.isStatic() && (m.getNameAsString().startsWith("get") || m.getNameAsString().startsWith("set")))
+
+        // cannot be a getter method
+        // heuristic #1: starts with "get", takes no parameters, and is non-static; OR
+        if (!m.isStatic() && m.getNameAsString().startsWith("get") && m.getParameters().size() == 0)
             return false;
+        // heuristic #2: starts with "is", takes no parameters; is non-static, and returns a boolean
+        if (!m.isStatic() && m.getNameAsString().startsWith("is") && m.getParameters().size() == 0 && m.getType().asString().equalsIgnoreCase("boolean"))
+            return false;
+
+        // cannot be a setter method
+        if (!m.isStatic() &&  m.getNameAsString().startsWith("set"))
+            return false;
+        // non-toString
         if (m.getNameAsString().equals("toString"))
             return false;
+
+        // non-hashCode
+        if (m.getSignature().toString().equals("hashCode()"))
+            return false;
+
+        // non-equals
+        if (m.getSignature().toString().equals("equals(Object)"))
+            return false;
+
         return true;
     }
 
