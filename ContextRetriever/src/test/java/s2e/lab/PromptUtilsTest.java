@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,7 +44,7 @@ public class PromptUtilsTest {
                 "\tpublic void setName() {}\n" +
                 "\tpublic String toString() {}\n" +
                 "}\nclass PromptUtilsTest {} ");
-        List<String> testableMethods = PromptUtils.getTestableMethodSignatures(PromptUtils.getPrimaryClass(cu));
+        List<String> testableMethods = PromptUtils.getTestableMethods(PromptUtils.getPrimaryClass(cu)).stream().map(m -> m.getSignature().toString()).collect(Collectors.toList());
         assertEquals(3, testableMethods.size());
         assertEquals("testableMethod1(int)", testableMethods.get(0));
         assertEquals("testableMethod2(Integer, int)", testableMethods.get(1));

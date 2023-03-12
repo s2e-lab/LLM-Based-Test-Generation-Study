@@ -1,8 +1,10 @@
 package s2e.lab;
 
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import s2e.lab.searcher.JavaSearcher;
 
 import java.io.File;
@@ -10,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static java.lang.String.format;
 import static s2e.lab.PromptUtils.computeUnitTestPrompt;
@@ -41,7 +44,12 @@ public class TestPromptCreator {
 
     // folders for RQ2
     public static String RQ2_BASE_DIR = BASE_DIR + "RQ2_Prompt_Elements/";
-    public static String RQ2_PROMPT_OUTPUT_FILE = RQ2_BASE_DIR + "OpenAI_Data/input/%s_%s_prompt.json";
+    public static String RQ2_PROMPT_OUTPUT_FILE = RQ2_BASE_DIR + "OpenAI_Data/%s_input/%s_prompt.json";
+
+
+    // criteria used to filter out projects
+    public static int MIN_UNITS_UNDER_TEST = 13; // Quartile 1
+    public static int MAX_UNITS_UNDER_TEST = 165; // Quartile 3
 
 
     public static void main(String[] args) throws IOException {
@@ -61,7 +69,7 @@ public class TestPromptCreator {
 
         List<File> projectList = JavaSearcher.getProjectList(SF100_EVOSUITE);
         for (File project : projectList) {
-            System.out.println(project.getName());
+//            System.out.println(project.getName());
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);
             List<HashMap<String, String>> outputList = new ArrayList<>();
 
@@ -69,12 +77,19 @@ public class TestPromptCreator {
                 // is it a test class?
                 if (javaFile.getPath().toLowerCase().contains("/test/"))
                     continue;
-                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile);
+                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, new Predicate<MethodDeclaration>() {
+                    @Override
+                    public boolean test(MethodDeclaration methodDeclaration) {
+                        return true;
+                    }
+                });
                 if (!promptList.isEmpty())
                     outputList.addAll(promptList);
-
             }
-            save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
+            System.out.println(format("%s\t%d", project.getName(), outputList.size()));
+            // only includes projects that have # units under tests between MIN and MAX (inclusive)
+            if (outputList.size() >= MIN_UNITS_UNDER_TEST && outputList.size() <= MAX_UNITS_UNDER_TEST)
+                save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
         }
     }
 
@@ -95,29 +110,25 @@ public class TestPromptCreator {
 
             List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
             List<HashMap<String, String>> outputList = new ArrayList<>();
-            for (File javaFile : javaFiles)
-                outputList.addAll(generateTestPrompt(javaFile));
-
+            for (File javaFile : javaFiles) {
+                outputList.addAll(generateTestPrompt(javaFile, null));
+            }
             // original sample = RQ1, otherwise, RQ2 folder
-            if (packageName.equals("original"))
-                save(outputList, format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", packageName));
-            else
-                save(outputList, format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", packageName));
+            String researchQuestion = packageName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
+            save(outputList, format(researchQuestion, "HumanEvalJava", packageName));
         }
     }
 
     /**
      * Use the template to create the JUnit test skeleton (header)
      *
-     * @param javaFile file that contains the method under test
+     * @param javaFile  file that contains the method under test
+     * @param predicate a predicate to test whether a specific method declaration should be included or not
      * @return
      */
-    private static List<HashMap<String, String>> generateTestPrompt(File javaFile) {
+    private static List<HashMap<String, String>> generateTestPrompt(File javaFile, Predicate<MethodDeclaration> predicate) {
 
         List<HashMap<String, String>> outputList = new ArrayList<>();
-        System.out.println("File: " + javaFile.getName());
-
-
         try {
             CompilationUnit cu = StaticJavaParser.parse(javaFile);
 
@@ -130,20 +141,23 @@ public class TestPromptCreator {
 
 
             // collect the testable method's names (only if the class is also testable)
-            List<String> testableMethods = PromptUtils.getTestableMethodSignatures(classDeclaration);
+            List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDeclaration);
             for (int i = 0; i < testableMethods.size(); i++) {
-                String methodSignature = testableMethods.get(i);
+                // method ought to be ignored per the passed predicate
+                if (predicate != null && !predicate.test(testableMethods.get(i)))
+                    continue;
+                String methodSignature = testableMethods.get(i).getSignature().toString();
                 String suffix = testableMethods.size() == 1 ?
                         "" : // if only one, don't bother with the test name suffix
                         format("%d", i);
 
                 HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, NUMBER_OF_PROMPTS, cu, classDeclaration.getNameAsString(), methodSignature, suffix);
-                System.out.println(outputMap.get("id"));
-                System.out.println(outputMap.get("test_prompt"));
+//                System.out.println(outputMap.get("id"));
                 outputList.add(outputMap);
             }
+        } catch (ParseProblemException e) {
+            System.err.println(format("Parsing error for Java File %s", javaFile.getName()));
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

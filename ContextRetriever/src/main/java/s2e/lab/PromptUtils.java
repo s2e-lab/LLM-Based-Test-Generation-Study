@@ -1,9 +1,9 @@
 package s2e.lab;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
-import com.github.cliftonlabs.json_simple.Jsoner;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
 
@@ -54,18 +54,18 @@ public class PromptUtils {
      * @throws IOException in case of an IO error
      */
     public static void save(List<HashMap<String, String>> outputList, String outputFile) throws IOException {
-        JsonArray objects = new JsonArray(outputList);
-        String jsonStr = Jsoner.prettyPrint(Jsoner.serialize(objects));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter file = new FileWriter(outputFile)) {
-            file.write(jsonStr);
+            gson.toJson(outputList, file);
         }
-        System.out.println("Successfully saved JSON to " + outputFile);
+        // System.out.println("Successfully saved JSON to " + outputFile);
     }
+
 
     /**
      * ID is equals to the relative path to the file under analysis appended with a suffix (if not empty).
      * Ex: suffix = 001 and javaFile = /path/to/HumanEvalJava/src/main/scenario1/id_1.java
-     * ID = /HumanEvalJava/src/main/scenario1/id_1_001.java
+     * ID = /HumanEvalJava/src/main/scenario1/id_1_001Test.java
      *
      * @param javaFile java file under analysis
      * @param suffix   suffix to be appended to the ID
@@ -162,16 +162,15 @@ public class PromptUtils {
      * Returns the signatures of the testable methods (public, non-void, non-abstract).
      *
      * @param classDeclaration where to look for the methods.
-     * @return testable methods signatures
+     * @return testable methods ( a list of {@link MethodDeclaration}
      */
-    public static List<String> getTestableMethodSignatures(ClassOrInterfaceDeclaration classDeclaration) {
+    public static List<MethodDeclaration> getTestableMethods(ClassOrInterfaceDeclaration classDeclaration) {
         // class is not testable, so don't even bother retrieving its declared methods
         if (!isTestable(classDeclaration))
             return Collections.emptyList();
         // finds all methods that are testable in the class under test
         return classDeclaration.getMethods().stream()
                 .filter(PromptUtils::isTestable)
-                .map(m -> m.getSignature().toString())
                 .collect(Collectors.toList());
     }
 
