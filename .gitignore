@@ -35,3 +35,4 @@ hs_err_pid*
 #GitHubDataBenchmark/
 # Github_Data/
 **/config.json
+Old_data/
