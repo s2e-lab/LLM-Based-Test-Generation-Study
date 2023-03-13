@@ -1,12 +1,10 @@
 package s2e.lab;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
-import com.github.cliftonlabs.json_simple.Jsoner;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.body.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
 
 import java.io.File;
@@ -15,11 +13,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.lang.String.format;
+import static s2e.lab.TestPromptCreator.BASE_DIR;
 
 /**
  * Utilities for the test prompt creation.
@@ -56,12 +54,34 @@ public class PromptUtils {
      * @throws IOException in case of an IO error
      */
     public static void save(List<HashMap<String, String>> outputList, String outputFile) throws IOException {
-        JsonArray objects = new JsonArray(outputList);
-        String jsonStr = Jsoner.prettyPrint(Jsoner.serialize(objects));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter file = new FileWriter(outputFile)) {
-            file.write(jsonStr);
+            gson.toJson(outputList, file);
         }
-        System.out.println("Successfully Copied JSON Object to " + outputFile);
+        // System.out.println("Successfully saved JSON to " + outputFile);
+    }
+
+
+    /**
+     * ID is equals to the relative path to the file under analysis appended with a suffix (if not empty).
+     * Ex: suffix = 001 and javaFile = /path/to/HumanEvalJava/src/main/scenario1/id_1.java
+     * ID = /HumanEvalJava/src/main/scenario1/id_1_001Test.java
+     *
+     * @param javaFile java file under analysis
+     * @param suffix   suffix to be appended to the ID
+     * @return a unique identifier for the prompt being generated
+     */
+    private static String computeID(File javaFile, String suffix) {
+        String filename = javaFile.getName();
+        // if a suffix is provided, then append
+        if (suffix != null && !suffix.isEmpty())
+            filename = format("%s_%sTest.java", FilenameUtils.removeExtension(filename), suffix);
+
+        // get relative path
+        String parentPath = javaFile.getParentFile().getAbsolutePath().replace(new File(BASE_DIR).getAbsolutePath(), "");
+
+        // concatenate with the computed filename
+        return FilenameUtils.concat(parentPath, filename);
     }
 
     /**
@@ -74,10 +94,11 @@ public class PromptUtils {
      * @param methodSignature the signature of the method under test
      * @param suffix          to distinguish between different test classes
      */
-    public static HashMap<String, String> computeUnitTestPrompt(File javaFile, String numberTests, CompilationUnit cu, String className, String methodSignature, String suffix, boolean isHumanEval) {
-        String packageDeclaration = Optional.of(cu.getPackageDeclaration())
-                .map(p -> p.get().toString().strip())
-                .orElse("");
+    public static HashMap<String, String> computeUnitTestPrompt(File javaFile, String numberTests, CompilationUnit cu, String className, String methodSignature, String suffix) {
+        // get package declaration or set to empty string if in the default package
+        String packageDeclaration = "";
+        if (cu.getPackageDeclaration().isPresent())
+            packageDeclaration = cu.getPackageDeclaration().get().toString().strip();
 
 
         // fill in the template
@@ -87,30 +108,12 @@ public class PromptUtils {
         params.put("importedPackages", getImportedPackages(cu));
         params.put("numberTests", numberTests);
         params.put("methodSignature", methodSignature);
-        params.put("suffix", suffix);
+        params.put("suffix", suffix.isEmpty() ? suffix : "_" + suffix);
 
         // creates dict object to be serialized
         HashMap<String, String> outputMap = new HashMap<>();
-        String id = null;
-        if(isHumanEval){
-            id= javaFile.getName().split("_")[1].split("\\.")[0];
-        }
-        else{
-            id = javaFile.getPath().split("\\.\\./")[1];
-            String[] split = id.split("/");
-            String newId = "";
-            for(int i=0;i<split.length;i++){
-                if(i==split.length-1){
-                    newId += split[i].split("\\.")[0]+"Test"+suffix+".java";
-                }
-                else{
-                    newId += split[i] + "/";
-                }
-            }
-            id = newId;
-        }
-        outputMap.put("id", id);
-        outputMap.put("original_code", String.format("// %s.java\n%s", className, cu));
+        outputMap.put("id", computeID(javaFile, suffix));
+        outputMap.put("original_code", format("// %s.java\n%s", className, cu));
         outputMap.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
 
         return outputMap;
@@ -141,25 +144,34 @@ public class PromptUtils {
         Optional<TypeDeclaration<?>> primaryType = cu.getPrimaryType();
         if (primaryType.isPresent()) {
             TypeDeclaration<?> typeDeclaration = primaryType.get();
-            return cu.getClassByName(typeDeclaration.getNameAsString()).get();
+            // checks whether it is a class/interface being declared (and not something else, like an enumeration)
+            if (typeDeclaration instanceof ClassOrInterfaceDeclaration)
+                return ((ClassOrInterfaceDeclaration) typeDeclaration);
+            // enums, annotations, records are disregarded
+            if (typeDeclaration instanceof AnnotationDeclaration || typeDeclaration instanceof EnumDeclaration || typeDeclaration instanceof RecordDeclaration)
+                return null;
         }
+        // finds the first declared class/interface, returns null if none is found
         return cu.getTypes().stream()
                 .filter(BodyDeclaration::isClassOrInterfaceDeclaration)
                 .map(BodyDeclaration::asClassOrInterfaceDeclaration)
-                .findFirst()
-                .get();
+                .findFirst().orElse(null);
     }
 
     /**
      * Returns the signatures of the testable methods (public, non-void, non-abstract).
      *
      * @param classDeclaration where to look for the methods.
-     * @return testable methods signatures
+     * @param publicOnly       if true, only testable methods from *public* classes are returned
+     * @return testable methods ( a list of {@link MethodDeclaration}
      */
-    public static List<String> getTestableMethodSignatures(ClassOrInterfaceDeclaration classDeclaration) {
+    public static List<MethodDeclaration> getTestableMethods(ClassOrInterfaceDeclaration classDeclaration, boolean publicOnly) {
+        // class is not testable, so don't even bother retrieving its declared methods
+        if (!isTestable(classDeclaration) || (publicOnly && !classDeclaration.isPublic()))
+            return Collections.emptyList();
+        // finds all methods that are testable in the class under test
         return classDeclaration.getMethods().stream()
                 .filter(PromptUtils::isTestable)
-                .map(m -> m.getSignature().toString())
                 .collect(Collectors.toList());
     }
 
@@ -170,21 +182,58 @@ public class PromptUtils {
      * - non-void
      * - non-getter/setter
      * - non-toString
+     * - non-hashCode
+     * - non-equals
      *
      * @param m a method declaration
      * @return true if testable, false otherwise.
      */
     private static boolean isTestable(MethodDeclaration m) {
+        // has to be public
         if (!m.isPublic())
             return false;
+        // has to be concrete (non-abstract)
         if (m.isAbstract())
             return false;
+        // has to return a value (non-void)
         if (m.getType().asString().equalsIgnoreCase("void"))
             return false;
-        if (!m.isStatic() && (m.getNameAsString().startsWith("get") || m.getNameAsString().startsWith("set")))
+
+        // cannot be a getter method
+        // heuristic #1: starts with "get", takes no parameters, and is non-static; OR
+        if (!m.isStatic() && m.getNameAsString().startsWith("get") && m.getParameters().size() == 0)
             return false;
+        // heuristic #2: starts with "is", takes no parameters; is non-static, and returns a boolean
+        if (!m.isStatic() && m.getNameAsString().startsWith("is") && m.getParameters().size() == 0 && m.getType().asString().equalsIgnoreCase("boolean"))
+            return false;
+
+        // cannot be a setter method
+        if (!m.isStatic() &&  m.getNameAsString().startsWith("set"))
+            return false;
+        // non-toString
         if (m.getNameAsString().equals("toString"))
             return false;
+
+        // non-hashCode
+        if (m.getSignature().toString().equals("hashCode()"))
+            return false;
+
+        // non-equals
+        if (m.getSignature().toString().equals("equals(Object)"))
+            return false;
+
         return true;
+    }
+
+    /**
+     * Method to check if a class is testable:
+     * - non-abstract
+     * - non-interface
+     *
+     * @param c a class/interface declaration
+     * @return true if testable, false otherwise.
+     */
+    private static boolean isTestable(ClassOrInterfaceDeclaration c) {
+        return !c.isInterface() && !c.isAbstract() && !c.getNameAsString().endsWith("Test");
     }
 }

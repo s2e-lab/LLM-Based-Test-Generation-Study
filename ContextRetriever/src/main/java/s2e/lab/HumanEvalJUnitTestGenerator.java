@@ -2,6 +2,7 @@ package s2e.lab;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
 import s2e.lab.searcher.JavaSearcher;
 
@@ -52,7 +53,7 @@ public class HumanEvalJUnitTestGenerator {
 
 
                 // save the JUnit test in a Java file in the tests folder
-                String jUnitFilename = originalCode.getName().replace(".java", "");
+                String jUnitFilename = FilenameUtils.getBaseName(originalCode.getCanonicalPath());
                 File outputFile = new File(format(RQ1_TEST_FOLDER_NAME, packageName, jUnitFilename));
                 System.out.println("\t" + outputFile.getCanonicalPath());
                 try (FileWriter file = new FileWriter(outputFile)) {
@@ -133,7 +134,7 @@ public class HumanEvalJUnitTestGenerator {
      * @return escaped string
      */
     private static String escape(String s, File javaFile) {
-        //TODO: this is a quick fix to avoid parsing arrays within a string -- ex: "()"
+        // FIXME: this is a quick fix to avoid parsing arrays within a string -- ex: "()"
         // we should use a more generalizable approach
         if (javaFile.getName().equals("id_132.java")) return s; // this is a special case, QUICK FIX
 
