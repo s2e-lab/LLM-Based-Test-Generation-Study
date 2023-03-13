@@ -197,7 +197,7 @@ def generate_tests(config: dict, rq: int, dataset: str, prompt_file: str, prompt
         csv_file.writerow(
             ["ID", "PROMPT_ID", "DURATION", "FINISH_REASON", "ORIGINAL_CODE", "TEST_PROMPT", "GENERATED_TEST"])
         json_file.write("[\n")
-        for prompt in prompts[0:1]:
+        for prompt in prompts:
             print("PROMPT", prompt["id"])
             try:
                 # query Open AI to generate the unit test
