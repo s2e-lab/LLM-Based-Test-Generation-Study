@@ -162,11 +162,12 @@ public class PromptUtils {
      * Returns the signatures of the testable methods (public, non-void, non-abstract).
      *
      * @param classDeclaration where to look for the methods.
+     * @param publicOnly       if true, only testable methods from *public* classes are returned
      * @return testable methods ( a list of {@link MethodDeclaration}
      */
-    public static List<MethodDeclaration> getTestableMethods(ClassOrInterfaceDeclaration classDeclaration) {
+    public static List<MethodDeclaration> getTestableMethods(ClassOrInterfaceDeclaration classDeclaration, boolean publicOnly) {
         // class is not testable, so don't even bother retrieving its declared methods
-        if (!isTestable(classDeclaration))
+        if (!isTestable(classDeclaration) || (publicOnly && !classDeclaration.isPublic()))
             return Collections.emptyList();
         // finds all methods that are testable in the class under test
         return classDeclaration.getMethods().stream()

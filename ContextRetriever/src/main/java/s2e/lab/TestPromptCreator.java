@@ -48,20 +48,21 @@ public class TestPromptCreator {
 
 
     // criteria used to filter out projects
-    public static int MIN_UNITS_UNDER_TEST = 2; // Quartile 1
-    public static int MAX_UNITS_UNDER_TEST = 85; // Quartile 3
+    public static int MIN_UNITS_UNDER_TEST = 1; // Quartile 1
+    public static int MAX_UNITS_UNDER_TEST = 82; // Quartile 3
 
 
     public static void main(String[] args) throws IOException {
         // generates the prompts for RQ1 and RQ2 for HumanEvalJava
         generateHumanEvalJavaPrompts();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-        generateOSSPrompts();
+//        generateOSSPrompts();
     }
 
     /**
-     * Generates the JSON prompts for the HumanEvalJava project.
-     * Generates the original scenario for RQ1, and the scenarios 1-3 for RQ2.
+     * Generates the JSON prompts for the OSS projects.
+     * Generates the original scenario for RQ1.
+     * TODO: other scenarios for RQ2
      *
      * @throws IOException
      */
@@ -76,7 +77,7 @@ public class TestPromptCreator {
                 // is it a test class?
                 if (javaFile.getPath().toLowerCase().contains("/test/"))
                     continue;
-                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, decl -> decl.getJavadoc().isPresent());
+                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, decl -> decl.getJavadoc().isPresent(), true);
                 if (!promptList.isEmpty())
                     outputList.addAll(promptList);
             }
@@ -105,7 +106,7 @@ public class TestPromptCreator {
             List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
             List<HashMap<String, String>> outputList = new ArrayList<>();
             for (File javaFile : javaFiles) {
-                outputList.addAll(generateTestPrompt(javaFile, null));
+                outputList.addAll(generateTestPrompt(javaFile, null,false));
             }
             // original sample = RQ1, otherwise, RQ2 folder
             String researchQuestion = packageName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
@@ -116,11 +117,12 @@ public class TestPromptCreator {
     /**
      * Use the template to create the JUnit test skeleton (header)
      *
-     * @param javaFile  file that contains the method under test
-     * @param predicate a predicate to test whether a specific method declaration should be included or not
+     * @param javaFile   file that contains the method under test
+     * @param predicate  a predicate to test whether a specific method declaration should be included or not
+     * @param publicOnly if true, only testable methods from *public* classes are returned
      * @return
      */
-    private static List<HashMap<String, String>> generateTestPrompt(File javaFile, Predicate<MethodDeclaration> predicate) {
+    private static List<HashMap<String, String>> generateTestPrompt(File javaFile, Predicate<MethodDeclaration> predicate, boolean publicOnly) {
 
         List<HashMap<String, String>> outputList = new ArrayList<>();
         try {
@@ -135,7 +137,7 @@ public class TestPromptCreator {
 
 
             // collect the testable method's names (only if the class is also testable)
-            List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDeclaration);
+            List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDeclaration, publicOnly);
             for (int i = 0; i < testableMethods.size(); i++) {
                 // method ought to be ignored per the passed predicate
                 MethodDeclaration methodDeclaration = testableMethods.get(i);
