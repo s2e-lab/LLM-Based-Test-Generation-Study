@@ -8,7 +8,7 @@ import uuid
 import openai
 
 # Code Generation Configuration Parameters
-OPENAI_MODEL = "code-cushman-001"  # "code-davinci-002"
+OPENAI_MODEL = "code-davinci-002"
 OPENAI_TEMPERATURE = 0
 OPENAI_TOP_P = 1
 OPENAI_FREQUENCY_PENALTY = 0
@@ -71,7 +71,12 @@ def save_generated_code(prompt: dict, response: dict, max_tokens: int, output_fo
     """
     # get the original sample filename and extension (this makes the generation logic generic to any language)
     original_filename, extension = os.path.splitext(response['prompt_id'])
+    original_filename = os.path.basename(original_filename)
     filename = f"{original_filename}T{max_tokens}Test{extension}"
+
+    # create the output folder if needed
+    if not os.path.exists(output_folder): os.makedirs(output_folder)
+
     with open(os.path.join(output_folder, filename), "w") as gen_file:
         gen_file.write(prompt["test_prompt"] + "\n" + response['choices'][0]["text"])
 

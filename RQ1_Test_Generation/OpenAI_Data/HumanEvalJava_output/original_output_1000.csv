@@ -1,5 +1,5 @@
 ID,PROMPT_ID,DURATION,FINISH_REASON,ORIGINAL_CODE,TEST_PROMPT,GENERATED_TEST
-e6e78364-f3e0-42ca-b9e0-b54ffb0746a7,/HumanEvalJava/src/main/java/original/id_0.java,-1,ERROR - [Errno 2] No such file or directory: '/HumanEvalJava/src/main/java/original/id_0T1000Test.java',"// HasCloseElements.java
+cmpl-6tSvjiwRfzJlU08xPDhk2P9HCjkK7,/HumanEvalJava/src/main/java/original/id_0.java,6.704817056655884,stop,"// HasCloseElements.java
 package original;
 
 import java.util.List;
@@ -62,4 +62,46 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link HasCloseElements#hasCloseElements(List, Double)} method.
 */
 class HasCloseElementsTest {
-"
+
+	/**
+	* Test case for the {@link HasCloseElements#hasCloseElements(List, Double)} method.
+	*/
+	@Test
+	void testHasCloseElements() {
+		List<Double> numbers = List.of(1.0, 2.0, 3.0);
+		Double threshold = 0.5;
+		assertFalse(HasCloseElements.hasCloseElements(numbers, threshold));
+		
+		numbers = List.of(1.0, 2.8, 3.0, 4.0, 5.0, 2.0);
+		threshold = 0.3;
+		assertTrue(HasCloseElements.hasCloseElements(numbers, threshold));
+		
+		numbers = List.of(1.0, 2.0, 3.9, 4.0, 5.0, 2.2);
+		threshold = 0.3;
+		assertTrue(HasCloseElements.hasCloseElements(numbers, threshold));
+		
+		numbers = List.of(1.0, 2.0, 3.9, 4.0, 5.0, 2.2);
+		threshold = 0.05;
+		assertFalse(HasCloseElements.hasCloseElements(numbers, threshold));
+		
+		numbers = List.of(1.0, 2.0, 5.9, 4.0, 5.0);
+		threshold = 0.95;
+		assertTrue(HasCloseElements.hasCloseElements(numbers, threshold));
+		
+		numbers = List.of(1.0, 2.0, 5.9, 4.0, 5.0);
+		threshold = 0.8;
+		assertFalse(HasCloseElements.hasCloseElements(numbers, threshold));
+		
+		numbers = List.of(1.0, 2.0, 3.0, 4.0, 5.0, 2.0);
+		threshold = 0.1;
+		assertTrue(HasCloseElements.hasCloseElements(numbers, threshold));
+		
+		numbers = List.of(1.1, 2.2, 3.1, 4.1, 5.1);
+		threshold = 1.0;
+		assertTrue(HasCloseElements.hasCloseElements(numbers, threshold));
+		
+		numbers = List.of(1.1, 2.2, 3.1, 4.1, 5.1);
+		threshold = 0.5;
+		assertFalse(HasCloseElements.hasCloseElements(numbers, threshold));
+	}
+}"
