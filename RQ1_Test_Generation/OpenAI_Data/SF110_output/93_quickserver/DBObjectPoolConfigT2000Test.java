@@ -1,0 +1,146 @@
+// DBObjectPoolConfigTest.java
+package org.quickserver.util.xmlreader;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DBObjectPoolConfig}.
+* It contains ten unit test cases for the {@link DBObjectPoolConfig#toXML(String)} method.
+*/
+class DBObjectPoolConfigTest {
+
+	@Test
+	void testToXML() {
+		DBObjectPoolConfig dbObjectPoolConfig = new DBObjectPoolConfig();
+		dbObjectPoolConfig.setDbPoolUtil("org.quickserver.sql.DBPoolUtil");
+		DatabaseConnectionSet databaseConnectionSet = new DatabaseConnectionSet();
+		databaseConnectionSet.setName("test");
+		databaseConnectionSet.setDriver("org.hsqldb.jdbcDriver");
+		databaseConnectionSet.setUrl("jdbc:hsqldb:hsql://localhost/test");
+		databaseConnectionSet.setUser("sa");
+		databaseConnectionSet.setPassword("");
+		databaseConnectionSet.setMaxConn(10);
+		databaseConnectionSet.setMinConn(5);
+		databaseConnectionSet.setMaxWait(1000);
+		databaseConnectionSet.setMaxIdleTime(1000);
+		databaseConnectionSet.setMaxUseCount(1000);
+		databaseConnectionSet.setMaxUseTime(1000);
+		databaseConnectionSet.setTestQuery("SELECT 1");
+		databaseConnectionSet.setTestQueryWait(1000);
+		databaseConnectionSet.setTestQueryOnBorrow(true);
+		databaseConnectionSet.setTestQueryOnReturn(true);
+		databaseConnectionSet.setTestQueryOnIdle(true);
+		databaseConnectionSet.setTestQueryOnCreate(true);
+		databaseConnectionSet.setTestQueryOnDestroy(true);
+		databaseConnectionSet.setTestQueryOnCheckout(true);
+		databaseConnectionSet.setTestQueryOnCheckin(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnExhausted(true);
+		databaseConnectionSet.setTestQueryOnError(true);
+		databaseConnectionSet.setTestQueryOnTimeout(true);
+		databaseConnectionSet.setTestQueryOnConnect(true);
+		databaseConnectionSet.setTestQueryOnDisconnect(true);
+		databaseConnectionSet.setTestQueryOnReconnect(true);
+		databaseConnectionSet.setTestQueryOnShutdown(true);
+		databaseConnectionSet.setTestQueryOnStartup(true);
+		databaseConnectionSet.setTestQueryOnValidate(true);
+		databaseConnectionSet.setTestQueryOnInvalidate(true);
+		databaseConnectionSet.setTestQueryOnEvict(true);
+		databaseConnectionSet.setTestQueryOnExpire(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTestQueryOnRelease(true);
+		databaseConnectionSet.setTest

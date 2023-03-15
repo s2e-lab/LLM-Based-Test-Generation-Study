@@ -1,0 +1,1557 @@
+ID,PROMPT_ID,DURATION,FINISH_REASON,ORIGINAL_CODE,TEST_PROMPT,GENERATED_TEST
+cmpl-6twoCgDePTDNUa3NYyY3f2PnhTW5q,/EvoSuiteBenchmark/15_beanbin/src/main/java/net/sourceforge/beanbin/BeanBin_0Test.java,47.63945007324219,length,"// BeanBin.java
+package net.sourceforge.beanbin;
+
+import java.util.Collection;
+import java.util.Iterator;
+import net.sourceforge.beanbin.command.ActiveListCommand;
+import net.sourceforge.beanbin.command.AddEntity;
+import net.sourceforge.beanbin.command.RemoveEntity;
+import net.sourceforge.beanbin.data.BeanBinDAO;
+import net.sourceforge.beanbin.query.Query;
+
+/**
+ * BeanBin is a utility for persisting EJB 3.0 Entity beans.
+ * It works without the need of any xml configuration (except for database connectivity)
+ * and it generates all the nessessary JPA-QL.
+ *
+ * @author Brian Gorman
+ *
+ * @param <E> A bean that is an {@link java.persistence.Entity}
+ */
+public class BeanBin<E> extends BeanBinSearcher<E> implements Iterable<E> {
+
+    private BeanBinDAO dao;
+
+    private Class clazz;
+
+    private Transaction transaction;
+
+    public BeanBin(Class clazz) throws BeanBinException {
+        super(clazz);
+        this.clazz = clazz;
+        this.dao = BeanBinDAOFactory.getDAO();
+        this.transaction = new Transaction(dao, clazz);
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    /**
+     * Returns the amount of beans stored in this BeanBin
+     * @return
+     * @throws BeanBinException
+     */
+    public int getSize() throws BeanBinException {
+        return dao.getSize(clazz, new Query());
+    }
+
+    /**
+     * Search the bin
+     * @param query
+     * @return ActiveList
+     * @throws BeanBinException
+     */
+    public ActiveList<E> search(Query query) throws BeanBinException {
+        ActiveList<E> list = new ActiveList<E>(clazz);
+        list.setQuery(query);
+        return list;
+    }
+
+    /**
+     * Persist an {@link java.persistence.Entity}
+     * @param entity
+     * @throws BeanBinException
+     */
+    public void putIn(E obj) throws BeanBinException {
+        addCommandToTransaction(new AddEntity(obj));
+    }
+
+    private void addCommandToTransaction(ActiveListCommand... cmds) throws BeanBinException {
+        if (getTransaction().hasNotBegun()) {
+            Transaction tx = new Transaction(dao, clazz);
+            for (ActiveListCommand cmd : cmds) {
+                tx.addCommand(cmd);
+            }
+            tx.commit();
+        } else {
+            for (ActiveListCommand cmd : cmds) {
+                getTransaction().addCommand(cmd);
+            }
+        }
+    }
+
+    /**
+     *  Remove an {@link java.persistence.Entity} from the bin
+     * @param entity
+     */
+    public void takeOut(E obj) throws BeanBinException {
+        addCommandToTransaction(new RemoveEntity(obj));
+    }
+
+    /**
+     * Persist a collection of {@link java.persistence.Entity}'s
+     * @param collection
+     * @throws BeanBinException
+     */
+    public void putIn(Collection<E> c) throws BeanBinException {
+        ActiveListCommand[] cmds = new AddEntity[c.size()];
+        Iterator iter = c.iterator();
+        for (int i = 0; iter.hasNext(); ++i) {
+            cmds[i] = new AddEntity(iter.next());
+        }
+        addCommandToTransaction(cmds);
+    }
+
+    /**
+     *  Remove a collection of {@link java.persistence.Entity}'s from the bin
+     * @param collection
+     * @throws BeanBinException
+     */
+    public void takeOut(Collection<E> c) throws BeanBinException {
+        ActiveListCommand[] cmds = new AddEntity[c.size()];
+        Iterator iter = c.iterator();
+        for (int i = 0; iter.hasNext(); ++i) {
+            cmds[i] = new RemoveEntity(iter.next());
+        }
+        addCommandToTransaction(cmds);
+    }
+
+    public Iterator<E> iterator() {
+        try {
+            return fetchSize(100).iterator();
+        } catch (BeanBinException e) {
+            throw new RuntimeException(""BeanBin iterator failed: "" + e.getMessage(), e);
+        }
+    }
+}
+","// BeanBin_0Test.java
+package net.sourceforge.beanbin;
+
+import java.util.Collection;
+import java.util.Iterator;
+import net.sourceforge.beanbin.command.ActiveListCommand;
+import net.sourceforge.beanbin.command.AddEntity;
+import net.sourceforge.beanbin.command.RemoveEntity;
+import net.sourceforge.beanbin.data.BeanBinDAO;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link BeanBin}.
+* It contains ten unit test cases for the {@link BeanBin#search(Query)} method.
+*/
+class BeanBin_0Test {","// BeanBin_0Test.java
+package net.sourceforge.beanbin;
+
+import java.util.Collection;
+import java.util.Iterator;
+import net.sourceforge.beanbin.command.ActiveListCommand;
+import net.sourceforge.beanbin.command.AddEntity;
+import net.sourceforge.beanbin.command.RemoveEntity;
+import net.sourceforge.beanbin.data.BeanBinDAO;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link BeanBin}.
+* It contains ten unit test cases for the {@link BeanBin#search(Query)} method.
+*/
+class BeanBin_0Test {
+
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_0() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_1() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_2() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_3() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_4() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_5() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_6() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_7() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_8() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#search(Query)} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testSearch_9() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		Query query = new Query();
+		ActiveList<Person> result = beanBin.search(query);
+		assertNotNull(result);
+	}
+	
+}
+
+// BeanBin_1Test.java
+package net.sourceforge.beanbin;
+
+import java.util.Collection;
+import java.util.Iterator;
+import net.sourceforge.beanbin.command.ActiveListCommand;
+import net.sourceforge.beanbin.command.AddEntity;
+import net.sourceforge.beanbin.command.RemoveEntity;
+import net.sourceforge.beanbin.data.BeanBinDAO;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link BeanBin}.
+* It contains ten unit test cases for the {@link BeanBin#getSize()} method.
+*/
+class BeanBin_1Test {
+		
+	/**
+	* Test case for the {@link BeanBin#getSize()} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testGetSize_0() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		int result = beanBin.getSize();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#getSize()} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testGetSize_1() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		int result = beanBin.getSize();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#getSize()} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testGetSize_2() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		int result = beanBin.getSize();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#getSize()} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testGetSize_3() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		int result = beanBin.getSize();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#getSize()} method.
+	*
+	* @throws BeanBinException
+	*/
+	@Test
+	void testGetSize_4() throws BeanBinException {
+		BeanBin<Person> beanBin = new BeanBin<Person>(Person.class);
+		int result = beanBin.getSize();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link BeanBin#"
+cmpl-6twpFhfgaNeiyXv30b1cwwKr2YVHx,/EvoSuiteBenchmark/15_beanbin/src/main/java/net/sourceforge/beanbin/ramcram/TheCrammer.java,46.902567863464355,length,"// TheCrammer.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+
+/**
+ * This class is responsible for saving, removing and searching
+ * objects that are stored within it.
+ *
+ * @author Brian Gorman
+ */
+public class TheCrammer<E> {
+
+    /**
+     * @param obj The object to be saved.
+     */
+    public void save(Object obj) {
+    }
+
+    /**
+     * @param obj This can be either an Entity or a primary key
+     */
+    public void remove(Object obj) {
+    }
+
+    /**
+     * Searches internally against the specified {@link Query}
+     * @param query
+     * @return
+     */
+    public ActiveList<E> search(Query query) {
+        return null;
+    }
+}
+","// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {","// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList;
+import net.sourceforge.beanbin.query.Query;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TheCrammer}.
+* It contains ten unit test cases for the {@link TheCrammer#search(Query)} method.
+*/
+class TheCrammerTest {
+		
+	@Test
+	void testSearch() {
+		TheCrammer<Object> crammer = new TheCrammer<Object>();
+		Query query = new Query();
+		ActiveList<Object> result = crammer.search(query);
+		assertNotNull(result);
+	}
+}
+
+// TheCrammerTest.java
+package net.sourceforge.beanbin.ramcram;
+
+import net.sourceforge.beanbin.ActiveList"
+cmpl-6twqImYinxHXsnt0Se3YJwT3cC0IR,/EvoSuiteBenchmark/15_beanbin/src/main/java/net/sourceforge/beanbin/reflect/ReflectionEngine.java,58.49064922332764,stop,"// ReflectionEngine.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.reflect.Method;
+import java.util.List;
+
+/**
+ * This class is meant to do all the reflection logic against a given
+ * class and a search term.  It also serves as a cacheing mechanism in order
+ * to improve performance.
+ *
+ * Search Term Syntax:
+ *
+ * @author Brian Gorman
+ */
+public class ReflectionEngine {
+
+    //	private map that acts as the cache..
+    /**
+     * @param clazz
+     * @param term
+     * @return matching methods
+     */
+    public List<Method> getMethodsThatHave(Class clazz, String term) {
+        return null;
+    }
+}
+","// ReflectionEngineTest.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.reflect.Method;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ReflectionEngine}.
+* It contains ten unit test cases for the {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+*/
+class ReflectionEngineTest {","// ReflectionEngineTest.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.reflect.Method;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ReflectionEngine}.
+* It contains ten unit test cases for the {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+*/
+class ReflectionEngineTest {
+
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a null class.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithNullClass() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(null, ""get"");
+		assertNull(methods);
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a null search term.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithNullSearchTerm() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(String.class, null);
+		assertNull(methods);
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a null class and a null search term.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithNullClassAndNullSearchTerm() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(null, null);
+		assertNull(methods);
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a class and a search term that does not match any method.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithClassAndSearchTermThatDoesNotMatchAnyMethod() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(String.class, ""get"");
+		assertNotNull(methods);
+		assertEquals(0, methods.size());
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a class and a search term that matches a method.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithClassAndSearchTermThatMatchesAMethod() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(String.class, ""getBytes"");
+		assertNotNull(methods);
+		assertEquals(1, methods.size());
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a class and a search term that matches multiple methods.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithClassAndSearchTermThatMatchesMultipleMethods() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(String.class, ""get"");
+		assertNotNull(methods);
+		assertEquals(2, methods.size());
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a class and a search term that matches a method with a parameter.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithClassAndSearchTermThatMatchesAMethodWithAParameter() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(String.class, ""getBytes(int)"");
+		assertNotNull(methods);
+		assertEquals(1, methods.size());
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a class and a search term that matches a method with multiple parameters.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithClassAndSearchTermThatMatchesAMethodWithMultipleParameters() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(String.class, ""getBytes(int, int)"");
+		assertNotNull(methods);
+		assertEquals(1, methods.size());
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a class and a search term that matches a method with a parameter and a return type.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithClassAndSearchTermThatMatchesAMethodWithAParameterAndAReturnType() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(String.class, ""getBytes(int):byte[]"");
+		assertNotNull(methods);
+		assertEquals(1, methods.size());
+	}
+	
+	/**
+	* Test case for {@link ReflectionEngine#getMethodsThatHave(Class, String)} method.
+	* This test case tests the method with a class and a search term that matches a method with multiple parameters and a return type.
+	*/
+	@Test
+	public void testGetMethodsThatHaveWithClassAndSearchTermThatMatchesAMethodWithMultipleParametersAndAReturnType() {
+		ReflectionEngine reflectionEngine = new ReflectionEngine();
+		List<Method> methods = reflectionEngine.getMethodsThatHave(String.class, ""getBytes(int, int):byte[]"");
+		assertNotNull(methods);
+		assertEquals(1, methods.size());
+	}
+}"
+cmpl-6twrLk2EPeZcsq2UPUrBfWuoX9LqI,/EvoSuiteBenchmark/15_beanbin/src/main/java/net/sourceforge/beanbin/reflect/ReflectionSearch_0Test.java,52.23020315170288,length,"// ReflectionSearch.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.beanbin.BeanBinException;
+import net.sourceforge.beanbin.query.Conditional;
+import net.sourceforge.beanbin.query.Criteria;
+import net.sourceforge.beanbin.query.Query;
+import net.sourceforge.beanbin.query.SearchType;
+import net.sourceforge.beanbin.search.WildcardSearch;
+
+/**
+ * ReflectionSearch is meant to work as an arguement accumulator in order to
+ * build up criteria then when getMethods() or getProperties() is called the
+ * built up {@link Query} is executed.
+ * <br><br>
+ * For example:
+ * <blockquote>
+ * 	<code> ReflectionSearch search = new ReflectionSearch(SomeClass.class).methodsThatHave(""@SomeAnno"").and().methodsThatDontHave(""set*"");<br>
+ * 		// no search as occured yet...<br>
+ * 	List&lt;Method&gt; props = search.getMethods(); // query is executed..</code><br>
+ * </blockquote>
+ *
+ * The exception to this is the hasAnnotation(term) method.  That method is meant to act on the Class iteself
+ * and well create the {@link Query} and execute it immediately.
+ * <br><br>
+ * To improve performance a cacheing system will be used.  The class is {@link ReflectionShelf} and is a singleton.
+ * @author Brian Gorman
+ */
+public class ReflectionSearch {
+
+    private Class clazz;
+
+    private Query query;
+
+    public ReflectionSearch(Class clazz) {
+        this.clazz = clazz;
+        this.query = new Query();
+    }
+
+    /**
+     * Searches the annotations assossiated with the clazz
+     * @param term
+     * @return
+     */
+    public boolean hasAnnotation(String term) {
+        for (Annotation anno : clazz.getAnnotations()) {
+            String name = anno.annotationType().getName();
+            String className = name.substring(name.lastIndexOf(""."") + 1);
+            String termName = term.toString().substring(1);
+            if (hasWildcard(termName)) {
+                WildcardSearch wild = new WildcardSearch(termName);
+                if (wild.doesMatch(name)) {
+                    return true;
+                } else if (wild.doesMatch(className)) {
+                    return true;
+                }
+            } else {
+                if (name.equals(termName)) {
+                    return true;
+                } else if (className.equals(termName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean hasWildcard(String term) {
+        return term.indexOf(""*"") != -1;
+    }
+
+    /**
+     * @param term
+     * @return
+     * @throws BeanBinException
+     */
+    public ReflectionSearch methodsThatHave(String term) throws BeanBinException {
+        query.add(new MethodReflectionCriteria(clazz, term, SearchType.EQUALS));
+        return this;
+    }
+
+    public ReflectionSearch methodsThatDontHave(String term) throws BeanBinException {
+        query.add(new MethodReflectionCriteria(clazz, term, SearchType.DOESNOTEQUAL));
+        return this;
+    }
+
+    public ReflectionSearch and() {
+        query.setNextConditional(Conditional.AND);
+        return this;
+    }
+
+    public ReflectionSearch or() {
+        query.setNextConditional(Conditional.OR);
+        return this;
+    }
+
+    @SuppressWarnings(""unchecked"")
+    public List<Method> getMethods() throws BeanBinException {
+        List<Method> list = (List<Method>) ReflectionShelf.getInstance().get(query);
+        if (list == null) {
+            list = new ArrayList<Method>();
+            for (Criteria criteria : query.getCriterias()) {
+                if (criteria instanceof ReflectionCriteria) {
+                    ReflectionCriteria crit = (ReflectionCriteria) criteria;
+                    Conditional cond = crit.getPreviousCondition();
+                    if (cond != null) {
+                        if (cond == Conditional.AND) {
+                            intersect(list, crit.getResults());
+                        } else {
+                            union(list, crit.getResults());
+                        }
+                    } else {
+                        list = crit.getResults();
+                    }
+                }
+            }
+            ReflectionShelf.getInstance().put(query, list);
+        }
+        return list;
+    }
+
+    protected void intersect(List<Method> master, List<Method> toadd) {
+        for (int i = 0; i < master.size(); ++i) {
+            if (!toadd.contains(master.get(i))) {
+                master.remove(i--);
+            }
+        }
+    }
+
+    protected void union(List<Method> master, List<Method> toadd) {
+        for (Method method : toadd) {
+            if (!master.contains(method)) {
+                master.add(method);
+            }
+        }
+    }
+}
+","// ReflectionSearch_0Test.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.beanbin.BeanBinException;
+import net.sourceforge.beanbin.query.Conditional;
+import net.sourceforge.beanbin.query.Criteria;
+import net.sourceforge.beanbin.query.Query;
+import net.sourceforge.beanbin.query.SearchType;
+import net.sourceforge.beanbin.search.WildcardSearch;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ReflectionSearch}.
+* It contains ten unit test cases for the {@link ReflectionSearch#hasAnnotation(String)} method.
+*/
+class ReflectionSearch_0Test {","// ReflectionSearch_0Test.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.beanbin.BeanBinException;
+import net.sourceforge.beanbin.query.Conditional;
+import net.sourceforge.beanbin.query.Criteria;
+import net.sourceforge.beanbin.query.Query;
+import net.sourceforge.beanbin.query.SearchType;
+import net.sourceforge.beanbin.search.WildcardSearch;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ReflectionSearch}.
+* It contains ten unit test cases for the {@link ReflectionSearch#hasAnnotation(String)} method.
+*/
+class ReflectionSearch_0Test {
+
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_0() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_1() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_2() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_3() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_4() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_5() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_6() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_7() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_8() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#hasAnnotation(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testHasAnnotation_9() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		boolean result = reflectionSearch.hasAnnotation(""@Test"");
+		assertTrue(result);
+	}
+		
+}
+
+// ReflectionSearch_1Test.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.beanbin.BeanBinException;
+import net.sourceforge.beanbin.query.Conditional;
+import net.sourceforge.beanbin.query.Criteria;
+import net.sourceforge.beanbin.query.Query;
+import net.sourceforge.beanbin.query.SearchType;
+import net.sourceforge.beanbin.search.WildcardSearch;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ReflectionSearch}.
+* It contains ten unit test cases for the {@link ReflectionSearch#methodsThatHave(String)} method.
+*/
+class ReflectionSearch_1Test {
+		
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testMethodsThatHave_0() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		ReflectionSearch result = reflectionSearch.methodsThatHave(""@Test"");
+		assertEquals(reflectionSearch, result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testMethodsThatHave_1() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		ReflectionSearch result = reflectionSearch.methodsThatHave(""@Test"");
+		assertEquals(reflectionSearch, result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testMethodsThatHave_2() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		ReflectionSearch result = reflectionSearch.methodsThatHave(""@Test"");
+		assertEquals(reflectionSearch, result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testMethodsThatHave_3() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		ReflectionSearch result = reflectionSearch.methodsThatHave(""@Test"");
+		assertEquals(reflectionSearch, result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testMethodsThatHave_4() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		ReflectionSearch result = reflectionSearch.methodsThatHave(""@Test"");
+		assertEquals(reflectionSearch, result);
+	}
+		
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* @throws BeanBinException
+	*/
+	@Test
+	void testMethodsThatHave_5() throws BeanBinException {
+		ReflectionSearch reflectionSearch = new ReflectionSearch(ReflectionSearch.class);
+		"
+cmpl-6twsOugmfhwdNWCsQEWiZV6TMGpqA,/EvoSuiteBenchmark/15_beanbin/src/main/java/net/sourceforge/beanbin/reflect/ReflectionSearch_1Test.java,46.84322118759155,length,"// ReflectionSearch.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.beanbin.BeanBinException;
+import net.sourceforge.beanbin.query.Conditional;
+import net.sourceforge.beanbin.query.Criteria;
+import net.sourceforge.beanbin.query.Query;
+import net.sourceforge.beanbin.query.SearchType;
+import net.sourceforge.beanbin.search.WildcardSearch;
+
+/**
+ * ReflectionSearch is meant to work as an arguement accumulator in order to
+ * build up criteria then when getMethods() or getProperties() is called the
+ * built up {@link Query} is executed.
+ * <br><br>
+ * For example:
+ * <blockquote>
+ * 	<code> ReflectionSearch search = new ReflectionSearch(SomeClass.class).methodsThatHave(""@SomeAnno"").and().methodsThatDontHave(""set*"");<br>
+ * 		// no search as occured yet...<br>
+ * 	List&lt;Method&gt; props = search.getMethods(); // query is executed..</code><br>
+ * </blockquote>
+ *
+ * The exception to this is the hasAnnotation(term) method.  That method is meant to act on the Class iteself
+ * and well create the {@link Query} and execute it immediately.
+ * <br><br>
+ * To improve performance a cacheing system will be used.  The class is {@link ReflectionShelf} and is a singleton.
+ * @author Brian Gorman
+ */
+public class ReflectionSearch {
+
+    private Class clazz;
+
+    private Query query;
+
+    public ReflectionSearch(Class clazz) {
+        this.clazz = clazz;
+        this.query = new Query();
+    }
+
+    /**
+     * Searches the annotations assossiated with the clazz
+     * @param term
+     * @return
+     */
+    public boolean hasAnnotation(String term) {
+        for (Annotation anno : clazz.getAnnotations()) {
+            String name = anno.annotationType().getName();
+            String className = name.substring(name.lastIndexOf(""."") + 1);
+            String termName = term.toString().substring(1);
+            if (hasWildcard(termName)) {
+                WildcardSearch wild = new WildcardSearch(termName);
+                if (wild.doesMatch(name)) {
+                    return true;
+                } else if (wild.doesMatch(className)) {
+                    return true;
+                }
+            } else {
+                if (name.equals(termName)) {
+                    return true;
+                } else if (className.equals(termName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean hasWildcard(String term) {
+        return term.indexOf(""*"") != -1;
+    }
+
+    /**
+     * @param term
+     * @return
+     * @throws BeanBinException
+     */
+    public ReflectionSearch methodsThatHave(String term) throws BeanBinException {
+        query.add(new MethodReflectionCriteria(clazz, term, SearchType.EQUALS));
+        return this;
+    }
+
+    public ReflectionSearch methodsThatDontHave(String term) throws BeanBinException {
+        query.add(new MethodReflectionCriteria(clazz, term, SearchType.DOESNOTEQUAL));
+        return this;
+    }
+
+    public ReflectionSearch and() {
+        query.setNextConditional(Conditional.AND);
+        return this;
+    }
+
+    public ReflectionSearch or() {
+        query.setNextConditional(Conditional.OR);
+        return this;
+    }
+
+    @SuppressWarnings(""unchecked"")
+    public List<Method> getMethods() throws BeanBinException {
+        List<Method> list = (List<Method>) ReflectionShelf.getInstance().get(query);
+        if (list == null) {
+            list = new ArrayList<Method>();
+            for (Criteria criteria : query.getCriterias()) {
+                if (criteria instanceof ReflectionCriteria) {
+                    ReflectionCriteria crit = (ReflectionCriteria) criteria;
+                    Conditional cond = crit.getPreviousCondition();
+                    if (cond != null) {
+                        if (cond == Conditional.AND) {
+                            intersect(list, crit.getResults());
+                        } else {
+                            union(list, crit.getResults());
+                        }
+                    } else {
+                        list = crit.getResults();
+                    }
+                }
+            }
+            ReflectionShelf.getInstance().put(query, list);
+        }
+        return list;
+    }
+
+    protected void intersect(List<Method> master, List<Method> toadd) {
+        for (int i = 0; i < master.size(); ++i) {
+            if (!toadd.contains(master.get(i))) {
+                master.remove(i--);
+            }
+        }
+    }
+
+    protected void union(List<Method> master, List<Method> toadd) {
+        for (Method method : toadd) {
+            if (!master.contains(method)) {
+                master.add(method);
+            }
+        }
+    }
+}
+","// ReflectionSearch_1Test.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.beanbin.BeanBinException;
+import net.sourceforge.beanbin.query.Conditional;
+import net.sourceforge.beanbin.query.Criteria;
+import net.sourceforge.beanbin.query.Query;
+import net.sourceforge.beanbin.query.SearchType;
+import net.sourceforge.beanbin.search.WildcardSearch;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ReflectionSearch}.
+* It contains ten unit test cases for the {@link ReflectionSearch#methodsThatHave(String)} method.
+*/
+class ReflectionSearch_1Test {","// ReflectionSearch_1Test.java
+package net.sourceforge.beanbin.reflect;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.beanbin.BeanBinException;
+import net.sourceforge.beanbin.query.Conditional;
+import net.sourceforge.beanbin.query.Criteria;
+import net.sourceforge.beanbin.query.Query;
+import net.sourceforge.beanbin.query.SearchType;
+import net.sourceforge.beanbin.search.WildcardSearch;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link ReflectionSearch}.
+* It contains ten unit test cases for the {@link ReflectionSearch#methodsThatHave(String)} method.
+*/
+class ReflectionSearch_1Test {
+
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_1() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_2() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_3() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_4() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_5() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_6() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_7() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_8() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch#methodsThatHave(String)}
+	* <br><br>
+	* Case: Test that the method returns a list of methods that have the annotation.
+	* <br><br>
+	* Expected Result: The list should contain the method with the annotation.
+	* <br><br>
+	* Assertion: assertEquals(1, list.size());
+	*/
+	@Test
+	void testMethodsThatHave_9() throws BeanBinException {
+		ReflectionSearch search = new ReflectionSearch(ReflectionSearch_1Test.class);
+		List<Method> list = search.methodsThatHave(""@Test"").getMethods();
+		assertEquals(1, list.size());
+	}
+	
+	/**
+	* Test case for the {@link ReflectionSearch#methodsThatHave(String)} method.
+	* <br><br>
+	* Tested Method: {@link ReflectionSearch"

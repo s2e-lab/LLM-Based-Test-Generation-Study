@@ -1,0 +1,536 @@
+// _LogonResponse_2Test.java
+package mygrid.web;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link _LogonResponse}.
+* It contains ten unit test cases for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+*/
+class _LogonResponse_2Test {
+
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_1() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_2() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_3() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_4() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_5() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_6() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_7() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_8() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_9() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link _LogonResponse#getSerializer(java.lang.String, java.lang.Class, javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetSerializer_10() throws Exception {
+		String mechType = "";
+		Class _javaType = null;
+		javax.xml.namespace.QName _xmlType = null;
+		org.apache.axis.encoding.Serializer result = _LogonResponse.getSerializer(mechType, _javaType, _xmlType);
+		assertNotNull(result);
+	}
+	
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_2.java
+package mygrid.web;
+
+
+/**
+* This class was generated by the JAX-WS RI.
+* JAX-WS RI 2.2.9-b130926.1035
+* Generated source version: 2.2
+* 
+*/
+@javax.xml.bind.annotation.XmlRegistry
+public class ObjectFactory {
+
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mygrid.web
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link LogonResponse }
+     * 
+     */
+    public LogonResponse createLogonResponse() {
+        return new LogonResponse();
+    }
+
+    /**
+     * Create an instance of {@link Logon }
+     * 
+     */
+    public Logon createLogon() {
+        return new Logon();
+    }
+
+}
+
+// _LogonResponse_

@@ -1,0 +1,187 @@
+// WorkerMgr_0Test.java
+package com.hf.sfm.system.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.business.PersonInfoMgr;
+import com.hf.sfm.system.pdo.AWorker;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WorkerMgr}.
+* It contains ten unit test cases for the {@link WorkerMgr#saveOrUpdate(AWorker)} method.
+*/
+class WorkerMgr_0Test {
+
+	/**
+	* Test case 1:
+	* 		idno: null
+	* 		password: null
+	* 		name: null
+	* 		sex: null
+	* 		birthday: null
+	* 		idtype: null
+	* 		idno: null
+	* 		address: null
+	* 		postcode: null
+	* 		tel: null
+	* 		mobile: null
+	* 		email: null
+	* 		qq: null
+	* 		msn: null
+	* 		remark: null
+	* 		status: null
+	* 		createdate: null
+	* 		updatedate: null
+	* 		createuser: null
+	* 		updateuser: null
+	* 		deptid: null
+	* 		deptname: null
+	* 		roleid: null
+	* 		rolename: null
+	* 		roledesc: null
+	* 		roletype: null
+	* 		rolelevel: null
+	* 		rolesort: null
+	* 		roleremark: null
+	* 		rolecreatedate: null
+	* 		roleupdatedate: null
+	* 		rolecreateuser: null
+	* 		roleupdateuser: null
+	* 		roleidno: null
+	* 		roleidtype: null
+	* 		roleidtypename: null
+	* 		rolesex: null
+	* 		rolesexname: null
+	* 		rolebirthday: null
+	* 		roleaddress: null
+	* 		rolepostcode: null
+	* 		roletel: null
+	* 		rolemobile: null
+	* 		roleemail: null
+	* 		roleqq: null
+	* 		rolemsn: null
+	* 		roleremark: null
+	* 		rolestatus: null
+	* 		rolecreatedate: null
+	* 		roleupdatedate: null
+	* 		rolecreateuser: null
+	* 		roleupdateuser: null
+	* 		roledeptid: null
+	* 		roledeptname: null
+	* 		rolemenuid: null
+	* 		rolemenuname: null
+	* 		rolemenutype: null
+	* 		rolemenulevel: null
+	* 		rolemenusort: null
+	* 		rolemenupath: null
+	* 		rolemenuremark: null
+	* 		rolemenucreatedate: null
+	* 		rolemenuupdatedate: null
+	* 		rolemenucreateuser: null
+	* 		rolemenuupdateuser: null
+	* 		rolemenuidno: null
+	* 		rolemenuidtype: null
+	* 		rolemenuidtypename: null
+	* 		rolemenusex: null
+	* 		rolemenusexname: null
+	* 		rolemenubirthday: null
+	* 		rolemenuaddress: null
+	* 		rolemenupostcode: null
+	* 		rolemenutel: null
+	* 		rolemenumobile: null
+	* 		rolemenuemail: null
+	* 		rolemenuqq: null
+	* 		rolemenumsn: null
+	* 		rolemenuremark: null
+	* 		rolemenustatus: null
+	* 		rolemenucreatedate: null
+	* 		rolemenuupdatedate: null
+	* 		rolemenucreateuser: null
+	* 		rolemenuupdateuser: null
+	* 		rolemenudeptid: null
+	* 		rolemenudeptname: null
+	* 		rolefunid: null
+	* 		rolefunname: null
+	* 		rolefuntype: null
+	* 		rolefunlevel: null
+	* 		rolefunsort: null
+	* 		rolefunpath: null
+	* 		rolefunremark: null
+	* 		rolefuncreatedate: null
+	* 		rolefunupdatedate: null
+	* 		rolefuncreateruser: null
+	* 		rolefunupdateuser: null
+	* 		rolefunidno: null
+	* 		rolefunidtype: null
+	* 		rolefunidtypename: null
+	* 		rolefunsex: null
+	* 		rolefunsexname: null
+	* 		rolefunbirthday: null
+	* 		rolefunaddress: null
+	* 		rolefunpostcode: null
+	* 		rolefuntel: null
+	* 		rolefunmobile: null
+	* 		rolefunemail: null
+	* 		rolefunqq: null
+	* 		rolefunmsn: null
+	* 		rolefunremark: null
+	* 		rolefunstatus: null
+	* 		rolefuncreatedate: null
+	* 		rolefunupdatedate: null
+	* 		rolefuncreateruser: null
+	* 		rolefunupdateuser: null
+	* 		rolefundeptid: null
+	* 		rolefundeptname: null
+	* 		rolefunmenuid: null
+	* 		rolefunmenuname: null
+	* 		rolefunmenutype: null
+	* 		rolefunmenulevel: null
+	* 		rolefunmenusort: null
+	* 		rolefunmenupath: null
+	* 		rolefunmenuremark: null
+	* 		rolefunmenucreatedate: null
+	* 		rolefunmenuupdatedate: null
+	* 		rolefunmenucreateuser: null
+	* 		rolefunmenuupdateuser: null
+	* 		rolefunmenuidno: null
+	* 		rolefunmenuidtype: null
+	* 		rolefunmenuidtypename: null
+	* 		rolefunmenusex: null
+	* 		rolefunmenusexname: null
+	* 		rolefunmenubirthday: null
+	* 		rolefunmenuaddress: null
+	* 		rolefunmenupostcode: null
+	* 		rolefunmenutel: null
+	* 		rolefunmenumobile: null
+	* 		rolefunmenuemail: null
+	* 		rolefunmenuqq: null
+	* 		rolefunmenumsn: null
+	* 		rolefunmenuremark: null
+	* 		rolefunmenustatus: null
+	* 		rolefunmenucreatedate: null
+	* 		rolefunmenuupdatedate: null
+	* 		rolefunmenucreateruser: null
+	* 		rolefunmenuupdateuser: null
+	* 		rolefunmenudeptid: null
+	* 		rolefunmenudeptname: null
+	* 		rolefunfunid: null
+	* 		rolefunfunname: null
+	* 		rolefunfuntype: null
+	* 		rolefunfunlevel: null
+	* 		rolefunfunsort: null
+	* 		rolefunfunpath: null
+	* 		rolefunfunremark: null
+	* 		rolefunfuncratedate: null
+	* 		rolefunfunupdatedate: null
+	* 		rolefunfuncreateruser: null
+	* 		rolefunfunupdateuser: null
+	* 		rolefunfunidno: null
+	* 		rolefunfunidtype: null
+	* 		rolefunfunidtypename: null
+	* 		rolefunfunsex: null
+	* 		rolefunfunsexname: null
+	* 		rolefunfunbirthday: null
+	* 		rolefunfunaddress: null
+	* 	

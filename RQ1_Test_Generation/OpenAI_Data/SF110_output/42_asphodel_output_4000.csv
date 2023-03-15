@@ -1,0 +1,1032 @@
+ID,PROMPT_ID,DURATION,FINISH_REASON,ORIGINAL_CODE,TEST_PROMPT,GENERATED_TEST
+cmpl-6tsvRfiaXgNOgRyDL8Zglu25CHbfj,/EvoSuiteBenchmark/42_asphodel/src/main/java/org/asphodel/parser/HtmlContentParser_0Test.java,86.86425518989563,length,"// HtmlContentParser.java
+package org.asphodel.parser;
+
+import au.id.jericho.lib.html.Source;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+
+/**
+ * @author : sunwj
+ * @since 0.1
+ *        Date: Mar 31, 2007
+ *        Time: 10:03:07 PM
+ *        <p/>
+ *        html content parser using Jericho
+ * todo does it need to devided into 2 different implementation?
+ */
+public class HtmlContentParser implements StringContentParser, StreamContentParser {
+
+    private static Log log = LogFactory.getLog(HtmlContentParser.class);
+
+    /**
+     * @param textContent content as a text format,the real format of the content can be xml,html,xhtml....
+     * @return plain text without extra tags or elements
+     */
+    public String extractPlainText(String textContent) throws ContentParserException {
+        Source contentSource = new Source(textContent);
+        return contentSource.extractText();
+    }
+
+    /**
+     */
+    public String extractText(Reader reader) throws ContentParserException {
+        try {
+            Source contentSource = new Source(reader);
+            return contentSource.extractText();
+        } catch (IOException e) {
+            log.error(""when parsing from reader,"", e);
+            throw new ContentParserException(e);
+        }
+    }
+
+    public String extractText(InputStream inputStream) throws ContentParserException {
+        try {
+            Source contentSource = new Source(inputStream);
+            return contentSource.extractText();
+        } catch (IOException e) {
+            log.error(""when parsing from inputStrem"", e);
+            throw new ContentParserException(e);
+        }
+    }
+
+    public String extractText(URL url) throws ContentParserException {
+        try {
+            Source contentSource = new Source(url);
+            return contentSource.extractText();
+        } catch (IOException e) {
+            log.error(""when parsing from url"", e);
+            throw new ContentParserException(e);
+        }
+    }
+}
+","// HtmlContentParser_0Test.java
+package org.asphodel.parser;
+
+import au.id.jericho.lib.html.Source;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HtmlContentParser}.
+* It contains ten unit test cases for the {@link HtmlContentParser#extractPlainText(String)} method.
+*/
+class HtmlContentParser_0Test {","// HtmlContentParser_0Test.java
+package org.asphodel.parser;
+
+import au.id.jericho.lib.html.Source;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HtmlContentParser}.
+* It contains ten unit test cases for the {@link HtmlContentParser#extractPlainText(String)} method.
+*/
+class HtmlContentParser_0Test {
+
+	private static Log log = LogFactory.getLog(HtmlContentParser_0Test.class);
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_0() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_1() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_2() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_3() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_4() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_5() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_6() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_7() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_8() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractPlainText(String)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractPlainText_9() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractPlainText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+}
+
+// HtmlContentParser_1Test.java
+package org.asphodel.parser;
+
+import au.id.jericho.lib.html.Source;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HtmlContentParser}.
+* It contains ten unit test cases for the {@link HtmlContentParser#extractText(Reader)} method.
+*/
+class HtmlContentParser_1Test {
+		
+	private static Log log = LogFactory.getLog(HtmlContentParser_1Test.class);
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_0() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_1() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_2() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_3() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_4() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_5() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_6() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_7() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_8() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(Reader)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_9() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+}
+
+// HtmlContentParser_2Test.java
+package org.asphodel.parser;
+
+import au.id.jericho.lib.html.Source;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HtmlContentParser}.
+* It contains ten unit test cases for the {@link HtmlContentParser#extractText(InputStream)} method.
+*/
+class HtmlContentParser_2Test {
+		
+	private static Log log = LogFactory.getLog(HtmlContentParser_2Test.class);
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(InputStream)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_0() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(InputStream)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_1() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(InputStream)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_2() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(InputStream)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_3() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(InputStream)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_4() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(InputStream)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_5() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(InputStream)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_6() throws ContentParserException {
+		String textContent = ""<html><head><title>Test</title></head><body><p>Test</p></body></html>"";
+		String result = new HtmlContentParser().extractText(textContent);
+		assertEquals(""Test Test"", result);
+	}
+	
+	/**
+	 * Test case for method {@link HtmlContentParser#extractText(InputStream)}.
+	 * @throws ContentParserException 
+	 */
+	@Test
+	void testExtractText_7() throws ContentParserException {
+		String textContent = ""<html><head"
+cmpl-6tswpIAOEAiwa7ume3yCqDpyr40ds,/EvoSuiteBenchmark/42_asphodel/src/main/java/org/asphodel/parser/HtmlContentParser_1Test.java,81.14507675170898,length,"// HtmlContentParser.java
+package org.asphodel.parser;
+
+import au.id.jericho.lib.html.Source;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+
+/**
+ * @author : sunwj
+ * @since 0.1
+ *        Date: Mar 31, 2007
+ *        Time: 10:03:07 PM
+ *        <p/>
+ *        html content parser using Jericho
+ * todo does it need to devided into 2 different implementation?
+ */
+public class HtmlContentParser implements StringContentParser, StreamContentParser {
+
+    private static Log log = LogFactory.getLog(HtmlContentParser.class);
+
+    /**
+     * @param textContent content as a text format,the real format of the content can be xml,html,xhtml....
+     * @return plain text without extra tags or elements
+     */
+    public String extractPlainText(String textContent) throws ContentParserException {
+        Source contentSource = new Source(textContent);
+        return contentSource.extractText();
+    }
+
+    /**
+     */
+    public String extractText(Reader reader) throws ContentParserException {
+        try {
+            Source contentSource = new Source(reader);
+            return contentSource.extractText();
+        } catch (IOException e) {
+            log.error(""when parsing from reader,"", e);
+            throw new ContentParserException(e);
+        }
+    }
+
+    public String extractText(InputStream inputStream) throws ContentParserException {
+        try {
+            Source contentSource = new Source(inputStream);
+            return contentSource.extractText();
+        } catch (IOException e) {
+            log.error(""when parsing from inputStrem"", e);
+            throw new ContentParserException(e);
+        }
+    }
+
+    public String extractText(URL url) throws ContentParserException {
+        try {
+            Source contentSource = new Source(url);
+            return contentSource.extractText();
+        } catch (IOException e) {
+            log.error(""when parsing from url"", e);
+            throw new ContentParserException(e);
+        }
+    }
+}
+","// HtmlContentParser_1Test.java
+package org.asphodel.parser;
+
+import au.id.jericho.lib.html.Source;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HtmlContentParser}.
+* It contains ten unit test cases for the {@link HtmlContentParser#extractText(Reader)} method.
+*/
+class HtmlContentParser_1Test {","// HtmlContentParser_1Test.java
+package org.asphodel.parser;
+
+import au.id.jericho.lib.html.Source;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HtmlContentParser}.
+* It contains ten unit test cases for the {@link HtmlContentParser#extractText(Reader)} method.
+*/
+class HtmlContentParser_1Test {
+private static Log log = LogFactory.getLog(HtmlContentParser_1Test.class);
+		private static final String TEST_FILE_NAME = ""test.html"";
+		private static final String TEST_FILE_NAME_1 = ""test1.html"";
+		private static final String TEST_FILE_NAME_2 = ""test2.html"";
+		private static final String TEST_FILE_NAME_3 = ""test3.html"";
+		private static final String TEST_FILE_NAME_4 = ""test4.html"";
+		private static final String TEST_FILE_NAME_5 = ""test5.html"";
+		private static final String TEST_FILE_NAME_6 = ""test6.html"";
+		private static final String TEST_FILE_NAME_7 = ""test7.html"";
+		private static final String TEST_FILE_NAME_8 = ""test8.html"";
+		private static final String TEST_FILE_NAME_9 = ""test9.html"";
+		private static final String TEST_FILE_NAME_10 = ""test10.html"";
+		private static final String TEST_FILE_NAME_11 = ""test11.html"";
+		private static final String TEST_FILE_NAME_12 = ""test12.html"";
+		private static final String TEST_FILE_NAME_13 = ""test13.html"";
+		private static final String TEST_FILE_NAME_14 = ""test14.html"";
+		private static final String TEST_FILE_NAME_15 = ""test15.html"";
+		private static final String TEST_FILE_NAME_16 = ""test16.html"";
+		private static final String TEST_FILE_NAME_17 = ""test17.html"";
+		private static final String TEST_FILE_NAME_18 = ""test18.html"";
+		private static final String TEST_FILE_NAME_19 = ""test19.html"";
+		private static final String TEST_FILE_NAME_20 = ""test20.html"";
+		private static final String TEST_FILE_NAME_21 = ""test21.html"";
+		private static final String TEST_FILE_NAME_22 = ""test22.html"";
+		private static final String TEST_FILE_NAME_23 = ""test23.html"";
+		private static final String TEST_FILE_NAME_24 = ""test24.html"";
+		private static final String TEST_FILE_NAME_25 = ""test25.html"";
+		private static final String TEST_FILE_NAME_26 = ""test26.html"";
+		private static final String TEST_FILE_NAME_27 = ""test27.html"";
+		private static final String TEST_FILE_NAME_28 = ""test28.html"";
+		private static final String TEST_FILE_NAME_29 = ""test29.html"";
+		private static final String TEST_FILE_NAME_30 = ""test30.html"";
+		private static final String TEST_FILE_NAME_31 = ""test31.html"";
+		private static final String TEST_FILE_NAME_32 = ""test32.html"";
+		private static final String TEST_FILE_NAME_33 = ""test33.html"";
+		private static final String TEST_FILE_NAME_34 = ""test34.html"";
+		private static final String TEST_FILE_NAME_35 = ""test35.html"";
+		private static final String TEST_FILE_NAME_36 = ""test36.html"";
+		private static final String TEST_FILE_NAME_37 = ""test37.html"";
+		private static final String TEST_FILE_NAME_38 = ""test38.html"";
+		private static final String TEST_FILE_NAME_39 = ""test39.html"";
+		private static final String TEST_FILE_NAME_40 = ""test40.html"";
+		private static final String TEST_FILE_NAME_41 = ""test41.html"";
+		private static final String TEST_FILE_NAME_42 = ""test42.html"";
+		private static final String TEST_FILE_NAME_43 = ""test43.html"";
+		private static final String TEST_FILE_NAME_44 = ""test44.html"";
+		private static final String TEST_FILE_NAME_45 = ""test45.html"";
+		private static final String TEST_FILE_NAME_46 = ""test46.html"";
+		private static final String TEST_FILE_NAME_47 = ""test47.html"";
+		private static final String TEST_FILE_NAME_48 = ""test48.html"";
+		private static final String TEST_FILE_NAME_49 = ""test49.html"";
+		private static final String TEST_FILE_NAME_50 = ""test50.html"";
+		private static final String TEST_FILE_NAME_51 = ""test51.html"";
+		private static final String TEST_FILE_NAME_52 = ""test52.html"";
+		private static final String TEST_FILE_NAME_53 = ""test53.html"";
+		private static final String TEST_FILE_NAME_54 = ""test54.html"";
+		private static final String TEST_FILE_NAME_55 = ""test55.html"";
+		private static final String TEST_FILE_NAME_56 = ""test56.html"";
+		private static final String TEST_FILE_NAME_57 = ""test57.html"";
+		private static final String TEST_FILE_NAME_58 = ""test58.html"";
+		private static final String TEST_FILE_NAME_59 = ""test59.html"";
+		private static final String TEST_FILE_NAME_60 = ""test60.html"";
+		private static final String TEST_FILE_NAME_61 = ""test61.html"";
+		private static final String TEST_FILE_NAME_62 = ""test62.html"";
+		private static final String TEST_FILE_NAME_63 = ""test63.html"";
+		private static final String TEST_FILE_NAME_64 = ""test64.html"";
+		private static final String TEST_FILE_NAME_65 = ""test65.html"";
+		private static final String TEST_FILE_NAME_66 = ""test66.html"";
+		private static final String TEST_FILE_NAME_67 = ""test67.html"";
+		private static final String TEST_FILE_NAME_68 = ""test68.html"";
+		private static final String TEST_FILE_NAME_69 = ""test69.html"";
+		private static final String TEST_FILE_NAME_70 = ""test70.html"";
+		private static final String TEST_FILE_NAME_71 = ""test71.html"";
+		private static final String TEST_FILE_NAME_72 = ""test72.html"";
+		private static final String TEST_FILE_NAME_73 = ""test73.html"";
+		private static final String TEST_FILE_NAME_74 = ""test74.html"";
+		private static final String TEST_FILE_NAME_75 = ""test75.html"";
+		private static final String TEST_FILE_NAME_76 = ""test76.html"";
+		private static final String TEST_FILE_NAME_77 = ""test77.html"";
+		private static final String TEST_FILE_NAME_78 = ""test78.html"";
+		private static final String TEST_FILE_NAME_79 = ""test79.html"";
+		private static final String TEST_FILE_NAME_80 = ""test80.html"";
+		private static final String TEST_FILE_NAME_81 = ""test81.html"";
+		private static final String TEST_FILE_NAME_82 = ""test82.html"";
+		private static final String TEST_FILE_NAME_83 = ""test83.html"";
+		private static final String TEST_FILE_NAME_84 = ""test84.html"";
+		private static final String TEST_FILE_NAME_85 = ""test85.html"";
+		private static final String TEST_FILE_NAME_86 = ""test86.html"";
+		private static final String TEST_FILE_NAME_87 = ""test87.html"";
+		private static final String TEST_FILE_NAME_88 = ""test88.html"";
+		private static final String TEST_FILE_NAME_89 = ""test89.html"";
+		private static final String TEST_FILE_NAME_90 = ""test90.html"";
+		private static final String TEST_FILE_NAME_91 = ""test91.html"";
+		private static final String TEST_FILE_NAME_92 = ""test92.html"";
+		private static final String TEST_FILE_NAME_93 = ""test93.html"";
+		private static final String TEST_FILE_NAME_94 = ""test94.html"";
+		private static final String TEST_FILE_NAME_95 = ""test95.html"";
+		private static final String TEST_FILE_NAME_96 = ""test96.html"";
+		private static final String TEST_FILE_NAME_97 = ""test97.html"";
+		private static final String TEST_FILE_NAME_98 = ""test98.html"";
+		private static final String TEST_FILE_NAME_99 = ""test99.html"";
+		private static final String TEST_FILE_NAME_100 = ""test100.html"";
+		private static final String TEST_FILE_NAME_101 = ""test101.html"";
+		private static final String TEST_FILE_NAME_102 = ""test102.html"";
+		private static final String TEST_FILE_NAME_103 = ""test103.html"";
+		private static final String TEST_FILE_NAME_104 = ""test104.html"";
+		private static final String TEST_FILE_NAME_105 = ""test105.html"";
+		private static final String TEST_FILE_NAME_106 = ""test106.html"";
+		private static final String TEST_FILE_NAME_107 = ""test107.html"";
+		private static final String TEST_FILE_NAME_108 = ""test108.html"";
+		private static final String TEST_FILE_NAME_109 = ""test109.html"";
+		private static final String TEST_FILE_NAME_110 = ""test110.html"";
+		private static final String TEST_FILE_NAME_111 = ""test111.html"";
+		private static final String TEST_FILE_NAME_112 = ""test112.html"";
+		private static final String TEST_FILE_NAME_113 = ""test113.html"";
+		private static final String TEST_FILE_NAME_114 = ""test114.html"";
+		private static final String TEST_FILE_NAME_115 = ""test115.html"";
+		private static final String TEST_FILE_NAME_116 = ""test116.html"";
+		private static final String TEST_FILE_NAME_117 = ""test117.html"";
+		private static final String TEST_FILE_NAME_118 = ""test118.html"";
+		private static final String TEST_FILE_NAME_119 = ""test119.html"";
+		private static final String TEST_FILE_NAME_120 = ""test120.html"";
+		private static final String TEST_FILE_NAME_121 = ""test121.html"";
+		private static final String TEST_FILE_NAME_122 = ""test122.html"";
+		private static final String TEST_FILE_NAME_123 = ""test123.html"";
+		private static final String TEST_FILE_NAME_124 = ""test124.html"";
+		private static final String TEST_FILE_NAME_125 = ""test125.html"";
+		private static final String TEST_FILE_NAME_126 = ""test126.html"";
+		private static final String TEST_FILE_NAME_127 = ""test127.html"";
+		private static final String TEST_FILE_NAME_128 = ""test128.html"";
+		private static final String TEST_FILE_NAME_129 = ""test129.html"";
+		private static final String TEST_FILE_NAME_130 = ""test130.html"";
+		private static final String TEST_FILE_NAME_131 = ""test131.html"";
+		private static final String TEST_FILE_NAME_132 = ""test132.html"";
+		private static final String TEST_FILE_NAME_133 = ""test133.html"";
+		private static final String TEST_FILE_NAME_134 = ""test134.html"";
+		private static final String TEST_FILE_NAME_135 = ""test135.html"";
+		private static final String TEST_FILE_NAME_136 = ""test136.html"";
+		private static final String TEST_FILE_NAME_137 = ""test137.html"";
+		private static final String TEST_FILE_NAME_138 = ""test138.html"";
+		private static final String TEST_FILE_NAME_139 = ""test139.html"";
+		private static final String TEST_FILE_NAME_140 = ""test140.html"";
+		private static final String TEST_FILE_NAME_141 = ""test141.html"";
+		private static final String TEST_FILE_NAME_142 = ""test142.html"";
+		private static final String TEST_FILE_NAME_143 = ""test143.html"";
+		private static final String TEST_FILE_NAME_144 = ""test144.html"";
+		private static final String TEST_FILE_NAME_145 = ""test145.html"";
+		private static final String TEST_FILE_NAME_146 = ""test146.html"";
+		private static final String TEST_FILE_NAME_147 = ""test147.html"";
+		private static final String TEST_FILE_NAME_148 = ""test148.html"";
+		private static final String TEST_FILE_NAME_149 = ""test149.html"";
+		private static final String TEST_FILE_NAME_150 = ""test150.html"";
+		private static final String TEST_FILE_NAME_151 = ""test151.html"";
+		private static final String TEST_FILE_NAME_152 = ""test152.html"";
+		private static final String TEST_FILE_NAME_153 = ""test153.html"";
+		private static final String TEST_FILE_NAME_154 = ""test154.html"";
+		private static final String TEST_FILE_NAME_155 = ""test155.html"";
+		private static final String TEST_FILE_NAME_156 = ""test156.html"";
+		private static final String TEST_FILE_NAME_157 = ""test157.html"";
+		private static final String TEST_FILE_NAME_158 = ""test158.html"";
+		private static final String TEST_FILE_NAME_159 = ""test159.html"";
+		private static final String TEST_FILE_NAME_160 = ""test160.html"";
+		private static final String TEST_FILE_NAME_161 = ""test161.html"";
+		private static final String TEST_FILE_NAME_162 = ""test162.html"";
+		private static final String TEST_FILE_NAME_163 = ""test163.html"";
+		private static final String TEST_FILE_NAME_164 = ""test164.html"";
+		private static final String TEST_FILE_NAME_165 = ""test165.html"";
+		private static final String TEST_FILE_NAME_166 = ""test166.html"";
+		private static final String TEST_FILE_NAME_167 = ""test167.html"";
+		private static final String TEST_FILE_NAME_168 = ""test168.html"";
+		private static final String TEST_FILE_NAME_169 = ""test169.html"";
+		private static final String TEST_FILE_NAME_170 = ""test170.html"";
+		private static final String TEST_FILE_NAME_171 = ""test171.html"";
+		private static final String TEST_FILE_NAME_172 = ""test172.html"";
+		private static final String TEST_FILE_NAME_173 = ""test173.html"";
+		private static final String TEST_FILE_NAME_174 = ""test174.html"";
+		private static final String TEST_FILE_NAME_175 = ""test175.html"";
+		private static final String TEST_FILE_NAME_176 = ""test176.html"";
+		private static final String TEST_FILE_NAME_177 = ""test177.html"";
+		private static final String TEST_FILE_NAME_178 = ""test178.html"";
+		private static final String TEST_FILE_NAME_179 = ""test179.html"";
+		private static final String TEST_FILE_NAME_180 = ""test180.html"";
+		private static final String TEST_FILE_NAME_181 = ""test181.html"";
+		private static final String TEST_FILE_NAME_182 = ""test182.html"";
+		private static final String TEST_FILE_NAME_183 = ""test183.html"";
+		private static final String TEST_FILE_NAME_184 = ""test184.html"";
+		private static final String TEST_FILE_NAME_185 = ""test185.html"";
+		private static final String TEST_FILE_NAME_186 = ""test186.html"";
+		private static final String TEST_FILE_NAME_187 = ""test187.html"";
+		private static final String TEST_FILE_NAME_188 = ""test188.html"";
+		private static final String TEST_FILE_NAME_"
+cmpl-6tsy9zppVZQXkZrZP4JJ5ZDg52VPu,/EvoSuiteBenchmark/42_asphodel/src/main/java/org/asphodel/search/DefaultSearchEngine_1Test.java,90.21019291877747,length,"// DefaultSearchEngine.java
+/**
+ * Copyright 2007 Sun Wenju.
+ * Licensed under the Apache License, Version 2.0 (the ""License"");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.asphodel.search;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DateTools;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.Hits;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.search.highlight.SimpleFragmenter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.asphodel.FtrConstants;
+import org.asphodel.FtrException;
+import org.asphodel.AsphodelServiceLocator;
+import org.asphodel.AsphodelConfig;
+import java.io.IOException;
+import java.io.File;
+
+/**
+ * @author sunwj
+ * @version 0.1
+ * @since 0.1
+ *        Date: Apr 3, 2007
+ *        Time: 12:25:37 PM
+ */
+public class DefaultSearchEngine implements SearchEngine {
+
+    private static final Log log = LogFactory.getLog(DefaultSearchEngine.class);
+
+    public FtrSearchResult search(String repository, QueryCommand queryCommand) throws FtrException {
+        if (repository == null) {
+            repository = AsphodelConfig.getDefaultRepository();
+        }
+        String queryString = queryCommand.getQueryString();
+        IndexSearcher indexSearcher = null;
+        FtrSearchResult ftrSearchResult = new FtrSearchResult();
+        try {
+            indexSearcher = new IndexSearcher(new File(AsphodelConfig.getRepositoryHousePath(), repository).getAbsolutePath());
+            Analyzer analyzer = AsphodelServiceLocator.getAnalyzer();
+            //using the default field.
+            QueryParser parser = new QueryParser(FtrConstants.FIELD_CONTENT, analyzer);
+            //todo how to query among multi fields.
+            Query query = parser.parse(queryString);
+            Hits hits = indexSearcher.search(query);
+            ftrSearchResult.setTotal(hits.length());
+            int startIndex = queryCommand.getStartIndex();
+            int endIndex = Math.min(startIndex + queryCommand.getMaxSize(), hits.length());
+            // iterate through the results: and wrap it into more convenient format.
+            for (int i = startIndex; i < endIndex; i++) {
+                Document hitDoc = hits.doc(i);
+                FtrRecord ftrRecord = new FtrRecord(hitDoc, hits.score(i));
+                //                this.dumpFields(hitDoc.getFields());
+                ftrRecord.setBrief(getHighlightedBrief(analyzer, query, hitDoc.getField(FtrConstants.FIELD_CONTENT).stringValue()));
+                ftrRecord.setUri(hitDoc.getField(FtrConstants.FIELD_URI).stringValue());
+                ftrRecord.setCachedDate(DateTools.stringToDate(hitDoc.getField(FtrConstants.FIELD_CACHEDDATE).stringValue()));
+                ftrSearchResult.addFtrRecord(ftrRecord);
+            }
+        } catch (Exception e) {
+            log.error(""when search..."", e);
+            throw new FtrException(e.getMessage(), e);
+        } finally {
+            try {
+                indexSearcher.close();
+            } catch (IOException e) {
+                log.warn(""there are exception when closing the indexSearcher"", e);
+            }
+        }
+        return ftrSearchResult;
+    }
+
+    /**
+     * just search the index repository using the given query string.
+     *
+     * @param queryCommand: the condition used to retrieve result encapsulated as a command object
+     * @return Collection: contains the result which is type of :
+     */
+    public FtrSearchResult search(QueryCommand queryCommand) throws FtrException {
+        return this.search(null, queryCommand);
+    }
+
+    private void dumpFields(java.util.List list) {
+        for (int i = 0; i < list.size(); i++) {
+            Field f = (Field) list.get(i);
+            System.out.print(f.name() + "":"");
+            System.out.println(f.stringValue());
+        }
+    }
+
+    //@todo move the style to onfig file
+    private String getHighlightedBrief(Analyzer analyzer, Query query, String content) throws IOException {
+        //
+        SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(""<span class=\""highlight\"">"", ""</span>"");
+        Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer(query));
+        //todo move the length to config files?
+        //the length of content
+        highlighter.setTextFragmenter(new SimpleFragmenter(500));
+        //获取关键字出现最多的5个位置
+        String[] result = highlighter.getBestFragments(analyzer, ""content"", content, 1);
+        return result[0];
+    }
+}
+","// DefaultSearchEngine_1Test.java
+package org.asphodel.search;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DateTools;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.Hits;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.search.highlight.SimpleFragmenter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.asphodel.FtrConstants;
+import org.asphodel.FtrException;
+import org.asphodel.AsphodelServiceLocator;
+import org.asphodel.AsphodelConfig;
+import java.io.IOException;
+import java.io.File;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DefaultSearchEngine}.
+* It contains ten unit test cases for the {@link DefaultSearchEngine#search(QueryCommand)} method.
+*/
+class DefaultSearchEngine_1Test {","// DefaultSearchEngine_1Test.java
+package org.asphodel.search;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DateTools;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.Hits;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.search.highlight.SimpleFragmenter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.asphodel.FtrConstants;
+import org.asphodel.FtrException;
+import org.asphodel.AsphodelServiceLocator;
+import org.asphodel.AsphodelConfig;
+import java.io.IOException;
+import java.io.File;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DefaultSearchEngine}.
+* It contains ten unit test cases for the {@link DefaultSearchEngine#search(QueryCommand)} method.
+*/
+class DefaultSearchEngine_1Test {
+private static final Log log = LogFactory.getLog(DefaultSearchEngine_1Test.class);
+		private static final String repository = ""test"";
+		private static final String queryString = ""test"";
+		private static final int startIndex = 0;
+		private static final int maxSize = 10;
+		private static final QueryCommand queryCommand = new QueryCommand(queryString, startIndex, maxSize);
+		private static final DefaultSearchEngine defaultSearchEngine = new DefaultSearchEngine();
+		private static final FtrSearchResult ftrSearchResult = defaultSearchEngine.search(repository, queryCommand);
+		private static final int total = ftrSearchResult.getTotal();
+		private static final java.util.List<FtrRecord> ftrRecords = ftrSearchResult.getFtrRecords();
+		private static final FtrRecord ftrRecord = ftrRecords.get(0);
+		private static final String uri = ftrRecord.getUri();
+		private static final java.util.Date cachedDate = ftrRecord.getCachedDate();
+		private static final String brief = ftrRecord.getBrief();
+		private static final float score = ftrRecord.getScore();
+		private static final Document document = ftrRecord.getDocument();
+		private static final java.util.List<Field> fields = document.getFields();
+		private static final Field field = fields.get(0);
+		private static final String name = field.name();
+		private static final String stringValue = field.stringValue();
+		private static final float boost = field.getBoost();
+		private static final boolean isStored = field.isStored();
+		private static final boolean isIndexed = field.isIndexed();
+		private static final boolean isTokenized = field.isTokenized();
+		private static final boolean isBinary = field.isBinary();
+		private static final boolean isCompressed = field.isCompressed();
+		private static final boolean isLazy = field.isLazy();
+		private static final boolean isOmitNorms = field.isOmitNorms();
+		private static final boolean isOmitTermFreqAndPositions = field.isOmitTermFreqAndPositions();
+		private static final boolean isStoreOffsetWithTermVector = field.isStoreOffsetWithTermVector();
+		private static final boolean isStorePositionWithTermVector = field.isStorePositionWithTermVector();
+		private static final boolean isStoreTermVector = field.isStoreTermVector();
+		private static final boolean isBinaryOffsetWithTermVector = field.isBinaryOffsetWithTermVector();
+		private static final boolean isBinaryPositionWithTermVector = field.isBinaryPositionWithTermVector();
+		private static final boolean isBinaryTermVector = field.isBinaryTermVector();
+		private static final boolean isLazyWithTermVector = field.isLazyWithTermVector();
+		private static final boolean isOmitNormsWithTermVector = field.isOmitNormsWithTermVector();
+		private static final boolean isOmitTermFreqAndPositionsWithTermVector = field.isOmitTermFreqAndPositionsWithTermVector();
+		private static final boolean isStoreOffsetWithTermVectorWithTermVector = field.isStoreOffsetWithTermVectorWithTermVector();
+		private static final boolean isStorePositionWithTermVectorWithTermVector = field.isStorePositionWithTermVectorWithTermVector();
+		private static final boolean isStoreTermVectorWithTermVector = field.isStoreTermVectorWithTermVector();
+		private static final boolean isBinaryOffsetWithTermVectorWithTermVector = field.isBinaryOffsetWithTermVectorWithTermVector();
+		private static final boolean isBinaryPositionWithTermVectorWithTermVector = field.isBinaryPositionWithTermVectorWithTermVector();
+		private static final boolean isBinaryTermVectorWithTermVector = field.isBinaryTermVectorWithTermVector();
+		private static final boolean isLazyWithTermVectorWithTermVector = field.isLazyWithTermVectorWithTermVector();
+		private static final boolean isOmitNormsWithTermVectorWithTermVector = field.isOmitNormsWithTermVectorWithTermVector();
+		private static final boolean isOmitTermFreqAndPositionsWithTermVectorWithTermVector = field.isOmitTermFreqAndPositionsWithTermVectorWithTermVector();
+		private static final boolean isStoreOffsetWithTermVectorWithTermVectorWithTermVector = field.isStoreOffsetWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStorePositionWithTermVectorWithTermVectorWithTermVector = field.isStorePositionWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreTermVectorWithTermVectorWithTermVector = field.isStoreTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryOffsetWithTermVectorWithTermVectorWithTermVector = field.isBinaryOffsetWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryPositionWithTermVectorWithTermVectorWithTermVector = field.isBinaryPositionWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryTermVectorWithTermVectorWithTermVector = field.isBinaryTermVectorWithTermVectorWithTermVector();
+		private static final boolean isLazyWithTermVectorWithTermVectorWithTermVector = field.isLazyWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitNormsWithTermVectorWithTermVectorWithTermVector = field.isOmitNormsWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVector = field.isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryPositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isBinaryTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isBinaryTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isLazyWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitNormsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isOmitTermFreqAndPositionsWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreOffsetWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStorePositionWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector();
+		private static final boolean isStoreTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVectorWithTermVector = field.isStoreTermVectorWithTermVectorWith"
