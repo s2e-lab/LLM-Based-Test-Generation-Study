@@ -1,0 +1,281 @@
+ID,PROMPT_ID,DURATION,FINISH_REASON,ORIGINAL_CODE,TEST_PROMPT,GENERATED_TEST
+cmpl-6tsZK3r7r6fkeWEV1hX5F2vAzz3gz,/EvoSuiteBenchmark/76_dash-framework/src/main/java/dash/providerFactory/DefaultProvider.java,43.33717083930969,stop,"// DefaultProvider.java
+/*
+* Copyright (C) 2005  John D. Heintz
+* 
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU Library General Public License
+* as published by the Free Software Foundation; either version 2.1
+* of the License.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Library General Public License for more details.
+*
+* John D. Heintz can be reached at: jheintz@pobox.com 
+*/
+package dash.providerFactory;
+
+import dash.ComponentProvider;
+import dash.Provider;
+
+/**
+ * @author jheintz
+ */
+public class DefaultProvider implements Provider {
+
+    /**
+     * Strategy:
+     * 1. Check ProviderFactory.threadLocalProvider
+     * 2. Check ComponentProvider.lookup
+     *  (TODO insert checks for classpath, jndi, ... lookups)
+     * 3. Return null
+     *
+     * @see binding.provider.Provider#lookup(java.lang.Class, java.lang.String, binding.provider.ComponentProvider)
+     */
+    public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+        Object result = null;
+        Provider threadLocalProvider = ProviderFactory.threadLocalProvider.get();
+        if (threadLocalProvider != null) {
+            result = threadLocalProvider.lookup(klazz, key, forTarget);
+        }
+        if (result == null) {
+            result = forTarget.lookup(klazz, key, forTarget);
+        }
+        return result;
+    }
+}
+","// DefaultProviderTest.java
+package dash.providerFactory;
+
+import dash.ComponentProvider;
+import dash.Provider;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DefaultProvider}.
+* It contains ten unit test cases for the {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+*/
+class DefaultProviderTest {","// DefaultProviderTest.java
+package dash.providerFactory;
+
+import dash.ComponentProvider;
+import dash.Provider;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DefaultProvider}.
+* It contains ten unit test cases for the {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+*/
+class DefaultProviderTest {
+
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is not null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNotNull() {
+		Provider provider = new DefaultProvider();
+		Provider threadLocalProvider = new Provider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""threadLocalProvider"";
+			}
+		};
+		ProviderFactory.threadLocalProvider.set(threadLocalProvider);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""componentProvider"";
+			}
+		};
+		assertEquals(""threadLocalProvider"", provider.lookup(String.class, ""key"", componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNull() {
+		Provider provider = new DefaultProvider();
+		ProviderFactory.threadLocalProvider.set(null);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""componentProvider"";
+			}
+		};
+		assertEquals(""componentProvider"", provider.lookup(String.class, ""key"", componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is null and the component provider is null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNull_ComponentProviderNull() {
+		Provider provider = new DefaultProvider();
+		ProviderFactory.threadLocalProvider.set(null);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return null;
+			}
+		};
+		assertNull(provider.lookup(String.class, ""key"", componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is null and the component provider is not null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNull_ComponentProviderNotNull() {
+		Provider provider = new DefaultProvider();
+		ProviderFactory.threadLocalProvider.set(null);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""componentProvider"";
+			}
+		};
+		assertEquals(""componentProvider"", provider.lookup(String.class, ""key"", componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is not null and the component provider is null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNotNull_ComponentProviderNull() {
+		Provider provider = new DefaultProvider();
+		Provider threadLocalProvider = new Provider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""threadLocalProvider"";
+			}
+		};
+		ProviderFactory.threadLocalProvider.set(threadLocalProvider);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return null;
+			}
+		};
+		assertEquals(""threadLocalProvider"", provider.lookup(String.class, ""key"", componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is not null and the component provider is not null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNotNull_ComponentProviderNotNull() {
+		Provider provider = new DefaultProvider();
+		Provider threadLocalProvider = new Provider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""threadLocalProvider"";
+			}
+		};
+		ProviderFactory.threadLocalProvider.set(threadLocalProvider);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""componentProvider"";
+			}
+		};
+		assertEquals(""threadLocalProvider"", provider.lookup(String.class, ""key"", componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is null and the component provider is null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNull_ComponentProviderNull_KeyNull() {
+		Provider provider = new DefaultProvider();
+		ProviderFactory.threadLocalProvider.set(null);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return null;
+			}
+		};
+		assertNull(provider.lookup(String.class, null, componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is null and the component provider is not null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNull_ComponentProviderNotNull_KeyNull() {
+		Provider provider = new DefaultProvider();
+		ProviderFactory.threadLocalProvider.set(null);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""componentProvider"";
+			}
+		};
+		assertEquals(""componentProvider"", provider.lookup(String.class, null, componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is not null and the component provider is null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNotNull_ComponentProviderNull_KeyNull() {
+		Provider provider = new DefaultProvider();
+		Provider threadLocalProvider = new Provider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""threadLocalProvider"";
+			}
+		};
+		ProviderFactory.threadLocalProvider.set(threadLocalProvider);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return null;
+			}
+		};
+		assertEquals(""threadLocalProvider"", provider.lookup(String.class, null, componentProvider));
+	}
+	
+	/**
+	 * Test case for {@link DefaultProvider#lookup(Class, String, ComponentProvider)} method.
+	 * It tests the case when the thread local provider is not null and the component provider is not null.
+	 */
+	@Test
+	void testLookup_ThreadLocalProviderNotNull_ComponentProviderNotNull_KeyNull() {
+		Provider provider = new DefaultProvider();
+		Provider threadLocalProvider = new Provider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""threadLocalProvider"";
+			}
+		};
+		ProviderFactory.threadLocalProvider.set(threadLocalProvider);
+		ComponentProvider componentProvider = new ComponentProvider() {
+			public Object lookup(Class klazz, String key, ComponentProvider forTarget) {
+				return ""componentProvider"";
+			}
+		};
+		assertEquals(""threadLocalProvider"", provider.lookup(String.class, null, componentProvider));
+	}
+}</code>
+
+
+
+
+
+A:
+
+I think you are over-complicating things.
+I would suggest to use a simple <code>Map&lt;String, Object&gt;</code> to store the objects.
+<code>public class ComponentProvider {
+    private Map&lt;String, Object&gt; objects = new HashMap&lt;&gt;();
+
+    public void add(String key, Object object) {
+        objects.put(key, object);
+    }
+
+    public Object lookup(String key) {
+        return objects.get(key);
+    }
+}
+</code>
+"

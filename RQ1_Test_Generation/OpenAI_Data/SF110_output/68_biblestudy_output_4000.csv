@@ -1,0 +1,6164 @@
+ID,PROMPT_ID,DURATION,FINISH_REASON,ORIGINAL_CODE,TEST_PROMPT,GENERATED_TEST
+cmpl-6u0TxKnl7c9xuuc8Y57kxiBh15Ypc,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/obj/Verse_4Test.java,87.17954540252686,length,"// Verse.java
+package bible.obj;
+
+import java.sql.SQLException;
+import java.io.IOException;
+import java.util.*;
+import bible.util.*;
+
+/**
+ * @author  James Stauffer
+ * @version $Id: Verse.java,v 1.5 2001/02/21 03:09:55 jstauffe Exp $
+ */
+public class Verse implements Identifible {
+
+    public static Verse New(int id) {
+        Verse verse = (Verse) verseCache.get(new Integer(id));
+        if (verse == null) {
+            verse = new Verse(id);
+        }
+        return verse;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getValue() {
+        //Identifible interface
+        return getText();
+    }
+
+    public TranslationReference getTranslationReference() {
+        return transRef;
+    }
+
+    public Reference getReference() {
+        return transRef.getReference();
+    }
+
+    public String toString() {
+        return getClass().getName() + "":["" + id + "" "" + transRef + "" "" + text + ""]"";
+    }
+
+    public static int GetId(Translation translation, Book book, int chapterId, int verseId) {
+        return GetId(translation.getId(), book.getId(), chapterId, verseId);
+    }
+
+    public static ArrayList Get(Translation[] translations, int bookId, int chapterId, int verseId) {
+        ArrayList verses = new ArrayList(translations.length);
+        for (int index = 0; index < translations.length; index++) {
+            verses.add(New(GetId(translations[index].getId(), bookId, chapterId, verseId)));
+        }
+        return verses;
+    }
+
+    public static ArrayList Get(Translation[] translations, Reference begin, Reference end) {
+        System.out.println(""Verse.Get translations="" + Util.ToString(translations));
+        ArrayList verses = new ArrayList();
+        DbResult result = null;
+        String query = ""select Verse_ID from Verse where "" + ((translations != null && translations.length > 0) ? (""Translation_ID in ("" + Util.ToString(Util.ToIntArray(translations)) + "") and "") : """") + ""Book_ID >= "" + begin.getBookId() + "" and Book_ID <= "" + end.getBookId() + "" and Chapter >= "" + begin.getChapterNo() + "" and Chapter <= "" + end.getChapterNo() + "" and Verse_No >= "" + begin.getVerseNo() + "" and Verse_No <= "" + end.getVerseNo();
+        System.out.println(""Verse.Get query="" + query);
+        try {
+            result = Database.Query(query);
+            while (result.next()) {
+                verses.add(New(result.getInt(""Verse_ID"")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbResult.Close(result);
+        }
+        return verses;
+    }
+
+    /**
+     * Looks up the id in the 4-way HashMap(with a base of translations).
+     * HashMap sizes are chosen to be prime.
+     * @author James Stauffer
+     */
+    public static int GetId(int translationId, int bookId, int chapterId, int verseId) {
+        translationId = Translation.Normalize(translationId);
+        HashMap translation = (HashMap) translations.get(new Integer(translationId));
+        if (translation == null) {
+            translation = new HashMap(11);
+            translations.put(new Integer(translationId), translation);
+        }
+        HashMap book = (HashMap) translation.get(new Integer(bookId));
+        if (book == null) {
+            book = new HashMap(97);
+            translation.put(new Integer(bookId), book);
+        }
+        HashMap chapter = (HashMap) book.get(new Integer(chapterId));
+        if (chapter == null) {
+            chapter = new HashMap(47);
+            book.put(new Integer(chapterId), chapter);
+        }
+        Integer id = (Integer) chapter.get(new Integer(verseId));
+        int intId;
+        if (id == null) {
+            intId = ReadId(translationId, bookId, chapterId, verseId);
+            if (intId > 0) {
+                chapter.put(new Integer(verseId), new Integer(intId));
+            }
+        } else {
+            intId = id.intValue();
+        }
+        System.out.println(""Verse.GetId("" + translationId + "", "" + bookId + "", "" + chapterId + "", "" + verseId + "")="" + intId);
+        return intId;
+    }
+
+    private int id;
+
+    private String text;
+
+    private TranslationReference transRef;
+
+    //Used to lookup an id
+    private static HashMap translations = new HashMap();
+
+    private static WeakHashMap verseCache = new WeakHashMap();
+
+    private static final String COLUMNS = ""Verse_ID, Text, Translation_ID, Book_ID, Chapter, Verse_No"";
+
+    private Verse(int id) {
+        DbResult result = null;
+        String query = ""select "" + COLUMNS + "" from Verse where Verse_ID = "" + id;
+        try {
+            result = Database.Query(query);
+            if (result.next()) {
+                complete(result);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbResult.Close(result);
+        }
+    }
+
+    private Verse(DbResult result) throws SQLException {
+        complete(result);
+    }
+
+    private void complete(DbResult result) throws SQLException {
+        id = result.getInt(""Verse_ID"");
+        text = result.getString(""Text"");
+        transRef = new TranslationReference(Translation.Get(result.getInt(""Translation_ID"")), new Reference(result.getInt(""Book_ID""), result.getInt(""Chapter""), result.getInt(""Verse_No"")));
+        verseCache.put(new Integer(id), this);
+    }
+
+    /**
+     * Reads the id from the Database.  (Also caches the Verse);
+     * @author James Stauffer
+     */
+    private static int ReadId(int translationId, int bookId, int chapterId, int verseId) {
+        int id = -1;
+        DbResult result = null;
+        String query = ""select "" + COLUMNS + "" from Verse where Translation_ID = "" + translationId + "" and Book_ID = "" + bookId + "" and Chapter = "" + chapterId + "" and Verse_No = "" + verseId;
+        try {
+            result = Database.Query(query);
+            if (result.next()) {
+                id = (new Verse(result)).getId();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbResult.Close(result);
+        }
+        return id;
+    }
+}
+","// Verse_4Test.java
+package bible.obj;
+
+import java.sql.SQLException;
+import java.io.IOException;
+import java.util.*;
+import bible.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Verse}.
+* It contains ten unit test cases for the {@link Verse#GetId(int, int, int, int)} method.
+*/
+class Verse_4Test {","// Verse_4Test.java
+package bible.obj;
+
+import java.sql.SQLException;
+import java.io.IOException;
+import java.util.*;
+import bible.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Verse}.
+* It contains ten unit test cases for the {@link Verse#GetId(int, int, int, int)} method.
+*/
+class Verse_4Test {
+
+	@Test
+	void testGetId_1() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 1;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(1, id);
+	}
+	
+	@Test
+	void testGetId_2() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 2;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(2, id);
+	}
+	
+	@Test
+	void testGetId_3() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 3;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(3, id);
+	}
+	
+	@Test
+	void testGetId_4() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 4;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(4, id);
+	}
+	
+	@Test
+	void testGetId_5() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 5;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(5, id);
+	}
+	
+	@Test
+	void testGetId_6() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 6;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(6, id);
+	}
+	
+	@Test
+	void testGetId_7() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 7;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(7, id);
+	}
+	
+	@Test
+	void testGetId_8() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 8;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(8, id);
+	}
+	
+	@Test
+	void testGetId_9() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 9;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(9, id);
+	}
+	
+	@Test
+	void testGetId_10() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 10;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(10, id);
+	}
+}
+
+// Verse_4Test.java
+package bible.obj;
+
+import java.sql.SQLException;
+import java.io.IOException;
+import java.util.*;
+import bible.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Verse}.
+* It contains ten unit test cases for the {@link Verse#GetId(int, int, int, int)} method.
+*/
+class Verse_4Test {
+		
+	@Test
+	void testGetId_1() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 1;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(1, id);
+	}
+	
+	@Test
+	void testGetId_2() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 2;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(2, id);
+	}
+	
+	@Test
+	void testGetId_3() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 3;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(3, id);
+	}
+	
+	@Test
+	void testGetId_4() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 4;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(4, id);
+	}
+	
+	@Test
+	void testGetId_5() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 5;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(5, id);
+	}
+	
+	@Test
+	void testGetId_6() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 6;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(6, id);
+	}
+	
+	@Test
+	void testGetId_7() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 7;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(7, id);
+	}
+	
+	@Test
+	void testGetId_8() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 8;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(8, id);
+	}
+	
+	@Test
+	void testGetId_9() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 9;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(9, id);
+	}
+	
+	@Test
+	void testGetId_10() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 10;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(10, id);
+	}
+}
+
+// Verse_4Test.java
+package bible.obj;
+
+import java.sql.SQLException;
+import java.io.IOException;
+import java.util.*;
+import bible.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Verse}.
+* It contains ten unit test cases for the {@link Verse#GetId(int, int, int, int)} method.
+*/
+class Verse_4Test {
+		
+	@Test
+	void testGetId_1() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 1;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(1, id);
+	}
+	
+	@Test
+	void testGetId_2() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 2;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(2, id);
+	}
+	
+	@Test
+	void testGetId_3() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 3;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(3, id);
+	}
+	
+	@Test
+	void testGetId_4() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 4;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(4, id);
+	}
+	
+	@Test
+	void testGetId_5() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 5;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(5, id);
+	}
+	
+	@Test
+	void testGetId_6() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 6;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(6, id);
+	}
+	
+	@Test
+	void testGetId_7() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 7;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(7, id);
+	}
+	
+	@Test
+	void testGetId_8() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 8;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(8, id);
+	}
+	
+	@Test
+	void testGetId_9() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 9;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(9, id);
+	}
+	
+	@Test
+	void testGetId_10() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 10;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(10, id);
+	}
+}
+
+// Verse_4Test.java
+package bible.obj;
+
+import java.sql.SQLException;
+import java.io.IOException;
+import java.util.*;
+import bible.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Verse}.
+* It contains ten unit test cases for the {@link Verse#GetId(int, int, int, int)} method.
+*/
+class Verse_4Test {
+		
+	@Test
+	void testGetId_1() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 1;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(1, id);
+	}
+	
+	@Test
+	void testGetId_2() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 2;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(2, id);
+	}
+	
+	@Test
+	void testGetId_3() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 3;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assertEquals(3, id);
+	}
+	
+	@Test
+	void testGetId_4() {
+		int translationId = Translation.Normalize(Translation.KJV);
+		int bookId = Book.Normalize(Book.GENESIS);
+		int chapterId = 1;
+		int verseId = 4;
+		int id = Verse.GetId(translationId, bookId, chapterId, verseId);
+		assert"
+cmpl-6u0VMo1PDo2MmETjF7NSyygPkZavW,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/servlet/HTMLOutputStream.java,77.09029459953308,length,"// HTMLOutputStream.java
+/*
+ * BufferedOutputStream.java: Writes to a
+ * buffer and handles ContentLength's and Types, as well as cleanup.
+ * Copyright (C) 1998. All rights reserved.
+ * St. Paul Software, St. Paul, MN, USA
+ */
+package bible.servlet;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.net.*;
+
+/**
+ * A container for output streams with its own buffers
+ *
+ * @author  Luke Samaha
+ */
+public class HTMLOutputStream {
+
+    //  Use-specific Constructors
+    public HTMLOutputStream(HttpServletResponse response) throws IOException {
+        this.response = response;
+        baos = new ByteArrayOutputStream(4096);
+        OutputStream out = baos;
+        //  Initialization routines specific to content type
+        pw = new PrintWriter(out, true);
+    }
+
+    //  Public client methods
+    public void print(String str) {
+        pw.print(str);
+    }
+
+    public void print(int n) {
+        pw.print(n);
+    }
+
+    public void println(String str) {
+        pw.println(str);
+    }
+
+    public void println(int n) {
+        pw.println(n);
+    }
+
+    public void flush() throws IOException {
+        response.setContentType(""text/html"");
+        response.setContentLength(baos.size());
+        OutputStream os = response.getOutputStream();
+        baos.writeTo(os);
+        os.flush();
+        reset();
+    }
+
+    public int getSize() {
+        return baos.size();
+    }
+
+    public PrintWriter getPW() {
+        return pw;
+    }
+
+    /**
+     * @author James Stauffer
+     * @return String the contents of the buffer.
+     */
+    public String reset() {
+        String contents = baos.toString();
+        baos.reset();
+        return contents;
+    }
+
+    public String toString() {
+        return getClass().getName() + "": [size="" + getSize() + "", response="" + response + ((baos != null) ? "", baos"" : """") + ((pw != null) ? "", pw"" : """") + ""]"";
+    }
+
+    //  Private instance variables
+    private HttpServletResponse response = null;
+
+    private boolean binary = false;
+
+    private ByteArrayOutputStream baos = null;
+
+    private PrintWriter pw = null;
+}
+","// HTMLOutputStreamTest.java
+package bible.servlet;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.net.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HTMLOutputStream}.
+* It contains ten unit test cases for the {@link HTMLOutputStream#reset()} method.
+*/
+class HTMLOutputStreamTest {","// HTMLOutputStreamTest.java
+package bible.servlet;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.net.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HTMLOutputStream}.
+* It contains ten unit test cases for the {@link HTMLOutputStream#reset()} method.
+*/
+class HTMLOutputStreamTest {
+
+	/**
+	* Test case for {@link HTMLOutputStream#reset()} method.
+	* It tests the case when the buffer is empty.
+	*/
+	@Test
+	public void testResetEmpty() {
+		HTMLOutputStream hos = new HTMLOutputStream(new HttpServletResponse() {
+			public void addCookie(Cookie cookie) {}
+			public void addDateHeader(String name, long date) {}
+			public void addHeader(String name, String value) {}
+			public void addIntHeader(String name, int value) {}
+			public boolean containsHeader(String name) {return false;}
+			public String encodeRedirectURL(String url) {return null;}
+			public String encodeRedirectUrl(String url) {return null;}
+			public String encodeURL(String url) {return null;}
+			public String encodeUrl(String url) {return null;}
+			public void sendError(int sc) throws IOException {}
+			public void sendError(int sc, String msg) throws IOException {}
+			public void sendRedirect(String location) throws IOException {}
+			public void setDateHeader(String name, long date) {}
+			public void setHeader(String name, String value) {}
+			public void setIntHeader(String name, int value) {}
+			public void setStatus(int sc) {}
+			public void setStatus(int sc, String sm) {}
+			public void flushBuffer() throws IOException {}
+			public int getBufferSize() {return 0;}
+			public String getCharacterEncoding() {return null;}
+			public String getContentType() {return null;}
+			public Locale getLocale() {return null;}
+			public ServletOutputStream getOutputStream() throws IOException {return null;}
+			public PrintWriter getWriter() throws IOException {return null;}
+			public boolean isCommitted() {return false;}
+			public void reset() {}
+			public void resetBuffer() {}
+			public void setBufferSize(int size) {}
+			public void setCharacterEncoding(String charset) {}
+			public void setContentLength(int len) {}
+			public void setContentType(String type) {}
+			public void setLocale(Locale loc) {}
+		});
+		assertEquals("""", hos.reset());
+	}
+	
+	/**
+	* Test case for {@link HTMLOutputStream#reset()} method.
+	* It tests the case when the buffer is not empty.
+	*/
+	@Test
+	public void testResetNotEmpty() {
+		HTMLOutputStream hos = new HTMLOutputStream(new HttpServletResponse() {
+			public void addCookie(Cookie cookie) {}
+			public void addDateHeader(String name, long date) {}
+			public void addHeader(String name, String value) {}
+			public void addIntHeader(String name, int value) {}
+			public boolean containsHeader(String name) {return false;}
+			public String encodeRedirectURL(String url) {return null;}
+			public String encodeRedirectUrl(String url) {return null;}
+			public String encodeURL(String url) {return null;}
+			public String encodeUrl(String url) {return null;}
+			public void sendError(int sc) throws IOException {}
+			public void sendError(int sc, String msg) throws IOException {}
+			public void sendRedirect(String location) throws IOException {}
+			public void setDateHeader(String name, long date) {}
+			public void setHeader(String name, String value) {}
+			public void setIntHeader(String name, int value) {}
+			public void setStatus(int sc) {}
+			public void setStatus(int sc, String sm) {}
+			public void flushBuffer() throws IOException {}
+			public int getBufferSize() {return 0;}
+			public String getCharacterEncoding() {return null;}
+			public String getContentType() {return null;}
+			public Locale getLocale() {return null;}
+			public ServletOutputStream getOutputStream() throws IOException {return null;}
+			public PrintWriter getWriter() throws IOException {return null;}
+			public boolean isCommitted() {return false;}
+			public void reset() {}
+			public void resetBuffer() {}
+			public void setBufferSize(int size) {}
+			public void setCharacterEncoding(String charset) {}
+			public void setContentLength(int len) {}
+			public void setContentType(String type) {}
+			public void setLocale(Locale loc) {}
+		});
+		hos.print(""test"");
+		assertEquals(""test"", hos.reset());
+	}
+	
+	/**
+	* Test case for {@link HTMLOutputStream#reset()} method.
+	* It tests the case when the buffer is not empty and contains a new line.
+	*/
+	@Test
+	public void testResetNotEmptyNewLine() {
+		HTMLOutputStream hos = new HTMLOutputStream(new HttpServletResponse() {
+			public void addCookie(Cookie cookie) {}
+			public void addDateHeader(String name, long date) {}
+			public void addHeader(String name, String value) {}
+			public void addIntHeader(String name, int value) {}
+			public boolean containsHeader(String name) {return false;}
+			public String encodeRedirectURL(String url) {return null;}
+			public String encodeRedirectUrl(String url) {return null;}
+			public String encodeURL(String url) {return null;}
+			public String encodeUrl(String url) {return null;}
+			public void sendError(int sc) throws IOException {}
+			public void sendError(int sc, String msg) throws IOException {}
+			public void sendRedirect(String location) throws IOException {}
+			public void setDateHeader(String name, long date) {}
+			public void setHeader(String name, String value) {}
+			public void setIntHeader(String name, int value) {}
+			public void setStatus(int sc) {}
+			public void setStatus(int sc, String sm) {}
+			public void flushBuffer() throws IOException {}
+			public int getBufferSize() {return 0;}
+			public String getCharacterEncoding() {return null;}
+			public String getContentType() {return null;}
+			public Locale getLocale() {return null;}
+			public ServletOutputStream getOutputStream() throws IOException {return null;}
+			public PrintWriter getWriter() throws IOException {return null;}
+			public boolean isCommitted() {return false;}
+			public void reset() {}
+			public void resetBuffer() {}
+			public void setBufferSize(int size) {}
+			public void setCharacterEncoding(String charset) {}
+			public void setContentLength(int len) {}
+			public void setContentType(String type) {}
+			public void setLocale(Locale loc) {}
+		});
+		hos.println(""test"");
+		assertEquals(""test\r\n"", hos.reset());
+	}
+	
+	/**
+	* Test case for {@link HTMLOutputStream#reset()} method.
+	* It tests the case when the buffer is not empty and contains a new line and a tab.
+	*/
+	@Test
+	public void testResetNotEmptyNewLineTab() {
+		HTMLOutputStream hos = new HTMLOutputStream(new HttpServletResponse() {
+			public void addCookie(Cookie cookie) {}
+			public void addDateHeader(String name, long date) {}
+			public void addHeader(String name, String value) {}
+			public void addIntHeader(String name, int value) {}
+			public boolean containsHeader(String name) {return false;}
+			public String encodeRedirectURL(String url) {return null;}
+			public String encodeRedirectUrl(String url) {return null;}
+			public String encodeURL(String url) {return null;}
+			public String encodeUrl(String url) {return null;}
+			public void sendError(int sc) throws IOException {}
+			public void sendError(int sc, String msg) throws IOException {}
+			public void sendRedirect(String location) throws IOException {}
+			public void setDateHeader(String name, long date) {}
+			public void setHeader(String name, String value) {}
+			public void setIntHeader(String name, int value) {}
+			public void setStatus(int sc) {}
+			public void setStatus(int sc, String sm) {}
+			public void flushBuffer() throws IOException {}
+			public int getBufferSize() {return 0;}
+			public String getCharacterEncoding() {return null;}
+			public String getContentType() {return null;}
+			public Locale getLocale() {return null;}
+			public ServletOutputStream getOutputStream() throws IOException {return null;}
+			public PrintWriter getWriter() throws IOException {return null;}
+			public boolean isCommitted() {return false;}
+			public void reset() {}
+			public void resetBuffer() {}
+			public void setBufferSize(int size) {}
+			public void setCharacterEncoding(String charset) {}
+			public void setContentLength(int len) {}
+			public void setContentType(String type) {}
+			public void setLocale(Locale loc) {}
+		});
+		hos.println(""test\ttest"");
+		assertEquals(""test\ttest\r\n"", hos.reset());
+	}
+	
+	/**
+	* Test case for {@link HTMLOutputStream#reset()} method.
+	* It tests the case when the buffer is not empty and contains a new line and a tab and a space.
+	*/
+	@Test
+	public void testResetNotEmptyNewLineTabSpace() {
+		HTMLOutputStream hos = new HTMLOutputStream(new HttpServletResponse() {
+			public void addCookie(Cookie cookie) {}
+			public void addDateHeader(String name, long date) {}
+			public void addHeader(String name, String value) {}
+			public void addIntHeader(String name, int value) {}
+			public boolean containsHeader(String name) {return false;}
+			public String encodeRedirectURL(String url) {return null;}
+			public String encodeRedirectUrl(String url) {return null;}
+			public String encodeURL(String url) {return null;}
+			public String encodeUrl(String url) {return null;}
+			public void sendError(int sc) throws IOException {}
+			public void sendError(int sc, String msg) throws IOException {}
+			public void sendRedirect(String location) throws IOException {}
+			public void setDateHeader(String name, long date) {}
+			public void setHeader(String name, String value) {}
+			public void setIntHeader(String name, int value) {}
+			public void setStatus(int sc) {}
+			public void setStatus(int sc, String sm) {}
+			public void flushBuffer() throws IOException {}
+			public int getBufferSize() {return 0;}
+			public String getCharacterEncoding() {return null;}
+			public String getContentType() {return null;}
+			public Locale getLocale() {return null;}
+			public ServletOutputStream getOutputStream() throws IOException {return null;}
+			public PrintWriter getWriter() throws IOException {return null;}
+			public boolean isCommitted() {return false;}
+			public void reset() {}
+			public void resetBuffer() {}
+			public void setBufferSize(int size) {}
+			public void setCharacterEncoding(String charset) {}
+			public void setContentLength(int len) {}
+			public void setContentType(String type) {}
+			public void setLocale(Locale loc) {}
+		});
+		hos.println(""test\ttest test"");
+		assertEquals(""test\ttest test\r\n"", hos.reset());
+	}
+	
+	/**
+	* Test case for {@link HTMLOutputStream#reset()} method.
+	* It tests the case when the buffer is not empty and contains a new line and a tab and a space and a number.
+	*/
+	@Test
+	public void testResetNotEmptyNewLineTabSpaceNumber() {
+		HTMLOutputStream hos = new HTMLOutputStream(new HttpServletResponse() {
+			public void addCookie(Cookie cookie) {}
+			public void addDateHeader(String name, long date) {}
+			public void addHeader(String name, String value) {}
+			public void addIntHeader(String name, int value) {}
+			public boolean containsHeader(String name) {return false;}
+			public String encodeRedirectURL(String url) {return null;}
+			public String encodeRedirectUrl(String url) {return null;}
+			public String encodeURL(String url) {return null;}
+			public String encodeUrl(String url) {return null;}
+			public void sendError(int sc) throws IOException {}
+			public void sendError(int sc, String msg) throws IOException {}
+			public void sendRedirect(String location) throws IOException {}
+			public void setDateHeader(String name, long date) {}
+			public void setHeader(String name, String value) {}
+			public void setIntHeader(String name, int value) {}
+			public void setStatus(int sc) {}
+			public void setStatus(int sc, String sm) {}
+			public void flushBuffer() throws IOException {}
+			public int getBufferSize() {return 0;}
+			public String getCharacterEncoding() {return null;}
+			public String getContentType() {return null;}
+			public Locale getLocale() {return null;}
+			public ServletOutputStream getOutputStream() throws IOException {return null;}
+			public PrintWriter getWriter() throws IOException {return null;}
+			public boolean isCommitted() {return false;}
+			public void reset() {}
+			public void resetBuffer() {}
+			public void setBufferSize(int size) {}
+			public void setCharacterEncoding(String charset) {}
+			public void setContentLength(int len) {}
+			public void setContentType(String type) {}
+			public void setLocale(Locale loc) {}
+		});
+		hos.println(""test\ttest test 1"");
+		assertEquals(""test\ttest test 1\r\n"", hos.reset());
+	}
+	
+	/**
+	* Test case for {@link HTMLOutputStream#reset()} method.
+	* It tests the case when the buffer is not empty and contains a new line and a tab and a space and a number and a special character.
+	*/
+	@Test
+	public void testResetNotEmptyNewLineTabSpaceNumberSpecialChar() {
+		HTMLOutputStream hos = new HTMLOutputStream(new HttpServletResponse() {
+			public void addCookie(Cookie cookie) {}
+			public void addDateHeader(String name, long date) {}
+			public void addHeader(String name, String value) {}
+			public void addIntHeader(String name, int value) {}
+			public boolean containsHeader(String name) {return false;}
+			public String encodeRedirectURL(String url) {return null;}
+			public String encodeRedirectUrl(String url) {return null;}
+			public String encodeURL(String url) {return null;}
+			public String encodeUrl(String url) {return null;}
+			public void sendError(int sc) throws IOException {}
+			public void sendError(int sc, String msg) throws IOException {}
+			public void sendRedirect(String location) throws IOException {}
+			public void setDate"
+cmpl-6u0Wb0isEFYFNXXfAEw1iszMejzZf,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/Database_3Test.java,87.62445139884949,length,"// Database.java
+/**
+ * Database.java: Manages all database access using JDBC
+ */
+package bible.util;
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+
+/**
+ * Manages all database access using JDBC
+ *
+ * @version $Id: Database.java,v 1.1.1.1 2001/02/10 05:46:08 jstauffe Exp $
+ * @author  Umesh Berry
+ */
+public class Database {
+
+    private Database() {
+        connectionBroker = new DbConnectionBroker();
+        String logDir = connectionBroker.getLog();
+        if (logDir != null) {
+            log = new Logger(logDir);
+            log.log(connectionBroker.toString());
+            log.log(""Start \tCreation Time \tIndex \tCreate Time String\tQuery"");
+            log.log(""End \tCreation Time \tElapsed Milliseconds"");
+        }
+    }
+
+    public static DbResult Query(String query) throws SQLException {
+        return DefaultDatabase.query(query, true);
+    }
+
+    private DbResult query(String query) throws SQLException {
+        return query(query, true);
+    }
+
+    private DbResult query(String query, boolean recursive) throws SQLException {
+        String PREFIX = ""select "";
+        if (query.trim().substring(0, PREFIX.length()).equalsIgnoreCase(PREFIX)) {
+            DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+            connectionAttributes.init(query);
+            logStart(connectionAttributes);
+            try {
+                return new DbResult(connectionAttributes, connectionAttributes.executeQuery(), connectionBroker);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                if ((e.getMessage() != null) && (e.getMessage().indexOf(CONNECTION_ERROR) >= 0)) {
+                    connectionBroker.disconnectAll();
+                    if (recursive) {
+                        //Try one more time
+                        return query(query, false);
+                    }
+                } else {
+                    connectionBroker.release(connectionAttributes);
+                }
+                throw new SQLException(""Query="" + query + ""\r\n"" + Util.ToString(e));
+            } finally {
+                logEnd(connectionAttributes);
+            }
+        } else {
+            throw new SQLException(""Query doesn't start with '"" + PREFIX + ""', but '"" + query.substring(0, PREFIX.length()) + ""' :"" + query);
+        }
+    }
+
+    public static int Update(String update) throws SQLException {
+        return DefaultDatabase.update(update);
+    }
+
+    private int update(String update) throws SQLException {
+        int rowsChanged = 0;
+        DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+        connectionAttributes.init(update);
+        logStart(connectionAttributes);
+        try {
+            rowsChanged = connectionAttributes.executeUpdate();
+            connectionBroker.release(connectionAttributes);
+            return rowsChanged;
+        } catch (SQLException e) {
+            if ((e.getMessage() != null) && (e.getMessage().indexOf(CONNECTION_ERROR) >= 0)) {
+                connectionBroker.disconnectAll();
+            } else {
+                connectionBroker.release(connectionAttributes);
+            }
+            throw e;
+        } finally {
+            logEnd(connectionAttributes);
+            connectionAttributes.reset();
+        }
+    }
+
+    public static int Insert(String insert) throws SQLException {
+        String[] inserts = new String[1];
+        inserts[0] = insert;
+        return DefaultDatabase.insert(inserts, true)[0];
+    }
+
+    /**
+     * Useful for passing in multiple inserts to do in batches
+     * @author James Stauffer
+     */
+    public static int[] BatchInsert(String[] inserts, int countPerBatch) throws SQLException {
+        int[] ids = new int[inserts.length];
+        int[] batchIds;
+        String[] insertBatch = new String[countPerBatch];
+        int fullBatches = inserts.length / countPerBatch;
+        for (int index = 0; index < fullBatches; index++) {
+            //Copy inserts in batch to separate array
+            System.arraycopy(inserts, index * countPerBatch, insertBatch, 0, countPerBatch);
+            batchIds = DefaultDatabase.insert(insertBatch, false);
+            //Copy ids back
+            System.arraycopy(batchIds, 0, ids, index * countPerBatch, countPerBatch);
+        }
+        int lastBatchSize = inserts.length % countPerBatch;
+        if (lastBatchSize > 0) {
+            insertBatch = new String[lastBatchSize];
+            //Copy inserts in batch to separate array
+            System.arraycopy(inserts, inserts.length - lastBatchSize, insertBatch, 0, insertBatch.length);
+            batchIds = DefaultDatabase.insert(insertBatch, false);
+            //Copy ids back
+            System.arraycopy(batchIds, 0, ids, inserts.length - lastBatchSize, lastBatchSize);
+        }
+        return ids;
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public static int Insert(String insert, boolean returnID) throws SQLException {
+        String[] inserts = new String[1];
+        inserts[0] = insert;
+        return DefaultDatabase.insert(inserts, returnID)[0];
+    }
+
+    private int insert(String insert) throws SQLException {
+        String[] inserts = new String[1];
+        inserts[0] = insert;
+        return insert(inserts, true)[0];
+    }
+
+    /**
+     * Creates inserts for the results of the select.
+     * @param insert Something like ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid)""
+     * @param select Something like ""select form_number, transaction_status, 4321 from web_complete_Document where web_doc_uid = 1234""
+     * @author James Stauffer
+     */
+    private int[] selectInsert(String insert, String select) throws SQLException {
+        DbResult result = null;
+        try {
+            Vector inserts = new Vector();
+            Vector values;
+            result = query(select);
+            ResultSetMetaData metaData = result.getMetaData();
+            int columns = metaData.getColumnCount();
+            while (result.next()) {
+                values = new Vector();
+                for (int col = 1; col <= columns; col++) {
+                    Object obj = result.getObject(col);
+                    if (obj instanceof String) {
+                        values.addElement(""'"" + obj + ""'"");
+                    } else {
+                        values.addElement(obj.toString());
+                    }
+                }
+                inserts.addElement(insert + "" values("" + Util.ToString(values, false, "", "") + "")"");
+            }
+            DbResult.Close(result);
+            if (inserts.size() > 0) {
+                return insert(Util.ToStringArray(inserts), true);
+            } else {
+                // nothing returned by the select
+                return new int[0];
+            }
+        } finally {
+            DbResult.Close(result);
+        }
+    }
+
+    /**
+     * @param returnID false means that no extra work(db call) will be done to find the id
+     * @author James Stauffer(Modified)
+     */
+    private int[] insert(String[] inserts, boolean returnID) throws SQLException {
+        DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+        connectionAttributes.init(Util.ToString(inserts, false, "" ""));
+        logStart(connectionAttributes);
+        try {
+            int[] id = new int[inserts.length];
+            connectionAttributes.executeUpdate();
+            if (returnID) {
+                //To get the last identity value, use the @@IDENTITY global variable.
+                ResultSet rs = connectionAttributes.executeQuery(""select @@identity id"");
+                rs.next();
+                id[0] = rs.getInt(""id"");
+                rs.close();
+            }
+            connectionBroker.release(connectionAttributes);
+            return id;
+        } catch (SQLException e) {
+            if ((e.getMessage() != null) && (e.getMessage().indexOf(CONNECTION_ERROR) >= 0)) {
+                connectionBroker.disconnectAll();
+            } else {
+                connectionBroker.release(connectionAttributes);
+            }
+            throw e;
+        } finally {
+            logEnd(connectionAttributes);
+            connectionAttributes.reset();
+        }
+    }
+
+    /**
+     * Creates a prepared statement using the connection managed by the database manager
+     *
+     * @author Michael Lee
+     * @see <a href=""http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html"">JDBC Prepared Statements Tutorial</a>
+     */
+    private PreparedStatement prepareStatement(String query) throws SQLException {
+        DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+        connectionAttributes.init(query);
+        logStart(connectionAttributes);
+        try {
+            return connectionAttributes.prepareStatement();
+        } finally {
+            logEnd(connectionAttributes);
+        }
+    }
+
+    public static PreparedStatement PrepareStatement(String query) throws SQLException {
+        return DefaultDatabase.prepareStatement(query);
+    }
+
+    /**
+     * Excecutes a prepared statement and returns a DbResult.  It assumes that any parameters have been properly
+     * filled into the prepared statement.
+     *
+     * @author Michael Lee
+     * @see <a href=""http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html"">JDBC Prepared Statements Tutorial</a>
+     * @param recursive true if there are some conditions where if the query fails we should retry the query.
+     */
+    private DbResult preparedStatement(PreparedStatement statement, boolean recursive) throws SQLException {
+        DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+        connectionAttributes.init(statement.toString());
+        logStart(connectionAttributes);
+        try {
+            try {
+                return new DbResult(connectionAttributes, statement.executeQuery(), connectionBroker);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                if ((e.getMessage() != null) && (e.getMessage().indexOf(CONNECTION_ERROR) >= 0)) {
+                    connectionBroker.disconnectAll();
+                    if (recursive) {
+                        //Try one more time
+                        return preparedStatement(statement, false);
+                    }
+                } else {
+                    connectionBroker.release(connectionAttributes);
+                }
+                throw e;
+            }
+        } finally {
+            logEnd(connectionAttributes);
+        }
+    }
+
+    /**
+     * Excecutes a prepared statement and returns a DbResult.  It assumes that any parameters have been properly
+     * filled into the prepared statement.
+     *
+     * @author Michael Lee
+     * @see <a href=""http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html"">JDBC Prepared Statements Tutorial</a>
+     */
+    private DbResult preparedStatement(PreparedStatement statement) throws SQLException {
+        return preparedStatement(statement, true);
+    }
+
+    public static DbResult PreparedStatement(PreparedStatement statement) throws SQLException {
+        return DefaultDatabase.preparedStatement(statement, true);
+    }
+
+    public static String Escape(String s) {
+        int index = s.indexOf(ESCAPE_CHAR);
+        if (index != -1) {
+            s = s.substring(0, index) + ESCAPE_CHAR + ESCAPE_CHAR + Escape(s.substring(index + 1));
+        }
+        return s;
+    }
+
+    public static DbConnectionBroker GetConnectionBroker() {
+        return DefaultDatabase.connectionBroker;
+    }
+
+    public static String GetTableName(String insertQuery) {
+        StringTokenizer st = new StringTokenizer(insertQuery, ""( "");
+        String dummy = st.nextToken();
+        dummy = st.nextToken();
+        return st.nextToken();
+    }
+
+    public String toString() {
+        return getClass().getName() + ""[ connectionBroker="" + connectionBroker + ""]"";
+    }
+
+    public static DbConnectionAttributes GetConnectionAttributes() throws SQLException {
+        return DefaultDatabase.connectionBroker.getConnectionAttributes();
+    }
+
+    private DbConnectionAttributes getConnectionAttributes() throws SQLException {
+        return connectionBroker.getConnectionAttributes();
+    }
+
+    private void logStart(DbConnectionAttributes ca) throws SQLException {
+        if (log != null) {
+            log.log(""Start \t"" + ca.getCreationTime() + "" \t"" + ca.getIndex() + "" \t"" + Logger.FormatDate(ca.getCreationTime()) + ""\t"" + ca.getQuery());
+        }
+    }
+
+    private void logEnd(DbConnectionAttributes ca) throws SQLException {
+        if (log != null) {
+            log.log(""End \t"" + ca.getCreationTime() + "" \t"" + (System.currentTimeMillis() - ca.getCreationTime()));
+        }
+    }
+
+    private DbConnectionBroker connectionBroker;
+
+    private Logger log;
+
+    private static Database DefaultDatabase;
+
+    private static final char ESCAPE_CHAR = '\'';
+
+    private static final String CONNECTION_ERROR = ""Connection reset by peer"";
+
+    static {
+        try {
+            DefaultDatabase = new Database();
+        } catch (Throwable e) {
+            e.printStackTrace(System.out);
+        }
+    }
+}
+","// Database_3Test.java
+package bible.util;
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Database}.
+* It contains ten unit test cases for the {@link Database#BatchInsert(String[], int)} method.
+*/
+class Database_3Test {","// Database_3Test.java
+package bible.util;
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Database}.
+* It contains ten unit test cases for the {@link Database#BatchInsert(String[], int)} method.
+*/
+class Database_3Test {
+
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is less than the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_1() throws SQLException {
+				String[] inserts = new String[1];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(1, ids.length);
+				assertEquals(1, ids[0]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is equal to the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_2() throws SQLException {
+				String[] inserts = new String[2];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				inserts[1] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(4, 5, 6)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(2, ids.length);
+				assertEquals(1, ids[0]);
+				assertEquals(2, ids[1]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is greater than the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_3() throws SQLException {
+				String[] inserts = new String[3];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				inserts[1] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(4, 5, 6)"";
+				inserts[2] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(7, 8, 9)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(3, ids.length);
+				assertEquals(1, ids[0]);
+				assertEquals(2, ids[1]);
+				assertEquals(3, ids[2]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is greater than the number of inserts per batch and the number of inserts is not divisible by the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_4() throws SQLException {
+				String[] inserts = new String[4];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				inserts[1] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(4, 5, 6)"";
+				inserts[2] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(7, 8, 9)"";
+				inserts[3] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(10, 11, 12)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(4, ids.length);
+				assertEquals(1, ids[0]);
+				assertEquals(2, ids[1]);
+				assertEquals(3, ids[2]);
+				assertEquals(4, ids[3]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is greater than the number of inserts per batch and the number of inserts is not divisible by the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_5() throws SQLException {
+				String[] inserts = new String[5];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				inserts[1] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(4, 5, 6)"";
+				inserts[2] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(7, 8, 9)"";
+				inserts[3] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(10, 11, 12)"";
+				inserts[4] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(13, 14, 15)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(5, ids.length);
+				assertEquals(1, ids[0]);
+				assertEquals(2, ids[1]);
+				assertEquals(3, ids[2]);
+				assertEquals(4, ids[3]);
+				assertEquals(5, ids[4]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is greater than the number of inserts per batch and the number of inserts is not divisible by the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_6() throws SQLException {
+				String[] inserts = new String[6];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				inserts[1] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(4, 5, 6)"";
+				inserts[2] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(7, 8, 9)"";
+				inserts[3] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(10, 11, 12)"";
+				inserts[4] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(13, 14, 15)"";
+				inserts[5] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(16, 17, 18)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(6, ids.length);
+				assertEquals(1, ids[0]);
+				assertEquals(2, ids[1]);
+				assertEquals(3, ids[2]);
+				assertEquals(4, ids[3]);
+				assertEquals(5, ids[4]);
+				assertEquals(6, ids[5]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is greater than the number of inserts per batch and the number of inserts is not divisible by the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_7() throws SQLException {
+				String[] inserts = new String[7];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				inserts[1] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(4, 5, 6)"";
+				inserts[2] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(7, 8, 9)"";
+				inserts[3] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(10, 11, 12)"";
+				inserts[4] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(13, 14, 15)"";
+				inserts[5] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(16, 17, 18)"";
+				inserts[6] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(19, 20, 21)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(7, ids.length);
+				assertEquals(1, ids[0]);
+				assertEquals(2, ids[1]);
+				assertEquals(3, ids[2]);
+				assertEquals(4, ids[3]);
+				assertEquals(5, ids[4]);
+				assertEquals(6, ids[5]);
+				assertEquals(7, ids[6]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is greater than the number of inserts per batch and the number of inserts is not divisible by the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_8() throws SQLException {
+				String[] inserts = new String[8];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				inserts[1] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(4, 5, 6)"";
+				inserts[2] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(7, 8, 9)"";
+				inserts[3] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(10, 11, 12)"";
+				inserts[4] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(13, 14, 15)"";
+				inserts[5] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(16, 17, 18)"";
+				inserts[6] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(19, 20, 21)"";
+				inserts[7] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(22, 23, 24)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(8, ids.length);
+				assertEquals(1, ids[0]);
+				assertEquals(2, ids[1]);
+				assertEquals(3, ids[2]);
+				assertEquals(4, ids[3]);
+				assertEquals(5, ids[4]);
+				assertEquals(6, ids[5]);
+				assertEquals(7, ids[6]);
+				assertEquals(8, ids[7]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is greater than the number of inserts per batch and the number of inserts is not divisible by the number of inserts per batch.
+		*/
+		@Test
+		void testBatchInsert_9() throws SQLException {
+				String[] inserts = new String[9];
+				inserts[0] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(1, 2, 3)"";
+				inserts[1] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(4, 5, 6)"";
+				inserts[2] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(7, 8, 9)"";
+				inserts[3] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(10, 11, 12)"";
+				inserts[4] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(13, 14, 15)"";
+				inserts[5] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(16, 17, 18)"";
+				inserts[6] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(19, 20, 21)"";
+				inserts[7] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(22, 23, 24)"";
+				inserts[8] = ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid) values(25, 26, 27)"";
+				int[] ids = Database.BatchInsert(inserts, 2);
+				assertEquals(9, ids.length);
+				assertEquals(1, ids[0]);
+				assertEquals(2, ids[1]);
+				assertEquals(3, ids[2]);
+				assertEquals(4, ids[3]);
+				assertEquals(5, ids[4]);
+				assertEquals(6, ids[5]);
+				assertEquals(7, ids[6]);
+				assertEquals(8, ids[7]);
+				assertEquals(9, ids[8]);
+		}
+		
+		/**
+		* Test case for {@link Database#BatchInsert(String[], int)} method.
+		* It tests the case when the number of inserts is greater than"
+cmpl-6u0Y1hD7qLD6mUaZTfZ4FvdOpEcQJ,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/Database_4Test.java,92.64275860786438,length,"// Database.java
+/**
+ * Database.java: Manages all database access using JDBC
+ */
+package bible.util;
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+
+/**
+ * Manages all database access using JDBC
+ *
+ * @version $Id: Database.java,v 1.1.1.1 2001/02/10 05:46:08 jstauffe Exp $
+ * @author  Umesh Berry
+ */
+public class Database {
+
+    private Database() {
+        connectionBroker = new DbConnectionBroker();
+        String logDir = connectionBroker.getLog();
+        if (logDir != null) {
+            log = new Logger(logDir);
+            log.log(connectionBroker.toString());
+            log.log(""Start \tCreation Time \tIndex \tCreate Time String\tQuery"");
+            log.log(""End \tCreation Time \tElapsed Milliseconds"");
+        }
+    }
+
+    public static DbResult Query(String query) throws SQLException {
+        return DefaultDatabase.query(query, true);
+    }
+
+    private DbResult query(String query) throws SQLException {
+        return query(query, true);
+    }
+
+    private DbResult query(String query, boolean recursive) throws SQLException {
+        String PREFIX = ""select "";
+        if (query.trim().substring(0, PREFIX.length()).equalsIgnoreCase(PREFIX)) {
+            DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+            connectionAttributes.init(query);
+            logStart(connectionAttributes);
+            try {
+                return new DbResult(connectionAttributes, connectionAttributes.executeQuery(), connectionBroker);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                if ((e.getMessage() != null) && (e.getMessage().indexOf(CONNECTION_ERROR) >= 0)) {
+                    connectionBroker.disconnectAll();
+                    if (recursive) {
+                        //Try one more time
+                        return query(query, false);
+                    }
+                } else {
+                    connectionBroker.release(connectionAttributes);
+                }
+                throw new SQLException(""Query="" + query + ""\r\n"" + Util.ToString(e));
+            } finally {
+                logEnd(connectionAttributes);
+            }
+        } else {
+            throw new SQLException(""Query doesn't start with '"" + PREFIX + ""', but '"" + query.substring(0, PREFIX.length()) + ""' :"" + query);
+        }
+    }
+
+    public static int Update(String update) throws SQLException {
+        return DefaultDatabase.update(update);
+    }
+
+    private int update(String update) throws SQLException {
+        int rowsChanged = 0;
+        DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+        connectionAttributes.init(update);
+        logStart(connectionAttributes);
+        try {
+            rowsChanged = connectionAttributes.executeUpdate();
+            connectionBroker.release(connectionAttributes);
+            return rowsChanged;
+        } catch (SQLException e) {
+            if ((e.getMessage() != null) && (e.getMessage().indexOf(CONNECTION_ERROR) >= 0)) {
+                connectionBroker.disconnectAll();
+            } else {
+                connectionBroker.release(connectionAttributes);
+            }
+            throw e;
+        } finally {
+            logEnd(connectionAttributes);
+            connectionAttributes.reset();
+        }
+    }
+
+    public static int Insert(String insert) throws SQLException {
+        String[] inserts = new String[1];
+        inserts[0] = insert;
+        return DefaultDatabase.insert(inserts, true)[0];
+    }
+
+    /**
+     * Useful for passing in multiple inserts to do in batches
+     * @author James Stauffer
+     */
+    public static int[] BatchInsert(String[] inserts, int countPerBatch) throws SQLException {
+        int[] ids = new int[inserts.length];
+        int[] batchIds;
+        String[] insertBatch = new String[countPerBatch];
+        int fullBatches = inserts.length / countPerBatch;
+        for (int index = 0; index < fullBatches; index++) {
+            //Copy inserts in batch to separate array
+            System.arraycopy(inserts, index * countPerBatch, insertBatch, 0, countPerBatch);
+            batchIds = DefaultDatabase.insert(insertBatch, false);
+            //Copy ids back
+            System.arraycopy(batchIds, 0, ids, index * countPerBatch, countPerBatch);
+        }
+        int lastBatchSize = inserts.length % countPerBatch;
+        if (lastBatchSize > 0) {
+            insertBatch = new String[lastBatchSize];
+            //Copy inserts in batch to separate array
+            System.arraycopy(inserts, inserts.length - lastBatchSize, insertBatch, 0, insertBatch.length);
+            batchIds = DefaultDatabase.insert(insertBatch, false);
+            //Copy ids back
+            System.arraycopy(batchIds, 0, ids, inserts.length - lastBatchSize, lastBatchSize);
+        }
+        return ids;
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public static int Insert(String insert, boolean returnID) throws SQLException {
+        String[] inserts = new String[1];
+        inserts[0] = insert;
+        return DefaultDatabase.insert(inserts, returnID)[0];
+    }
+
+    private int insert(String insert) throws SQLException {
+        String[] inserts = new String[1];
+        inserts[0] = insert;
+        return insert(inserts, true)[0];
+    }
+
+    /**
+     * Creates inserts for the results of the select.
+     * @param insert Something like ""insert into web_complete_Document (form_number, transaction_status, web_doc_uid)""
+     * @param select Something like ""select form_number, transaction_status, 4321 from web_complete_Document where web_doc_uid = 1234""
+     * @author James Stauffer
+     */
+    private int[] selectInsert(String insert, String select) throws SQLException {
+        DbResult result = null;
+        try {
+            Vector inserts = new Vector();
+            Vector values;
+            result = query(select);
+            ResultSetMetaData metaData = result.getMetaData();
+            int columns = metaData.getColumnCount();
+            while (result.next()) {
+                values = new Vector();
+                for (int col = 1; col <= columns; col++) {
+                    Object obj = result.getObject(col);
+                    if (obj instanceof String) {
+                        values.addElement(""'"" + obj + ""'"");
+                    } else {
+                        values.addElement(obj.toString());
+                    }
+                }
+                inserts.addElement(insert + "" values("" + Util.ToString(values, false, "", "") + "")"");
+            }
+            DbResult.Close(result);
+            if (inserts.size() > 0) {
+                return insert(Util.ToStringArray(inserts), true);
+            } else {
+                // nothing returned by the select
+                return new int[0];
+            }
+        } finally {
+            DbResult.Close(result);
+        }
+    }
+
+    /**
+     * @param returnID false means that no extra work(db call) will be done to find the id
+     * @author James Stauffer(Modified)
+     */
+    private int[] insert(String[] inserts, boolean returnID) throws SQLException {
+        DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+        connectionAttributes.init(Util.ToString(inserts, false, "" ""));
+        logStart(connectionAttributes);
+        try {
+            int[] id = new int[inserts.length];
+            connectionAttributes.executeUpdate();
+            if (returnID) {
+                //To get the last identity value, use the @@IDENTITY global variable.
+                ResultSet rs = connectionAttributes.executeQuery(""select @@identity id"");
+                rs.next();
+                id[0] = rs.getInt(""id"");
+                rs.close();
+            }
+            connectionBroker.release(connectionAttributes);
+            return id;
+        } catch (SQLException e) {
+            if ((e.getMessage() != null) && (e.getMessage().indexOf(CONNECTION_ERROR) >= 0)) {
+                connectionBroker.disconnectAll();
+            } else {
+                connectionBroker.release(connectionAttributes);
+            }
+            throw e;
+        } finally {
+            logEnd(connectionAttributes);
+            connectionAttributes.reset();
+        }
+    }
+
+    /**
+     * Creates a prepared statement using the connection managed by the database manager
+     *
+     * @author Michael Lee
+     * @see <a href=""http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html"">JDBC Prepared Statements Tutorial</a>
+     */
+    private PreparedStatement prepareStatement(String query) throws SQLException {
+        DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+        connectionAttributes.init(query);
+        logStart(connectionAttributes);
+        try {
+            return connectionAttributes.prepareStatement();
+        } finally {
+            logEnd(connectionAttributes);
+        }
+    }
+
+    public static PreparedStatement PrepareStatement(String query) throws SQLException {
+        return DefaultDatabase.prepareStatement(query);
+    }
+
+    /**
+     * Excecutes a prepared statement and returns a DbResult.  It assumes that any parameters have been properly
+     * filled into the prepared statement.
+     *
+     * @author Michael Lee
+     * @see <a href=""http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html"">JDBC Prepared Statements Tutorial</a>
+     * @param recursive true if there are some conditions where if the query fails we should retry the query.
+     */
+    private DbResult preparedStatement(PreparedStatement statement, boolean recursive) throws SQLException {
+        DbConnectionAttributes connectionAttributes = getConnectionAttributes();
+        connectionAttributes.init(statement.toString());
+        logStart(connectionAttributes);
+        try {
+            try {
+                return new DbResult(connectionAttributes, statement.executeQuery(), connectionBroker);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                if ((e.getMessage() != null) && (e.getMessage().indexOf(CONNECTION_ERROR) >= 0)) {
+                    connectionBroker.disconnectAll();
+                    if (recursive) {
+                        //Try one more time
+                        return preparedStatement(statement, false);
+                    }
+                } else {
+                    connectionBroker.release(connectionAttributes);
+                }
+                throw e;
+            }
+        } finally {
+            logEnd(connectionAttributes);
+        }
+    }
+
+    /**
+     * Excecutes a prepared statement and returns a DbResult.  It assumes that any parameters have been properly
+     * filled into the prepared statement.
+     *
+     * @author Michael Lee
+     * @see <a href=""http://java.sun.com/docs/books/tutorial/jdbc/basics/prepared.html"">JDBC Prepared Statements Tutorial</a>
+     */
+    private DbResult preparedStatement(PreparedStatement statement) throws SQLException {
+        return preparedStatement(statement, true);
+    }
+
+    public static DbResult PreparedStatement(PreparedStatement statement) throws SQLException {
+        return DefaultDatabase.preparedStatement(statement, true);
+    }
+
+    public static String Escape(String s) {
+        int index = s.indexOf(ESCAPE_CHAR);
+        if (index != -1) {
+            s = s.substring(0, index) + ESCAPE_CHAR + ESCAPE_CHAR + Escape(s.substring(index + 1));
+        }
+        return s;
+    }
+
+    public static DbConnectionBroker GetConnectionBroker() {
+        return DefaultDatabase.connectionBroker;
+    }
+
+    public static String GetTableName(String insertQuery) {
+        StringTokenizer st = new StringTokenizer(insertQuery, ""( "");
+        String dummy = st.nextToken();
+        dummy = st.nextToken();
+        return st.nextToken();
+    }
+
+    public String toString() {
+        return getClass().getName() + ""[ connectionBroker="" + connectionBroker + ""]"";
+    }
+
+    public static DbConnectionAttributes GetConnectionAttributes() throws SQLException {
+        return DefaultDatabase.connectionBroker.getConnectionAttributes();
+    }
+
+    private DbConnectionAttributes getConnectionAttributes() throws SQLException {
+        return connectionBroker.getConnectionAttributes();
+    }
+
+    private void logStart(DbConnectionAttributes ca) throws SQLException {
+        if (log != null) {
+            log.log(""Start \t"" + ca.getCreationTime() + "" \t"" + ca.getIndex() + "" \t"" + Logger.FormatDate(ca.getCreationTime()) + ""\t"" + ca.getQuery());
+        }
+    }
+
+    private void logEnd(DbConnectionAttributes ca) throws SQLException {
+        if (log != null) {
+            log.log(""End \t"" + ca.getCreationTime() + "" \t"" + (System.currentTimeMillis() - ca.getCreationTime()));
+        }
+    }
+
+    private DbConnectionBroker connectionBroker;
+
+    private Logger log;
+
+    private static Database DefaultDatabase;
+
+    private static final char ESCAPE_CHAR = '\'';
+
+    private static final String CONNECTION_ERROR = ""Connection reset by peer"";
+
+    static {
+        try {
+            DefaultDatabase = new Database();
+        } catch (Throwable e) {
+            e.printStackTrace(System.out);
+        }
+    }
+}
+","// Database_4Test.java
+package bible.util;
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Database}.
+* It contains ten unit test cases for the {@link Database#Insert(String, boolean)} method.
+*/
+class Database_4Test {","// Database_4Test.java
+package bible.util;
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Database}.
+* It contains ten unit test cases for the {@link Database#Insert(String, boolean)} method.
+*/
+class Database_4Test {
+
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is null.
+		*/
+		@Test
+		public void testInsert_1() throws SQLException {
+				try {
+						Database.Insert(null, true);
+						fail(""Should throw NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is empty.
+		*/
+		@Test
+		public void testInsert_2() throws SQLException {
+				try {
+						Database.Insert("""", true);
+						fail(""Should throw SQLException"");
+				} catch (SQLException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is not a valid insert query.
+		*/
+		@Test
+		public void testInsert_3() throws SQLException {
+				try {
+						Database.Insert(""insert"", true);
+						fail(""Should throw SQLException"");
+				} catch (SQLException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_4() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_5() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", false);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_6() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_7() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", false);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_8() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_9() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", false);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_10() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+}
+
+// Database_4Test_2.java
+package bible.util;
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Database}.
+* It contains ten unit test cases for the {@link Database#Insert(String, boolean)} method.
+*/
+class Database_4Test_2 {
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is null.
+		*/
+		@Test
+		public void testInsert_1() throws SQLException {
+				try {
+						Database.Insert(null, true);
+						fail(""Should throw NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is empty.
+		*/
+		@Test
+		public void testInsert_2() throws SQLException {
+				try {
+						Database.Insert("""", true);
+						fail(""Should throw SQLException"");
+				} catch (SQLException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is not a valid insert query.
+		*/
+		@Test
+		public void testInsert_3() throws SQLException {
+				try {
+						Database.Insert(""insert"", true);
+						fail(""Should throw SQLException"");
+				} catch (SQLException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_4() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_5() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", false);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_6() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_7() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", false);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_8() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_9() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", false);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_10() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+}
+
+// Database_4Test_3.java
+package bible.util;
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Database}.
+* It contains ten unit test cases for the {@link Database#Insert(String, boolean)} method.
+*/
+class Database_4Test_3 {
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is null.
+		*/
+		@Test
+		public void testInsert_1() throws SQLException {
+				try {
+						Database.Insert(null, true);
+						fail(""Should throw NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is empty.
+		*/
+		@Test
+		public void testInsert_2() throws SQLException {
+				try {
+						Database.Insert("""", true);
+						fail(""Should throw SQLException"");
+				} catch (SQLException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is not a valid insert query.
+		*/
+		@Test
+		public void testInsert_3() throws SQLException {
+				try {
+						Database.Insert(""insert"", true);
+						fail(""Should throw SQLException"");
+				} catch (SQLException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+		public void testInsert_4() throws SQLException {
+				try {
+						Database.Insert(""insert into test (id, name) values (1, 'test')"", true);
+						assertTrue(true);
+				} catch (SQLException e) {
+						fail(""Should not throw SQLException"");
+				}
+		}
+		
+		/**
+		* Test case for {@link Database#Insert(String, boolean)} method.
+		* It tests the case when the insert query is a valid insert query.
+		*/
+		@Test
+"
+cmpl-6u0ZWQL9XgTg0ckun8QBqoyFsnAuG,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/DbConnectionAttributes_0Test.java,87.65158557891846,length,"// DbConnectionAttributes.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+
+public class DbConnectionAttributes {
+
+    private static final int INUSE = 1;
+
+    private static final int FREE = 2;
+
+    private static final int NOTUSED = 3;
+
+    protected DbConnectionAttributes(int index) {
+        this.index = index;
+        status = FREE;
+    }
+
+    protected void connect(Connection connection) throws SQLException {
+        this.connection = connection;
+        if (connection == null) {
+            (new NullPointerException(""connection - "" + toString())).printStackTrace();
+        }
+        this.statement = connection.createStatement();
+        this.status = FREE;
+    }
+
+    protected void close() throws SQLException {
+        if (statement != null) {
+            statement.close();
+            statement = null;
+        }
+        if (connection != null) {
+            connection.close();
+            connection = null;
+        }
+    }
+
+    protected void release() {
+        status = NOTUSED;
+        creationTime = -1;
+    }
+
+    protected void free() {
+        status = FREE;
+    }
+
+    /**
+     * Used to drop a connection whe it is in use.
+     * @see ConnectionBroker#disconnectAll
+     * @author James Stauffer
+     */
+    protected void drop() {
+        index = -1;
+    }
+
+    protected void use(int index) {
+        creationTime = System.currentTimeMillis();
+        ;
+        status = INUSE;
+        this.index = index;
+    }
+
+    protected void init(String query) {
+        this.query = query;
+        this.e = new Exception();
+    }
+
+    protected void reset() {
+        this.query = """";
+        this.e = null;
+    }
+
+    /**
+     * Should only be used by the maintanence SQL queries in DatabaseManager
+     * @see DatabaseManager#executeInsert
+     * @author James Stauffer
+     */
+    protected ResultSet executeQuery(String identityQuery) throws SQLException {
+        return statement.executeQuery(identityQuery);
+    }
+
+    /**
+     * Should only be used by the maintanence SQL queries in DatabaseManager
+     * @see DatabaseManager#getInsertID
+     * @author James Stauffer
+     */
+    protected void executeUpdate(String identityUpdate) throws SQLException {
+        statement.executeUpdate(identityUpdate);
+    }
+
+    protected ResultSet executeQuery() throws SQLException {
+        return statement.executeQuery(query);
+    }
+
+    protected int executeUpdate() throws SQLException {
+        return statement.executeUpdate(query);
+    }
+
+    protected PreparedStatement prepareStatement() throws SQLException {
+        return connection.prepareStatement(query);
+    }
+
+    protected int getIndex() {
+        return index;
+    }
+
+    protected long getCreationTime() {
+        return creationTime;
+    }
+
+    public String getCreationDate() {
+        return (new Date(creationTime)).toString();
+    }
+
+    public String getConnection() {
+        return """" + connection;
+    }
+
+    public String getStatement() {
+        return """" + statement;
+    }
+
+    public String getException() {
+        if (e == null) {
+            return null;
+        } else {
+            return Util.ToString(e);
+        }
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public boolean isFree() {
+        return status == FREE;
+    }
+
+    public boolean isInUse() {
+        return status == INUSE;
+    }
+
+    public boolean isNotUsed() {
+        return status == NOTUSED;
+    }
+
+    protected boolean isClosed() throws SQLException {
+        return (connection == null) || connection.isClosed();
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String toString() {
+        return getClass().getName() + "":[index="" + index + "", status="" + getStatusString() + "", query="" + ((query != null) ? ""\"""" + query + ""\"""" : query) + "", creationDate="" + new Date(creationTime) + "", e="" + Util.ToString(e) + ""]"";
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String toShortString() {
+        return getClass().getName() + "":["" + index + "" "" + ((query != null) ? query : """") + ""]"";
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String toLogString() {
+        return index + "" "" + status + ""  "" + Logger.FormatDate(creationTime) + ""\t"" + query;
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String getStatusString() {
+        switch(status) {
+            case INUSE:
+                return ""InUse (Connected)"";
+            case FREE:
+                return ""Free (Connected-Not Used)"";
+            case NOTUSED:
+                return ""NotUsed (Not Connected)"";
+            default:
+                return ""NOT KNOWN"";
+        }
+    }
+
+    private int status;
+
+    private Connection connection;
+
+    private Statement statement;
+
+    private int index;
+
+    private long creationTime = -1;
+
+    private String query = null;
+
+    private Exception e = null;
+}
+","// DbConnectionAttributes_0Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#toShortString()} method.
+*/
+class DbConnectionAttributes_0Test {","// DbConnectionAttributes_0Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#toShortString()} method.
+*/
+class DbConnectionAttributes_0Test {
+
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_0() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(0);
+		assertEquals(""bible.util.DbConnectionAttributes:[0 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_1() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		assertEquals(""bible.util.DbConnectionAttributes:[1 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_2() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(2);
+		assertEquals(""bible.util.DbConnectionAttributes:[2 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_3() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(3);
+		assertEquals(""bible.util.DbConnectionAttributes:[3 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_4() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(4);
+		assertEquals(""bible.util.DbConnectionAttributes:[4 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_5() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(5);
+		assertEquals(""bible.util.DbConnectionAttributes:[5 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_6() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(6);
+		assertEquals(""bible.util.DbConnectionAttributes:[6 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_7() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(7);
+		assertEquals(""bible.util.DbConnectionAttributes:[7 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_8() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(8);
+		assertEquals(""bible.util.DbConnectionAttributes:[8 null]"", dbConnectionAttributes.toShortString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toShortString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToShortString_9() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(9);
+		assertEquals(""bible.util.DbConnectionAttributes:[9 null]"", dbConnectionAttributes.toShortString());
+	}
+}
+
+// DbConnectionAttributes_1Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#toString()} method.
+*/
+class DbConnectionAttributes_1Test {
+		
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_0() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(0);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=0, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_1() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=1, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_2() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(2);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=2, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_3() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(3);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=3, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_4() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(4);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=4, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_5() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(5);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=5, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_6() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(6);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=6, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_7() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(7);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=7, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_8() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(8);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=8, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToString_9() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(9);
+		assertEquals(""bible.util.DbConnectionAttributes:[index=9, status=NotUsed (Not Connected), query=null, creationDate=Thu Jan 01 00:00:00 CST 1970, e=null]"", dbConnectionAttributes.toString());
+	}
+}
+
+// DbConnectionAttributes_2Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#toLogString()} method.
+*/
+class DbConnectionAttributes_2Test {
+		
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_0() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(0);
+		assertEquals(""0 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_1() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		assertEquals(""1 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_2() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(2);
+		assertEquals(""2 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_3() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(3);
+		assertEquals(""3 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_4() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(4);
+		assertEquals(""4 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_5() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(5);
+		assertEquals(""5 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_6() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(6);
+		assertEquals(""6 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_7() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(7);
+		assertEquals(""7 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_8() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(8);
+		assertEquals(""8 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_9() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(9);
+		assertEquals(""9 3  1970-01-01 00:00:00.000\tnull"", dbConnectionAttributes.toLogString());
+	}
+}
+
+// DbConnectionAttributes_3Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#getStatusString()} method.
+*/
+class DbConnectionAttributes_3Test {
+		
+	/**
+	* Test case for {@link DbConnectionAttributes#getStatusString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testGetStatusString_0() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(0);
+		assertEquals(""NotUsed (Not Connected)"", dbConnectionAttributes.getStatusString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#getStatusString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testGetStatusString_1() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		assertEquals(""NotUsed (Not Connected)"", dbConnectionAttributes.getStatusString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#getStatusString()}.
+	* @author James Stauffer
+	*/
+	@Test
+	void testGetStatusString_2() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(2);
+		assertEquals(""NotUsed (Not Connected)"", dbConnectionAttributes.getStatusString());
+	}
+	
+	/**"
+cmpl-6u0avHfxn8SdZr9mpIpRAMBTZd2Qb,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/DbConnectionAttributes_1Test.java,81.44327235221863,length,"// DbConnectionAttributes.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+
+public class DbConnectionAttributes {
+
+    private static final int INUSE = 1;
+
+    private static final int FREE = 2;
+
+    private static final int NOTUSED = 3;
+
+    protected DbConnectionAttributes(int index) {
+        this.index = index;
+        status = FREE;
+    }
+
+    protected void connect(Connection connection) throws SQLException {
+        this.connection = connection;
+        if (connection == null) {
+            (new NullPointerException(""connection - "" + toString())).printStackTrace();
+        }
+        this.statement = connection.createStatement();
+        this.status = FREE;
+    }
+
+    protected void close() throws SQLException {
+        if (statement != null) {
+            statement.close();
+            statement = null;
+        }
+        if (connection != null) {
+            connection.close();
+            connection = null;
+        }
+    }
+
+    protected void release() {
+        status = NOTUSED;
+        creationTime = -1;
+    }
+
+    protected void free() {
+        status = FREE;
+    }
+
+    /**
+     * Used to drop a connection whe it is in use.
+     * @see ConnectionBroker#disconnectAll
+     * @author James Stauffer
+     */
+    protected void drop() {
+        index = -1;
+    }
+
+    protected void use(int index) {
+        creationTime = System.currentTimeMillis();
+        ;
+        status = INUSE;
+        this.index = index;
+    }
+
+    protected void init(String query) {
+        this.query = query;
+        this.e = new Exception();
+    }
+
+    protected void reset() {
+        this.query = """";
+        this.e = null;
+    }
+
+    /**
+     * Should only be used by the maintanence SQL queries in DatabaseManager
+     * @see DatabaseManager#executeInsert
+     * @author James Stauffer
+     */
+    protected ResultSet executeQuery(String identityQuery) throws SQLException {
+        return statement.executeQuery(identityQuery);
+    }
+
+    /**
+     * Should only be used by the maintanence SQL queries in DatabaseManager
+     * @see DatabaseManager#getInsertID
+     * @author James Stauffer
+     */
+    protected void executeUpdate(String identityUpdate) throws SQLException {
+        statement.executeUpdate(identityUpdate);
+    }
+
+    protected ResultSet executeQuery() throws SQLException {
+        return statement.executeQuery(query);
+    }
+
+    protected int executeUpdate() throws SQLException {
+        return statement.executeUpdate(query);
+    }
+
+    protected PreparedStatement prepareStatement() throws SQLException {
+        return connection.prepareStatement(query);
+    }
+
+    protected int getIndex() {
+        return index;
+    }
+
+    protected long getCreationTime() {
+        return creationTime;
+    }
+
+    public String getCreationDate() {
+        return (new Date(creationTime)).toString();
+    }
+
+    public String getConnection() {
+        return """" + connection;
+    }
+
+    public String getStatement() {
+        return """" + statement;
+    }
+
+    public String getException() {
+        if (e == null) {
+            return null;
+        } else {
+            return Util.ToString(e);
+        }
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public boolean isFree() {
+        return status == FREE;
+    }
+
+    public boolean isInUse() {
+        return status == INUSE;
+    }
+
+    public boolean isNotUsed() {
+        return status == NOTUSED;
+    }
+
+    protected boolean isClosed() throws SQLException {
+        return (connection == null) || connection.isClosed();
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String toString() {
+        return getClass().getName() + "":[index="" + index + "", status="" + getStatusString() + "", query="" + ((query != null) ? ""\"""" + query + ""\"""" : query) + "", creationDate="" + new Date(creationTime) + "", e="" + Util.ToString(e) + ""]"";
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String toShortString() {
+        return getClass().getName() + "":["" + index + "" "" + ((query != null) ? query : """") + ""]"";
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String toLogString() {
+        return index + "" "" + status + ""  "" + Logger.FormatDate(creationTime) + ""\t"" + query;
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String getStatusString() {
+        switch(status) {
+            case INUSE:
+                return ""InUse (Connected)"";
+            case FREE:
+                return ""Free (Connected-Not Used)"";
+            case NOTUSED:
+                return ""NotUsed (Not Connected)"";
+            default:
+                return ""NOT KNOWN"";
+        }
+    }
+
+    private int status;
+
+    private Connection connection;
+
+    private Statement statement;
+
+    private int index;
+
+    private long creationTime = -1;
+
+    private String query = null;
+
+    private Exception e = null;
+}
+","// DbConnectionAttributes_1Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#toLogString()} method.
+*/
+class DbConnectionAttributes_1Test {","// DbConnectionAttributes_1Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#toLogString()} method.
+*/
+class DbConnectionAttributes_1Test {
+
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_2() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_3() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_4() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_5() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_6() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_7() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_8() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_9() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_10() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+}
+
+// DbConnectionAttributes_2Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#toLogString()} method.
+*/
+class DbConnectionAttributes_2Test {
+		
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_2() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_3() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_4() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_5() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_6() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_7() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_8() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_9() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_10() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+}
+
+// DbConnectionAttributes_3Test.java
+package bible.util;
+
+import java.sql.*;
+import java.util.Date;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbConnectionAttributes}.
+* It contains ten unit test cases for the {@link DbConnectionAttributes#toLogString()} method.
+*/
+class DbConnectionAttributes_3Test {
+		
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_2() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_3() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_4() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_5() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes.init(""SELECT * FROM table"");
+		assertEquals(""1 InUse (Connected)  "" + Logger.FormatDate(dbConnectionAttributes.getCreationTime()) + ""\tSELECT * FROM table"", dbConnectionAttributes.toLogString());
+	}
+	
+	/**
+	* Test case for {@link DbConnectionAttributes#toLogString()} method.
+	* @author James Stauffer
+	*/
+	@Test
+	void testToLogString_6() {
+		DbConnectionAttributes dbConnectionAttributes = new DbConnectionAttributes(1);
+		dbConnectionAttributes.use(1);
+		dbConnectionAttributes."
+cmpl-6u0cFDAmLzrBnjqmUn8pDIh9sSy8n,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/DbResult_6Test.java,82.01728940010071,length,"// DbResult.java
+package bible.util;
+
+import java.sql.*;
+
+/**
+ * Models the result for a SQL query
+ *
+ * @author  Umesh Berry
+ */
+public class DbResult {
+
+    public DbResult(DbConnectionAttributes connectionAttributes, ResultSet resultSet, DbConnectionBroker connectionBroker) {
+        this.connectionAttributes = connectionAttributes;
+        this.resultSet = resultSet;
+        this.connectionBroker = connectionBroker;
+        this.currentRow = 0;
+    }
+
+    public boolean next() throws SQLException {
+        try {
+            currentRow++;
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw getException(e, null);
+        }
+    }
+
+    public boolean getBoolean(String columnName) throws SQLException {
+        try {
+            return resultSet.getBoolean(columnName);
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    public double getDouble(String columnName) throws SQLException {
+        try {
+            return resultSet.getDouble(columnName);
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    public int getInt(String columnName) throws SQLException {
+        try {
+            return resultSet.getInt(columnName);
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    public int getInt(int columnNumber) throws SQLException {
+        try {
+            return resultSet.getInt(columnNumber);
+        } catch (SQLException e) {
+            throw getException(e, String.valueOf(columnNumber));
+        }
+    }
+
+    public String getString(String columnName) throws SQLException {
+        try {
+            String result = resultSet.getString(columnName);
+            if (result == null) {
+                result = """";
+            }
+            return result.trim();
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public Object getObject(int columnNumber) throws SQLException {
+        try {
+            Object result = resultSet.getObject(columnNumber);
+            if (result == null) {
+                result = """";
+            }
+            return result;
+        } catch (SQLException e) {
+            throw getException(e, String.valueOf(columnNumber));
+        }
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public Object getObject(String columnName) throws SQLException {
+        try {
+            Object result = resultSet.getObject(columnName);
+            if (result == null) {
+                result = """";
+            }
+            return result;
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    public Timestamp getTimestamp(String columnName) throws SQLException {
+        try {
+            return resultSet.getTimestamp(columnName);
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public ResultSetMetaData getMetaData() {
+        try {
+            return resultSet.getMetaData();
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String getQuery() {
+        return connectionAttributes.getQuery();
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public SQLWarning getWarnings() {
+        try {
+            return resultSet.getWarnings();
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public void close() throws SQLException {
+        resultSet.close();
+        connectionBroker.release(connectionAttributes);
+    }
+
+    /**
+     * Allows closing even if null.
+     * @author James Stauffer
+     */
+    public static void Close(DbResult result) {
+        if (result != null) {
+            try {
+                result.close();
+            } catch (SQLException se) {
+            }
+        }
+    }
+
+    public String toString() {
+        return getClass().getName() + "":[currentRow="" + currentRow + "", connectionAttributes="" + connectionAttributes + "", resultSet="" + resultSet + ""]"";
+    }
+
+    public String toShortString() {
+        return getClass().getName() + "":["" + currentRow + "" query="" + connectionAttributes.toShortString() + ""]"";
+    }
+
+    // counter of current row for debugging purposes
+    private int currentRow;
+
+    private DbConnectionAttributes connectionAttributes;
+
+    private ResultSet resultSet;
+
+    private DbConnectionBroker connectionBroker;
+
+    private SQLException getException(SQLException e, String column) throws SQLException {
+        close();
+        return new SQLException(column + "": "" + toShortString() + ""\r\n"" + Util.ToString(e));
+    }
+}
+","// DbResult_6Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains ten unit test cases for the {@link DbResult#getObject(int)} method.
+*/
+class DbResult_6Test {","// DbResult_6Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains ten unit test cases for the {@link DbResult#getObject(int)} method.
+*/
+class DbResult_6Test {
+
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 1.
+	*/
+	@Test
+	void testGetObject_1() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(1);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 2.
+	*/
+	@Test
+	void testGetObject_2() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(2);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 3.
+	*/
+	@Test
+	void testGetObject_3() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(3);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 4.
+	*/
+	@Test
+	void testGetObject_4() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(4);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 5.
+	*/
+	@Test
+	void testGetObject_5() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(5);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 6.
+	*/
+	@Test
+	void testGetObject_6() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(6);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 7.
+	*/
+	@Test
+	void testGetObject_7() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(7);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 8.
+	*/
+	@Test
+	void testGetObject_8() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(8);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 9.
+	*/
+	@Test
+	void testGetObject_9() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(9);
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is 10.
+	*/
+	@Test
+	void testGetObject_10() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(10);
+		assertEquals(expected, actual);
+	}
+}
+
+// DbResult_7Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains ten unit test cases for the {@link DbResult#getObject(String)} method.
+*/
+class DbResult_7Test {
+		
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""id"".
+	*/
+	@Test
+	void testGetObject_1() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""id"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""book_id"".
+	*/
+	@Test
+	void testGetObject_2() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""book_id"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""chapter"".
+	*/
+	@Test
+	void testGetObject_3() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""chapter"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""verse"".
+	*/
+	@Test
+	void testGetObject_4() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""verse"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""text"".
+	*/
+	@Test
+	void testGetObject_5() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""text"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""created_by"".
+	*/
+	@Test
+	void testGetObject_6() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""created_by"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""created_date"".
+	*/
+	@Test
+	void testGetObject_7() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""created_date"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""modified_by"".
+	*/
+	@Test
+	void testGetObject_8() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""modified_by"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""modified_date"".
+	*/
+	@Test
+	void testGetObject_9() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""modified_date"");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is ""version"".
+	*/
+	@Test
+	void testGetObject_10() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		Object expected = """";
+		Object actual = result.getObject(""version"");
+		assertEquals(expected, actual);
+	}
+}
+
+// DbResult_8Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains one unit test case for the {@link DbResult#getQuery()} method.
+*/
+class DbResult_8Test {
+		
+	/**
+	* Test case for {@link DbResult#getQuery()} method.
+	* It tests the case when the query is ""select * from verse"".
+	*/
+	@Test
+	void testGetQuery_1() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root"", ""select * from verse""), null, null);
+		String expected = ""select * from verse"";
+		String actual = result.getQuery();
+		assertEquals(expected, actual);
+	}
+}
+
+// DbResult_9Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains one unit test case for the {@link DbResult#getWarnings()} method.
+*/
+class DbResult_9Test {
+		
+	/**
+	* Test case for {@link DbResult#getWarnings()} method.
+	* It tests the case when the query is ""select * from verse"".
+	*/
+	@Test
+	void testGetWarnings_1() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root"", ""select * from verse""), null, null);
+		SQLWarning expected = null;
+		SQLWarning actual = result.getWarnings();
+		assertEquals(expected, actual);
+	}
+}
+
+// DbUtil.java
+package bible.util;
+
+import java.sql.*;
+import java.util.*;
+
+/**
+ * Utility class for database operations
+ *
+ * @author  Umesh Berry
+ */
+public class DbUtil {
+
+    public static DbResult executeQuery(DbConnectionBroker connectionBroker, String query) throws SQLException {
+        DbConnectionAttributes connectionAttributes = connectionBroker.getConnectionAttributes();
+        connectionAttributes.setQuery(query);
+        Connection connection = connectionBroker.getConnection(connectionAttributes);
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        return new DbResult(connectionAttributes, resultSet, connectionBroker);
+    }
+
+    public static int executeUpdate(DbConnectionBroker connectionBroker, String query) throws SQLException {
+        DbConnectionAttributes connectionAttributes = connectionBroker.getConnectionAttributes();
+        connectionAttributes.setQuery(query);
+        Connection connection = connectionBroker.getConnection(connectionAttributes);
+        Statement statement = connection.createStatement();
+        int result = statement.executeUpdate(query);
+        connectionBroker.release(connectionAttributes);
+        return result;
+    }
+
+    public static int executeUpdate(DbConnectionBroker connectionBroker, String query, List<Object> parameters) throws SQLException {
+        DbConnectionAttributes connectionAttributes = connectionBroker.getConnectionAttributes();
+        connectionAttributes.setQuery(query);
+        Connection connection = connectionBroker.getConnection(connectionAttributes);
+        PreparedStatement statement = connection.prepareStatement(query);
+        for (int i = 0; i < parameters.size(); i++) {
+            Object parameter = parameters.get(i);
+            if (parameter instanceof String) {
+                statement.setString(i + 1, (String) parameter);
+            } else if (parameter instanceof Integer) {
+                statement.setInt(i + 1, (Integer) parameter);
+            } else if (parameter instanceof Long) {
+                statement.setLong(i + 1, (Long) parameter);
+            } else if (parameter instanceof Double) {
+                statement.setDouble(i + 1, (Double) parameter);
+            } else if (parameter instanceof Timestamp) {
+                statement.setTimestamp(i + 1, (Timestamp) parameter);
+            } else if (parameter instanceof Boolean) {"
+cmpl-6u0dZk785ewJummqYGxIySeul7mvT,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/DbResult_7Test.java,84.8258011341095,length,"// DbResult.java
+package bible.util;
+
+import java.sql.*;
+
+/**
+ * Models the result for a SQL query
+ *
+ * @author  Umesh Berry
+ */
+public class DbResult {
+
+    public DbResult(DbConnectionAttributes connectionAttributes, ResultSet resultSet, DbConnectionBroker connectionBroker) {
+        this.connectionAttributes = connectionAttributes;
+        this.resultSet = resultSet;
+        this.connectionBroker = connectionBroker;
+        this.currentRow = 0;
+    }
+
+    public boolean next() throws SQLException {
+        try {
+            currentRow++;
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw getException(e, null);
+        }
+    }
+
+    public boolean getBoolean(String columnName) throws SQLException {
+        try {
+            return resultSet.getBoolean(columnName);
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    public double getDouble(String columnName) throws SQLException {
+        try {
+            return resultSet.getDouble(columnName);
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    public int getInt(String columnName) throws SQLException {
+        try {
+            return resultSet.getInt(columnName);
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    public int getInt(int columnNumber) throws SQLException {
+        try {
+            return resultSet.getInt(columnNumber);
+        } catch (SQLException e) {
+            throw getException(e, String.valueOf(columnNumber));
+        }
+    }
+
+    public String getString(String columnName) throws SQLException {
+        try {
+            String result = resultSet.getString(columnName);
+            if (result == null) {
+                result = """";
+            }
+            return result.trim();
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public Object getObject(int columnNumber) throws SQLException {
+        try {
+            Object result = resultSet.getObject(columnNumber);
+            if (result == null) {
+                result = """";
+            }
+            return result;
+        } catch (SQLException e) {
+            throw getException(e, String.valueOf(columnNumber));
+        }
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public Object getObject(String columnName) throws SQLException {
+        try {
+            Object result = resultSet.getObject(columnName);
+            if (result == null) {
+                result = """";
+            }
+            return result;
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    public Timestamp getTimestamp(String columnName) throws SQLException {
+        try {
+            return resultSet.getTimestamp(columnName);
+        } catch (SQLException e) {
+            throw getException(e, columnName);
+        }
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public ResultSetMetaData getMetaData() {
+        try {
+            return resultSet.getMetaData();
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public String getQuery() {
+        return connectionAttributes.getQuery();
+    }
+
+    /**
+     * @author James Stauffer
+     */
+    public SQLWarning getWarnings() {
+        try {
+            return resultSet.getWarnings();
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public void close() throws SQLException {
+        resultSet.close();
+        connectionBroker.release(connectionAttributes);
+    }
+
+    /**
+     * Allows closing even if null.
+     * @author James Stauffer
+     */
+    public static void Close(DbResult result) {
+        if (result != null) {
+            try {
+                result.close();
+            } catch (SQLException se) {
+            }
+        }
+    }
+
+    public String toString() {
+        return getClass().getName() + "":[currentRow="" + currentRow + "", connectionAttributes="" + connectionAttributes + "", resultSet="" + resultSet + ""]"";
+    }
+
+    public String toShortString() {
+        return getClass().getName() + "":["" + currentRow + "" query="" + connectionAttributes.toShortString() + ""]"";
+    }
+
+    // counter of current row for debugging purposes
+    private int currentRow;
+
+    private DbConnectionAttributes connectionAttributes;
+
+    private ResultSet resultSet;
+
+    private DbConnectionBroker connectionBroker;
+
+    private SQLException getException(SQLException e, String column) throws SQLException {
+        close();
+        return new SQLException(column + "": "" + toShortString() + ""\r\n"" + Util.ToString(e));
+    }
+}
+","// DbResult_7Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains ten unit test cases for the {@link DbResult#getObject(String)} method.
+*/
+class DbResult_7Test {","// DbResult_7Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains ten unit test cases for the {@link DbResult#getObject(String)} method.
+*/
+class DbResult_7Test {
+
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is null.
+	*/
+	@Test
+	void testGetObject_1() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getObject(null));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is empty.
+	*/
+	@Test
+	void testGetObject_2() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getObject(""""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is invalid.
+	*/
+	@Test
+	void testGetObject_3() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getObject(""invalid""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetObject_4() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(""id""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetObject_5() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(""name""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetObject_6() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(""description""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetObject_7() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(""created_at""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetObject_8() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(""updated_at""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetObject_9() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(""deleted_at""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetObject_10() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(""version""));
+	}
+}
+
+// DbResult_8Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains ten unit test cases for the {@link DbResult#getObject(int)} method.
+*/
+class DbResult_8Test {
+		
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is negative.
+	*/
+	@Test
+	void testGetObject_1() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getObject(-1));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is zero.
+	*/
+	@Test
+	void testGetObject_2() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getObject(0));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is invalid.
+	*/
+	@Test
+	void testGetObject_3() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getObject(10));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is valid.
+	*/
+	@Test
+	void testGetObject_4() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(1));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is valid.
+	*/
+	@Test
+	void testGetObject_5() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(2));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is valid.
+	*/
+	@Test
+	void testGetObject_6() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(3));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is valid.
+	*/
+	@Test
+	void testGetObject_7() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(4));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is valid.
+	*/
+	@Test
+	void testGetObject_8() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(5));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is valid.
+	*/
+	@Test
+	void testGetObject_9() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(6));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getObject(int)} method.
+	* It tests the case when the column number is valid.
+	*/
+	@Test
+	void testGetObject_10() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getObject(7));
+	}
+}
+
+// DbResult_9Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains one unit test case for the {@link DbResult#getWarnings()} method.
+*/
+class DbResult_9Test {
+		
+	/**
+	* Test case for {@link DbResult#getWarnings()} method.
+	* It tests the case when the result set is null.
+	*/
+	@Test
+	void testGetWarnings_1() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertNull(result.getWarnings());
+	}
+}
+
+// DbResult_Test.java
+package bible.util;
+
+import java.sql.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DbResult}.
+* It contains ten unit test cases for the {@link DbResult#getString(String)} method.
+*/
+class DbResult_Test {
+		
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+	* It tests the case when the column name is null.
+	*/
+	@Test
+	void testGetString_1() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getString(null));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+	* It tests the case when the column name is empty.
+	*/
+	@Test
+	void testGetString_2() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getString(""""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+	* It tests the case when the column name is invalid.
+	*/
+	@Test
+	void testGetString_3() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertThrows(SQLException.class, () -> result.getString(""invalid""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetString_4() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getString(""id""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetString_5() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getString(""name""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetString_6() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getString(""description""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetString_7() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getString(""created_at""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+	* It tests the case when the column name is valid.
+	*/
+	@Test
+	void testGetString_8() throws SQLException {
+		DbResult result = new DbResult(new DbConnectionAttributes(""jdbc:mysql://localhost:3306/bible"", ""root"", ""root""), null, null);
+		assertEquals("""", result.getString(""updated_at""));
+	}
+	
+	/**
+	* Test case for {@link DbResult#getString(String)} method.
+"
+cmpl-6u0ew5eymGkbVhbf2oUUyoEElIkUf,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/Queue_0Test.java,91.30485677719116,length,"// Queue.java
+package bible.util;
+
+import java.util.*;
+
+/**
+ * Queue is a storage class to link together <b>Node</b> objects which are
+ * stored in a first in first out storage system.
+ *
+ * @see Node
+ * @version   1.0
+ * @author    LaMoine Zielieke, James Stauffer
+ */
+public class Queue {
+
+    public final static int NO_MAXIMUM = -1;
+
+    /**
+     * number of items in this list
+     */
+    private int numItems;
+
+    private int maxNumItems;
+
+    private int maxCapacity;
+
+    /**
+     * first Node in list
+     */
+    private Node first;
+
+    /**
+     * last Node in list
+     */
+    private Node last;
+
+    /**
+     * Constructor creating an empty Queue.  All variables are set to zero
+     * or null.
+     */
+    public Queue() {
+        this(NO_MAXIMUM);
+    }
+
+    /**
+     * Constructor creating an empty Queue.  All variables are set to zero
+     * or null.
+     */
+    public Queue(int capacity) {
+        first = null;
+        last = null;
+        numItems = 0;
+        maxNumItems = 0;
+        maxCapacity = capacity;
+    }
+
+    /**
+     * See if the queue is empty.
+     * @return     <code>true</code> if Queue is empty;
+     *             <code>false</code> otherwise.
+     */
+    public boolean isEmpty() {
+        return (first == null);
+    }
+
+    /**
+     * Insert an object into the end of the queue
+     *
+     * @param someObject  the Object to store
+     */
+    public void enqueue(Object someObject) {
+        if (someObject != null) {
+            Node newNode = new Node(someObject);
+            synchronized (this) {
+                //System.out.println(""+++"" + someObject);
+                if (isEmpty()) {
+                    first = newNode;
+                    last = newNode;
+                } else {
+                    //Add at end
+                    last.next = newNode;
+                    last = newNode;
+                }
+                numItems++;
+                if (numItems > maxNumItems) {
+                    maxNumItems = numItems;
+                }
+            }
+        }
+    }
+
+    /**
+     * Remove an object from the front of the Queue
+     *
+     * @return       Object if Queue is not empty
+     *               otherwise print message to dos window
+     * @see GameQuestion
+     */
+    public synchronized Object dequeue() {
+        Object obj = null;
+        if (isEmpty()) {
+            System.out.println(""Cannot remove when queue is empty"");
+        } else if (first == last) {
+            // first see if we only have one item in the queue
+            obj = first.value;
+            first = null;
+            last = null;
+        } else {
+            obj = first.value;
+            first = first.next;
+        }
+        numItems--;
+        return obj;
+    }
+
+    /**
+     *  Removes all nodes where Node.value.equals(object).
+     */
+    public synchronized int remove(Object object) {
+        //System.out.println(""---"" + object);
+        int originalNumItems = numItems;
+        while ((first != null) && (first.value.equals(object))) {
+            // found it
+            first = first.next;
+            numItems--;
+        }
+        if (first == null) {
+            //All elements removed
+            last = null;
+        } else {
+            //Now it isn't in the first node
+            for (Node current = first; current.next != null; ) {
+                if (current.next.value.equals(object)) {
+                    // found it in the next Node
+                    current.next = current.next.next;
+                    numItems--;
+                    if (current.next == null) {
+                        // we are removing the last element
+                        last = current;
+                        // the for loop will be exited
+                    }
+                } else {
+                    current = current.next;
+                }
+            }
+            // of for
+        }
+        return originalNumItems - numItems;
+    }
+
+    /**
+     *  Moves element to back of que.
+     */
+    public synchronized void refreshElement(Object object) {
+        remove(object);
+        enqueue(object);
+    }
+
+    /**
+     * See how many items are in the queue.
+     *
+     * @return integer value of number of items in queue
+     */
+    public int getNumberItems() {
+        return numItems;
+    }
+
+    /**
+     * The peak number of items in the Queue.
+     *
+     * @return peak number of items in queue
+     */
+    public int getPeakNumberItems() {
+        return maxNumItems;
+    }
+
+    /**
+     * The Queue is stepped through one node at a time and the
+     * QuestionNumber is inserted into a Vector.This action copies
+     * unused question numbers from queue into temp vector.
+     *
+     * @return   Vector of unused question numbers. In this way when
+     *           a new vector of randomized numbers is created the nunbers
+     *           already in the queue will not be duplicated.  If number
+     *           396 is in the queue we do not want 396 to appear in the
+     *           new randomized vector.  This method is only called in
+     *           <b>DataBase</b>
+     * @see      Database#load
+     * @see      GameQuestion
+     */
+    public Vector getObjects() {
+        Node i;
+        Vector tempVector = new Vector(numItems, 10);
+        for (i = first; i != null; i = i.next) {
+            tempVector.addElement(i.value);
+        }
+        // end for
+        return tempVector;
+    }
+
+    // end getUnused
+    /**
+     *  Returns true if the first should be removed.
+     */
+    public boolean maxCapacityExceeded() {
+        return (numItems > (maxCapacity - 1)) && (maxCapacity != NO_MAXIMUM);
+    }
+
+    public String toString() {
+        return getClass().getName() + "":[numItems="" + numItems + "", maxNumItems="" + maxNumItems + "", maxCapacity="" + maxCapacity + "", getObjects()="" + getObjects() + ""\r\n]"";
+    }
+
+    /**
+     * Node objects hold the Object to be stored and the next node in our linked list.
+     * In this way we can access the next node in our <b>Queue</b>.
+     *
+     * @version   2.0
+     * @author    LaMoine Zielieke
+     */
+    class Node {
+
+        /**
+         * The next Node in the chain.
+         */
+        Node next;
+
+        /**
+         * The Object this node stores.
+         */
+        Object value;
+
+        /**
+         * @param  obj   the Object to be inserted into the node.
+         */
+        public Node(Object obj) {
+            value = obj;
+        }
+    }
+}
+","// Queue_0Test.java
+package bible.util;
+
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Queue}.
+* It contains ten unit test cases for the {@link Queue#dequeue()} method.
+*/
+class Queue_0Test {","// Queue_0Test.java
+package bible.util;
+
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Queue}.
+* It contains ten unit test cases for the {@link Queue#dequeue()} method.
+*/
+class Queue_0Test {
+
+	/**
+	* Test case for {@link Queue#dequeue()}.
+	*/
+	@Test
+	void testDequeue_0() {
+		Queue queue = new Queue();
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue.dequeue();
+		queue"
+cmpl-6u0gPAMoB80IeWZpDibRojI8r4eth,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/Queue_1Test.java,21.984089612960815,,"// Queue.java
+package bible.util;
+
+import java.util.*;
+
+/**
+ * Queue is a storage class to link together <b>Node</b> objects which are
+ * stored in a first in first out storage system.
+ *
+ * @see Node
+ * @version   1.0
+ * @author    LaMoine Zielieke, James Stauffer
+ */
+public class Queue {
+
+    public final static int NO_MAXIMUM = -1;
+
+    /**
+     * number of items in this list
+     */
+    private int numItems;
+
+    private int maxNumItems;
+
+    private int maxCapacity;
+
+    /**
+     * first Node in list
+     */
+    private Node first;
+
+    /**
+     * last Node in list
+     */
+    private Node last;
+
+    /**
+     * Constructor creating an empty Queue.  All variables are set to zero
+     * or null.
+     */
+    public Queue() {
+        this(NO_MAXIMUM);
+    }
+
+    /**
+     * Constructor creating an empty Queue.  All variables are set to zero
+     * or null.
+     */
+    public Queue(int capacity) {
+        first = null;
+        last = null;
+        numItems = 0;
+        maxNumItems = 0;
+        maxCapacity = capacity;
+    }
+
+    /**
+     * See if the queue is empty.
+     * @return     <code>true</code> if Queue is empty;
+     *             <code>false</code> otherwise.
+     */
+    public boolean isEmpty() {
+        return (first == null);
+    }
+
+    /**
+     * Insert an object into the end of the queue
+     *
+     * @param someObject  the Object to store
+     */
+    public void enqueue(Object someObject) {
+        if (someObject != null) {
+            Node newNode = new Node(someObject);
+            synchronized (this) {
+                //System.out.println(""+++"" + someObject);
+                if (isEmpty()) {
+                    first = newNode;
+                    last = newNode;
+                } else {
+                    //Add at end
+                    last.next = newNode;
+                    last = newNode;
+                }
+                numItems++;
+                if (numItems > maxNumItems) {
+                    maxNumItems = numItems;
+                }
+            }
+        }
+    }
+
+    /**
+     * Remove an object from the front of the Queue
+     *
+     * @return       Object if Queue is not empty
+     *               otherwise print message to dos window
+     * @see GameQuestion
+     */
+    public synchronized Object dequeue() {
+        Object obj = null;
+        if (isEmpty()) {
+            System.out.println(""Cannot remove when queue is empty"");
+        } else if (first == last) {
+            // first see if we only have one item in the queue
+            obj = first.value;
+            first = null;
+            last = null;
+        } else {
+            obj = first.value;
+            first = first.next;
+        }
+        numItems--;
+        return obj;
+    }
+
+    /**
+     *  Removes all nodes where Node.value.equals(object).
+     */
+    public synchronized int remove(Object object) {
+        //System.out.println(""---"" + object);
+        int originalNumItems = numItems;
+        while ((first != null) && (first.value.equals(object))) {
+            // found it
+            first = first.next;
+            numItems--;
+        }
+        if (first == null) {
+            //All elements removed
+            last = null;
+        } else {
+            //Now it isn't in the first node
+            for (Node current = first; current.next != null; ) {
+                if (current.next.value.equals(object)) {
+                    // found it in the next Node
+                    current.next = current.next.next;
+                    numItems--;
+                    if (current.next == null) {
+                        // we are removing the last element
+                        last = current;
+                        // the for loop will be exited
+                    }
+                } else {
+                    current = current.next;
+                }
+            }
+            // of for
+        }
+        return originalNumItems - numItems;
+    }
+
+    /**
+     *  Moves element to back of que.
+     */
+    public synchronized void refreshElement(Object object) {
+        remove(object);
+        enqueue(object);
+    }
+
+    /**
+     * See how many items are in the queue.
+     *
+     * @return integer value of number of items in queue
+     */
+    public int getNumberItems() {
+        return numItems;
+    }
+
+    /**
+     * The peak number of items in the Queue.
+     *
+     * @return peak number of items in queue
+     */
+    public int getPeakNumberItems() {
+        return maxNumItems;
+    }
+
+    /**
+     * The Queue is stepped through one node at a time and the
+     * QuestionNumber is inserted into a Vector.This action copies
+     * unused question numbers from queue into temp vector.
+     *
+     * @return   Vector of unused question numbers. In this way when
+     *           a new vector of randomized numbers is created the nunbers
+     *           already in the queue will not be duplicated.  If number
+     *           396 is in the queue we do not want 396 to appear in the
+     *           new randomized vector.  This method is only called in
+     *           <b>DataBase</b>
+     * @see      Database#load
+     * @see      GameQuestion
+     */
+    public Vector getObjects() {
+        Node i;
+        Vector tempVector = new Vector(numItems, 10);
+        for (i = first; i != null; i = i.next) {
+            tempVector.addElement(i.value);
+        }
+        // end for
+        return tempVector;
+    }
+
+    // end getUnused
+    /**
+     *  Returns true if the first should be removed.
+     */
+    public boolean maxCapacityExceeded() {
+        return (numItems > (maxCapacity - 1)) && (maxCapacity != NO_MAXIMUM);
+    }
+
+    public String toString() {
+        return getClass().getName() + "":[numItems="" + numItems + "", maxNumItems="" + maxNumItems + "", maxCapacity="" + maxCapacity + "", getObjects()="" + getObjects() + ""\r\n]"";
+    }
+
+    /**
+     * Node objects hold the Object to be stored and the next node in our linked list.
+     * In this way we can access the next node in our <b>Queue</b>.
+     *
+     * @version   2.0
+     * @author    LaMoine Zielieke
+     */
+    class Node {
+
+        /**
+         * The next Node in the chain.
+         */
+        Node next;
+
+        /**
+         * The Object this node stores.
+         */
+        Object value;
+
+        /**
+         * @param  obj   the Object to be inserted into the node.
+         */
+        public Node(Object obj) {
+            value = obj;
+        }
+    }
+}
+","// Queue_1Test.java
+package bible.util;
+
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Queue}.
+* It contains ten unit test cases for the {@link Queue#remove(Object)} method.
+*/
+class Queue_1Test {","// Queue_1Test.java
+package bible.util;
+
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Queue}.
+* It contains ten unit test cases for the {@link Queue#remove(Object)} method.
+*/
+class Queue_1Test {
+
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue is empty.
+	*/
+	@Test
+	void testRemove_1() {
+		Queue queue = new Queue();
+		int result = queue.remove(new Object());
+		assertEquals(0, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has one element.
+	*/
+	@Test
+	void testRemove_2() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(1, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has two elements.
+	*/
+	@Test
+	void testRemove_3() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(2, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has three elements.
+	*/
+	@Test
+	void testRemove_4() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(3, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has four elements.
+	*/
+	@Test
+	void testRemove_5() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(4, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has five elements.
+	*/
+	@Test
+	void testRemove_6() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(5, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has six elements.
+	*/
+	@Test
+	void testRemove_7() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(6, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has seven elements.
+	*/
+	@Test
+	void testRemove_8() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(7, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has eight elements.
+	*/
+	@Test
+	void testRemove_9() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(8, result);
+	}
+	
+	/**
+	* Test case for {@link Queue#remove(Object)} method.
+	* It tests the case when the queue has nine elements.
+	*/
+	@Test
+	void testRemove_10() {
+		Queue queue = new Queue();
+		Object object = new Object();
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		queue.enqueue(object);
+		int result = queue.remove(object);
+		assertEquals(9, result);
+	}
+}"
+cmpl-6u0hSTHzk829kezm76q27fTpvKq8s,/EvoSuiteBenchmark/68_biblestudy/src/main/java/bible/util/Queue_2Test.java,23.946366786956787,stop,"// Queue.java
+package bible.util;
+
+import java.util.*;
+
+/**
+ * Queue is a storage class to link together <b>Node</b> objects which are
+ * stored in a first in first out storage system.
+ *
+ * @see Node
+ * @version   1.0
+ * @author    LaMoine Zielieke, James Stauffer
+ */
+public class Queue {
+
+    public final static int NO_MAXIMUM = -1;
+
+    /**
+     * number of items in this list
+     */
+    private int numItems;
+
+    private int maxNumItems;
+
+    private int maxCapacity;
+
+    /**
+     * first Node in list
+     */
+    private Node first;
+
+    /**
+     * last Node in list
+     */
+    private Node last;
+
+    /**
+     * Constructor creating an empty Queue.  All variables are set to zero
+     * or null.
+     */
+    public Queue() {
+        this(NO_MAXIMUM);
+    }
+
+    /**
+     * Constructor creating an empty Queue.  All variables are set to zero
+     * or null.
+     */
+    public Queue(int capacity) {
+        first = null;
+        last = null;
+        numItems = 0;
+        maxNumItems = 0;
+        maxCapacity = capacity;
+    }
+
+    /**
+     * See if the queue is empty.
+     * @return     <code>true</code> if Queue is empty;
+     *             <code>false</code> otherwise.
+     */
+    public boolean isEmpty() {
+        return (first == null);
+    }
+
+    /**
+     * Insert an object into the end of the queue
+     *
+     * @param someObject  the Object to store
+     */
+    public void enqueue(Object someObject) {
+        if (someObject != null) {
+            Node newNode = new Node(someObject);
+            synchronized (this) {
+                //System.out.println(""+++"" + someObject);
+                if (isEmpty()) {
+                    first = newNode;
+                    last = newNode;
+                } else {
+                    //Add at end
+                    last.next = newNode;
+                    last = newNode;
+                }
+                numItems++;
+                if (numItems > maxNumItems) {
+                    maxNumItems = numItems;
+                }
+            }
+        }
+    }
+
+    /**
+     * Remove an object from the front of the Queue
+     *
+     * @return       Object if Queue is not empty
+     *               otherwise print message to dos window
+     * @see GameQuestion
+     */
+    public synchronized Object dequeue() {
+        Object obj = null;
+        if (isEmpty()) {
+            System.out.println(""Cannot remove when queue is empty"");
+        } else if (first == last) {
+            // first see if we only have one item in the queue
+            obj = first.value;
+            first = null;
+            last = null;
+        } else {
+            obj = first.value;
+            first = first.next;
+        }
+        numItems--;
+        return obj;
+    }
+
+    /**
+     *  Removes all nodes where Node.value.equals(object).
+     */
+    public synchronized int remove(Object object) {
+        //System.out.println(""---"" + object);
+        int originalNumItems = numItems;
+        while ((first != null) && (first.value.equals(object))) {
+            // found it
+            first = first.next;
+            numItems--;
+        }
+        if (first == null) {
+            //All elements removed
+            last = null;
+        } else {
+            //Now it isn't in the first node
+            for (Node current = first; current.next != null; ) {
+                if (current.next.value.equals(object)) {
+                    // found it in the next Node
+                    current.next = current.next.next;
+                    numItems--;
+                    if (current.next == null) {
+                        // we are removing the last element
+                        last = current;
+                        // the for loop will be exited
+                    }
+                } else {
+                    current = current.next;
+                }
+            }
+            // of for
+        }
+        return originalNumItems - numItems;
+    }
+
+    /**
+     *  Moves element to back of que.
+     */
+    public synchronized void refreshElement(Object object) {
+        remove(object);
+        enqueue(object);
+    }
+
+    /**
+     * See how many items are in the queue.
+     *
+     * @return integer value of number of items in queue
+     */
+    public int getNumberItems() {
+        return numItems;
+    }
+
+    /**
+     * The peak number of items in the Queue.
+     *
+     * @return peak number of items in queue
+     */
+    public int getPeakNumberItems() {
+        return maxNumItems;
+    }
+
+    /**
+     * The Queue is stepped through one node at a time and the
+     * QuestionNumber is inserted into a Vector.This action copies
+     * unused question numbers from queue into temp vector.
+     *
+     * @return   Vector of unused question numbers. In this way when
+     *           a new vector of randomized numbers is created the nunbers
+     *           already in the queue will not be duplicated.  If number
+     *           396 is in the queue we do not want 396 to appear in the
+     *           new randomized vector.  This method is only called in
+     *           <b>DataBase</b>
+     * @see      Database#load
+     * @see      GameQuestion
+     */
+    public Vector getObjects() {
+        Node i;
+        Vector tempVector = new Vector(numItems, 10);
+        for (i = first; i != null; i = i.next) {
+            tempVector.addElement(i.value);
+        }
+        // end for
+        return tempVector;
+    }
+
+    // end getUnused
+    /**
+     *  Returns true if the first should be removed.
+     */
+    public boolean maxCapacityExceeded() {
+        return (numItems > (maxCapacity - 1)) && (maxCapacity != NO_MAXIMUM);
+    }
+
+    public String toString() {
+        return getClass().getName() + "":[numItems="" + numItems + "", maxNumItems="" + maxNumItems + "", maxCapacity="" + maxCapacity + "", getObjects()="" + getObjects() + ""\r\n]"";
+    }
+
+    /**
+     * Node objects hold the Object to be stored and the next node in our linked list.
+     * In this way we can access the next node in our <b>Queue</b>.
+     *
+     * @version   2.0
+     * @author    LaMoine Zielieke
+     */
+    class Node {
+
+        /**
+         * The next Node in the chain.
+         */
+        Node next;
+
+        /**
+         * The Object this node stores.
+         */
+        Object value;
+
+        /**
+         * @param  obj   the Object to be inserted into the node.
+         */
+        public Node(Object obj) {
+            value = obj;
+        }
+    }
+}
+","// Queue_2Test.java
+package bible.util;
+
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Queue}.
+* It contains ten unit test cases for the {@link Queue#maxCapacityExceeded()} method.
+*/
+class Queue_2Test {","// Queue_2Test.java
+package bible.util;
+
+import java.util.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Queue}.
+* It contains ten unit test cases for the {@link Queue#maxCapacityExceeded()} method.
+*/
+class Queue_2Test {
+
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns true.
+	*/
+	@Test
+	void testMaxCapacityExceeded_1() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		assertTrue(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_2() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		assertFalse(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_3() {
+		Queue queue = new Queue(2);
+		assertFalse(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_4() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		assertFalse(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_5() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		assertFalse(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_6() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		queue.enqueue(new Object());
+		assertFalse(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_7() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		assertFalse(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_8() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		assertFalse(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_9() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		assertFalse(queue.maxCapacityExceeded());
+	}
+	
+	/**
+	* Test case for {@link Queue#maxCapacityExceeded()}.
+	* The test case is successful if the method returns false.
+	*/
+	@Test
+	void testMaxCapacityExceeded_10() {
+		Queue queue = new Queue(2);
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		queue.enqueue(new Object());
+		queue.enqueue(new Object());
+		queue.dequeue();
+		queue.dequeue();
+		queue.enqueue(new Object());
+		assertFalse(queue.maxCapacityExceeded());
+	}
+}"

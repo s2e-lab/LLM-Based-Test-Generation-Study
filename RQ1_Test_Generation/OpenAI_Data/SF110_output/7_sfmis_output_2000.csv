@@ -1,0 +1,3137 @@
+ID,PROMPT_ID,DURATION,FINISH_REASON,ORIGINAL_CODE,TEST_PROMPT,GENERATED_TEST
+cmpl-6u7dk3XwwNVUoPkxHeOuO7zVn2lRJ,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/sfmis/personinfo/business/PersonInfoMgr_0Test.java,40.3954062461853,length,"// PersonInfoMgr.java
+package com.hf.sfm.sfmis.personinfo.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.pdo.APersonInfo;
+import com.hf.sfm.util.DaoFactory;
+
+/**
+ * @author 忧里修斯
+ * 用户信息的管理
+ */
+public class PersonInfoMgr extends DaoFactory {
+
+    /**
+     * 增加或更新用户的信息
+     * @param pInfo
+     */
+    public String saveOrUpdate(APersonInfo pInfo) {
+        //0为执行失败，1为执行成功
+        String rtn = ""0"";
+        Transaction tx = null;
+        try {
+            this.currentSession();
+            tx = this.session.beginTransaction();
+            if (pInfo.getPersonid() == null || pInfo.getPersonid().equalsIgnoreCase("""")) {
+                //新增
+                this.save(pInfo);
+            } else {
+                this.update(pInfo);
+            }
+            tx.commit();
+            rtn = ""1"";
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            this.closeSession();
+        }
+        return rtn;
+    }
+
+    /**
+     * 删除用户的信息
+     * @param pInfo
+     */
+    public String deleteByIds(String[] idnos) {
+        //0为执行失败，1为执行成功
+        String rtn = ""0"";
+        Transaction tx = null;
+        try {
+            this.currentSession();
+            tx = this.session.beginTransaction();
+            String hql = ""delete from APersonInfo where personid=?"";
+            for (int i = 0; i < idnos.length; i++) {
+                this.session.createQuery(hql).setString(0, idnos[i]).executeUpdate();
+            }
+            tx.commit();
+            rtn = ""1"";
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            this.closeSession();
+        }
+        return rtn;
+    }
+}
+","// PersonInfoMgr_0Test.java
+package com.hf.sfm.sfmis.personinfo.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.pdo.APersonInfo;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link PersonInfoMgr}.
+* It contains ten unit test cases for the {@link PersonInfoMgr#saveOrUpdate(APersonInfo)} method.
+*/
+class PersonInfoMgr_0Test {","// PersonInfoMgr_0Test.java
+package com.hf.sfm.sfmis.personinfo.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.pdo.APersonInfo;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link PersonInfoMgr}.
+* It contains ten unit test cases for the {@link PersonInfoMgr#saveOrUpdate(APersonInfo)} method.
+*/
+class PersonInfoMgr_0Test {
+
+	/**
+	* Test case 1:
+	* 		pInfo: null
+	* 		Expected: NullPointerException
+	*/
+	@Test
+	void testCase1() {
+		// Arrange
+		APersonInfo pInfo = null;
+		
+		// Act
+		String actual = new PersonInfoMgr().saveOrUpdate(pInfo);
+		
+		// Assert
+		assertEquals(""0"", actual);
+	}
+	
+	/**
+	* Test case 2:
+	* 		pInfo: {personid: null, personname: null, personsex: null, personage: null, personaddress: null, personphone: null, personemail: null, personqq: null, personwechat: null, personremark: null}
+	* 		Expected: NullPointerException
+	*/
+	@Test
+	void testCase2() {
+		// Arrange
+		APersonInfo pInfo = new APersonInfo();
+		pInfo.setPersonid(null);
+		pInfo.setPersonname(null);
+		pInfo.setPersonsex(null);
+		pInfo.setPersonage(null);
+		pInfo.setPersonaddress(null);
+		pInfo.setPersonphone(null);
+		pInfo.setPersonemail(null);
+		pInfo.setPersonqq(null);
+		pInfo.setPersonwechat(null);
+		pInfo.setPersonremark(null);
+		
+		// Act
+		String actual = new PersonInfoMgr().saveOrUpdate(pInfo);
+		
+		// Assert
+		assertEquals(""0"", actual);
+	}
+	
+	/**
+	* Test case 3:
+	* 		pInfo: {personid: """", personname: """", personsex: """", personage: """", personaddress: """", personphone: """", personemail: """", personqq: """", personwechat: """", personremark: """"}
+	* 		Expected: NullPointerException
+	*/
+	@Test
+	void testCase3() {
+		// Arrange
+		APersonInfo pInfo = new APersonInfo();
+		pInfo.setPersonid("""");
+		pInfo.setPersonname("""");
+		pInfo.setPersonsex("""");
+		pInfo.setPersonage("""");
+		pInfo.setPersonaddress("""");
+		pInfo.setPersonphone("""");
+		pInfo.setPersonemail("""");
+		pInfo.setPersonqq("""");
+		pInfo.setPersonwechat("""");
+		pInfo.setPersonremark("""");
+		
+		// Act
+		String actual = new PersonInfoMgr().saveOrUpdate(pInfo);
+		
+		// Assert
+		assertEquals(""0"", actual);
+	}
+	
+	/**
+	* Test case 4:
+	* 		pInfo: {personid: ""1"", personname: ""1"", personsex: ""1"", personage: ""1"", personaddress: ""1"", personphone: ""1"", personemail: ""1"", personqq: ""1"", personwechat: ""1"", personremark: ""1""}
+	* 		Expected: NullPointerException
+	*/
+	@Test
+	void testCase4() {
+		// Arrange
+		APersonInfo pInfo = new APersonInfo();
+		pInfo.setPersonid(""1"");
+		pInfo.setPersonname(""1"");
+		pInfo.setPersonsex(""1"");
+		pInfo.setPersonage(""1"");
+		pInfo.setPersonaddress(""1"");
+		pInfo.setPersonphone(""1"");
+		pInfo.setPersonemail(""1"");
+		pInfo.setPersonqq(""1"");
+		pInfo.setPersonwechat(""1"");
+		pInfo.setPersonremark(""1"");
+		
+		// Act
+		String actual = new PersonInfoMgr().saveOrUpdate(pInfo);
+		
+		// Assert
+		assertEquals(""0"", actual);
+	}
+	
+	/**
+	* Test case 5:
+	* 		pInfo: {personid: ""1"", personname: ""1"", personsex: ""1"", personage: ""1"", personaddress: ""1"", personphone: ""1"", personemail: ""1"", personqq: ""1"", personwechat: ""1"", personremark: ""1""}
+	* 		Expected: NullPointerException
+	*/
+	@Test
+	void testCase5() {
+		// Arrange
+		APersonInfo pInfo = new APersonInfo();
+		pInfo.setPersonid(""1"");
+		pInfo.setPersonname(""1"");
+		pInfo.setPersonsex(""1"");
+		pInfo.setPersonage(""1"");
+		pInfo.setPersonaddress(""1"");
+		pInfo.setPersonphone(""1"");
+		pInfo.setPersonemail(""1"");
+		pInfo.setPersonqq(""1"");
+		pInfo.setPersonwechat(""1"");
+		pInfo.setPersonremark(""1"");
+		
+		// Act
+		String actual = new PersonInfoMgr().saveOrUpdate(pInfo);
+		
+		// Assert
+		assertEquals(""0"", actual);
+	}
+	
+	/**
+	* Test case 6:
+	* 		pInfo: {personid: ""1"", personname: ""1"", personsex: ""1"", personage: ""1"", personaddress: ""1"", personphone: ""1"", personemail: ""1"", personqq: ""1"", personwechat: ""1"", personremark: ""1""}
+	* 		Expected: NullPointerException
+	*/
+	@Test
+	void testCase6() {
+		// Arrange
+		APersonInfo pInfo = new APersonInfo();
+		pInfo.setPersonid(""1"");
+		pInfo.setPersonname(""1"");
+		pInfo.setPersonsex(""1"");
+		pInfo.setPersonage(""1"");
+		pInfo.setPersonaddress(""1"");
+		pInfo.setPersonphone(""1"");
+		pInfo.setPersonemail(""1"");
+		pInfo.setPersonqq(""1"");
+		pInfo.setPersonwechat(""1"");
+		pInfo.setPersonremark(""1"");
+		
+		// Act
+		String actual = new PersonInfoMgr().saveOrUpdate(pInfo);
+		
+		// Assert
+		assertEquals(""0"", actual);
+	}
+	
+	/**
+	* Test case 7:
+	* 		pInfo: {personid: ""1"", personname: ""1"", personsex: ""1"", personage: ""1"", personaddress: ""1"", personphone: ""1"", personemail: ""1"", personqq: ""1"", personwechat: ""1"", personremark: ""1""}
+	* 		Expected: NullPointerException
+	*/
+	@Test
+	void testCase7() {
+		// Arrange
+		APersonInfo pInfo = new APersonInfo();
+		pInfo.setPersonid(""1"");
+		pInfo.setPersonname(""1"");
+		pInfo.setPersonsex(""1"");
+		pInfo.setPersonage(""1"");
+		pInfo.setPersonaddress(""1"");
+		pInfo.setPersonphone(""1"");
+		pInfo.setPersonemail(""1"");
+		pInfo.setPersonqq(""1"");
+		pInfo.setPersonwechat(""1"");
+		pInfo.setPersonremark(""1"");
+		
+		// Act
+		String actual = new PersonInfoMgr().saveOrUpdate(pInfo);
+		
+		// Assert
+		assertEquals(""0"", actual);
+	}
+	
+	/**
+	* Test case 8:
+	* 		pInfo: {personid: ""1"", personname: ""1"", personsex: ""1"", personage: ""1"", personaddress: ""1"", personphone: ""1"", personemail: ""1"", personqq: ""1"", personwechat: ""1"", personremark: ""1""}
+	* 		Ex"
+cmpl-6u7enqtD8BBoLSaEcu7i5SXetIj26,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/sfmis/personinfo/business/PersonInfoMgr_1Test.java,43.375818967819214,length,"// PersonInfoMgr.java
+package com.hf.sfm.sfmis.personinfo.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.pdo.APersonInfo;
+import com.hf.sfm.util.DaoFactory;
+
+/**
+ * @author 忧里修斯
+ * 用户信息的管理
+ */
+public class PersonInfoMgr extends DaoFactory {
+
+    /**
+     * 增加或更新用户的信息
+     * @param pInfo
+     */
+    public String saveOrUpdate(APersonInfo pInfo) {
+        //0为执行失败，1为执行成功
+        String rtn = ""0"";
+        Transaction tx = null;
+        try {
+            this.currentSession();
+            tx = this.session.beginTransaction();
+            if (pInfo.getPersonid() == null || pInfo.getPersonid().equalsIgnoreCase("""")) {
+                //新增
+                this.save(pInfo);
+            } else {
+                this.update(pInfo);
+            }
+            tx.commit();
+            rtn = ""1"";
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            this.closeSession();
+        }
+        return rtn;
+    }
+
+    /**
+     * 删除用户的信息
+     * @param pInfo
+     */
+    public String deleteByIds(String[] idnos) {
+        //0为执行失败，1为执行成功
+        String rtn = ""0"";
+        Transaction tx = null;
+        try {
+            this.currentSession();
+            tx = this.session.beginTransaction();
+            String hql = ""delete from APersonInfo where personid=?"";
+            for (int i = 0; i < idnos.length; i++) {
+                this.session.createQuery(hql).setString(0, idnos[i]).executeUpdate();
+            }
+            tx.commit();
+            rtn = ""1"";
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            this.closeSession();
+        }
+        return rtn;
+    }
+}
+","// PersonInfoMgr_1Test.java
+package com.hf.sfm.sfmis.personinfo.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.pdo.APersonInfo;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link PersonInfoMgr}.
+* It contains ten unit test cases for the {@link PersonInfoMgr#deleteByIds(String[])} method.
+*/
+class PersonInfoMgr_1Test {","// PersonInfoMgr_1Test.java
+package com.hf.sfm.sfmis.personinfo.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.pdo.APersonInfo;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link PersonInfoMgr}.
+* It contains ten unit test cases for the {@link PersonInfoMgr#deleteByIds(String[])} method.
+*/
+class PersonInfoMgr_1Test {
+
+	/**
+	* Test case 1 for method deleteByIds.
+	* The test case aims to test the situation that when the parameter idnos is null,
+	* the method deleteByIds will throw a NullPointerException.
+	*/
+	@Test
+	void testDeleteByIds_1() {
+		// Arrange
+		String[] idnos = null;
+		PersonInfoMgr personInfoMgr = new PersonInfoMgr();
+		
+		// Act
+		Throwable exception = assertThrows(NullPointerException.class, () -> {
+			personInfoMgr.deleteByIds(idnos);
+		});
+		
+		// Assert
+		assertEquals(""idnos is marked non-null but is null"", exception.getMessage());
+	}
+	
+	/**
+	* Test case 2 for method deleteByIds.
+	* The test case aims to test the situation that when the parameter idnos is empty,
+	* the method deleteByIds will throw a IllegalArgumentException.
+	*/
+	@Test
+	void testDeleteByIds_2() {
+		// Arrange
+		String[] idnos = new String[0];
+		PersonInfoMgr personInfoMgr = new PersonInfoMgr();
+		
+		// Act
+		Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+			personInfoMgr.deleteByIds(idnos);
+		});
+		
+		// Assert
+		assertEquals(""idnos is empty"", exception.getMessage());
+	}
+	
+	/**
+	* Test case 3 for method deleteByIds.
+	* The test case aims to test the situation that when the parameter idnos contains null element,
+	* the method deleteByIds will throw a NullPointerException.
+	*/
+	@Test
+	void testDeleteByIds_3() {
+		// Arrange
+		String[] idnos = new String[1];
+		idnos[0] = null;
+		PersonInfoMgr personInfoMgr = new PersonInfoMgr();
+		
+		// Act
+		Throwable exception = assertThrows(NullPointerException.class, () -> {
+			personInfoMgr.deleteByIds(idnos);
+		});
+		
+		// Assert
+		assertEquals(""idnos contains null element"", exception.getMessage());
+	}
+	
+	/**
+	* Test case 4 for method deleteByIds.
+	* The test case aims to test the situation that when the parameter idnos contains empty element,
+	* the method deleteByIds will throw a IllegalArgumentException.
+	*/
+	@Test
+	void testDeleteByIds_4() {
+		// Arrange
+		String[] idnos = new String[1];
+		idnos[0] = """";
+		PersonInfoMgr personInfoMgr = new PersonInfoMgr();
+		
+		// Act
+		Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+			personInfoMgr.deleteByIds(idnos);
+		});
+		
+		// Assert
+		assertEquals(""idnos contains empty element"", exception.getMessage());
+	}
+	
+	/**
+	* Test case 5 for method deleteByIds.
+	* The test case aims to test the situation that when the parameter idnos contains element which is not a number,
+	* the method deleteByIds will throw a NumberFormatException.
+	*/
+	@Test
+	void testDeleteByIds_5() {
+		// Arrange
+		String[] idnos = new String[1];
+		idnos[0] = ""abc"";
+		PersonInfoMgr personInfoMgr = new PersonInfoMgr();
+		
+		// Act
+		Throwable exception = assertThrows(NumberFormatException.class, () -> {
+			personInfoMgr.deleteByIds(idnos);
+		});
+		
+		// Assert
+		assertEquals(""For input string: \""abc\"""", exception.getMessage());
+	}
+	
+	/**
+	* Test case 6 for method deleteByIds.
+	* The test case aims to test the situation that when the parameter idnos contains element which is not a number,
+	* the method deleteByIds will throw a NumberFormatException.
+	*/
+	@Test
+	void testDeleteByIds_6() {
+		// Arrange
+		String[] idnos = new String[1];
+		idnos[0] = ""123.45"";
+		PersonInfoMgr personInfoMgr = new PersonInfoMgr();
+		
+		// Act
+		Throwable exception = assertThrows(NumberFormatException.class, () -> {
+			personInfoMgr.deleteByIds(idnos);
+		});
+		
+		// Assert
+		assertEquals(""For input string: \""123.45\"""", exception.getMessage());
+	}
+	
+	/**
+	* Test case 7 for method deleteByIds.
+	* The test case aims to test the situation that when the parameter idnos contains element which is not a number,
+	* the method deleteByIds will throw a NumberFormatException.
+	*/
+	@Test
+	void testDeleteByIds_7() {
+		// Arrange
+		String[] idnos = new String[1];
+		idnos[0] = ""1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123"
+cmpl-6u7fqXe8yhxa8abfzUF3YGYbD77X8,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/system/business/WorkerMgr_0Test.java,36.012338399887085,length,"// WorkerMgr.java
+package com.hf.sfm.system.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.business.PersonInfoMgr;
+import com.hf.sfm.system.pdo.AWorker;
+import com.hf.sfm.util.DaoFactory;
+
+/**
+ * @author 忧里修斯
+ * 用户登录信息管理
+ */
+public class WorkerMgr extends DaoFactory {
+
+    /**
+     * 增加或更新用户登录信息
+     * @param pInfo
+     */
+    public String saveOrUpdate(AWorker worker) {
+        //密码加密
+        worker.setPassword(encrypt(worker.getPassword()));
+        //0为执行失败，1为执行成功
+        String rtn = ""0"";
+        Transaction tx = null;
+        try {
+            this.currentSession();
+            tx = this.session.beginTransaction();
+            if (worker.getIdno() == null || worker.getIdno().equalsIgnoreCase("""")) {
+                //新增
+                this.save(worker);
+            } else {
+                //更新
+                this.update(worker);
+            }
+            tx.commit();
+            rtn = ""1"";
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            this.closeSession();
+        }
+        return rtn;
+    }
+
+    /**
+     * 删除用户登录的信息
+     * @param idnos
+     */
+    public String deleteByIds(String[] idnos) {
+        //0为执行失败，1为执行成功
+        String rtn = ""0"";
+        Transaction tx = null;
+        try {
+            this.currentSession();
+            tx = this.session.beginTransaction();
+            String hql = ""delete from AWorker where idno=?"";
+            for (int i = 0; i < idnos.length; i++) {
+                this.session.createQuery(hql).setString(0, idnos[i]).executeUpdate();
+            }
+            tx.commit();
+            rtn = ""1"";
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            this.closeSession();
+        }
+        return rtn;
+    }
+}
+","// WorkerMgr_0Test.java
+package com.hf.sfm.system.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.business.PersonInfoMgr;
+import com.hf.sfm.system.pdo.AWorker;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WorkerMgr}.
+* It contains ten unit test cases for the {@link WorkerMgr#saveOrUpdate(AWorker)} method.
+*/
+class WorkerMgr_0Test {","// WorkerMgr_0Test.java
+package com.hf.sfm.system.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.business.PersonInfoMgr;
+import com.hf.sfm.system.pdo.AWorker;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WorkerMgr}.
+* It contains ten unit test cases for the {@link WorkerMgr#saveOrUpdate(AWorker)} method.
+*/
+class WorkerMgr_0Test {
+
+	/**
+	* Test case 1:
+	* 		idno: null
+	* 		password: null
+	* 		name: null
+	* 		sex: null
+	* 		birthday: null
+	* 		idtype: null
+	* 		idno: null
+	* 		address: null
+	* 		postcode: null
+	* 		tel: null
+	* 		mobile: null
+	* 		email: null
+	* 		qq: null
+	* 		msn: null
+	* 		remark: null
+	* 		status: null
+	* 		createdate: null
+	* 		updatedate: null
+	* 		createuser: null
+	* 		updateuser: null
+	* 		deptid: null
+	* 		deptname: null
+	* 		roleid: null
+	* 		rolename: null
+	* 		roledesc: null
+	* 		roletype: null
+	* 		rolelevel: null
+	* 		rolesort: null
+	* 		roleremark: null
+	* 		rolecreatedate: null
+	* 		roleupdatedate: null
+	* 		rolecreateuser: null
+	* 		roleupdateuser: null
+	* 		roleidno: null
+	* 		roleidtype: null
+	* 		roleidtypename: null
+	* 		rolesex: null
+	* 		rolesexname: null
+	* 		rolebirthday: null
+	* 		roleaddress: null
+	* 		rolepostcode: null
+	* 		roletel: null
+	* 		rolemobile: null
+	* 		roleemail: null
+	* 		roleqq: null
+	* 		rolemsn: null
+	* 		roleremark: null
+	* 		rolestatus: null
+	* 		rolecreatedate: null
+	* 		roleupdatedate: null
+	* 		rolecreateuser: null
+	* 		roleupdateuser: null
+	* 		roledeptid: null
+	* 		roledeptname: null
+	* 		rolemenuid: null
+	* 		rolemenuname: null
+	* 		rolemenutype: null
+	* 		rolemenulevel: null
+	* 		rolemenusort: null
+	* 		rolemenupath: null
+	* 		rolemenuremark: null
+	* 		rolemenucreatedate: null
+	* 		rolemenuupdatedate: null
+	* 		rolemenucreateuser: null
+	* 		rolemenuupdateuser: null
+	* 		rolemenuidno: null
+	* 		rolemenuidtype: null
+	* 		rolemenuidtypename: null
+	* 		rolemenusex: null
+	* 		rolemenusexname: null
+	* 		rolemenubirthday: null
+	* 		rolemenuaddress: null
+	* 		rolemenupostcode: null
+	* 		rolemenutel: null
+	* 		rolemenumobile: null
+	* 		rolemenuemail: null
+	* 		rolemenuqq: null
+	* 		rolemenumsn: null
+	* 		rolemenuremark: null
+	* 		rolemenustatus: null
+	* 		rolemenucreatedate: null
+	* 		rolemenuupdatedate: null
+	* 		rolemenucreateuser: null
+	* 		rolemenuupdateuser: null
+	* 		rolemenudeptid: null
+	* 		rolemenudeptname: null
+	* 		rolefunid: null
+	* 		rolefunname: null
+	* 		rolefuntype: null
+	* 		rolefunlevel: null
+	* 		rolefunsort: null
+	* 		rolefunpath: null
+	* 		rolefunremark: null
+	* 		rolefuncreatedate: null
+	* 		rolefunupdatedate: null
+	* 		rolefuncreateruser: null
+	* 		rolefunupdateuser: null
+	* 		rolefunidno: null
+	* 		rolefunidtype: null
+	* 		rolefunidtypename: null
+	* 		rolefunsex: null
+	* 		rolefunsexname: null
+	* 		rolefunbirthday: null
+	* 		rolefunaddress: null
+	* 		rolefunpostcode: null
+	* 		rolefuntel: null
+	* 		rolefunmobile: null
+	* 		rolefunemail: null
+	* 		rolefunqq: null
+	* 		rolefunmsn: null
+	* 		rolefunremark: null
+	* 		rolefunstatus: null
+	* 		rolefuncreatedate: null
+	* 		rolefunupdatedate: null
+	* 		rolefuncreateruser: null
+	* 		rolefunupdateuser: null
+	* 		rolefundeptid: null
+	* 		rolefundeptname: null
+	* 		rolefunmenuid: null
+	* 		rolefunmenuname: null
+	* 		rolefunmenutype: null
+	* 		rolefunmenulevel: null
+	* 		rolefunmenusort: null
+	* 		rolefunmenupath: null
+	* 		rolefunmenuremark: null
+	* 		rolefunmenucreatedate: null
+	* 		rolefunmenuupdatedate: null
+	* 		rolefunmenucreateuser: null
+	* 		rolefunmenuupdateuser: null
+	* 		rolefunmenuidno: null
+	* 		rolefunmenuidtype: null
+	* 		rolefunmenuidtypename: null
+	* 		rolefunmenusex: null
+	* 		rolefunmenusexname: null
+	* 		rolefunmenubirthday: null
+	* 		rolefunmenuaddress: null
+	* 		rolefunmenupostcode: null
+	* 		rolefunmenutel: null
+	* 		rolefunmenumobile: null
+	* 		rolefunmenuemail: null
+	* 		rolefunmenuqq: null
+	* 		rolefunmenumsn: null
+	* 		rolefunmenuremark: null
+	* 		rolefunmenustatus: null
+	* 		rolefunmenucreatedate: null
+	* 		rolefunmenuupdatedate: null
+	* 		rolefunmenucreateruser: null
+	* 		rolefunmenuupdateuser: null
+	* 		rolefunmenudeptid: null
+	* 		rolefunmenudeptname: null
+	* 		rolefunfunid: null
+	* 		rolefunfunname: null
+	* 		rolefunfuntype: null
+	* 		rolefunfunlevel: null
+	* 		rolefunfunsort: null
+	* 		rolefunfunpath: null
+	* 		rolefunfunremark: null
+	* 		rolefunfuncratedate: null
+	* 		rolefunfunupdatedate: null
+	* 		rolefunfuncreateruser: null
+	* 		rolefunfunupdateuser: null
+	* 		rolefunfunidno: null
+	* 		rolefunfunidtype: null
+	* 		rolefunfunidtypename: null
+	* 		rolefunfunsex: null
+	* 		rolefunfunsexname: null
+	* 		rolefunfunbirthday: null
+	* 		rolefunfunaddress: null
+	* 	"
+cmpl-6u7gt80jOKKi7JUzGpL6MDJoyySXs,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/system/business/WorkerMgr_1Test.java,40.12124443054199,length,"// WorkerMgr.java
+package com.hf.sfm.system.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.business.PersonInfoMgr;
+import com.hf.sfm.system.pdo.AWorker;
+import com.hf.sfm.util.DaoFactory;
+
+/**
+ * @author 忧里修斯
+ * 用户登录信息管理
+ */
+public class WorkerMgr extends DaoFactory {
+
+    /**
+     * 增加或更新用户登录信息
+     * @param pInfo
+     */
+    public String saveOrUpdate(AWorker worker) {
+        //密码加密
+        worker.setPassword(encrypt(worker.getPassword()));
+        //0为执行失败，1为执行成功
+        String rtn = ""0"";
+        Transaction tx = null;
+        try {
+            this.currentSession();
+            tx = this.session.beginTransaction();
+            if (worker.getIdno() == null || worker.getIdno().equalsIgnoreCase("""")) {
+                //新增
+                this.save(worker);
+            } else {
+                //更新
+                this.update(worker);
+            }
+            tx.commit();
+            rtn = ""1"";
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            this.closeSession();
+        }
+        return rtn;
+    }
+
+    /**
+     * 删除用户登录的信息
+     * @param idnos
+     */
+    public String deleteByIds(String[] idnos) {
+        //0为执行失败，1为执行成功
+        String rtn = ""0"";
+        Transaction tx = null;
+        try {
+            this.currentSession();
+            tx = this.session.beginTransaction();
+            String hql = ""delete from AWorker where idno=?"";
+            for (int i = 0; i < idnos.length; i++) {
+                this.session.createQuery(hql).setString(0, idnos[i]).executeUpdate();
+            }
+            tx.commit();
+            rtn = ""1"";
+        } catch (Exception e) {
+            tx.rollback();
+            e.printStackTrace();
+        } finally {
+            this.closeSession();
+        }
+        return rtn;
+    }
+}
+","// WorkerMgr_1Test.java
+package com.hf.sfm.system.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.business.PersonInfoMgr;
+import com.hf.sfm.system.pdo.AWorker;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WorkerMgr}.
+* It contains ten unit test cases for the {@link WorkerMgr#deleteByIds(String[])} method.
+*/
+class WorkerMgr_1Test {","// WorkerMgr_1Test.java
+package com.hf.sfm.system.business;
+
+import org.hibernate.Transaction;
+import com.hf.sfm.sfmis.personinfo.business.PersonInfoMgr;
+import com.hf.sfm.system.pdo.AWorker;
+import com.hf.sfm.util.DaoFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WorkerMgr}.
+* It contains ten unit test cases for the {@link WorkerMgr#deleteByIds(String[])} method.
+*/
+class WorkerMgr_1Test {
+
+	/**
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case 1 for method deleteByIds.
+	* Test case"
+cmpl-6u7hwGiMrZA7KzWvns8aOO4wjAqjd,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/util/DaoFactory_0Test.java,39.511861085891724,length,"// DaoFactory.java
+package com.hf.sfm.util;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+/**
+ * 此类主要是提供一些常用的方法使用，已在DaoFactoryUtil.java中实例化，业务类只需要继承于DaoFactoryUtil即可调用
+ */
+import com.hf.sfm.crypt.Base64;
+
+public class DaoFactory {
+
+    private static Log log = LogFactory.getLog(DaoFactory.class);
+
+    public Session session = null;
+
+    public CallableStatement ps = null;
+
+    public ResultSet rs = null;
+
+    public Connection conn = null;
+
+    private Transaction tx = null;
+
+    public DaoFactory() {
+    }
+
+    /**
+     * 创建会话session
+     */
+    public void currentSession() {
+        this.session = HibernateSessionFactory.currentSession();
+    }
+
+    /**
+     * 关闭session
+     */
+    public void closeSession() {
+        HibernateSessionFactory.closeSession();
+    }
+
+    /**
+     * 提交事务并关闭相关资源
+     */
+    public void commit() {
+        this.tx.commit();
+        closeAll();
+    }
+
+    /**
+     * 创建session开启事务
+     */
+    public void beginTransaction() {
+        currentSession();
+        tx = this.session.beginTransaction();
+    }
+
+    /**
+     * 回滚事务
+     */
+    public void rollback() {
+        tx.rollback();
+    }
+
+    /**
+     * 密码加密
+     */
+    public String encrypt(String str) {
+        return Base64.byteArrayToBase64(str.getBytes());
+    }
+
+    /**
+     * 密码解密
+     */
+    public String decrypt(String s) {
+        return new String(Base64.base64ToByteArray(s));
+    }
+
+    /**
+     * 持久化一个对象
+     * @param obj
+     */
+    public void save(Object obj) {
+        session.save(obj);
+    }
+
+    /**
+     * 更新一个对象
+     * @param obj
+     */
+    public void update(Object obj) {
+        session.update(obj);
+    }
+
+    /**
+     * 关闭数据库操作所使用的相关资源
+     */
+    public void closeAll() {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (session != null) {
+            session.close();
+        }
+    }
+}
+","// DaoFactory_0Test.java
+package com.hf.sfm.util;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+/**
+ * 此类主要是提供一些常用的方法使用，已在DaoFactoryUtil.java中实例化，业务类只需要继承于DaoFactoryUtil即可调用
+ */
+import com.hf.sfm.crypt.Base64;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DaoFactory}.
+* It contains ten unit test cases for the {@link DaoFactory#encrypt(String)} method.
+*/
+class DaoFactory_0Test {","// DaoFactory_0Test.java
+package com.hf.sfm.util;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+/**
+ * 此类主要是提供一些常用的方法使用，已在DaoFactoryUtil.java中实例化，业务类只需要继承于DaoFactoryUtil即可调用
+ */
+import com.hf.sfm.crypt.Base64;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DaoFactory}.
+* It contains ten unit test cases for the {@link DaoFactory#encrypt(String)} method.
+*/
+class DaoFactory_0Test {
+
+		private static Log log = LogFactory.getLog(DaoFactory.class);
+
+		public Session session = null;
+
+		public CallableStatement ps = null;
+
+		public ResultSet rs = null;
+
+		public Connection conn = null;
+
+		private Transaction tx = null;
+
+		public DaoFactory_0Test() {
+		}
+
+		/**
+		 * 创建会话session
+		 */
+		public void currentSession() {
+				this.session = HibernateSessionFactory.currentSession();
+		}
+
+		/**
+		 * 关闭session
+		 */
+		public void closeSession() {
+				HibernateSessionFactory.closeSession();
+		}
+
+		/**
+		 * 提交事务并关闭相关资源
+		 */
+		public void commit() {
+				this.tx.commit();
+				closeAll();
+		}
+
+		/**
+		 * 创建session开启事务
+		 */
+		public void beginTransaction() {
+				currentSession();
+				tx = this.session.beginTransaction();
+		}
+
+		/**
+		 * 回滚事务
+		 */
+		public void rollback() {
+				tx.rollback();
+		}
+
+		/**
+		 * 密码加密
+		 */
+		public String encrypt(String str) {
+				return Base64.byteArrayToBase64(str.getBytes());
+		}
+
+		/**
+		 * 密码解密
+		 */
+		public String decrypt(String s) {
+				return new String(Base64.base64ToByteArray(s));
+		}
+
+		/**
+		 * 持久化一个对象
+		 * @param obj
+		 */
+		public void save(Object obj) {
+				session.save(obj);
+		}
+
+		/**
+		 * 更新一个对象
+		 * @param obj
+		 */
+		public void update(Object obj) {
+				session.update(obj);
+		}
+
+		/**
+		 * 关闭数据库操作所使用的相关资源
+		 */
+		public void closeAll() {
+				if (rs != null) {
+						try {
+								rs.close();
+						} catch (SQLException e) {
+								e.printStackTrace();
+						}
+				}
+				if (ps != null) {
+						try {
+								ps.close();
+						} catch (SQLException e) {
+								e.printStackTrace();
+						}
+				}
+				if (conn != null) {
+						try {
+								conn.close();
+						} catch (SQLException e) {
+								e.printStackTrace();
+						}
+				}
+				if (session != null) {
+						session.close();
+				}
+		}
+		
+		/**
+		 * Test case for the {@link DaoFactory#encrypt(String)} method.
+		 * Test case for the {@link DaoFactory#decrypt(String)} method.
+		 */
+		@Test
+		void testEncryptDecrypt() {
+				DaoFactory daoFactory = new DaoFactory();
+				String str = ""123456"";
+				String s = daoFactory.encrypt(str);
+				assertEquals(str, daoFactory.decrypt(s));
+		}
+		
+		/**
+		 * Test case for the {@link DaoFactory#encrypt(String)} method.
+		 * Test case for the {@link DaoFactory#decrypt(String)} method.
+		 */
+		@Test
+		void testEncryptDecrypt1() {
+				DaoFactory daoFactory = new DaoFactory();
+				String str = ""123456"";
+				String s = daoFactory.encrypt(str);
+				assertEquals(str, daoFactory.decrypt(s));
+		}
+		
+		/**
+		 * Test case for the {@link DaoFactory#encrypt(String)} method.
+		 * Test case for the {@link DaoFactory#decrypt(String)} method.
+		 */
+		@Test
+		void testEncryptDecrypt2() {
+				DaoFactory daoFactory = new DaoFactory();
+				String str = ""123456"";
+				String s = daoFactory.encrypt(str);
+				assertEquals(str, daoFactory.decrypt(s));
+		}
+		
+		/**
+		 * Test case for the {@link DaoFactory#encrypt(String)} method.
+		 * Test case for the {@link DaoFactory#decrypt(String)} method.
+		 */
+		@Test
+		void testEncryptDecrypt3() {
+				DaoFactory daoFactory = new DaoFactory();
+				String str = ""123456"";
+				String s = daoFactory.encrypt(str);
+				assertEquals(str, daoFactory.decrypt(s));
+		}
+		
+		/**
+		 * Test case for the {@link DaoFactory#encrypt(String)} method.
+		 * Test case for the {@link DaoFactory#decrypt(String)} method.
+		 */
+		@Test
+		void testEncryptDecrypt4() {
+				DaoFactory daoFactory = new DaoFactory();
+				String str = ""123456"";
+				String s = daoFactory.encrypt(str);
+				assertEquals(str, daoFactory.decrypt(s));
+		}
+		
+		/**
+		 * Test case for the {@link DaoFactory#encrypt(String)} method.
+		 * Test case for the {@link DaoFactory#decrypt(String)} method.
+		 */
+		@Test
+		void testEncryptDecrypt5() {
+				DaoFactory daoFactory = new DaoFactory();
+				String str = ""123456"";
+				String s = daoFactory.encrypt(str);
+				assertEquals(str, daoFactory.decrypt(s));
+		}
+		
+		/**
+		 * Test case for the {@link DaoFactory#encrypt(String)} method.
+		 * Test case for the {@link DaoFactory#decrypt(String)} method.
+		 */
+		@Test
+		void testEncryptDecrypt6() {
+				DaoFactory daoFactory = new DaoFactory();
+				String str = ""123456"";
+				String s = daoFactory.encrypt(str);
+				assertEquals(str, daoFactory.decrypt(s));
+		}
+		
+		/**
+		 * Test case for the {@link DaoFactory#encrypt(String)} method.
+		 * Test case for the {@link DaoFactory#decrypt(String)} method.
+		 */
+		@Test
+		void testEncryptDecrypt7() {
+				DaoFactory dao"
+cmpl-6u7izyv8ITbDDqdEkZEFevSvw8rgq,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/util/DaoFactory_1Test.java,41.5517635345459,length,"// DaoFactory.java
+package com.hf.sfm.util;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+/**
+ * 此类主要是提供一些常用的方法使用，已在DaoFactoryUtil.java中实例化，业务类只需要继承于DaoFactoryUtil即可调用
+ */
+import com.hf.sfm.crypt.Base64;
+
+public class DaoFactory {
+
+    private static Log log = LogFactory.getLog(DaoFactory.class);
+
+    public Session session = null;
+
+    public CallableStatement ps = null;
+
+    public ResultSet rs = null;
+
+    public Connection conn = null;
+
+    private Transaction tx = null;
+
+    public DaoFactory() {
+    }
+
+    /**
+     * 创建会话session
+     */
+    public void currentSession() {
+        this.session = HibernateSessionFactory.currentSession();
+    }
+
+    /**
+     * 关闭session
+     */
+    public void closeSession() {
+        HibernateSessionFactory.closeSession();
+    }
+
+    /**
+     * 提交事务并关闭相关资源
+     */
+    public void commit() {
+        this.tx.commit();
+        closeAll();
+    }
+
+    /**
+     * 创建session开启事务
+     */
+    public void beginTransaction() {
+        currentSession();
+        tx = this.session.beginTransaction();
+    }
+
+    /**
+     * 回滚事务
+     */
+    public void rollback() {
+        tx.rollback();
+    }
+
+    /**
+     * 密码加密
+     */
+    public String encrypt(String str) {
+        return Base64.byteArrayToBase64(str.getBytes());
+    }
+
+    /**
+     * 密码解密
+     */
+    public String decrypt(String s) {
+        return new String(Base64.base64ToByteArray(s));
+    }
+
+    /**
+     * 持久化一个对象
+     * @param obj
+     */
+    public void save(Object obj) {
+        session.save(obj);
+    }
+
+    /**
+     * 更新一个对象
+     * @param obj
+     */
+    public void update(Object obj) {
+        session.update(obj);
+    }
+
+    /**
+     * 关闭数据库操作所使用的相关资源
+     */
+    public void closeAll() {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (session != null) {
+            session.close();
+        }
+    }
+}
+","// DaoFactory_1Test.java
+package com.hf.sfm.util;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+/**
+ * 此类主要是提供一些常用的方法使用，已在DaoFactoryUtil.java中实例化，业务类只需要继承于DaoFactoryUtil即可调用
+ */
+import com.hf.sfm.crypt.Base64;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DaoFactory}.
+* It contains ten unit test cases for the {@link DaoFactory#decrypt(String)} method.
+*/
+class DaoFactory_1Test {","// DaoFactory_1Test.java
+package com.hf.sfm.util;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+/**
+ * 此类主要是提供一些常用的方法使用，已在DaoFactoryUtil.java中实例化，业务类只需要继承于DaoFactoryUtil即可调用
+ */
+import com.hf.sfm.crypt.Base64;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DaoFactory}.
+* It contains ten unit test cases for the {@link DaoFactory#decrypt(String)} method.
+*/
+class DaoFactory_1Test {
+
+	/**
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	* Test case 1 for method {@link DaoFactory#decrypt(String)}.
+	"
+cmpl-6u7k2LarqtaGAXe1QDk8UILqunfok,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/util/DataSource_3Test.java,37.171926736831665,length,"// DataSource.java
+package com.hf.sfm.util;
+
+import javax.servlet.http.HttpSession;
+
+public class DataSource {
+
+    private Loader loader = new Loader();
+
+    public String getPlanarArrData(BasePara basePara) {
+        loader.run(basePara);
+        return loader.getArrayResults();
+    }
+
+    public ListRange getGridData(BasePara basePara) {
+        //		paging=true;
+        //		System.out.println(""sqlpath:""+sqlpath+"",queryparams:""+queryparams.length+"",paging:""+paging+"",start:""+start+"",limit:""+limit);
+        //		String[] commaArr = null;
+        //		String[] colonArr = null;
+        //		String queryParams = con.get(""queryparams"").toString().replace(""{"", """").replace(""}"", """");
+        //		if(queryParams.indexOf("","")>0){
+        //			commaArr = queryParams.split("","");
+        //			colonArr = new String[commaArr.length*2];
+        //			for(int i=0;i<commaArr.length;i++){
+        //				String[] temp = new String[2];
+        //				temp = commaArr[i].split("":"");
+        //				for(int j=0;j<temp.length;j++){
+        //					colonArr[2*i+j] = temp[j];
+        //				}
+        //			}
+        //		}else{
+        //			colonArr = queryParams.split("":"");
+        //		}
+        //		BasePara basePara = new BasePara();
+        //		basePara.setSqlpath(con.get(""sqlpath"").toString());
+        //		basePara.setPaging(Boolean.parseBoolean(con.get(""paging"").toString()));
+        //		basePara.setStart(Integer.parseInt(con.get(""start"").toString()));
+        //		basePara.setLimit(Integer.parseInt(con.get(""limit"").toString()));
+        //		basePara.setQueryparams(colonArr);
+        System.out.println(""sqlpath:"" + basePara.getSqlpath() + ""\n,paging:"" + basePara.isPaging() + ""\n,start:"" + basePara.getStart() + ""\n,limit:"" + basePara.getLimit() + "",\nsort:"" + basePara.getSort() + "",\ndir:"" + basePara.getDir() + "",\nquery:"" + basePara.getQueryValue() + "",\nquerySql:"" + basePara.getQuerySql());
+        loader.run(basePara);
+        loader.collectToMap();
+        System.out.println(""********:"" + loader.getRange().getData() + ""\ntotalSize:"" + loader.getRange().getTotalSize());
+        return loader.getRange();
+    }
+
+    public ListRange getComboData(BasePara basePara) {
+        System.out.println(""sqlpath:"" + basePara.getSqlpath() + ""\n,paging:"" + basePara.isPaging() + ""\n,start:"" + basePara.getStart() + ""\n,limit:"" + basePara.getLimit() + "",\nsort:"" + basePara.getSort() + "",\ndir:"" + basePara.getDir() + "",\nqueryValue:"" + basePara.getQueryValue() + "",\nquerySql:"" + basePara.getQuerySql());
+        //		basePara.setQuerySql("" g.idno = ? or g.mark=? "");
+        loader.run(basePara);
+        loader.collectToMap(""combo"");
+        System.out.println(""********:"" + loader.getRange().getData() + ""\ntotalSize:"" + loader.getRange().getTotalSize());
+        return loader.getRange();
+    }
+
+    /**
+     * 获取session的属性值
+     */
+    public String getSession(HttpSession ss, String sessionName) {
+        String s = ss.getAttribute(sessionName) + """";
+        return s;
+    }
+
+    public static void main(String[] args) {
+        DataSource data = new DataSource();
+        BasePara base = new BasePara();
+        Loader loader = new Loader();
+        base.setSqlpath(""personInfo//sel_all_group"");
+        base.setPaging(false);
+        loader.run(base);
+        loader.collectToMap(""combo"");
+        ListRange rang = loader.getRange();
+        System.out.println(""********:"" + loader.getRange().getData() + ""\ntotalSize:"" + loader.getRange().getTotalSize());
+    }
+}
+","// DataSource_3Test.java
+package com.hf.sfm.util;
+
+import javax.servlet.http.HttpSession;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DataSource}.
+* It contains ten unit test cases for the {@link DataSource#getSession(HttpSession, String)} method.
+*/
+class DataSource_3Test {","// DataSource_3Test.java
+package com.hf.sfm.util;
+
+import javax.servlet.http.HttpSession;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DataSource}.
+* It contains ten unit test cases for the {@link DataSource#getSession(HttpSession, String)} method.
+*/
+class DataSource_3Test {
+
+		/**
+		* Test case 1 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_1() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 2 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_2() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 3 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_3() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 4 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_4() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 5 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_5() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 6 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_6() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 7 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_7() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 8 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_8() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 9 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_9() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 10 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_10() {
+				// TODO: Test code here.
+		}
+}
+
+// DataSource_4Test.java
+package com.hf.sfm.util;
+
+import javax.servlet.http.HttpSession;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DataSource}.
+* It contains ten unit test cases for the {@link DataSource#getSession(HttpSession, String)} method.
+*/
+class DataSource_4Test {
+		
+		/**
+		* Test case 1 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_1() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 2 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_2() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 3 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_3() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 4 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_4() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 5 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_5() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 6 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_6() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 7 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_7() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 8 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_8() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 9 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_9() {
+				// TODO: Test code here.
+		}
+		
+		/**
+		* Test case 10 for {@link DataSource#getSession(HttpSession, String)}
+		*
+		* @see DataSource#getSession(HttpSession, String)
+		*/
+		@Test
+		void testGetSession_10() {
+				// TODO: Test code here.
+		}
+}
+
+// DataSource_5Test.java
+package com.hf.sfm.util;
+
+import javax.servlet.http.HttpSession;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DataSource}.
+* It contains ten unit test cases for the {@link DataSource#getSession(HttpSession, String)} method.
+*/
+class DataSource_5Test {
+		
+		/**
+		* Test case 1 for {@link DataSource#"
+cmpl-6u7l5n1mK1ZA1djrxVTjqui7Bq2Ur,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/util/Loader_0Test.java,42.69600057601929,length,"// Loader.java
+package com.hf.sfm.util;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+public class Loader {
+
+    private String sql;
+
+    private String filepath;
+
+    private int start;
+
+    private int limit;
+
+    private int totalCount;
+
+    private String[] colNames;
+
+    private String[][] pas;
+
+    private String sort;
+
+    private String dir;
+
+    private final String XMLPATH = ""sqlfolder/"";
+
+    private Session session = null;
+
+    private Query query;
+
+    private List rs;
+
+    private boolean paging;
+
+    private ListRange range;
+
+    private String querySql;
+
+    private String queryValue;
+
+    public ListRange getRange() {
+        return range;
+    }
+
+    public void setRange(ListRange range) {
+        this.range = range;
+    }
+
+    public List getRs() {
+        return rs;
+    }
+
+    public void setRs(List rs) {
+        this.rs = rs;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public String[] getColNames() {
+        return colNames;
+    }
+
+    public void setColNames(String[] colNames) {
+        this.colNames = colNames;
+    }
+
+    public void run(BasePara basePara) {
+        filepath = basePara.getSqlpath();
+        if (paging = basePara.isPaging()) {
+            start = basePara.getStart();
+            limit = basePara.getLimit();
+        }
+        sort = basePara.getSort();
+        dir = basePara.getDir();
+        pas = basePara.single2plannar();
+        this.parseXML();
+        querySql = querySql == null ? basePara.getQuerySql() : querySql;
+        queryValue = basePara.getQueryValue();
+        this.getCount();
+        this.getColsName();
+        this.loadDataWithSql();
+    }
+
+    /**
+     * 从xml解析sql
+     */
+    public void parseXML() {
+        String pa = this.getClass().getResource(""Loader.class"").toString();
+        String rootpath = pa.substring(pa.indexOf("":"") + 2, pa.lastIndexOf(""classes"") + 8).replaceAll(""%20"", "" "");
+        String[] path = this.filepath.split(""//"");
+        String filepath = rootpath + XMLPATH + path[0] + "".xml"";
+        File file = new File(filepath);
+        SAXReader reader = new SAXReader();
+        try {
+            Document doc = reader.read(file);
+            Element root = doc.getRootElement();
+            for (Iterator it = root.elementIterator(); it.hasNext(); ) {
+                Element el = (Element) it.next();
+                if (el.getName().equals(path[1])) {
+                    sql = el.elementText(""main_sql"");
+                    querySql = el.elementText(""query_sql"");
+                    break;
+                }
+            }
+        } catch (DocumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取总记录数
+     */
+    public void getCount() {
+        String subsql = """";
+        this.getQuerySql();
+        if (this.sql.lastIndexOf(""group by"") != -1) {
+            subsql = this.sql.substring(this.sql.lastIndexOf(""from""), this.sql.lastIndexOf(""group by""));
+        } else {
+            subsql = this.sql.substring(this.sql.lastIndexOf(""from""));
+        }
+        session = HibernateSessionFactory.currentSession();
+        query = session.createSQLQuery(""select count(1) "" + subsql);
+        if (pas != null) {
+            query = this.getParams(query, pas);
+        }
+        totalCount = Integer.parseInt(query.uniqueResult() + """");
+        HibernateSessionFactory.closeSession();
+    }
+
+    /**
+     * 获取sql中的字段名集合
+     */
+    public void getColsName() {
+        String colssql = this.sql.substring(this.sql.lastIndexOf(""select"") + 6, this.sql.lastIndexOf(""from""));
+        String[] cols = colssql.split("","");
+        colNames = new String[cols.length];
+        for (int i = 0; i < cols.length; i++) {
+            String[] subcols = new String[cols.length];
+            if (cols[i].indexOf("" as "") > 0) {
+                subcols = cols[i].split(""as"");
+                colNames[i] = subcols[1].trim();
+            } else {
+                if (cols[i].indexOf(""."") > 0) {
+                    colNames[i] = cols[i].substring(cols[i].indexOf(""."") + 1).trim();
+                } else {
+                    colNames[i] = cols[i].trim();
+                }
+            }
+        }
+    }
+
+    /**
+     * 查询数据
+     */
+    public List loadDataWithSql() {
+        session = HibernateSessionFactory.currentSession();
+        this.getQuerySql();
+        if (sort != null && sort != """") {
+            if (this.sql.indexOf(""order by"") > 0) {
+                this.sql = this.sql.substring(0, this.sql.indexOf(""order by"")) + "" order by "" + sort + "" "" + dir;
+            } else {
+                this.sql = this.sql + "" order by "" + sort + "" "" + dir;
+            }
+        }
+        query = session.createSQLQuery(this.sql);
+        if (pas != null) {
+            query = this.getParams(query, pas);
+        }
+        if (paging) {
+            query.setFirstResult(start);
+            query.setMaxResults(limit);
+        }
+        List rows = query.list();
+        HibernateSessionFactory.closeSession();
+        this.setRs(rows);
+        return rows;
+    }
+
+    public void getQuerySql() {
+        int wherenum, ordernum, groupnum;
+        System.out.println(""querySql:"" + querySql + "",sql:"" + sql);
+        if (querySql != null) {
+            wherenum = this.sql.indexOf(""where"");
+            ordernum = this.sql.indexOf(""order by"");
+            groupnum = this.sql.indexOf(""group by"");
+            querySql = querySql.replace(""?"", queryValue);
+            System.out.println(""&&&&&&&&querySql:"" + querySql);
+            if (wherenum > 0) {
+                if (groupnum > 0) {
+                    this.sql = this.sql.substring(0, groupnum) + "" and ("" + querySql + "")"" + this.sql.substring(groupnum);
+                } else if (ordernum > 0) {
+                    this.sql = this.sql.substring(0, ordernum) + "" and ("" + querySql + "")"" + this.sql.substring(ordernum);
+                }
+            } else {
+                if (groupnum > 0) {
+                    this.sql = this.sql.substring(0, groupnum) + "" where ("" + querySql + "")"" + this.sql.substring(groupnum);
+                } else if (ordernum > 0) {
+                    this.sql = this.sql.substring(0, ordernum) + "" where ("" + querySql + "")"" + this.sql.substring(ordernum);
+                } else {
+                    this.sql = this.sql + "" where ("" + querySql + "")"";
+                }
+            }
+        }
+    }
+
+    /**
+     * 接收参数
+     */
+    public Query getParams(Query query, String[][] params) {
+        if (params != null) {
+            // 参数值
+            String[] pValue = params[0];
+            // 参数值类型
+            String[] pType = params[1];
+            for (int i = 0; i < pValue.length; i++) {
+                if (pType[i].equals(""String"")) {
+                    query.setParameter(i, pValue[i]);
+                } else if (pType[i].equals(""Long"")) {
+                    query.setParameter(i, Long.parseLong(pValue[i]));
+                } else if (pType[i].equals(""Integer"")) {
+                    query.setParameter(i, Integer.parseInt(pValue[i]));
+                } else if (pType[i].equals(""Double"")) {
+                    query.setParameter(i, Double.parseDouble(pValue[i]));
+                } else if (pType[i].equals(""Date"")) {
+                    try {
+                        query.setParameter(i, new SimpleDateFormat(""yyyy-MM-dd"").parse(pValue[i]));
+                    } catch (HibernateException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return query;
+    }
+
+    /**
+     * 首页Tree数据
+     */
+    public String getArrayResults() {
+        List rows = this.getRs();
+        if (rows.size() == 0) {
+            return """";
+        }
+        String jsonstr = """";
+        for (Iterator<?> it = rows.iterator(); it.hasNext(); ) {
+            Object[] obj = (Object[]) it.next();
+            String constr = ""{"";
+            for (int i = 0; i < obj.length; i++) {
+                if (i == obj.length - 1) {
+                    constr += '""' + colNames[i] + '""' + "":"" + '""' + obj[i] + '""';
+                } else {
+                    constr += '""' + colNames[i] + '""' + "":"" + '""' + obj[i] + '""' + "","";
+                }
+            }
+            constr += ""}"";
+            jsonstr += constr + "","";
+        }
+        jsonstr = ""["" + jsonstr.substring(0, jsonstr.lastIndexOf("","")) + ""]"";
+        return jsonstr;
+    }
+
+    public void collectToMap(String flag) {
+        ArrayList<Object> al = null;
+        HashMap<String, Object> map = null;
+        String[] colNameArray = this.getColNames();
+        if (flag.equals(""combo"")) {
+            colNameArray[0] = ""value"";
+            colNameArray[1] = ""text"";
+        }
+        al = new ArrayList<Object>();
+        List rs = this.getRs();
+        if (rs.size() > 0) {
+            al = new ArrayList<Object>();
+            for (Iterator<?> it = rs.iterator(); it.hasNext(); ) {
+                Object[] obj = null;
+                if (colNameArray.length == 1) {
+                    obj = new Object[] { it.next() };
+                } else {
+                    obj = (Object[]) it.next();
+                }
+                map = new HashMap<String, Object>();
+                for (int i = 0; i < colNameArray.length; i++) {
+                    String tag = colNameArray[i];
+                    map.put(tag, obj[i]);
+                }
+                al.add(map);
+            }
+        }
+        range = new ListRange();
+        range.setData(al);
+        range.setTotalSize(this.getTotalCount());
+    }
+
+    public void collectToMap() {
+        this.collectToMap("""");
+    }
+}
+","// Loader_0Test.java
+package com.hf.sfm.util;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Loader}.
+* It contains ten unit test cases for the {@link Loader#loadDataWithSql()} method.
+*/
+class Loader_0Test {","// Loader_0Test.java
+package com.hf.sfm.util;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Loader}.
+* It contains ten unit test cases for the {@link Loader#loadDataWithSql()} method.
+*/
+class Loader_0Test {
+
+		/**
+		* Test case for the {@link Loader#loadDataWithSql()} method.
+		* @throws DocumentException 
+		*/
+		@Test
+		void testLoadDataWithSql_0() throws DocumentException {
+				// Arrange
+				Loader loader = new Loader();
+				loader.setSql(""select * from t_user"");
+				loader.setPaging(false);
+				loader.setStart(0);
+				loader.setLimit(0);
+				loader.setSort("""");
+				loader.setDir("""");
+				loader.setPas(null);
+				loader.setQuerySql(null);
+				loader.setQueryValue(null);
+				
+				// Act
+				loader.loadDataWithSql();
+				
+				// Assert
+				assertEquals(0, loader.getTotalCount());
+				assertEquals(0, loader.getRs().size());
+		}
+		
+		/**
+		* Test case for the {@link Loader#loadDataWithSql()} method.
+		* @throws DocumentException 
+		*/
+		@Test
+		void testLoadDataWithSql_1() throws DocumentException {
+				// Arrange
+				Loader loader = new Loader();
+				loader.setSql(""select * from t_user"");
+				loader.setPaging(false);
+				loader.setStart(0);
+				loader.setLimit(0);
+				loader.setSort("""");
+				loader.setDir("""");
+				loader.setPas(null);
+				loader.setQuerySql(null);
+				loader.setQueryValue(null);
+				
+				// Act
+				loader.loadDataWithSql();
+				
+				// Assert
+				assertEquals(0, loader.getTotalCount());
+				assertEquals(0, loader.getRs().size());
+		}
+		
+		/**
+		* Test case for the {@link Loader#loadDataWithSql()} method.
+		* @throws DocumentException 
+		*/
+		@Test
+		void testLoadDataWithSql_2() throws DocumentException {
+				// Arrange
+				Loader loader = new Loader();
+				loader.setSql(""select * from t_user"");
+				loader.setPaging(false);
+				loader.setStart(0);
+				loader.setLimit(0);
+				loader.setSort("""");
+				loader.setDir("""");
+				loader.setPas(null);
+				loader.setQuerySql(null);
+				loader.setQueryValue(null);
+				
+				// Act
+				loader.loadDataWithSql();
+				
+				// Assert
+				assertEquals(0, loader.getTotalCount());
+				assertEquals(0, loader.getRs().size());
+		}
+		
+		/**
+		* Test case for the {@link Loader#loadDataWithSql()} method.
+		* @throws DocumentException 
+		*/
+		@Test
+		void testLoadDataWithSql_3() throws DocumentException {
+				// Arrange
+				Loader loader = new Loader();
+				loader.setSql(""select * from t_user"");
+				loader.setPaging(false);
+				loader.setStart(0);
+				loader.setLimit(0);
+				loader.setSort("""");
+				loader.setDir("""");
+				loader.setPas(null);
+				loader.setQuerySql(null);
+				loader.setQueryValue(null);
+				
+				// Act
+				loader.loadDataWithSql();
+				
+				// Assert
+				assertEquals(0, loader.getTotalCount());
+				assertEquals(0, loader.getRs().size());
+		}
+		
+		/**
+		* Test case for the {@link Loader#loadDataWithSql()} method.
+		* @throws DocumentException 
+		*/
+		@Test
+		void testLoadDataWithSql_4() throws DocumentException {
+				// Arrange
+				Loader loader = new Loader();
+				loader.setSql(""select * from t_user"");
+				loader.setPaging(false);
+				loader.setStart(0);
+				loader.setLimit(0);
+				loader.setSort("""");
+				loader.setDir("""");
+				loader.setPas(null);
+				loader.setQuerySql(null);
+				loader.setQueryValue(null);
+				
+				// Act
+				loader.loadDataWithSql();
+				
+				// Assert
+				assertEquals(0, loader.getTotalCount());
+				assertEquals(0, loader.getRs().size());
+		}
+		
+		/**
+		* Test case for the {@link Loader#loadDataWithSql()} method.
+		* @throws DocumentException 
+		*/
+		@Test
+		void testLoadDataWithSql_5() throws DocumentException {
+				// Arrange
+				Loader loader = new Loader();
+				loader.setSql(""select * from t_user"");
+				loader.setPaging(false);
+				loader.setStart(0);
+				loader.setLimit(0);
+				loader.setSort("""");
+				loader.setDir("""");
+				loader.setPas(null);
+				loader.setQuerySql(null);
+				loader.setQueryValue(null);
+				
+				// Act
+				loader.loadDataWithSql();
+				
+				// Assert
+				assertEquals(0, loader.getTotalCount());
+				assertEquals(0, loader.getRs().size());
+		}
+		
+		/**
+		* Test case for the {@link Loader#loadDataWithSql()} method.
+		* @throws DocumentException 
+		*/
+		@Test
+		void testLoadDataWithSql_6() throws DocumentException {
+				// Arrange
+				Loader loader = new Loader();
+				loader.setSql(""select * from t_user"");
+				loader.setPaging(false);
+				loader.setStart(0);
+				loader.setLimit(0);
+				loader.setSort("""");
+				loader.setDir("""");
+				loader.setPas(null);
+				loader.setQuerySql(null);
+				loader.setQueryValue(null);
+				
+				// Act
+				loader.loadDataWithSql();
+				
+				// Assert
+				assertEquals(0, loader.getTotalCount());
+				assertEquals(0, loader.getRs().size());
+		}
+		
+		/**
+		* Test case for the {@link Loader#loadDataWithSql()} method.
+		* @throws DocumentException 
+		"
+cmpl-6u7m8IssmWohxxJfZVC2liMUhmYem,/EvoSuiteBenchmark/7_sfmis/src/main/java/com/hf/sfm/util/Loader_1Test.java,41.73919916152954,length,"// Loader.java
+package com.hf.sfm.util;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+public class Loader {
+
+    private String sql;
+
+    private String filepath;
+
+    private int start;
+
+    private int limit;
+
+    private int totalCount;
+
+    private String[] colNames;
+
+    private String[][] pas;
+
+    private String sort;
+
+    private String dir;
+
+    private final String XMLPATH = ""sqlfolder/"";
+
+    private Session session = null;
+
+    private Query query;
+
+    private List rs;
+
+    private boolean paging;
+
+    private ListRange range;
+
+    private String querySql;
+
+    private String queryValue;
+
+    public ListRange getRange() {
+        return range;
+    }
+
+    public void setRange(ListRange range) {
+        this.range = range;
+    }
+
+    public List getRs() {
+        return rs;
+    }
+
+    public void setRs(List rs) {
+        this.rs = rs;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public String[] getColNames() {
+        return colNames;
+    }
+
+    public void setColNames(String[] colNames) {
+        this.colNames = colNames;
+    }
+
+    public void run(BasePara basePara) {
+        filepath = basePara.getSqlpath();
+        if (paging = basePara.isPaging()) {
+            start = basePara.getStart();
+            limit = basePara.getLimit();
+        }
+        sort = basePara.getSort();
+        dir = basePara.getDir();
+        pas = basePara.single2plannar();
+        this.parseXML();
+        querySql = querySql == null ? basePara.getQuerySql() : querySql;
+        queryValue = basePara.getQueryValue();
+        this.getCount();
+        this.getColsName();
+        this.loadDataWithSql();
+    }
+
+    /**
+     * 从xml解析sql
+     */
+    public void parseXML() {
+        String pa = this.getClass().getResource(""Loader.class"").toString();
+        String rootpath = pa.substring(pa.indexOf("":"") + 2, pa.lastIndexOf(""classes"") + 8).replaceAll(""%20"", "" "");
+        String[] path = this.filepath.split(""//"");
+        String filepath = rootpath + XMLPATH + path[0] + "".xml"";
+        File file = new File(filepath);
+        SAXReader reader = new SAXReader();
+        try {
+            Document doc = reader.read(file);
+            Element root = doc.getRootElement();
+            for (Iterator it = root.elementIterator(); it.hasNext(); ) {
+                Element el = (Element) it.next();
+                if (el.getName().equals(path[1])) {
+                    sql = el.elementText(""main_sql"");
+                    querySql = el.elementText(""query_sql"");
+                    break;
+                }
+            }
+        } catch (DocumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取总记录数
+     */
+    public void getCount() {
+        String subsql = """";
+        this.getQuerySql();
+        if (this.sql.lastIndexOf(""group by"") != -1) {
+            subsql = this.sql.substring(this.sql.lastIndexOf(""from""), this.sql.lastIndexOf(""group by""));
+        } else {
+            subsql = this.sql.substring(this.sql.lastIndexOf(""from""));
+        }
+        session = HibernateSessionFactory.currentSession();
+        query = session.createSQLQuery(""select count(1) "" + subsql);
+        if (pas != null) {
+            query = this.getParams(query, pas);
+        }
+        totalCount = Integer.parseInt(query.uniqueResult() + """");
+        HibernateSessionFactory.closeSession();
+    }
+
+    /**
+     * 获取sql中的字段名集合
+     */
+    public void getColsName() {
+        String colssql = this.sql.substring(this.sql.lastIndexOf(""select"") + 6, this.sql.lastIndexOf(""from""));
+        String[] cols = colssql.split("","");
+        colNames = new String[cols.length];
+        for (int i = 0; i < cols.length; i++) {
+            String[] subcols = new String[cols.length];
+            if (cols[i].indexOf("" as "") > 0) {
+                subcols = cols[i].split(""as"");
+                colNames[i] = subcols[1].trim();
+            } else {
+                if (cols[i].indexOf(""."") > 0) {
+                    colNames[i] = cols[i].substring(cols[i].indexOf(""."") + 1).trim();
+                } else {
+                    colNames[i] = cols[i].trim();
+                }
+            }
+        }
+    }
+
+    /**
+     * 查询数据
+     */
+    public List loadDataWithSql() {
+        session = HibernateSessionFactory.currentSession();
+        this.getQuerySql();
+        if (sort != null && sort != """") {
+            if (this.sql.indexOf(""order by"") > 0) {
+                this.sql = this.sql.substring(0, this.sql.indexOf(""order by"")) + "" order by "" + sort + "" "" + dir;
+            } else {
+                this.sql = this.sql + "" order by "" + sort + "" "" + dir;
+            }
+        }
+        query = session.createSQLQuery(this.sql);
+        if (pas != null) {
+            query = this.getParams(query, pas);
+        }
+        if (paging) {
+            query.setFirstResult(start);
+            query.setMaxResults(limit);
+        }
+        List rows = query.list();
+        HibernateSessionFactory.closeSession();
+        this.setRs(rows);
+        return rows;
+    }
+
+    public void getQuerySql() {
+        int wherenum, ordernum, groupnum;
+        System.out.println(""querySql:"" + querySql + "",sql:"" + sql);
+        if (querySql != null) {
+            wherenum = this.sql.indexOf(""where"");
+            ordernum = this.sql.indexOf(""order by"");
+            groupnum = this.sql.indexOf(""group by"");
+            querySql = querySql.replace(""?"", queryValue);
+            System.out.println(""&&&&&&&&querySql:"" + querySql);
+            if (wherenum > 0) {
+                if (groupnum > 0) {
+                    this.sql = this.sql.substring(0, groupnum) + "" and ("" + querySql + "")"" + this.sql.substring(groupnum);
+                } else if (ordernum > 0) {
+                    this.sql = this.sql.substring(0, ordernum) + "" and ("" + querySql + "")"" + this.sql.substring(ordernum);
+                }
+            } else {
+                if (groupnum > 0) {
+                    this.sql = this.sql.substring(0, groupnum) + "" where ("" + querySql + "")"" + this.sql.substring(groupnum);
+                } else if (ordernum > 0) {
+                    this.sql = this.sql.substring(0, ordernum) + "" where ("" + querySql + "")"" + this.sql.substring(ordernum);
+                } else {
+                    this.sql = this.sql + "" where ("" + querySql + "")"";
+                }
+            }
+        }
+    }
+
+    /**
+     * 接收参数
+     */
+    public Query getParams(Query query, String[][] params) {
+        if (params != null) {
+            // 参数值
+            String[] pValue = params[0];
+            // 参数值类型
+            String[] pType = params[1];
+            for (int i = 0; i < pValue.length; i++) {
+                if (pType[i].equals(""String"")) {
+                    query.setParameter(i, pValue[i]);
+                } else if (pType[i].equals(""Long"")) {
+                    query.setParameter(i, Long.parseLong(pValue[i]));
+                } else if (pType[i].equals(""Integer"")) {
+                    query.setParameter(i, Integer.parseInt(pValue[i]));
+                } else if (pType[i].equals(""Double"")) {
+                    query.setParameter(i, Double.parseDouble(pValue[i]));
+                } else if (pType[i].equals(""Date"")) {
+                    try {
+                        query.setParameter(i, new SimpleDateFormat(""yyyy-MM-dd"").parse(pValue[i]));
+                    } catch (HibernateException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return query;
+    }
+
+    /**
+     * 首页Tree数据
+     */
+    public String getArrayResults() {
+        List rows = this.getRs();
+        if (rows.size() == 0) {
+            return """";
+        }
+        String jsonstr = """";
+        for (Iterator<?> it = rows.iterator(); it.hasNext(); ) {
+            Object[] obj = (Object[]) it.next();
+            String constr = ""{"";
+            for (int i = 0; i < obj.length; i++) {
+                if (i == obj.length - 1) {
+                    constr += '""' + colNames[i] + '""' + "":"" + '""' + obj[i] + '""';
+                } else {
+                    constr += '""' + colNames[i] + '""' + "":"" + '""' + obj[i] + '""' + "","";
+                }
+            }
+            constr += ""}"";
+            jsonstr += constr + "","";
+        }
+        jsonstr = ""["" + jsonstr.substring(0, jsonstr.lastIndexOf("","")) + ""]"";
+        return jsonstr;
+    }
+
+    public void collectToMap(String flag) {
+        ArrayList<Object> al = null;
+        HashMap<String, Object> map = null;
+        String[] colNameArray = this.getColNames();
+        if (flag.equals(""combo"")) {
+            colNameArray[0] = ""value"";
+            colNameArray[1] = ""text"";
+        }
+        al = new ArrayList<Object>();
+        List rs = this.getRs();
+        if (rs.size() > 0) {
+            al = new ArrayList<Object>();
+            for (Iterator<?> it = rs.iterator(); it.hasNext(); ) {
+                Object[] obj = null;
+                if (colNameArray.length == 1) {
+                    obj = new Object[] { it.next() };
+                } else {
+                    obj = (Object[]) it.next();
+                }
+                map = new HashMap<String, Object>();
+                for (int i = 0; i < colNameArray.length; i++) {
+                    String tag = colNameArray[i];
+                    map.put(tag, obj[i]);
+                }
+                al.add(map);
+            }
+        }
+        range = new ListRange();
+        range.setData(al);
+        range.setTotalSize(this.getTotalCount());
+    }
+
+    public void collectToMap() {
+        this.collectToMap("""");
+    }
+}
+","// Loader_1Test.java
+package com.hf.sfm.util;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Loader}.
+* It contains ten unit test cases for the {@link Loader#getParams(Query, String[][])} method.
+*/
+class Loader_1Test {","// Loader_1Test.java
+package com.hf.sfm.util;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Loader}.
+* It contains ten unit test cases for the {@link Loader#getParams(Query, String[][])} method.
+*/
+class Loader_1Test {
+
+		/**
+		* Test case 1 for method getParams.
+		* Test case for the following parameters:
+		* query = null, params = null.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase1() {
+				Query query = null;
+				String[][] params = null;
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 2 for method getParams.
+		* Test case for the following parameters:
+		* query = null, params = {{""1"",""2"",""3""},{""String"",""String"",""String""}}.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase2() {
+				Query query = null;
+				String[][] params = {{""1"",""2"",""3""},{""String"",""String"",""String""}};
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 3 for method getParams.
+		* Test case for the following parameters:
+		* query = new Query(), params = null.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase3() {
+				Query query = new Query();
+				String[][] params = null;
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 4 for method getParams.
+		* Test case for the following parameters:
+		* query = new Query(), params = {{""1"",""2"",""3""},{""String"",""String"",""String""}}.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase4() {
+				Query query = new Query();
+				String[][] params = {{""1"",""2"",""3""},{""String"",""String"",""String""}};
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 5 for method getParams.
+		* Test case for the following parameters:
+		* query = new Query(), params = {{""1"",""2"",""3""},{""String"",""String"",""String""}}.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase5() {
+				Query query = new Query();
+				String[][] params = {{""1"",""2"",""3""},{""String"",""String"",""String""}};
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 6 for method getParams.
+		* Test case for the following parameters:
+		* query = new Query(), params = {{""1"",""2"",""3""},{""String"",""String"",""String""}}.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase6() {
+				Query query = new Query();
+				String[][] params = {{""1"",""2"",""3""},{""String"",""String"",""String""}};
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 7 for method getParams.
+		* Test case for the following parameters:
+		* query = new Query(), params = {{""1"",""2"",""3""},{""String"",""String"",""String""}}.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase7() {
+				Query query = new Query();
+				String[][] params = {{""1"",""2"",""3""},{""String"",""String"",""String""}};
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 8 for method getParams.
+		* Test case for the following parameters:
+		* query = new Query(), params = {{""1"",""2"",""3""},{""String"",""String"",""String""}}.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase8() {
+				Query query = new Query();
+				String[][] params = {{""1"",""2"",""3""},{""String"",""String"",""String""}};
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 9 for method getParams.
+		* Test case for the following parameters:
+		* query = new Query(), params = {{""1"",""2"",""3""},{""String"",""String"",""String""}}.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase9() {
+				Query query = new Query();
+				String[][] params = {{""1"",""2"",""3""},{""String"",""String"",""String""}};
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+						assertTrue(true);
+				}
+		}
+		
+		/**
+		* Test case 10 for method getParams.
+		* Test case for the following parameters:
+		* query = new Query(), params = {{""1"",""2"",""3""},{""String"",""String"",""String""}}.
+		* Expected result: {@link NullPointerException}.
+		*/
+		@Test
+		public void testCase10() {
+				Query query = new Query();
+				String[][] params = {{""1"",""2"",""3""},{""String"",""String"",""String""}};
+				try {
+						Loader.getParams(query, params);
+						fail(""Expected NullPointerException"");
+				} catch (NullPointerException e) {
+				"

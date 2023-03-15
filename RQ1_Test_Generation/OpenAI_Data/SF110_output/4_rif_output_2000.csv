@@ -1,0 +1,4420 @@
+ID,PROMPT_ID,DURATION,FINISH_REASON,ORIGINAL_CODE,TEST_PROMPT,GENERATED_TEST
+cmpl-6uBeii0z6CjVFVF2t7soGYZTGknTc,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/client/RIFManager.java,50.79181432723999,length,"// RIFManager.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import com.densebrain.rif.client.service.RIFService;
+import com.densebrain.rif.client.service.RIFServiceStub;
+
+/**
+ * The RIFManager is responsible for keeping track of the client side web service annd caching
+ * RIFInvoker's to cut down on processing time for secondary RIFInvoker requests.  It keeps an
+ * internal mapping of interfaces to RIFInvokers.
+ *
+ * @author Jonathan Glanz
+ * @copyright Desnbrain, Inc @ 2006
+ */
+public class RIFManager {
+
+    private RIFService service;
+
+    private RIFClassLoader classLoader;
+
+    protected RIFManager(String url) throws RemoteException {
+        try {
+            service = new RIFServiceStub(url);
+            classLoader = new RIFClassLoader();
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to initialize manager: "" + e.getMessage(), e);
+        }
+    }
+
+    private Hashtable<Class, RIFInvoker> invokerMap = new Hashtable<Class, RIFInvoker>();
+
+    /**
+     * Retrieve an invoker by interface name, if one does not exist then create a new RIFInvoker.
+     * When the RIFInvoker is instantiate it build the dynamic runtime proxy.
+     *
+     * @param interfaceClazz - The interface to proxy against the server for, MUST be an interface
+     * @return - RIFInvoker ready to proxy for the given interface
+     * @throws RemoteException
+     */
+    public RIFInvoker getInvoker(Class interfaceClazz) throws RemoteException {
+        RIFInvoker invoker = invokerMap.get(interfaceClazz);
+        if (invoker == null) {
+            synchronized (this) {
+                invoker = invokerMap.get(interfaceClazz);
+                if (invoker == null) {
+                    invoker = new RIFInvoker(this, interfaceClazz);
+                    invokerMap.put(interfaceClazz, invoker);
+                }
+            }
+        }
+        return invoker;
+    }
+
+    /**
+     * Retrieve the RIFClassLoader for isntantiating the dynamic proxy classes
+     * @return
+     */
+    protected RIFClassLoader getClassLoader() {
+        return classLoader;
+    }
+
+    /**
+     * retrieve the web service for invoking the methods on the proxy remotely
+     * @return
+     */
+    public RIFService getService() {
+        return service;
+    }
+}
+","// RIFManagerTest.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import com.densebrain.rif.client.service.RIFService;
+import com.densebrain.rif.client.service.RIFServiceStub;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManager}.
+* It contains ten unit test cases for the {@link RIFManager#getInvoker(Class)} method.
+*/
+class RIFManagerTest {","// RIFManagerTest.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import com.densebrain.rif.client.service.RIFService;
+import com.densebrain.rif.client.service.RIFServiceStub;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManager}.
+* It contains ten unit test cases for the {@link RIFManager#getInvoker(Class)} method.
+*/
+class RIFManagerTest {
+
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method returns a new {@link RIFInvoker} object.
+	*/
+	@Test
+	void testGetInvoker_FirstTime() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		RIFInvoker invoker = manager.getInvoker(TestInterface.class);
+		assertNotNull(invoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the second time.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method returns the same {@link RIFInvoker} object as it returned for the first time.
+	*/
+	@Test
+	void testGetInvoker_SecondTime() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		RIFInvoker invoker1 = manager.getInvoker(TestInterface.class);
+		RIFInvoker invoker2 = manager.getInvoker(TestInterface.class);
+		assertSame(invoker1, invoker2);
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with a null argument.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method throws a {@link NullPointerException}.
+	*/
+	@Test
+	void testGetInvoker_NullArgument() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		assertThrows(NullPointerException.class, () -> manager.getInvoker(null));
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with a class argument.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method throws a {@link IllegalArgumentException}.
+	*/
+	@Test
+	void testGetInvoker_ClassArgument() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		assertThrows(IllegalArgumentException.class, () -> manager.getInvoker(TestClass.class));
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with an interface argument that does not extend the {@link RIFRemote} interface.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method throws a {@link IllegalArgumentException}.
+	*/
+	@Test
+	void testGetInvoker_InterfaceArgument() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		assertThrows(IllegalArgumentException.class, () -> manager.getInvoker(TestInterface2.class));
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with an interface argument that extends the {@link RIFRemote} interface.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method returns a new {@link RIFInvoker} object.
+	*/
+	@Test
+	void testGetInvoker_InterfaceArgument2() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		RIFInvoker invoker = manager.getInvoker(TestInterface3.class);
+		assertNotNull(invoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with an interface argument that extends the {@link RIFRemote} interface.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method returns a new {@link RIFInvoker} object.
+	*/
+	@Test
+	void testGetInvoker_InterfaceArgument3() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		RIFInvoker invoker = manager.getInvoker(TestInterface4.class);
+		assertNotNull(invoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with an interface argument that extends the {@link RIFRemote} interface.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method returns a new {@link RIFInvoker} object.
+	*/
+	@Test
+	void testGetInvoker_InterfaceArgument4() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		RIFInvoker invoker = manager.getInvoker(TestInterface5.class);
+		assertNotNull(invoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with an interface argument that extends the {@link RIFRemote} interface.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method returns a new {@link RIFInvoker} object.
+	*/
+	@Test
+	void testGetInvoker_InterfaceArgument5() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		RIFInvoker invoker = manager.getInvoker(TestInterface6.class);
+		assertNotNull(invoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with an interface argument that extends the {@link RIFRemote} interface.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method returns a new {@link RIFInvoker} object.
+	*/
+	@Test
+	void testGetInvoker_InterfaceArgument6() throws RemoteException {
+		RIFManager manager = new RIFManager(""http://localhost:8080/axis/services/RIFService"");
+		RIFInvoker invoker = manager.getInvoker(TestInterface7.class);
+		assertNotNull(invoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManager#getInvoker(Class)} method.
+	* It tests the case when the {@link RIFManager#getInvoker(Class)} method is called for the first time with an interface argument that extends the {@link RIFRemote} interface.
+	* It is expected that the {@link RIFManager#getInvoker(Class)} method returns a new {@link RIFInvoker} object.
+	*/
+	@Test
+	void testGetInvoker_"
+cmpl-6uBfl2IIycnAR95wWndY9wqIhtFmR,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/client/RIFManagerFactory_0Test.java,45.46854019165039,length,"// RIFManagerFactory.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+
+/**
+ * Used as the singleton factory for retrieving a RIFManager and from there retrieving
+ * RIFInvoker(s).  The initialize method MUST be called before using the Factory.
+ *
+ * For the sake of simplicity the manager has 3 getter functions depending on what you want to do:
+ * getManager() - Retrieves the RIFManager for the JVM
+ * getInvoker(I) - Retrieve the RIFInvoker based on the interface passed
+ * getImpl(I) - returns the dynamic proxy of the impl representing the interface passed.
+ *
+ * @author Jonathan Glanz
+ */
+public class RIFManagerFactory {
+
+    private static RIFManagerFactory instance = new RIFManagerFactory();
+
+    /**
+     * Initialize's the factory for use; the url passed in is the URL of the
+     * RIFServer with no context path: i.e. http://&lt;hostname&gt;:&lt;port&gt;
+     *
+     * @param url - URL of the RIFServer in the format http://&lt;hostname&gt;:&lt;port&gt;
+     * @throws RemoteException
+     */
+    public static RIFManagerFactory getInstance() throws RemoteException {
+        return instance;
+    }
+
+    /**
+     * Retrieve the RIFManager that is being used for this JVM, its a Singleton
+     * @return RIFManager for the domain
+     */
+    public RIFManager getManager(String url) throws RemoteException {
+        RIFManager manager = managerMap.get(url);
+        if (manager == null) {
+            synchronized (this) {
+                manager = managerMap.get(url);
+                if (manager == null) {
+                    manager = new RIFManager(url + ""/rif/services/RIFService"");
+                    managerMap.put(url, manager);
+                }
+            }
+        }
+        return manager;
+    }
+
+    /**
+     * Get a RIFInvoker for a specific interface. The RIFInvoker is what builds and makes
+     * accessible the dynamically generated proxy class.
+     *
+     * @param interfaceClazz - the interface that the invoker will proxy for.
+     * @return - RIUFInvoker that is proxying for the provided interface.
+     * @throws RemoteException
+     */
+    public RIFInvoker getInvoker(String url, Class interfaceClazz) throws RemoteException {
+        return getManager(url).getInvoker(interfaceClazz);
+    }
+
+    /**
+     * Retrieve the dynamically generated proxy directly instead of first requesting
+     * the RIFInvoker.
+     *
+     * @param interfaceClazz
+     * @return
+     * @throws RemoteException
+     */
+    public Object getImpl(String url, Class interfaceClazz) throws RemoteException {
+        return getInvoker(url, interfaceClazz).getImpl();
+    }
+
+    private Hashtable<String, RIFManager> managerMap = new Hashtable<String, RIFManager>();
+
+    private RIFManagerFactory() {
+    }
+}
+","// RIFManagerFactory_0Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getInstance()} method.
+*/
+class RIFManagerFactory_0Test {","// RIFManagerFactory_0Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getInstance()} method.
+*/
+class RIFManagerFactory_0Test {
+
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_0() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_1() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_2() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_3() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_4() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_5() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_6() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_7() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_8() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInstance()} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInstance()} method.
+	* It is expected that the {@link RIFManagerFactory#getInstance()} method returns a non-null object.
+	*/
+	@Test
+	void testGetInstance_9() throws RemoteException {
+		RIFManagerFactory result = RIFManagerFactory.getInstance();
+		assertNotNull(result);
+	}
+	
+}
+
+// RIFManagerFactory_1Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getManager(String)} method.
+*/
+class RIFManagerFactory_1Test {
+		
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method.
+	* It is expected that the {@link RIFManagerFactory#getManager(String)} method returns a non-null object.
+	*/
+	@Test
+	void testGetManager_0() throws RemoteException {
+		RIFManagerFactory rIFManagerFactory = RIFManagerFactory.getInstance();
+		String url = ""http://localhost:8080"";
+		RIFManager result = rIFManagerFactory.getManager(url);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method.
+	* It is expected that the {@link RIFManagerFactory#getManager(String)} method returns a non-null object.
+	*/
+	@Test
+	void testGetManager_1() throws RemoteException {
+		RIFManagerFactory rIFManagerFactory = RIFManagerFactory.getInstance();
+		String url = ""http://localhost:8080"";
+		RIFManager result = rIFManagerFactory.getManager(url);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method.
+	* It is expected that the {@link RIFManagerFactory#getManager(String)} method returns a non-null object.
+	*/
+	@Test
+	void testGetManager_2() throws RemoteException {
+		RIFManagerFactory rIFManagerFactory = RIFManagerFactory.getInstance();
+		String url = ""http://localhost:8080"";
+		RIFManager result = rIFManagerFactory.getManager(url);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method.
+	* It is expected that the {@link RIFManagerFactory#getManager(String)} method returns a non-null object.
+	*/
+	@Test
+	void testGetManager_3() throws RemoteException {
+"
+cmpl-6uBgo7VVi77AYdCdRytyfxielwZkM,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/client/RIFManagerFactory_1Test.java,42.619513511657715,length,"// RIFManagerFactory.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+
+/**
+ * Used as the singleton factory for retrieving a RIFManager and from there retrieving
+ * RIFInvoker(s).  The initialize method MUST be called before using the Factory.
+ *
+ * For the sake of simplicity the manager has 3 getter functions depending on what you want to do:
+ * getManager() - Retrieves the RIFManager for the JVM
+ * getInvoker(I) - Retrieve the RIFInvoker based on the interface passed
+ * getImpl(I) - returns the dynamic proxy of the impl representing the interface passed.
+ *
+ * @author Jonathan Glanz
+ */
+public class RIFManagerFactory {
+
+    private static RIFManagerFactory instance = new RIFManagerFactory();
+
+    /**
+     * Initialize's the factory for use; the url passed in is the URL of the
+     * RIFServer with no context path: i.e. http://&lt;hostname&gt;:&lt;port&gt;
+     *
+     * @param url - URL of the RIFServer in the format http://&lt;hostname&gt;:&lt;port&gt;
+     * @throws RemoteException
+     */
+    public static RIFManagerFactory getInstance() throws RemoteException {
+        return instance;
+    }
+
+    /**
+     * Retrieve the RIFManager that is being used for this JVM, its a Singleton
+     * @return RIFManager for the domain
+     */
+    public RIFManager getManager(String url) throws RemoteException {
+        RIFManager manager = managerMap.get(url);
+        if (manager == null) {
+            synchronized (this) {
+                manager = managerMap.get(url);
+                if (manager == null) {
+                    manager = new RIFManager(url + ""/rif/services/RIFService"");
+                    managerMap.put(url, manager);
+                }
+            }
+        }
+        return manager;
+    }
+
+    /**
+     * Get a RIFInvoker for a specific interface. The RIFInvoker is what builds and makes
+     * accessible the dynamically generated proxy class.
+     *
+     * @param interfaceClazz - the interface that the invoker will proxy for.
+     * @return - RIUFInvoker that is proxying for the provided interface.
+     * @throws RemoteException
+     */
+    public RIFInvoker getInvoker(String url, Class interfaceClazz) throws RemoteException {
+        return getManager(url).getInvoker(interfaceClazz);
+    }
+
+    /**
+     * Retrieve the dynamically generated proxy directly instead of first requesting
+     * the RIFInvoker.
+     *
+     * @param interfaceClazz
+     * @return
+     * @throws RemoteException
+     */
+    public Object getImpl(String url, Class interfaceClazz) throws RemoteException {
+        return getInvoker(url, interfaceClazz).getImpl();
+    }
+
+    private Hashtable<String, RIFManager> managerMap = new Hashtable<String, RIFManager>();
+
+    private RIFManagerFactory() {
+    }
+}
+","// RIFManagerFactory_1Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getManager(String)} method.
+*/
+class RIFManagerFactory_1Test {","// RIFManagerFactory_1Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getManager(String)} method.
+*/
+class RIFManagerFactory_1Test {
+
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is null.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_1() throws RemoteException {
+		// Arrange
+		String url = null;
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_2() throws RemoteException {
+		// Arrange
+		String url = """";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is not empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_3() throws RemoteException {
+		// Arrange
+		String url = ""http://localhost:8080"";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is not empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_4() throws RemoteException {
+		// Arrange
+		String url = ""http://localhost:8080"";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is not empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_5() throws RemoteException {
+		// Arrange
+		String url = ""http://localhost:8080"";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is not empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_6() throws RemoteException {
+		// Arrange
+		String url = ""http://localhost:8080"";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is not empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_7() throws RemoteException {
+		// Arrange
+		String url = ""http://localhost:8080"";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is not empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_8() throws RemoteException {
+		// Arrange
+		String url = ""http://localhost:8080"";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is not empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_9() throws RemoteException {
+		// Arrange
+		String url = ""http://localhost:8080"";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getManager(String)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getManager(String)} method
+	* when the url is not empty.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetManager_10() throws RemoteException {
+		// Arrange
+		String url = ""http://localhost:8080"";
+		
+		// Act
+		RIFManager result = RIFManagerFactory.getInstance().getManager(url);
+		
+		// Assert
+		assertNotNull(result);
+	}
+}
+
+// RIFManagerFactory_2Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getInvoker(String, Class)} method.
+*/
+class RIFManagerFactory_2Test {
+		
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInvoker(String, Class)} method
+	* when the url is null and the interfaceClazz is null.
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetInvoker_1() throws RemoteException {
+		// Arrange
+		String url = null;
+		Class interfaceClazz = null;
+		
+		// Act
+		RIFInvoker result = RIFManagerFactory.getInstance().getInvoker(url, interfaceClazz);
+		
+		// Assert
+		assertNull(result);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* This test case is used to test the {@link RIFManagerFactory#getInvoker(String, Class)} method
+	* when the url is empty and the interfaceClazz is null.
+	*
+	"
+cmpl-6uBhrG3egI4NcuypVcPaVCg4F7ES5,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/client/RIFManagerFactory_2Test.java,52.55158877372742,length,"// RIFManagerFactory.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+
+/**
+ * Used as the singleton factory for retrieving a RIFManager and from there retrieving
+ * RIFInvoker(s).  The initialize method MUST be called before using the Factory.
+ *
+ * For the sake of simplicity the manager has 3 getter functions depending on what you want to do:
+ * getManager() - Retrieves the RIFManager for the JVM
+ * getInvoker(I) - Retrieve the RIFInvoker based on the interface passed
+ * getImpl(I) - returns the dynamic proxy of the impl representing the interface passed.
+ *
+ * @author Jonathan Glanz
+ */
+public class RIFManagerFactory {
+
+    private static RIFManagerFactory instance = new RIFManagerFactory();
+
+    /**
+     * Initialize's the factory for use; the url passed in is the URL of the
+     * RIFServer with no context path: i.e. http://&lt;hostname&gt;:&lt;port&gt;
+     *
+     * @param url - URL of the RIFServer in the format http://&lt;hostname&gt;:&lt;port&gt;
+     * @throws RemoteException
+     */
+    public static RIFManagerFactory getInstance() throws RemoteException {
+        return instance;
+    }
+
+    /**
+     * Retrieve the RIFManager that is being used for this JVM, its a Singleton
+     * @return RIFManager for the domain
+     */
+    public RIFManager getManager(String url) throws RemoteException {
+        RIFManager manager = managerMap.get(url);
+        if (manager == null) {
+            synchronized (this) {
+                manager = managerMap.get(url);
+                if (manager == null) {
+                    manager = new RIFManager(url + ""/rif/services/RIFService"");
+                    managerMap.put(url, manager);
+                }
+            }
+        }
+        return manager;
+    }
+
+    /**
+     * Get a RIFInvoker for a specific interface. The RIFInvoker is what builds and makes
+     * accessible the dynamically generated proxy class.
+     *
+     * @param interfaceClazz - the interface that the invoker will proxy for.
+     * @return - RIUFInvoker that is proxying for the provided interface.
+     * @throws RemoteException
+     */
+    public RIFInvoker getInvoker(String url, Class interfaceClazz) throws RemoteException {
+        return getManager(url).getInvoker(interfaceClazz);
+    }
+
+    /**
+     * Retrieve the dynamically generated proxy directly instead of first requesting
+     * the RIFInvoker.
+     *
+     * @param interfaceClazz
+     * @return
+     * @throws RemoteException
+     */
+    public Object getImpl(String url, Class interfaceClazz) throws RemoteException {
+        return getInvoker(url, interfaceClazz).getImpl();
+    }
+
+    private Hashtable<String, RIFManager> managerMap = new Hashtable<String, RIFManager>();
+
+    private RIFManagerFactory() {
+    }
+}
+","// RIFManagerFactory_2Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getInvoker(String, Class)} method.
+*/
+class RIFManagerFactory_2Test {","// RIFManagerFactory_2Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getInvoker(String, Class)} method.
+*/
+class RIFManagerFactory_2Test {
+
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the first time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_1() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the second time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_2() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the third time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_3() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the fourth time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_4() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the fifth time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_5() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the sixth time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_6() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the seventh time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_7() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the eighth time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_8() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the ninth time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_9() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getInvoker(String, Class)} method.
+	* It tests the case when the {@link RIFManagerFactory#getInvoker(String, Class)} method is called for the tenth time.
+	* The expected result is that the {@link RIFManagerFactory#getInvoker(String, Class)} method returns a non-null value.
+	*/
+	@Test
+	void testGetInvoker_10() throws RemoteException {
+		RIFManagerFactory rifManagerFactory = RIFManagerFactory.getInstance();
+		RIFInvoker rifInvoker = rifManagerFactory.getInvoker(""http://localhost:8080"", TestInterface.class);
+		assertNotNull(rifInvoker);
+	}
+	
+}
+
+// RIFManagerFactory_3Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getImpl(String, Class)} method.
+*/
+class RIFManagerFactory_3Test {
+		
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class"
+cmpl-6uBiuVNPY97yBH29jlJ6TkFv8h70W,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/client/RIFManagerFactory_3Test.java,45.572826862335205,length,"// RIFManagerFactory.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+
+/**
+ * Used as the singleton factory for retrieving a RIFManager and from there retrieving
+ * RIFInvoker(s).  The initialize method MUST be called before using the Factory.
+ *
+ * For the sake of simplicity the manager has 3 getter functions depending on what you want to do:
+ * getManager() - Retrieves the RIFManager for the JVM
+ * getInvoker(I) - Retrieve the RIFInvoker based on the interface passed
+ * getImpl(I) - returns the dynamic proxy of the impl representing the interface passed.
+ *
+ * @author Jonathan Glanz
+ */
+public class RIFManagerFactory {
+
+    private static RIFManagerFactory instance = new RIFManagerFactory();
+
+    /**
+     * Initialize's the factory for use; the url passed in is the URL of the
+     * RIFServer with no context path: i.e. http://&lt;hostname&gt;:&lt;port&gt;
+     *
+     * @param url - URL of the RIFServer in the format http://&lt;hostname&gt;:&lt;port&gt;
+     * @throws RemoteException
+     */
+    public static RIFManagerFactory getInstance() throws RemoteException {
+        return instance;
+    }
+
+    /**
+     * Retrieve the RIFManager that is being used for this JVM, its a Singleton
+     * @return RIFManager for the domain
+     */
+    public RIFManager getManager(String url) throws RemoteException {
+        RIFManager manager = managerMap.get(url);
+        if (manager == null) {
+            synchronized (this) {
+                manager = managerMap.get(url);
+                if (manager == null) {
+                    manager = new RIFManager(url + ""/rif/services/RIFService"");
+                    managerMap.put(url, manager);
+                }
+            }
+        }
+        return manager;
+    }
+
+    /**
+     * Get a RIFInvoker for a specific interface. The RIFInvoker is what builds and makes
+     * accessible the dynamically generated proxy class.
+     *
+     * @param interfaceClazz - the interface that the invoker will proxy for.
+     * @return - RIUFInvoker that is proxying for the provided interface.
+     * @throws RemoteException
+     */
+    public RIFInvoker getInvoker(String url, Class interfaceClazz) throws RemoteException {
+        return getManager(url).getInvoker(interfaceClazz);
+    }
+
+    /**
+     * Retrieve the dynamically generated proxy directly instead of first requesting
+     * the RIFInvoker.
+     *
+     * @param interfaceClazz
+     * @return
+     * @throws RemoteException
+     */
+    public Object getImpl(String url, Class interfaceClazz) throws RemoteException {
+        return getInvoker(url, interfaceClazz).getImpl();
+    }
+
+    private Hashtable<String, RIFManager> managerMap = new Hashtable<String, RIFManager>();
+
+    private RIFManagerFactory() {
+    }
+}
+","// RIFManagerFactory_3Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getImpl(String, Class)} method.
+*/
+class RIFManagerFactory_3Test {","// RIFManagerFactory_3Test.java
+package com.densebrain.rif.client;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFManagerFactory}.
+* It contains ten unit test cases for the {@link RIFManagerFactory#getImpl(String, Class)} method.
+*/
+class RIFManagerFactory_3Test {
+
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)} method.
+	* This test case tests the {@link RIFManagerFactory#getImpl(String, Class)} method with the following parameters:
+	* <ul>
+	* <li>url: ""http://localhost:8080""</li>
+	* <li>interfaceClazz: {@link com.densebrain.rif.client.RIFManagerFactory}</li>
+	* </ul>
+	* The expected result is that the method returns an instance of {@link com.densebrain.rif.client.RIFManagerFactory}.
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetImpl_1() throws RemoteException {
+		String url = ""http://localhost:8080"";
+		Class interfaceClazz = com.densebrain.rif.client.RIFManagerFactory.class;
+		Object result = RIFManagerFactory.getInstance().getImpl(url, interfaceClazz);
+		assertTrue(result instanceof com.densebrain.rif.client.RIFManagerFactory);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)} method.
+	* This test case tests the {@link RIFManagerFactory#getImpl(String, Class)} method with the following parameters:
+	* <ul>
+	* <li>url: ""http://localhost:8080""</li>
+	* <li>interfaceClazz: {@link com.densebrain.rif.client.RIFManager}</li>
+	* </ul>
+	* The expected result is that the method returns an instance of {@link com.densebrain.rif.client.RIFManager}.
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetImpl_2() throws RemoteException {
+		String url = ""http://localhost:8080"";
+		Class interfaceClazz = com.densebrain.rif.client.RIFManager.class;
+		Object result = RIFManagerFactory.getInstance().getImpl(url, interfaceClazz);
+		assertTrue(result instanceof com.densebrain.rif.client.RIFManager);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)} method.
+	* This test case tests the {@link RIFManagerFactory#getImpl(String, Class)} method with the following parameters:
+	* <ul>
+	* <li>url: ""http://localhost:8080""</li>
+	* <li>interfaceClazz: {@link com.densebrain.rif.client.RIFInvoker}</li>
+	* </ul>
+	* The expected result is that the method returns an instance of {@link com.densebrain.rif.client.RIFInvoker}.
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetImpl_3() throws RemoteException {
+		String url = ""http://localhost:8080"";
+		Class interfaceClazz = com.densebrain.rif.client.RIFInvoker.class;
+		Object result = RIFManagerFactory.getInstance().getImpl(url, interfaceClazz);
+		assertTrue(result instanceof com.densebrain.rif.client.RIFInvoker);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)} method.
+	* This test case tests the {@link RIFManagerFactory#getImpl(String, Class)} method with the following parameters:
+	* <ul>
+	* <li>url: ""http://localhost:8080""</li>
+	* <li>interfaceClazz: {@link java.lang.Object}</li>
+	* </ul>
+	* The expected result is that the method returns an instance of {@link java.lang.Object}.
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetImpl_4() throws RemoteException {
+		String url = ""http://localhost:8080"";
+		Class interfaceClazz = java.lang.Object.class;
+		Object result = RIFManagerFactory.getInstance().getImpl(url, interfaceClazz);
+		assertTrue(result instanceof java.lang.Object);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)} method.
+	* This test case tests the {@link RIFManagerFactory#getImpl(String, Class)} method with the following parameters:
+	* <ul>
+	* <li>url: ""http://localhost:8080""</li>
+	* <li>interfaceClazz: {@link java.lang.String}</li>
+	* </ul>
+	* The expected result is that the method returns an instance of {@link java.lang.String}.
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetImpl_5() throws RemoteException {
+		String url = ""http://localhost:8080"";
+		Class interfaceClazz = java.lang.String.class;
+		Object result = RIFManagerFactory.getInstance().getImpl(url, interfaceClazz);
+		assertTrue(result instanceof java.lang.String);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)} method.
+	* This test case tests the {@link RIFManagerFactory#getImpl(String, Class)} method with the following parameters:
+	* <ul>
+	* <li>url: ""http://localhost:8080""</li>
+	* <li>interfaceClazz: {@link java.lang.Integer}</li>
+	* </ul>
+	* The expected result is that the method returns an instance of {@link java.lang.Integer}.
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetImpl_6() throws RemoteException {
+		String url = ""http://localhost:8080"";
+		Class interfaceClazz = java.lang.Integer.class;
+		Object result = RIFManagerFactory.getInstance().getImpl(url, interfaceClazz);
+		assertTrue(result instanceof java.lang.Integer);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)} method.
+	* This test case tests the {@link RIFManagerFactory#getImpl(String, Class)} method with the following parameters:
+	* <ul>
+	* <li>url: ""http://localhost:8080""</li>
+	* <li>interfaceClazz: {@link java.lang.Boolean}</li>
+	* </ul>
+	* The expected result is that the method returns an instance of {@link java.lang.Boolean}.
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetImpl_7() throws RemoteException {
+		String url = ""http://localhost:8080"";
+		Class interfaceClazz = java.lang.Boolean.class;
+		Object result = RIFManagerFactory.getInstance().getImpl(url, interfaceClazz);
+		assertTrue(result instanceof java.lang.Boolean);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)} method.
+	* This test case tests the {@link RIFManagerFactory#getImpl(String, Class)} method with the following parameters:
+	* <ul>
+	* <li>url: ""http://localhost:8080""</li>
+	* <li>interfaceClazz: {@link java.lang.Long}</li>
+	* </ul>
+	* The expected result is that the method returns an instance of {@link java.lang.Long}.
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetImpl_8() throws RemoteException {
+		String url = ""http://localhost:8080"";
+		Class interfaceClazz = java.lang.Long.class;
+		Object result = RIFManagerFactory.getInstance().getImpl(url, interfaceClazz);
+		assertTrue(result instanceof java.lang.Long);
+	}
+	
+	/**
+	* Test case for {@link RIFManagerFactory#getImpl(String, Class)}"
+cmpl-6uBjxBVGvywBLHO6WnqlzWlqZ3a5z,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/client/service/RIFServiceStub.java,14.632084131240845,stop,"// RIFServiceStub.java
+/**
+ * RIFServiceStub.java
+ *
+ * This file was auto-generated from WSDL
+ * by the Apache Axis2 version: 1.0 May 05, 2006 (12:31:13 IST)
+ */
+package com.densebrain.rif.client.service;
+
+/*
+*  RIFServiceStub java implementation
+*/
+public class RIFServiceStub extends org.apache.axis2.client.Stub implements RIFService {
+
+    //default axis home being null forces the system to pick up the mars from the axis2 library
+    public static final java.lang.String AXIS2_HOME = null;
+
+    protected static org.apache.axis2.description.AxisOperation[] _operations;
+
+    //http://JGLANZLT:10001/rif/services/RIFService
+    private static javax.xml.namespace.QName[] qNameArray = {};
+
+    //hashmaps to keep the fault mapping
+    private java.util.HashMap faultExeptionNameMap = new java.util.HashMap();
+
+    private java.util.HashMap faultExeptionClassNameMap = new java.util.HashMap();
+
+    private java.util.HashMap faultMessageMap = new java.util.HashMap();
+
+    private javax.xml.namespace.QName[] opNameArray = null;
+
+    public RIFServiceStub(org.apache.axis2.context.ConfigurationContext configurationContext, java.lang.String targetEndpoint) throws java.lang.Exception {
+        //To populate AxisService
+        populateAxisService();
+        populateFaults();
+        _serviceClient = new org.apache.axis2.client.ServiceClient(configurationContext, _service);
+        _serviceClient.getOptions().setTo(new org.apache.axis2.addressing.EndpointReference(targetEndpoint));
+        //Set the soap version
+        _serviceClient.getOptions().setSoapVersionURI(org.apache.axiom.soap.SOAP12Constants.SOAP_ENVELOPE_NAMESPACE_URI);
+    }
+
+    /**
+     * Default Constructor
+     */
+    public RIFServiceStub() throws java.lang.Exception {
+        this(""http://JGLANZLT:10001/rif/services/RIFService"");
+    }
+
+    /**
+     * Constructor taking the target endpoint
+     */
+    public RIFServiceStub(java.lang.String targetEndpoint) throws java.lang.Exception {
+        this(org.apache.axis2.context.ConfigurationContextFactory.createConfigurationContextFromFileSystem(AXIS2_HOME, null), targetEndpoint);
+    }
+
+    private void populateAxisService() {
+        //creating the Service
+        _service = new org.apache.axis2.description.AxisService(""RIFService"");
+        //creating the operations
+        org.apache.axis2.description.AxisOperation __operation;
+        _operations = new org.apache.axis2.description.AxisOperation[1];
+        __operation = new org.apache.axis2.description.OutInAxisOperation();
+        __operation.setName(new javax.xml.namespace.QName("""", ""invoke""));
+        _operations[0] = __operation;
+        _service.addOperation(__operation);
+    }
+
+    //populates the faults
+    private void populateFaults() {
+    }
+
+    /**
+     * Auto generated method signature
+     *
+     * @param param2
+     *
+     * @see com.densebrain.rif.client.service.RIFService#invoke
+     */
+    public com.densebrain.rif.client.service.types.InvokeResponse invoke(com.densebrain.rif.client.service.types.Invoke param2) throws java.rmi.RemoteException {
+        try {
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
+            _operationClient.getOptions().setAction(""urn:invoke"");
+            _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
+            // create SOAP envelope with that payload
+            org.apache.axiom.soap.SOAPEnvelope env = null;
+            //Style is Doc.
+            env = toEnvelope(getFactory(_operationClient.getOptions().getSoapVersionURI()), param2, optimizeContent(new javax.xml.namespace.QName("""", ""invoke"")));
+            // create message context with that soap envelope
+            org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
+            _messageContext.setEnvelope(env);
+            // add the message contxt to the operation client
+            _operationClient.addMessageContext(_messageContext);
+            //execute the operation client
+            _operationClient.execute(true);
+            org.apache.axis2.context.MessageContext _returnMessageContext = _operationClient.getMessageContext(org.apache.axis2.wsdl.WSDLConstants.MESSAGE_LABEL_IN_VALUE);
+            org.apache.axiom.soap.SOAPEnvelope _returnEnv = _returnMessageContext.getEnvelope();
+            java.lang.Object object = fromOM(getElement(_returnEnv, ""document""), com.densebrain.rif.client.service.types.InvokeResponse.class, getEnvelopeNamespaces(_returnEnv));
+            _messageContext.getTransportOut().getSender().cleanup(_messageContext);
+            return (com.densebrain.rif.client.service.types.InvokeResponse) object;
+        } catch (org.apache.axis2.AxisFault f) {
+            org.apache.axiom.om.OMElement faultElt = f.getDetail();
+            if (faultElt != null) {
+                if (faultExeptionNameMap.containsKey(faultElt.getQName())) {
+                    //make the fault by reflection
+                    try {
+                        java.lang.String exceptionClassName = (java.lang.String) faultExeptionClassNameMap.get(faultElt.getQName());
+                        java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
+                        java.rmi.RemoteException ex = (java.rmi.RemoteException) exceptionClass.newInstance();
+                        //message class
+                        java.lang.String messageClassName = (java.lang.String) faultMessageMap.get(faultElt.getQName());
+                        java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
+                        java.lang.Object messageObject = fromOM(faultElt, messageClass, null);
+                        java.lang.reflect.Method m = exceptionClass.getMethod(""setFaultMessage"", new java.lang.Class[] { messageClass });
+                        m.invoke(ex, new java.lang.Object[] { messageObject });
+                        throw ex;
+                    } catch (java.lang.ClassCastException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.ClassNotFoundException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.NoSuchMethodException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.reflect.InvocationTargetException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.IllegalAccessException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.InstantiationException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    }
+                } else {
+                    throw f;
+                }
+            } else {
+                throw f;
+            }
+        }
+    }
+
+    /**
+     * A utility method that copies the namepaces from the SOAPEnvelope
+     */
+    private java.util.Map getEnvelopeNamespaces(org.apache.axiom.soap.SOAPEnvelope env) {
+        java.util.Map returnMap = new java.util.HashMap();
+        java.util.Iterator namespaceIterator = env.getAllDeclaredNamespaces();
+        while (namespaceIterator.hasNext()) {
+            org.apache.axiom.om.OMNamespace ns = (org.apache.axiom.om.OMNamespace) namespaceIterator.next();
+            returnMap.put(ns.getPrefix(), ns.getName());
+        }
+        return returnMap;
+    }
+
+    private boolean optimizeContent(javax.xml.namespace.QName opName) {
+        if (opNameArray == null) {
+            return false;
+        }
+        for (int i = 0; i < opNameArray.length; i++) {
+            if (opName.equals(opNameArray[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private org.apache.axiom.om.OMElement toOM(com.densebrain.rif.client.service.types.Invoke param, boolean optimizeContent) {
+        if (param instanceof org.apache.axis2.databinding.ADBBean) {
+            org.apache.axiom.om.impl.builder.StAXOMBuilder builder = new org.apache.axiom.om.impl.builder.StAXOMBuilder(org.apache.axiom.om.OMAbstractFactory.getOMFactory(), new org.apache.axis2.util.StreamWrapper(param.getPullParser(com.densebrain.rif.client.service.types.Invoke.MY_QNAME)));
+            org.apache.axiom.om.OMElement documentElement = builder.getDocumentElement();
+            // remove the parent link
+            ((org.apache.axiom.om.impl.OMNodeEx) documentElement).setParent(null);
+            return documentElement;
+        } else {
+            //todo finish this onece the bean serializer has the necessary methods
+            return null;
+        }
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, com.densebrain.rif.client.service.types.Invoke param, boolean optimizeContent) {
+        if (param instanceof org.apache.axis2.databinding.ADBBean) {
+            org.apache.axis2.databinding.ADBSOAPModelBuilder builder = new org.apache.axis2.databinding.ADBSOAPModelBuilder(param.getPullParser(com.densebrain.rif.client.service.types.Invoke.MY_QNAME), factory);
+            return builder.getEnvelope();
+        } else {
+            //todo finish this onece the bean serializer has the necessary methods
+            return null;
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(com.densebrain.rif.client.service.types.InvokeResponse param, boolean optimizeContent) {
+        if (param instanceof org.apache.axis2.databinding.ADBBean) {
+            org.apache.axiom.om.impl.builder.StAXOMBuilder builder = new org.apache.axiom.om.impl.builder.StAXOMBuilder(org.apache.axiom.om.OMAbstractFactory.getOMFactory(), new org.apache.axis2.util.StreamWrapper(param.getPullParser(com.densebrain.rif.client.service.types.InvokeResponse.MY_QNAME)));
+            org.apache.axiom.om.OMElement documentElement = builder.getDocumentElement();
+            // remove the parent link
+            ((org.apache.axiom.om.impl.OMNodeEx) documentElement).setParent(null);
+            return documentElement;
+        } else {
+            //todo finish this onece the bean serializer has the necessary methods
+            return null;
+        }
+    }
+
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, com.densebrain.rif.client.service.types.InvokeResponse param, boolean optimizeContent) {
+        if (param instanceof org.apache.axis2.databinding.ADBBean) {
+            org.apache.axis2.databinding.ADBSOAPModelBuilder builder = new org.apache.axis2.databinding.ADBSOAPModelBuilder(param.getPullParser(com.densebrain.rif.client.service.types.InvokeResponse.MY_QNAME), factory);
+            return builder.getEnvelope();
+        } else {
+            //todo finish this onece the bean serializer has the necessary methods
+            return null;
+        }
+    }
+
+    /**
+     * get the default envelope
+     */
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory) {
+        return factory.getDefaultEnvelope();
+    }
+
+    private java.lang.Object fromOM(org.apache.axiom.om.OMElement param, java.lang.Class type, java.util.Map extraNamespaces) {
+        try {
+            if (com.densebrain.rif.client.service.types.Invoke.class.equals(type)) {
+                return com.densebrain.rif.client.service.types.Invoke.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+            if (com.densebrain.rif.client.service.types.InvokeResponse.class.equals(type)) {
+                return com.densebrain.rif.client.service.types.InvokeResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+}
+","// RIFServiceStubTest.java
+package com.densebrain.rif.client.service;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFServiceStub}.
+* It contains ten unit test cases for the {@link RIFServiceStub#invoke(com.densebrain.rif.client.service.types.Invoke)} method.
+*/
+class RIFServiceStubTest {","// RIFServiceStubTest.java
+package com.densebrain.rif.client.service;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFServiceStub}.
+* It contains ten unit test cases for the {@link RIFServiceStub#invoke(com.densebrain.rif.client.service.types.Invoke)} method.
+*/
+class RIFServiceStubTest {
+
+	/**
+	* Test case for {@link RIFServiceStub#invoke(com.densebrain.rif.client.service.types.Invoke)} method.
+	* This test case is used to test the {@link RIFServiceStub#invoke(com.densebrain.rif.client.service.types.Invoke)} method.
+	* It tests the case when the {@link com.densebrain.rif.client.service.types.Invoke} object is null.
+	* Expected result is that the {@link RIFServiceStub#invoke(com.densebrain.rif.client.service.types.Invoke)} method throws a {@link java.lang.IllegalArgumentException}.
+	*/
+	@Test
+	void testInvoke_NullInvoke() {
+		try {
+			RIFServiceStub stub = new RIFServiceStub();
+			stub.invoke(null);
+			fail(""Expected IllegalArgumentException"");
+		} catch (IllegalArgumentException e) {
+			// expected
+		} catch (Exception e) {
+			fail(""Expected IllegalArgumentException"");
+		}
+	}
+	
+	/**
+	* Test case for {@link RIFServiceStub#invoke(com.densebrain.rif.client.service.types.Invoke)} method.
+	* This test case is used to test the {@link RIFServiceStub#invoke(com.densebrain.rif.client.service.types.Invoke)} method.
+	* It tests the case when the {@link com.densebrain.rif.client.service.types.Invoke} object is not null.
+	* Expected result is that the {@link RIFServiceStub#invoke(com.densebrain.rif.client.service.types.Invoke)} method returns a {@link com.densebrain.rif.client.service.types.InvokeResponse} object.
+	*/
+	@Test
+	void testInvoke_NotNullInvoke() {
+		try {
+			RIFServiceStub stub = new RIFServiceStub();
+			com.densebrain.rif.client.service.types.Invoke invoke = new com.densebrain.rif.client.service.types.Invoke();
+			com.densebrain.rif.client.service.types.InvokeResponse response = stub.invoke(invoke);
+			assertNotNull(response);
+		} catch (Exception e) {
+			fail(""Expected IllegalArgumentException"");
+		}
+	}
+}"
+cmpl-6uBl014UGNALfrje4ziHpbywKHevA,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/client/service/types/Invoke.java,49.261465549468994,length,"// Invoke.java
+/**
+ * Invoke.java
+ *
+ * This file was auto-generated from WSDL
+ * by the Apache Axis2 version: #axisVersion# #today#
+ */
+package com.densebrain.rif.client.service.types;
+
+/**
+ * Invoke bean class
+ */
+public class Invoke implements org.apache.axis2.databinding.ADBBean {
+
+    public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(""http://densebrain.com/rif/client/service/types"", ""invoke"", ""ns1"");
+
+    /**
+     * field for ClassName
+     */
+    protected java.lang.String localClassName;
+
+    /**
+     * field for MethodName
+     */
+    protected java.lang.String localMethodName;
+
+    /**
+     * field for SerializedParams
+     */
+    protected java.lang.String localSerializedParams;
+
+    /**
+     * Auto generated getter method
+     *
+     * @return java.lang.String
+     */
+    public java.lang.String getClassName() {
+        return localClassName;
+    }
+
+    /**
+     * Auto generated setter method
+     *
+     * @param param ClassName
+     */
+    public void setClassName(java.lang.String param) {
+        this.localClassName = param;
+    }
+
+    /**
+     * Auto generated getter method
+     *
+     * @return java.lang.String
+     */
+    public java.lang.String getMethodName() {
+        return localMethodName;
+    }
+
+    /**
+     * Auto generated setter method
+     *
+     * @param param MethodName
+     */
+    public void setMethodName(java.lang.String param) {
+        this.localMethodName = param;
+    }
+
+    /**
+     * Auto generated getter method
+     *
+     * @return java.lang.String
+     */
+    public java.lang.String getSerializedParams() {
+        return localSerializedParams;
+    }
+
+    /**
+     * Auto generated setter method
+     *
+     * @param param SerializedParams
+     */
+    public void setSerializedParams(java.lang.String param) {
+        this.localSerializedParams = param;
+    }
+
+    /**
+     * databinding method to get an XML representation of this object
+     */
+    public javax.xml.stream.XMLStreamReader getPullParser(javax.xml.namespace.QName qName) {
+        java.util.ArrayList elementList = new java.util.ArrayList();
+        java.util.ArrayList attribList = new java.util.ArrayList();
+        elementList.add(new javax.xml.namespace.QName("""", ""className""));
+        elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localClassName));
+        elementList.add(new javax.xml.namespace.QName("""", ""methodName""));
+        elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localMethodName));
+        elementList.add(new javax.xml.namespace.QName("""", ""serializedParams""));
+        elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localSerializedParams));
+        return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
+    }
+
+    /**
+     * Factory class that keeps the parse method
+     */
+    public static class Factory {
+
+        // This is horrible, but the OM implementation of getElementText() does not obey the proper contract.  Specifically, it does
+        // does not advance the reader to the END_ELEMENT.  This bug is triggered by calls to getElementText() unpredictably, e.g. it
+        // happens with outer (document) elements, but not with inner elements.  The root bug is in OMStAXWrapper.java, which is now part
+        // of commons and so cannot just be fixed in axis2.  This method should be removed and the calls to it below replaced with
+        // simple calls to getElementText() as soon as this serious bug can be fixed.
+        private static java.lang.String getElementTextProperly(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+            java.lang.String value = reader.getElementText();
+            while (!reader.isEndElement()) reader.next();
+            return value;
+        }
+
+        /**
+         * static method to create the object Precondition:  If
+         * this object is an element, the current or next start element starts
+         * this object and any intervening reader events are ignorable If this
+         * object is not an element, it is a complex type and the reader is at
+         * the event just after the outer start element Postcondition: If this
+         * object is an element, the reader is positioned at its end element
+         * If this object is a complex type, the reader is positioned at the
+         * end element of its outer element
+         */
+        public static Invoke parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+            Invoke object = new Invoke();
+            int event;
+            try {
+                while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                reader.next();
+                while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                if (reader.isStartElement() && new javax.xml.namespace.QName("""", ""className"").equals(reader.getName())) {
+                    java.lang.String content = getElementTextProperly(reader);
+                    object.setClassName(org.apache.axis2.databinding.utils.ConverterUtil.convertTostring(content));
+                    reader.next();
+                } else // End of if for expected property start element
+                {
+                    // A start element we are not expecting indicates an invalid parameter was passed
+                    throw new java.lang.RuntimeException(""Unexpected subelement "" + reader.getLocalName());
+                }
+                while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                if (reader.isStartElement() && new javax.xml.namespace.QName("""", ""methodName"").equals(reader.getName())) {
+                    java.lang.String content = getElementTextProperly(reader);
+                    object.setMethodName(org.apache.axis2.databinding.utils.ConverterUtil.convertTostring(content));
+                    reader.next();
+                } else // End of if for expected property start element
+                {
+                    // A start element we are not expecting indicates an invalid parameter was passed
+                    throw new java.lang.RuntimeException(""Unexpected subelement "" + reader.getLocalName());
+                }
+                while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                if (reader.isStartElement() && new javax.xml.namespace.QName("""", ""serializedParams"").equals(reader.getName())) {
+                    java.lang.String content = getElementTextProperly(reader);
+                    object.setSerializedParams(org.apache.axis2.databinding.utils.ConverterUtil.convertTostring(content));
+                    reader.next();
+                } else // End of if for expected property start element
+                {
+                    // A start element we are not expecting indicates an invalid parameter was passed
+                    throw new java.lang.RuntimeException(""Unexpected subelement "" + reader.getLocalName());
+                }
+            } catch (javax.xml.stream.XMLStreamException e) {
+                throw new java.lang.Exception(e);
+            }
+            return object;
+        }
+    }
+    //end of factory class
+}
+","// InvokeTest.java
+package com.densebrain.rif.client.service.types;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Invoke}.
+* It contains ten unit test cases for the {@link Invoke#getPullParser(javax.xml.namespace.QName)} method.
+*/
+class InvokeTest {","// InvokeTest.java
+package com.densebrain.rif.client.service.types;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Invoke}.
+* It contains ten unit test cases for the {@link Invoke#getPullParser(javax.xml.namespace.QName)} method.
+*/
+class InvokeTest {
+
+	@Test
+	void testGetPullParser() throws Exception {
+		Invoke invoke = new Invoke();
+		invoke.setClassName(""com.densebrain.rif.client.service.types.Invoke"");
+		invoke.setMethodName(""getPullParser"");
+		invoke.setSerializedParams("""");
+		
+		javax.xml.stream.XMLStreamReader reader = invoke.getPullParser(Invoke.MY_QNAME);
+		
+		assertEquals(""ns1:invoke"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		
+		reader.next();
+		assertEquals(""ns1:className"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals(""com.densebrain.rif.client.service.types.Invoke"", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:methodName"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals(""getPullParser"", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:serializedParams"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals("""", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:invoke"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.END_ELEMENT, reader.getEventType());
+	}
+	
+	@Test
+	void testGetPullParser_nullClassName() throws Exception {
+		Invoke invoke = new Invoke();
+		invoke.setClassName(null);
+		invoke.setMethodName(""getPullParser"");
+		invoke.setSerializedParams("""");
+		
+		javax.xml.stream.XMLStreamReader reader = invoke.getPullParser(Invoke.MY_QNAME);
+		
+		assertEquals(""ns1:invoke"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		
+		reader.next();
+		assertEquals(""ns1:className"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals("""", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:methodName"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals(""getPullParser"", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:serializedParams"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals("""", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:invoke"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.END_ELEMENT, reader.getEventType());
+	}
+	
+	@Test
+	void testGetPullParser_nullMethodName() throws Exception {
+		Invoke invoke = new Invoke();
+		invoke.setClassName(""com.densebrain.rif.client.service.types.Invoke"");
+		invoke.setMethodName(null);
+		invoke.setSerializedParams("""");
+		
+		javax.xml.stream.XMLStreamReader reader = invoke.getPullParser(Invoke.MY_QNAME);
+		
+		assertEquals(""ns1:invoke"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		
+		reader.next();
+		assertEquals(""ns1:className"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals(""com.densebrain.rif.client.service.types.Invoke"", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:methodName"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals("""", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:serializedParams"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals("""", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:invoke"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.END_ELEMENT, reader.getEventType());
+	}
+	
+	@Test
+	void testGetPullParser_nullSerializedParams() throws Exception {
+		Invoke invoke = new Invoke();
+		invoke.setClassName(""com.densebrain.rif.client.service.types.Invoke"");
+		invoke.setMethodName(""getPullParser"");
+		invoke.setSerializedParams(null);
+		
+		javax.xml.stream.XMLStreamReader reader = invoke.getPullParser(Invoke.MY_QNAME);
+		
+		assertEquals(""ns1:invoke"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		
+		reader.next();
+		assertEquals(""ns1:className"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals(""com.densebrain.rif.client.service.types.Invoke"", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:methodName"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals(""getPullParser"", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:serializedParams"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.START_ELEMENT, reader.getEventType());
+		assertEquals("""", reader.getElementText());
+		
+		reader.next();
+		assertEquals(""ns1:invoke"", reader.getName().toString());
+		assertEquals(javax.xml.stream.XMLStreamConstants.END_ELEMENT, reader.getEventType());
+	}
+	
+	@Test
+	void testGetPullParser_emptyClassName() throws Exception {
+		Invoke invoke = new Invoke();
+		invoke.setClassName("""
+cmpl-6uBm3Bef98XtBdSAagC5S3CCDhIYF,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/client/service/types/InvokeResponse.java,43.19948363304138,length,"// InvokeResponse.java
+/**
+ * InvokeResponse.java
+ *
+ * This file was auto-generated from WSDL
+ * by the Apache Axis2 version: #axisVersion# #today#
+ */
+package com.densebrain.rif.client.service.types;
+
+/**
+ * InvokeResponse bean class
+ */
+public class InvokeResponse implements org.apache.axis2.databinding.ADBBean {
+
+    public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(""http://densebrain.com/rif/client/service/types"", ""invokeResponse"", ""ns1"");
+
+    /**
+     * field for _return
+     */
+    protected java.lang.String local_return;
+
+    /**
+     * Auto generated getter method
+     *
+     * @return java.lang.String
+     */
+    public java.lang.String get_return() {
+        return local_return;
+    }
+
+    /**
+     * Auto generated setter method
+     *
+     * @param param _return
+     */
+    public void set_return(java.lang.String param) {
+        this.local_return = param;
+    }
+
+    /**
+     * databinding method to get an XML representation of this object
+     */
+    public javax.xml.stream.XMLStreamReader getPullParser(javax.xml.namespace.QName qName) {
+        java.util.ArrayList elementList = new java.util.ArrayList();
+        java.util.ArrayList attribList = new java.util.ArrayList();
+        elementList.add(new javax.xml.namespace.QName("""", ""return""));
+        elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(local_return));
+        return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
+    }
+
+    /**
+     * Factory class that keeps the parse method
+     */
+    public static class Factory {
+
+        // This is horrible, but the OM implementation of getElementText() does not obey the proper contract.  Specifically, it does
+        // does not advance the reader to the END_ELEMENT.  This bug is triggered by calls to getElementText() unpredictably, e.g. it
+        // happens with outer (document) elements, but not with inner elements.  The root bug is in OMStAXWrapper.java, which is now part
+        // of commons and so cannot just be fixed in axis2.  This method should be removed and the calls to it below replaced with
+        // simple calls to getElementText() as soon as this serious bug can be fixed.
+        private static java.lang.String getElementTextProperly(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+            java.lang.String value = reader.getElementText();
+            while (!reader.isEndElement()) reader.next();
+            return value;
+        }
+
+        /**
+         * static method to create the object Precondition:  If
+         * this object is an element, the current or next start element starts
+         * this object and any intervening reader events are ignorable If this
+         * object is not an element, it is a complex type and the reader is at
+         * the event just after the outer start element Postcondition: If this
+         * object is an element, the reader is positioned at its end element
+         * If this object is a complex type, the reader is positioned at the
+         * end element of its outer element
+         */
+        public static InvokeResponse parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception {
+            InvokeResponse object = new InvokeResponse();
+            int event;
+            try {
+                while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                reader.next();
+                while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                if (reader.isStartElement() && new javax.xml.namespace.QName("""", ""return"").equals(reader.getName())) {
+                    java.lang.String content = getElementTextProperly(reader);
+                    object.set_return(org.apache.axis2.databinding.utils.ConverterUtil.convertTostring(content));
+                    reader.next();
+                } else // End of if for expected property start element
+                {
+                    // A start element we are not expecting indicates an invalid parameter was passed
+                    throw new java.lang.RuntimeException(""Unexpected subelement "" + reader.getLocalName());
+                }
+            } catch (javax.xml.stream.XMLStreamException e) {
+                throw new java.lang.Exception(e);
+            }
+            return object;
+        }
+    }
+    //end of factory class
+}
+","// InvokeResponseTest.java
+package com.densebrain.rif.client.service.types;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link InvokeResponse}.
+* It contains ten unit test cases for the {@link InvokeResponse#getPullParser(javax.xml.namespace.QName)} method.
+*/
+class InvokeResponseTest {","// InvokeResponseTest.java
+package com.densebrain.rif.client.service.types;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link InvokeResponse}.
+* It contains ten unit test cases for the {@link InvokeResponse#getPullParser(javax.xml.namespace.QName)} method.
+*/
+class InvokeResponseTest {
+
+	/**
+	* Test case for {@link InvokeResponse#getPullParser(javax.xml.namespace.QName)} method.
+	* @throws Exception
+	*/
+	@Test
+	void testGetPullParser() throws Exception {
+		InvokeResponse invokeResponse = new InvokeResponse();
+		invokeResponse.set_return(""test"");
+		javax.xml.stream.XMLStreamReader xmlStreamReader = invokeResponse.getPullParser(InvokeResponse.MY_QNAME);
+		assertNotNull(xmlStreamReader);
+		assertEquals(xmlStreamReader.getEventType(), javax.xml.stream.XMLStreamConstants.START_ELEMENT);
+		assertEquals(xmlStreamReader.getLocalName(), ""invokeResponse"");
+		assertEquals(xmlStreamReader.getNamespaceURI(), ""http://densebrain.com/rif/client/service/types"");
+		assertEquals(xmlStreamReader.getPrefix(), ""ns1"");
+		assertEquals(xmlStreamReader.getAttributeCount(), 0);
+		assertEquals(xmlStreamReader.getNamespaceCount(), 1);
+		assertEquals(xmlStreamReader.getNamespacePrefix(0), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceURI(0), ""http://densebrain.com/rif/client/service/types"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getNamespaceURI(""ns1""), ""http://densebrain.com/rif/client/service/types"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefix(""http://densebrain.com/rif/client/service/types""), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").next(), ""ns1"");
+		assertEquals(xmlStreamReader.getNamespaceContext().getPrefixes(""http://densebrain.com/rif/client/service/types"").hasNext(), false);
+		assertEquals(xmlStreamReader.getNamespaceContext().getPref"
+cmpl-6uBn6BwXysDoU2x8oJR1jBSRSsBj0,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/server/RIFImplementationManager_0Test.java,52.023563861846924,length,"// RIFImplementationManager.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.server;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+
+/**
+ * Manages all of the interface implementations registered on the service and
+ * provides a simple function for invoking a method on a registered interface.
+ *
+ * The RIFServer decomposes the WebService request sent through the RIFServer to the RIFService
+ * and then prepares a call to RIFImplementationManager.invoke to call the actual function.
+ *
+ * To register an implementation:
+ * <code>
+ *
+ * RIFImplementationManager.getInstance().registerImplementation(YourInterface.class, new YourImpl());
+ *
+ * </code>
+ * @author Jonathan Glanz
+ */
+public class RIFImplementationManager {
+
+    private static RIFImplementationManager instance = new RIFImplementationManager();
+
+    /**
+     * Retrieve the singleton RIFImplementationManager instance.
+     *
+     * @return
+     */
+    public static RIFImplementationManager getInstance() {
+        return instance;
+    }
+
+    private Hashtable<String, Object> implementationMap = new Hashtable<String, Object>();
+
+    private Hashtable<Object, Map<String, Method>> methodsMap = new Hashtable<Object, Map<String, Method>>();
+
+    private RIFImplementationManager() {
+    }
+
+    /**
+     * Register an implementation to be served from this JVM
+     *
+     * @param interfaceClazz - The interface that is served by the passed implementation
+     * @param implementation - the implementation of the passed interface
+     */
+    public void registerImplementation(Class interfaceClazz, Object implementation) {
+        implementationMap.put(interfaceClazz.getName(), implementation);
+    }
+
+    /**
+     * Invoke a method on a registered implementation.  The iterfaceName passed is used to lookup
+     * a registered implementation and then the method is invoked on the registered implementation
+     * with the passed parameters.
+     *
+     * @param iterfaceName - name of the registered interface class
+     * @param methodName - method to invoke on the registered implementation
+     * @param params - parameters to pass to the method, which is to be invoked.
+     * @return the return from the method being invoked.
+     *
+     * @throws RemoteException
+     */
+    public Object invoke(String iterfaceName, String methodName, Object[] params) throws RemoteException {
+        Object impl = implementationMap.get(iterfaceName);
+        if (impl == null)
+            throw new RemoteException(""Not registered: "" + iterfaceName);
+        Map<String, Method> methodMap = methodsMap.get(impl);
+        if (methodMap == null) {
+            synchronized (this) {
+                methodMap = methodsMap.get(impl);
+                if (methodMap == null) {
+                    methodMap = new Hashtable<String, Method>();
+                    Class clazz = impl.getClass();
+                    Method[] methods = clazz.getMethods();
+                    for (int i = 0; i < methods.length; i++) {
+                        Method method = methods[i];
+                        methodMap.put(method.getName(), method);
+                    }
+                    methodsMap.put(impl, methodMap);
+                }
+            }
+        }
+        Method method = methodMap.get(methodName);
+        if (method == null)
+            throw new IllegalArgumentException(""Unknown method "" + methodName + "" on "" + iterfaceName);
+        try {
+            return method.invoke(impl, params);
+        } catch (Exception e) {
+            throw new RemoteException(""Error occured while invoking "" + iterfaceName + ""."" + methodName + "": "" + e.getMessage(), e);
+        }
+    }
+}
+","// RIFImplementationManager_0Test.java
+package com.densebrain.rif.server;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFImplementationManager}.
+* It contains ten unit test cases for the {@link RIFImplementationManager#getInstance()} method.
+*/
+class RIFImplementationManager_0Test {","// RIFImplementationManager_0Test.java
+package com.densebrain.rif.server;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFImplementationManager}.
+* It contains ten unit test cases for the {@link RIFImplementationManager#getInstance()} method.
+*/
+class RIFImplementationManager_0Test {
+
+	/**
+	* Test case for {@link RIFImplementationManager#getInstance()} method.
+	* This test case is used to test the {@link RIFImplementationManager#getInstance()} method.
+	* It is expected that the {@link RIFImplementationManager#getInstance()} method returns a non-null value.
+	*/
+	@Test
+	void testGetInstance() {
+		RIFImplementationManager result = RIFImplementationManager.getInstance();
+		assertNotNull(result);
+	}
+}
+
+// RIFImplementationManager_1Test.java
+package com.densebrain.rif.server;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFImplementationManager}.
+* It contains ten unit test cases for the {@link RIFImplementationManager#registerImplementation(Class, Object)} method.
+*/
+class RIFImplementationManager_1Test {
+		
+	/**
+	* Test case for {@link RIFImplementationManager#registerImplementation(Class, Object)} method.
+	* This test case is used to test the {@link RIFImplementationManager#registerImplementation(Class, Object)} method.
+	* It is expected that the {@link RIFImplementationManager#registerImplementation(Class, Object)} method returns a non-null value.
+	*/
+	@Test
+	void testRegisterImplementation() {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		Class interfaceClazz = null;
+		Object implementation = null;
+		rIFImplementationManager.registerImplementation(interfaceClazz, implementation);
+	}
+}
+
+// RIFImplementationManager_2Test.java
+package com.densebrain.rif.server;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFImplementationManager}.
+* It contains ten unit test cases for the {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+*/
+class RIFImplementationManager_2Test {
+		
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* This test case is used to test the {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It is expected that the {@link RIFImplementationManager#invoke(String, String, Object[])} method returns a non-null value.
+	*/
+	@Test
+	void testInvoke() {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		String iterfaceName = null;
+		String methodName = null;
+		Object[] params = null;
+		Object result = rIFImplementationManager.invoke(iterfaceName, methodName, params);
+		assertNotNull(result);
+	}
+}
+
+// RIFService.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.server;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.densebrain.rif.server.util.RIFUtil;
+
+/**
+ * The RIFService is the main entry point for the RIFServer.  It is a servlet that
+ * is registered in the web.xml file and is the entry point for all RIF requests.
+ *
+ * The RIFService is responsible for parsing the request and then calling the RIFImplementationManager
+ * to invoke the actual method on the registered implementation.
+ *
+ * @author Jonathan Glanz
+ */
+public class RIFService extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    private static final String RIF_SERVICE_NAME = ""RIFService"";
+
+    private static final String RIF_SERVICE_VERSION = ""1.0"";
+
+    private static final String RIF_SERVICE_DESCRIPTION = ""RIFService"";
+
+    private static final String RIF_SERVICE_VENDOR = ""Densebrain, Inc."";
+
+    private static final String RIF_SERVICE_VENDOR_URL = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_ICON = """";
+
+    private static final String RIF_SERVICE_DOCUMENTATION_URL = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_SUPPORT_URL = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_WSDL_URL = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_NAMESPACE = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_PORT_NAME = ""RIFServicePort"";
+
+    private static final String RIF_SERVICE_PORT_TYPE_NAME = ""RIFService"";
+
+    private static final String RIF_SERVICE_PORT_TYPE_NAMESPACE = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_PORT_TYPE_LOCATION = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_PORT_TYPE_SOAP_ACTION = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_PORT_TYPE_SOAP_ACTION_RESPONSE = ""http://www.densebrain.com"";
+
+    private static final String RIF_SERVICE_PORT_TYPE_SOAP_ACTION_FAULT = ""http://www.densebrain.com"";
+
+    private static final"
+cmpl-6uBo9iZUCqxwGRPOwqOSFwgW6OnIs,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/server/RIFImplementationManager_1Test.java,51.36204791069031,length,"// RIFImplementationManager.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.server;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+
+/**
+ * Manages all of the interface implementations registered on the service and
+ * provides a simple function for invoking a method on a registered interface.
+ *
+ * The RIFServer decomposes the WebService request sent through the RIFServer to the RIFService
+ * and then prepares a call to RIFImplementationManager.invoke to call the actual function.
+ *
+ * To register an implementation:
+ * <code>
+ *
+ * RIFImplementationManager.getInstance().registerImplementation(YourInterface.class, new YourImpl());
+ *
+ * </code>
+ * @author Jonathan Glanz
+ */
+public class RIFImplementationManager {
+
+    private static RIFImplementationManager instance = new RIFImplementationManager();
+
+    /**
+     * Retrieve the singleton RIFImplementationManager instance.
+     *
+     * @return
+     */
+    public static RIFImplementationManager getInstance() {
+        return instance;
+    }
+
+    private Hashtable<String, Object> implementationMap = new Hashtable<String, Object>();
+
+    private Hashtable<Object, Map<String, Method>> methodsMap = new Hashtable<Object, Map<String, Method>>();
+
+    private RIFImplementationManager() {
+    }
+
+    /**
+     * Register an implementation to be served from this JVM
+     *
+     * @param interfaceClazz - The interface that is served by the passed implementation
+     * @param implementation - the implementation of the passed interface
+     */
+    public void registerImplementation(Class interfaceClazz, Object implementation) {
+        implementationMap.put(interfaceClazz.getName(), implementation);
+    }
+
+    /**
+     * Invoke a method on a registered implementation.  The iterfaceName passed is used to lookup
+     * a registered implementation and then the method is invoked on the registered implementation
+     * with the passed parameters.
+     *
+     * @param iterfaceName - name of the registered interface class
+     * @param methodName - method to invoke on the registered implementation
+     * @param params - parameters to pass to the method, which is to be invoked.
+     * @return the return from the method being invoked.
+     *
+     * @throws RemoteException
+     */
+    public Object invoke(String iterfaceName, String methodName, Object[] params) throws RemoteException {
+        Object impl = implementationMap.get(iterfaceName);
+        if (impl == null)
+            throw new RemoteException(""Not registered: "" + iterfaceName);
+        Map<String, Method> methodMap = methodsMap.get(impl);
+        if (methodMap == null) {
+            synchronized (this) {
+                methodMap = methodsMap.get(impl);
+                if (methodMap == null) {
+                    methodMap = new Hashtable<String, Method>();
+                    Class clazz = impl.getClass();
+                    Method[] methods = clazz.getMethods();
+                    for (int i = 0; i < methods.length; i++) {
+                        Method method = methods[i];
+                        methodMap.put(method.getName(), method);
+                    }
+                    methodsMap.put(impl, methodMap);
+                }
+            }
+        }
+        Method method = methodMap.get(methodName);
+        if (method == null)
+            throw new IllegalArgumentException(""Unknown method "" + methodName + "" on "" + iterfaceName);
+        try {
+            return method.invoke(impl, params);
+        } catch (Exception e) {
+            throw new RemoteException(""Error occured while invoking "" + iterfaceName + ""."" + methodName + "": "" + e.getMessage(), e);
+        }
+    }
+}
+","// RIFImplementationManager_1Test.java
+package com.densebrain.rif.server;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFImplementationManager}.
+* It contains ten unit test cases for the {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+*/
+class RIFImplementationManager_1Test {","// RIFImplementationManager_1Test.java
+package com.densebrain.rif.server;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFImplementationManager}.
+* It contains ten unit test cases for the {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+*/
+class RIFImplementationManager_1Test {
+
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the interface name is null.
+	* Expected result: {@link IllegalArgumentException} is thrown.
+	*/
+	@Test
+	public void testInvoke_1() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		try {
+			rIFImplementationManager.invoke(null, ""methodName"", new Object[] {});
+			fail(""Expected IllegalArgumentException to be thrown"");
+		} catch (IllegalArgumentException ex) {
+			assertEquals(""interfaceName cannot be null"", ex.getMessage(), ""ex.getMessage()"");
+		}
+	}
+	
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the interface name is empty.
+	* Expected result: {@link IllegalArgumentException} is thrown.
+	*/
+	@Test
+	public void testInvoke_2() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		try {
+			rIFImplementationManager.invoke("""", ""methodName"", new Object[] {});
+			fail(""Expected IllegalArgumentException to be thrown"");
+		} catch (IllegalArgumentException ex) {
+			assertEquals(""interfaceName cannot be empty"", ex.getMessage(), ""ex.getMessage()"");
+		}
+	}
+	
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the method name is null.
+	* Expected result: {@link IllegalArgumentException} is thrown.
+	*/
+	@Test
+	public void testInvoke_3() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		try {
+			rIFImplementationManager.invoke(""interfaceName"", null, new Object[] {});
+			fail(""Expected IllegalArgumentException to be thrown"");
+		} catch (IllegalArgumentException ex) {
+			assertEquals(""methodName cannot be null"", ex.getMessage(), ""ex.getMessage()"");
+		}
+	}
+	
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the method name is empty.
+	* Expected result: {@link IllegalArgumentException} is thrown.
+	*/
+	@Test
+	public void testInvoke_4() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		try {
+			rIFImplementationManager.invoke(""interfaceName"", """", new Object[] {});
+			fail(""Expected IllegalArgumentException to be thrown"");
+		} catch (IllegalArgumentException ex) {
+			assertEquals(""methodName cannot be empty"", ex.getMessage(), ""ex.getMessage()"");
+		}
+	}
+	
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the interface is not registered.
+	* Expected result: {@link RemoteException} is thrown.
+	*/
+	@Test
+	public void testInvoke_5() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		try {
+			rIFImplementationManager.invoke(""interfaceName"", ""methodName"", new Object[] {});
+			fail(""Expected RemoteException to be thrown"");
+		} catch (RemoteException ex) {
+			assertEquals(""Not registered: interfaceName"", ex.getMessage(), ""ex.getMessage()"");
+		}
+	}
+	
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the method is not found.
+	* Expected result: {@link IllegalArgumentException} is thrown.
+	*/
+	@Test
+	public void testInvoke_6() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		rIFImplementationManager.registerImplementation(RIFImplementationManager.class, rIFImplementationManager);
+		try {
+			rIFImplementationManager.invoke(RIFImplementationManager.class.getName(), ""methodName"", new Object[] {});
+			fail(""Expected IllegalArgumentException to be thrown"");
+		} catch (IllegalArgumentException ex) {
+			assertEquals(""Unknown method methodName on com.densebrain.rif.server.RIFImplementationManager"", ex.getMessage(), ""ex.getMessage()"");
+		}
+	}
+	
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the method is found.
+	* Expected result: the method is invoked.
+	*/
+	@Test
+	public void testInvoke_7() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		rIFImplementationManager.registerImplementation(RIFImplementationManager.class, rIFImplementationManager);
+		Method method = RIFImplementationManager.class.getMethod(""invoke"", String.class, String.class, Object[].class);
+		Object result = rIFImplementationManager.invoke(RIFImplementationManager.class.getName(), method.getName(), new Object[] { ""interfaceName"", ""methodName"", new Object[] {} });
+		assertEquals(null, result, ""result"");
+	}
+	
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the method is found and throws an exception.
+	* Expected result: {@link RemoteException} is thrown.
+	*/
+	@Test
+	public void testInvoke_8() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		rIFImplementationManager.registerImplementation(RIFImplementationManager.class, rIFImplementationManager);
+		Method method = RIFImplementationManager.class.getMethod(""invoke"", String.class, String.class, Object[].class);
+		try {
+			rIFImplementationManager.invoke(RIFImplementationManager.class.getName(), method.getName(), new Object[] { null, ""methodName"", new Object[] {} });
+			fail(""Expected RemoteException to be thrown"");
+		} catch (RemoteException ex) {
+			assertEquals(""Error occured while invoking com.densebrain.rif.server.RIFImplementationManager.invoke: interfaceName cannot be null"", ex.getMessage(), ""ex.getMessage()"");
+		}
+	}
+	
+	/**
+	* Test case for {@link RIFImplementationManager#invoke(String, String, Object[])} method.
+	* It tests the case when the method is found and throws an exception.
+	* Expected result: {@link RemoteException} is thrown.
+	*/
+	@Test
+	public void testInvoke_9() throws Exception {
+		RIFImplementationManager rIFImplementationManager = new RIFImplementationManager();
+		rIFImplementationManager.registerImplementation(RIFImplementationManager.class, rIFImplementationManager);
+		Method method = RIFImplementationManager.class.getMethod(""invoke"", String.class, String.class, Object[].class);
+		try {
+			rIFImplementationManager.invoke(RIFImplementationManager.class.getName(), method.getName(), new Object[] { """", ""methodName"", new Object[] {} });
+			fail(""Expected RemoteException to be thrown"");
+		} catch (RemoteException ex) {
+			assertEquals(""Error occured while invoking com.densebrain.rif.server.RIFImplementationManager"
+cmpl-6uBpC3eAD7w71NAAyzX3VoDMzMm0g,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/server/RIFService.java,47.98977184295654,length,"// RIFService.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.server;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.rmi.RemoteException;
+import org.apache.axis2.util.Base64;
+
+/**
+ * This is the WebService, which is hosted on Axis2 that marshalls the remote calls
+ * between the client RIFInvoker and the Server RIFImplementationManager.
+ *
+ * @see com.densebrain.rif.client.RIFInvoker
+ * @see com.densebrain.rif.server.RIFImplementationManager
+ *
+ * @author Jonathan Glanz
+ */
+public class RIFService {
+
+    /**
+     * Types namespace for the web service
+     */
+    public static final String TYPES_NAMESPACE = ""http://densebrain.com/rif/client/service/types"";
+
+    /**
+     * Target namespace for the web service
+     */
+    public static final String TARGET_NAMESPACE = ""http://densebrain.com/rif/client/service"";
+
+    /**
+     * The invoke ws method, which marshalls the call to the RIFImplementationManager
+     *
+     * @param interfaceName - the registered interface to invoke the method on
+     * @param methodName - method to invoke on the registered interface
+     * @param serializedParams - serialized parameters to reconstruct and pass to the RIFImplementationManager
+     * @return
+     * @throws RemoteException
+     */
+    public String invoke(String interfaceName, String methodName, String serializedParams) throws RemoteException {
+        byte[] paramBytes = Base64.decode(serializedParams);
+        Object[] params;
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(paramBytes);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            params = (Object[]) ois.readObject();
+            ois.close();
+            bais.close();
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to deserialize parameters: "" + e.getMessage(), e);
+        }
+        Object result = RIFImplementationManager.getInstance().invoke(interfaceName, methodName, params);
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(result);
+            oos.close();
+            byte[] resultBytes = baos.toByteArray();
+            return Base64.encode(resultBytes);
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to serialize result: "" + e.getMessage());
+        }
+    }
+}
+","// RIFServiceTest.java
+package com.densebrain.rif.server;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.rmi.RemoteException;
+import org.apache.axis2.util.Base64;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFService}.
+* It contains ten unit test cases for the {@link RIFService#invoke(String, String, String)} method.
+*/
+class RIFServiceTest {","// RIFServiceTest.java
+package com.densebrain.rif.server;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.rmi.RemoteException;
+import org.apache.axis2.util.Base64;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RIFService}.
+* It contains ten unit test cases for the {@link RIFService#invoke(String, String, String)} method.
+*/
+class RIFServiceTest {
+
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a null interface name.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_NullInterfaceName() {
+		System.out.println(""invoke"");
+		String interfaceName = null;
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with an empty interface name.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_EmptyInterfaceName() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a null method name.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_NullMethodName() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = null;
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with an empty method name.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_EmptyMethodName() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a null serialized parameters.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_NullSerializedParams() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = null;
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with an empty serialized parameters.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_EmptySerializedParams() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a valid interface name, method name and serialized parameters.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_ValidInterfaceNameMethodNameSerializedParams() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a valid interface name, method name and serialized parameters.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_ValidInterfaceNameMethodNameSerializedParams2() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a valid interface name, method name and serialized parameters.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_ValidInterfaceNameMethodNameSerializedParams3() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a valid interface name, method name and serialized parameters.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_ValidInterfaceNameMethodNameSerializedParams4() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a valid interface name, method name and serialized parameters.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_ValidInterfaceNameMethodNameSerializedParams5() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException.class, () -> {
+			instance.invoke(interfaceName, methodName, serializedParams);
+		});
+	}
+	
+	/**
+	 * Test of invoke method, of class RIFService.
+	 * This test case tests the invoke method with a valid interface name, method name and serialized parameters.
+	 * It is expected that a RemoteException is thrown.
+	 */
+	@Test
+	public void testInvoke_ValidInterfaceNameMethodNameSerializedParams6() {
+		System.out.println(""invoke"");
+		String interfaceName = """";
+		String methodName = """";
+		String serializedParams = """";
+		RIFService instance = new RIFService();
+		assertThrows(RemoteException."
+cmpl-6uBqFljNAkq67jf7XcoEbA9qJuzdL,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/server/transport/WebServiceContainer_0Test.java,61.09764266014099,length,"// WebServiceContainer.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WebServiceContainer is a wrapper around the Axis SimpleHTTPServer
+ *
+ * It wraps a simple http server which is hosting Axis2 Web services
+ * and provides simple functionality for creating and managing services.
+ *
+ * @author Jonathan Glanz
+ */
+public class WebServiceContainer extends SimpleHTTPServer {
+
+    private static final Log logger = LogFactory.getLog(WebServiceContainer.class);
+
+    /**
+     * Initialize a new container as an embedded server
+     *
+     * @param port - port for the http server to listen on
+     * @return
+     * @throws ServerException
+     */
+    public static WebServiceContainer newInstance(String hostName, int port, String contextPath) throws RemoteException {
+        try {
+            ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+            WebServiceContainer container = new WebServiceContainer(configurationContext, contextPath, hostName, port);
+            return container;
+        } catch (AxisFault af) {
+            throw af;
+        }
+    }
+
+    /**
+     * Create a new WebServiceContainer with the passed configurationContext, this is only used
+     * for embedding the container in an existing servlet container.
+     *
+     * @param configurationContext
+     * @return
+     * @throws RemoteException
+     */
+    public static WebServiceContainer newInstance(ConfigurationContext configurationContext) throws RemoteException {
+        WebServiceContainer container = new WebServiceContainer(configurationContext);
+        return container;
+    }
+
+    ConfigurationContext configurationContext;
+
+    String contextPath;
+
+    String hostName;
+
+    int port;
+
+    List<WebServiceDescriptor> descriptorList;
+
+    public WebServiceContainer(ConfigurationContext configurationContext) {
+        super();
+        this.configurationContext = configurationContext;
+        descriptorList = new LinkedList<WebServiceDescriptor>();
+    }
+
+    public WebServiceContainer(ConfigurationContext configurationContext, String contextPath, String hostName, int port) throws AxisFault, RemoteException {
+        super(contextPath, configurationContext, port);
+        try {
+            this.configurationContext = configurationContext;
+            this.contextPath = contextPath;
+            this.hostName = hostName;
+            this.port = port;
+            if (hostName == null) {
+                hostName = InetAddress.getLocalHost().getHostName();
+            }
+            descriptorList = new LinkedList<WebServiceDescriptor>();
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to initialize container"", e);
+        }
+    }
+
+    public void configureService(Class serviceClazz, String targetNamespace, String typesNamespace) throws RemoteException {
+        WebServiceDescriptor descriptor = new WebServiceDescriptor(serviceClazz, targetNamespace, typesNamespace);
+        configureService(descriptor);
+    }
+
+    public void configureService(WebServiceDescriptor descriptor) throws RemoteException {
+        try {
+            AxisService service = AxisService.createService(descriptor.getServiceClazz().getName(), configurationContext.getAxisConfiguration(), RPCMessageReceiver.class, descriptor.getTargetNamespace(), descriptor.getTypesNamespace());
+            configurationContext.getAxisConfiguration().addService(service);
+            if (!descriptorList.contains(descriptor))
+                descriptorList.add(descriptor);
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to add service"", e);
+        }
+    }
+
+    public WebServiceContainer restartContainer() throws RemoteException {
+        //logger.debug(""Restarting web service container"");
+        stopContainer();
+        try {
+            //configurationContext =
+            //	ConfigurationContextFactory.createConfigurationContextFromFileSystem(null,null);
+            //super.configurationContext = configurationContext;
+            for (int i = 0; i < descriptorList.size(); i++) {
+                WebServiceDescriptor descriptor = descriptorList.get(i);
+                configurationContext.getAxisConfiguration().removeService(descriptor.getServiceClazz().getSimpleName());
+                configureService(descriptor);
+            }
+            startContainer();
+            //logger.debug(""Restarted web service container"");
+        } catch (AxisFault af) {
+            //logger.error(""Error occured while restarting WebServiceContainer"", af);
+            throw new RemoteException(""Error occured while restarting WebServiceContainer"", af);
+        }
+        return this;
+    }
+
+    public void startContainer() throws RemoteException {
+        try {
+            if (port > 0)
+                super.start();
+        } catch (AxisFault af) {
+            throw new RemoteException(""Unable to start WebServiceContainer: "" + af.getMessage(), af);
+        }
+    }
+
+    public void stopContainer() throws RemoteException {
+        if (port > 0)
+            super.stop();
+    }
+
+    /**
+     * replyToEPR
+     * If the user has given host address paramter then it gets the high priority and
+     * ERP will be creatd using that
+     * N:B - hostAddress should be a complte url (http://www.myApp.com/ws)
+     *
+     * @param serviceName
+     * @param ip
+     * @return an EndpointReference
+     * @see org.apache.axis2.transport.TransportListener#getEPRForService(String,String)
+     */
+    public EndpointReference getEPRForService(String serviceName, String ip) throws AxisFault {
+        return new EndpointReference(""http://"" + hostName + ':' + port + contextPath + '/' + serviceName);
+    }
+}
+","// WebServiceContainer_0Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#newInstance(String, int, String)} method.
+*/
+class WebServiceContainer_0Test {","// WebServiceContainer_0Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#newInstance(String, int, String)} method.
+*/
+class WebServiceContainer_0Test {
+
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_0() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_1() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_2() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_3() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_4() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_5() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_6() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_7() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_8() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_9() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+	
+}
+
+// WebServiceContainer_1Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#newInstance(ConfigurationContext)} method.
+*/
+class WebServiceContainer_1Test {
+		
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(ConfigurationContext)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_0() throws RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer result = WebServiceContainer.newInstance(configurationContext);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(ConfigurationContext)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_1() throws RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer result = WebServiceContainer.newInstance(configurationContext);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(ConfigurationContext)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_2() throws RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer result = WebServiceContainer.newInstance(configurationContext);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(ConfigurationContext)}
+	*
+	* @throws RemoteException
+	*/
+	@Test
+	void testNewInstance_3() throws RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer result = WebServiceContainer.newInstance(configurationContext);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(ConfigurationContext)}
+	*
+	* @throws RemoteException"
+cmpl-6uBrEz5kY7uuJ8UUpU2FPlugXE1uG,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/server/transport/WebServiceContainer_1Test.java,58.017946004867554,length,"// WebServiceContainer.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WebServiceContainer is a wrapper around the Axis SimpleHTTPServer
+ *
+ * It wraps a simple http server which is hosting Axis2 Web services
+ * and provides simple functionality for creating and managing services.
+ *
+ * @author Jonathan Glanz
+ */
+public class WebServiceContainer extends SimpleHTTPServer {
+
+    private static final Log logger = LogFactory.getLog(WebServiceContainer.class);
+
+    /**
+     * Initialize a new container as an embedded server
+     *
+     * @param port - port for the http server to listen on
+     * @return
+     * @throws ServerException
+     */
+    public static WebServiceContainer newInstance(String hostName, int port, String contextPath) throws RemoteException {
+        try {
+            ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+            WebServiceContainer container = new WebServiceContainer(configurationContext, contextPath, hostName, port);
+            return container;
+        } catch (AxisFault af) {
+            throw af;
+        }
+    }
+
+    /**
+     * Create a new WebServiceContainer with the passed configurationContext, this is only used
+     * for embedding the container in an existing servlet container.
+     *
+     * @param configurationContext
+     * @return
+     * @throws RemoteException
+     */
+    public static WebServiceContainer newInstance(ConfigurationContext configurationContext) throws RemoteException {
+        WebServiceContainer container = new WebServiceContainer(configurationContext);
+        return container;
+    }
+
+    ConfigurationContext configurationContext;
+
+    String contextPath;
+
+    String hostName;
+
+    int port;
+
+    List<WebServiceDescriptor> descriptorList;
+
+    public WebServiceContainer(ConfigurationContext configurationContext) {
+        super();
+        this.configurationContext = configurationContext;
+        descriptorList = new LinkedList<WebServiceDescriptor>();
+    }
+
+    public WebServiceContainer(ConfigurationContext configurationContext, String contextPath, String hostName, int port) throws AxisFault, RemoteException {
+        super(contextPath, configurationContext, port);
+        try {
+            this.configurationContext = configurationContext;
+            this.contextPath = contextPath;
+            this.hostName = hostName;
+            this.port = port;
+            if (hostName == null) {
+                hostName = InetAddress.getLocalHost().getHostName();
+            }
+            descriptorList = new LinkedList<WebServiceDescriptor>();
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to initialize container"", e);
+        }
+    }
+
+    public void configureService(Class serviceClazz, String targetNamespace, String typesNamespace) throws RemoteException {
+        WebServiceDescriptor descriptor = new WebServiceDescriptor(serviceClazz, targetNamespace, typesNamespace);
+        configureService(descriptor);
+    }
+
+    public void configureService(WebServiceDescriptor descriptor) throws RemoteException {
+        try {
+            AxisService service = AxisService.createService(descriptor.getServiceClazz().getName(), configurationContext.getAxisConfiguration(), RPCMessageReceiver.class, descriptor.getTargetNamespace(), descriptor.getTypesNamespace());
+            configurationContext.getAxisConfiguration().addService(service);
+            if (!descriptorList.contains(descriptor))
+                descriptorList.add(descriptor);
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to add service"", e);
+        }
+    }
+
+    public WebServiceContainer restartContainer() throws RemoteException {
+        //logger.debug(""Restarting web service container"");
+        stopContainer();
+        try {
+            //configurationContext =
+            //	ConfigurationContextFactory.createConfigurationContextFromFileSystem(null,null);
+            //super.configurationContext = configurationContext;
+            for (int i = 0; i < descriptorList.size(); i++) {
+                WebServiceDescriptor descriptor = descriptorList.get(i);
+                configurationContext.getAxisConfiguration().removeService(descriptor.getServiceClazz().getSimpleName());
+                configureService(descriptor);
+            }
+            startContainer();
+            //logger.debug(""Restarted web service container"");
+        } catch (AxisFault af) {
+            //logger.error(""Error occured while restarting WebServiceContainer"", af);
+            throw new RemoteException(""Error occured while restarting WebServiceContainer"", af);
+        }
+        return this;
+    }
+
+    public void startContainer() throws RemoteException {
+        try {
+            if (port > 0)
+                super.start();
+        } catch (AxisFault af) {
+            throw new RemoteException(""Unable to start WebServiceContainer: "" + af.getMessage(), af);
+        }
+    }
+
+    public void stopContainer() throws RemoteException {
+        if (port > 0)
+            super.stop();
+    }
+
+    /**
+     * replyToEPR
+     * If the user has given host address paramter then it gets the high priority and
+     * ERP will be creatd using that
+     * N:B - hostAddress should be a complte url (http://www.myApp.com/ws)
+     *
+     * @param serviceName
+     * @param ip
+     * @return an EndpointReference
+     * @see org.apache.axis2.transport.TransportListener#getEPRForService(String,String)
+     */
+    public EndpointReference getEPRForService(String serviceName, String ip) throws AxisFault {
+        return new EndpointReference(""http://"" + hostName + ':' + port + contextPath + '/' + serviceName);
+    }
+}
+","// WebServiceContainer_1Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#newInstance(ConfigurationContext)} method.
+*/
+class WebServiceContainer_1Test {","// WebServiceContainer_1Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#newInstance(ConfigurationContext)} method.
+*/
+class WebServiceContainer_1Test {
+
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(ConfigurationContext)} method.
+	* This test case is used to test the functionality of the {@link WebServiceContainer#newInstance(ConfigurationContext)} method.
+	* It checks whether the {@link WebServiceContainer#newInstance(ConfigurationContext)} method returns a non-null value.
+	*/
+	@Test
+	void testNewInstance() throws RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer result = WebServiceContainer.newInstance(configurationContext);
+		assertNotNull(result);
+	}
+}
+
+// WebServiceContainer_2Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#newInstance(String, int, String)} method.
+*/
+class WebServiceContainer_2Test {
+		
+	/**
+	* Test case for {@link WebServiceContainer#newInstance(String, int, String)} method.
+	* This test case is used to test the functionality of the {@link WebServiceContainer#newInstance(String, int, String)} method.
+	* It checks whether the {@link WebServiceContainer#newInstance(String, int, String)} method returns a non-null value.
+	*/
+	@Test
+	void testNewInstance() throws RemoteException {
+		String hostName = ""localhost"";
+		int port = 8080;
+		String contextPath = ""/axis2"";
+		WebServiceContainer result = WebServiceContainer.newInstance(hostName, port, contextPath);
+		assertNotNull(result);
+	}
+}
+
+// WebServiceContainer_3Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#configureService(Class, String, String)} method.
+*/
+class WebServiceContainer_3Test {
+		
+	/**
+	* Test case for {@link WebServiceContainer#configureService(Class, String, String)} method.
+	* This test case is used to test the functionality of the {@link WebServiceContainer#configureService(Class, String, String)} method.
+	* It checks whether the {@link WebServiceContainer#configureService(Class, String, String)} method returns a non-null value.
+	*/
+	@Test
+	void testConfigureService() throws RemoteException {
+		WebServiceContainer fixture = WebServiceContainer.newInstance("""", 8080, """");
+		Class serviceClazz = Object.class;
+		String targetNamespace = """";
+		String typesNamespace = """";
+		fixture.configureService(serviceClazz, targetNamespace, typesNamespace);
+	}
+}
+
+// WebServiceContainer_4Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#configureService(WebServiceDescriptor)} method.
+*/
+class WebServiceContainer_4Test {
+		
+	/**
+	* Test case for {@link WebServiceContainer#configureService(WebServiceDescriptor)} method.
+	* This test case is used to test the functionality of the {@link WebServiceContainer#configureService(WebServiceDescriptor)} method.
+	* It checks whether the {@link WebServiceContainer#configureService(WebServiceDescriptor)} method returns a non-null value.
+	*/
+	@Test
+	void testConfigureService() throws RemoteException {
+		WebServiceContainer fixture = WebServiceContainer.newInstance("""", 8080, """");
+		WebServiceDescriptor descriptor = new WebServiceDescriptor(Object.class, """", """");
+		fixture.configureService(descriptor);
+	}
+}
+
+// WebServiceContainer_5Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#restartContainer()} method.
+*/
+class WebServiceContainer_5Test {
+		
+	/**
+	* Test case for {@link WebServiceContainer#restartContainer()} method.
+	* This test case is used to test the functionality of the {@link WebServiceContainer#restartContainer()} method.
+	* It checks whether the {@link WebServiceContainer#restartContainer()} method returns a non-null value.
+	*/
+	@Test
+	void testRestartContainer() throws Remote"
+cmpl-6uBsHL1XdNp4RAi0qt1iAvTNRbJHS,/EvoSuiteBenchmark/4_rif/src/main/java/com/densebrain/rif/server/transport/WebServiceContainer_3Test.java,51.38476824760437,stop,"// WebServiceContainer.java
+/*
+ * Copyright (c) 2006, Densebrain, Inc
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice, 
+ *   	this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice, 
+ *   	this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the Densebrain, Inc nor the names of its contributors 
+ *   	may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ * ""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS 
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WebServiceContainer is a wrapper around the Axis SimpleHTTPServer
+ *
+ * It wraps a simple http server which is hosting Axis2 Web services
+ * and provides simple functionality for creating and managing services.
+ *
+ * @author Jonathan Glanz
+ */
+public class WebServiceContainer extends SimpleHTTPServer {
+
+    private static final Log logger = LogFactory.getLog(WebServiceContainer.class);
+
+    /**
+     * Initialize a new container as an embedded server
+     *
+     * @param port - port for the http server to listen on
+     * @return
+     * @throws ServerException
+     */
+    public static WebServiceContainer newInstance(String hostName, int port, String contextPath) throws RemoteException {
+        try {
+            ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+            WebServiceContainer container = new WebServiceContainer(configurationContext, contextPath, hostName, port);
+            return container;
+        } catch (AxisFault af) {
+            throw af;
+        }
+    }
+
+    /**
+     * Create a new WebServiceContainer with the passed configurationContext, this is only used
+     * for embedding the container in an existing servlet container.
+     *
+     * @param configurationContext
+     * @return
+     * @throws RemoteException
+     */
+    public static WebServiceContainer newInstance(ConfigurationContext configurationContext) throws RemoteException {
+        WebServiceContainer container = new WebServiceContainer(configurationContext);
+        return container;
+    }
+
+    ConfigurationContext configurationContext;
+
+    String contextPath;
+
+    String hostName;
+
+    int port;
+
+    List<WebServiceDescriptor> descriptorList;
+
+    public WebServiceContainer(ConfigurationContext configurationContext) {
+        super();
+        this.configurationContext = configurationContext;
+        descriptorList = new LinkedList<WebServiceDescriptor>();
+    }
+
+    public WebServiceContainer(ConfigurationContext configurationContext, String contextPath, String hostName, int port) throws AxisFault, RemoteException {
+        super(contextPath, configurationContext, port);
+        try {
+            this.configurationContext = configurationContext;
+            this.contextPath = contextPath;
+            this.hostName = hostName;
+            this.port = port;
+            if (hostName == null) {
+                hostName = InetAddress.getLocalHost().getHostName();
+            }
+            descriptorList = new LinkedList<WebServiceDescriptor>();
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to initialize container"", e);
+        }
+    }
+
+    public void configureService(Class serviceClazz, String targetNamespace, String typesNamespace) throws RemoteException {
+        WebServiceDescriptor descriptor = new WebServiceDescriptor(serviceClazz, targetNamespace, typesNamespace);
+        configureService(descriptor);
+    }
+
+    public void configureService(WebServiceDescriptor descriptor) throws RemoteException {
+        try {
+            AxisService service = AxisService.createService(descriptor.getServiceClazz().getName(), configurationContext.getAxisConfiguration(), RPCMessageReceiver.class, descriptor.getTargetNamespace(), descriptor.getTypesNamespace());
+            configurationContext.getAxisConfiguration().addService(service);
+            if (!descriptorList.contains(descriptor))
+                descriptorList.add(descriptor);
+        } catch (Exception e) {
+            throw new RemoteException(""Unable to add service"", e);
+        }
+    }
+
+    public WebServiceContainer restartContainer() throws RemoteException {
+        //logger.debug(""Restarting web service container"");
+        stopContainer();
+        try {
+            //configurationContext =
+            //	ConfigurationContextFactory.createConfigurationContextFromFileSystem(null,null);
+            //super.configurationContext = configurationContext;
+            for (int i = 0; i < descriptorList.size(); i++) {
+                WebServiceDescriptor descriptor = descriptorList.get(i);
+                configurationContext.getAxisConfiguration().removeService(descriptor.getServiceClazz().getSimpleName());
+                configureService(descriptor);
+            }
+            startContainer();
+            //logger.debug(""Restarted web service container"");
+        } catch (AxisFault af) {
+            //logger.error(""Error occured while restarting WebServiceContainer"", af);
+            throw new RemoteException(""Error occured while restarting WebServiceContainer"", af);
+        }
+        return this;
+    }
+
+    public void startContainer() throws RemoteException {
+        try {
+            if (port > 0)
+                super.start();
+        } catch (AxisFault af) {
+            throw new RemoteException(""Unable to start WebServiceContainer: "" + af.getMessage(), af);
+        }
+    }
+
+    public void stopContainer() throws RemoteException {
+        if (port > 0)
+            super.stop();
+    }
+
+    /**
+     * replyToEPR
+     * If the user has given host address paramter then it gets the high priority and
+     * ERP will be creatd using that
+     * N:B - hostAddress should be a complte url (http://www.myApp.com/ws)
+     *
+     * @param serviceName
+     * @param ip
+     * @return an EndpointReference
+     * @see org.apache.axis2.transport.TransportListener#getEPRForService(String,String)
+     */
+    public EndpointReference getEPRForService(String serviceName, String ip) throws AxisFault {
+        return new EndpointReference(""http://"" + hostName + ':' + port + contextPath + '/' + serviceName);
+    }
+}
+","// WebServiceContainer_3Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#getEPRForService(String, String)} method.
+*/
+class WebServiceContainer_3Test {","// WebServiceContainer_3Test.java
+package com.densebrain.rif.server.transport;
+
+import java.net.InetAddress;
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.context.ConfigurationContext;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.rpc.receivers.RPCMessageReceiver;
+import org.apache.axis2.transport.http.turnup.SimpleHTTPServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link WebServiceContainer}.
+* It contains ten unit test cases for the {@link WebServiceContainer#getEPRForService(String, String)} method.
+*/
+class WebServiceContainer_3Test {
+
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_1() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_2() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_3() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_4() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_5() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_6() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_7() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_8() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_9() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+	
+	/**
+	* Test case for {@link WebServiceContainer#getEPRForService(String, String)} method.
+	*
+	* @throws AxisFault
+	* @throws RemoteException
+	*/
+	@Test
+	void testGetEPRForService_10() throws AxisFault, RemoteException {
+		ConfigurationContext configurationContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(null, null);
+		WebServiceContainer container = new WebServiceContainer(configurationContext, ""/ws"", ""localhost"", 8080);
+		EndpointReference endpointReference = container.getEPRForService(""serviceName"", ""ip"");
+		assertEquals(""http://localhost:8080/ws/serviceName"", endpointReference.getAddress());
+	}
+}"

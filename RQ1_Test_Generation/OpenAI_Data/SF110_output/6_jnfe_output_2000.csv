@@ -1,0 +1,3813 @@
+ID,PROMPT_ID,DURATION,FINISH_REASON,ORIGINAL_CODE,TEST_PROMPT,GENERATED_TEST
+cmpl-6txL7u6kO05igQzWxo4kGqCyEdHVP,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/TransportKeyStoreBean_0Test.java,50.07113766670227,length,"// TransportKeyStoreBean.java
+/* Copyright 2005 I Serv Consultoria Empresarial Ltda.
+ *
+ * Licensed under the Apache License, Version 2.0 (the ""License"");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package br.com.jnfe.base;
+
+import java.security.KeyStore;
+import javax.net.ssl.KeyManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import br.com.jnfe.base.util.SecurityUtils;
+
+/**
+ * Atualiza as propriedades do sistema para establecer a ""keyStore""
+ * usada para o transmiss�o das mensagens dos web services NFe.
+ *
+ * @author Mauricio Fernandes de Castro
+ */
+public class TransportKeyStoreBean implements InitializingBean {
+
+    private final static String DEFAULT_KEYSTORE_URI = ""file:#{ systemProperties['user.home'] }/jnfe.pfx"";
+
+    private final static String DEFAULT_KEYSTORE_TYPE = ""pkcs12"";
+
+    private String keyStoreUri;
+
+    private String keyStoreType;
+
+    private String keyStorePassword;
+
+    private String trustStoreType;
+
+    private String trustStore;
+
+    private String trustStorePassword;
+
+    /**
+     * A URI para a keystore usada para autenticar o transporte.
+     *
+     * @param keyStoreUri
+     */
+    public void setKeyStoreUri(String keyStoreUri) {
+        this.keyStoreUri = keyStoreUri;
+    }
+
+    /**
+     * O tipo de keystore empregado para o transporte.
+     *
+     * @param keyStoreType
+     */
+    public void setKeyStoreType(String keyStoreType) {
+        this.keyStoreType = keyStoreType;
+    }
+
+    /**
+     * A senha para acesso ao keystore empregado para o transporte.
+     *
+     * @param keyStorePassword
+     */
+    public void setKeyStorePassword(String keyStorePassword) {
+        this.keyStorePassword = keyStorePassword;
+    }
+
+    /**
+     * Localiza��o do aramz�m seguro.
+     *
+     * @param trustStore
+     */
+    public void setTrustStore(String trustStore) {
+        this.trustStore = trustStore;
+    }
+
+    /**
+     * Tipo do armaz�m do armaz�m seguro (cacerts).
+     *
+     * @param trustStoreType
+     */
+    public void setTrustStoreType(String trustStoreType) {
+        this.trustStoreType = trustStoreType;
+    }
+
+    /**
+     * Senah do armaz�m seguro (cacerts).
+     *
+     * @param trustStorePassword
+     */
+    public void setTrustStorePassword(String trustStorePassword) {
+        this.trustStorePassword = trustStorePassword;
+    }
+
+    public void afterPropertiesSet() throws Exception {
+        if (keyStoreType == null || keyStoreType.length() == 0) {
+            logger.warn(""Using default keyStoreType."");
+            setKeyStoreType(DEFAULT_KEYSTORE_TYPE);
+        }
+        System.setProperty(""javax.net.ssl.keyStoreType"", keyStoreType);
+        if (keyStoreUri == null || keyStoreUri.length() == 0) {
+            logger.warn(""Using default keyStoreUri."");
+            setKeyStoreUri(DEFAULT_KEYSTORE_URI);
+        }
+        System.setProperty(""javax.net.ssl.keyStore"", keyStoreUri);
+        // TODO proteger senha da keystore de transporte com MD5 ou SHA
+        if (keyStorePassword != null && keyStorePassword.length() > 0) {
+            System.setProperty(""javax.net.ssl.keyStorePassword"", keyStorePassword);
+        }
+        if (trustStore != null) {
+            System.setProperty(""javax.net.ssl.trustStore"", trustStore);
+        }
+        if (trustStoreType != null) {
+            System.setProperty(""javax.net.ssl.trustStoreType"", trustStoreType);
+        }
+        if (trustStorePassword != null) {
+            System.setProperty(""javax.net.ssl.trustStorePassword"", trustStorePassword);
+        }
+        logger.info(""Propriedades de transporte: {}"", toString());
+    }
+
+    /**
+     * toString
+     * @return String
+     */
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(getClass().getName()).append(""@"").append(Integer.toHexString(hashCode())).append("" ["");
+        buffer.append(""javax.net.ssl.keyStore"").append(""='"").append(System.getProperty(""javax.net.ssl.keyStore"")).append(""' "");
+        buffer.append(""javax.net.ssl.keyStoreType"").append(""='"").append(System.getProperty(""javax.net.ssl.keyStoreType"")).append(""' "");
+        buffer.append(""javax.net.ssl.trustStoreType"").append(""='"").append(System.getProperty(""javax.net.ssl.trustStoreType"")).append(""' "");
+        buffer.append(""javax.net.ssl.trustStore"").append(""='"").append(System.getProperty(""javax.net.ssl.trustStore"")).append(""' "");
+        buffer.append(""]"");
+        return buffer.toString();
+    }
+
+    /**
+     * Abre o  armaz�m seguro (cacerts).
+     *
+     * @throws Exception
+     */
+    public KeyStore openTransportStore() throws Exception {
+        return SecurityUtils.openStore(keyStoreType, keyStoreUri, keyStorePassword.toCharArray());
+    }
+
+    /**
+     * Abre o gerenciador de chaves do armaz�m de transporte.
+     *
+     * @throws Exception
+     */
+    public KeyManagerFactory openTransportKeyManagerFactory() throws Exception {
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance(""SunX509"");
+        kmf.init(openTransportStore(), keyStorePassword.toCharArray());
+        return kmf;
+    }
+
+    private static final Logger logger = LoggerFactory.getLogger(TransportKeyStoreBean.class);
+}
+","// TransportKeyStoreBean_0Test.java
+package br.com.jnfe.base;
+
+import java.security.KeyStore;
+import javax.net.ssl.KeyManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import br.com.jnfe.base.util.SecurityUtils;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TransportKeyStoreBean}.
+* It contains ten unit test cases for the {@link TransportKeyStoreBean#openTransportStore()} method.
+*/
+class TransportKeyStoreBean_0Test {","// TransportKeyStoreBean_0Test.java
+package br.com.jnfe.base;
+
+import java.security.KeyStore;
+import javax.net.ssl.KeyManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import br.com.jnfe.base.util.SecurityUtils;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TransportKeyStoreBean}.
+* It contains ten unit test cases for the {@link TransportKeyStoreBean#openTransportStore()} method.
+*/
+class TransportKeyStoreBean_0Test {
+
+	private static final Logger logger = LoggerFactory.getLogger(TransportKeyStoreBean_0Test.class);
+	
+	private TransportKeyStoreBean transportKeyStoreBean;
+	
+	@Test
+	void testOpenTransportStore_0() throws Exception {
+		
+		// Arrange
+		transportKeyStoreBean = new TransportKeyStoreBean();
+		transportKeyStoreBean.setKeyStoreUri(""file:#{ systemProperties['user.home'] }/jnfe.pfx"");
+		transportKeyStoreBean.setKeyStoreType(""pkcs12"");
+		transportKeyStoreBean.setKeyStorePassword(""changeit"");
+		transportKeyStoreBean.setTrustStoreType(""jks"");
+		transportKeyStoreBean.setTrustStore(""file:#{ systemProperties['java.home'] }/lib/security/cacerts"");
+		transportKeyStoreBean.setTrustStorePassword(""changeit"");
+		
+		// Act
+		KeyStore result = transportKeyStoreBean.openTransportStore();
+		
+		// Assert result
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testOpenTransportStore_1() throws Exception {
+		
+		// Arrange
+		transportKeyStoreBean = new TransportKeyStoreBean();
+		transportKeyStoreBean.setKeyStoreUri(""file:#{ systemProperties['user.home'] }/jnfe.pfx"");
+		transportKeyStoreBean.setKeyStoreType(""pkcs12"");
+		transportKeyStoreBean.setKeyStorePassword(""changeit"");
+		transportKeyStoreBean.setTrustStoreType(""jks"");
+		transportKeyStoreBean.setTrustStore(""file:#{ systemProperties['java.home'] }/lib/security/cacerts"");
+		transportKeyStoreBean.setTrustStorePassword(""changeit"");
+		
+		// Act
+		KeyStore result = transportKeyStoreBean.openTransportStore();
+		
+		// Assert result
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testOpenTransportStore_2() throws Exception {
+		
+		// Arrange
+		transportKeyStoreBean = new TransportKeyStoreBean();
+		transportKeyStoreBean.setKeyStoreUri(""file:#{ systemProperties['user.home'] }/jnfe.pfx"");
+		transportKeyStoreBean.setKeyStoreType(""pkcs12"");
+		transportKeyStoreBean.setKeyStorePassword(""changeit"");
+		transportKeyStoreBean.setTrustStoreType(""jks"");
+		transportKeyStoreBean.setTrustStore(""file:#{ systemProperties['java.home'] }/lib/security/cacerts"");
+		transportKeyStoreBean.setTrustStorePassword(""changeit"");
+		
+		// Act
+		KeyStore result = transportKeyStoreBean.openTransportStore();
+		
+		// Assert result
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testOpenTransportStore_3() throws Exception {
+		
+		// Arrange
+		transportKeyStoreBean = new TransportKeyStoreBean();
+		transportKeyStoreBean.setKeyStoreUri(""file:#{ systemProperties['user.home'] }/jnfe.pfx"");
+		transportKeyStoreBean.setKeyStoreType(""pkcs12"");
+		transportKeyStoreBean.setKeyStorePassword(""changeit"");
+		transportKeyStoreBean.setTrustStoreType(""jks"");
+		transportKeyStoreBean.setTrustStore(""file:#{ systemProperties['java.home'] }/lib/security/cacerts"");
+		transportKeyStoreBean.setTrustStorePassword(""changeit"");
+		
+		// Act
+		KeyStore result = transportKeyStoreBean.openTransportStore();
+		
+		// Assert result
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testOpenTransportStore_4() throws Exception {
+		
+		// Arrange
+		transportKeyStoreBean = new TransportKeyStoreBean();
+		transportKeyStoreBean.setKeyStoreUri(""file:#{ systemProperties['user.home'] }/jnfe.pfx"");
+		transportKeyStoreBean.setKeyStoreType(""pkcs12"");
+		transportKeyStoreBean.setKeyStorePassword(""changeit"");
+		transportKeyStoreBean.setTrustStoreType(""jks"");
+		transportKeyStoreBean.setTrustStore(""file:#{ systemProperties['java.home'] }/lib/security/cacerts"");
+		transportKeyStoreBean.setTrustStorePassword(""changeit"");
+		
+		// Act
+		KeyStore result = transportKeyStoreBean.openTransportStore();
+		
+		// Assert result
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testOpenTransportStore_5() throws Exception {
+		
+		// Arrange
+		transportKeyStoreBean = new TransportKeyStoreBean();
+		transportKeyStoreBean.setKeyStoreUri(""file:#{ systemProperties['user.home'] }/jnfe.pfx"");
+		transportKeyStoreBean.setKeyStoreType(""pkcs12"");
+		transportKeyStoreBean.setKeyStorePassword(""changeit"");
+		transportKeyStoreBean.setTrustStoreType(""jks"");
+		transportKeyStoreBean.setTrustStore(""file:#{ systemProperties['java.home'] }/lib/security/cacerts"");
+		transportKeyStoreBean.setTrustStorePassword(""changeit"");
+		
+		// Act
+		KeyStore result = transportKeyStoreBean.openTransportStore();
+		
+		// Assert result
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testOpenTransportStore_6() throws Exception {
+		
+		// Arrange
+		transportKeyStoreBean = new TransportKeyStoreBean();
+		transportKeyStoreBean.setKeyStoreUri(""file:#{ systemProperties['user.home'] }/jnfe.pfx"");
+		transportKeyStoreBean.setKeyStoreType(""pkcs12"");
+		transportKeyStoreBean.setKeyStorePassword(""changeit"");
+		transportKeyStoreBean.setTrustStoreType(""jks"");
+		transportKeyStoreBean.setTrustStore(""file:#{ systemProperties['java.home'] }/lib/security/cacerts"");
+		transportKeyStoreBean.setTrustStorePassword(""changeit"");
+		
+		// Act
+		KeyStore result = transportKeyStoreBean.openTransportStore();
+		
+		// Assert result
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testOpenTransportStore_7() throws Exception {
+		
+		// Arrange
+		transportKeyStoreBean = new TransportKeyStoreBean();
+		transportKeyStoreBean.setKeyStoreUri(""file:#{ systemProperties['user.home'] }/jnfe.pfx"");
+		transportKeyStoreBean.setKeyStoreType(""pkcs12"");
+		transportKeyStoreBean.setKeyStorePassword(""changeit"");
+		transportKeyStoreBean.setTrustStoreType(""jks"");
+		transportKeyStoreBean.setTrustStore(""file:#{ systemProperties['java.home'] }/lib/security/cacerts"");
+		transportKeyStoreBean.setTrustStorePassword(""changeit"");
+		
+		// Act
+		KeyStore result = transportKeyStoreBean.openTransportStore();
+		
+		// Assert result
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testOpenTransportStore_8() throws Exception {
+		
+		// Arrange
+		transportKey"
+cmpl-6txMAQG91DcqJ7e3xiThishErPnqK,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/TransportKeyStoreBean_1Test.java,42.2537522315979,length,"// TransportKeyStoreBean.java
+/* Copyright 2005 I Serv Consultoria Empresarial Ltda.
+ *
+ * Licensed under the Apache License, Version 2.0 (the ""License"");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an ""AS IS"" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package br.com.jnfe.base;
+
+import java.security.KeyStore;
+import javax.net.ssl.KeyManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import br.com.jnfe.base.util.SecurityUtils;
+
+/**
+ * Atualiza as propriedades do sistema para establecer a ""keyStore""
+ * usada para o transmiss�o das mensagens dos web services NFe.
+ *
+ * @author Mauricio Fernandes de Castro
+ */
+public class TransportKeyStoreBean implements InitializingBean {
+
+    private final static String DEFAULT_KEYSTORE_URI = ""file:#{ systemProperties['user.home'] }/jnfe.pfx"";
+
+    private final static String DEFAULT_KEYSTORE_TYPE = ""pkcs12"";
+
+    private String keyStoreUri;
+
+    private String keyStoreType;
+
+    private String keyStorePassword;
+
+    private String trustStoreType;
+
+    private String trustStore;
+
+    private String trustStorePassword;
+
+    /**
+     * A URI para a keystore usada para autenticar o transporte.
+     *
+     * @param keyStoreUri
+     */
+    public void setKeyStoreUri(String keyStoreUri) {
+        this.keyStoreUri = keyStoreUri;
+    }
+
+    /**
+     * O tipo de keystore empregado para o transporte.
+     *
+     * @param keyStoreType
+     */
+    public void setKeyStoreType(String keyStoreType) {
+        this.keyStoreType = keyStoreType;
+    }
+
+    /**
+     * A senha para acesso ao keystore empregado para o transporte.
+     *
+     * @param keyStorePassword
+     */
+    public void setKeyStorePassword(String keyStorePassword) {
+        this.keyStorePassword = keyStorePassword;
+    }
+
+    /**
+     * Localiza��o do aramz�m seguro.
+     *
+     * @param trustStore
+     */
+    public void setTrustStore(String trustStore) {
+        this.trustStore = trustStore;
+    }
+
+    /**
+     * Tipo do armaz�m do armaz�m seguro (cacerts).
+     *
+     * @param trustStoreType
+     */
+    public void setTrustStoreType(String trustStoreType) {
+        this.trustStoreType = trustStoreType;
+    }
+
+    /**
+     * Senah do armaz�m seguro (cacerts).
+     *
+     * @param trustStorePassword
+     */
+    public void setTrustStorePassword(String trustStorePassword) {
+        this.trustStorePassword = trustStorePassword;
+    }
+
+    public void afterPropertiesSet() throws Exception {
+        if (keyStoreType == null || keyStoreType.length() == 0) {
+            logger.warn(""Using default keyStoreType."");
+            setKeyStoreType(DEFAULT_KEYSTORE_TYPE);
+        }
+        System.setProperty(""javax.net.ssl.keyStoreType"", keyStoreType);
+        if (keyStoreUri == null || keyStoreUri.length() == 0) {
+            logger.warn(""Using default keyStoreUri."");
+            setKeyStoreUri(DEFAULT_KEYSTORE_URI);
+        }
+        System.setProperty(""javax.net.ssl.keyStore"", keyStoreUri);
+        // TODO proteger senha da keystore de transporte com MD5 ou SHA
+        if (keyStorePassword != null && keyStorePassword.length() > 0) {
+            System.setProperty(""javax.net.ssl.keyStorePassword"", keyStorePassword);
+        }
+        if (trustStore != null) {
+            System.setProperty(""javax.net.ssl.trustStore"", trustStore);
+        }
+        if (trustStoreType != null) {
+            System.setProperty(""javax.net.ssl.trustStoreType"", trustStoreType);
+        }
+        if (trustStorePassword != null) {
+            System.setProperty(""javax.net.ssl.trustStorePassword"", trustStorePassword);
+        }
+        logger.info(""Propriedades de transporte: {}"", toString());
+    }
+
+    /**
+     * toString
+     * @return String
+     */
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(getClass().getName()).append(""@"").append(Integer.toHexString(hashCode())).append("" ["");
+        buffer.append(""javax.net.ssl.keyStore"").append(""='"").append(System.getProperty(""javax.net.ssl.keyStore"")).append(""' "");
+        buffer.append(""javax.net.ssl.keyStoreType"").append(""='"").append(System.getProperty(""javax.net.ssl.keyStoreType"")).append(""' "");
+        buffer.append(""javax.net.ssl.trustStoreType"").append(""='"").append(System.getProperty(""javax.net.ssl.trustStoreType"")).append(""' "");
+        buffer.append(""javax.net.ssl.trustStore"").append(""='"").append(System.getProperty(""javax.net.ssl.trustStore"")).append(""' "");
+        buffer.append(""]"");
+        return buffer.toString();
+    }
+
+    /**
+     * Abre o  armaz�m seguro (cacerts).
+     *
+     * @throws Exception
+     */
+    public KeyStore openTransportStore() throws Exception {
+        return SecurityUtils.openStore(keyStoreType, keyStoreUri, keyStorePassword.toCharArray());
+    }
+
+    /**
+     * Abre o gerenciador de chaves do armaz�m de transporte.
+     *
+     * @throws Exception
+     */
+    public KeyManagerFactory openTransportKeyManagerFactory() throws Exception {
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance(""SunX509"");
+        kmf.init(openTransportStore(), keyStorePassword.toCharArray());
+        return kmf;
+    }
+
+    private static final Logger logger = LoggerFactory.getLogger(TransportKeyStoreBean.class);
+}
+","// TransportKeyStoreBean_1Test.java
+package br.com.jnfe.base;
+
+import java.security.KeyStore;
+import javax.net.ssl.KeyManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import br.com.jnfe.base.util.SecurityUtils;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TransportKeyStoreBean}.
+* It contains ten unit test cases for the {@link TransportKeyStoreBean#openTransportKeyManagerFactory()} method.
+*/
+class TransportKeyStoreBean_1Test {","// TransportKeyStoreBean_1Test.java
+package br.com.jnfe.base;
+
+import java.security.KeyStore;
+import javax.net.ssl.KeyManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import br.com.jnfe.base.util.SecurityUtils;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link TransportKeyStoreBean}.
+* It contains ten unit test cases for the {@link TransportKeyStoreBean#openTransportKeyManagerFactory()} method.
+*/
+class TransportKeyStoreBean_1Test {
+
+	private static final Logger logger = LoggerFactory.getLogger(TransportKeyStoreBean_1Test.class);
+	
+	private TransportKeyStoreBean transportKeyStoreBean;
+	
+	private KeyManagerFactory keyManagerFactory;
+	
+	private KeyStore keyStore;
+	
+	private String keyStoreUri;
+	
+	private String keyStoreType;
+	
+	private String keyStorePassword;
+	
+	private String trustStoreType;
+	
+	private String trustStore;
+	
+	private String trustStorePassword;
+	
+	private String keyStoreUri_1;
+	
+	private String keyStoreType_1;
+	
+	private String keyStorePassword_1;
+	
+	private String trustStoreType_1;
+	
+	private String trustStore_1;
+	
+	private String trustStorePassword_1;
+	
+	private String keyStoreUri_2;
+	
+	private String keyStoreType_2;
+	
+	private String keyStorePassword_2;
+	
+	private String trustStoreType_2;
+	
+	private String trustStore_2;
+	
+	private String trustStorePassword_2;
+	
+	private String keyStoreUri_3;
+	
+	private String keyStoreType_3;
+	
+	private String keyStorePassword_3;
+	
+	private String trustStoreType_3;
+	
+	private String trustStore_3;
+	
+	private String trustStorePassword_3;
+	
+	private String keyStoreUri_4;
+	
+	private String keyStoreType_4;
+	
+	private String keyStorePassword_4;
+	
+	private String trustStoreType_4;
+	
+	private String trustStore_4;
+	
+	private String trustStorePassword_4;
+	
+	private String keyStoreUri_5;
+	
+	private String keyStoreType_5;
+	
+	private String keyStorePassword_5;
+	
+	private String trustStoreType_5;
+	
+	private String trustStore_5;
+	
+	private String trustStorePassword_5;
+	
+	private String keyStoreUri_6;
+	
+	private String keyStoreType_6;
+	
+	private String keyStorePassword_6;
+	
+	private String trustStoreType_6;
+	
+	private String trustStore_6;
+	
+	private String trustStorePassword_6;
+	
+	private String keyStoreUri_7;
+	
+	private String keyStoreType_7;
+	
+	private String keyStorePassword_7;
+	
+	private String trustStoreType_7;
+	
+	private String trustStore_7;
+	
+	private String trustStorePassword_7;
+	
+	private String keyStoreUri_8;
+	
+	private String keyStoreType_8;
+	
+	private String keyStorePassword_8;
+	
+	private String trustStoreType_8;
+	
+	private String trustStore_8;
+	
+	private String trustStorePassword_8;
+	
+	private String keyStoreUri_9;
+	
+	private String keyStoreType_9;
+	
+	private String keyStorePassword_9;
+	
+	private String trustStoreType_9;
+	
+	private String trustStore_9;
+	
+	private String trustStorePassword_9;
+	
+	private String keyStoreUri_10;
+	
+	private String keyStoreType_10;
+	
+	private String keyStorePassword_10;
+	
+	private String trustStoreType_10;
+	
+	private String trustStore_10;
+	
+	private String trustStorePassword_10;
+	
+	private String keyStoreUri_11;
+	
+	private String keyStoreType_11;
+	
+	private String keyStorePassword_11;
+	
+	private String trustStoreType_11;
+	
+	private String trustStore_11;
+	
+	private String trustStorePassword_11;
+	
+	private String keyStoreUri_12;
+	
+	private String keyStoreType_12;
+	
+	private String keyStorePassword_12;
+	
+	private String trustStoreType_12;
+	
+	private String trustStore_12;
+	
+	private String trustStorePassword_12;
+	
+	private String keyStoreUri_13;
+	
+	private String keyStoreType_13;
+	
+	private String keyStorePassword_13;
+	
+	private String trustStoreType_13;
+	
+	private String trustStore_13;
+	
+	private String trustStorePassword_13;
+	
+	private String keyStoreUri_14;
+	
+	private String keyStoreType_14;
+	
+	private String keyStorePassword_14;
+	
+	private String trustStoreType_14;
+	
+	private String trustStore_14;
+	
+	private String trustStorePassword_14;
+	
+	private String keyStoreUri_15;
+	
+	private String keyStoreType_15;
+	
+	private String keyStorePassword_15;
+	
+	private String trustStoreType_15;
+	
+	private String trustStore_15;
+	
+	private String trustStorePassword_15;
+	
+	private String keyStoreUri_16;
+	
+	private String keyStoreType_16;
+	
+	private String keyStorePassword_16;
+	
+	private String trustStoreType_16;
+	
+	private String trustStore_16;
+	
+	private String trustStorePassword_16;
+	
+	private String keyStoreUri_17;
+	
+	private String keyStoreType_17;
+	
+	private String keyStorePassword_17;
+	
+	private String trustStoreType_17;
+	
+	private String trustStore_17;
+	
+	private String trustStorePassword_17;
+	
+	private String keyStoreUri_18;
+	
+	private String keyStoreType_18;
+	
+	private String keyStorePassword_18;
+	
+	private String trustStoreType_18;
+	
+	private String trustStore_18;
+	
+	private String trustStorePassword_18;
+	
+	private String keyStoreUri_19;
+	
+	private String keyStoreType_19;
+	
+	private String keyStorePassword_19;
+	
+	private String trustStoreType_19;
+	
+	private String trustStore_19;
+	
+	private String trustStorePassword_19;
+	
+	private String keyStoreUri_20;
+	
+	private String keyStoreType_20;
+	
+	private String keyStorePassword_20;
+	
+	private String trustStoreType_20;
+	
+	private String trustStore_20;
+	
+	private String trustStorePassword_20;
+	
+	private String keyStoreUri_21;
+	
+	private String keyStoreType_21;
+	
+	private String keyStorePassword_21;
+	
+	private String trustStoreType_21;
+	
+	private String trustStore_21;
+	
+	private String trustStorePassword_21;
+	
+	private String keyStoreUri_22;
+	
+	private String keyStoreType_22;
+	
+	private String keyStorePassword_22;
+	
+	private String trustStoreType_22;
+	
+	private String trustStore_22;
+	
+	private String trustStorePassword_22;
+	
+	private String keyStoreUri_23;
+	
+	private String keyStoreType_23;
+	
+	private String keyStorePassword_23;
+	
+	private String trustStoreType_23;
+	
+	private String trustStore_23;
+	
+	private String trustStorePassword_23;
+	
+	private String keyStoreUri_24;
+	
+	private String keyStoreType_24;
+	
+	private String keyStorePassword_24;
+	
+	private String trustStoreType_24;
+	
+	private String trustStore_24;
+	
+	private String trustStorePassword_24;
+	
+	private String keyStoreUri_25;
+	
+	private String keyStoreType_25;
+	
+	private String keyStorePassword_25;
+	
+	private String trustStoreType_25;
+	
+	private String trustStore_25;
+	
+	private String trustStorePassword_25;
+	
+	private String keyStoreUri_26;
+	
+	private String keyStoreType_26;
+	
+	private String keyStorePassword_26;
+	
+	private String trustStoreType_26;
+	
+	private String trustStore_26;
+	
+	private String trustStorePassword_26;
+"
+cmpl-6txNDW0O2UMA12b7oP1yVoRMfpVal,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/pl005d/RequestAdapterImpl_1Test.java,44.42601680755615,length,"// RequestAdapterImpl.java
+package br.com.jnfe.base.pl005d;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.xml.transform.StringResult;
+import org.w3c.dom.Document;
+import br.com.jnfe.base.adapter.RequestAdapter;
+import br.com.jnfe.base.adapter.dom.AbstractNFeDOMAdapter;
+
+/**
+ * Implementa��o padr�o da interface <code>RequestAdapter</code>.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class RequestAdapterImpl extends AbstractNFeDOMAdapter implements RequestAdapter {
+
+    public static final String VERSAO_DADOS = ""1.07"";
+
+    public static final String PREFIXO_NAMESPACE = ""http://www.portalfiscal.inf.br/nfe/wsdl/"";
+
+    public String newCabec() {
+        return new StringBuilder(""<?xml version=\""1.0\"" encoding=\""UTF-8\""?>"").append(""<cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" "").append(""versao=\"""").append(""1.02"").append(""\""><versaoDados>"").append(VERSAO_DADOS).append(""</versaoDados>"").append(""</cabecMsg>"").toString();
+    }
+
+    /**
+     * Prepara uma solicita��o.
+     *
+     * @param servicoRemoto
+     * @param qualificadorAbreviado
+     * @param content
+     */
+    public Source newRequest(String servicoRemoto, String qualificadorAbreviado, String content) {
+        String nameSpaceUri = new StringBuilder(PREFIXO_NAMESPACE).append(qualificadorAbreviado).toString();
+        XMLStreamWriter writer = null;
+        Document doc = newDocument(nameSpaceUri, servicoRemoto);
+        try {
+            XMLOutputFactory output = XMLOutputFactory.newInstance();
+            output.setProperty(""javax.xml.stream.isNamespaceAware"", new Boolean(false));
+            writer = output.createXMLStreamWriter(new DOMResult(doc.getDocumentElement()));
+            writer.writeStartElement(""nfeCabecMsg"");
+            writer.writeCharacters(newCabec());
+            writer.writeEndElement();
+            writer.writeStartElement(""nfeDadosMsg"");
+            writer.writeCharacters(content);
+            writer.writeEndElement();
+            writer.writeEndDocument();
+            writer.flush();
+            writer.close();
+        } catch (XMLStreamException e) {
+            throw new IllegalArgumentException(""Imposs�vel gerar nova requisi��o, "", e);
+        }
+        if (logger.isTraceEnabled()) {
+            try {
+                Result stringResult = new StringResult();
+                TransformerFactory tFactory = TransformerFactory.newInstance();
+                Transformer transformer = tFactory.newTransformer();
+                transformer.transform(new DOMSource(doc), stringResult);
+                logger.trace(""+++ A NOVA REQUISI��O �: {}"", stringResult);
+            } catch (TransformerException e) {
+                throw new IllegalArgumentException(""Imposs�vel gerar nova requisi��o, "", e);
+            }
+        }
+        return new DOMSource(doc);
+    }
+
+    private static final Logger logger = LoggerFactory.getLogger(RequestAdapterImpl.class);
+}
+","// RequestAdapterImpl_1Test.java
+package br.com.jnfe.base.pl005d;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.xml.transform.StringResult;
+import org.w3c.dom.Document;
+import br.com.jnfe.base.adapter.RequestAdapter;
+import br.com.jnfe.base.adapter.dom.AbstractNFeDOMAdapter;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RequestAdapterImpl}.
+* It contains ten unit test cases for the {@link RequestAdapterImpl#newRequest(String, String, String)} method.
+*/
+class RequestAdapterImpl_1Test {","// RequestAdapterImpl_1Test.java
+package br.com.jnfe.base.pl005d;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.xml.transform.StringResult;
+import org.w3c.dom.Document;
+import br.com.jnfe.base.adapter.RequestAdapter;
+import br.com.jnfe.base.adapter.dom.AbstractNFeDOMAdapter;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RequestAdapterImpl}.
+* It contains ten unit test cases for the {@link RequestAdapterImpl#newRequest(String, String, String)} method.
+*/
+class RequestAdapterImpl_1Test {
+
+	private static final Logger logger = LoggerFactory.getLogger(RequestAdapterImpl_1Test.class);
+	
+	private static final String PREFIXO_NAMESPACE = ""http://www.portalfiscal.inf.br/nfe/wsdl/"";
+	
+	private static final String VERSAO_DADOS = ""1.07"";
+	
+	private static final String SERVICO_REMOTO = ""NfeRecepcao"";
+	
+	private static final String QUALIFICADOR_ABREVIADO = ""NfeRecepcao2"";
+	
+	private static final String CONTENT = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""2.00\""><tpAmb>2</tpAmb><nRec>351000101010101</nRec></consReciNFe>"";
+	
+	private static final String CABEC = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""1.02\""><versaoDados>1.07</versaoDados></cabecMsg>"";
+	
+	private static final String EXPECTED_RESULT = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeCabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><nfeCabecMsg><cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""1.02\""><versaoDados>1.07</versaoDados></cabecMsg></nfeCabecMsg><nfeDadosMsg>&lt;?xml version=\""1.0\"" encoding=\""UTF-8\""?&gt;&lt;consReciNFe xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""2.00\""&gt;&lt;tpAmb&gt;2&lt;/tpAmb&gt;&lt;nRec&gt;351000101010101&lt;/nRec&gt;&lt;/consReciNFe&gt;</nfeDadosMsg></nfeCabecMsg>"";
+	
+	private static final String EXPECTED_RESULT_2 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeCabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><nfeCabecMsg><cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""1.02\""><versaoDados>1.07</versaoDados></cabecMsg></nfeCabecMsg><nfeDadosMsg>&lt;?xml version=\""1.0\"" encoding=\""UTF-8\""?&gt;&lt;consReciNFe xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""2.00\""&gt;&lt;tpAmb&gt;2&lt;/tpAmb&gt;&lt;nRec&gt;351000101010101&lt;/nRec&gt;&lt;/consReciNFe&gt;</nfeDadosMsg></nfeCabecMsg>"";
+	
+	private static final String EXPECTED_RESULT_3 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeCabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><nfeCabecMsg><cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""1.02\""><versaoDados>1.07</versaoDados></cabecMsg></nfeCabecMsg><nfeDadosMsg>&lt;?xml version=\""1.0\"" encoding=\""UTF-8\""?&gt;&lt;consReciNFe xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""2.00\""&gt;&lt;tpAmb&gt;2&lt;/tpAmb&gt;&lt;nRec&gt;351000101010101&lt;/nRec&gt;&lt;/consReciNFe&gt;</nfeDadosMsg></nfeCabecMsg>"";
+	
+	private static final String EXPECTED_RESULT_4 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeCabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><nfeCabecMsg><cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""1.02\""><versaoDados>1.07</versaoDados></cabecMsg></nfeCabecMsg><nfeDadosMsg>&lt;?xml version=\""1.0\"" encoding=\""UTF-8\""?&gt;&lt;consReciNFe xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""2.00\""&gt;&lt;tpAmb&gt;2&lt;/tpAmb&gt;&lt;nRec&gt;351000101010101&lt;/nRec&gt;&lt;/consReciNFe&gt;</nfeDadosMsg></nfeCabecMsg>"";
+	
+	private static final String EXPECTED_RESULT_5 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeCabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><nfeCabecMsg><cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""1.02\""><versaoDados>1.07</versaoDados></cabecMsg></nfeCabecMsg><nfeDadosMsg>&lt;?xml version=\""1.0\"" encoding=\""UTF-8\""?&gt;&lt;consReciNFe xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""2.00\""&gt;&lt;tpAmb&gt;2&lt;/tpAmb&gt;&lt;nRec&gt;351000101010101&lt;/nRec&gt;&lt;/consReciNFe&gt;</nfeDadosMsg></nfeCabecMsg>"";
+	
+	private static final String EXPECTED_RESULT_6 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeCabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><nfeCabecMsg><cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""1.02\""><versaoDados>1.07</versaoDados></cabecMsg></nfeCabecMsg><nfeDadosMsg>&lt;?xml version=\""1.0\"" encoding=\""UTF-8\""?&gt;&lt;consReciNFe xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""2.00\""&gt;&lt;tpAmb&gt;2&lt;/tpAmb&gt;&lt;nRec&gt;351000101010101&lt;/nRec&gt;&lt;/consReciNFe&gt;</nfeDadosMsg></nfeCabecMsg>"";
+	
+	private static final String EXPECTED_RESULT_7 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeCabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><nfeCabecMsg><cabecMsg xmlns=\""http://www.portalfiscal.inf.br/nfe\"" versao=\""1.02\""><versaoD"
+cmpl-6txOGACMHAK5nhIQm64OdDTKwsTvY,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/pl006/RequestAdapterImpl_1Test.java,38.155517578125,length,"// RequestAdapterImpl.java
+package br.com.jnfe.base.pl006;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.xml.transform.StringResult;
+import org.w3c.dom.Document;
+import br.com.jnfe.base.adapter.RequestAdapter;
+import br.com.jnfe.base.adapter.dom.AbstractNFeDOMAdapter;
+
+/**
+ * Implementa��o padr�o da interface <code>RequestAdapter</code>.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class RequestAdapterImpl extends AbstractNFeDOMAdapter implements RequestAdapter {
+
+    public static final String VERSAO_DADOS = ""2.00"";
+
+    public static final String PREFIXO_NAMESPACE = ""http://www.portalfiscal.inf.br/nfe/wsdl/"";
+
+    public String newCabec() {
+        return new StringBuilder(""<versaoDados>"").append(VERSAO_DADOS).append(""</versaoDados>"").toString();
+    }
+
+    /**
+     * Prepara uma solicita��o.
+     *
+     * @param servicoRemoto
+     * @param qualificadorAbreviado
+     * @param content
+     */
+    public Source newRequest(String servicoRemoto, String qualificadorAbreviado, String content) {
+        String nameSpaceUri = new StringBuilder(PREFIXO_NAMESPACE).append(qualificadorAbreviado).toString();
+        XMLStreamWriter writer = null;
+        Document doc = newDocument(nameSpaceUri, servicoRemoto);
+        try {
+            XMLOutputFactory output = XMLOutputFactory.newInstance();
+            output.setProperty(""javax.xml.stream.isNamespaceAware"", new Boolean(false));
+            writer = output.createXMLStreamWriter(new DOMResult(doc.getDocumentElement()));
+            writer.writeStartElement(""nfeDadosMsg"");
+            writer.writeCharacters(content);
+            writer.writeEndElement();
+            writer.writeEndDocument();
+            writer.flush();
+            writer.close();
+        } catch (XMLStreamException e) {
+            throw new IllegalArgumentException(""Imposs�vel gerar nova requisi��o, "", e);
+        }
+        if (logger.isTraceEnabled()) {
+            try {
+                Result stringResult = new StringResult();
+                TransformerFactory tFactory = TransformerFactory.newInstance();
+                Transformer transformer = tFactory.newTransformer();
+                transformer.transform(new DOMSource(doc), stringResult);
+                logger.trace(""+++ A NOVA REQUISI��O �: {}"", stringResult);
+            } catch (TransformerException e) {
+                throw new IllegalArgumentException(""Imposs�vel gerar nova requisi��o, "", e);
+            }
+        }
+        return new DOMSource(doc);
+    }
+
+    private static final Logger logger = LoggerFactory.getLogger(RequestAdapterImpl.class);
+}
+","// RequestAdapterImpl_1Test.java
+package br.com.jnfe.base.pl006;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.xml.transform.StringResult;
+import org.w3c.dom.Document;
+import br.com.jnfe.base.adapter.RequestAdapter;
+import br.com.jnfe.base.adapter.dom.AbstractNFeDOMAdapter;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RequestAdapterImpl}.
+* It contains ten unit test cases for the {@link RequestAdapterImpl#newRequest(String, String, String)} method.
+*/
+class RequestAdapterImpl_1Test {","// RequestAdapterImpl_1Test.java
+package br.com.jnfe.base.pl006;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.xml.transform.StringResult;
+import org.w3c.dom.Document;
+import br.com.jnfe.base.adapter.RequestAdapter;
+import br.com.jnfe.base.adapter.dom.AbstractNFeDOMAdapter;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link RequestAdapterImpl}.
+* It contains ten unit test cases for the {@link RequestAdapterImpl#newRequest(String, String, String)} method.
+*/
+class RequestAdapterImpl_1Test {
+
+	private static final Logger logger = LoggerFactory.getLogger(RequestAdapterImpl_1Test.class);
+	
+	private static final String PREFIXO_NAMESPACE = ""http://www.portalfiscal.inf.br/nfe/wsdl/"";
+	
+	private static final String VERSAO_DADOS = ""2.00"";
+	
+	private static final String SERVICO_REMOTO = ""NfeRecepcao"";
+	
+	private static final String QUALIFICADOR_ABREVIADO = ""NfeRecepcao2"";
+	
+	private static final String CONTENT = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe>"";
+	
+	private static final String EXPECTED_RESULT = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_1 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_2 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_3 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_4 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_5 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_6 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_7 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_8 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_9 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_10 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009278615</nRec></consReciNFe></nfeDadosMsg>"";
+	
+	private static final String EXPECTED_RESULT_11 = ""<?xml version=\""1.0\"" encoding=\""UTF-8\""?><nfeDadosMsg xmlns=\""http://www.portalfiscal.inf.br/nfe/wsdl/NfeRecepcao2\""><?xml version=\""1.0\"" encoding=\""UTF-8\""?><consReciNFe versao=\""2.00\"" xmlns=\""http://www.portalfiscal.inf.br/nfe\""><tpAmb>2</tpAmb><nRec>310000009"
+cmpl-6txPJGnSyFRep6e5XQ5qyKLUouKQX,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/service/DOMNFeFileReader_0Test.java,57.73758411407471,length,"// DOMNFeFileReader.java
+package br.com.jnfe.base.service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.xml.crypto.dom.DOMStructure;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+/**
+ * L� um arquivo do sistema e assina.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class DOMNFeFileReader {
+
+    /**
+     * L� um arquivo e assina.
+     *
+     * @param filePath
+     * @param tagToSign
+     *
+     * @throws Exception
+     */
+    public Result loadAndSign(String filePath, String tagToSign) throws Exception {
+        InputStreamSource resource = new ClassPathResource(filePath);
+        return loadAndSign(resource.getInputStream(), tagToSign);
+    }
+
+    /**
+     * L� um arquivo e assina.
+     *
+     * @param inputStream
+     * @param tagToSign
+     *
+     * @throws Exception
+     */
+    public Result loadAndSign(InputStream inputStream, String tagToSign) throws Exception {
+        DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
+        Document document = builder.parse(inputStream);
+        Element root = document.getDocumentElement();
+        Element parent = (Element) document.getElementsByTagName(""NFe"").item(0);
+        signatureHandler.sign(new DOMStructure(parent), tagToSign);
+        OutputStream outputResult = new ByteArrayOutputStream();
+        StreamResult streamResult = new StreamResult(outputResult);
+        try {
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            Transformer transformer = tFactory.newTransformer();
+            transformer.transform(new DOMSource(root), streamResult);
+        } catch (TransformerException e) {
+            throw new IllegalArgumentException(""Imposs�vel transformar assinatura, "", e);
+        }
+        return streamResult;
+    }
+
+    // collabs
+    private DocumentBuilderFactory documentBuilderFactory;
+
+    private SignatureHandler signatureHandler;
+
+    @javax.annotation.Resource
+    public void setDocumentBuilderFactory(DocumentBuilderFactory documentBuilderFactory) {
+        this.documentBuilderFactory = documentBuilderFactory;
+    }
+
+    @javax.annotation.Resource
+    public void setSignatureHandler(SignatureHandler signatureHandler) {
+        this.signatureHandler = signatureHandler;
+    }
+}
+","// DOMNFeFileReader_0Test.java
+package br.com.jnfe.base.service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.xml.crypto.dom.DOMStructure;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DOMNFeFileReader}.
+* It contains ten unit test cases for the {@link DOMNFeFileReader#loadAndSign(String, String)} method.
+*/
+class DOMNFeFileReader_0Test {","// DOMNFeFileReader_0Test.java
+package br.com.jnfe.base.service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.xml.crypto.dom.DOMStructure;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DOMNFeFileReader}.
+* It contains ten unit test cases for the {@link DOMNFeFileReader#loadAndSign(String, String)} method.
+*/
+class DOMNFeFileReader_0Test {
+
+	@Test
+	void testLoadAndSign_0() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_1() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_2() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_3() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_4() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_5() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_6() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_7() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_8() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	@Test
+	void testLoadAndSign_9() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		domNFeFileReader.setDocumentBuilderFactory(DocumentBuilderFactory.newInstance());
+		domNFeFileReader.setSignatureHandler(new SignatureHandler());
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+}
+
+// SignatureHandler.java
+package br.com.jnfe.base.service;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.xml.crypto.XMLStructure;
+import javax.xml.crypto.dom.DOMStructure;
+import javax.xml.crypto.dsig.CanonicalizationMethod;
+import javax.xml.crypto.dsig.DigestMethod;
+import javax.xml.crypto.dsig.Reference;
+import javax.xml.crypto.dsig.SignatureMethod;
+import javax.xml.crypto.dsig.SignedInfo;
+import javax.xml.crypto.dsig.Transform;
+import javax.xml.crypto.dsig.XMLSignature;
+import javax.xml.crypto.dsig.XMLSignatureFactory;
+import javax.xml.crypto.dsig.dom.DOMSignContext;
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
+import javax.xml.crypto.dsig.keyinfo.X509Data;
+import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
+import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+/**
+ * Assina um documento XML.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class SignatureHandler {
+
+    /**
+     * Assina um documento XML.
+     *
+     * @param structure
+     * @param tagToSign
+     *
+     * @throws Exception
+     */
+    public void sign(XMLStructure structure, String tagToSign)"
+cmpl-6txQMUcdV0Z2OwFonL2Vh5vHkVqZw,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/service/DOMNFeFileReader_1Test.java,20.89125108718872,stop,"// DOMNFeFileReader.java
+package br.com.jnfe.base.service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.xml.crypto.dom.DOMStructure;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+/**
+ * L� um arquivo do sistema e assina.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class DOMNFeFileReader {
+
+    /**
+     * L� um arquivo e assina.
+     *
+     * @param filePath
+     * @param tagToSign
+     *
+     * @throws Exception
+     */
+    public Result loadAndSign(String filePath, String tagToSign) throws Exception {
+        InputStreamSource resource = new ClassPathResource(filePath);
+        return loadAndSign(resource.getInputStream(), tagToSign);
+    }
+
+    /**
+     * L� um arquivo e assina.
+     *
+     * @param inputStream
+     * @param tagToSign
+     *
+     * @throws Exception
+     */
+    public Result loadAndSign(InputStream inputStream, String tagToSign) throws Exception {
+        DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
+        Document document = builder.parse(inputStream);
+        Element root = document.getDocumentElement();
+        Element parent = (Element) document.getElementsByTagName(""NFe"").item(0);
+        signatureHandler.sign(new DOMStructure(parent), tagToSign);
+        OutputStream outputResult = new ByteArrayOutputStream();
+        StreamResult streamResult = new StreamResult(outputResult);
+        try {
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            Transformer transformer = tFactory.newTransformer();
+            transformer.transform(new DOMSource(root), streamResult);
+        } catch (TransformerException e) {
+            throw new IllegalArgumentException(""Imposs�vel transformar assinatura, "", e);
+        }
+        return streamResult;
+    }
+
+    // collabs
+    private DocumentBuilderFactory documentBuilderFactory;
+
+    private SignatureHandler signatureHandler;
+
+    @javax.annotation.Resource
+    public void setDocumentBuilderFactory(DocumentBuilderFactory documentBuilderFactory) {
+        this.documentBuilderFactory = documentBuilderFactory;
+    }
+
+    @javax.annotation.Resource
+    public void setSignatureHandler(SignatureHandler signatureHandler) {
+        this.signatureHandler = signatureHandler;
+    }
+}
+","// DOMNFeFileReader_1Test.java
+package br.com.jnfe.base.service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.xml.crypto.dom.DOMStructure;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DOMNFeFileReader}.
+* It contains ten unit test cases for the {@link DOMNFeFileReader#loadAndSign(InputStream, String)} method.
+*/
+class DOMNFeFileReader_1Test {","// DOMNFeFileReader_1Test.java
+package br.com.jnfe.base.service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.xml.crypto.dom.DOMStructure;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DOMNFeFileReader}.
+* It contains ten unit test cases for the {@link DOMNFeFileReader#loadAndSign(InputStream, String)} method.
+*/
+class DOMNFeFileReader_1Test {
+
+	/**
+	* Test case 1.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_1() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 2.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_2() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 3.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_3() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 4.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_4() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 5.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_5() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 6.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_6() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 7.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_7() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 8.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_8() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 9.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_9() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case 10.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testLoadAndSign_10() throws Exception {
+		DOMNFeFileReader domNFeFileReader = new DOMNFeFileReader();
+		String filePath = """";
+		String tagToSign = """";
+		Result result = domNFeFileReader.loadAndSign(filePath, tagToSign);
+		assertNotNull(result);
+	}
+	
+}"
+cmpl-6txRP2fGlcEijGrO2SdeoSF7KtHRf,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/util/SecurityUtils_0Test.java,41.46621632575989,length,"// SecurityUtils.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
+/**
+ * Helper class to handle common security tasks.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class SecurityUtils {
+
+    static char SEP = File.separatorChar;
+
+    static String trustStoreName = ""cacerts"";
+
+    static String trustStorePath = null;
+
+    static String trustStorePassword = ""changeit"";
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, Resource keyStoreResource, char[] passphrase) throws Exception {
+        logger.debug(""Abrindo armaz�m {} ..."", keyStoreResource.getFilename());
+        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        keyStore.load(keyStoreResource.getInputStream(), passphrase);
+        return keyStore;
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(Resource keyStoreResource, char[] passphrase) throws Exception {
+        return openStore(KeyStore.getDefaultType(), keyStoreResource, passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, String storeLocation, char[] passphrase) throws Exception {
+        return openStore(keyStoreType, new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String storeLocation, char[] passphrase) throws Exception {
+        return openStore(new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(char[] passphrase) throws Exception {
+        return openTrustStore(trustStorePath, passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(String trustStorePath, char[] passphrase) throws Exception {
+        StringBuilder storeLocation = new StringBuilder(System.getProperty(""java.home""));
+        if (trustStorePath == null) {
+            storeLocation.append(SEP).append(""lib"").append(SEP).append(""security"").append(SEP);
+        } else {
+            storeLocation.append(trustStorePath);
+        }
+        KeyStore trustStore = SecurityUtils.openStore(storeLocation.append(trustStoreName).toString(), passphrase);
+        return trustStore;
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String certificateLocation, String certificateName) throws Exception {
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param trustStorePath
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String trustStorePath, String certificateLocation, String certificateName) throws Exception {
+        KeyStore trustStore = SecurityUtils.openTrustStore(trustStorePath, trustStorePassword.toCharArray());
+        File dir = new File(certificateLocation);
+        File file = new File(dir, certificateName + "".cer"");
+        logger.debug(""Abrindo certificado {} ..."", file);
+        CertificateFactory cf = CertificateFactory.getInstance(""X.509"");
+        InputStream in = new FileInputStream(file);
+        X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
+        in.close();
+        if (trustStore.containsAlias(certificateName)) {
+            logger.info(""Certificado existente {}"", trustStore.getCertificate(certificateName).getType());
+        } else {
+            trustStore.setCertificateEntry(certificateName, cert);
+            logger.info(""Certificado CARREGADO {}"", trustStore.getCertificate(certificateName).getType());
+        }
+    }
+
+    /**
+     * Execut�vel para acrescentar certificados.
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        String trustStorePath = null;
+        String certificateLocation = """";
+        String certificateName = """";
+        if (args.length > 2) {
+            trustStorePath = args[2];
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else if (args.length > 1) {
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else {
+            System.out.println(""Uso: java SecurityUtils <localDoCertificado> <nomeDoCertificado> [localDoCacertsAPartirDoJavaHome]"");
+            return;
+        }
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    private final static Logger logger = LoggerFactory.getLogger(SecurityUtils.class);
+}
+","// SecurityUtils_0Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+*/
+class SecurityUtils_0Test {","// SecurityUtils_0Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+*/
+class SecurityUtils_0Test {
+
+		private static final Logger logger = LoggerFactory.getLogger(SecurityUtils_0Test.class);
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_0() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_1() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_2() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_3() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_4() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_5() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_6() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_7() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_8() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_9() throws Exception {
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/mauricio/certificados/certificado.jks"");
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, keyStoreResource, passphrase);
+				assertNotNull(result);
+		}
+		
+}
+
+// SecurityUtils_1Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(Resource"
+cmpl-6txSSeIkWFK09bqetbQ66DqZedKFx,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/util/SecurityUtils_1Test.java,35.03788733482361,length,"// SecurityUtils.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
+/**
+ * Helper class to handle common security tasks.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class SecurityUtils {
+
+    static char SEP = File.separatorChar;
+
+    static String trustStoreName = ""cacerts"";
+
+    static String trustStorePath = null;
+
+    static String trustStorePassword = ""changeit"";
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, Resource keyStoreResource, char[] passphrase) throws Exception {
+        logger.debug(""Abrindo armaz�m {} ..."", keyStoreResource.getFilename());
+        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        keyStore.load(keyStoreResource.getInputStream(), passphrase);
+        return keyStore;
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(Resource keyStoreResource, char[] passphrase) throws Exception {
+        return openStore(KeyStore.getDefaultType(), keyStoreResource, passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, String storeLocation, char[] passphrase) throws Exception {
+        return openStore(keyStoreType, new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String storeLocation, char[] passphrase) throws Exception {
+        return openStore(new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(char[] passphrase) throws Exception {
+        return openTrustStore(trustStorePath, passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(String trustStorePath, char[] passphrase) throws Exception {
+        StringBuilder storeLocation = new StringBuilder(System.getProperty(""java.home""));
+        if (trustStorePath == null) {
+            storeLocation.append(SEP).append(""lib"").append(SEP).append(""security"").append(SEP);
+        } else {
+            storeLocation.append(trustStorePath);
+        }
+        KeyStore trustStore = SecurityUtils.openStore(storeLocation.append(trustStoreName).toString(), passphrase);
+        return trustStore;
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String certificateLocation, String certificateName) throws Exception {
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param trustStorePath
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String trustStorePath, String certificateLocation, String certificateName) throws Exception {
+        KeyStore trustStore = SecurityUtils.openTrustStore(trustStorePath, trustStorePassword.toCharArray());
+        File dir = new File(certificateLocation);
+        File file = new File(dir, certificateName + "".cer"");
+        logger.debug(""Abrindo certificado {} ..."", file);
+        CertificateFactory cf = CertificateFactory.getInstance(""X.509"");
+        InputStream in = new FileInputStream(file);
+        X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
+        in.close();
+        if (trustStore.containsAlias(certificateName)) {
+            logger.info(""Certificado existente {}"", trustStore.getCertificate(certificateName).getType());
+        } else {
+            trustStore.setCertificateEntry(certificateName, cert);
+            logger.info(""Certificado CARREGADO {}"", trustStore.getCertificate(certificateName).getType());
+        }
+    }
+
+    /**
+     * Execut�vel para acrescentar certificados.
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        String trustStorePath = null;
+        String certificateLocation = """";
+        String certificateName = """";
+        if (args.length > 2) {
+            trustStorePath = args[2];
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else if (args.length > 1) {
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else {
+            System.out.println(""Uso: java SecurityUtils <localDoCertificado> <nomeDoCertificado> [localDoCacertsAPartirDoJavaHome]"");
+            return;
+        }
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    private final static Logger logger = LoggerFactory.getLogger(SecurityUtils.class);
+}
+","// SecurityUtils_1Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(Resource, char[])} method.
+*/
+class SecurityUtils_1Test {","// SecurityUtils_1Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(Resource, char[])} method.
+*/
+class SecurityUtils_1Test {
+
+		private static final Logger logger = LoggerFactory.getLogger(SecurityUtils_1Test.class);
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(Resource, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_1() throws Exception {
+				logger.debug(""Executing test case for the openStore(Resource, char[]) method."");
+				
+				// Test data
+				String keyStoreType = ""JKS"";
+				Resource keyStoreResource = new FileSystemResource(""/home/jnfe/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/jnfe-2.0.0/"
+cmpl-6txTVE5HfvD6crQsPOJAzPo3HfjBQ,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/util/SecurityUtils_2Test.java,35.966755867004395,stop,"// SecurityUtils.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
+/**
+ * Helper class to handle common security tasks.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class SecurityUtils {
+
+    static char SEP = File.separatorChar;
+
+    static String trustStoreName = ""cacerts"";
+
+    static String trustStorePath = null;
+
+    static String trustStorePassword = ""changeit"";
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, Resource keyStoreResource, char[] passphrase) throws Exception {
+        logger.debug(""Abrindo armaz�m {} ..."", keyStoreResource.getFilename());
+        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        keyStore.load(keyStoreResource.getInputStream(), passphrase);
+        return keyStore;
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(Resource keyStoreResource, char[] passphrase) throws Exception {
+        return openStore(KeyStore.getDefaultType(), keyStoreResource, passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, String storeLocation, char[] passphrase) throws Exception {
+        return openStore(keyStoreType, new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String storeLocation, char[] passphrase) throws Exception {
+        return openStore(new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(char[] passphrase) throws Exception {
+        return openTrustStore(trustStorePath, passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(String trustStorePath, char[] passphrase) throws Exception {
+        StringBuilder storeLocation = new StringBuilder(System.getProperty(""java.home""));
+        if (trustStorePath == null) {
+            storeLocation.append(SEP).append(""lib"").append(SEP).append(""security"").append(SEP);
+        } else {
+            storeLocation.append(trustStorePath);
+        }
+        KeyStore trustStore = SecurityUtils.openStore(storeLocation.append(trustStoreName).toString(), passphrase);
+        return trustStore;
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String certificateLocation, String certificateName) throws Exception {
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param trustStorePath
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String trustStorePath, String certificateLocation, String certificateName) throws Exception {
+        KeyStore trustStore = SecurityUtils.openTrustStore(trustStorePath, trustStorePassword.toCharArray());
+        File dir = new File(certificateLocation);
+        File file = new File(dir, certificateName + "".cer"");
+        logger.debug(""Abrindo certificado {} ..."", file);
+        CertificateFactory cf = CertificateFactory.getInstance(""X.509"");
+        InputStream in = new FileInputStream(file);
+        X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
+        in.close();
+        if (trustStore.containsAlias(certificateName)) {
+            logger.info(""Certificado existente {}"", trustStore.getCertificate(certificateName).getType());
+        } else {
+            trustStore.setCertificateEntry(certificateName, cert);
+            logger.info(""Certificado CARREGADO {}"", trustStore.getCertificate(certificateName).getType());
+        }
+    }
+
+    /**
+     * Execut�vel para acrescentar certificados.
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        String trustStorePath = null;
+        String certificateLocation = """";
+        String certificateName = """";
+        if (args.length > 2) {
+            trustStorePath = args[2];
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else if (args.length > 1) {
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else {
+            System.out.println(""Uso: java SecurityUtils <localDoCertificado> <nomeDoCertificado> [localDoCacertsAPartirDoJavaHome]"");
+            return;
+        }
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    private final static Logger logger = LoggerFactory.getLogger(SecurityUtils.class);
+}
+","// SecurityUtils_2Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(String, String, char[])} method.
+*/
+class SecurityUtils_2Test {","// SecurityUtils_2Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(String, String, char[])} method.
+*/
+class SecurityUtils_2Test {
+
+		private static final Logger logger = LoggerFactory.getLogger(SecurityUtils_2Test.class);
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_1() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_2() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_3() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_4() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_5() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_6() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_7() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_8() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_9() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_10() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\User\\Desktop\\certificado\\certificado.jks"";
+				char[] passphrase = ""123456"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+}"
+cmpl-6txUYllWF6P00LoAviLtgw6N8Ej8E,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/util/SecurityUtils_3Test.java,45.077239990234375,length,"// SecurityUtils.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
+/**
+ * Helper class to handle common security tasks.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class SecurityUtils {
+
+    static char SEP = File.separatorChar;
+
+    static String trustStoreName = ""cacerts"";
+
+    static String trustStorePath = null;
+
+    static String trustStorePassword = ""changeit"";
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, Resource keyStoreResource, char[] passphrase) throws Exception {
+        logger.debug(""Abrindo armaz�m {} ..."", keyStoreResource.getFilename());
+        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        keyStore.load(keyStoreResource.getInputStream(), passphrase);
+        return keyStore;
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(Resource keyStoreResource, char[] passphrase) throws Exception {
+        return openStore(KeyStore.getDefaultType(), keyStoreResource, passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, String storeLocation, char[] passphrase) throws Exception {
+        return openStore(keyStoreType, new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String storeLocation, char[] passphrase) throws Exception {
+        return openStore(new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(char[] passphrase) throws Exception {
+        return openTrustStore(trustStorePath, passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(String trustStorePath, char[] passphrase) throws Exception {
+        StringBuilder storeLocation = new StringBuilder(System.getProperty(""java.home""));
+        if (trustStorePath == null) {
+            storeLocation.append(SEP).append(""lib"").append(SEP).append(""security"").append(SEP);
+        } else {
+            storeLocation.append(trustStorePath);
+        }
+        KeyStore trustStore = SecurityUtils.openStore(storeLocation.append(trustStoreName).toString(), passphrase);
+        return trustStore;
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String certificateLocation, String certificateName) throws Exception {
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param trustStorePath
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String trustStorePath, String certificateLocation, String certificateName) throws Exception {
+        KeyStore trustStore = SecurityUtils.openTrustStore(trustStorePath, trustStorePassword.toCharArray());
+        File dir = new File(certificateLocation);
+        File file = new File(dir, certificateName + "".cer"");
+        logger.debug(""Abrindo certificado {} ..."", file);
+        CertificateFactory cf = CertificateFactory.getInstance(""X.509"");
+        InputStream in = new FileInputStream(file);
+        X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
+        in.close();
+        if (trustStore.containsAlias(certificateName)) {
+            logger.info(""Certificado existente {}"", trustStore.getCertificate(certificateName).getType());
+        } else {
+            trustStore.setCertificateEntry(certificateName, cert);
+            logger.info(""Certificado CARREGADO {}"", trustStore.getCertificate(certificateName).getType());
+        }
+    }
+
+    /**
+     * Execut�vel para acrescentar certificados.
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        String trustStorePath = null;
+        String certificateLocation = """";
+        String certificateName = """";
+        if (args.length > 2) {
+            trustStorePath = args[2];
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else if (args.length > 1) {
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else {
+            System.out.println(""Uso: java SecurityUtils <localDoCertificado> <nomeDoCertificado> [localDoCacertsAPartirDoJavaHome]"");
+            return;
+        }
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    private final static Logger logger = LoggerFactory.getLogger(SecurityUtils.class);
+}
+","// SecurityUtils_3Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(String, char[])} method.
+*/
+class SecurityUtils_3Test {","// SecurityUtils_3Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openStore(String, char[])} method.
+*/
+class SecurityUtils_3Test {
+
+		private static final Logger logger = LoggerFactory.getLogger(SecurityUtils_3Test.class);
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_1() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_2() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_3() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_4() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_5() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_6() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_7() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_8() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_9() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openStore(String, char[])} method.
+		*
+		* @throws Exception
+		*/
+		@Test
+		void testOpenStore_10() throws Exception {
+				String keyStoreType = ""JKS"";
+				String storeLocation = ""C:\\Users\\mauriciofernandesdecastro\\Documents\\NetBeansProjects\\nfe\\src\\test\\resources\\certificados\\nfe.jks"";
+				char[] passphrase = ""changeit"".toCharArray();
+				KeyStore result = SecurityUtils.openStore(keyStoreType, storeLocation, passphrase);
+				assertNotNull(result);
+		}
+		
+}
+
+// SecurityUtils_4Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java."
+cmpl-6txVb9rCsLqr8SnmbkIgb8eshBQmd,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/util/SecurityUtils_4Test.java,30.280892610549927,stop,"// SecurityUtils.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
+/**
+ * Helper class to handle common security tasks.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class SecurityUtils {
+
+    static char SEP = File.separatorChar;
+
+    static String trustStoreName = ""cacerts"";
+
+    static String trustStorePath = null;
+
+    static String trustStorePassword = ""changeit"";
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, Resource keyStoreResource, char[] passphrase) throws Exception {
+        logger.debug(""Abrindo armaz�m {} ..."", keyStoreResource.getFilename());
+        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        keyStore.load(keyStoreResource.getInputStream(), passphrase);
+        return keyStore;
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(Resource keyStoreResource, char[] passphrase) throws Exception {
+        return openStore(KeyStore.getDefaultType(), keyStoreResource, passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, String storeLocation, char[] passphrase) throws Exception {
+        return openStore(keyStoreType, new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String storeLocation, char[] passphrase) throws Exception {
+        return openStore(new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(char[] passphrase) throws Exception {
+        return openTrustStore(trustStorePath, passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(String trustStorePath, char[] passphrase) throws Exception {
+        StringBuilder storeLocation = new StringBuilder(System.getProperty(""java.home""));
+        if (trustStorePath == null) {
+            storeLocation.append(SEP).append(""lib"").append(SEP).append(""security"").append(SEP);
+        } else {
+            storeLocation.append(trustStorePath);
+        }
+        KeyStore trustStore = SecurityUtils.openStore(storeLocation.append(trustStoreName).toString(), passphrase);
+        return trustStore;
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String certificateLocation, String certificateName) throws Exception {
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param trustStorePath
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String trustStorePath, String certificateLocation, String certificateName) throws Exception {
+        KeyStore trustStore = SecurityUtils.openTrustStore(trustStorePath, trustStorePassword.toCharArray());
+        File dir = new File(certificateLocation);
+        File file = new File(dir, certificateName + "".cer"");
+        logger.debug(""Abrindo certificado {} ..."", file);
+        CertificateFactory cf = CertificateFactory.getInstance(""X.509"");
+        InputStream in = new FileInputStream(file);
+        X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
+        in.close();
+        if (trustStore.containsAlias(certificateName)) {
+            logger.info(""Certificado existente {}"", trustStore.getCertificate(certificateName).getType());
+        } else {
+            trustStore.setCertificateEntry(certificateName, cert);
+            logger.info(""Certificado CARREGADO {}"", trustStore.getCertificate(certificateName).getType());
+        }
+    }
+
+    /**
+     * Execut�vel para acrescentar certificados.
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        String trustStorePath = null;
+        String certificateLocation = """";
+        String certificateName = """";
+        if (args.length > 2) {
+            trustStorePath = args[2];
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else if (args.length > 1) {
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else {
+            System.out.println(""Uso: java SecurityUtils <localDoCertificado> <nomeDoCertificado> [localDoCacertsAPartirDoJavaHome]"");
+            return;
+        }
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    private final static Logger logger = LoggerFactory.getLogger(SecurityUtils.class);
+}
+","// SecurityUtils_4Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openTrustStore(char[])} method.
+*/
+class SecurityUtils_4Test {","// SecurityUtils_4Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openTrustStore(char[])} method.
+*/
+class SecurityUtils_4Test {
+
+		private static final Logger logger = LoggerFactory.getLogger(SecurityUtils_4Test.class);
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is null.
+		*/
+		@Test
+		public void testOpenTrustStore_1() throws Exception {
+				SecurityUtils.trustStorePath = null;
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_2() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_3() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePath, SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_4() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePath, SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_5() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePath, SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_6() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePath, SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_7() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePath, SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_8() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePath, SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_9() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePath, SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+		/**
+		* Test case for the {@link SecurityUtils#openTrustStore(char[])} method.
+		* It tests the case when the trustStorePath is not null.
+		*/
+		@Test
+		public void testOpenTrustStore_10() throws Exception {
+				SecurityUtils.trustStorePath = """";
+				KeyStore trustStore = SecurityUtils.openTrustStore(SecurityUtils.trustStorePath, SecurityUtils.trustStorePassword.toCharArray());
+				assertNotNull(trustStore);
+		}
+		
+}"
+cmpl-6txWePLvtCxJvXnsBZOl6vTQisZwv,/EvoSuiteBenchmark/6_jnfe/src/main/java/br/com/jnfe/base/util/SecurityUtils_5Test.java,28.710895538330078,stop,"// SecurityUtils.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
+/**
+ * Helper class to handle common security tasks.
+ *
+ * @author mauriciofernandesdecastro
+ */
+public class SecurityUtils {
+
+    static char SEP = File.separatorChar;
+
+    static String trustStoreName = ""cacerts"";
+
+    static String trustStorePath = null;
+
+    static String trustStorePassword = ""changeit"";
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, Resource keyStoreResource, char[] passphrase) throws Exception {
+        logger.debug(""Abrindo armaz�m {} ..."", keyStoreResource.getFilename());
+        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        keyStore.load(keyStoreResource.getInputStream(), passphrase);
+        return keyStore;
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreResource
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(Resource keyStoreResource, char[] passphrase) throws Exception {
+        return openStore(KeyStore.getDefaultType(), keyStoreResource, passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param keyStoreType
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String keyStoreType, String storeLocation, char[] passphrase) throws Exception {
+        return openStore(keyStoreType, new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre um armaz�m.
+     *
+     * @param storeLocation
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openStore(String storeLocation, char[] passphrase) throws Exception {
+        return openStore(new FileSystemResource(storeLocation), passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(char[] passphrase) throws Exception {
+        return openTrustStore(trustStorePath, passphrase);
+    }
+
+    /**
+     * Abre o armaz�m de chaves confi�veis.
+     *
+     * @param passphrase
+     *
+     * @throws Exception
+     */
+    public static KeyStore openTrustStore(String trustStorePath, char[] passphrase) throws Exception {
+        StringBuilder storeLocation = new StringBuilder(System.getProperty(""java.home""));
+        if (trustStorePath == null) {
+            storeLocation.append(SEP).append(""lib"").append(SEP).append(""security"").append(SEP);
+        } else {
+            storeLocation.append(trustStorePath);
+        }
+        KeyStore trustStore = SecurityUtils.openStore(storeLocation.append(trustStoreName).toString(), passphrase);
+        return trustStore;
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String certificateLocation, String certificateName) throws Exception {
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    /**
+     * Carrega um certificado no armaz�m seguro.
+     *
+     * @param trustStorePath
+     * @param certificateLocation
+     * @param certificateName
+     *
+     * @throws Exception
+     */
+    public static void installCertificate(String trustStorePath, String certificateLocation, String certificateName) throws Exception {
+        KeyStore trustStore = SecurityUtils.openTrustStore(trustStorePath, trustStorePassword.toCharArray());
+        File dir = new File(certificateLocation);
+        File file = new File(dir, certificateName + "".cer"");
+        logger.debug(""Abrindo certificado {} ..."", file);
+        CertificateFactory cf = CertificateFactory.getInstance(""X.509"");
+        InputStream in = new FileInputStream(file);
+        X509Certificate cert = (X509Certificate) cf.generateCertificate(in);
+        in.close();
+        if (trustStore.containsAlias(certificateName)) {
+            logger.info(""Certificado existente {}"", trustStore.getCertificate(certificateName).getType());
+        } else {
+            trustStore.setCertificateEntry(certificateName, cert);
+            logger.info(""Certificado CARREGADO {}"", trustStore.getCertificate(certificateName).getType());
+        }
+    }
+
+    /**
+     * Execut�vel para acrescentar certificados.
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        String trustStorePath = null;
+        String certificateLocation = """";
+        String certificateName = """";
+        if (args.length > 2) {
+            trustStorePath = args[2];
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else if (args.length > 1) {
+            certificateLocation = args[1];
+            certificateName = args[0];
+        } else {
+            System.out.println(""Uso: java SecurityUtils <localDoCertificado> <nomeDoCertificado> [localDoCacertsAPartirDoJavaHome]"");
+            return;
+        }
+        installCertificate(trustStorePath, certificateLocation, certificateName);
+    }
+
+    private final static Logger logger = LoggerFactory.getLogger(SecurityUtils.class);
+}
+","// SecurityUtils_5Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+*/
+class SecurityUtils_5Test {","// SecurityUtils_5Test.java
+package br.com.jnfe.base.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SecurityUtils}.
+* It contains ten unit test cases for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+*/
+class SecurityUtils_5Test {
+
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_1() throws Exception {
+		String trustStorePath = null;
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_2() throws Exception {
+		String trustStorePath = """";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_3() throws Exception {
+		String trustStorePath = ""lib/security/"";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_4() throws Exception {
+		String trustStorePath = ""lib/security/cacerts"";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_5() throws Exception {
+		String trustStorePath = ""lib/security/cacerts"";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_6() throws Exception {
+		String trustStorePath = ""lib/security/cacerts"";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_7() throws Exception {
+		String trustStorePath = ""lib/security/cacerts"";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_8() throws Exception {
+		String trustStorePath = ""lib/security/cacerts"";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_9() throws Exception {
+		String trustStorePath = ""lib/security/cacerts"";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+	/**
+	* Test case for the {@link SecurityUtils#openTrustStore(String, char[])} method.
+	*
+	* @throws Exception
+	*/
+	@Test
+	void testOpenTrustStore_10() throws Exception {
+		String trustStorePath = ""lib/security/cacerts"";
+		char[] passphrase = ""changeit"".toCharArray();
+		KeyStore result = SecurityUtils.openTrustStore(trustStorePath, passphrase);
+		assertNotNull(result);
+	}
+	
+}"
