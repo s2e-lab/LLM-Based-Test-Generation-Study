@@ -56,7 +56,8 @@ public class TestPromptCreator {
         // generates the prompts for RQ1 and RQ2 for HumanEvalJava
         generateHumanEvalJavaPrompts();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-//        generateOSSPrompts();
+        generateOSSPromptsRQ1();
+        generateOSSPromptsRQ2();
     }
 
     /**
@@ -66,7 +67,30 @@ public class TestPromptCreator {
      *
      * @throws IOException
      */
-    private static void generateOSSPrompts() throws IOException {
+    private static void generateOSSPromptsRQ1() throws IOException {
+        List<File> projectList = JavaSearcher.getProjectList(SF100_EVOSUITE);
+        for (File project : projectList) {
+//            System.out.println(project.getName());
+            List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+            List<HashMap<String, String>> outputList = new ArrayList<>();
+
+            for (File javaFile : javaFiles) {
+                // is it a test class?
+                if (javaFile.getPath().toLowerCase().contains("/test/"))
+                    continue;
+                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, decl -> decl.getJavadoc().isPresent(), true);
+                if (!promptList.isEmpty())
+                    outputList.addAll(promptList);
+            }
+            System.out.println(project.getName() + "\t" + outputList.size());
+            // only includes projects that have # units under tests between MIN and MAX (inclusive)
+            if (outputList.size() >= MIN_NUM_TESTABLE_METHODS && outputList.size() <= MAX_NUM_TESTABLE_METHODS)
+                save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
+        }
+    }
+
+
+    private static void generateOSSPromptsRQ2() throws IOException {
         List<File> projectList = JavaSearcher.getProjectList(SF100_EVOSUITE);
         for (File project : projectList) {
 //            System.out.println(project.getName());

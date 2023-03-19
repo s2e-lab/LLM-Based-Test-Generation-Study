@@ -6,6 +6,8 @@ import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.javadoc.JavadocBlockTag;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
 
@@ -57,27 +59,26 @@ public class PromptUtils {
      * @throws IOException in case of an IO error
      */
     public static void save(List<HashMap<String, String>> outputList, String outputFile) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter file = new FileWriter(outputFile)) {
-            gson.toJson(outputList, file);
-        }
-        System.out.println("Successfully saved JSON to " + outputFile);
-
-        StringWriter sw = new StringWriter();
-
-//        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
-//                .setHeader(HEADERS)
-//                .build();
-//
-//        try (final CSVPrinter printer = new CSVPrinter(sw, csvFormat)) {
-//            AUTHOR_BOOK_MAP.forEach((author, title) -> {
-//                try {
-//                    printer.printRecord(author, title);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            });
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        try (FileWriter file = new FileWriter(outputFile)) {
+//            gson.toJson(outputList, file);
 //        }
+//        System.out.println("Successfully saved JSON to " + outputFile);
+
+
+        String csvFilePath = outputFile.replace(".json", ".csv");
+        FileWriter csvWriter = new FileWriter(csvFilePath);
+        String[] headers = {"id", "method_signature", "classname"};
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader(headers)
+                .build();
+
+        try (final CSVPrinter printer = new CSVPrinter(csvWriter, csvFormat)) {
+            for (HashMap<String, String> prompt : outputList) {
+                printer.printRecord(prompt.get("id"), prompt.get("method_signature"), prompt.get("classname"));
+            }
+        }
+        System.out.println("Successfully saved CSV to " + csvFilePath);
     }
 
 
@@ -135,6 +136,8 @@ public class PromptUtils {
         outputMap.put("id", computeID(javaFile, suffix));
         outputMap.put("original_code", format("// %s.java\n%s", className, cu));
         outputMap.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
+        outputMap.put("method_signature", methodSignature);
+        outputMap.put("classname", className);
 
         return outputMap;
     }
