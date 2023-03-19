@@ -48,8 +48,8 @@ public class TestPromptCreator {
 
 
     // criteria used to filter out projects
-    public static int MIN_UNITS_UNDER_TEST = 1; // Quartile 1
-    public static int MAX_UNITS_UNDER_TEST = 82; // Quartile 3
+    public static int MIN_NUM_TESTABLE_METHODS = 1; // Quartile 1
+    public static int MAX_NUM_TESTABLE_METHODS = 82; // Quartile 3
 
 
     public static void main(String[] args) throws IOException {
@@ -83,7 +83,7 @@ public class TestPromptCreator {
             }
             System.out.println(project.getName() + "\t" + outputList.size());
             // only includes projects that have # units under tests between MIN and MAX (inclusive)
-            if (outputList.size() >= MIN_UNITS_UNDER_TEST && outputList.size() <= MAX_UNITS_UNDER_TEST)
+            if (outputList.size() >= MIN_NUM_TESTABLE_METHODS && outputList.size() <= MAX_NUM_TESTABLE_METHODS)
                 save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
         }
     }
@@ -106,7 +106,7 @@ public class TestPromptCreator {
             List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
             List<HashMap<String, String>> outputList = new ArrayList<>();
             for (File javaFile : javaFiles) {
-                outputList.addAll(generateTestPrompt(javaFile, null,false));
+                outputList.addAll(generateTestPrompt(javaFile, null, false));
             }
             // original sample = RQ1, otherwise, RQ2 folder
             String researchQuestion = packageName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
@@ -120,7 +120,7 @@ public class TestPromptCreator {
      * @param javaFile   file that contains the method under test
      * @param predicate  a predicate to test whether a specific method declaration should be included or not
      * @param publicOnly if true, only testable methods from *public* classes are returned
-     * @return
+     * @return a list of prompt metadata (metadata contains the ID, original code, and the test prompt)
      */
     private static List<HashMap<String, String>> generateTestPrompt(File javaFile, Predicate<MethodDeclaration> predicate, boolean publicOnly) {
 

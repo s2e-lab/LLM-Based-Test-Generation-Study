@@ -2,6 +2,8 @@ package s2e.lab;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.javadoc.Javadoc;
+import com.github.javaparser.javadoc.JavadocBlockTag;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.io.FilenameUtils;
@@ -10,6 +12,7 @@ import org.apache.commons.text.StringSubstitutor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -58,7 +61,23 @@ public class PromptUtils {
         try (FileWriter file = new FileWriter(outputFile)) {
             gson.toJson(outputList, file);
         }
-        // System.out.println("Successfully saved JSON to " + outputFile);
+        System.out.println("Successfully saved JSON to " + outputFile);
+
+        StringWriter sw = new StringWriter();
+
+//        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+//                .setHeader(HEADERS)
+//                .build();
+//
+//        try (final CSVPrinter printer = new CSVPrinter(sw, csvFormat)) {
+//            AUTHOR_BOOK_MAP.forEach((author, title) -> {
+//                try {
+//                    printer.printRecord(author, title);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//        }
     }
 
 
@@ -93,6 +112,7 @@ public class PromptUtils {
      * @param className       the name of the class under test
      * @param methodSignature the signature of the method under test
      * @param suffix          to distinguish between different test classes
+     * @return a dictionary containing the ID, the original code, and the test prompt.
      */
     public static HashMap<String, String> computeUnitTestPrompt(File javaFile, String numberTests, CompilationUnit cu, String className, String methodSignature, String suffix) {
         // get package declaration or set to empty string if in the default package
@@ -208,7 +228,7 @@ public class PromptUtils {
             return false;
 
         // cannot be a setter method
-        if (!m.isStatic() &&  m.getNameAsString().startsWith("set"))
+        if (!m.isStatic() && m.getNameAsString().startsWith("set"))
             return false;
         // non-toString
         if (m.getNameAsString().equals("toString"))
@@ -223,6 +243,44 @@ public class PromptUtils {
             return false;
 
         return true;
+    }
+
+    public static boolean hasGoodJavadoc(MethodDeclaration m) {
+        // method does not have a javadoc
+        if (!m.getJavadoc().isPresent())
+            return false;
+        Javadoc javadoc = m.getJavadoc().get();
+
+
+        // true if javadoc's description is empty
+        boolean hasDescription = javadoc.getDescription() != null && !javadoc.getDescription().toText().trim().isEmpty();
+        // true if javadoc has a non-empty @return tag
+        boolean hasReturn = false;
+        // current index of the parameter being documented; number of documented parameters
+        int numDocumentedParams = 0;
+
+
+        for (JavadocBlockTag tag : javadoc.getBlockTags()) {
+            if (tag.getTagName().equals("param")) {
+                String paramName = tag.getName().isPresent() ? tag.getName().get() : "";
+                String paramDescription = tag.getContent().toText().trim();
+                for (Parameter parameter : m.getParameters()) {
+                    // do case-insensitive parameter name matching, and check description is non-empty
+                    if (parameter.getNameAsString().equalsIgnoreCase(paramName) && !paramDescription.isEmpty()) {
+                        numDocumentedParams++;
+                        break;
+                    }
+                }
+            } else if (tag.getTagName().equals("return") || tag.getTagName().equals("returns")) {
+                // returns is a typo for return
+                hasReturn = !tag.getContent().toText().trim().isEmpty();
+            }
+        }
+        // true if all parameters are documented with an @param annotation
+        boolean hasAllParamsDocumented = numDocumentedParams == m.getParameters().size();
+
+
+        return (hasDescription || hasReturn) && hasAllParamsDocumented;
     }
 
     /**
