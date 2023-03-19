@@ -15,3 +15,11 @@ The file `HumanEval_java_v1.jsonl` is the original JSONL file from the extended 
 
 This maven project uses JaCoCo to measure test coverage.
 
+
+## How to run the tests and measure the coverage
+From command line:
+1. `mvn clean`
+2. `mvn compile`
+3. `mvn test`
+4. Put `jacococli.jar` in the {root}/lib directory of the project.
+5. `java -jar lib/jacococli.jar report target/jacoco.exec --classfiles "target/classes" --html ./report --csv report/report.csv`

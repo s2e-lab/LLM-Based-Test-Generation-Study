@@ -4,7 +4,13 @@
 #$ -m abe            # Send mail when job begins, ends and aborts
 #$ -pe smp 1     # Specify parallel environment and legal core size
 #$ -q long           # Specify queue
-#$ -N  RQ1_SF110_2K_4K
+#$ -N  RQ1_Py_2K_4K
+
+
+# python generate_tests_openai.py -t 2000 -d HumanEvalPython -q RQ1 -p "RQ1_Test_Generation/OpenAI_Data/HumanEvalPython_input/original_prompt.json"
+# python generate_tests_openai.py -t 4000 -d HumanEvalPython -q RQ1 -p "RQ1_Test_Generation/OpenAI_Data/HumanEvalPython_input/original_prompt.json"
+
+
 
 # HumanEvalJava RQ1 (un-comment below)
 # python generate_tests_openai.py -t 1000 -d HumanEvalJava -q RQ1 -p "RQ1_Test_Generation/OpenAI_Data/HumanEvalJava_input/original_prompt.json"
