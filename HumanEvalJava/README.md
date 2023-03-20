@@ -11,12 +11,17 @@ This directory contains the source code from HumanEval that are modified to repr
 
 The folder `/src/test/` contains JUnit tests we semi-automatically created for these samples.
 
-The file `HumanEval_java_v1.jsonl` is the original JSONL file from the extended HumanEval dataset.
 
-This maven project uses JaCoCo to measure test coverage.
+**Files**:
+- `HumanEval_java_v1.jsonl` is the original JSONL file from the extended HumanEval dataset.
+- `statistics.txt` contains the statistics of the samples in the original dataset.
+- `Problematic Samples.txt` are the samples that had problematic input/output examples, that we manually fixed.
+
+
 
 
 ## How to run the tests and measure the coverage
+This maven project uses JaCoCo to measure test coverage.
 From command line:
 1. `mvn clean`
 2. `mvn package`
