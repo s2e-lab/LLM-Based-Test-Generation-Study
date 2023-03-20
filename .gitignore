@@ -36,3 +36,5 @@ hs_err_pid*
 # Github_Data/
 **/config.json
 Old_data/
+# ignore duplicated data for now
+RQ1_Test_Generation/RQ1_Results
