@@ -44,6 +44,14 @@ public class SF110ScenarioGenerator {
 
     }
 
+    public static ClassOrInterfaceDeclaration generateScenario2(ClassOrInterfaceDeclaration classDeclaration, MethodDeclaration methodUnderTest) {
+        return null; //TODO: implement here
+    }
+
+    public static ClassOrInterfaceDeclaration generateScenario3(ClassOrInterfaceDeclaration classDeclaration, MethodDeclaration methodUnderTest) {
+        return null; //TODO: implement here
+    }
+
     public static void save(ClassOrInterfaceDeclaration scenarioClass, File project, File javaFile, int scenarioNo) throws IOException {
         // path to the scenario folder
         String scenarioFolderPath = String.format(SF100_EVOSUITE_SCENARIO, scenarioNo, project.getName());
@@ -90,6 +98,9 @@ public class SF110ScenarioGenerator {
 
                     for (MethodDeclaration m : testableMethods) {
                         save(generateScenario1(classDecl, m), project, javaFile, 1);
+                        //TODO: un-comment here as you implement the other scenarios
+                        // save(generateScenario2(classDecl, m), project, javaFile, 2);
+                        // save(generateScenario3(classDecl, m), project, javaFile, 3);
                     }
                 } catch (ParseProblemException e) {
                     System.err.println("Parsing error for file " + javaFile);
