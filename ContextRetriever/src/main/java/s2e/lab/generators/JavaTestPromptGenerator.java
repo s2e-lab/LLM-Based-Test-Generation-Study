@@ -36,8 +36,8 @@ public class JavaTestPromptGenerator {
     public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "src/test/%s/";
 
     // OSS project paths
-    public static String SF100_EVOSUITE = BASE_DIR + "EvoSuiteBenchmark/";
-    public static String SF100_EVOSUITE_SCENARIO = SF100_EVOSUITE + "%s/scenario%d/";
+    public static String SF100_EVOSUITE = BASE_DIR + "EvoSuiteBenchmark/original/";
+    public static String SF100_EVOSUITE_SCENARIO = BASE_DIR + "EvoSuiteBenchmark/scenario%d/%s/";
 
     // folders for RQ1
     public static String RQ1_BASE_DIR = BASE_DIR + "RQ1_Test_Generation/";
