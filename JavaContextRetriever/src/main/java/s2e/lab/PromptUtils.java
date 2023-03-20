@@ -4,6 +4,8 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.javadoc.JavadocBlockTag;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.io.FilenameUtils;
@@ -57,11 +59,11 @@ public class PromptUtils {
      * @throws IOException in case of an IO error
      */
     public static void save(List<HashMap<String, String>> outputList, String outputFile) throws IOException {
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        try (FileWriter file = new FileWriter(outputFile)) {
-//            gson.toJson(outputList, file);
-//        }
-//        System.out.println("Successfully saved JSON to " + outputFile);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter file = new FileWriter(outputFile)) {
+            gson.toJson(outputList, file);
+        }
+        System.out.println("Successfully saved JSON to " + outputFile);
 
 
         String csvFilePath = outputFile.replace(".json", ".csv");
