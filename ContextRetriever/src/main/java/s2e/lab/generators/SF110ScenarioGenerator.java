@@ -68,7 +68,6 @@ public class SF110ScenarioGenerator {
         for (File project : projectList) {
             System.out.println("Analyzing project " + project.getName());
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);
-            List<HashMap<String, String>> outputList = new ArrayList<>();
 
             for (File javaFile : javaFiles) {
                 // is it a test class?
