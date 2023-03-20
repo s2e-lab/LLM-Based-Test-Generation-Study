@@ -1,10 +1,11 @@
-package s2e.lab;
+package s2e.lab.generators;
 
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
 
 import java.io.File;
@@ -22,7 +23,7 @@ import static s2e.lab.PromptUtils.save;
  * This class is used to create the OpenAI prompts for the RQ1 and RQ2 according to each different scenario.
  * All of these are saved in JSON files inside the respective OpenAI_Data input folder .
  */
-public class TestPromptCreator {
+public class JavaTestPromptGenerator {
     // how many test methods to generate?
     public static String NUMBER_OF_PROMPTS = "ten";
 
@@ -36,7 +37,7 @@ public class TestPromptCreator {
 
     // OSS project paths
     public static String SF100_EVOSUITE = BASE_DIR + "EvoSuiteBenchmark/";
-    public static String GITHUB_SAMPLES_EVOSUITE = BASE_DIR + "GitHubDataBenchmark/";
+    public static String SF100_EVOSUITE_SCENARIO = SF100_EVOSUITE + "%s/scenario%d/";
 
     // folders for RQ1
     public static String RQ1_BASE_DIR = BASE_DIR + "RQ1_Test_Generation/";
@@ -57,7 +58,7 @@ public class TestPromptCreator {
         generateHumanEvalJavaPrompts();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
         generateOSSPromptsRQ1();
-        generateOSSPromptsRQ2();
+
     }
 
     /**
