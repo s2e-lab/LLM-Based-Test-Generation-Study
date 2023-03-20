@@ -80,7 +80,7 @@ public class SF110ScenarioGenerator {
                     ClassOrInterfaceDeclaration classDecl = PromptUtils.getPrimaryClass(cu);
                     if (classDecl == null) continue;
 
-                    // collect the testable method's names (only if the class is also testable)
+                    // collect the testable method's names (only if the class is also testable, AND the method has a "good" JavaDoc)
                     List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
                             .stream()
                             .filter(m -> PromptUtils.hasGoodJavadoc(m)).collect(Collectors.toList());
