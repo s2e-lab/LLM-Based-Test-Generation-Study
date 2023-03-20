@@ -4,17 +4,15 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.javadoc.JavadocBlockTag;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
+import s2e.lab.generators.JavaTestPromptGenerator;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static s2e.lab.TestPromptCreator.BASE_DIR;
+import static s2e.lab.generators.JavaTestPromptGenerator.BASE_DIR;
 
 /**
  * Utilities for the test prompt creation.
@@ -42,9 +40,9 @@ public class PromptUtils {
 
     static {
         try {
-            URL templateUrl = TestPromptCreator.class.getClassLoader().getResource("JUnitTestTemplate.java");
+            URL templateUrl = JavaTestPromptGenerator.class.getClassLoader().getResource("JUnitTestTemplate.java");
             UNIT_TEST_TEMPLATE = Files.readString(Paths.get(templateUrl.getPath()));
-            URL humanEvalUrl = TestPromptCreator.class.getClassLoader().getResource("HumanEvalTestTemplate.java");
+            URL humanEvalUrl = JavaTestPromptGenerator.class.getClassLoader().getResource("HumanEvalTestTemplate.java");
             HUMAN_EVAL_TEST_TEMPLATE = Files.readString(Paths.get(humanEvalUrl.getPath()));
         } catch (IOException e) {
             throw new RuntimeException(e);

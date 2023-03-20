@@ -17,7 +17,7 @@ public class Extractor {
 
     public static void main(String[] args) throws IOException {
 
-        File projectDirectory = new File("EvoSuiteBenchmark/1_tullibee/src/main");
+        File projectDirectory = new File("../EvoSuiteBenchmark/1_tullibee/src/main");
         List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
         HashMap<File, CompilationUnit> javaFileCompilationUnitHashMap = new HashMap<>();
 

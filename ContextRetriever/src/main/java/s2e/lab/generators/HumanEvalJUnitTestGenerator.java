@@ -1,9 +1,10 @@
-package s2e.lab;
+package s2e.lab.generators;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
+import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
 
 import java.io.File;
@@ -16,7 +17,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static s2e.lab.PromptUtils.HUMAN_EVAL_TEST_TEMPLATE;
-import static s2e.lab.TestPromptCreator.*;
+import static s2e.lab.generators.JavaTestPromptGenerator.*;
 
 /**
  * This class creates JUnit tests for the HumanEval dataset (RQ1).

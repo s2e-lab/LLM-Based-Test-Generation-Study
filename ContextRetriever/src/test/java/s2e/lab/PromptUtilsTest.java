@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static s2e.lab.TestPromptCreator.SF100_EVOSUITE;
+import static s2e.lab.generators.JavaTestPromptGenerator.SF100_EVOSUITE;
 
 public class PromptUtilsTest {
 

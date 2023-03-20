@@ -1,4 +1,4 @@
-package s2e.lab;
+package s2e.lab.generators;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CompilableTestCreator {
+public class CompilableTestGenerator {
     public static String BASE_DIR = "../"; // FIXME: this is duplicated
     public static String RQ1_BASE_DIR = BASE_DIR + "RQ1_Prompt_Elements/";  // FIXME: this is duplicated
     public static String RQ1_INPUT_FILE_NAME = RQ1_BASE_DIR + "OpenAI_Data/output/scenario2_output_fixed_fixed_extracode.json";
