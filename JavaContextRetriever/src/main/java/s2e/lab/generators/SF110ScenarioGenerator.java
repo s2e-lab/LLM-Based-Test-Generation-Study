@@ -3,8 +3,14 @@ package s2e.lab.generators;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.comments.Comment;
+import com.github.javaparser.javadoc.Javadoc;
+import javassist.compiler.ast.Variable;
 import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
 
@@ -29,27 +35,113 @@ public class SF110ScenarioGenerator {
         ClassOrInterfaceDeclaration scenarioClass = classDeclaration.clone();
 
         // remove all methods, but keep the one under test
-        classDeclaration.getMethods().stream().filter(m -> !m.equals(methodUnderTest)).forEach(m -> scenarioClass.remove(m));
+        scenarioClass.getMethods().stream().filter(m -> !m.equals(methodUnderTest)).forEach(m -> scenarioClass.remove(m));
 
         // remove all of its constructors
-        classDeclaration.getConstructors().stream().forEach(c -> scenarioClass.remove(c));
+        scenarioClass.getConstructors().stream().forEach(c -> scenarioClass.remove(c));
 
         // remove all of its members (fields)
-        classDeclaration.getMembers().stream().forEach(m -> scenarioClass.remove(m));
+        ArrayList<Node> nodesToRemove = new ArrayList<>();
+        for(Node n : scenarioClass.getChildNodes()){
+            if(n instanceof FieldDeclaration){
+                nodesToRemove.add(n);
+            }
+        }
+        for(Node n : nodesToRemove){
+            scenarioClass.remove(n);
+        }
+
+        // save the javaDoc
+        Javadoc javaDoc = scenarioClass.getMethods().get(0).getJavadoc().get();
+
+        // remove all comments
+        scenarioClass.getAllContainedComments().forEach(c -> c.remove());
 
         // remove the method's javadoc
         scenarioClass.getMethods().get(0).removeJavaDocComment();
+
+
 
         return scenarioClass;
 
     }
 
     public static ClassOrInterfaceDeclaration generateScenario2(ClassOrInterfaceDeclaration classDeclaration, MethodDeclaration methodUnderTest) {
-        return null; //TODO: implement here
+        // create a copy
+        ClassOrInterfaceDeclaration scenarioClass = classDeclaration.clone();
+
+        // remove all methods, but keep the one under test
+        scenarioClass.getMethods().stream().filter(m -> !m.equals(methodUnderTest)).forEach(m -> scenarioClass.remove(m));
+
+        // remove all of its constructors
+        scenarioClass.getConstructors().stream().forEach(c -> scenarioClass.remove(c));
+
+        // remove all of its members (fields)
+        ArrayList<Node> nodesToRemove = new ArrayList<>();
+        for(Node n : scenarioClass.getChildNodes()){
+            if(n instanceof FieldDeclaration){
+                nodesToRemove.add(n);
+            }
+        }
+        for(Node n : nodesToRemove){
+            scenarioClass.remove(n);
+        }
+
+
+        // save the javaDoc
+        Javadoc javaDoc = scenarioClass.getMethods().get(0).getJavadoc().get();
+
+        // remove all comments
+        scenarioClass.getAllContainedComments().forEach(c -> c.remove());
+
+        // remove the method's javadoc
+        //scenarioClass.getMethods().get(0).removeJavaDocComment();
+
+        // readd the javadoc
+        scenarioClass.getMethods().get(0).setJavadocComment(javaDoc.toText());
+
+
+        return scenarioClass;
     }
 
     public static ClassOrInterfaceDeclaration generateScenario3(ClassOrInterfaceDeclaration classDeclaration, MethodDeclaration methodUnderTest) {
-        return null; //TODO: implement here
+
+        // create a copy
+        ClassOrInterfaceDeclaration scenarioClass = classDeclaration.clone();
+
+        // remove all methods, but keep the one under test
+        scenarioClass.getMethods().stream().filter(m -> !m.equals(methodUnderTest)).forEach(m -> scenarioClass.remove(m));
+
+        // remove all of its constructors
+        scenarioClass.getConstructors().stream().forEach(c -> scenarioClass.remove(c));
+
+        // remove all of its members (fields)
+        ArrayList<Node> nodesToRemove = new ArrayList<>();
+        for(Node n : scenarioClass.getChildNodes()){
+            if(n instanceof FieldDeclaration){
+                nodesToRemove.add(n);
+            }
+        }
+        for(Node n : nodesToRemove){
+            scenarioClass.remove(n);
+        }
+
+        // save the javaDoc
+        Javadoc javaDoc = scenarioClass.getMethods().get(0).getJavadoc().get();
+
+        // remove all comments
+        scenarioClass.getAllContainedComments().forEach(c -> c.remove());
+
+        // remove the method's javadoc
+        //scenarioClass.getMethods().get(0).removeJavaDocComment();
+
+        // readd the javadoc
+        scenarioClass.getMethods().get(0).setJavadocComment(javaDoc.toText());
+
+        // remove the method's body
+        scenarioClass.getMethods().get(0).setBody(null);
+
+        return scenarioClass;
     }
 
     public static void save(ClassOrInterfaceDeclaration scenarioClass, File project, File javaFile, int scenarioNo) throws IOException {
@@ -67,6 +159,7 @@ public class SF110ScenarioGenerator {
         }
 
         System.out.println("Saved at " + scenarioFile);
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -99,12 +192,15 @@ public class SF110ScenarioGenerator {
                     for (MethodDeclaration m : testableMethods) {
                         save(generateScenario1(classDecl, m), project, javaFile, 1);
                         //TODO: un-comment here as you implement the other scenarios
-                        // save(generateScenario2(classDecl, m), project, javaFile, 2);
-                        // save(generateScenario3(classDecl, m), project, javaFile, 3);
+                        save(generateScenario2(classDecl, m), project, javaFile, 2);
+                        save(generateScenario3(classDecl, m), project, javaFile, 3);
+
                     }
+
                 } catch (ParseProblemException e) {
                     System.err.println("Parsing error for file " + javaFile);
                 }
+
             }
         }
     }
