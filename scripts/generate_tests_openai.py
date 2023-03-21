@@ -118,20 +118,6 @@ def get_output_files(config: dict, rq: int, dataset: str, prompt_file: str, max_
     return output_folder, scenario_folder, json_file, csv_file
 
 
-def get_fixed_files(config: dict, scenario: str, max_tokens: int) -> tuple:
-    """
-    Compute the paths to the output folder and response file.
-    @param max_tokens: maximum number of tokens used for analysis
-    @param config:  configuration
-    @param scenario: filename for the scenario (ex: "scenario1_prompt.json")
-    @return:
-    """
-    output_folder, scenario_folder, response_file, csv_file = get_output_files(config, scenario, max_tokens)
-    response_file = response_file.replace(".json", "_fixed.json")
-    csv_file = response_file.replace(".json", ".csv")
-    return output_folder, scenario_folder, response_file, csv_file
-
-
 def get_mock_response(prompt: dict, error_msg: str) -> dict:
     """
     Creates a mock response object to be used to record runtime errors

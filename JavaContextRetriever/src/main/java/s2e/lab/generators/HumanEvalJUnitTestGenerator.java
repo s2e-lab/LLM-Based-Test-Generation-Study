@@ -17,7 +17,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static s2e.lab.PromptUtils.HUMAN_EVAL_TEST_TEMPLATE;
-import static s2e.lab.generators.JavaTestPromptGenerator.*;
+import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
 
 /**
  * This class creates JUnit tests for the HumanEval dataset (RQ1).

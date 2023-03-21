@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static s2e.lab.generators.JavaTestPromptGenerator.SF100_EVOSUITE;
+import static s2e.lab.generators.JavaOpenAIPromptGenerator.SF100_EVOSUITE;
 
 public class PromptUtilsTest {
 
@@ -51,13 +51,26 @@ public class PromptUtilsTest {
                 "\tpublic void setNewRecord(boolean isNewRecord) { this.isNewRecord = isNewRecord; }\n" +
                 "\tpublic boolean isNewRecord() { return this.isNewRecord; }\n" +
                 "\tpublic Boolean getNewRecord() { return this.isNewRecord; }\n" +
+                "\tpublic Object clone() { return this.isNewRecord; }\n" +
+                "\tpublic boolean equals(Object o) { return this.isNewRecord; }\n" +
+                "\tprotected void finalize() { return this.isNewRecord; }\n" +
+                "\tpublic int hashCode() { return this.isNewRecord; }\n" +
+                "\tpublic void notify() { return this.isNewRecord; }\n" +
+                "\tpublic void notifyAll() { return this.isNewRecord; }\n" +
+                "\tpublic String toString() { return this.isNewRecord; }\n" +
+                "\tpublic void wait() { return this.isNewRecord; }\n" +
+                "\tpublic void wait(long t) { return this.isNewRecord; }\n" +
+                "\tpublic void wait(long t, int nanos) { return this.isNewRecord; }\n" +
                 "}\nclass PromptUtilsTest {} ");
         List<String> testableMethods = PromptUtils.getTestableMethods(PromptUtils.getPrimaryClass(cu), false).stream().map(m -> m.getSignature().toString()).collect(Collectors.toList());
+
         assertEquals(3, testableMethods.size());
         assertEquals("testableMethod1(int)", testableMethods.get(0));
         assertEquals("testableMethod2(Integer, int)", testableMethods.get(1));
         assertEquals("testableMethod3(Integer, int)", testableMethods.get(2));
     }
+
+
 
 
     @Test

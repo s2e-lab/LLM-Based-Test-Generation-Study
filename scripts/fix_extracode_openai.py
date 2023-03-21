@@ -1,10 +1,11 @@
 import json
 
-EOF = ["\n\n// ","\n```\n\n##","</code>"]
+from generate_tests_openai import load_config, get_output_files
 
-from generate_tests_openai import load_config,get_fixed_files,save_generated_code
+EOF = ["\n\n// ", "\n```\n\n##", "</code>"]
 
-def remove_extracode(code: str) -> str:
+
+def remove_extra_code(code: str) -> str:
     """
     Removes the extra code from the generated tests.
     @param code: generated code
@@ -18,41 +19,50 @@ def remove_extracode(code: str) -> str:
     return code
 
 
-def fix_extracode(config: dict, scenario: str) -> None:
+def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int) -> None:
     """
     Fixes the extra code in the generated tests.
     @param config: dictionary of the parsed configuration
     @param scenario: filename for the scenario (ex: "Scenario1_prompt.json")
     """
-    output_folder, response_file = get_fixed_files(config, scenario)
+    # sets the data output paths
+    output_folder, scenario_folder, json_file, csv_file = get_output_files(config, rq, dataset, prompt_file, max_tokens)
+
     # load previously computed response
-    with open(response_file, "r") as f:
+    with open(json_file, "r") as f:
         previous_responses = json.load(f)
 
     # creates a new array with responses that are fixed
     filtered_responses = []
     for r in previous_responses:
-        print("PROMPT", r["prompt_id"])
-        
         old_code = r["choices"][0]["text"]
-
-        r["choices"][0]["text"] = remove_extracode(old_code)
-
-        if old_code != r["choices"][0]["text"]:
-                r["removed_extracode"] = True
-                print("Code was fixed")
-
-        save_generated_code(r, r, max_tokens, output_folder)
+        r["choices"][0]["text"] = remove_extra_code(old_code)
+        r["removed_extra_code"] = old_code != r["choices"][0]["text"]
+        r["original_generated_code"] = old_code
+        print("PROMPT", r["prompt_id"], "FIXED?", r["removed_extra_code"])
         filtered_responses.append(r)
 
-
-    with open(response_file.replace(".json", "_fixed_extracode.json"), "w") as f:
+    fixed_json_file = json_file.replace(".json", "_fixed_extracode.json")
+    with open(fixed_json_file, "w") as f:
         f.write(json.dumps(filtered_responses, indent=4))
+    print("SAVED AT ", fixed_json_file)
 
 
 def main():
     config = load_config("config.json")
-    fix_extracode(config, "scenario1_prompt.json")
+
+    for max_tokens in [2000, 4000]:
+        rq = 1
+        dataset = "HumanEvalJava"
+        prompt_file = "RQ1_Test_Generation/OpenAI_Data/HumanEvalJava_input/original_prompt.json"
+        fix_extra_code(config, rq, dataset, prompt_file, max_tokens)
+
+    for max_tokens in [2000, 4000]:
+        for scenario in ["scenario1", "scenario2", "scenario3"]:
+            rq = 2
+            dataset = "HumanEvalJava"
+            prompt_file = f"RQ2_Prompt_Elements/OpenAI_Data/HumanEvalJava_input/{scenario}_prompt.json"
+            fix_extra_code(config, rq, dataset, prompt_file, max_tokens)
 
 
 if __name__ == "__main__":
