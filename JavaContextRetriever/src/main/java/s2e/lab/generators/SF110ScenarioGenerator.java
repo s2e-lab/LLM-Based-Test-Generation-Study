@@ -179,9 +179,9 @@ public class SF110ScenarioGenerator {
                     // collect the testable method's names (only if the class is also testable, AND the method has a "good" JavaDoc)
                     List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
                             .stream()
-                            .filter(m -> PromptUtils.hasGoodJavadoc(m)).collect(Collectors.toList());
+                            .filter(METHOD_INCLUSION_CRITERIA).collect(Collectors.toList());
                     // only includes projects that have # testable methods between MIN and MAX (inclusive)
-                    if (testableMethods.size() < MIN_NUM_TESTABLE_METHODS || testableMethods.size() > MAX_NUM_TESTABLE_METHODS)
+                    if (PROJECT_INCLUSION_CRITERIA.test(testableMethods))
                         continue;
 
 

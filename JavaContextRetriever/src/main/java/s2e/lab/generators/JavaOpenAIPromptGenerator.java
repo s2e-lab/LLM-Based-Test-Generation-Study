@@ -37,8 +37,8 @@ public class JavaOpenAIPromptGenerator {
     public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "src/test/%s/";
 
     // OSS project paths
-    public static String SF100_EVOSUITE = BASE_DIR + "EvoSuiteBenchmark/original/";
-    public static String SF100_EVOSUITE_SCENARIO = BASE_DIR + "EvoSuiteBenchmark/scenario%d/%s/";
+    public static String SF100_EVOSUITE = BASE_DIR + "EvoSuiteBenchmark/";
+    public static String SF100_EVOSUITE_SCENARIO = SF100_EVOSUITE + "%s/";
 
     // folders for RQ1
     public static String RQ1_BASE_DIR = BASE_DIR + "RQ1_Test_Generation/";
@@ -50,64 +50,84 @@ public class JavaOpenAIPromptGenerator {
 
 
     // criteria used to filter out projects
-    public static int MIN_NUM_TESTABLE_METHODS = 0; // Quartile 1
-    public static int MAX_NUM_TESTABLE_METHODS = 31; // Quartile 3
+    private static int MIN_METHODS_TO_TEST = 0; // Quartile 1
+    private static int MAX_METHODS_TO_TEST = 31; // Quartile 3
+
+    // method inclusion criteria
+    public static Predicate<MethodDeclaration> METHOD_INCLUSION_CRITERIA = (m -> PromptUtils.hasGoodJavadoc(m));
+    // project inclusion criteria
+    // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
+    public static Predicate<List<? extends Object>> PROJECT_INCLUSION_CRITERIA =
+            (methods) ->
+                    (methods.size() > 0 && methods.size() >= MIN_METHODS_TO_TEST && methods.size() <= MAX_METHODS_TO_TEST);
 
 
     public static void main(String[] args) throws IOException {
-
+        /* HumanEvalJava */
         File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
         File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
         // create folders if they don't exist
-        humanEvalJavaRQ1.mkdirs(); humanEvalJavaRQ2.mkdirs();
+        humanEvalJavaRQ1.mkdirs();
+        humanEvalJavaRQ2.mkdirs();
         // clean old results from the input folder
         FileUtils.cleanDirectory(humanEvalJavaRQ1);
         FileUtils.cleanDirectory(humanEvalJavaRQ2);
         // generates the prompts for RQ1 and RQ2 for HumanEvalJava
         generateHumanEvalJavaPrompts();
 
-
-        // clean old results from the input folder
+        /* OSS projects */
         File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         File sf110RQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         // create folders if they don't exist
-        sf110RQ1.mkdirs(); sf110RQ2.mkdirs();
+        sf110RQ1.mkdirs();
+        sf110RQ2.mkdirs();
         // clean old results from the input folder
         FileUtils.cleanDirectory(sf110RQ1);
         FileUtils.cleanDirectory(sf110RQ2);
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-        generateOSSPromptsRQ1();
+        generateOSSPrompts();
 
     }
 
     /**
-     * Generates the JSON prompts for the OSS projects.
-     * Generates the original scenario for RQ1.
-     * TODO: other scenarios for RQ2
+     * Generates the JSON prompts for the OSS projects (SF110 - Evosuite Benchmark).
      *
      * @throws IOException
      */
-    private static void generateOSSPromptsRQ1() throws IOException {
-        List<File> projectList = JavaSearcher.getProjectList(SF100_EVOSUITE);
-        for (File project : projectList) {
-//            System.out.println(project.getName());
-            List<File> javaFiles = JavaSearcher.findJavaFiles(project);
-            List<HashMap<String, String>> outputList = new ArrayList<>();
+    private static void generateOSSPrompts() throws IOException {
+        // generates the JSON prompts for RQ1 and RQ2
+        for (int i = 0; i <= 0; i++) {
+            // scenario 0 is the original code, change package to original
+            String scenarioName = (i == 0 ? "original" : ("scenario" + i));
+            File scenarioDir = new File(format(SF100_EVOSUITE_SCENARIO, scenarioName));
+            assert scenarioDir.exists();
 
-            for (File javaFile : javaFiles) {
-                // is it a test class?
-                if (javaFile.getPath().toLowerCase().contains("/test/"))
-                    continue;
+            List<File> projectList = JavaSearcher.getProjectList(scenarioDir.getAbsolutePath());
+            for (File project : projectList) {
+                List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+                List<HashMap<String, String>> outputList = new ArrayList<>();
 
-                // gets testable methods with GOOD javadoc
-                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, decl -> PromptUtils.hasGoodJavadoc(decl), true);
-                if (!promptList.isEmpty())
-                    outputList.addAll(promptList);
-            }
+                for (File javaFile : javaFiles) {
+                    // is it a test class?
+                    if (javaFile.getPath().toLowerCase().contains("/test/"))
+                        continue;
+
+                    // gets testable methods according to a criteria
+                    Predicate<MethodDeclaration> pred = scenarioName.equals("original") ? // if original scenario
+                            METHOD_INCLUSION_CRITERIA : // then, use the 'good javadoc' criteria
+                            null; // else, no need to filter because the scenario generation already filtered out the 'bad' methods
+
+                    List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, pred, true);
+                    if (!promptList.isEmpty())
+                        outputList.addAll(promptList);
+                }
 //            System.out.println(project.getName() + "\t" + outputList.size());
-            // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
-            if (outputList.size()>0 && outputList.size() >= MIN_NUM_TESTABLE_METHODS && outputList.size() <= MAX_NUM_TESTABLE_METHODS)
-                save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
+                // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
+                if (PROJECT_INCLUSION_CRITERIA.test(outputList)) {
+                    String rqPromptOutputFile = scenarioName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
+                    save(outputList, String.format(rqPromptOutputFile, "SF110", project.getName()));
+                }
+            }
         }
     }
 
@@ -123,18 +143,18 @@ public class JavaOpenAIPromptGenerator {
         // generates the JSON prompts for RQ1 and RQ2
         for (int i = 0; i <= 3; i++) {
             // scenario 0 is the original code, change package to original
-            String packageName = (i == 0 ? "original" : ("scenario" + i));
-            File projectDirectory = new File(format(HUMAN_EVAL_SCENARIO, packageName));
-            assert projectDirectory.exists();
+            String scenarioName = (i == 0 ? "original" : ("scenario" + i));
+            File scenarioDir = new File(format(HUMAN_EVAL_SCENARIO, scenarioName));
+            assert scenarioDir.exists();
 
-            List<File> javaFiles = JavaSearcher.findJavaFiles(projectDirectory);
+            List<File> javaFiles = JavaSearcher.findJavaFiles(scenarioDir);
             List<HashMap<String, String>> outputList = new ArrayList<>();
             for (File javaFile : javaFiles) {
                 outputList.addAll(generateTestPrompt(javaFile, null, false));
             }
             // original sample = RQ1, otherwise, RQ2 folder
-            String researchQuestion = packageName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
-            save(outputList, format(researchQuestion, "HumanEvalJava", packageName));
+            String researchQuestion = scenarioName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
+            save(outputList, format(researchQuestion, "HumanEvalJava", scenarioName));
         }
     }
 
