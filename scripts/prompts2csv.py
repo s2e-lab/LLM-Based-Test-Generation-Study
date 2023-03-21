@@ -27,6 +27,7 @@ def main(scenario_path):
         csv_file = csv.writer(csv_out, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         csv_file.writerow(["id", "method_signature", "classname"])
         for p in prompts:
+            print(p)
             csv_file.writerow([p["id"],p["method_signature"], p["classname"]])
 
 

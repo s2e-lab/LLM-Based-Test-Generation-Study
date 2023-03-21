@@ -2,21 +2,22 @@ package s2e.lab.generators;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.utils.Pair;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.apache.commons.io.FilenameUtils;
-import s2e.lab.searcher.JavaSearcher;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static s2e.lab.generators.JavaTestPromptGenerator.RQ1_BASE_DIR;
 import static s2e.lab.generators.JavaTestPromptGenerator.RQ2_BASE_DIR;
@@ -28,81 +29,72 @@ public class CompilableTestGenerator {
     public static String RQ1_TESTS_OUTPUT_DIR = RQ1_BASE_DIR + "OpenAI_Data/%s_output/%s/";
     public static String RQ2_TESTS_OUTPUT_DIR = RQ2_BASE_DIR + "OpenAI_Data/%s_output/%s/";
 
-    public static String RQ1_JSON_OUTPUT = RQ1_BASE_DIR + "OpenAI_Data/%s_output/%s_output_%d.json";
-    public static String RQ1_CSV_OUTPUT = RQ1_BASE_DIR + "OpenAI_Data/%s_output/%s_output_%d.csv";
+    // uses the fixed version
+    public static String RQ1_JSON_OUTPUT = RQ1_BASE_DIR + "OpenAI_Data/%s_output/%s_output_%d_fixed_extracode.json";
+    public static String RQ1_CSV_OUTPUT = RQ1_BASE_DIR + "OpenAI_Data/%s_input/%s_prompt.csv";
 
-    public static String RQ2_JSON_OUTPUT = RQ2_BASE_DIR + "OpenAI_Data/%s_output/%s_output_%d.json";
-    public static String RQ2_CSV_OUTPUT = RQ2_BASE_DIR + "OpenAI_Data/%s_output/%s_output_%d.csv";
+    public static String RQ2_JSON_OUTPUT = RQ2_BASE_DIR + "OpenAI_Data/%s_output/%s_output_%d_fixed_extracode.json";
+    public static String RQ2_CSV_OUTPUT = RQ2_BASE_DIR + "OpenAI_Data/%s_input/%s_prompt.csv";
 
-    public void computeCompilableTests() throws IOException {
-        String[] scenarios = {"original", "scenario1", "scenario2", "scenario3"};
-        for (int i = 0; i < scenarios.length; i++) {
-            String scenario = scenarios[i];
-            String rqFolder = i == 0 ? RQ1_TESTS_OUTPUT_DIR : RQ2_TESTS_OUTPUT_DIR;
-            File outputDir = new File(String.format(rqFolder, "HumanEvalJava", scenario));
-            List<File> javaFiles = JavaSearcher.findJavaFiles(outputDir);
-            for (File javaFile : javaFiles) {
-                try {
-                    CompilationUnit cu = StaticJavaParser.parse(javaFile);
-                    System.out.println("success " + javaFile.getName());
-                } catch (Exception e) {
-                    // System.err.println("Parse error " + javaFile.getName());
-                }
-            }
-        }
-    }
+    // where to save
+    public static String RQ1_STATISTICS_CSV_OUTPUT = "../../ICSE23-results/RQ1_Results/%s_%s_%d.csv";
+    public static String RQ1_STATISTICS_JAVA_OUTPUT = "../../ICSE23-results/RQ1_Results/%s-Results/src/test/java/%s/%s.java";
 
 
+    public static void main(String[] args) throws IOException {
+        String dataset = "HumanEvalJava";
+        File csvFilePath = new File("../../ICSE23-results/RQ1_Results/%s.csv".formatted(dataset));
+        FileWriter csvWriter = new FileWriter(csvFilePath);
+        String[] headers = {"id", "scenario", "token_size", "classname", "method_signature", "is_original_compilable", "removed_extra_code", "is_compilable_after_removal"};
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader(headers)
+                .build();
+
+        try (final CSVPrinter printer = new CSVPrinter(csvWriter, csvFormat)) {
 
 
+            // promptID, Pair<classname, method_signature>
+            String[] scenarios = {"original", "scenario1", "scenario2", "scenario3"};
+            int[] tokens = {2000, 4000};
+            for (int i = 0; i < scenarios.length; i++) {
+                for (int token : tokens) {
 
-    public static void main(String[] args) {
-//        File file = new File(RQ1_OUTPUT_FILE);
-//        if (!file.exists()) {
-//            file.mkdirs();
-//        }
-
-        String[] scenarios = {"original", "scenario1", "scenario2", "scenario3"};
-        int[] tokens = {2000, 4000};
-        for (int i = 0; i < scenarios.length; i++) {
-            for (int token : tokens) {
-                String scenario = scenarios[i];
-                String rqFolder = i == 0 ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
-                JsonArray jsonArray = getJsonArray(String.format(rqFolder, "HumanEvalJava", scenario, token));
-                if (jsonArray != null) {
-                    for (JsonElement jsonElement : jsonArray) {
-                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    String scenario = scenarios[i];
+                    String rqJsonFile = i == 0 ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
+                    String rqCsvFile = i == 0 ? RQ1_CSV_OUTPUT : RQ2_CSV_OUTPUT;
+                    JsonArray promptArr = getJsonArray(String.format(rqJsonFile, dataset, scenario, token));
+                    // key = promptID, value = Pair<classname, method_signature>
+                    Map<String, Pair<String, String>> promptMetadata = loadCsvFile(String.format(rqCsvFile, dataset, scenario));
+                    // key = promptID, value = Pair<isCompilable, hasExtraCode>
+                    Map<String, Pair<Boolean, Boolean>> promptCompileStatus = new HashMap<>();
+                    for (JsonElement prompObj : promptArr) {
+                        JsonObject jsonObject = prompObj.getAsJsonObject();
 
                         String promptID = jsonObject.get("prompt_id").getAsString();
-                        String filename = FilenameUtils.getBaseName(promptID);
-                        System.out.println(promptID);
-
                         String prompt = jsonObject.get("test_prompt").getAsString();
                         JsonElement choice = jsonObject.get("choices").getAsJsonArray().get(0);
                         String generatedTest = choice.getAsJsonObject().get("text").getAsString();
-                        String jUnitCode = prompt + "\n\t\t" + generatedTest;
-                        System.out.println(jUnitCode);
+                        String jUnitCodeAfterFix = prompt + "\n\t\t" + generatedTest;
+                        String jUnitOriginalCode = prompt + "\n\t\t" + jsonObject.get("original_code").getAsString();
 
-
-//                for (JsonElement jsonElement1 : choice) {
-//                    JsonObject jsonObject1 = jsonElement1.getAsJsonObject();
-//                    String text = jsonObject1.get("text").getAsString();
-//                    CompilationUnit cu = getCompilationUnit(prompt + "\n\t\t" + text);
-//                    if (cu != null) {
-//                        //collect the class names
-//                        List<String> classNames = new ArrayList<>();
-//                        VoidVisitor<List<String>> classNameCollector = new ClassNameCollector();
-//                        classNameCollector.visit(cu, classNames);
-//                        System.out.println("Class Names: " + classNames);
-//                        String fileName = RQ1_OUTPUT_FILE + classNames.get(0) + ".java";
-//                        System.out.println(fileName);
-//                        try {
-//                            Files.write(Paths.get(fileName), cu.toString().getBytes());
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
+                        boolean isOriginalCompilable = getCompilationUnit(jUnitOriginalCode ) != null;
+                        boolean isCompilableAfterFix = getCompilationUnit(jUnitCodeAfterFix) != null;
+                        boolean removedExtraCode = jsonObject.get("removed_extra_code").getAsBoolean();
+                        promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
+                        // "id", "scenario", "token_size", "classname", "method_signature",
+                        // "is_original_compilable", "removed_extra_code", "is_compilable_after_removal"
+                        printer.printRecord(promptID, scenario, token,
+                                promptMetadata.get(promptID).a, promptMetadata.get(promptID).b,
+                                isOriginalCompilable, removedExtraCode, isCompilableAfterFix);
+                        if (isOriginalCompilable) {
+                            String jUnitTest = "%s_%s_%d_Test.java".formatted(promptMetadata.get(promptID).a, promptMetadata.get(promptID).b.split("\\(")[0], token);
+                            File jUnitTestFile = new File(String.format(RQ1_STATISTICS_JAVA_OUTPUT, dataset, scenario, jUnitTest));
+                            jUnitTestFile.getParentFile().mkdirs(); // create parent dirs if needed
+                            System.out.println("Saving " + jUnitTestFile);
+                            try (FileWriter f = new FileWriter(jUnitTestFile)) {
+                                f.write(jUnitCodeAfterFix);
+                            }
+                        }
                     }
                 }
             }
@@ -111,32 +103,76 @@ public class CompilableTestGenerator {
 
     }
 
+    /**
+     * Saves the compilation status to a CSV file.
+     *
+     * @param promptMetadata      metadata of the prompts (containing ID, classname, method signature)
+     * @param promptCompileStatus if they are compilable or not
+     * @param tokenSize           the token size of the prompts
+     * @throws IOException in case of an IO error
+     */
+    public static void save(Map<String, Pair<String, String>> promptMetadata, Map<String, Pair<Boolean, Boolean>> promptCompileStatus, int tokenSize, String dataset, String scenario) throws IOException {
+
+
+        File csvFilePath = new File("../../ICSE23-results/RQ1_Results/%s_%s_%d.csv".formatted(dataset, scenario, tokenSize));
+        FileWriter csvWriter = new FileWriter(csvFilePath);
+        String[] headers = {"id", "classname", "method_signature", "token_size", "is_compilable", "removed_extra_code"};
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader(headers)
+                .build();
+
+        try (final CSVPrinter printer = new CSVPrinter(csvWriter, csvFormat)) {
+            promptMetadata.forEach((id, pair) -> {
+                try {
+                    printer.printRecord(id, pair.a, pair.b, tokenSize, promptCompileStatus.get(id).a, promptCompileStatus.get(id).b);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        System.out.println("Successfully saved CSV to " + csvFilePath);
+    }
+
+
+    private static Map<String, Pair<String, String>> loadCsvFile(String csvFilePath) throws IOException {
+        Map<String, Pair<String, String>> output = new HashMap<>();
+        // read a CSV file and put the data into a map
+        String[] headers = {"id", "method_signature", "classname"};
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader(headers)
+                .setSkipHeaderRecord(true)
+                .build();
+
+        Iterable<CSVRecord> records = csvFormat.parse(new FileReader(csvFilePath));
+
+        for (CSVRecord record : records) {
+            String promptID = record.get("id");
+            String methodSignature = record.get("method_signature");
+            String classname = record.get("classname");
+            output.put(promptID, new Pair<>(classname, methodSignature));
+        }
+
+        return output;
+    }
+
     public static CompilationUnit getCompilationUnit(String code) {
         try {
             CompilationUnit cu = StaticJavaParser.parse(code);
             return cu;
         } catch (Exception e) {
-            System.out.println("Exception: Not compilable");
+            return null;
         }
-        return null;
-
     }
 
-    public static JsonArray getJsonArray(String fileName) {
+    public static JsonArray getJsonArray(String fileName) throws IOException {
         Path path = Paths.get(fileName);
 
-        try (Reader reader = Files.newBufferedReader(path,
-                StandardCharsets.UTF_8)) {
-
-            JsonParser parser = new JsonParser();
-            JsonElement tree = parser.parse(reader);
-
+        try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            JsonElement tree = JsonParser.parseReader(reader);
             JsonArray array = tree.getAsJsonArray();
             return array;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return null;
+
     }
 
 }
