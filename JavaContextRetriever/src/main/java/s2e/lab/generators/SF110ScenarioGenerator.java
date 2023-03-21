@@ -7,10 +7,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.javadoc.Javadoc;
-import javassist.compiler.ast.Variable;
 import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
 
@@ -18,11 +15,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static s2e.lab.generators.JavaTestPromptGenerator.*;
+import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
 
 public class SF110ScenarioGenerator {
 
@@ -184,17 +180,15 @@ public class SF110ScenarioGenerator {
                     List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
                             .stream()
                             .filter(m -> PromptUtils.hasGoodJavadoc(m)).collect(Collectors.toList());
-                    // only includes projects that have # units under tests between MIN and MAX (inclusive)
+                    // only includes projects that have # testable methods between MIN and MAX (inclusive)
                     if (testableMethods.size() < MIN_NUM_TESTABLE_METHODS || testableMethods.size() > MAX_NUM_TESTABLE_METHODS)
                         continue;
 
 
                     for (MethodDeclaration m : testableMethods) {
                         save(generateScenario1(classDecl, m), project, javaFile, 1);
-                        //TODO: un-comment here as you implement the other scenarios
                         save(generateScenario2(classDecl, m), project, javaFile, 2);
                         save(generateScenario3(classDecl, m), project, javaFile, 3);
-
                     }
 
                 } catch (ParseProblemException e) {

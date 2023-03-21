@@ -19,8 +19,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import static s2e.lab.generators.JavaTestPromptGenerator.RQ1_BASE_DIR;
-import static s2e.lab.generators.JavaTestPromptGenerator.RQ2_BASE_DIR;
+import static s2e.lab.generators.JavaOpenAIPromptGenerator.RQ1_BASE_DIR;
+import static s2e.lab.generators.JavaOpenAIPromptGenerator.RQ2_BASE_DIR;
 
 
 public class CompilableTestGenerator {

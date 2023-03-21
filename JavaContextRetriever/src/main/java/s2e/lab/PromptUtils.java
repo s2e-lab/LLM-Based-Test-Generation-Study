@@ -10,7 +10,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringSubstitutor;
-import s2e.lab.generators.JavaTestPromptGenerator;
+import s2e.lab.generators.JavaOpenAIPromptGenerator;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static s2e.lab.generators.JavaTestPromptGenerator.BASE_DIR;
+import static s2e.lab.generators.JavaOpenAIPromptGenerator.BASE_DIR;
 
 /**
  * Utilities for the test prompt creation.
@@ -42,9 +42,9 @@ public class PromptUtils {
 
     static {
         try {
-            URL templateUrl = JavaTestPromptGenerator.class.getClassLoader().getResource("JUnitTestTemplate.java");
+            URL templateUrl = JavaOpenAIPromptGenerator.class.getClassLoader().getResource("JUnitTestTemplate.java");
             UNIT_TEST_TEMPLATE = Files.readString(Paths.get(templateUrl.getPath()));
-            URL humanEvalUrl = JavaTestPromptGenerator.class.getClassLoader().getResource("HumanEvalTestTemplate.java");
+            URL humanEvalUrl = JavaOpenAIPromptGenerator.class.getClassLoader().getResource("HumanEvalTestTemplate.java");
             HUMAN_EVAL_TEST_TEMPLATE = Files.readString(Paths.get(humanEvalUrl.getPath()));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -68,14 +68,14 @@ public class PromptUtils {
 
         String csvFilePath = outputFile.replace(".json", ".csv");
         FileWriter csvWriter = new FileWriter(csvFilePath);
-        String[] headers = {"id", "method_signature", "classname"};
+        String[] headers = {"id", "method_signature", "classname", "package", "suffix"};
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                 .setHeader(headers)
                 .build();
 
         try (final CSVPrinter printer = new CSVPrinter(csvWriter, csvFormat)) {
             for (HashMap<String, String> prompt : outputList) {
-                printer.printRecord(prompt.get("id"), prompt.get("method_signature"), prompt.get("classname"));
+                printer.printRecord(prompt.get("id"), prompt.get("method_signature"), prompt.get("classname"), prompt.get("package"), prompt.get("suffix"));
             }
         }
         System.out.println("Successfully saved CSV to " + csvFilePath);
@@ -132,14 +132,17 @@ public class PromptUtils {
         params.put("suffix", suffix.isEmpty() ? suffix : "_" + suffix);
 
         // creates dict object to be serialized
-        HashMap<String, String> outputMap = new HashMap<>();
-        outputMap.put("id", computeID(javaFile, suffix));
-        outputMap.put("original_code", format("// %s.java\n%s", className, cu));
-        outputMap.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
-        outputMap.put("method_signature", methodSignature);
-        outputMap.put("classname", className);
+        HashMap<String, String> promptMetadata = new HashMap<>();
+        promptMetadata.put("id", computeID(javaFile, suffix));
+        promptMetadata.put("original_code", format("// %s.java\n%s", className, cu));
+        promptMetadata.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
+        promptMetadata.put("method_signature", methodSignature);
+        promptMetadata.put("classname", className);
+        promptMetadata.put("package", packageDeclaration);
+        promptMetadata.put("suffix", suffix);
+        promptMetadata.put("numberTests", numberTests);
 
-        return outputMap;
+        return promptMetadata;
     }
 
     /**
@@ -233,18 +236,21 @@ public class PromptUtils {
         // cannot be a setter method
         if (!m.isStatic() && m.getNameAsString().startsWith("set"))
             return false;
-        // non-toString
-        if (m.getNameAsString().equals("toString"))
-            return false;
 
-        // non-hashCode
-        if (m.getSignature().toString().equals("hashCode()"))
-            return false;
-
-        // non-equals
-        if (m.getSignature().toString().equals("equals(Object)"))
-            return false;
-
+        // methods from java.lang.Object are not testable
+        switch (m.getSignature().toString()) {
+            case "toString()": // non-toString
+            case "hashCode()": // non-hashCode
+            case "equals(Object)": // non-equals
+            case "clone()": //
+            case "finalize()": //
+            case "notify()": //
+            case "wait()": //
+            case "wait(long)": //
+            case "wait(long,int)": //
+                return false;
+        }
+        // if we reach here, the method is testable
         return true;
     }
 
