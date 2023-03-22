@@ -11,16 +11,14 @@ import s2e.lab.searcher.JavaSearcher;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static s2e.lab.PromptUtils.computeUnitTestPrompt;
-import static s2e.lab.PromptUtils.save;
 import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
+import static s2e.lab.generators.SF110ScenarioGenerator.getCompilationUnit;
 
 
 public class PromptUtilsTest {
@@ -103,27 +101,20 @@ public class PromptUtilsTest {
     void testSF110Stats() throws IOException {
         // get the list of projects
         File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
-        assertTrue( originalDir.exists() );
+        assertTrue(originalDir.exists());
         List<File> projectList = JavaSearcher.getProjectList(originalDir.getAbsolutePath());
-        // we have 111 projects in SF110 (two projects with ID = 82)
-        assertEquals(111, projectList.size());
-        int projectCount = 0, methodCount = 0;
+        assertEquals(111, projectList.size()); // we have 111 projects in SF110 (two projects with ID = 82)
+        int totalProjects = 0, totalMethodsUnderTest = 0;
 
         for (File project : projectList) {
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);
-
+            int projectMethodCount = 0;
             for (File javaFile : javaFiles) {
                 // is it a test class?
                 if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
 
                 // parse the file and get the primary class declaration
-                CompilationUnit cu = null;
-                try {
-                    cu = StaticJavaParser.parse(javaFile);
-                } catch (ParseProblemException e) {
-                    System.out.println("Error parsing file " + javaFile.getPath());
-                    continue;
-                }
+                CompilationUnit cu = getCompilationUnit(project, javaFile);
                 if (cu == null) continue;
                 ClassOrInterfaceDeclaration classDecl = PromptUtils.getPrimaryClass(cu);
                 if (classDecl == null) continue;
@@ -132,29 +123,22 @@ public class PromptUtilsTest {
                 List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
                         .stream()
                         .filter(METHOD_INCLUSION_CRITERIA).collect(Collectors.toList());
-                // only includes projects that have # testable methods between MIN and MAX (inclusive)
-                if (!PROJECT_INCLUSION_CRITERIA.test(testableMethods)) continue;
+                projectMethodCount += testableMethods.size();
 
-                System.out.println("Analyzing project " + project.getName());
-                projectCount++;
-                for (int i = 0; i < testableMethods.size(); i++) {
-                    methodCount++;
-                    MethodDeclaration m = testableMethods.get(i);
-                    // if only one, don't bother with the test name suffix
-                    String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
-                    // generates the scenarios and save
-                    saveScenario(generateScenario1(classDecl, m), project, javaFile, suffix, 1);
-                    saveScenario(generateScenario2(classDecl, m), project, javaFile, suffix, 2);
-                    saveScenario(generateScenario3(classDecl, m), project, javaFile, suffix, 3);
-                    saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
-                }
+            }
+
+            // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
+            if (PROJECT_INCLUSION_CRITERIA.test(projectMethodCount)) {
+                System.out.println("Analyzed project " + project.getName() + " with " + projectMethodCount + " methods");
+                totalProjects++;
+                totalMethodsUnderTest += projectMethodCount;
             }
         }
 
         // these assertions are to ensure that the number of projects & methods is correct,
         // otherwise, our filtering is discrepant from JavaOpenAIPromptGenerator.java
-        assert projectCount == 53;
-        assert methodCount == 504;
+        assertEquals(53, totalProjects);
+        assertEquals(504, totalMethodsUnderTest);
     }
 
 

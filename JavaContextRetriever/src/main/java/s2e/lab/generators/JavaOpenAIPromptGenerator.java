@@ -57,9 +57,7 @@ public class JavaOpenAIPromptGenerator {
     public static Predicate<MethodDeclaration> METHOD_INCLUSION_CRITERIA = (m -> PromptUtils.hasGoodJavadoc(m));
     // project inclusion criteria
     // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
-    public static Predicate<List<? extends Object>> PROJECT_INCLUSION_CRITERIA =
-            (methods) ->
-                    (methods.size() > 0 && methods.size() >= MIN_METHODS_TO_TEST && methods.size() <= MAX_METHODS_TO_TEST);
+    public static Predicate<Integer> PROJECT_INCLUSION_CRITERIA = (n) -> (n > 0 && n >= MIN_METHODS_TO_TEST && n <= MAX_METHODS_TO_TEST);
 
 
     public static void main(String[] args) throws IOException {
@@ -123,11 +121,10 @@ public class JavaOpenAIPromptGenerator {
                 }
 //            System.out.println(project.getName() + "\t" + outputList.size());
                 // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
-                if (PROJECT_INCLUSION_CRITERIA.test(outputList)) {
+                if (PROJECT_INCLUSION_CRITERIA.test(outputList.size())) {
                     String rqPromptOutputFile = scenarioName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
-                    String prefix = scenarioName.equals("original") ? project.getName() :  scenarioName + "_" + project.getName()   ;
-                    save(outputList, String.format(rqPromptOutputFile, "SF110",  prefix));
-
+                    String prefix = scenarioName.equals("original") ? project.getName() : scenarioName + "_" + project.getName();
+                    save(outputList, String.format(rqPromptOutputFile, "SF110", prefix));
                 }
             }
         }
