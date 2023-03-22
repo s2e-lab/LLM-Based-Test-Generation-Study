@@ -1,22 +1,28 @@
 package s2e.lab.generators;
 
 import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.javadoc.Javadoc;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.resolution.TypeSolver;
+import com.github.javaparser.resolution.UnsolvedSymbolException;
+import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
+import com.github.javaparser.symbolsolver.JavaSymbolSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 import org.apache.commons.io.FileUtils;
 import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,7 +72,7 @@ public class SF110ScenarioGenerator {
                 includeMembers ? c.getMembers() : new NodeList<>()
         );
         // include any javadoc the class previously had
-        if(c.getJavadoc().isPresent())
+        if (c.getJavadoc().isPresent())
             copy.setJavadocComment(c.getJavadoc().get());
 
         return copy;
@@ -77,9 +83,10 @@ public class SF110ScenarioGenerator {
      * - package declaration
      * - import statements
      * - method signature + implementation (no JavaDoc) + surrounding class
-     *       @param c
-     *       @param m  method under test
-     *       @return a class with the scenario implementation
+     *
+     * @param c
+     * @param m method under test
+     * @return a class with the scenario implementation
      */
     public static ClassOrInterfaceDeclaration generateScenario1(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
         // create a (soft) copy
@@ -100,8 +107,9 @@ public class SF110ScenarioGenerator {
 
     /**
      * Generates the scenario 2: just like scenario 1, but keep the JavaDoc
+     *
      * @param c
-     * @param m  method under test
+     * @param m method under test
      * @return a class with the scenario implementation
      */
     public static ClassOrInterfaceDeclaration generateScenario2(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
@@ -113,6 +121,7 @@ public class SF110ScenarioGenerator {
 
     /**
      * Just like scenario 2, but remove method's implementation
+     *
      * @param c class under test
      * @param m method under test
      * @return a class with the scenario implementation
@@ -125,6 +134,36 @@ public class SF110ScenarioGenerator {
 
         return scenarioClass;
     }
+
+
+    /**
+     * Just like scenario 3, but add the implementations of the invoked methods (1-level deep)
+     *
+     * @param c class under test
+     * @param m method under test
+     * @return a class with the scenario implementation
+     */
+    public static ClassOrInterfaceDeclaration generateScenario4(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
+
+        // just like scenario 2
+        ClassOrInterfaceDeclaration scenarioClass = generateScenario2(c, m);
+        // finds calls
+        c.getMethods().get(0).findAll(MethodCallExpr.class).forEach(call -> {
+
+            // finds the invoked method
+            try {
+                ResolvedMethodDeclaration invokedMethod = call.resolve();
+                System.out.println(invokedMethod.getSignature());
+            } catch (UnsolvedSymbolException e) {
+                System.out.println("UnresolvedSymbolException for " + call);
+            }
+            // adds the method's implementation
+//            scenarioClass.addMember(invokedMethod.clone());
+        });
+
+        return scenarioClass;
+    }
+
 
     public static void saveScenario(ClassOrInterfaceDeclaration scenarioClass, File project, File javaFile, String suffix, int scenarioNo) throws IOException {
         // path to the scenario folder
@@ -156,6 +195,31 @@ public class SF110ScenarioGenerator {
         }
     }
 
+    /**
+     * Returns a compilation unit for the given Java file (or null in case of a ParseProblemException)
+     *
+     * @param project  the project root directory (it assumes all code is placed in a src/main/java folder)
+     * @param javaFile file to parse
+     * @return a compilation unit
+     * @throws FileNotFoundException in case the file does not exist
+     */
+    public static CompilationUnit getCompilationUnit(File project, File javaFile) throws FileNotFoundException {
+        File rootDir = new File(project.getAbsolutePath() + "/src/main/java");
+        TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(), new JavaParserTypeSolver(rootDir));
+        JavaSymbolSolver symbolSolver = new JavaSymbolSolver(typeSolver);
+        ParserConfiguration parserConfiguration = new ParserConfiguration();
+        parserConfiguration.setSymbolResolver(symbolSolver);
+        StaticJavaParser.setConfiguration(parserConfiguration);
+
+        try {
+            CompilationUnit compilationUnit = StaticJavaParser.parse(javaFile);
+            return compilationUnit;
+        } catch (ParseProblemException ex) {
+            System.err.println("Error parsing file: " + javaFile.getAbsolutePath());
+            return null;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 
 
@@ -175,34 +239,36 @@ public class SF110ScenarioGenerator {
                 // is it a test class?
                 if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
 
-                try {
-                    // get the class declaration
-                    CompilationUnit cu = StaticJavaParser.parse(javaFile);
-                    ClassOrInterfaceDeclaration classDecl = PromptUtils.getPrimaryClass(cu);
-                    if (classDecl == null) continue;
 
-                    // collect the testable method's names (only if the class is also testable, AND the method has a "good" JavaDoc)
-                    List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
-                            .stream()
-                            .filter(METHOD_INCLUSION_CRITERIA).collect(Collectors.toList());
-                    // only includes projects that have # testable methods between MIN and MAX (inclusive)
-                    if (!PROJECT_INCLUSION_CRITERIA.test(testableMethods)) continue;
+                // parse the file and get the primary class declaration
+                CompilationUnit cu = getCompilationUnit(project, javaFile);
+                if (cu == null) continue;
+                ClassOrInterfaceDeclaration classDecl = PromptUtils.getPrimaryClass(cu);
+                if (classDecl == null) continue;
 
-                    System.out.println("Analyzing project " + project.getName());
-                    projectCount++;
-                    for (int i = 0; i < testableMethods.size(); i++) {
-                        MethodDeclaration m = testableMethods.get(i);
-                        String methodSignature = m.getSignature().toString();
-                        // if only one, don't bother with the test name suffix
-                        String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
-                        // generates the scenarios and save
-                        saveScenario(generateScenario1(classDecl, m), project, javaFile, suffix, 1);
-                        saveScenario(generateScenario2(classDecl, m), project, javaFile, suffix, 2);
-                        saveScenario(generateScenario3(classDecl, m), project, javaFile, suffix, 3);
-                    }
-                } catch (ParseProblemException e) {
-                    System.err.println("Parsing error for file " + javaFile);
+                // collect the testable method's names (only if the class is also testable, AND the method has a "good" JavaDoc)
+                List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
+                        .stream()
+                        .filter(METHOD_INCLUSION_CRITERIA).collect(Collectors.toList());
+                // only includes projects that have # testable methods between MIN and MAX (inclusive)
+                if (!PROJECT_INCLUSION_CRITERIA.test(testableMethods)) continue;
+
+                System.out.println("Analyzing project " + project.getName());
+                projectCount++;
+                for (int i = 0; i < testableMethods.size(); i++) {
+                    MethodDeclaration m = testableMethods.get(i);
+                    String methodSignature = m.getSignature().toString();
+                    // if only one, don't bother with the test name suffix
+                    String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
+                    // generates the scenarios and save
+                    saveScenario(generateScenario1(classDecl, m), project, javaFile, suffix, 1);
+                    saveScenario(generateScenario2(classDecl, m), project, javaFile, suffix, 2);
+                    saveScenario(generateScenario3(classDecl, m), project, javaFile, suffix, 3);
+//                    saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
+
+
                 }
+
             }
         }
 

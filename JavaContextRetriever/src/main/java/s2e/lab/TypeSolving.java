@@ -9,8 +9,10 @@ import java.io.File;
 public class TypeSolving {
     public static void main(String[] args) {
 
-        TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(), new JavaParserTypeSolver(new File("/Users/lsiddiqsunny/Documents/Notre Dame/Research/Deep-Context-Aware-CodeGeneration/EvoSuiteBenchmark/1_tullibee/src/main/java/com/ib/client")));
+        TypeSolver typeSolver = new CombinedTypeSolver(new ReflectionTypeSolver(), new JavaParserTypeSolver(new File("../EvoSuiteBenchmark/original/1_tullibee/src/main/java/com/ib/client")));
+
         System.out.println(typeSolver.solveType("AnyWrapperMsgGenerator"));
+
 
     }
 }

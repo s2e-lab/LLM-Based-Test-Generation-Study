@@ -63,26 +63,26 @@ public class JavaOpenAIPromptGenerator {
 
 
     public static void main(String[] args) throws IOException {
-        /* HumanEvalJava */
-        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-        // create folders if they don't exist
-        humanEvalJavaRQ1.mkdirs();
-        humanEvalJavaRQ2.mkdirs();
-        // clean old results from the input folder
-        FileUtils.cleanDirectory(humanEvalJavaRQ1);
-        FileUtils.cleanDirectory(humanEvalJavaRQ2);
-        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
-        generateHumanEvalJavaPrompts();
+//        /* HumanEvalJava */
+//        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+//        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+//        // create folders if they don't exist
+//        humanEvalJavaRQ1.mkdirs();
+//        humanEvalJavaRQ2.mkdirs();
+//        // clean old results from the input folder
+//        FileUtils.cleanDirectory(humanEvalJavaRQ1);
+//        FileUtils.cleanDirectory(humanEvalJavaRQ2);
+//        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
+//        generateHumanEvalJavaPrompts();
 
         /* OSS projects */
-        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
+//        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         File sf110RQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         // create folders if they don't exist
-        sf110RQ1.mkdirs();
+//        sf110RQ1.mkdirs();
         sf110RQ2.mkdirs();
         // clean old results from the input folder
-        FileUtils.cleanDirectory(sf110RQ1);
+//        FileUtils.cleanDirectory(sf110RQ1);
         FileUtils.cleanDirectory(sf110RQ2);
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
         generateOSSPrompts();
@@ -96,7 +96,7 @@ public class JavaOpenAIPromptGenerator {
      */
     private static void generateOSSPrompts() throws IOException {
         // generates the JSON prompts for RQ1 and RQ2
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 1; i <= 3; i++) {
             // scenario 0 is the original code, change package to original
             String scenarioName = (i == 0 ? "original" : ("scenario" + i));
             File scenarioDir = new File(format(SF100_EVOSUITE_SCENARIO, scenarioName));
@@ -125,7 +125,8 @@ public class JavaOpenAIPromptGenerator {
                 // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
                 if (PROJECT_INCLUSION_CRITERIA.test(outputList)) {
                     String rqPromptOutputFile = scenarioName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
-                    save(outputList, String.format(rqPromptOutputFile, "SF110", project.getName()));
+                    String prefix = scenarioName.equals("original") ? project.getName() :  scenarioName + "_" + project.getName()   ;
+                    save(outputList, String.format(rqPromptOutputFile, "SF110",  prefix));
                 }
             }
         }
