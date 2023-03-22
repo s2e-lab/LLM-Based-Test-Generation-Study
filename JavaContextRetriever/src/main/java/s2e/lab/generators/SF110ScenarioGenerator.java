@@ -258,7 +258,7 @@ public class SF110ScenarioGenerator {
 
     public static void main(String[] args) throws IOException {
         // cleans up prior results
-        cleanPriorScenarios();
+//        cleanPriorScenarios();
 
         // get the list of projects
         File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
@@ -290,10 +290,11 @@ public class SF110ScenarioGenerator {
                     // if only one, don't bother with the test name suffix
                     String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
                     // generates the scenarios and save
-                    saveScenario(generateScenario1(classDecl, m), project, javaFile, suffix, 1);
-                    saveScenario(generateScenario2(classDecl, m), project, javaFile, suffix, 2);
-                    saveScenario(generateScenario3(classDecl, m), project, javaFile, suffix, 3);
-                    saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
+//                    saveScenario(generateScenario1(classDecl, m), project, javaFile, suffix, 1);
+//                    saveScenario(generateScenario2(classDecl, m), project, javaFile, suffix, 2);
+//                    saveScenario(generateScenario3(classDecl, m), project, javaFile, suffix, 3);
+//                    saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
+                    generateScenario5(classDecl, m);
                 }
             }
 

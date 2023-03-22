@@ -5,6 +5,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import org.apache.commons.io.FileUtils;
 import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
 
@@ -62,29 +63,31 @@ public class JavaOpenAIPromptGenerator {
 
 
     public static void main(String[] args) throws IOException {
-//        /* HumanEvalJava */
-//        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-//        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-//        // create folders if they don't exist
-//        humanEvalJavaRQ1.mkdirs();
-//        humanEvalJavaRQ2.mkdirs();
-//        // clean old results from the input folder
-//        FileUtils.cleanDirectory(humanEvalJavaRQ1);
-//        FileUtils.cleanDirectory(humanEvalJavaRQ2);
-//        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
-//        generateHumanEvalJavaPrompts();
+        /* HumanEvalJava */
+        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+        // create folders if they don't exist
+        humanEvalJavaRQ1.mkdirs();
+        humanEvalJavaRQ2.mkdirs();
+        // clean old results from the input folder
+        FileUtils.cleanDirectory(humanEvalJavaRQ1);
+        FileUtils.cleanDirectory(humanEvalJavaRQ2);
+        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
+        generateHumanEvalJavaPrompts();
 
         /* OSS projects */
-//        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
+        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         File sf110RQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         // create folders if they don't exist
-//        sf110RQ1.mkdirs();
+        sf110RQ1.mkdirs();
         sf110RQ2.mkdirs();
         // clean old results from the input folder
-//        FileUtils.cleanDirectory(sf110RQ1);
-//        FileUtils.cleanDirectory(sf110RQ2);
+        FileUtils.cleanDirectory(sf110RQ1);
+        FileUtils.cleanDirectory(sf110RQ2);
+        // cleans up prior generated scenario files
+        cleanPriorScenarios();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-//        generateOSSPrompts();
+        generateOSSPromptsRQ1();
         generateOSSPromptsRQ2();
 
     }
@@ -177,7 +180,7 @@ public class JavaOpenAIPromptGenerator {
                                 suffix);
 
                         outputList.add(prompt);
-
+                        saveScenario(scenarioClass, project, javaFile, suffix, scenarioNo);
                     }
                 }
 
