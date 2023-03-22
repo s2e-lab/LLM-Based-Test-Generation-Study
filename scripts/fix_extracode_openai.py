@@ -1,6 +1,6 @@
 import json
 
-from generate_tests_openai import load_config, get_output_files
+from utils import load_config, get_output_files
 
 EOF = ["\n\n// ", "\n```\n\n##", "</code>"]
 
