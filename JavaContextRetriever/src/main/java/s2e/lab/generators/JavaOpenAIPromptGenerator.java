@@ -96,7 +96,7 @@ public class JavaOpenAIPromptGenerator {
      */
     private static void generateOSSPrompts() throws IOException {
         // generates the JSON prompts for RQ1 and RQ2
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 0; i <= 3; i++) {
             // scenario 0 is the original code, change package to original
             String scenarioName = (i == 0 ? "original" : ("scenario" + i));
             File scenarioDir = new File(format(SF100_EVOSUITE_SCENARIO, scenarioName));
