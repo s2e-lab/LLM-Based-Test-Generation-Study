@@ -38,7 +38,7 @@ import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
  */
 public class SF110ScenarioGenerator {
 
-    private static int NUMBER_OF_SCENARIOS = 4;
+    public static int NUMBER_OF_SCENARIOS = 4;
 
     /**
      * Clone a compilation unit.

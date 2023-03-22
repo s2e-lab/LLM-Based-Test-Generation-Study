@@ -5,7 +5,6 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import org.apache.commons.io.FileUtils;
 import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
 
@@ -15,10 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static s2e.lab.PromptUtils.computeUnitTestPrompt;
 import static s2e.lab.PromptUtils.save;
+import static s2e.lab.generators.SF110ScenarioGenerator.*;
 
 /**
  * This class is used to create the OpenAI prompts for the RQ1 and RQ2 according to each different scenario.
@@ -61,29 +62,30 @@ public class JavaOpenAIPromptGenerator {
 
 
     public static void main(String[] args) throws IOException {
-        /* HumanEvalJava */
-        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-        // create folders if they don't exist
-        humanEvalJavaRQ1.mkdirs();
-        humanEvalJavaRQ2.mkdirs();
-        // clean old results from the input folder
-        FileUtils.cleanDirectory(humanEvalJavaRQ1);
-        FileUtils.cleanDirectory(humanEvalJavaRQ2);
-        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
-        generateHumanEvalJavaPrompts();
+//        /* HumanEvalJava */
+//        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+//        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+//        // create folders if they don't exist
+//        humanEvalJavaRQ1.mkdirs();
+//        humanEvalJavaRQ2.mkdirs();
+//        // clean old results from the input folder
+//        FileUtils.cleanDirectory(humanEvalJavaRQ1);
+//        FileUtils.cleanDirectory(humanEvalJavaRQ2);
+//        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
+//        generateHumanEvalJavaPrompts();
 
         /* OSS projects */
-        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
+//        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         File sf110RQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         // create folders if they don't exist
-        sf110RQ1.mkdirs();
+//        sf110RQ1.mkdirs();
         sf110RQ2.mkdirs();
         // clean old results from the input folder
-        FileUtils.cleanDirectory(sf110RQ1);
-        FileUtils.cleanDirectory(sf110RQ2);
+//        FileUtils.cleanDirectory(sf110RQ1);
+//        FileUtils.cleanDirectory(sf110RQ2);
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-        generateOSSPrompts();
+//        generateOSSPrompts();
+        generateOSSPromptsRQ2();
 
     }
 
@@ -92,42 +94,102 @@ public class JavaOpenAIPromptGenerator {
      *
      * @throws IOException
      */
-    private static void generateOSSPrompts() throws IOException {
-        // generates the JSON prompts for RQ1 and RQ2
-        for (int i = 0; i <= 4; i++) {
-            // scenario 0 is the original code, change package to original
-            String scenarioName = (i == 0 ? "original" : ("scenario" + i));
-            File scenarioDir = new File(format(SF100_EVOSUITE_SCENARIO, scenarioName));
-            assert scenarioDir.exists();
+    private static void generateOSSPromptsRQ1() throws IOException {
 
-            List<File> projectList = JavaSearcher.getProjectList(scenarioDir.getAbsolutePath());
+
+        // the original code
+        File scenarioDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
+        assert scenarioDir.exists();
+
+        List<File> projectList = JavaSearcher.getProjectList(scenarioDir.getAbsolutePath());
+        for (File project : projectList) {
+            List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+            List<HashMap<String, String>> outputList = new ArrayList<>();
+
+            for (File javaFile : javaFiles) {
+                // is it a test class?
+                if (javaFile.getPath().toLowerCase().contains("/test/"))
+                    continue;
+
+                // gets testable methods according to 'good javadoc' criteria
+                List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, METHOD_INCLUSION_CRITERIA, true);
+                if (!promptList.isEmpty())
+                    outputList.addAll(promptList);
+            }
+//            System.out.println(project.getName() + "\t" + outputList.size());
+            // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
+            if (PROJECT_INCLUSION_CRITERIA.test(outputList.size())) {
+                save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
+            }
+        }
+
+    }
+
+
+    private static void generateOSSPromptsRQ2() throws IOException {
+        // get the list of projects
+        File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
+        assert originalDir.exists();
+        List<File> projectList = JavaSearcher.getProjectList(originalDir.getAbsolutePath());
+
+        for (int scenarioNo = 1; scenarioNo <= NUMBER_OF_SCENARIOS; scenarioNo++) {
             for (File project : projectList) {
-                List<File> javaFiles = JavaSearcher.findJavaFiles(project);
                 List<HashMap<String, String>> outputList = new ArrayList<>();
+                List<File> javaFiles = JavaSearcher.findJavaFiles(project);
 
                 for (File javaFile : javaFiles) {
                     // is it a test class?
-                    if (javaFile.getPath().toLowerCase().contains("/test/"))
-                        continue;
+                    if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
 
-                    // gets testable methods according to a criteria
-                    Predicate<MethodDeclaration> pred = scenarioName.equals("original") ? // if original scenario
-                            METHOD_INCLUSION_CRITERIA : // then, use the 'good javadoc' criteria
-                            null; // else, no need to filter because the scenario generation already filtered out the 'bad' methods
+                    // parse the file and get the primary class declaration
+                    CompilationUnit cu = getCompilationUnit(project, javaFile);
+                    if (cu == null) continue;
+                    ClassOrInterfaceDeclaration classDecl = PromptUtils.getPrimaryClass(cu);
+                    if (classDecl == null) continue;
 
-                    List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, pred, true);
-                    if (!promptList.isEmpty())
-                        outputList.addAll(promptList);
+                    // collect the testable method's names (only if the class is also testable, AND the method has a "good" JavaDoc)
+                    List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
+                            .stream()
+                            .filter(METHOD_INCLUSION_CRITERIA).collect(Collectors.toList());
+
+                    for (int i = 0; i < testableMethods.size(); i++) {
+                        MethodDeclaration m = testableMethods.get(i);
+                        // if only one, don't bother with the test name suffix
+                        String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
+                        // generates the scenarios and save
+                        ClassOrInterfaceDeclaration scenarioClass;
+                        if (scenarioNo == 1) {
+                            scenarioClass = generateScenario1(classDecl, m);
+                        } else if (scenarioNo == 2) {
+                            scenarioClass = generateScenario2(classDecl, m);
+                        } else if (scenarioNo == 3) {
+                            scenarioClass = generateScenario3(classDecl, m);
+                        } else if (scenarioNo == 4) {
+                            scenarioClass = generateScenario4(classDecl, m);
+                        } else {
+                            throw new IllegalArgumentException("Invalid scenario number: " + scenarioNo);
+                        }
+
+                        HashMap<String, String> prompt = computeUnitTestPrompt(javaFile, NUMBER_OF_TESTS,
+                                scenarioClass.findCompilationUnit().get(),
+                                scenarioClass.getNameAsString(),
+                                m.getSignature().asString(),
+                                suffix);
+
+                        outputList.add(prompt);
+
+                    }
                 }
-//            System.out.println(project.getName() + "\t" + outputList.size());
+
                 // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
                 if (PROJECT_INCLUSION_CRITERIA.test(outputList.size())) {
-                    String rqPromptOutputFile = scenarioName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
-                    String prefix = scenarioName.equals("original") ? project.getName() : scenarioName + "_" + project.getName();
-                    save(outputList, String.format(rqPromptOutputFile, "SF110", prefix));
+                    String prefix = "scenario" + scenarioNo + "_" + project.getName();
+                    save(outputList, String.format(RQ2_PROMPT_OUTPUT_FILE, "SF110", prefix));
                 }
             }
+
         }
+
     }
 
 
