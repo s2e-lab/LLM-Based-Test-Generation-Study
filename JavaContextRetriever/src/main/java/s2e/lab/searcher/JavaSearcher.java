@@ -1,7 +1,5 @@
 package s2e.lab.searcher;
 
-import org.apache.commons.io.FilenameUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
