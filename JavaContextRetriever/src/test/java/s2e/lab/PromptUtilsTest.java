@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static s2e.lab.generators.JavaOpenAIPromptGenerator.SF100_EVOSUITE;
+import static s2e.lab.generators.JavaOpenAIPromptGenerator.SF100_EVOSUITE_SCENARIO;
+
 
 public class PromptUtilsTest {
 
@@ -99,7 +101,10 @@ public class PromptUtilsTest {
     @Test
     public void testHasGoodJavadoc() throws IOException {
 
-        List<File> projectList = JavaSearcher.getProjectList(SF100_EVOSUITE);
+        File scenarioDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
+        assert scenarioDir.exists();
+        List<File> projectList = JavaSearcher.getProjectList(scenarioDir.getAbsolutePath());
+
         for (File project : projectList) {
 //            System.out.println(project.getName());
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);

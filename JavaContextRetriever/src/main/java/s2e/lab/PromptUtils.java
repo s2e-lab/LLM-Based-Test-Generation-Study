@@ -138,7 +138,7 @@ public class PromptUtils {
         promptMetadata.put("test_prompt", StringSubstitutor.replace(UNIT_TEST_TEMPLATE, params));
         promptMetadata.put("method_signature", methodSignature);
         promptMetadata.put("classname", className);
-        promptMetadata.put("package", packageDeclaration);
+        promptMetadata.put("package", cu.getPackageDeclaration().isPresent() ? cu.getPackageDeclaration().get().getNameAsString(): "");
         promptMetadata.put("suffix", suffix);
         promptMetadata.put("numberTests", numberTests);
 

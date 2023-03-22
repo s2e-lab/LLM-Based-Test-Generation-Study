@@ -37,7 +37,7 @@ public class JavaOpenAIPromptGenerator {
     public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "src/test/%s/";
 
     // OSS project paths
-    public static String SF100_EVOSUITE = BASE_DIR + "EvoSuiteBenchmark/";
+    private static String SF100_EVOSUITE = BASE_DIR + "EvoSuiteBenchmark/";
     public static String SF100_EVOSUITE_SCENARIO = SF100_EVOSUITE + "%s/";
 
     // folders for RQ1
@@ -96,7 +96,7 @@ public class JavaOpenAIPromptGenerator {
      */
     private static void generateOSSPrompts() throws IOException {
         // generates the JSON prompts for RQ1 and RQ2
-        for (int i = 0; i <= 0; i++) {
+        for (int i = 0; i <= 3; i++) {
             // scenario 0 is the original code, change package to original
             String scenarioName = (i == 0 ? "original" : ("scenario" + i));
             File scenarioDir = new File(format(SF100_EVOSUITE_SCENARIO, scenarioName));
@@ -183,14 +183,13 @@ public class JavaOpenAIPromptGenerator {
             // collect the testable method's names (only if the class is also testable)
             List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDeclaration, publicOnly);
             for (int i = 0; i < testableMethods.size(); i++) {
-                // method ought to be ignored per the passed predicate
                 MethodDeclaration methodDeclaration = testableMethods.get(i);
+                // method ought to be ignored per the passed predicate
                 if (predicate != null && !predicate.test(methodDeclaration))
                     continue;
                 String methodSignature = methodDeclaration.getSignature().toString();
-                String suffix = testableMethods.size() == 1 ?
-                        "" : // if only one, don't bother with the test name suffix
-                        format("%d", i);
+                // if only one, don't bother with the test name suffix
+                String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
 
                 HashMap<String, String> outputMap = computeUnitTestPrompt(javaFile, NUMBER_OF_TESTS, cu, classDeclaration.getNameAsString(), methodSignature, suffix);
 //                System.out.println(outputMap.get("id"));
