@@ -5,9 +5,11 @@ import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
+import com.github.javaparser.ast.nodeTypes.NodeWithBody;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.resolution.TypeSolver;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
@@ -61,6 +63,10 @@ public class SF110ScenarioGenerator {
     public static ClassOrInterfaceDeclaration clone(ClassOrInterfaceDeclaration c, boolean includeMembers) {
         // copy the class modifiers, annotations, name, type parameters, extended types, implemented types
         // copy members of the class if includeMembers is true
+        NodeList<BodyDeclaration<?>> members = new NodeList<>();
+        if(includeMembers) {
+            c.getMembers().forEach( member -> members.add(member.clone()));
+        }
         ClassOrInterfaceDeclaration copy = new ClassOrInterfaceDeclaration(
                 c.getModifiers(),
                 c.getAnnotations(),
@@ -69,7 +75,7 @@ public class SF110ScenarioGenerator {
                 c.getTypeParameters(),
                 c.getExtendedTypes(),
                 c.getImplementedTypes(),
-                includeMembers ? c.getMembers() : new NodeList<>()
+                members
         );
         // include any javadoc the class previously had
         if (c.getJavadoc().isPresent())
@@ -137,13 +143,41 @@ public class SF110ScenarioGenerator {
 
 
     /**
-     * Just like scenario 3, but add the implementations of the invoked methods (1-level deep)
+     * Just like scenario 3, but add the signatures for all the other methods in the class as well fields.
      *
      * @param c class under test
      * @param m method under test
      * @return a class with the scenario implementation
      */
     public static ClassOrInterfaceDeclaration generateScenario4(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
+        // create a soft copy, and this time include all members of the class
+        CompilationUnit scenarioCu = clone(c.findCompilationUnit().get());
+        ClassOrInterfaceDeclaration scenarioClass = clone(c, true);
+        scenarioCu.addType(scenarioClass);
+
+        // remove all the  implementations from the members (methods, constructors, static blocks, etc)
+        for (BodyDeclaration<?> member : scenarioClass.getMembers()) {
+            if (member instanceof MethodDeclaration) {
+                ((MethodDeclaration) member).setBody(null);
+            } else if (member instanceof NodeWithBlockStmt) {
+                // remove any implementation from a static block, a constructor, etc
+                // ie, leave it like "{}". Notice we cannot make these nodes with a null body (it throws an exception)
+                ((NodeWithBlockStmt) member).setBody(new BlockStmt());
+            }
+        }
+        // check that we have the same number of members (otherwise, we have a bug)x
+        assert scenarioClass.getMembers().size() == c.getMembers().size();
+        return scenarioClass;
+    }
+
+    /**
+     * Just like scenario 3, but add the implementations of the invoked methods (1-level deep)
+     *
+     * @param c class under test
+     * @param m method under test
+     * @return a class with the scenario implementation
+     */
+    public static ClassOrInterfaceDeclaration generateScenario5(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
 
         // just like scenario 2
         ClassOrInterfaceDeclaration scenarioClass = generateScenario2(c, m);
@@ -230,7 +264,7 @@ public class SF110ScenarioGenerator {
         File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
         assert originalDir.exists();
         List<File> projectList = JavaSearcher.getProjectList(originalDir.getAbsolutePath());
-        int projectCount = 0;
+        int projectCount = 0, methodCount = 0;
         for (File project : projectList) {
 
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);
@@ -256,6 +290,7 @@ public class SF110ScenarioGenerator {
                 System.out.println("Analyzing project " + project.getName());
                 projectCount++;
                 for (int i = 0; i < testableMethods.size(); i++) {
+                    methodCount++;
                     MethodDeclaration m = testableMethods.get(i);
                     String methodSignature = m.getSignature().toString();
                     // if only one, don't bother with the test name suffix
@@ -264,18 +299,14 @@ public class SF110ScenarioGenerator {
                     saveScenario(generateScenario1(classDecl, m), project, javaFile, suffix, 1);
                     saveScenario(generateScenario2(classDecl, m), project, javaFile, suffix, 2);
                     saveScenario(generateScenario3(classDecl, m), project, javaFile, suffix, 3);
-//                    saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
-
-
+                    saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
                 }
-
             }
         }
 
-        // this assertion is to ensure that the number of projects is correct,
+        // these assertions are to ensure that the number of projects & methods is correct,
         // otherwise, our filtering is discrepant from JavaOpenAIPromptGenerator.java
         assert projectCount == 53;
+        assert methodCount == 504;
     }
-
-
 }

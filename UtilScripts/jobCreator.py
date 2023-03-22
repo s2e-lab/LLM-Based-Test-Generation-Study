@@ -16,7 +16,7 @@ def createJob(scenario_path):
 
             if "scenario3" in project:
                 with open("../scripts/generate_tests_SF110_RQ2.sh", "a") as f:
-                    f.write(f"python generate_tests_openai.py -t {token} -d SF110 -q RQ2 -p \"RQ2_Prompt_Elements/OpenAI_Data/SF110_input/{project}\"\n")
+                    f.write(f"python generate_tests_codex.py -t {token} -d SF110 -q RQ2 -p \"RQ2_Prompt_Elements/OpenAI_Data/SF110_input/{project}\"\n")
 
 
 createJob("../RQ2_Prompt_Elements/OpenAI_Data/%s_input"%("SF110"))
