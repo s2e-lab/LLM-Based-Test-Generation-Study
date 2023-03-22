@@ -31,23 +31,6 @@ def main(scenario_path):
             print(p)
             csv_file.writerow([p["id"],p["method_signature"], p["classname"]])
 
-def createJob(scenario_path):
-    with open("../scripts/generate_tests_SF110.sh", "w") as f:
-        f.write("#!/bin/bash"+"\n")
-
-        f.write("#$ -M msiddiq3@nd.edu   # Email address for job notification"+"\n")
-        f.write("#$ -m abe            # Send mail when job begins, ends and aborts"+"\n")
-        f.write("#$ -pe smp 1     # Specify parallel environment and legal core size"+"\n")
-        f.write("#$ -q long           # Specify queue"+"\n")
-        f.write("#$ -N  RQ1_SF110_2K_4K"+"\n")
-    
-    for token in [2000,4000]:
-        for project in os.listdir(scenario_path):
-            if project.endswith(".csv"):
-                continue
-            with open("../scripts/generate_tests_SF110.sh", "a") as f:
-                f.write(f"python generate_tests_openai.py -t {token} -d SF110 -q RQ1 -p \"RQ1_Test_Generation/OpenAI_Data/SF110_input/{project}\"\n")
-
 
 if __name__ == "__main__":
 
@@ -57,7 +40,6 @@ if __name__ == "__main__":
 
 
     projectList =  ["5_templateit","71_ext4j","103_sweethome3d","14_omjstate","69_lhamacaw","82_ipcalculator","12_dsachat","86_at-robots2-j","2_a4j","17_inspirento","7_sfmis","32_httpanalyzer","29_apbsmem","10_water-simulator","56_jhandballmoves","81_javathena","39_diffi","57_hft-bomberman","91_classviewer","43_lilith","34_sbmlreader2","33_javaviewcontrol","47_dvd-homevideo","67_gae-app-manager","41_follow","23_jwbf","79_twfbplayer","73_fim1","94_jclo","31_xisemele","64_jtailgui","93_quickserver","68_biblestudy","100_jgaap","4_rif","60_sugar","52_lagoon","6_jnfe","24_saxpath","96_heal","59_mygrid","40_glengineer","42_asphodel","11_imsmart","74_fixsuite","75_openhre","8_gfarcegestionfa","63_objectexplorer","22_byuic","25_jni-inchi","84_ifx-framework","19_jmca","49_diebierse"]
-    # createJob("../RQ1_Test_Generation/OpenAI_Data/%s_input"%("SF110"))
 
     for p in projectList:
         main(rq1_folder % ("SF110", p))

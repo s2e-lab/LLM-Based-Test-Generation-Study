@@ -127,6 +127,7 @@ public class JavaOpenAIPromptGenerator {
                     String rqPromptOutputFile = scenarioName.equals("original") ? RQ1_PROMPT_OUTPUT_FILE : RQ2_PROMPT_OUTPUT_FILE;
                     String prefix = scenarioName.equals("original") ? project.getName() :  scenarioName + "_" + project.getName()   ;
                     save(outputList, String.format(rqPromptOutputFile, "SF110",  prefix));
+
                 }
             }
         }
