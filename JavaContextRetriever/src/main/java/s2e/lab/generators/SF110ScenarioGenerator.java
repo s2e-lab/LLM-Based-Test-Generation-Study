@@ -36,7 +36,7 @@ import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
  */
 public class SF110ScenarioGenerator {
 
-    private static int NUMBER_OF_SCENARIOS = 3;
+    private static int NUMBER_OF_SCENARIOS = 4;
 
     /**
      * Clone a compilation unit.
@@ -264,15 +264,15 @@ public class SF110ScenarioGenerator {
         File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
         assert originalDir.exists();
         List<File> projectList = JavaSearcher.getProjectList(originalDir.getAbsolutePath());
+        assert projectList.size() == 111; // we have 111 projects in SF110 (two projects with ID = 82)
         int projectCount = 0, methodCount = 0;
-        for (File project : projectList) {
 
+        for (File project : projectList) {
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);
 
             for (File javaFile : javaFiles) {
                 // is it a test class?
                 if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
-
 
                 // parse the file and get the primary class declaration
                 CompilationUnit cu = getCompilationUnit(project, javaFile);
@@ -292,7 +292,6 @@ public class SF110ScenarioGenerator {
                 for (int i = 0; i < testableMethods.size(); i++) {
                     methodCount++;
                     MethodDeclaration m = testableMethods.get(i);
-                    String methodSignature = m.getSignature().toString();
                     // if only one, don't bother with the test name suffix
                     String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
                     // generates the scenarios and save
