@@ -7,14 +7,14 @@ def createJob(scenario_path):
         f.write("#$ -m abe            # Send mail when job begins, ends and aborts"+"\n")
         f.write("#$ -pe smp 1     # Specify parallel environment and legal core size"+"\n")
         f.write("#$ -q long           # Specify queue"+"\n")
-        f.write("#$ -N  RQ2_SF110_2K_4K"+"\n")
+        f.write("#$ -N  RQ2_SF110_3_2K_4K"+"\n")
     
     for token in [2000,4000]:
         for project in os.listdir(scenario_path):
             if project.endswith(".csv"):
                 continue
 
-            if "scenario1" in project:
+            if "scenario3" in project:
                 with open("../scripts/generate_tests_SF110_RQ2.sh", "a") as f:
                     f.write(f"python generate_tests_openai.py -t {token} -d SF110 -q RQ2 -p \"RQ2_Prompt_Elements/OpenAI_Data/SF110_input/{project}\"\n")
 
