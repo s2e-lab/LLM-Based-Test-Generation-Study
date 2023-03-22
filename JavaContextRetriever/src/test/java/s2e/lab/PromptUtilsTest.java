@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static s2e.lab.generators.JavaOpenAIPromptGenerator.SF100_EVOSUITE_SCENARIO;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
+import static s2e.lab.generators.SF110ScenarioGenerator.getCompilationUnit;
 
 
 public class PromptUtilsTest {
@@ -73,8 +75,6 @@ public class PromptUtilsTest {
     }
 
 
-
-
     @Test
     void testGetTestableMethodsFromPublicClass() throws FileNotFoundException {
         CompilationUnit cu = StaticJavaParser.parse("package s2e.lab;\n" +
@@ -95,6 +95,50 @@ public class PromptUtilsTest {
         List<String> testableMethods = PromptUtils.getTestableMethods(PromptUtils.getPrimaryClass(cu), true).stream().map(m -> m.getSignature().toString()).collect(Collectors.toList());
         assertEquals(0, testableMethods.size());
 
+    }
+
+    @Test
+    void testSF110Stats() throws IOException {
+        // get the list of projects
+        File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
+        assertTrue(originalDir.exists());
+        List<File> projectList = JavaSearcher.getProjectList(originalDir.getAbsolutePath());
+        assertEquals(111, projectList.size()); // we have 111 projects in SF110 (two projects with ID = 82)
+        int totalProjects = 0, totalMethodsUnderTest = 0;
+
+        for (File project : projectList) {
+            List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+            int projectMethodCount = 0;
+            for (File javaFile : javaFiles) {
+                // is it a test class?
+                if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
+
+                // parse the file and get the primary class declaration
+                CompilationUnit cu = getCompilationUnit(project, javaFile);
+                if (cu == null) continue;
+                ClassOrInterfaceDeclaration classDecl = PromptUtils.getPrimaryClass(cu);
+                if (classDecl == null) continue;
+
+                // collect the testable method's names (only if the class is also testable, AND the method has a "good" JavaDoc)
+                List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
+                        .stream()
+                        .filter(METHOD_INCLUSION_CRITERIA).collect(Collectors.toList());
+                projectMethodCount += testableMethods.size();
+
+            }
+
+            // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
+            if (PROJECT_INCLUSION_CRITERIA.test(projectMethodCount)) {
+                System.out.println("Analyzed project " + project.getName() + " with " + projectMethodCount + " methods");
+                totalProjects++;
+                totalMethodsUnderTest += projectMethodCount;
+            }
+        }
+
+        // these assertions are to ensure that the number of projects & methods is correct,
+        // otherwise, our filtering is discrepant from JavaOpenAIPromptGenerator.java
+        assertEquals(53, totalProjects);
+        assertEquals(504, totalMethodsUnderTest);
     }
 
 

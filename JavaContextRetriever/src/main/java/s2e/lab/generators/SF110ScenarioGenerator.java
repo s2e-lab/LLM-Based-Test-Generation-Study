@@ -5,10 +5,11 @@ import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
-import com.github.javaparser.ast.nodeTypes.NodeWithBody;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.resolution.TypeSolver;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static s2e.lab.PromptUtils.save;
 import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
 
 /**
@@ -36,7 +38,7 @@ import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
  */
 public class SF110ScenarioGenerator {
 
-    private static int NUMBER_OF_SCENARIOS = 3;
+    private static int NUMBER_OF_SCENARIOS = 4;
 
     /**
      * Clone a compilation unit.
@@ -64,8 +66,8 @@ public class SF110ScenarioGenerator {
         // copy the class modifiers, annotations, name, type parameters, extended types, implemented types
         // copy members of the class if includeMembers is true
         NodeList<BodyDeclaration<?>> members = new NodeList<>();
-        if(includeMembers) {
-            c.getMembers().forEach( member -> members.add(member.clone()));
+        if (includeMembers) {
+            c.getMembers().forEach(member -> members.add(member.clone()));
         }
         ClassOrInterfaceDeclaration copy = new ClassOrInterfaceDeclaration(
                 c.getModifiers(),
@@ -255,8 +257,6 @@ public class SF110ScenarioGenerator {
     }
 
     public static void main(String[] args) throws IOException {
-
-
         // cleans up prior results
         cleanPriorScenarios();
 
@@ -264,15 +264,15 @@ public class SF110ScenarioGenerator {
         File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
         assert originalDir.exists();
         List<File> projectList = JavaSearcher.getProjectList(originalDir.getAbsolutePath());
-        int projectCount = 0, methodCount = 0;
+        assert projectList.size() == 111; // we have 111 projects in SF110 (two projects with ID = 82)
+        int totalProjects = 0, totalMethodsUnderTest = 0;
+
         for (File project : projectList) {
-
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);
-
+            int projectMethodCount = 0;
             for (File javaFile : javaFiles) {
                 // is it a test class?
                 if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
-
 
                 // parse the file and get the primary class declaration
                 CompilationUnit cu = getCompilationUnit(project, javaFile);
@@ -284,15 +284,9 @@ public class SF110ScenarioGenerator {
                 List<MethodDeclaration> testableMethods = PromptUtils.getTestableMethods(classDecl, true)
                         .stream()
                         .filter(METHOD_INCLUSION_CRITERIA).collect(Collectors.toList());
-                // only includes projects that have # testable methods between MIN and MAX (inclusive)
-                if (!PROJECT_INCLUSION_CRITERIA.test(testableMethods)) continue;
-
-                System.out.println("Analyzing project " + project.getName());
-                projectCount++;
+                projectMethodCount += testableMethods.size();
                 for (int i = 0; i < testableMethods.size(); i++) {
-                    methodCount++;
                     MethodDeclaration m = testableMethods.get(i);
-                    String methodSignature = m.getSignature().toString();
                     // if only one, don't bother with the test name suffix
                     String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
                     // generates the scenarios and save
@@ -302,11 +296,28 @@ public class SF110ScenarioGenerator {
                     saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
                 }
             }
+
+            // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
+            if (PROJECT_INCLUSION_CRITERIA.test(projectMethodCount)) {
+                System.out.println("Analyzed project " + project.getName());
+                totalProjects++;
+                totalMethodsUnderTest += projectMethodCount;
+            }else{
+                // deleted the scenarios generated, as the project failed the inclusion criteria
+                // cleans up prior generated scenarios
+                for (int i = 1; i <= NUMBER_OF_SCENARIOS; i++) {
+                    File projectScenarioFolder = new File(String.format(SF100_EVOSUITE_SCENARIO, "scenario" + i) + project.getName());
+                    FileUtils.deleteDirectory(projectScenarioFolder);
+                }
+                System.out.println("Skipped project " + project.getName());
+            }
+
+
         }
 
         // these assertions are to ensure that the number of projects & methods is correct,
         // otherwise, our filtering is discrepant from JavaOpenAIPromptGenerator.java
-        assert projectCount == 53;
-        assert methodCount == 504;
+        assert totalProjects == 53;
+        assert totalMethodsUnderTest == 504;
     }
 }
