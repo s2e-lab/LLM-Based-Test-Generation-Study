@@ -57,7 +57,7 @@ def generate_tests(config: dict, rq: int, dataset: str, prompt_file: str, prompt
 
     # sets the data output paths
     output_folder, scenario_folder, response_file, csv_file = get_output_files(config, rq, dataset, prompt_file,
-                                                                               max_tokens)
+                                                                               max_tokens, "OpenAI")
     # opens output file in write mode (overwrite prior results)
     with open(response_file, "w") as json_file, open(csv_file, "w") as csv_out:
         csv_file = csv.writer(csv_out, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)

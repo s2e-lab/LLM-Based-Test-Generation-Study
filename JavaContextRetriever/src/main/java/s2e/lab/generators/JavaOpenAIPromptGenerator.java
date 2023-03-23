@@ -48,9 +48,12 @@ public class JavaOpenAIPromptGenerator {
     public static String RQ1_BASE_DIR = BASE_DIR + "RQ1_Test_Generation/";
     public static String RQ1_PROMPT_OUTPUT_FILE = RQ1_BASE_DIR + "OpenAI_Data/%s_input/%s_prompt.json";
 
+    public static String RQ1_PROMPT_OUTPUT_FILE_CODEGEN = RQ1_BASE_DIR + "CodeGen_Data/%s_input/%s_prompt.json";
+
     // folders for RQ2
     public static String RQ2_BASE_DIR = BASE_DIR + "RQ2_Prompt_Elements/";
     public static String RQ2_PROMPT_OUTPUT_FILE = RQ2_BASE_DIR + "OpenAI_Data/%s_input/%s_prompt.json";
+    public static String RQ2_PROMPT_OUTPUT_FILE_CODEGEN = RQ2_BASE_DIR + "CodeGen_Data/%s_input/%s_prompt.json";
 
 
     // criteria used to filter out projects
@@ -65,33 +68,32 @@ public class JavaOpenAIPromptGenerator {
 
 
     public static void main(String[] args) throws IOException {
-//        /* HumanEvalJava */
-//        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-//        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-//        // create folders if they don't exist
-//        humanEvalJavaRQ1.mkdirs();
-//        humanEvalJavaRQ2.mkdirs();
-//        // clean old results from the input folder
-//        FileUtils.cleanDirectory(humanEvalJavaRQ1);
-//        FileUtils.cleanDirectory(humanEvalJavaRQ2);
-//        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
-//        generateHumanEvalJavaPrompts();
+        /* HumanEvalJava */
+        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+        // create folders if they don't exist
+        humanEvalJavaRQ1.mkdirs();
+        humanEvalJavaRQ2.mkdirs();
+        // clean old results from the input folder
+        FileUtils.cleanDirectory(humanEvalJavaRQ1);
+        FileUtils.cleanDirectory(humanEvalJavaRQ2);
+        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
+        generateHumanEvalJavaPrompts();
 
         /* OSS projects */
-//        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
-        File sf110RQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
+        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE_CODEGEN, "SF110", "")).getParentFile();
+        File sf110RQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE_CODEGEN, "SF110", "")).getParentFile();
         // create folders if they don't exist
-//        sf110RQ1.mkdirs();
+        sf110RQ1.mkdirs();
         sf110RQ2.mkdirs();
         // clean old results from the input folder
-//        FileUtils.cleanDirectory(sf110RQ1);
+        FileUtils.cleanDirectory(sf110RQ1);
         FileUtils.cleanDirectory(sf110RQ2);
         // cleans up prior generated scenario files
-//        cleanPriorScenarios();
+        cleanPriorScenarios();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-//        generateOSSPromptsRQ1();
+        generateOSSPromptsRQ1();
         generateOSSPromptsRQ2();
-
     }
 
     /**
@@ -120,7 +122,7 @@ public class JavaOpenAIPromptGenerator {
 //            System.out.println(project.getName() + "\t" + outputList.size());
             // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
             if (PROJECT_INCLUSION_CRITERIA.test(outputList.size())) {
-                save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE, "SF110", project.getName()));
+                save(outputList, String.format(RQ1_PROMPT_OUTPUT_FILE_CODEGEN , "SF110", project.getName()));
             }
         }
 
@@ -186,7 +188,7 @@ public class JavaOpenAIPromptGenerator {
                 // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
                 if (PROJECT_INCLUSION_CRITERIA.test(outputList.size())) {
                     String prefix = "scenario" + scenarioNo + "_" + project.getName();
-                    save(outputList, String.format(RQ2_PROMPT_OUTPUT_FILE, "SF110", prefix));
+                    save(outputList, String.format(RQ2_PROMPT_OUTPUT_FILE_CODEGEN , "SF110", prefix));
                 }
             }
 
