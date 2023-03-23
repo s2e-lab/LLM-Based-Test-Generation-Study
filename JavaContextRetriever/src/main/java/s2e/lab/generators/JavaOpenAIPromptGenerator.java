@@ -5,6 +5,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.utils.Pair;
 import org.apache.commons.io.FileUtils;
 import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -137,6 +139,7 @@ public class JavaOpenAIPromptGenerator {
 
         for (int scenarioNo = 1; scenarioNo <= NUMBER_OF_SCENARIOS; scenarioNo++) {
             for (File project : projectList) {
+                Pair<Map<String, MethodDeclaration>, Map<String, CompilationUnit>> projMaps = getAllProjectMethods(project);
                 List<HashMap<String, String>> outputList = new ArrayList<>();
                 List<File> javaFiles = JavaSearcher.findJavaFiles(project);
 
@@ -145,7 +148,7 @@ public class JavaOpenAIPromptGenerator {
                     if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
 
                     // parse the file and get the primary class declaration
-                    CompilationUnit cu = getCompilationUnit(project, javaFile);
+                    CompilationUnit cu = projMaps.b.get(javaFile.getAbsolutePath());//getCompilationUnit(project, javaFile);
                     if (cu == null) continue;
                     ClassOrInterfaceDeclaration classDecl = PromptUtils.getPrimaryClass(cu);
                     if (classDecl == null) continue;
@@ -160,27 +163,29 @@ public class JavaOpenAIPromptGenerator {
                         // if only one, don't bother with the test name suffix
                         String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
                         // generates the scenarios and save
-                        ClassOrInterfaceDeclaration scenarioClass;
+                        Pair<CompilationUnit, ClassOrInterfaceDeclaration> scenario;
                         if (scenarioNo == 1) {
-                            scenarioClass = generateScenario1(classDecl, m);
+                             scenario = generateScenario1(classDecl, m);
                         } else if (scenarioNo == 2) {
-                            scenarioClass = generateScenario2(classDecl, m);
+                            scenario = generateScenario2(classDecl, m);
                         } else if (scenarioNo == 3) {
-                            scenarioClass = generateScenario3(classDecl, m);
+                            scenario = generateScenario3(classDecl, m);
                         } else if (scenarioNo == 4) {
-                            scenarioClass = generateScenario4(classDecl, m);
+                            scenario = generateScenario4(classDecl, m);
+                        } else if(scenarioNo == 5){
+                            scenario = generateScenario5(classDecl, m, projMaps.a);
                         } else {
                             throw new IllegalArgumentException("Invalid scenario number: " + scenarioNo);
                         }
 
                         HashMap<String, String> prompt = computeUnitTestPrompt(javaFile, NUMBER_OF_TESTS,
-                                scenarioClass.findCompilationUnit().get(),
-                                scenarioClass.getNameAsString(),
+                                scenario.a,
+                                scenario.b.getNameAsString(),
                                 m.getSignature().asString(),
                                 suffix);
 
                         outputList.add(prompt);
-                        saveScenario(scenarioClass, project, javaFile, suffix, scenarioNo);
+                        // saveScenario(scenario.a, project, javaFile, suffix, scenarioNo);
                     }
                 }
 

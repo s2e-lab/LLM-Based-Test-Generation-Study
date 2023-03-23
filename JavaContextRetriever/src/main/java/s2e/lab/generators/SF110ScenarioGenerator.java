@@ -18,6 +18,8 @@ import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+import com.github.javaparser.utils.Pair;
+import com.ibm.wala.ipa.callgraph.CallGraphBuilderCancelException;
 import org.apache.commons.io.FileUtils;
 import s2e.lab.PromptUtils;
 import s2e.lab.searcher.JavaSearcher;
@@ -26,11 +28,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-import static s2e.lab.PromptUtils.save;
 import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
 
 /**
@@ -38,7 +41,7 @@ import static s2e.lab.generators.JavaOpenAIPromptGenerator.*;
  */
 public class SF110ScenarioGenerator {
 
-    public static int NUMBER_OF_SCENARIOS = 4;
+    public static int NUMBER_OF_SCENARIOS = 5;
 
     /**
      * Clone a compilation unit.
@@ -96,7 +99,7 @@ public class SF110ScenarioGenerator {
      * @param m method under test
      * @return a class with the scenario implementation
      */
-    public static ClassOrInterfaceDeclaration generateScenario1(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
+    public static Pair<CompilationUnit, ClassOrInterfaceDeclaration> generateScenario1(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
         // create a (soft) copy
         CompilationUnit scenarioCu = clone(c.findCompilationUnit().get());
         ClassOrInterfaceDeclaration scenarioClass = clone(c, false);
@@ -110,7 +113,7 @@ public class SF110ScenarioGenerator {
 
         // assert only one method there! otherwise, we have a bug :(
         assert scenarioClass.getMembers().size() == 1;
-        return scenarioClass;
+        return new Pair<>(scenarioCu, scenarioClass);
     }
 
     /**
@@ -120,11 +123,13 @@ public class SF110ScenarioGenerator {
      * @param m method under test
      * @return a class with the scenario implementation
      */
-    public static ClassOrInterfaceDeclaration generateScenario2(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
+    public static Pair<CompilationUnit, ClassOrInterfaceDeclaration> generateScenario2(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
         // just like scenario 1, but add a javadoc
-        ClassOrInterfaceDeclaration scenarioClass = generateScenario1(c, m);
-        scenarioClass.getMethods().get(0).setJavadocComment(m.getJavadoc().get());
-        return scenarioClass;
+        Pair<CompilationUnit, ClassOrInterfaceDeclaration> scenario1 = generateScenario1(c, m);
+        ClassOrInterfaceDeclaration scenarioClass = scenario1.b;
+        if (m.getJavadoc().isPresent())
+            scenarioClass.getMethods().get(0).setJavadocComment(m.getJavadoc().get());
+        return new Pair<>(scenario1.a, scenarioClass);
     }
 
     /**
@@ -134,13 +139,14 @@ public class SF110ScenarioGenerator {
      * @param m method under test
      * @return a class with the scenario implementation
      */
-    public static ClassOrInterfaceDeclaration generateScenario3(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
+    public static Pair<CompilationUnit, ClassOrInterfaceDeclaration> generateScenario3(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
 
         // just like scenario 1, but remove method's implementation
-        ClassOrInterfaceDeclaration scenarioClass = generateScenario2(c, m);
+        Pair<CompilationUnit, ClassOrInterfaceDeclaration> scenario2 = generateScenario2(c, m);
+        ClassOrInterfaceDeclaration scenarioClass = scenario2.b;
         scenarioClass.getMethods().get(0).setBody(null);
 
-        return scenarioClass;
+        return new Pair<>(scenario2.a, scenarioClass);
     }
 
 
@@ -151,7 +157,7 @@ public class SF110ScenarioGenerator {
      * @param m method under test
      * @return a class with the scenario implementation
      */
-    public static ClassOrInterfaceDeclaration generateScenario4(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
+    public static Pair<CompilationUnit, ClassOrInterfaceDeclaration> generateScenario4(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
         // create a soft copy, and this time include all members of the class
         CompilationUnit scenarioCu = clone(c.findCompilationUnit().get());
         ClassOrInterfaceDeclaration scenarioClass = clone(c, true);
@@ -169,7 +175,7 @@ public class SF110ScenarioGenerator {
         }
         // check that we have the same number of members (otherwise, we have a bug)x
         assert scenarioClass.getMembers().size() == c.getMembers().size();
-        return scenarioClass;
+        return new Pair<>(scenarioCu, scenarioClass);
     }
 
     /**
@@ -179,29 +185,37 @@ public class SF110ScenarioGenerator {
      * @param m method under test
      * @return a class with the scenario implementation
      */
-    public static ClassOrInterfaceDeclaration generateScenario5(ClassOrInterfaceDeclaration c, MethodDeclaration m) {
+    public static Pair<CompilationUnit, ClassOrInterfaceDeclaration> generateScenario5(ClassOrInterfaceDeclaration c, MethodDeclaration m, Map<String, MethodDeclaration> allProjectMethods) {
+
 
         // just like scenario 2
-        ClassOrInterfaceDeclaration scenarioClass = generateScenario2(c, m);
-        // finds calls
+        Pair<CompilationUnit, ClassOrInterfaceDeclaration> scenario2 = generateScenario2(c, m);
+        CompilationUnit scenarioCu = scenario2.a;
+        ClassOrInterfaceDeclaration scenarioClass = scenario2.b;
+        // finds method calls
         c.getMethods().get(0).findAll(MethodCallExpr.class).forEach(call -> {
-
             // finds the invoked method
             try {
                 ResolvedMethodDeclaration invokedMethod = call.resolve();
-                System.out.println(invokedMethod.getSignature());
+                MethodDeclaration newMethod = allProjectMethods.get(invokedMethod.getQualifiedSignature());
+                if (newMethod != null) {
+                    ClassOrInterfaceDeclaration newClass = newMethod.findAncestor(ClassOrInterfaceDeclaration.class).get();
+                    // get method's signature
+                    Pair<CompilationUnit, ClassOrInterfaceDeclaration> newMethodScenario = generateScenario2(newClass, newMethod);
+
+                    // adds the invoked method's documentation
+                    scenarioCu.addType(newMethodScenario.b);
+                }
             } catch (UnsolvedSymbolException e) {
-                System.out.println("UnresolvedSymbolException for " + call);
+                // ignore
             }
-            // adds the method's implementation
-//            scenarioClass.addMember(invokedMethod.clone());
         });
 
-        return scenarioClass;
+        return new Pair<CompilationUnit, ClassOrInterfaceDeclaration>(scenarioCu, scenarioClass);
     }
 
 
-    public static void saveScenario(ClassOrInterfaceDeclaration scenarioClass, File project, File javaFile, String suffix, int scenarioNo) throws IOException {
+    public static void saveScenario(CompilationUnit scenarioCu, File project, File javaFile, String suffix, int scenarioNo) throws IOException {
         // path to the scenario folder
         String scenarioFolderPath = String.format(SF100_EVOSUITE_SCENARIO, "scenario" + scenarioNo) + project.getName();
         // the line below keeps the original folder structure to take into account the package location
@@ -214,7 +228,6 @@ public class SF110ScenarioGenerator {
         scenarioFile.getParentFile().mkdirs();
 
         // saves to the Java file
-        CompilationUnit scenarioCu = scenarioClass.findCompilationUnit().get();
         try (FileWriter fileWriter = new FileWriter(scenarioFile)) {
             fileWriter.write(scenarioCu.toString());
         }
@@ -256,18 +269,40 @@ public class SF110ScenarioGenerator {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static Pair<Map<String, MethodDeclaration>,Map<String, CompilationUnit>> getAllProjectMethods(File project) throws IOException {
+        Map<String, MethodDeclaration> allMethods = new HashMap<>();
+        Map<String, CompilationUnit> allCompUnits = new HashMap<>();
+        List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+        for (File javaFile : javaFiles) {
+            CompilationUnit cu = getCompilationUnit(project, javaFile);
+            if (cu == null) continue;
+            allCompUnits.put(javaFile.getAbsolutePath(), cu);
+            cu.findAll(MethodDeclaration.class).forEach(m -> {
+                try {
+                    String qualifiedSignature = m.resolve().getQualifiedSignature();
+                    allMethods.put(qualifiedSignature, m);
+                } catch (UnsolvedSymbolException e) {
+                    // System.err.println("UnresolvedSymbolException for " + m);
+                }
+            });
+        }
+        return new Pair<>(allMethods, allCompUnits);
+    }
+
+
+    public static void main(String[] args) throws IOException, CallGraphBuilderCancelException {
         // cleans up prior results
 //        cleanPriorScenarios();
 
         // get the list of projects
         File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
         assert originalDir.exists();
-        List<File> projectList = JavaSearcher.getProjectList(originalDir.getAbsolutePath());
-        assert projectList.size() == 111; // we have 111 projects in SF110 (two projects with ID = 82)
+        List<File> projectList = JavaSearcher.getFilteredProjects(originalDir.getAbsolutePath());//FIXME: replace the hack by this! getProjectList(originalDir.getAbsolutePath());
+        assert projectList.size() == 53;//FIXME 111; // we have 111 projects in SF110 (two projects with ID = 82)
         int totalProjects = 0, totalMethodsUnderTest = 0;
 
         for (File project : projectList) {
+            Pair<Map<String, MethodDeclaration>, Map<String, CompilationUnit>> projMaps = getAllProjectMethods(project);
             List<File> javaFiles = JavaSearcher.findJavaFiles(project);
             int projectMethodCount = 0;
             for (File javaFile : javaFiles) {
@@ -275,7 +310,7 @@ public class SF110ScenarioGenerator {
                 if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
 
                 // parse the file and get the primary class declaration
-                CompilationUnit cu = getCompilationUnit(project, javaFile);
+                CompilationUnit cu = projMaps.b.get(javaFile.getAbsolutePath());
                 if (cu == null) continue;
                 ClassOrInterfaceDeclaration classDecl = PromptUtils.getPrimaryClass(cu);
                 if (classDecl == null) continue;
@@ -285,6 +320,7 @@ public class SF110ScenarioGenerator {
                         .stream()
                         .filter(METHOD_INCLUSION_CRITERIA).collect(Collectors.toList());
                 projectMethodCount += testableMethods.size();
+//                System.out.println(project);
                 for (int i = 0; i < testableMethods.size(); i++) {
                     MethodDeclaration m = testableMethods.get(i);
                     // if only one, don't bother with the test name suffix
@@ -294,16 +330,16 @@ public class SF110ScenarioGenerator {
 //                    saveScenario(generateScenario2(classDecl, m), project, javaFile, suffix, 2);
 //                    saveScenario(generateScenario3(classDecl, m), project, javaFile, suffix, 3);
 //                    saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
-                    generateScenario5(classDecl, m);
+                    saveScenario(generateScenario5(classDecl, m, projMaps.a).a, project, javaFile, suffix, 5);
                 }
             }
 
             // only includes projects that at least 1 method to test, but also between MIN and MAX (inclusive)
             if (PROJECT_INCLUSION_CRITERIA.test(projectMethodCount)) {
-                System.out.println("Analyzed project " + project.getName());
+                System.out.println("Analyzed project " + project.getAbsolutePath());
                 totalProjects++;
                 totalMethodsUnderTest += projectMethodCount;
-            }else{
+            } else {
                 // deleted the scenarios generated, as the project failed the inclusion criteria
                 // cleans up prior generated scenarios
                 for (int i = 1; i <= NUMBER_OF_SCENARIOS; i++) {
