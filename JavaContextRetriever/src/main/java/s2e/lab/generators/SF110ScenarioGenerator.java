@@ -8,6 +8,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
@@ -28,9 +29,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -179,37 +178,52 @@ public class SF110ScenarioGenerator {
     }
 
     /**
-     * Just like scenario 3, but add the implementations of the invoked methods (1-level deep)
+     * Just like scenario 3, but add the signatures and documentation of the invoked methods (1-level deep)
      *
      * @param c class under test
      * @param m method under test
      * @return a class with the scenario implementation
      */
     public static Pair<CompilationUnit, ClassOrInterfaceDeclaration> generateScenario5(ClassOrInterfaceDeclaration c, MethodDeclaration m, Map<String, MethodDeclaration> allProjectMethods) {
-
-
-        // just like scenario 2
+        // just like scenario 2 (method's signature + implementation + Javadoc)
         Pair<CompilationUnit, ClassOrInterfaceDeclaration> scenario2 = generateScenario2(c, m);
         CompilationUnit scenarioCu = scenario2.a;
         ClassOrInterfaceDeclaration scenarioClass = scenario2.b;
-        // finds method calls
-        c.getMethods().get(0).findAll(MethodCallExpr.class).forEach(call -> {
+        // all the invoked methods's signatures that were found (and its documentation)
+        // key = class' fully qualified name / value = ClassOrInterfaceDeclaration
+        Map<String, ClassOrInterfaceDeclaration> invokedTypes = new HashMap<>();
+        Set<String> invokedMethods = new HashSet<>();
+        // finds all the method calls on the method under test
+        m.findAll(MethodCallExpr.class).forEach(call -> {
             // finds the invoked method
             try {
                 ResolvedMethodDeclaration invokedMethod = call.resolve();
-                MethodDeclaration newMethod = allProjectMethods.get(invokedMethod.getQualifiedSignature());
-                if (newMethod != null) {
-                    ClassOrInterfaceDeclaration newClass = newMethod.findAncestor(ClassOrInterfaceDeclaration.class).get();
-                    // get method's signature
-                    Pair<CompilationUnit, ClassOrInterfaceDeclaration> newMethodScenario = generateScenario2(newClass, newMethod);
+                String invokedClassName = invokedMethod.declaringType().getQualifiedName();
+                String invokedFullMethodName = invokedClassName + "." + m.getSignature().asString();
+                MethodDeclaration newMethod = allProjectMethods.get(invokedFullMethodName);
 
-                    // adds the invoked method's documentation
-                    scenarioCu.addType(newMethodScenario.b);
+                // if the method was found, and it was not already added, add it and analyze
+                if (newMethod != null && !invokedMethods.contains(invokedFullMethodName)) {
+                    invokedMethods.add(invokedFullMethodName);
+                    ClassOrInterfaceDeclaration newClass = newMethod.findAncestor(ClassOrInterfaceDeclaration.class).get();
+                    // get method's signature , Javadoc, and declaring class
+                    // this is to deal with the case that we can invoke multiple methods from the same class
+                    Pair<CompilationUnit, ClassOrInterfaceDeclaration> newMethodScenario = generateScenario3(newClass, newMethod);
+                    // add to the existing class, or create a new one
+                    if (invokedTypes.containsKey(invokedClassName)) {
+                        invokedTypes.get(invokedClassName).addMember(newMethodScenario.b.getMethods().get(0));
+                    } else {
+                        invokedTypes.put(invokedClassName, newMethodScenario.b);
+                    }
                 }
-            } catch (UnsolvedSymbolException e) {
+            } catch (UnsolvedSymbolException | UnsupportedOperationException e) {
                 // ignore
             }
         });
+
+        // adds the method under test
+        invokedTypes.values().forEach(t -> scenarioCu.addType(t));
+
 
         return new Pair<CompilationUnit, ClassOrInterfaceDeclaration>(scenarioCu, scenarioClass);
     }
@@ -269,22 +283,32 @@ public class SF110ScenarioGenerator {
         }
     }
 
-    public static Pair<Map<String, MethodDeclaration>,Map<String, CompilationUnit>> getAllProjectMethods(File project) throws IOException {
+    public static Pair<Map<String, MethodDeclaration>, Map<String, CompilationUnit>> getAllProjectMethods(File project) throws IOException {
         Map<String, MethodDeclaration> allMethods = new HashMap<>();
         Map<String, CompilationUnit> allCompUnits = new HashMap<>();
-        List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+        List<File> javaFiles = JavaSearcher.findNonTestJavaFiles(project);
         for (File javaFile : javaFiles) {
             CompilationUnit cu = getCompilationUnit(project, javaFile);
             if (cu == null) continue;
             allCompUnits.put(javaFile.getAbsolutePath(), cu);
-            cu.findAll(MethodDeclaration.class).forEach(m -> {
+            for (TypeDeclaration<?> type : cu.getTypes()) {
+                if (type.isClassOrInterfaceDeclaration()) {
+                    for (MethodDeclaration m : type.getMethods()) {
+                        String className = type.resolve().getQualifiedName();//type.getFullyQualifiedName().orElse(type.getNameAsString());
+                        String methodQualifiedName = className + "." + m.getSignature().asString();
+                        allMethods.put(methodQualifiedName, m);
+                    }
+                }
+            }
+
+            /*cu.findAll(MethodDeclaration.class).forEach(m -> {
                 try {
                     String qualifiedSignature = m.resolve().getQualifiedSignature();
                     allMethods.put(qualifiedSignature, m);
                 } catch (UnsolvedSymbolException e) {
                     // System.err.println("UnresolvedSymbolException for " + m);
                 }
-            });
+            });*/
         }
         return new Pair<>(allMethods, allCompUnits);
     }
@@ -302,13 +326,12 @@ public class SF110ScenarioGenerator {
         int totalProjects = 0, totalMethodsUnderTest = 0;
 
         for (File project : projectList) {
+            System.out.println(project);
+            // CallGraph callGraph = CallGraphGenerator.computeCallGraph(project);
             Pair<Map<String, MethodDeclaration>, Map<String, CompilationUnit>> projMaps = getAllProjectMethods(project);
-            List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+            List<File> javaFiles = JavaSearcher.findNonTestJavaFiles(project);
             int projectMethodCount = 0;
             for (File javaFile : javaFiles) {
-                // is it a test class?
-                if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
-
                 // parse the file and get the primary class declaration
                 CompilationUnit cu = projMaps.b.get(javaFile.getAbsolutePath());
                 if (cu == null) continue;
@@ -326,10 +349,10 @@ public class SF110ScenarioGenerator {
                     // if only one, don't bother with the test name suffix
                     String suffix = testableMethods.size() == 1 ? "" : String.valueOf(i);
                     // generates the scenarios and save
-//                    saveScenario(generateScenario1(classDecl, m), project, javaFile, suffix, 1);
-//                    saveScenario(generateScenario2(classDecl, m), project, javaFile, suffix, 2);
-//                    saveScenario(generateScenario3(classDecl, m), project, javaFile, suffix, 3);
-//                    saveScenario(generateScenario4(classDecl, m), project, javaFile, suffix, 4);
+                    saveScenario(generateScenario1(classDecl, m).a, project, javaFile, suffix, 1);
+                    saveScenario(generateScenario2(classDecl, m).a, project, javaFile, suffix, 2);
+                    saveScenario(generateScenario3(classDecl, m).a, project, javaFile, suffix, 3);
+                    saveScenario(generateScenario4(classDecl, m).a, project, javaFile, suffix, 4);
                     saveScenario(generateScenario5(classDecl, m, projMaps.a).a, project, javaFile, suffix, 5);
                 }
             }

@@ -65,31 +65,31 @@ public class JavaOpenAIPromptGenerator {
 
 
     public static void main(String[] args) throws IOException {
-        /* HumanEvalJava */
-        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
-        // create folders if they don't exist
-        humanEvalJavaRQ1.mkdirs();
-        humanEvalJavaRQ2.mkdirs();
-        // clean old results from the input folder
-        FileUtils.cleanDirectory(humanEvalJavaRQ1);
-        FileUtils.cleanDirectory(humanEvalJavaRQ2);
-        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
-        generateHumanEvalJavaPrompts();
+//        /* HumanEvalJava */
+//        File humanEvalJavaRQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+//        File humanEvalJavaRQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "HumanEvalJava", "")).getParentFile();
+//        // create folders if they don't exist
+//        humanEvalJavaRQ1.mkdirs();
+//        humanEvalJavaRQ2.mkdirs();
+//        // clean old results from the input folder
+//        FileUtils.cleanDirectory(humanEvalJavaRQ1);
+//        FileUtils.cleanDirectory(humanEvalJavaRQ2);
+//        // generates the prompts for RQ1 and RQ2 for HumanEvalJava
+//        generateHumanEvalJavaPrompts();
 
         /* OSS projects */
-        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
+//        File sf110RQ1 = new File(format(RQ1_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         File sf110RQ2 = new File(format(RQ2_PROMPT_OUTPUT_FILE, "SF110", "")).getParentFile();
         // create folders if they don't exist
-        sf110RQ1.mkdirs();
+//        sf110RQ1.mkdirs();
         sf110RQ2.mkdirs();
         // clean old results from the input folder
-        FileUtils.cleanDirectory(sf110RQ1);
+//        FileUtils.cleanDirectory(sf110RQ1);
         FileUtils.cleanDirectory(sf110RQ2);
         // cleans up prior generated scenario files
-        cleanPriorScenarios();
+//        cleanPriorScenarios();
         // generates the prompts for RQ1 and RQ2 for OSS projects from Evosuite Benchmark
-        generateOSSPromptsRQ1();
+//        generateOSSPromptsRQ1();
         generateOSSPromptsRQ2();
 
     }
@@ -108,14 +108,10 @@ public class JavaOpenAIPromptGenerator {
 
         List<File> projectList = JavaSearcher.getProjectList(scenarioDir.getAbsolutePath());
         for (File project : projectList) {
-            List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+            List<File> javaFiles = JavaSearcher.findNonTestJavaFiles(project);
             List<HashMap<String, String>> outputList = new ArrayList<>();
 
             for (File javaFile : javaFiles) {
-                // is it a test class?
-                if (javaFile.getPath().toLowerCase().contains("/test/"))
-                    continue;
-
                 // gets testable methods according to 'good javadoc' criteria
                 List<HashMap<String, String>> promptList = generateTestPrompt(javaFile, METHOD_INCLUSION_CRITERIA, true);
                 if (!promptList.isEmpty())
@@ -135,18 +131,16 @@ public class JavaOpenAIPromptGenerator {
         // get the list of projects
         File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
         assert originalDir.exists();
-        List<File> projectList = JavaSearcher.getProjectList(originalDir.getAbsolutePath());
+        List<File> projectList = JavaSearcher.getFilteredProjects(originalDir.getAbsolutePath());//FIXME JavaSearcher.getProjectList(originalDir.getAbsolutePath());
 
         for (int scenarioNo = 1; scenarioNo <= NUMBER_OF_SCENARIOS; scenarioNo++) {
             for (File project : projectList) {
+                System.out.println(project);
                 Pair<Map<String, MethodDeclaration>, Map<String, CompilationUnit>> projMaps = getAllProjectMethods(project);
                 List<HashMap<String, String>> outputList = new ArrayList<>();
-                List<File> javaFiles = JavaSearcher.findJavaFiles(project);
+                List<File> javaFiles = JavaSearcher.findNonTestJavaFiles(project);
 
                 for (File javaFile : javaFiles) {
-                    // is it a test class?
-                    if (javaFile.getPath().toLowerCase().contains("/test/")) continue;
-
                     // parse the file and get the primary class declaration
                     CompilationUnit cu = projMaps.b.get(javaFile.getAbsolutePath());//getCompilationUnit(project, javaFile);
                     if (cu == null) continue;
@@ -165,14 +159,14 @@ public class JavaOpenAIPromptGenerator {
                         // generates the scenarios and save
                         Pair<CompilationUnit, ClassOrInterfaceDeclaration> scenario;
                         if (scenarioNo == 1) {
-                             scenario = generateScenario1(classDecl, m);
+                            scenario = generateScenario1(classDecl, m);
                         } else if (scenarioNo == 2) {
                             scenario = generateScenario2(classDecl, m);
                         } else if (scenarioNo == 3) {
                             scenario = generateScenario3(classDecl, m);
                         } else if (scenarioNo == 4) {
                             scenario = generateScenario4(classDecl, m);
-                        } else if(scenarioNo == 5){
+                        } else if (scenarioNo == 5) {
                             scenario = generateScenario5(classDecl, m, projMaps.a);
                         } else {
                             throw new IllegalArgumentException("Invalid scenario number: " + scenarioNo);
@@ -185,7 +179,7 @@ public class JavaOpenAIPromptGenerator {
                                 suffix);
 
                         outputList.add(prompt);
-                        // saveScenario(scenario.a, project, javaFile, suffix, scenarioNo);
+                        saveScenario(scenario.a, project, javaFile, suffix, scenarioNo);
                     }
                 }
 
