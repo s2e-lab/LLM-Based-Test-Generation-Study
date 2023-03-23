@@ -28,7 +28,7 @@ def get_prompts(config: dict, prompt_file: str) -> list:
     scenario_path = os.path.join(config["BASE_DIRECTORY"], prompt_file)
     with open(scenario_path, 'r') as scenario_file:
         prompts = json.load(scenario_file)
-    return prompts.sort(key=lambda x: x["id"])
+    return prompts
 
 
 def get_output_files(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str) -> tuple:

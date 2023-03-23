@@ -1,8 +1,9 @@
 import argparse
 import csv
 import time
-from transformers import AutoTokenizer, AutoModelWithLMHead, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
+torch.cuda.empty_cache()
 
 from utils import (
     load_config,
@@ -19,6 +20,11 @@ CODEGEN_TEMPERATURE = 1e-5
 CODEGEN_TOP_P = 1
 CODEGEN_DO_SAMPLE = True
 CODEGEN_EARLY_STOPPING = True
+CODEGEN_TOTAL_OUTPUT = 10
+CODEGEN_MAX_TOKENS = 2048
+
+
+STOP_TOKENS = "<|endoftext|>"
 
 
 def setup_model(device: str):
@@ -38,22 +44,28 @@ def generate_code(prompt, max_tokens, tokenizer, model, device, is_fix=False):
     @param prompt: the prompt object
     """
     start_time = time.time()
-
     response = get_mock_response(prompt, "No Error")
-    inputs = tokenizer(prompt, return_tensors="pt").to(device)
+    prompt_code = prompt["original_code"] + "\n" + prompt["test_prompt"].strip() + "\n\t\t"
+    inputs = tokenizer(prompt_code, return_tensors="pt").to(device)
+    x = inputs['input_ids']
+    x = x.expand(CODEGEN_TOTAL_OUTPUT, -1)
+    prompt_token_size = x.shape[1]
     generated_token = model.generate(
-        **inputs,
-        max_new_tokens=max_tokens,
+        x,
+        max_new_tokens=CODEGEN_MAX_TOKENS - prompt_token_size,
         do_sample=CODEGEN_DO_SAMPLE,
-        top_p=CODEGEN_TOP_P,
-        temperature=CODEGEN_TEMPERATURE,
-        early_stopping=CODEGEN_EARLY_STOPPING
     )
-    output = tokenizer.decode(generated_token[0].cpu().squeeze()).split(prompt)[-1]
-    response["choices"][0]["text"] = output
-    response["choices"][0]["finish_reason"] = "length"
-    response["usage"]={ "prompt_tokens": inputs['input_ids'].shape[1], "total_tokens": output.shape[1]}
-    
+    response["choices"] =[]
+    for i in range(CODEGEN_TOTAL_OUTPUT):
+        response["choices"].append({})
+        output = generated_token[i].cpu().squeeze()
+        response["choices"][i]["text"] = tokenizer.decode(output).split(prompt)[-1]
+        if STOP_TOKENS in response["choices"][i]["text"]:
+            response["choices"][i]["text"] = response["choices"][i]["text"].split(STOP_TOKENS)[0]
+            response["choices"][i]["finish_reason"] = "stop"
+        else:
+            response["choices"][i]["finish_reason"] = "length"
+    response["usage"]={ "prompt_tokens": prompt_token_size}
 
     time_taken = time.time() - start_time
     response["time_taken"] = time_taken
@@ -61,9 +73,6 @@ def generate_code(prompt, max_tokens, tokenizer, model, device, is_fix=False):
         response["prompt_id"] = prompt["prompt_id"]
     else:
         response["prompt_id"] = prompt["id"]
-
-    if time_taken <= 60:
-        time.sleep(60 - time_taken + 5)  # wait 5 seconds more to avoid rate limit
     return response
 
 
@@ -110,7 +119,7 @@ def generate_tests(
         for prompt in prompts:
             print("PROMPT", prompt["id"])
             try:
-                # query Open AI to generate the unit test
+                
                 response = generate_code(prompt, max_tokens, tokenizer, model, device)
                 # save the generated test in a file
                 print("SAVING", prompt["id"], "at", scenario_folder)
@@ -128,7 +137,6 @@ def generate_tests(
             except Exception as e:
                 print("ERROR", e)
                 mock_response = get_mock_response(prompt, str(e))
-                time.sleep(60)  # some sleep to make sure we don't go over rate limit
                 save_response(json_file, csv_file, prompt, prompts, mock_response)
 
         json_file.write("]")
@@ -179,15 +187,11 @@ def main():
     # generate unit tests
     question = int(args.question.replace("RQ", ""))
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    tokenizer, model =  setup_model(device="cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
+    tokenizer, model =  setup_model(device)
 
     generate_tests(config, question, args.dataset, args.prompts, prompts, args.tokens, tokenizer, model, device)
 
 
 if __name__ == "__main__":
     main()
-
-# QUICK SCRIPT TO GENERATE SAMPLE USAGES
-# for token in [x * 1000 for x in range(1, 5)]:
-#     for prompt_file in ["100_jgaap_prompt.json", "27_gangup_prompt.json", "43_lilith_prompt.json", "63_objectexplorer_prompt.json", "81_javathena_prompt.json","10_water-simulator_prompt.json", "29_apbsmem_prompt.json", "47_dvd-homevideo_prompt.json", "64_jtailgui_prompt.json", "82_ipcalculator_prompt.json","11_imsmart_prompt.json", "2_a4j_prompt.json", "49_diebierse_prompt.json", "65_gsftp_prompt.json", "84_ifx-framework_prompt.json","12_dsachat_prompt.json", "30_bpmail_prompt.json", "4_rif_prompt.json", "67_gae-app-manager_prompt.json", "86_at-robots2-j_prompt.json","13_jdbacl_prompt.json", "31_xisemele_prompt.json", "51_jiprof_prompt.json", "68_biblestudy_prompt.json", "88_jopenchart_prompt.json","14_omjstate_prompt.json", "32_httpanalyzer_prompt.json", "52_lagoon_prompt.json", "69_lhamacaw_prompt.json", "8_gfarcegestionfa_prompt.json","15_beanbin_prompt.json", "33_javaviewcontrol_prompt.json", "54_db-everywhere_prompt.json", "6_jnfe_prompt.json", "91_classviewer_prompt.json","17_inspirento_prompt.json", "34_sbmlreader2_prompt.json", "55_lavalamp_prompt.json", "71_ext4j_prompt.json", "93_quickserver_prompt.json","19_jmca_prompt.json", "36_schemaspy_prompt.json", "56_jhandballmoves_prompt.json", "73_fim1_prompt.json", "94_jclo_prompt.json","22_byuic_prompt.json", "39_diffi_prompt.json", "57_hft-bomberman_prompt.json", "74_fixsuite_prompt.json","23_jwbf_prompt.json", "40_glengineer_prompt.json", "59_mygrid_prompt.json", "75_openhre_prompt.json","24_saxpath_prompt.json", "41_follow_prompt.json", "5_templateit_prompt.json", "76_dash-framework_prompt.json","25_jni-inchi_prompt.json", "42_asphodel_prompt.json", "60_sugar_prompt.json", "7_sfmis_prompt.json"]:
-#         print(f"python3.9 generate_tests_codex.py -t {token} -d EvoSuiteBenchmark -q RQ1 -p RQ1_Test_Generation/OpenAI_Data/SF110_input/{prompt_file}")
