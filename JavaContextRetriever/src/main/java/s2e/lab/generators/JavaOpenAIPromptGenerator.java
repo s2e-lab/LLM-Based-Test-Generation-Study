@@ -28,7 +28,7 @@ import static s2e.lab.generators.SF110ScenarioGenerator.*;
  */
 public class JavaOpenAIPromptGenerator {
     // how many test methods to generate?
-    public static String NUMBER_OF_TESTS = "one";
+    public static String NUMBER_OF_TESTS = "ten";
 
     // base directory for all the data (assuming current dir = the same root directory as this maven project)
     public static String BASE_DIR = "../";
