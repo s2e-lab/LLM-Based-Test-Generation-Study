@@ -31,7 +31,7 @@ def get_prompts(config: dict, prompt_file: str) -> list:
     return prompts.sort(key=lambda x: x["id"])
 
 
-def get_output_files(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int) -> tuple:
+def get_output_files(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str) -> tuple:
     """
     Compute the paths to the output folder and response file.
 
@@ -40,6 +40,7 @@ def get_output_files(config: dict, rq: int, dataset: str, prompt_file: str, max_
     @param max_tokens: maximum number of tokens
     @param config: analysis configuration
     @param prompt_file:  path to the JSON file containing prompts (ex: "RQ1_Test_Generation/OpenAI_Data/HumanEvalJava_input/original_prompt.json")
+    @param model: the model used for generation (ex: OpenAI, CodeGen)
     @return: a tuple:
     - output_folder: <BASE_DIR>/<RQ_FOLDER>/OpenAI_Data/<DATASET>_output/"
     - scenario_folder: output_folder/<SCENARIO>
@@ -49,7 +50,7 @@ def get_output_files(config: dict, rq: int, dataset: str, prompt_file: str, max_
     # prompt files are typically named <label>_prompt.json, extract the label part
     scenario_name = os.path.basename(prompt_file).split("_prompt")[0]
     rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
-    output_folder = os.path.join(config["BASE_DIRECTORY"], rq_folder, "OpenAI_Data", f"{dataset}_output/")
+    output_folder = os.path.join(config["BASE_DIRECTORY"], rq_folder, f"{model}_Data", f"{dataset}_output/")
     scenario_folder = os.path.join(output_folder, scenario_name)
     json_file = os.path.join(output_folder, f"{scenario_name}_output_{max_tokens}.json")
     csv_file = json_file.replace(".json", ".csv")

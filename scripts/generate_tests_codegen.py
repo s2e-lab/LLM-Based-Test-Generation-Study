@@ -1,19 +1,36 @@
 import argparse
 import csv
 import time
-import openai
+from transformers import AutoTokenizer, AutoModelWithLMHead, AutoModelForCausalLM
+import torch
 
-from utils import load_config, get_prompts, get_output_files, save_generated_code, save_response, get_mock_response
+from utils import (
+    load_config,
+    get_prompts,
+    get_output_files,
+    save_generated_code,
+    save_response,
+    get_mock_response,
+)
 
 # Code Generation Configuration Parameters
-OPENAI_MODEL = "code-davinci-002"
-OPENAI_TEMPERATURE = 0
-OPENAI_TOP_P = 1
-OPENAI_FREQUENCY_PENALTY = 0
-OPENAI_PRESENCE_PENALTY = 0
+CODEGEN_MODEL = "Salesforce/codegen-350M-multi"
+CODEGEN_TEMPERATURE = 1e-5
+CODEGEN_TOP_P = 1
+CODEGEN_DO_SAMPLE = True
+CODEGEN_EARLY_STOPPING = True
 
 
-def generate_code(prompt, max_tokens, is_fix=False):
+def setup_model(device: str):
+    tokenizer = AutoTokenizer.from_pretrained(CODEGEN_MODEL)
+    model = AutoModelForCausalLM.from_pretrained(CODEGEN_MODEL)
+    tokenizer.pad_token = tokenizer.eos_token
+    model.config.pad_token_id = model.config.eos_token_id
+    model = model.to(device)
+    return tokenizer, model
+
+
+def generate_code(prompt, max_tokens, tokenizer, model, device, is_fix=False):
     """
     Returns a response object from OpenAI enriched with the prompt metadata.
     @param max_tokens: what is the token size limit used
@@ -21,30 +38,44 @@ def generate_code(prompt, max_tokens, is_fix=False):
     @param prompt: the prompt object
     """
     start_time = time.time()
-    response = openai.Completion.create(
-        model=OPENAI_MODEL,
-        prompt=prompt["original_code"] + "\n" + prompt["test_prompt"].strip() + "\n\t\t",
-        temperature=OPENAI_TEMPERATURE,
-        max_tokens=max_tokens,
-        top_p=OPENAI_TOP_P,
-        frequency_penalty=OPENAI_FREQUENCY_PENALTY,
-        presence_penalty=OPENAI_PRESENCE_PENALTY,
+
+    response = get_mock_response(prompt, "No Error")
+    inputs = tokenizer(prompt, return_tensors="pt").to(device)
+    generated_token = model.generate(
+        **inputs,
+        max_new_tokens=max_tokens,
+        do_sample=CODEGEN_DO_SAMPLE,
+        top_p=CODEGEN_TOP_P,
+        temperature=CODEGEN_TEMPERATURE,
+        early_stopping=CODEGEN_EARLY_STOPPING
     )
+    output = tokenizer.decode(generated_token[0].cpu().squeeze()).split(prompt)[-1]
+    response["choices"][0]["text"] = output
+    response["choices"][0]["finish_reason"] = "length"
+    response["usage"]={ "prompt_tokens": inputs['input_ids'].shape[1], "total_tokens": output.shape[1]}
+    
+
     time_taken = time.time() - start_time
     response["time_taken"] = time_taken
     if is_fix:
         response["prompt_id"] = prompt["prompt_id"]
     else:
         response["prompt_id"] = prompt["id"]
-    response["original_code"] = prompt["original_code"]
-    response["test_prompt"] = prompt["test_prompt"]
 
     if time_taken <= 60:
         time.sleep(60 - time_taken + 5)  # wait 5 seconds more to avoid rate limit
     return response
 
 
-def generate_tests(config: dict, rq: int, dataset: str, prompt_file: str, prompts: list, max_tokens: int) -> None:
+def generate_tests(
+    config: dict,
+    rq: int,
+    dataset: str,
+    prompt_file: str,
+    prompts: list,
+    max_tokens: int,
+    tokenizer, model, device
+) -> None:
     """
     Generates tests for the given scenario.
     @param config: dictionary of the parsed configuration
@@ -56,32 +87,48 @@ def generate_tests(config: dict, rq: int, dataset: str, prompt_file: str, prompt
     """
 
     # sets the data output paths
-    output_folder, scenario_folder, response_file, csv_file = get_output_files(config, rq, dataset, prompt_file,
-                                                                               max_tokens, "OpenAI")
+    output_folder, scenario_folder, response_file, csv_file = get_output_files(
+        config, rq, dataset, prompt_file, max_tokens, "CodeGen"
+    )
     # opens output file in write mode (overwrite prior results)
     with open(response_file, "w") as json_file, open(csv_file, "w") as csv_out:
-        csv_file = csv.writer(csv_out, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        csv_file = csv.writer(
+            csv_out, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
+        )
         csv_file.writerow(
-            ["ID", "PROMPT_ID", "DURATION", "FINISH_REASON", "ORIGINAL_CODE", "TEST_PROMPT", "GENERATED_TEST"])
+            [
+                "ID",
+                "PROMPT_ID",
+                "DURATION",
+                "FINISH_REASON",
+                "ORIGINAL_CODE",
+                "TEST_PROMPT",
+                "GENERATED_TEST",
+            ]
+        )
         json_file.write("[\n")
         for prompt in prompts:
             print("PROMPT", prompt["id"])
             try:
                 # query Open AI to generate the unit test
-                response = generate_code(prompt, max_tokens)
+                response = generate_code(prompt, max_tokens, tokenizer, model, device)
                 # save the generated test in a file
                 print("SAVING", prompt["id"], "at", scenario_folder)
                 save_generated_code(prompt, response, max_tokens, scenario_folder)
                 # save the response's metadata in CSV and JSON
                 save_response(json_file, csv_file, prompt, prompts, response)
-                print("Duration: ", response['time_taken'],
-                      "Finish Reason:", response["choices"][0]["finish_reason"],
-                      "\n" + "-" * 30)
+                print(
+                    "Duration: ",
+                    response["time_taken"],
+                    "Finish Reason:",
+                    response["choices"][0]["finish_reason"],
+                    "\n" + "-" * 30,
+                )
 
             except Exception as e:
                 print("ERROR", e)
                 mock_response = get_mock_response(prompt, str(e))
-                time.sleep(60) # some sleep to make sure we don't go over rate limit
+                time.sleep(60)  # some sleep to make sure we don't go over rate limit
                 save_response(json_file, csv_file, prompt, prompts, mock_response)
 
         json_file.write("]")
@@ -89,15 +136,37 @@ def generate_tests(config: dict, rq: int, dataset: str, prompt_file: str, prompt
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--tokens", type=int, choices=[x * 1000 for x in range(1, 5)],
-                        help="token limit (ex: 1000)", required=True)
-    parser.add_argument("-p", "--prompts", type=str,
-                        help="path to the JSON file with prompts", required=True)
-    parser.add_argument("-dataset", "--dataset", type=str,
-                        choices=("SF110", "GitHub", "HumanEvalJava", "HumanEvalPython"),
-                        help="The dataset being used", required=True)
-    parser.add_argument("-q", "--question", type=str, choices=("RQ1", "RQ2"),
-                        help="The research question (this will dictate where the file will be saved)", required=True)
+    parser.add_argument(
+        "-t",
+        "--tokens",
+        type=int,
+        choices=[x * 1000 for x in range(1, 5)],
+        help="token limit (ex: 1000)",
+        required=True,
+    )
+    parser.add_argument(
+        "-p",
+        "--prompts",
+        type=str,
+        help="path to the JSON file with prompts",
+        required=True,
+    )
+    parser.add_argument(
+        "-dataset",
+        "--dataset",
+        type=str,
+        choices=("SF110", "GitHub", "HumanEvalJava", "HumanEvalPython"),
+        help="The dataset being used",
+        required=True,
+    )
+    parser.add_argument(
+        "-q",
+        "--question",
+        type=str,
+        choices=("RQ1", "RQ2"),
+        help="The research question (this will dictate where the file will be saved)",
+        required=True,
+    )
 
     args = parser.parse_args()
 
@@ -109,7 +178,10 @@ def main():
     print("Generating unit tests for", len(prompts), "prompts in", args.dataset)
     # generate unit tests
     question = int(args.question.replace("RQ", ""))
-    generate_tests(config, question, args.dataset, args.prompts, prompts, args.tokens)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    tokenizer, model =  setup_model(device="cuda" if torch.cuda.is_available() else "cpu")
+
+    generate_tests(config, question, args.dataset, args.prompts, prompts, args.tokens, tokenizer, model, device)
 
 
 if __name__ == "__main__":
