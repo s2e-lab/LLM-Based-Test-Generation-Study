@@ -57,7 +57,7 @@ def get_output_files(config: dict, rq: int, dataset: str, prompt_file: str, max_
     return output_folder, scenario_folder, json_file, csv_file
 
 
-def save_generated_code(prompt: dict, response: dict, max_tokens: int, output_folder: str) -> None:
+def save_generated_code(prompt: dict, response: dict, max_tokens: int, output_folder: str, isGPT3=False) -> None:
     """
     Saves the generated Unit Test on a separate file in the output folder.
     @param max_tokens:
@@ -76,10 +76,13 @@ def save_generated_code(prompt: dict, response: dict, max_tokens: int, output_fo
     if not os.path.exists(output_folder): os.makedirs(output_folder)
 
     with open(os.path.join(output_folder, filename), "w") as gen_file:
-        gen_file.write(prompt["test_prompt"] + "\n" + response['choices'][0]["text"])
+        if isGPT3:
+            gen_file.write(response['choices'][0]["message"]["content"])
+        else:
+            gen_file.write(prompt["test_prompt"] + "\n" + response['choices'][0]["text"])
 
 
-def save_response(json_file, csv_file, prompt: dict, prompts: list, response: dict) -> None:
+def save_response(json_file, csv_file, prompt: dict, prompts: list, response: dict, isGPT = False) -> None:
     """
         Saves a response into an open json file
         @param csv_file: an open writeable file where to save the results in CSV format
@@ -94,13 +97,23 @@ def save_response(json_file, csv_file, prompt: dict, prompts: list, response: di
         json_file.write(",")
     json_file.write("\n")
 
-    csv_file.writerow(
-        [response['id'], response['prompt_id'], response['time_taken'],
-         response["choices"][0]["finish_reason"],
-         response["original_code"],
-         response['test_prompt'],
-         prompt["test_prompt"] + "\n" + response['choices'][0]["text"]
-         ])
+    if isGPT:
+        csv_file.writerow(
+            [response['id'], response['prompt_id'], response['time_taken'],
+             response["choices"][0]["finish_reason"],
+             response["original_code"],
+             response['test_prompt'],
+             response['choices'][0]["message"]["content"]
+             ])
+    else:
+
+        csv_file.writerow(
+            [response['id'], response['prompt_id'], response['time_taken'],
+            response["choices"][0]["finish_reason"],
+            response["original_code"],
+            response['test_prompt'],
+            prompt["test_prompt"] + "\n" + response['choices'][0]["text"]
+            ])
 
 
 def get_mock_response(prompt: dict, error_msg: str) -> dict:
