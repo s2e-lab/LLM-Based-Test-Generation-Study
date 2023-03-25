@@ -4,7 +4,7 @@
 #$ -pe smp 1     # Specify parallel environment and legal core size
 #$ -q gpu@@jung_gpu           # Specify queue
 #$ -l gpu=1         # Specify queue
-#$ -N  RQ2_SF110_codegen_3
+#$ -N  RQ2_SF110_codegen_2
 python generate_tests_codegen.py -t 2000 -d SF110 -q RQ2 -p "RQ2_Prompt_Elements/CodeGen_Data/SF110_input/scenario2_84_ifx-framework_prompt.json"
 python generate_tests_codegen.py -t 2000 -d SF110 -q RQ2 -p "RQ2_Prompt_Elements/CodeGen_Data/SF110_input/scenario2_39_diffi_prompt.json"
 python generate_tests_codegen.py -t 2000 -d SF110 -q RQ2 -p "RQ2_Prompt_Elements/CodeGen_Data/SF110_input/scenario2_93_quickserver_prompt.json"
