@@ -1,6 +1,7 @@
 package scenario1;
 
 import java.util.*;
+import original.Maximum1;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

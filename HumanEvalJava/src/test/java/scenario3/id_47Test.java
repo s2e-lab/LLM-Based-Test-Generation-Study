@@ -2,6 +2,7 @@ package scenario3;
 
 import java.util.Collections;
 import java.util.List;
+import original.Median;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

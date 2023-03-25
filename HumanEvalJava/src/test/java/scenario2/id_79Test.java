@@ -1,6 +1,7 @@
 package scenario2;
 
 
+import original.DecimalToBinary;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
