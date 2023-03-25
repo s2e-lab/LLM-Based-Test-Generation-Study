@@ -2,6 +2,7 @@ package scenario2;
 
 import java.util.ArrayList;
 import java.util.List;
+import original.SumProduct;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

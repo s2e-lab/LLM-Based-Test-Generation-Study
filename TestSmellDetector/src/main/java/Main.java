@@ -29,7 +29,7 @@ public class Main {
 //            }
 //        }
 
-        String fileName = "TestSmellInput.csv";
+        String fileName = "TestSmellInput-HumanEvalJava.csv";
 
         TestSmellDetector testSmellDetector = new TestSmellDetector(new DefaultThresholds());
 

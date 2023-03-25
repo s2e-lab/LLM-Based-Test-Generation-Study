@@ -42,8 +42,8 @@ public class HumanEvalJUnitTestGenerator {
             params.put("className", PromptUtils.getPrimaryClass(cu).getNameAsString());
             params.put("importedPackages", PromptUtils.getImportedPackages(cu));
 
-            // generates the JUnit test for each scenario (scenario 0 is the original one)
-            for (int i = 0; i <= 3; i++) {
+            // generates the JUnit test only for the original scenario (coverage will be the same anyway, also scenario3 has no implementation)
+            for (int i = 0; i <= 0; i++) {
                 String packageName = (i == 0 ? "original" : ("scenario" + i));
                 List<String> testMethodsList = getTestMethods(originalCode, packageName, params.get("className"));
 

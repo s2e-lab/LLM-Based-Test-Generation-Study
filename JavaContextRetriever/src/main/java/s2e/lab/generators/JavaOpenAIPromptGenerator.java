@@ -38,7 +38,7 @@ public class JavaOpenAIPromptGenerator {
     // Human Eval Java paths
     public static String HUMAN_EVAL_JAVA = BASE_DIR + "HumanEvalJava/";
     public static String HUMAN_EVAL_SCENARIO = HUMAN_EVAL_JAVA + "src/main/java/%s/";
-    public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "src/test/%s/";
+    public static String HUMAN_EVAL_TEST_FOLDER = HUMAN_EVAL_JAVA + "src/test/java/%s/";
 
     // OSS project paths
     private static String SF100_EVOSUITE = BASE_DIR + "EvoSuiteBenchmark/";

@@ -3,6 +3,7 @@ package scenario2;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import original.OrderByPoints;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

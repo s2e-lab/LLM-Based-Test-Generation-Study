@@ -3,6 +3,7 @@ package scenario3;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import original.StringToMd5;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
