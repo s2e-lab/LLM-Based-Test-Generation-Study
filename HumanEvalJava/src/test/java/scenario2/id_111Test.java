@@ -2,6 +2,7 @@ package scenario2;
 
 import java.util.HashMap;
 import java.util.Map;
+import original.Histogram;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

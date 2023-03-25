@@ -2,6 +2,7 @@ package scenario1;
 
 import java.util.HashSet;
 import java.util.Set;
+import original.CountDistinctCharacters;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
