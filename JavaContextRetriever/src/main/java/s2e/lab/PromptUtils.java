@@ -261,7 +261,7 @@ public class PromptUtils {
         Javadoc javadoc = m.getJavadoc().get();
 
 
-        // true if javadoc's description is empty
+        // true if javadoc's description is non-empty
         boolean hasDescription = javadoc.getDescription() != null && !javadoc.getDescription().toText().trim().isEmpty();
         // true if javadoc has a non-empty @return tag
         boolean hasReturn = false;
