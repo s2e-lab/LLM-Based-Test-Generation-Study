@@ -89,7 +89,7 @@ public class CompilationAnalyzer {
     }
 
     public static void generateReport(String dataset, String model) throws IOException {
-        String[] scenarios = {"original", "scenario1", "scenario2", "scenario3"};
+        String[] scenarios = {"original"/*, "scenario1", "scenario2", "scenario3"*/};
         String csvFilePath = STATISTICS_CSV_OUTPUT.formatted(model, dataset, dataset);
         FileWriter csvWriter = new FileWriter(csvFilePath);
         CSVFormat csvFormat = CSVFormat.DEFAULT
@@ -101,7 +101,7 @@ public class CompilationAnalyzer {
         try (final CSVPrinter printer = new CSVPrinter(csvWriter, csvFormat)) {
 
             for (String scenario : scenarios) {
-                for (int token : new int[]{2000, 4000}) {
+                for (int token : new int[]{2000/*, 4000*/}) {
                     String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
                     String rqCsvFile = scenario.equals("original") ? RQ1_CSV_PROMPT_INPUT : RQ2_CSV_PROMPT_INPUT;
                     JsonArray promptArr = getJsonArray(format(rqJsonFile, model, dataset, scenario, token));
@@ -230,7 +230,8 @@ public class CompilationAnalyzer {
 
 
     public static void main(String[] args) throws IOException {
-        generateReport("HumanEvalJava", "OpenAI");
+        generateReport("HumanEvalJava", "GPT3.5");
+//        generateReport("HumanEvalJava", "OpenAI");
 //        generateReport("SF110", "OpenAI");
     }
 }

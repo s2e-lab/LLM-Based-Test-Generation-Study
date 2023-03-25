@@ -18,6 +18,16 @@ def remove_extra_code(code: str) -> str:
 
     return code
 
+def get_generated_test(model: str, response: dict):
+    if model == "OpenAI":
+        return response["choices"][0]["text"]
+    if model == "GPT3.5":
+        return response["choices"][0]["message"]["content"]
+
+    raise Exception(f"{model} is an unexpected value")
+
+
+
 
 def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str) -> None:
     """
@@ -40,7 +50,7 @@ def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_to
     # creates a new array with responses that are fixed
     filtered_responses = []
     for r in previous_responses:
-        old_code = r["choices"][0]["text"]
+        old_code = get_generated_test(model, r) # r["choices"][0]["text"]
         new_code = remove_extra_code(old_code)
         r["removed_extra_code"] = old_code != new_code
         r["original_generated_code"] = old_code
@@ -56,14 +66,15 @@ def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_to
 
 def main():
     config = load_config("config.json")
-
     dataset = "HumanEvalJava"
-    model = "OpenAI"
-    for max_tokens in [2000, 4000]:
-        for scenario in ["original", "scenario1", "scenario2", "scenario3","scenario4"]:
+    model = "GPT3.5"
+    scenarios = ["original"]#, "scenario1", "scenario2", "scenario3","scenario4"]
+    tokens = [2000]#, 4000]
+    for max_tokens in tokens:
+        for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
             rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
-            prompt_file = f"{rq_folder}/OpenAI_Data/HumanEvalJava_input/{scenario}_prompt.json"
+            prompt_file = f"{rq_folder}/{model}_Data/HumanEvalJava_input/{scenario}_prompt.json"
             print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
             fix_extra_code(config, rq, dataset, prompt_file, max_tokens, model)
 
