@@ -33,7 +33,7 @@ def generate_code(prompt, max_tokens, is_fix=False):
         messages=[
             {
                 "role": "system",
-                "content": "I am a coding assistant. I generate only source code.",
+                "content": "You are a coding assistant. You generate only source code.",
             },
             {
                 "role": "user",
