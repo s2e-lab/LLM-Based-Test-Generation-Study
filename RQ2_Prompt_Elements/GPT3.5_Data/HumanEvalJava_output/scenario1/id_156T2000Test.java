@@ -1,0 +1,65 @@
+Here's the completed `IntToMiniRomanTest` class with ten unit test cases for the `intToMiniRoman` method:
+
+```
+package scenario1;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Test class of {@link IntToMiniRoman}.
+ * It contains ten unit test cases for the {@link IntToMiniRoman#intToMiniRoman(int)} method.
+ */
+class IntToMiniRomanTest {
+
+    @Test
+    void testIntToMiniRomanWithZero() {
+        assertEquals("", IntToMiniRoman.intToMiniRoman(0));
+    }
+
+    @Test
+    void testIntToMiniRomanWithOne() {
+        assertEquals("i", IntToMiniRoman.intToMiniRoman(1));
+    }
+
+    @Test
+    void testIntToMiniRomanWithFour() {
+        assertEquals("iv", IntToMiniRoman.intToMiniRoman(4));
+    }
+
+    @Test
+    void testIntToMiniRomanWithNine() {
+        assertEquals("ix", IntToMiniRoman.intToMiniRoman(9));
+    }
+
+    @Test
+    void testIntToMiniRomanWithTen() {
+        assertEquals("x", IntToMiniRoman.intToMiniRoman(10));
+    }
+
+    @Test
+    void testIntToMiniRomanWithForty() {
+        assertEquals("xl", IntToMiniRoman.intToMiniRoman(40));
+    }
+
+    @Test
+    void testIntToMiniRomanWithFifty() {
+        assertEquals("l", IntToMiniRoman.intToMiniRoman(50));
+    }
+
+    @Test
+    void testIntToMiniRomanWithNinety() {
+        assertEquals("xc", IntToMiniRoman.intToMiniRoman(90));
+    }
+
+    @Test
+    void testIntToMiniRomanWithOneHundred() {
+        assertEquals("c", IntToMiniRoman.intToMiniRoman(100));
+    }
+
+    @Test
+    void testIntToMiniRomanWithFourHundred() {
+        assertEquals("cd", IntToMiniRoman.intToMiniRoman(400));
+    }
+}
+```
