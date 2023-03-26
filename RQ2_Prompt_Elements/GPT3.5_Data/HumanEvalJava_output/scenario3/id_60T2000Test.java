@@ -78,13 +78,13 @@ class SumToNTest {
     }
 
     @Test
-    void testSumToNWith0() {
-        assertEquals(0, SumToN.sumToN(0));
+    void testSumToNWithNegativeNumber() {
+        assertEquals(0, SumToN.sumToN(-5));
     }
 
     @Test
-    void testSumToNWithNegativeNumber() {
-        assertEquals(0, SumToN.sumToN(-5));
+    void testSumToNWithZero() {
+        assertEquals(0, SumToN.sumToN(0));
     }
 
     @Test

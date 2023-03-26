@@ -17,14 +17,7 @@ class StringXor {
      * "0101"
      */
     public static String stringXor(String a, String b) {
-        // Check if the two input strings have the same length
-        if (a.length() != b.length()) {
-            throw new IllegalArgumentException("Input strings must have the same length");
-        }
-        
         StringBuilder result = new StringBuilder();
-        
-        // Perform binary XOR on each character of the input strings
         for (int i = 0; i < a.length(); i++) {
             if (a.charAt(i) == b.charAt(i)) {
                 result.append("0");
@@ -32,7 +25,6 @@ class StringXor {
                 result.append("1");
             }
         }
-        
         return result.toString();
     }
 }
@@ -49,7 +41,6 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link StringXor#stringXor(String, String)} method.
 */
 class StringXorTest {
-    
     @Test
     void testStringXor() {
         assertEquals("100", StringXor.stringXor("010", "110"));
@@ -60,7 +51,7 @@ class StringXorTest {
         assertEquals("000000", StringXor.stringXor("000000", "000000"));
         assertEquals("101010", StringXor.stringXor("111111", "010101"));
         assertEquals("111111", StringXor.stringXor("000000", "111111"));
-        assertEquals("000000", StringXor.stringXor("000000", "000000"));
+        assertEquals("000000", StringXor.stringXor("000000", "111111"));
         assertEquals("111111", StringXor.stringXor("111111", "111111"));
     }
 }

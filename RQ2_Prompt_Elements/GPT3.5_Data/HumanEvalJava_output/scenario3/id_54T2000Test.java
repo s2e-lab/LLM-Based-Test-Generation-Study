@@ -42,13 +42,12 @@ class SameChars {
             char c = s1.charAt(i);
             if (!charCount.containsKey(c)) {
                 return false;
+            }
+            int count = charCount.get(c);
+            if (count == 1) {
+                charCount.remove(c);
             } else {
-                int count = charCount.get(c);
-                if (count == 1) {
-                    charCount.remove(c);
-                } else {
-                    charCount.put(c, count - 1);
-                }
+                charCount.put(c, count - 1);
             }
         }
         return true;

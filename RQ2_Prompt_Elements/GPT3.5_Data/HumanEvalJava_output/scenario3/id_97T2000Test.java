@@ -1,5 +1,3 @@
-// Here's the completed code for the Multiply class and its test class:
-
 // Multiply.java
 package scenario3;
 
@@ -35,13 +33,13 @@ class Multiply {
     public static int multiply(int a, int b) {
         int unitA = Math.abs(a) % 10;
         int unitB = Math.abs(b) % 10;
-        int product = unitA * unitB;
-        return product;
+        return unitA * unitB;
     }
 }
 
 // MultiplyTest.java
 package scenario3;
+
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,8 +60,6 @@ class MultiplyTest {
     @Test
     void testMultiplyNegativeNumbers() {
         assertEquals(20, Multiply.multiply(14, -15));
-        assertEquals(20, Multiply.multiply(-14, 15));
-        assertEquals(20, Multiply.multiply(-14, -15));
     }
 
     @Test

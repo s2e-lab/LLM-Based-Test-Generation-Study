@@ -86,7 +86,7 @@ class BelowZeroTest {
     @Test
     void testNegativeBalance() {
         List<Integer> operations = Arrays.asList(1, 2, -3, 1, 2, -3);
-        assertTrue(BelowZero.belowZero(operations));
+        assertFalse(BelowZero.belowZero(operations));
     }
 
     @Test

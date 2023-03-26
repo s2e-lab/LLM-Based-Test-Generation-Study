@@ -44,7 +44,6 @@ class F {
 // FTest.java
 package scenario3;
 
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,73 +53,73 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link F#f(int)} method.
 */
 class FTest {
-
+    
     @Test
-    void testFWithNEqual1() {
-        List<Integer> expected = Arrays.asList(1);
+    void testF1() {
+        List<Integer> expected = List.of(1);
         List<Integer> actual = F.f(1);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual2() {
-        List<Integer> expected = Arrays.asList(1, 2);
+    void testF2() {
+        List<Integer> expected = List.of(1, 2);
         List<Integer> actual = F.f(2);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual3() {
-        List<Integer> expected = Arrays.asList(1, 2, 6);
+    void testF3() {
+        List<Integer> expected = List.of(1, 2, 6);
         List<Integer> actual = F.f(3);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual4() {
-        List<Integer> expected = Arrays.asList(1, 2, 6, 24);
+    void testF4() {
+        List<Integer> expected = List.of(1, 2, 6, 24);
         List<Integer> actual = F.f(4);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual5() {
-        List<Integer> expected = Arrays.asList(1, 2, 6, 24, 15);
+    void testF5() {
+        List<Integer> expected = List.of(1, 2, 6, 24, 15);
         List<Integer> actual = F.f(5);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual6() {
-        List<Integer> expected = Arrays.asList(1, 2, 6, 24, 15, 720);
+    void testF6() {
+        List<Integer> expected = List.of(1, 2, 6, 24, 15, 720);
         List<Integer> actual = F.f(6);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual7() {
-        List<Integer> expected = Arrays.asList(1, 2, 6, 24, 15, 720, 28);
+    void testF7() {
+        List<Integer> expected = List.of(1, 2, 6, 24, 15, 720, 28);
         List<Integer> actual = F.f(7);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual8() {
-        List<Integer> expected = Arrays.asList(1, 2, 6, 24, 15, 720, 28, 40320);
+    void testF8() {
+        List<Integer> expected = List.of(1, 2, 6, 24, 15, 720, 28, 40320);
         List<Integer> actual = F.f(8);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual9() {
-        List<Integer> expected = Arrays.asList(1, 2, 6, 24, 15, 720, 28, 40320, 36);
+    void testF9() {
+        List<Integer> expected = List.of(1, 2, 6, 24, 15, 720, 28, 40320, 36);
         List<Integer> actual = F.f(9);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testFWithNEqual10() {
-        List<Integer> expected = Arrays.asList(1, 2, 6, 24, 15, 720, 28, 40320, 36, 362880);
+    void testF10() {
+        List<Integer> expected = List.of(1, 2, 6, 24, 15, 720, 28, 40320, 36, 3628800);
         List<Integer> actual = F.f(10);
         assertEquals(expected, actual);
     }

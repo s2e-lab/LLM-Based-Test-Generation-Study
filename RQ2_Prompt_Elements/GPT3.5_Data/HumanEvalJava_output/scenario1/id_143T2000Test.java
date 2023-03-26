@@ -1,15 +1,17 @@
-Here's the code for the test class:
-
-```
+// WordsInSentenceTest.java
 package scenario1;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link WordsInSentence}.
+* It contains ten unit test cases for the {@link WordsInSentence#wordsInSentence(String)} method.
+*/
 class WordsInSentenceTest {
 
     @Test
-    void testEmptyString() {
+    void testWordsInSentenceWithEmptyString() {
         String sentence = "";
         String expected = "";
         String actual = WordsInSentence.wordsInSentence(sentence);
@@ -17,75 +19,82 @@ class WordsInSentenceTest {
     }
 
     @Test
-    void testNoPrimeWords() {
-        String sentence = "This sentence has no prime words";
+    void testWordsInSentenceWithOneWord() {
+        String sentence = "Hello";
         String expected = "";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testOnePrimeWord() {
-        String sentence = "The quick brown fox jumps over the 7";
-        String expected = "7";
+    void testWordsInSentenceWithTwoWords() {
+        String sentence = "Hello world";
+        String expected = "world";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMultiplePrimeWords() {
-        String sentence = "The quick brown 2 jumps over the 7";
-        String expected = "2 7";
+    void testWordsInSentenceWithThreeWords() {
+        String sentence = "The cat sat";
+        String expected = "cat sat";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testAllPrimeWords() {
-        String sentence = "2 3 5 7 11";
-        String expected = "2 3 5 7 11";
+    void testWordsInSentenceWithFourWords() {
+        String sentence = "The dog chased the cat";
+        String expected = "dog chased cat";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMixedWords() {
-        String sentence = "The quick brown 2 jumps over the 3 lazy dogs";
-        String expected = "2 3";
+    void testWordsInSentenceWithFiveWords() {
+        String sentence = "The quick brown fox jumps";
+        String expected = "quick brown jumps";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testSingleWord() {
-        String sentence = "prime";
-        String expected = "";
+    void testWordsInSentenceWithSixWords() {
+        String sentence = "The lazy dog slept in the sun";
+        String expected = "lazy dog slept sun";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testTwoWords() {
-        String sentence = "prime numbers";
-        String expected = "";
+    void testWordsInSentenceWithSevenWords() {
+        String sentence = "The big black bear climbed up the tree";
+        String expected = "big black climbed tree";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testLongSentence() {
-        String sentence = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut magna eget nunc bibendum malesuada. Nulla facilisi. Sed euismod, sapien vel bibendum bibendum, velit sapien bibendum sapien, vel bibendum sapien sapien vel sapien. Sed vel sapien sapien.";
-        String expected = "ipsum dolor amet adipiscing eget malesuada facilisi euismod sapien sapien sapien sapien";
+    void testWordsInSentenceWithEightWords() {
+        String sentence = "The red apple fell from the tree and rolled away";
+        String expected = "red apple tree rolled";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testSpecialCharacters() {
-        String sentence = "The quick brown fox jumps over the 7!";
-        String expected = "7!";
+    void testWordsInSentenceWithNineWords() {
+        String sentence = "The quick brown fox jumps over the lazy dog";
+        String expected = "quick brown jumps lazy dog";
+        String actual = WordsInSentence.wordsInSentence(sentence);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testWordsInSentenceWithTenWords() {
+        String sentence = "The cat in the hat sat on the mat in the sun";
+        String expected = "cat sat mat sun";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 }
-```

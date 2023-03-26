@@ -1,119 +1,116 @@
-Here's the code for the `RemoveDuplicatesTest` class with ten unit test cases for the `removeDuplicates` method:
+Here's the code for the RemoveDuplicatesTest class:
 
 ```
+package scenario1;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Test class of {@link RemoveDuplicates}.
+ * It contains ten unit test cases for the {@link RemoveDuplicates#removeDuplicates(List)} method.
+ */
 class RemoveDuplicatesTest {
 
     @Test
-    void testEmptyList() {
-        List<Object> input = new ArrayList<>();
-        List<Object> expectedOutput = new ArrayList<>();
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithEmptyList() {
+        List<Object> numbers = new ArrayList<>();
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithNoDuplicates() {
-        List<Object> input = new ArrayList<>();
-        input.add(1);
-        input.add(2);
-        input.add(3);
-        List<Object> expectedOutput = new ArrayList<>();
-        expectedOutput.add(1);
-        expectedOutput.add(2);
-        expectedOutput.add(3);
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithOneElement() {
+        List<Object> numbers = Arrays.asList(1);
+        List<Object> expected = Arrays.asList(1);
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithDuplicates() {
-        List<Object> input = new ArrayList<>();
-        input.add(1);
-        input.add(2);
-        input.add(2);
-        input.add(3);
-        List<Object> expectedOutput = new ArrayList<>();
-        expectedOutput.add(1);
-        expectedOutput.add(3);
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithAllDuplicates() {
+        List<Object> numbers = Arrays.asList(1, 1, 1, 1);
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithAllDuplicates() {
-        List<Object> input = new ArrayList<>();
-        input.add(1);
-        input.add(1);
-        input.add(1);
-        List<Object> expectedOutput = new ArrayList<>();
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithNoDuplicates() {
+        List<Object> numbers = Arrays.asList(1, 2, 3, 4);
+        List<Object> expected = Arrays.asList(1, 2, 3, 4);
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithNulls() {
-        List<Object> input = new ArrayList<>();
-        input.add(null);
-        input.add(1);
-        input.add(null);
-        input.add(2);
-        List<Object> expectedOutput = new ArrayList<>();
-        expectedOutput.add(1);
-        expectedOutput.add(2);
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithSomeDuplicates() {
+        List<Object> numbers = Arrays.asList(1, 2, 1, 3, 2, 4);
+        List<Object> expected = Arrays.asList(3, 4);
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithMixedTypes() {
-        List<Object> input = new ArrayList<>();
-        input.add(1);
-        input.add("hello");
-        input.add(2);
-        input.add("world");
-        input.add(1);
-        List<Object> expectedOutput = new ArrayList<>();
-        expectedOutput.add("hello");
-        expectedOutput.add(2);
-        expectedOutput.add("world");
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithNullElements() {
+        List<Object> numbers = Arrays.asList(1, null, 2, null, 3);
+        List<Object> expected = Arrays.asList(1, 2, 3);
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithSingleElement() {
-        List<Object> input = new ArrayList<>();
-        input.add(1);
-        List<Object> expectedOutput = new ArrayList<>();
-        expectedOutput.add(1);
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithDifferentTypes() {
+        List<Object> numbers = Arrays.asList(1, "hello", 2, "world", 3);
+        List<Object> expected = Arrays.asList(1, "hello", 2, "world", 3);
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithTwoElements() {
-        List<Object> input = new ArrayList<>();
-        input.add(1);
-        input.add(2);
-        List<Object> expectedOutput = new ArrayList<>();
-        expectedOutput.add(1);
-        expectedOutput.add(2);
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithLargeList() {
+        List<Object> numbers = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            numbers.add(i % 100);
+        }
+        List<Object> expected = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            expected.add(i);
+        }
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithThreeElements() {
-        List<Object> input = new ArrayList<>();
-        input.add(1);
-        input.add(2);
-        input.add(1);
-        List<Object> expectedOutput = new ArrayList<>();
-        expectedOutput.add(2);
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithVeryLargeList() {
+        List<Object> numbers = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            numbers.add(i % 1000);
+        }
+        List<Object> expected = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            expected.add(i);
+        }
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithFourElements() {
-        List<Object> input = new ArrayList<>();
-        input.add(1);
-        input.add(2);
-        input.add(2);
-        input.add(1);
-        List<Object> expectedOutput = new ArrayList<>();
-        assertEquals(expectedOutput, RemoveDuplicates.removeDuplicates(input));
+    void testRemoveDuplicatesWithHugeList() {
+        List<Object> numbers = new ArrayList<>();
+        for (int i = 0; i < 10000000; i++) {
+            numbers.add(i % 10000);
+        }
+        List<Object> expected = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            expected.add(i);
+        }
+        List<Object> actual = RemoveDuplicates.removeDuplicates(numbers);
+        assertEquals(expected, actual);
     }
 }
 ```

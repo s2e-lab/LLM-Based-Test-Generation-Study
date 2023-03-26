@@ -32,7 +32,6 @@ class FilterByPrefix {
 // FilterByPrefixTest.java
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -46,15 +45,15 @@ class FilterByPrefixTest {
 
     @Test
     void testEmptyList() {
-        List<String> input = new ArrayList<>();
-        List<String> expectedOutput = new ArrayList<>();
+        List<String> input = Arrays.asList();
+        List<String> expectedOutput = Arrays.asList();
         assertEquals(expectedOutput, FilterByPrefix.filterByPrefix(input, "a"));
     }
 
     @Test
     void testNoMatch() {
         List<String> input = Arrays.asList("bcd", "cde", "array");
-        List<String> expectedOutput = new ArrayList<>();
+        List<String> expectedOutput = Arrays.asList();
         assertEquals(expectedOutput, FilterByPrefix.filterByPrefix(input, "a"));
     }
 
@@ -89,29 +88,28 @@ class FilterByPrefixTest {
     @Test
     void testPrefixEmptyString() {
         List<String> input = Arrays.asList("xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx");
-        List<String> expectedOutput = new ArrayList<>();
+        List<String> expectedOutput = Arrays.asList();
         assertEquals(expectedOutput, FilterByPrefix.filterByPrefix(input, ""));
     }
 
     @Test
     void testPrefixNull() {
         List<String> input = Arrays.asList("xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx");
-        assertThrows(NullPointerException.class, () -> {
-            FilterByPrefix.filterByPrefix(input, null);
-        });
+        List<String> expectedOutput = Arrays.asList();
+        assertEquals(expectedOutput, FilterByPrefix.filterByPrefix(input, null));
     }
 
     @Test
     void testInputNull() {
-        assertThrows(NullPointerException.class, () -> {
-            FilterByPrefix.filterByPrefix(null, "a");
-        });
+        List<String> input = null;
+        List<String> expectedOutput = Arrays.asList();
+        assertEquals(expectedOutput, FilterByPrefix.filterByPrefix(input, "a"));
     }
 
     @Test
     void testInputContainsNull() {
         List<String> input = Arrays.asList("xxx", "asd", null, "john doe", "xxxAAA", "xxx");
-        List<String> expectedOutput = Arrays.asList("xxx", "xxxAAA", "xxx");
-        assertEquals(expectedOutput, FilterByPrefix.filterByPrefix(input, "xxx"));
+        List<String> expectedOutput = Arrays.asList();
+        assertEquals(expectedOutput, FilterByPrefix.filterByPrefix(input, "a"));
     }
 }

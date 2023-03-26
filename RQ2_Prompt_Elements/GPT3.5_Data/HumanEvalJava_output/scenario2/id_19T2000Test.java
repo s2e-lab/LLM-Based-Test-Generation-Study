@@ -10,7 +10,7 @@ void testSortNumbersAscending() {
 // Test case for sorting numbers in descending order
 @Test
 void testSortNumbersDescending() {
-    String input = "six three zero seven four";
+    String input = "six three zero four seven";
     String expectedOutput = "seven six four three zero";
     String actualOutput = SortNumbers.sortNumbers(input);
     assertEquals(expectedOutput, actualOutput);
@@ -46,8 +46,8 @@ void testSortEmptyString() {
 // Test case for sorting invalid input
 @Test
 void testSortInvalidInput() {
-    String input = "one five two nine ten";
-    String expectedOutput = "-1 -1 -1 -1 -1";
+    String input = "one two three four five six seven eight nine ten";
+    String expectedOutput = "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1";
     String actualOutput = SortNumbers.sortNumbers(input);
     assertEquals(expectedOutput, actualOutput);
 }
@@ -79,11 +79,11 @@ void testSortNumbersWithNonAlphabeticCharacters() {
     assertEquals(expectedOutput, actualOutput);
 }
 
-// Test case for sorting input with all numbers
+// Test case for sorting input with non-space delimiter
 @Test
-void testSortNumbersWithAllNumbers() {
-    String input = "1 5 2 9 8";
-    String expectedOutput = "1 2 5 8 9";
+void testSortNumbersWithNonSpaceDelimiter() {
+    String input = "one,five,two,nine,eight";
+    String expectedOutput = "-1 -1 -1 -1 -1";
     String actualOutput = SortNumbers.sortNumbers(input);
     assertEquals(expectedOutput, actualOutput);
 }

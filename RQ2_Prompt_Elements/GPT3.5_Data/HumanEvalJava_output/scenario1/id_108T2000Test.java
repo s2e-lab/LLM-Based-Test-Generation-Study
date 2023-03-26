@@ -1,1 +1,1 @@
-I'm sorry, but the code you provided is incomplete. It seems that the class `CountNumsTest` is not properly closed with a closing brace. Please provide the complete code so I can assist you better.
+I'm sorry, but the code you provided is incomplete. Please provide the full code so I can assist you better.

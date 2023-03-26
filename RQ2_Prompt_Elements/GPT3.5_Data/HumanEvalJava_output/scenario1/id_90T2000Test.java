@@ -1,5 +1,3 @@
-// Here's the updated code with additional test cases:
-
 // NextSmallest.java
 package scenario1;
 
@@ -7,6 +5,13 @@ import java.util.List;
 
 class NextSmallest {
 
+    /**
+     * Returns the next smallest integer in the given list.
+     * If there is no next smallest integer, returns null.
+     *
+     * @param lst the list of integers
+     * @return the next smallest integer or null
+     */
     public static Integer nextSmallest(List<Object> lst) {
         if (lst.size() <= 1) {
             return null;
@@ -30,86 +35,73 @@ class NextSmallest {
 // NextSmallestTest.java
 package scenario1;
 
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-* Test class of {@link NextSmallest}.
-* It contains twelve unit test cases for the {@link NextSmallest#nextSmallest(List)} method.
-*/
+ * Test class of {@link NextSmallest}.
+ * It contains ten unit test cases for the {@link NextSmallest#nextSmallest(List)} method.
+ */
 class NextSmallestTest {
 
     @Test
     void testEmptyList() {
-        List<Object> lst = Arrays.asList();
+        List<Object> lst = List.of();
         assertNull(NextSmallest.nextSmallest(lst));
     }
 
     @Test
     void testSingleElementList() {
-        List<Object> lst = Arrays.asList(1);
+        List<Object> lst = List.of(1);
         assertNull(NextSmallest.nextSmallest(lst));
     }
 
     @Test
     void testTwoElementList() {
-        List<Object> lst = Arrays.asList(2, 1);
+        List<Object> lst = List.of(2, 1);
         assertEquals(2, NextSmallest.nextSmallest(lst));
     }
 
     @Test
-    void testThreeElementList() {
-        List<Object> lst = Arrays.asList(3, 2, 1);
-        assertEquals(2, NextSmallest.nextSmallest(lst));
-    }
-
-    @Test
-    void testFourElementList() {
-        List<Object> lst = Arrays.asList(4, 3, 2, 1);
-        assertEquals(3, NextSmallest.nextSmallest(lst));
-    }
-
-    @Test
-    void testFiveElementList() {
-        List<Object> lst = Arrays.asList(5, 4, 3, 2, 1);
-        assertEquals(4, NextSmallest.nextSmallest(lst));
-    }
-
-    @Test
-    void testDuplicateElements() {
-        List<Object> lst = Arrays.asList(5, 4, 3, 2, 1, 1, 2, 3, 4, 5);
-        assertEquals(2, NextSmallest.nextSmallest(lst));
-    }
-
-    @Test
-    void testNegativeElements() {
-        List<Object> lst = Arrays.asList(-5, -4, -3, -2, -1);
-        assertEquals(-4, NextSmallest.nextSmallest(lst));
-    }
-
-    @Test
-    void testMixedElements() {
-        List<Object> lst = Arrays.asList(5, -4, 3, -2, 1);
-        assertEquals(-2, NextSmallest.nextSmallest(lst));
-    }
-
-    @Test
-    void testNullElements() {
-        List<Object> lst = Arrays.asList(5, null, 3, null, 1);
-        assertEquals(3, NextSmallest.nextSmallest(lst));
-    }
-
-    @Test
-    void testAllNullElements() {
-        List<Object> lst = Arrays.asList(null, null, null);
+    void testTwoEqualElementList() {
+        List<Object> lst = List.of(1, 1);
         assertNull(NextSmallest.nextSmallest(lst));
     }
 
     @Test
-    void testLargeList() {
-        List<Object> lst = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+    void testThreeElementList() {
+        List<Object> lst = List.of(3, 2, 1);
         assertEquals(2, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testThreeEqualElementList() {
+        List<Object> lst = List.of(1, 1, 1);
+        assertNull(NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testThreeElementListWithDuplicates() {
+        List<Object> lst = List.of(3, 2, 2);
+        assertEquals(3, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testFourElementList() {
+        List<Object> lst = List.of(4, 3, 2, 1);
+        assertEquals(3, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testFourEqualElementList() {
+        List<Object> lst = List.of(1, 1, 1, 1);
+        assertNull(NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testFourElementListWithDuplicates() {
+        List<Object> lst = List.of(4, 3, 2, 2);
+        assertEquals(3, NextSmallest.nextSmallest(lst));
     }
 }

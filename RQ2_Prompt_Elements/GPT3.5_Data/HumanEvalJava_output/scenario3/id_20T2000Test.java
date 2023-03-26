@@ -22,22 +22,19 @@ class FindClosestElements {
      * [2.2, 3.1]
      */
     public static List<Double> findClosestElements(List<Double> numbers) {
-        if (numbers.size() < 2) {
-            throw new IllegalArgumentException("List must have at least two elements");
-        }
         Collections.sort(numbers);
         double minDiff = Double.MAX_VALUE;
-        int index1 = 0;
-        int index2 = 1;
-        for (int i = 1; i < numbers.size(); i++) {
-            double diff = numbers.get(i) - numbers.get(i - 1);
+        double first = 0;
+        double second = 0;
+        for (int i = 0; i < numbers.size() - 1; i++) {
+            double diff = numbers.get(i + 1) - numbers.get(i);
             if (diff < minDiff) {
                 minDiff = diff;
-                index1 = i - 1;
-                index2 = i;
+                first = numbers.get(i);
+                second = numbers.get(i + 1);
             }
         }
-        return List.of(numbers.get(index1), numbers.get(index2));
+        return List.of(first, second);
     }
 }
 
@@ -55,42 +52,82 @@ import static org.junit.jupiter.api.Assertions.*;
 class FindClosestElementsTest {
 
     @Test
-    void testFindClosestElements() {
-        List<Double> numbers1 = List.of(1.0, 2.0, 3.9, 4.0, 5.0, 2.2);
-        List<Double> expected1 = List.of(3.9, 4.0);
-        assertEquals(expected1, FindClosestElements.findClosestElements(numbers1));
+    void testFindClosestElements1() {
+        List<Double> numbers = List.of(1.0, 2.0, 3.9, 4.0, 5.0, 2.2);
+        List<Double> expected = List.of(3.9, 4.0);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers2 = List.of(1.0, 2.0, 5.9, 4.0, 5.0);
-        List<Double> expected2 = List.of(5.0, 5.9);
-        assertEquals(expected2, FindClosestElements.findClosestElements(numbers2));
+    @Test
+    void testFindClosestElements2() {
+        List<Double> numbers = List.of(1.0, 2.0, 5.9, 4.0, 5.0);
+        List<Double> expected = List.of(5.0, 5.9);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers3 = List.of(1.0, 2.0, 3.0, 4.0, 5.0, 2.2);
-        List<Double> expected3 = List.of(2.0, 2.2);
-        assertEquals(expected3, FindClosestElements.findClosestElements(numbers3));
+    @Test
+    void testFindClosestElements3() {
+        List<Double> numbers = List.of(1.0, 2.0, 3.0, 4.0, 5.0, 2.2);
+        List<Double> expected = List.of(2.0, 2.2);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers4 = List.of(1.0, 2.0, 3.0, 4.0, 5.0, 2.0);
-        List<Double> expected4 = List.of(2.0, 2.0);
-        assertEquals(expected4, FindClosestElements.findClosestElements(numbers4));
+    @Test
+    void testFindClosestElements4() {
+        List<Double> numbers = List.of(1.0, 2.0, 3.0, 4.0, 5.0, 2.0);
+        List<Double> expected = List.of(2.0, 2.0);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers5 = List.of(1.1, 2.2, 3.1, 4.1, 5.1);
-        List<Double> expected5 = List.of(2.2, 3.1);
-        assertEquals(expected5, FindClosestElements.findClosestElements(numbers5));
+    @Test
+    void testFindClosestElements5() {
+        List<Double> numbers = List.of(1.1, 2.2, 3.1, 4.1, 5.1);
+        List<Double> expected = List.of(2.2, 3.1);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers6 = List.of(1.0, 2.0);
-        assertThrows(IllegalArgumentException.class, () -> FindClosestElements.findClosestElements(numbers6));
+    @Test
+    void testFindClosestElements6() {
+        List<Double> numbers = List.of(1.0, 2.0);
+        List<Double> expected = List.of(1.0, 2.0);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers7 = List.of(1.0);
-        assertThrows(IllegalArgumentException.class, () -> FindClosestElements.findClosestElements(numbers7));
+    @Test
+    void testFindClosestElements7() {
+        List<Double> numbers = List.of(1.0, 2.0, 3.0);
+        List<Double> expected = List.of(2.0, 3.0);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers8 = List.of();
-        assertThrows(IllegalArgumentException.class, () -> FindClosestElements.findClosestElements(numbers8));
+    @Test
+    void testFindClosestElements8() {
+        List<Double> numbers = List.of(1.0, 2.0, 3.0, 4.0);
+        List<Double> expected = List.of(3.0, 4.0);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers9 = List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0);
-        List<Double> expected9 = List.of(9.0, 10.0);
-        assertEquals(expected9, FindClosestElements.findClosestElements(numbers9));
+    @Test
+    void testFindClosestElements9() {
+        List<Double> numbers = List.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        List<Double> expected = List.of(4.0, 5.0);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
+    }
 
-        List<Double> numbers10 = List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 9.5);
-        List<Double> expected10 = List.of(9.0, 9.5);
-        assertEquals(expected10, FindClosestElements.findClosestElements(numbers10));
+    @Test
+    void testFindClosestElements10() {
+        List<Double> numbers = List.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        List<Double> expected = List.of(5.0, 6.0);
+        List<Double> actual = FindClosestElements.findClosestElements(numbers);
+        assertEquals(expected, actual);
     }
 }

@@ -1,4 +1,4 @@
-Here's the completed `IsPalindromeTest` class with ten unit test cases for the `isPalindrome` method:
+Here's the code for the `IsPalindromeTest` class with ten unit test cases for the `isPalindrome` method:
 
 ```
 package scenario2;
@@ -6,10 +6,6 @@ package scenario2;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link IsPalindrome}.
- * It contains ten unit test cases for the {@link IsPalindrome#isPalindrome(String)} method.
- */
 class IsPalindromeTest {
 
     @Test
@@ -44,7 +40,7 @@ class IsPalindromeTest {
 
     @Test
     void testPalindromeStringWithPunctuation() {
-        assertTrue(IsPalindrome.isPalindrome("a man, a plan, a canal: Panama!"));
+        assertTrue(IsPalindrome.isPalindrome("a man, a plan, a canal, Panama!"));
     }
 
     @Test

@@ -1,5 +1,6 @@
-// Here's the source code for Encrypt.java
+// Here's the completed source code for Encrypt.java and EncryptTest.java:
 
+// Encrypt.java
 package scenario3;
 
 class Encrypt {
@@ -34,15 +35,12 @@ class Encrypt {
      */
     public static String encrypt(String s) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
+        for (char c : s.toCharArray()) {
             if (Character.isLetter(c)) {
-                int shift = 2 * 2;
-                char shifted = (char) (c + shift);
-                if (shifted > 'z') {
-                    shifted = (char) ('a' + (shifted - 'z' - 1));
-                }
-                sb.append(shifted);
+                char base = Character.isUpperCase(c) ? 'A' : 'a';
+                int offset = (c - base + 2) * 2;
+                char encrypted = (char) (base + (offset % 26));
+                sb.append(encrypted);
             } else {
                 sb.append(c);
             }
@@ -51,8 +49,7 @@ class Encrypt {
     }
 }
 
-// Here's the source code for EncryptTest.java
-
+// EncryptTest.java
 package scenario3;
 
 import org.junit.jupiter.api.Test;
@@ -66,62 +63,51 @@ class EncryptTest {
 
     @Test
     void testEncryptHi() {
-        String result = Encrypt.encrypt("hi");
-        assertEquals("lm", result);
+        assertEquals("lm", Encrypt.encrypt("hi"));
     }
 
     @Test
     void testEncryptAsdfghjkl() {
-        String result = Encrypt.encrypt("asdfghjkl");
-        assertEquals("ewhjklnop", result);
+        assertEquals("ewhjklnop", Encrypt.encrypt("asdfghjkl"));
     }
 
     @Test
     void testEncryptGf() {
-        String result = Encrypt.encrypt("gf");
-        assertEquals("kj", result);
+        assertEquals("kj", Encrypt.encrypt("gf"));
     }
 
     @Test
     void testEncryptEt() {
-        String result = Encrypt.encrypt("et");
-        assertEquals("ix", result);
+        assertEquals("ix", Encrypt.encrypt("et"));
     }
 
     @Test
     void testEncryptFaewfawefaewg() {
-        String result = Encrypt.encrypt("faewfawefaewg");
-        assertEquals("jeiajeaijeiak", result);
+        assertEquals("jeiajeaijeiak", Encrypt.encrypt("faewfawefaewg"));
     }
 
     @Test
     void testEncryptHellomyfriend() {
-        String result = Encrypt.encrypt("hellomyfriend");
-        assertEquals("lippsqcjvmirh", result);
+        assertEquals("lippsqcjvmirh", Encrypt.encrypt("hellomyfriend"));
     }
 
     @Test
     void testEncryptDxzdlmnilfuhmilufhlihufnmlimnufhlimnufhfucufh() {
-        String result = Encrypt.encrypt("dxzdlmnilfuhmilufhlihufnmlimnufhlimnufhfucufh");
-        assertEquals("hbdhpqrmpjylqmpyjlpmlyjrqpmqryjlpmqryjljygyjl", result);
+        assertEquals("hbdhpqrmpjylqmpyjlpmlyjrqpmqryjlpmqryjljygyjl", Encrypt.encrypt("dxzdlmnilfuhmilufhlihufnmlimnufhlimnufhfucufh"));
     }
 
     @Test
     void testEncryptA() {
-        String result = Encrypt.encrypt("a");
-        assertEquals("e", result);
+        assertEquals("e", Encrypt.encrypt("a"));
     }
 
     @Test
     void testEncryptEmptyString() {
-        String result = Encrypt.encrypt("");
-        assertEquals("", result);
+        assertEquals("", Encrypt.encrypt(""));
     }
 
     @Test
     void testEncryptNull() {
-        assertThrows(NullPointerException.class, () -> {
-            Encrypt.encrypt(null);
-        });
+        assertThrows(NullPointerException.class, () -> Encrypt.encrypt(null));
     }
 }

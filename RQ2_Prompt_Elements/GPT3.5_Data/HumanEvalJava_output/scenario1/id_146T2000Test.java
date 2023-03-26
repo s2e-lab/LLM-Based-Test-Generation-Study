@@ -1,4 +1,4 @@
-Here's the code for the SpecialfilterTest class with ten unit test cases for the specialfilter method:
+Here's the source code for the SpecialfilterTest class:
 
 ```
 class SpecialfilterTest {
@@ -32,45 +32,47 @@ class SpecialfilterTest {
     }
 
     @Test
+    void testNumbersGreaterThanTenAndNotOdd() {
+        List<Object> nums = Arrays.asList(22, 24, 26, 28);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(0, result);
+    }
+
+    @Test
     void testNumbersGreaterThanTenAndNotSpecial() {
-        List<Object> nums = Arrays.asList(21, 23, 25, 27, 29);
+        List<Object> nums = Arrays.asList(11, 13, 15, 17, 21, 23, 25, 27);
         int result = Specialfilter.specialfilter(nums);
         assertEquals(0, result);
     }
 
     @Test
-    void testNumbersWithEvenDigits() {
-        List<Object> nums = Arrays.asList(12, 14, 16, 18);
+    void testNumbersGreaterThanTenAndNotSpecialButOdd() {
+        List<Object> nums = Arrays.asList(31, 35, 37, 39);
         int result = Specialfilter.specialfilter(nums);
         assertEquals(0, result);
     }
 
     @Test
-    void testNumbersWithOddDigitsButNotSpecial() {
-        List<Object> nums = Arrays.asList(17, 35, 79);
+    void testNumbersGreaterThanTenAndSpecialButNotOdd() {
+        List<Object> nums = Arrays.asList(12, 14, 16, 18, 91, 92, 94, 96, 98);
         int result = Specialfilter.specialfilter(nums);
         assertEquals(0, result);
     }
 
     @Test
-    void testNumbersWithOddDigitsAndSpecial() {
-        List<Object> nums = Arrays.asList(13, 15, 37, 59, 91);
-        int result = Specialfilter.specialfilter(nums);
-        assertEquals(5, result);
-    }
-
-    @Test
-    void testNumbersWithLeadingZero() {
-        List<Object> nums = Arrays.asList(01, 03, 05, 07, 09);
+    void testNumbersGreaterThanTenAndSpecialButNotEndingInOdd() {
+        List<Object> nums = Arrays.asList(13, 15, 17, 19, 91, 93, 95, 97);
         int result = Specialfilter.specialfilter(nums);
         assertEquals(0, result);
     }
 
     @Test
-    void testNumbersWithTrailingZero() {
-        List<Object> nums = Arrays.asList(10, 20, 30, 40, 50);
+    void testNumbersGreaterThanTenAndSpecialButNotStartingWithOdd() {
+        List<Object> nums = Arrays.asList(31, 35, 37, 39, 12, 14, 16, 18);
         int result = Specialfilter.specialfilter(nums);
         assertEquals(0, result);
     }
 }
 ```
+
+This test class contains ten unit test cases for the `specialfilter` method of the `Specialfilter` class. Each test case tests a different scenario, such as an empty list, a list with no numbers greater than ten, a list with numbers greater than ten but not special, and so on. The `assertEquals` method is used to check that the actual result of the `specialfilter` method matches the expected result.

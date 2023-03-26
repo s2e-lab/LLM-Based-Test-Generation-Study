@@ -1,4 +1,4 @@
-Here's the code for the `CorrectBracketing1Test` class:
+Here's the source code for the `CorrectBracketing1Test` class:
 
 ```
 package scenario1;
@@ -64,4 +64,4 @@ class CorrectBracketing1Test {
 }
 ```
 
-This test class contains ten test cases for the `correctBracketing` method of the `CorrectBracketing1` class. Each test case is annotated with the `@Test` annotation, which tells JUnit to run it as a test. The `assertTrue` and `assertFalse` methods are used to check the expected result of the `correctBracketing` method for different input strings.
+This class contains ten unit test cases for the `correctBracketing` method of the `CorrectBracketing1` class. Each test case checks a different scenario, such as an empty string, a single opening or closing bracket, nested brackets, and unbalanced brackets. The `assertTrue` and `assertFalse` methods are used to check the expected result of each test case.

@@ -63,7 +63,7 @@ class TriangleAreaTest {
     void testTriangleAreaWithDecimalValues() {
         assertEquals(3.75, TriangleArea.triangleArea(3, 2.5));
         assertEquals(1.5, TriangleArea.triangleArea(1, 3));
-        assertEquals(0.5, TriangleArea.triangleArea(1, 1));
+        assertEquals(0.5, TriangleArea.triangleArea(0.5, 2));
     }
     
     @Test

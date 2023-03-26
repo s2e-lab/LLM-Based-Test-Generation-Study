@@ -1,13 +1,11 @@
-// Solve1Test.java
+Here's the code for the test class `Solve1Test`:
+
+```
 package scenario2;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link Solve1}.
- * It contains ten unit test cases for the {@link Solve1#solve(int)} method.
- */
 class Solve1Test {
 
     @Test
@@ -22,41 +20,44 @@ class Solve1Test {
 
     @Test
     void testSolveWithTwo() {
-        assertEquals("1", Solve1.solve(2));
+        assertEquals("10", Solve1.solve(2));
     }
 
     @Test
     void testSolveWithThree() {
-        assertEquals("10", Solve1.solve(3));
+        assertEquals("11", Solve1.solve(3));
     }
 
     @Test
     void testSolveWithTen() {
-        assertEquals("2", Solve1.solve(10));
+        assertEquals("101", Solve1.solve(10));
     }
 
     @Test
     void testSolveWithEleven() {
-        assertEquals("3", Solve1.solve(11));
+        assertEquals("110", Solve1.solve(11));
     }
 
     @Test
     void testSolveWithHundred() {
-        assertEquals("2", Solve1.solve(100));
+        assertEquals("1100", Solve1.solve(100));
     }
 
     @Test
     void testSolveWithThousand() {
-        assertEquals("5", Solve1.solve(1000));
+        assertEquals("10000", Solve1.solve(1000));
     }
 
     @Test
     void testSolveWithTenThousand() {
-        assertEquals("7", Solve1.solve(10000));
+        assertEquals("10001", Solve1.solve(10000));
     }
 
     @Test
-    void testSolveWithMaxValue() {
-        assertEquals("11", Solve1.solve(Integer.MAX_VALUE));
+    void testSolveWithLargeNumber() {
+        assertEquals("101", Solve1.solve(123456789));
     }
 }
+```
+
+This test class contains ten unit test cases for the `Solve1.solve()` method. Each test case tests the method with a different input value and checks if the output is correct. The test cases cover different scenarios, including zero, one, even numbers, odd numbers, and large numbers.

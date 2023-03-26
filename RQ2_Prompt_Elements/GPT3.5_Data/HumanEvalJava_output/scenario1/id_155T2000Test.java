@@ -1,13 +1,11 @@
-Here's the code for the test class:
-
-```
+// Test class of EvenOddCount
 package scenario1;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EvenOddCountTest {
 
@@ -41,22 +39,22 @@ class EvenOddCountTest {
 
     @Test
     void testEvenOddCountWithAllEvenDigits() {
-        List<Integer> expected = Arrays.asList(5, 0);
-        List<Integer> actual = EvenOddCount.evenOddCount(24680);
+        List<Integer> expected = Arrays.asList(6, 0);
+        List<Integer> actual = EvenOddCount.evenOddCount(246810);
         assertEquals(expected, actual);
     }
 
     @Test
     void testEvenOddCountWithAllOddDigits() {
-        List<Integer> expected = Arrays.asList(0, 5);
+        List<Integer> expected = Arrays.asList(0, 6);
         List<Integer> actual = EvenOddCount.evenOddCount(13579);
         assertEquals(expected, actual);
     }
 
     @Test
     void testEvenOddCountWithMixedDigits() {
-        List<Integer> expected = Arrays.asList(2, 3);
-        List<Integer> actual = EvenOddCount.evenOddCount(12345);
+        List<Integer> expected = Arrays.asList(4, 3);
+        List<Integer> actual = EvenOddCount.evenOddCount(1234567);
         assertEquals(expected, actual);
     }
 
@@ -69,7 +67,7 @@ class EvenOddCountTest {
 
     @Test
     void testEvenOddCountWithMaxValue() {
-        List<Integer> expected = Arrays.asList(10, 0);
+        List<Integer> expected = Arrays.asList(19, 0);
         List<Integer> actual = EvenOddCount.evenOddCount(Integer.MAX_VALUE);
         assertEquals(expected, actual);
     }
@@ -81,6 +79,3 @@ class EvenOddCountTest {
         assertEquals(expected, actual);
     }
 }
-```
-
-This test class contains ten unit test cases for the `evenOddCount` method of the `EvenOddCount` class. Each test case tests a different scenario, such as a number with all even digits, a number with all odd digits, a negative number, and so on. The `assertEquals` method is used to compare the expected output with the actual output of the method.

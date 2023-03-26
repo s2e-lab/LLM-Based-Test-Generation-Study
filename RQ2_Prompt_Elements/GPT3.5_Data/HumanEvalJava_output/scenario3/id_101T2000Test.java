@@ -1,8 +1,9 @@
-Here's a possible implementation of the `wordsString` method:
+// WordsString.java
+package scenario3;
 
-```java
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class WordsString {
 
@@ -28,23 +29,19 @@ class WordsString {
      * ["ahmed", "gamal"]
      */
     public static List<String> wordsString(String s) {
-        List<String> words = new ArrayList<>();
-        String[] tokens = s.split("[,\\s]+");
-        for (String token : tokens) {
-            if (!token.isEmpty()) {
-                words.add(token);
-            }
+        if (s == null || s.isEmpty()) {
+            return Arrays.asList();
         }
-        return words;
+        return Arrays.stream(s.split("[,\\s]+"))
+                .filter(word -> !word.isEmpty())
+                .collect(Collectors.toList());
     }
 }
-```
 
-And here's a possible implementation of the `WordsStringTest` class:
+// WordsStringTest.java
+package scenario3;
 
-```java
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,73 +53,72 @@ import static org.junit.jupiter.api.Assertions.*;
 class WordsStringTest {
 
     @Test
-    void testEmptyString() {
-        List<String> expected = Collections.emptyList();
-        List<String> actual = WordsString.wordsString("");
-        assertEquals(expected, actual);
+    void testWordsStringWithCommas() {
+        String input = "Hi, my name is John";
+        List<String> expectedOutput = Arrays.asList("Hi", "my", "name", "is", "John");
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testOneWord() {
-        List<String> expected = Arrays.asList("Hello");
-        List<String> actual = WordsString.wordsString("Hello");
-        assertEquals(expected, actual);
+    void testWordsStringWithCommasAndSpaces() {
+        String input = "One, two, three, four, five, six";
+        List<String> expectedOutput = Arrays.asList("One", "two", "three", "four", "five", "six");
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testMultipleWords() {
-        List<String> expected = Arrays.asList("Hi", "my", "name", "is", "John");
-        List<String> actual = WordsString.wordsString("Hi, my name is John");
-        assertEquals(expected, actual);
+    void testWordsStringWithIncompleteSentence() {
+        String input = "Hi, my name";
+        List<String> expectedOutput = Arrays.asList("Hi", "my", "name");
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testMultipleWordsWithExtraSpaces() {
-        List<String> expected = Arrays.asList("Hi", "my", "name", "is", "John");
-        List<String> actual = WordsString.wordsString("Hi,   my   name   is   John");
-        assertEquals(expected, actual);
+    void testWordsStringWithExtraCommas() {
+        String input = "One,, two, three, four, five, six,";
+        List<String> expectedOutput = Arrays.asList("One", "two", "three", "four", "five", "six");
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testMultipleWordsWithExtraCommas() {
-        List<String> expected = Arrays.asList("One", "two", "three", "four", "five", "six");
-        List<String> actual = WordsString.wordsString("One,, two, three, four, five, six,");
-        assertEquals(expected, actual);
+    void testWordsStringWithEmptyString() {
+        String input = "";
+        List<String> expectedOutput = Arrays.asList();
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testMultipleWordsWithExtraSpacesAndCommas() {
-        List<String> expected = Arrays.asList("One", "two", "three", "four", "five", "six");
-        List<String> actual = WordsString.wordsString("One, , two, three, four, five, six, ");
-        assertEquals(expected, actual);
+    void testWordsStringWithExtraSpaces() {
+        String input = "ahmed     , gamal";
+        List<String> expectedOutput = Arrays.asList("ahmed", "gamal");
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testMultipleWordsWithOnlyCommas() {
-        List<String> expected = Collections.emptyList();
-        List<String> actual = WordsString.wordsString(",, , ,,");
-        assertEquals(expected, actual);
+    void testWordsStringWithNullInput() {
+        String input = null;
+        List<String> expectedOutput = Arrays.asList();
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testMultipleWordsWithOnlySpaces() {
-        List<String> expected = Collections.emptyList();
-        List<String> actual = WordsString.wordsString("   ");
-        assertEquals(expected, actual);
+    void testWordsStringWithSingleWord() {
+        String input = "Hello";
+        List<String> expectedOutput = Arrays.asList("Hello");
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testMultipleWordsWithMixedSpacesAndCommas() {
-        List<String> expected = Arrays.asList("ahmed", "gamal");
-        List<String> actual = WordsString.wordsString("ahmed     , gamal");
-        assertEquals(expected, actual);
+    void testWordsStringWithMultipleSpaces() {
+        String input = "   Hello    World   ";
+        List<String> expectedOutput = Arrays.asList("Hello", "World");
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 
     @Test
-    void testMultipleWordsWithMixedSpacesAndCommasAndQuotes() {
-        List<String> expected = Arrays.asList("ahmed", "gamal", "ali");
-        List<String> actual = WordsString.wordsString("ahmed     , gamal, \"ali\"");
-        assertEquals(expected, actual);
+    void testWordsStringWithMultipleCommas() {
+        String input = ",,Hello,,World,,";
+        List<String> expectedOutput = Arrays.asList("Hello", "World");
+        assertEquals(expectedOutput, WordsString.wordsString(input));
     }
 }
-```

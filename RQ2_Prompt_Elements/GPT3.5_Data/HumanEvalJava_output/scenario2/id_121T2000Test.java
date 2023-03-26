@@ -92,4 +92,4 @@ class SolutionTest {
 }
 ```
 
-This test class contains ten unit test cases for the `Solution.solution(List)` method. Each test case tests a different scenario, including empty lists, lists with one or two elements, and lists with odd and even elements. The expected results are compared to the actual results using the `assertEquals` method.
+This test class contains ten unit test cases for the `Solution.solution()` method. Each test case covers a different scenario, including empty lists, lists with one or two elements, and lists with odd and even elements. The expected results are calculated manually and compared to the actual results returned by the `Solution.solution()` method using the `assertEquals()` method from the JUnit library.

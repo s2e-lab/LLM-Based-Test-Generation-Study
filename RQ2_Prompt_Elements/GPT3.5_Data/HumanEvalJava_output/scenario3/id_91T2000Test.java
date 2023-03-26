@@ -53,9 +53,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class IsBoredTest {
     
     @Test
+    void testEmptyString() {
+        assertEquals(0, IsBored.isBored(""));
+    }
+    
+    @Test
     void testNoBoredom() {
         assertEquals(0, IsBored.isBored("Hello world"));
         assertEquals(0, IsBored.isBored("Is the sky blue?"));
+        assertEquals(0, IsBored.isBored("bIt"));
         assertEquals(0, IsBored.isBored("You and I are going for a walk"));
     }
     
@@ -68,40 +74,5 @@ class IsBoredTest {
     @Test
     void testMultipleBoredoms() {
         assertEquals(2, IsBored.isBored("I feel good today. I will be productive. will kill It"));
-    }
-    
-    @Test
-    void testEmptyString() {
-        assertEquals(0, IsBored.isBored(""));
-    }
-    
-    @Test
-    void testNullString() {
-        assertThrows(NullPointerException.class, () -> IsBored.isBored(null));
-    }
-    
-    @Test
-    void testOnlyBoredom() {
-        assertEquals(1, IsBored.isBored("I."));
-    }
-    
-    @Test
-    void testBoredomWithNoSpace() {
-        assertEquals(1, IsBored.isBored("I'm happy!"));
-    }
-    
-    @Test
-    void testBoredomWithExtraSpace() {
-        assertEquals(1, IsBored.isBored("I  love  It !"));
-    }
-    
-    @Test
-    void testBoredomWithUpperCaseI() {
-        assertEquals(1, IsBored.isBored("I Love It !"));
-    }
-    
-    @Test
-    void testBoredomWithLowerCaseI() {
-        assertEquals(1, IsBored.isBored("i love it !"));
     }
 }

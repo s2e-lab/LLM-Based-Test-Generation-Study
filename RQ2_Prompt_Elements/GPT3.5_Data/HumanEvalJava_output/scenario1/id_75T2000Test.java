@@ -1,6 +1,11 @@
-Here's the completed `IsMultiplyPrimeTest` class with ten unit test cases for the `isMultiplyPrime` method:
+Here's the code for the test class:
 
 ```
+package scenario1;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 class IsMultiplyPrimeTest {
 
     @Test
@@ -14,13 +19,13 @@ class IsMultiplyPrimeTest {
     }
 
     @Test
-    void testIsMultiplyPrimeWithZero() {
-        assertFalse(IsMultiplyPrime.isMultiplyPrime(0));
+    void testIsMultiplyPrimeWithNegativeNumber() {
+        assertFalse(IsMultiplyPrime.isMultiplyPrime(-30));
     }
 
     @Test
-    void testIsMultiplyPrimeWithNegativeNumber() {
-        assertFalse(IsMultiplyPrime.isMultiplyPrime(-10));
+    void testIsMultiplyPrimeWithZero() {
+        assertFalse(IsMultiplyPrime.isMultiplyPrime(0));
     }
 
     @Test
@@ -55,4 +60,4 @@ class IsMultiplyPrimeTest {
 }
 ```
 
-These test cases cover a range of scenarios, including prime and non-prime numbers, zero, negative numbers, and small numbers.
+This test class contains ten test cases for the `isMultiplyPrime` method of the `IsMultiplyPrime` class. The test cases cover different scenarios such as prime and non-prime numbers, negative numbers, zero, and small numbers. The `assertTrue` and `assertFalse` methods are used to check if the expected result matches the actual result of the method under test.

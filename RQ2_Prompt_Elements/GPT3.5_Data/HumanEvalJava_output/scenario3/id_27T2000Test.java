@@ -47,61 +47,48 @@ class FlipCaseTest {
     
     @Test
     void testEmptyString() {
-        String result = FlipCase.flipCase("");
-        assertEquals("", result);
+        assertEquals("", FlipCase.flipCase(""));
     }
     
     @Test
     void testAllUppercase() {
-        String result = FlipCase.flipCase("HELLO");
-        assertEquals("hello", result);
+        assertEquals("hELLO", FlipCase.flipCase("Hello"));
     }
     
     @Test
     void testAllLowercase() {
-        String result = FlipCase.flipCase("hello");
-        assertEquals("HELLO", result);
+        assertEquals("HELLO", FlipCase.flipCase("hello"));
     }
     
     @Test
     void testMixedCase() {
-        String result = FlipCase.flipCase("HeLLo");
-        assertEquals("hEllO", result);
+        assertEquals("hELLO!", FlipCase.flipCase("Hello!"));
     }
     
     @Test
-    void testWithSpaces() {
-        String result = FlipCase.flipCase("These violent delights have violent ends");
-        assertEquals("tHESE VIOLENT DELIGHTS HAVE VIOLENT ENDS", result);
+    void testNonAlphabetic() {
+        assertEquals("12345", FlipCase.flipCase("12345"));
     }
     
     @Test
-    void testWithNumbers() {
-        String result = FlipCase.flipCase("12345");
-        assertEquals("12345", result);
+    void testWhitespace() {
+        assertEquals("hELLO\twORLD", FlipCase.flipCase("Hello\tWorld"));
     }
     
     @Test
-    void testWithSpecialCharacters() {
-        String result = FlipCase.flipCase("!@#$%^&*()");
-        assertEquals("!@#$%^&*()", result);
+    void testSpecialCharacters() {
+        assertEquals("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~", FlipCase.flipCase("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"));
     }
     
     @Test
-    void testWithMixedCharacters() {
-        String result = FlipCase.flipCase("Hello! How are you?");
-        assertEquals("hELLO! hOW ARE YOU?", result);
+    void testUnicode() {
+        assertEquals("ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ", FlipCase.flipCase("αβγδεζηθικλμνξοπρστυφχψω"));
     }
     
     @Test
-    void testWithUnicodeCharacters() {
-        String result = FlipCase.flipCase("こんにちは");
-        assertEquals("こんにちは", result);
-    }
-    
-    @Test
-    void testWithNullString() {
-        String result = FlipCase.flipCase(null);
-        assertNull(result);
+    void testLongString() {
+        String input = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.";
+        String expectedOutput = "lOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. sED NON RISUS. sUSPENDISSE LECTUS TORTOR, DIGNISSIM SIT AMET, ADIPISCING NEC, ULTRICIES SED, DOLOR.";
+        assertEquals(expectedOutput, FlipCase.flipCase(input));
     }
 }

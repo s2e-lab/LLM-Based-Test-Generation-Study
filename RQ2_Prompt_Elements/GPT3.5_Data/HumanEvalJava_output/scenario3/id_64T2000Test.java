@@ -26,9 +26,12 @@ class VowelsCount {
      */
     public static int vowelsCount(String s) {
         int count = 0;
+        s = s.toLowerCase();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || (c == 'y' && i == s.length() - 1)) {
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                count++;
+            } else if (i == s.length() - 1 && c == 'y') {
                 count++;
             }
         }
@@ -90,11 +93,11 @@ class VowelsCountTest {
 
     @Test
     void testVowelsCount9() {
-        assertEquals(1, VowelsCount.vowelsCount("x"));
+        assertEquals(0, VowelsCount.vowelsCount("xyz"));
     }
 
     @Test
     void testVowelsCount10() {
-        assertEquals(1, VowelsCount.vowelsCount("xy"));
+        assertEquals(1, VowelsCount.vowelsCount("y"));
     }
 }

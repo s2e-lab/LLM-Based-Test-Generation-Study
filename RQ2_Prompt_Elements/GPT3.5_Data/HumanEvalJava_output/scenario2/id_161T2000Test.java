@@ -1,20 +1,25 @@
-Here's the completed `SolveTest` class with ten unit test cases for the `solve` method:
+Here's the code for the SolveTest class:
 
 ```
-class SolveTest {
+package scenario2;
 
-    @Test
-    void testAllUpperCase() {
-        String input = "HELLO WORLD";
-        String expectedOutput = "hello world";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
-    }
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class SolveTest {
 
     @Test
     void testAllLowerCase() {
         String input = "hello world";
         String expectedOutput = "HELLO WORLD";
+        String actualOutput = Solve.solve(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testAllUpperCase() {
+        String input = "HELLO WORLD";
+        String expectedOutput = "hello world";
         String actualOutput = Solve.solve(input);
         assertEquals(expectedOutput, actualOutput);
     }
@@ -62,7 +67,7 @@ class SolveTest {
     @Test
     void testMultipleNonLetters() {
         String input = "!@#$%";
-        String expectedOutput = "!@#$%";
+        String expectedOutput = "%$#@!";
         String actualOutput = Solve.solve(input);
         assertEquals(expectedOutput, actualOutput);
     }
@@ -84,3 +89,5 @@ class SolveTest {
     }
 }
 ```
+
+This test class contains ten unit test cases for the `solve` method of the `Solve` class. Each test case tests a different scenario, such as all lowercase letters, all uppercase letters, mixed case letters, no letters, empty string, single letter, single non-letter, multiple non-letters, multiple spaces, and mixed case letters and non-letters. The `assertEquals` method is used to compare the expected output with the actual output of the `solve` method.

@@ -76,7 +76,7 @@ class TotalMatchTest {
     }
     
     @Test
-    void testLst1HasLessTotalChars() {
+    void testDifferentTotalChars() {
         List<String> lst1 = Arrays.asList("hi", "admin");
         List<String> lst2 = Arrays.asList("hi", "hi", "admin", "project");
         List<String> expected = Arrays.asList("hi", "admin");
@@ -84,7 +84,7 @@ class TotalMatchTest {
     }
     
     @Test
-    void testLst2HasLessTotalChars() {
+    void testOneElementList() {
         List<String> lst1 = Arrays.asList("4");
         List<String> lst2 = Arrays.asList("1", "2", "3", "4", "5");
         List<String> expected = Arrays.asList("4");
@@ -92,7 +92,7 @@ class TotalMatchTest {
     }
     
     @Test
-    void testMixedCase() {
+    void testCaseInsensitive() {
         List<String> lst1 = Arrays.asList("hi", "admin");
         List<String> lst2 = Arrays.asList("hI", "Hi");
         List<String> expected = Arrays.asList("hI", "Hi");
@@ -100,7 +100,7 @@ class TotalMatchTest {
     }
     
     @Test
-    void testLst2HasMoreStrings() {
+    void testLongerList() {
         List<String> lst1 = Arrays.asList("hi", "admin");
         List<String> lst2 = Arrays.asList("hI", "hi", "hi");
         List<String> expected = Arrays.asList("hI", "hi", "hi");
@@ -108,7 +108,7 @@ class TotalMatchTest {
     }
     
     @Test
-    void testLst2HasDifferentStrings() {
+    void testNoMatch() {
         List<String> lst1 = Arrays.asList("hi", "admin");
         List<String> lst2 = Arrays.asList("hI", "hi", "hii");
         List<String> expected = Arrays.asList("hi", "admin");
@@ -116,18 +116,18 @@ class TotalMatchTest {
     }
     
     @Test
-    void testLst1HasOneString() {
-        List<String> lst1 = Arrays.asList("this");
-        List<String> lst2 = Collections.emptyList();
-        List<String> expected = Arrays.asList("this");
+    void testEmptyListAndNonEmptyList() {
+        List<String> lst1 = Collections.emptyList();
+        List<String> lst2 = Arrays.asList("this");
+        List<String> expected = Collections.emptyList();
         assertEquals(expected, TotalMatch.totalMatch(lst1, lst2));
     }
     
     @Test
-    void testLst2HasOneString() {
-        List<String> lst1 = Collections.emptyList();
-        List<String> lst2 = Arrays.asList("this");
-        List<String> expected = Arrays.asList("this");
+    void testNonEmptyListAndEmptyList() {
+        List<String> lst1 = Arrays.asList("this");
+        List<String> lst2 = Collections.emptyList();
+        List<String> expected = Collections.emptyList();
         assertEquals(expected, TotalMatch.totalMatch(lst1, lst2));
     }
 }

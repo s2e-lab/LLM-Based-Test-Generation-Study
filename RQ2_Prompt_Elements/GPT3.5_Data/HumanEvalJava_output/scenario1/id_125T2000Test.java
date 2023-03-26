@@ -1,6 +1,4 @@
-Here's the completed SplitWordsTest class:
-
-```
+// SplitWordsTest.java
 package scenario1;
 
 import java.util.Arrays;
@@ -12,31 +10,31 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SplitWords#splitWords(String)} method.
 */
 class SplitWordsTest {
-
+    
     @Test
-    void testSplitWordsWithSpaces() {
-        String txt = "Hello world";
-        Object expected = Arrays.asList("Hello", "world");
+    void testSplitWordsWithSpace() {
+        String txt = "Hello World";
+        Object expected = Arrays.asList("Hello", "World");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testSplitWordsWithCommas() {
-        String txt = "apple,banana,orange";
-        Object expected = Arrays.asList("apple", "banana", "orange");
+    void testSplitWordsWithComma() {
+        String txt = "Hello,World";
+        Object expected = Arrays.asList("Hello", "World");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testSplitWordsWithNoSpacesOrCommas() {
-        String txt = "Hello";
-        Object expected = 0;
+    void testSplitWordsWithNoDelimiter() {
+        String txt = "HelloWorld";
+        Object expected = 3;
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testSplitWordsWithEmptyString() {
         String txt = "";
@@ -44,53 +42,52 @@ class SplitWordsTest {
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testSplitWordsWithNullString() {
+    void testSplitWordsWithNull() {
         String txt = null;
-        assertThrows(NullPointerException.class, () -> {
-            SplitWords.splitWords(txt);
-        });
-    }
-
-    @Test
-    void testSplitWordsWithNumbers() {
-        String txt = "123 456";
-        Object expected = Arrays.asList("123", "456");
+        Object expected = null;
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testSplitWordsWithSpecialCharacters() {
-        String txt = "!@#$%^&*()_+";
-        Object expected = 0;
+    void testSplitWordsWithMultipleSpaces() {
+        String txt = "Hello    World";
+        Object expected = Arrays.asList("Hello", "World");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testSplitWordsWithMixedCharacters() {
-        String txt = "Hello,123 world!@#";
-        Object expected = Arrays.asList("Hello", "123", "world!@#");
+    void testSplitWordsWithMultipleCommas() {
+        String txt = "Hello,,,World";
+        Object expected = Arrays.asList("Hello", "", "", "World");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testSplitWordsWithUpperCase() {
-        String txt = "HELLO WORLD";
-        Object expected = Arrays.asList("HELLO", "WORLD");
+    void testSplitWordsWithLeadingSpace() {
+        String txt = " Hello World";
+        Object expected = Arrays.asList("", "Hello", "World");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void testSplitWordsWithLowerCase() {
-        String txt = "hello world";
-        Object expected = Arrays.asList("hello", "world");
+    void testSplitWordsWithTrailingSpace() {
+        String txt = "Hello World ";
+        Object expected = Arrays.asList("Hello", "World", "");
+        Object actual = SplitWords.splitWords(txt);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSplitWordsWithMixedDelimiter() {
+        String txt = "Hello, World";
+        Object expected = Arrays.asList("Hello", "", "World");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
 }
-```

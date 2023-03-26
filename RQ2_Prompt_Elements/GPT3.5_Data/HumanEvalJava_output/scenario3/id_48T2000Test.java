@@ -1,4 +1,5 @@
-// Here's the implementation of the isPalindrome method in IsPalindrome.java
+// IsPalindrome.java
+package scenario3;
 
 class IsPalindrome {
 
@@ -49,52 +50,51 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsPalindrome#isPalindrome(String)} method.
 */
 class IsPalindromeTest {
-    
     @Test
     void testEmptyString() {
         assertTrue(IsPalindrome.isPalindrome(""));
     }
-    
+
     @Test
     void testSingleCharacterString() {
         assertTrue(IsPalindrome.isPalindrome("a"));
     }
-    
+
     @Test
     void testPalindromeString() {
         assertTrue(IsPalindrome.isPalindrome("aba"));
     }
-    
+
     @Test
-    void testPalindromeStringWithRepeatedCharacters() {
+    void testLongPalindromeString() {
         assertTrue(IsPalindrome.isPalindrome("aaaaa"));
     }
-    
+
     @Test
     void testNonPalindromeString() {
         assertFalse(IsPalindrome.isPalindrome("zbcd"));
     }
-    
+
     @Test
-    void testPalindromeStringWithOddLength() {
-        assertTrue(IsPalindrome.isPalindrome("xywyx"));
-    }
-    
-    @Test
-    void testNonPalindromeStringWithOddLength() {
-        assertFalse(IsPalindrome.isPalindrome("xywyz"));
-    }
-    
-    @Test
-    void testPalindromeStringWithEvenLength() {
+    void testEvenLengthPalindromeString() {
         assertTrue(IsPalindrome.isPalindrome("xyyxy"));
     }
-    
+
     @Test
-    void testNonPalindromeStringWithEvenLength() {
+    void testOddLengthPalindromeString() {
+        assertTrue(IsPalindrome.isPalindrome("xywyx"));
+    }
+
+    @Test
+    void testNonPalindromeStringWithSameFirstAndLastCharacters() {
+        assertFalse(IsPalindrome.isPalindrome("xywyz"));
+    }
+
+    @Test
+    void testNonPalindromeStringWithSameFirstAndLastCharacters2() {
         assertFalse(IsPalindrome.isPalindrome("xywzx"));
     }
-    
+
     @Test
     void testNullString() {
         assertTrue(IsPalindrome.isPalindrome(null));

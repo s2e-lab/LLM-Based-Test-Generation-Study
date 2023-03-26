@@ -1,4 +1,4 @@
-Here's the code for the TriangleArea1Test class:
+Here's the source code for the TriangleArea1Test class:
 
 ```
 package scenario1;
@@ -9,56 +9,55 @@ import static org.junit.jupiter.api.Assertions.*;
 class TriangleArea1Test {
 
     @Test
-    void testTriangleAreaValid() {
+    void testTriangleAreaWithValidSides() {
         assertEquals(6.0, TriangleArea1.triangleArea(3, 4, 5));
-        assertEquals(12.0, TriangleArea1.triangleArea(5, 12, 13));
-        assertEquals(24.0, TriangleArea1.triangleArea(7, 24, 25));
     }
 
     @Test
-    void testTriangleAreaInvalid() {
+    void testTriangleAreaWithInvalidSides() {
         assertEquals(-1, TriangleArea1.triangleArea(1, 2, 3));
-        assertEquals(-1, TriangleArea1.triangleArea(2, 2, 4));
-        assertEquals(-1, TriangleArea1.triangleArea(3, 4, 7));
     }
 
     @Test
-    void testTriangleAreaZero() {
+    void testTriangleAreaWithNegativeSides() {
+        assertEquals(-1, TriangleArea1.triangleArea(-3, 4, 5));
+    }
+
+    @Test
+    void testTriangleAreaWithZeroSides() {
         assertEquals(-1, TriangleArea1.triangleArea(0, 0, 0));
     }
 
     @Test
-    void testTriangleAreaNegative() {
-        assertEquals(-1, TriangleArea1.triangleArea(-3, 4, 5));
-        assertEquals(-1, TriangleArea1.triangleArea(5, -12, 13));
-        assertEquals(-1, TriangleArea1.triangleArea(7, 24, -25));
+    void testTriangleAreaWithLargeSides() {
+        assertEquals(499999.99, TriangleArea1.triangleArea(1000000, 1000000, 1414213));
     }
 
     @Test
-    void testTriangleAreaMaxValue() {
-        assertEquals(1.0E9, TriangleArea1.triangleArea(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE));
+    void testTriangleAreaWithOneSideZero() {
+        assertEquals(-1, TriangleArea1.triangleArea(0, 4, 5));
     }
 
     @Test
-    void testTriangleAreaMinValue() {
-        assertEquals(-1, TriangleArea1.triangleArea(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE));
+    void testTriangleAreaWithTwoSidesZero() {
+        assertEquals(-1, TriangleArea1.triangleArea(0, 0, 5));
     }
 
     @Test
-    void testTriangleAreaOverflow() {
-        assertEquals(-1, TriangleArea1.triangleArea(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE - 1));
+    void testTriangleAreaWithAllSidesEqual() {
+        assertEquals(10.83, TriangleArea1.triangleArea(3, 3, 3));
     }
 
     @Test
-    void testTriangleAreaUnderflow() {
-        assertEquals(-1, TriangleArea1.triangleArea(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE + 1));
+    void testTriangleAreaWithTwoSidesEqual() {
+        assertEquals(6.0, TriangleArea1.triangleArea(3, 4, 4));
     }
 
     @Test
-    void testTriangleAreaLargeNumbers() {
-        assertEquals(1.0E9, TriangleArea1.triangleArea(333333333, 666666666, 750000000));
+    void testTriangleAreaWithAllSidesDifferent() {
+        assertEquals(6.0, TriangleArea1.triangleArea(2, 3, 4));
     }
 }
 ```
 
-This test class contains ten unit test cases for the `triangleArea` method of the `TriangleArea1` class. The test cases cover a range of scenarios, including valid and invalid input values, edge cases such as zero and negative values, and extreme values such as the maximum and minimum integer values. The test cases are annotated with `@Test` and use the `assertEquals` method to compare the expected result with the actual result returned by the `triangleArea` method.
+This class contains ten unit test cases for the `triangleArea` method of the `TriangleArea1` class. Each test case tests a different scenario, such as valid and invalid sides, negative and zero sides, and different types of triangles. The `assertEquals` method is used to compare the expected result with the actual result returned by the `triangleArea` method.

@@ -112,21 +112,21 @@ class EvenOddCountTest {
     }
     
     @Test
-    void testEvenOddCountWithMultipleDigitsAndMixedEvenOdd() {
+    void testEvenOddCountWithMultipleDigits() {
         List<Integer> result = EvenOddCount.evenOddCount(-45347);
         assertEquals(2, result.get(0));
         assertEquals(3, result.get(1));
     }
     
     @Test
-    void testEvenOddCountWithNegativeMultipleDigitsAndMixedEvenOdd() {
+    void testEvenOddCountWithNegativeMultipleDigits() {
         List<Integer> result = EvenOddCount.evenOddCount(-345821);
         assertEquals(3, result.get(0));
         assertEquals(3, result.get(1));
     }
     
     @Test
-    void testEvenOddCountWithLargePositiveNumber() {
+    void testEvenOddCountWithLargeNumber() {
         List<Integer> result = EvenOddCount.evenOddCount(1234567890);
         assertEquals(5, result.get(0));
         assertEquals(5, result.get(1));

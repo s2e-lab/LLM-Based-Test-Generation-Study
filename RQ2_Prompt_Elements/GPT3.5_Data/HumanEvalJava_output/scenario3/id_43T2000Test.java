@@ -122,7 +122,7 @@ class PairsSumToZeroTest {
     }
 
     @Test
-    void testMixedElementsNoPairsSumToZero() {
+    void testMixedElements2() {
         List<Integer> l = Arrays.asList(-3, 9, -1, 4, 2, 30);
         assertFalse(PairsSumToZero.pairsSumToZero(l));
     }

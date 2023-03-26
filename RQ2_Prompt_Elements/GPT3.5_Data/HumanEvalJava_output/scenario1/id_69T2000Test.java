@@ -1,4 +1,4 @@
-Here's the code for the SearchTest class:
+Here's the source code for the SearchTest class:
 
 ```
 package scenario1;
@@ -55,7 +55,7 @@ class SearchTest {
     @Test
     void testMultipleElementsGreaterThanIndex() {
         List<Integer> lst = Arrays.asList(3, 4, 5, 6, 7);
-        assertEquals(3, Search.search(lst));
+        assertEquals(2, Search.search(lst));
     }
 
     @Test
@@ -66,10 +66,10 @@ class SearchTest {
 
     @Test
     void testMultipleElementsLessThanIndex() {
-        List<Integer> lst = Arrays.asList(1, 2, 3, 4);
+        List<Integer> lst = Arrays.asList(1, 2, 3, 4, 5);
         assertEquals(-1, Search.search(lst));
     }
 }
 ```
 
-This class contains ten test methods, each testing a different scenario for the `search` method. The `@Test` annotation is used to mark each method as a test method. The `assertEquals` method is used to check if the actual result of the `search` method matches the expected result. The `Arrays.asList` method is used to create a list of integers for each test case.
+This class contains ten unit test cases for the `Search.search()` method. Each test case tests a different scenario, such as an empty list, a list with a single element, a list with all elements less than the index, etc. The `assertEquals()` method is used to check that the expected result is returned by the `Search.search()` method.

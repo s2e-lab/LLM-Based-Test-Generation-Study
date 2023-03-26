@@ -1,70 +1,37 @@
-// Test case 1: Test when both inputs are integers and the first input is larger
+Here's the code for the CompareOneTest class:
+
+```
+class CompareOneTest {
+
     @Test
-    void testCompareOneIntLargerFirst() {
-        Object result = CompareOne.compareOne(5, 3);
-        assertEquals(5, result);
+    void testIntegers() {
+        assertEquals(5, CompareOne.compareOne(3, 5));
+        assertEquals(7, CompareOne.compareOne(7, 2));
+        assertNull(CompareOne.compareOne(4, 4));
     }
 
-    // Test case 2: Test when both inputs are integers and the second input is larger
     @Test
-    void testCompareOneIntLargerSecond() {
-        Object result = CompareOne.compareOne(3, 5);
-        assertEquals(5, result);
+    void testFloats() {
+        assertEquals(3.5f, CompareOne.compareOne(2.1f, 3.5f));
+        assertEquals(6.2f, CompareOne.compareOne(6.2f, 4.8f));
+        assertNull(CompareOne.compareOne(1.0f, 1.0f));
     }
 
-    // Test case 3: Test when both inputs are integers and they are equal
     @Test
-    void testCompareOneIntEqual() {
-        Object result = CompareOne.compareOne(5, 5);
-        assertNull(result);
+    void testStrings() {
+        assertEquals("hello", CompareOne.compareOne("hello", "world"));
+        assertEquals("world", CompareOne.compareOne("hello", "world"));
+        assertNull(CompareOne.compareOne("test", "test"));
     }
 
-    // Test case 4: Test when both inputs are floats and the first input is larger
     @Test
-    void testCompareOneFloatLargerFirst() {
-        Object result = CompareOne.compareOne(5.5f, 3.3f);
-        assertEquals(5.5f, result);
-    }
-
-    // Test case 5: Test when both inputs are floats and the second input is larger
-    @Test
-    void testCompareOneFloatLargerSecond() {
-        Object result = CompareOne.compareOne(3.3f, 5.5f);
-        assertEquals(5.5f, result);
-    }
-
-    // Test case 6: Test when both inputs are floats and they are equal
-    @Test
-    void testCompareOneFloatEqual() {
-        Object result = CompareOne.compareOne(5.5f, 5.5f);
-        assertNull(result);
-    }
-
-    // Test case 7: Test when both inputs are strings representing integers and the first input is larger
-    @Test
-    void testCompareOneStringIntLargerFirst() {
-        Object result = CompareOne.compareOne("5", "3");
-        assertEquals("5", result);
-    }
-
-    // Test case 8: Test when both inputs are strings representing integers and the second input is larger
-    @Test
-    void testCompareOneStringIntLargerSecond() {
-        Object result = CompareOne.compareOne("3", "5");
-        assertEquals("5", result);
-    }
-
-    // Test case 9: Test when both inputs are strings representing floats and the first input is larger
-    @Test
-    void testCompareOneStringFloatLargerFirst() {
-        Object result = CompareOne.compareOne("5.5", "3.3");
-        assertEquals("5.5", result);
-    }
-
-    // Test case 10: Test when both inputs are strings representing floats and the second input is larger
-    @Test
-    void testCompareOneStringFloatLargerSecond() {
-        Object result = CompareOne.compareOne("3.3", "5.5");
-        assertEquals("5.5", result);
+    void testMixedTypes() {
+        assertEquals(5, CompareOne.compareOne(5, "3.2"));
+        assertEquals(7.5f, CompareOne.compareOne(7.5f, "4.3"));
+        assertEquals("hello", CompareOne.compareOne("hello", 5));
+        assertNull(CompareOne.compareOne(3.0f, "3.0"));
     }
 }
+```
+
+This test class contains four test methods, each testing a different scenario for the `compareOne` method. The first method tests the case where both inputs are integers, the second tests the case where both inputs are floats, the third tests the case where both inputs are strings, and the fourth tests the case where the inputs are of different types. Each test method contains multiple assertions to cover different scenarios and edge cases.

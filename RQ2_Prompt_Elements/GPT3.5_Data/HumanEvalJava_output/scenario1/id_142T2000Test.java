@@ -1,4 +1,4 @@
-Here's the code for SumSquares1Test class with ten unit test cases for the sumSquares method:
+Here's the source code for the SumSquares1Test class with ten unit test cases for the sumSquares method:
 
 ```
 package scenario1;
@@ -70,7 +70,7 @@ class SumSquares1Test {
     @Test
     void testListWithSevenElements() {
         List<Object> lst = Arrays.asList(2, 3, 4, 5, 6, 7, 8);
-        int expected = 221;
+        int expected = 205;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
@@ -78,7 +78,7 @@ class SumSquares1Test {
     @Test
     void testListWithEightElements() {
         List<Object> lst = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9);
-        int expected = 328;
+        int expected = 284;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
@@ -86,7 +86,7 @@ class SumSquares1Test {
     @Test
     void testListWithNineElements() {
         List<Object> lst = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10);
-        int expected = 469;
+        int expected = 369;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
@@ -94,7 +94,7 @@ class SumSquares1Test {
     @Test
     void testListWithTenElements() {
         List<Object> lst = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
-        int expected = 644;
+        int expected = 460;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }

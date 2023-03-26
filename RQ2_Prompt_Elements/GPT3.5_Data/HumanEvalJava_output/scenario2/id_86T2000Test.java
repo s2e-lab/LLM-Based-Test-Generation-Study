@@ -1,15 +1,18 @@
-Here's the code for the `AntiShuffleTest` class:
-
-```
+// AntiShuffleTest.java
 package scenario2;
 
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link AntiShuffle}.
+* It contains ten unit test cases for the {@link AntiShuffle#antiShuffle(String)} method.
+*/
 class AntiShuffleTest {
 
     @Test
-    void testAntiShuffleEmptyString() {
+    void testAntiShuffleWithEmptyString() {
         String s = "";
         String expected = "";
         String actual = AntiShuffle.antiShuffle(s);
@@ -17,7 +20,7 @@ class AntiShuffleTest {
     }
 
     @Test
-    void testAntiShuffleSingleWord() {
+    void testAntiShuffleWithSingleWord() {
         String s = "hello";
         String expected = "ehllo";
         String actual = AntiShuffle.antiShuffle(s);
@@ -25,7 +28,7 @@ class AntiShuffleTest {
     }
 
     @Test
-    void testAntiShuffleMultipleWords() {
+    void testAntiShuffleWithMultipleWords() {
         String s = "hello world";
         String expected = "ehllo dlorw";
         String actual = AntiShuffle.antiShuffle(s);
@@ -33,7 +36,7 @@ class AntiShuffleTest {
     }
 
     @Test
-    void testAntiShuffleRepeatedWords() {
+    void testAntiShuffleWithRepeatedWords() {
         String s = "hello hello";
         String expected = "ehllo ehllo";
         String actual = AntiShuffle.antiShuffle(s);
@@ -41,7 +44,7 @@ class AntiShuffleTest {
     }
 
     @Test
-    void testAntiShuffleMixedCase() {
+    void testAntiShuffleWithMixedCaseWords() {
         String s = "Hello World";
         String expected = "Hllooe Wdlor";
         String actual = AntiShuffle.antiShuffle(s);
@@ -49,45 +52,42 @@ class AntiShuffleTest {
     }
 
     @Test
-    void testAntiShufflePunctuation() {
-        String s = "hello, world!";
-        String expected = "ehllo, dlrow!";
+    void testAntiShuffleWithSpecialCharacters() {
+        String s = "hello! world?";
+        String expected = "!ehllo dlorw?";
         String actual = AntiShuffle.antiShuffle(s);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testAntiShuffleNumbers() {
-        String s = "12345";
-        String expected = "12345";
+    void testAntiShuffleWithNumbers() {
+        String s = "hello 123 world 456";
+        String expected = "ehllo 123 dlorw 456";
         String actual = AntiShuffle.antiShuffle(s);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testAntiShuffleMixedCharacters() {
-        String s = "h3llo w0rld";
-        String expected = "h3llo dlorw0";
+    void testAntiShuffleWithLeadingAndTrailingSpaces() {
+        String s = "  hello world  ";
+        String expected = "  ehllo dlorw  ";
         String actual = AntiShuffle.antiShuffle(s);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testAntiShuffleLeadingSpaces() {
-        String s = "  hello world";
-        String expected = "  ehllo dlorw";
+    void testAntiShuffleWithMultipleSpacesBetweenWords() {
+        String s = "hello   world";
+        String expected = "ehllo   dlorw";
         String actual = AntiShuffle.antiShuffle(s);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testAntiShuffleTrailingSpaces() {
-        String s = "hello world  ";
-        String expected = "ehllo dlorw  ";
+    void testAntiShuffleWithUnicodeCharacters() {
+        String s = "こんにちは 世界";
+        String expected = "いかにちお 世界";
         String actual = AntiShuffle.antiShuffle(s);
         assertEquals(expected, actual);
     }
 }
-```
-
-This test class contains ten test cases for the `antiShuffle` method of the `AntiShuffle` class. Each test case tests a different aspect of the method's behavior, such as handling empty strings, mixed case strings, and strings with punctuation. The `assertEquals` method is used to compare the expected output of the method with the actual output.

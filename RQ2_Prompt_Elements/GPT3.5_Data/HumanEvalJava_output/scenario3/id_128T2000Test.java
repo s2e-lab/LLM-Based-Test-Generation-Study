@@ -68,14 +68,61 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProdSignsTest {
     
     @Test
-    void testProdSigns() {
-        assertEquals(-9, ProdSigns.prodSigns(Arrays.asList(1, 2, 2, -4)));
-        assertEquals(0, ProdSigns.prodSigns(Arrays.asList(0, 1)));
+    void testEmptyList() {
         assertNull(ProdSigns.prodSigns(Collections.emptyList()));
-        assertEquals(-10, ProdSigns.prodSigns(Arrays.asList(1, 1, 1, 2, 3, -1, 1)));
-        assertEquals(20, ProdSigns.prodSigns(Arrays.asList(2, 4, 1, 2, -1, -1, 9)));
-        assertEquals(4, ProdSigns.prodSigns(Arrays.asList(-1, 1, -1, 1)));
-        assertEquals(-4, ProdSigns.prodSigns(Arrays.asList(-1, 1, 1, 1)));
-        assertEquals(0, ProdSigns.prodSigns(Arrays.asList(-1, 1, 1, 0)));
+    }
+    
+    @Test
+    void testAllPositiveNumbers() {
+        List<Integer> arr = Arrays.asList(1, 2, 2, 4);
+        assertEquals(9, ProdSigns.prodSigns(arr));
+    }
+    
+    @Test
+    void testAllNegativeNumbers() {
+        List<Integer> arr = Arrays.asList(-1, -2, -2, -4);
+        assertEquals(-9, ProdSigns.prodSigns(arr));
+    }
+    
+    @Test
+    void testMixedNumbers() {
+        List<Integer> arr = Arrays.asList(1, 1, 1, 2, 3, -1, 1);
+        assertEquals(-10, ProdSigns.prodSigns(arr));
+    }
+    
+    @Test
+    void testZeroInList() {
+        List<Integer> arr = Arrays.asList(0, 1);
+        assertEquals(0, ProdSigns.prodSigns(arr));
+    }
+    
+    @Test
+    void testMultipleNegativeNumbers() {
+        List<Integer> arr = Arrays.asList(2, 4, 1, 2, -1, -1, 9);
+        assertEquals(20, ProdSigns.prodSigns(arr));
+    }
+    
+    @Test
+    void testEqualPositiveAndNegativeNumbers() {
+        List<Integer> arr = Arrays.asList(-1, 1, -1, 1);
+        assertEquals(4, ProdSigns.prodSigns(arr));
+    }
+    
+    @Test
+    void testMorePositiveNumbers() {
+        List<Integer> arr = Arrays.asList(-1, 1, 1, 1);
+        assertEquals(-4, ProdSigns.prodSigns(arr));
+    }
+    
+    @Test
+    void testZeroAndPositiveNumbers() {
+        List<Integer> arr = Arrays.asList(-1, 1, 1, 0);
+        assertEquals(0, ProdSigns.prodSigns(arr));
+    }
+    
+    @Test
+    void testSingleNumber() {
+        List<Integer> arr = Arrays.asList(5);
+        assertEquals(5, ProdSigns.prodSigns(arr));
     }
 }

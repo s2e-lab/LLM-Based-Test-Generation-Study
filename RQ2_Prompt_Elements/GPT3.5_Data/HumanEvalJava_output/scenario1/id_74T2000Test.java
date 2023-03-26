@@ -1,6 +1,4 @@
-Here's the code for the TotalMatchTest class:
-
-```
+// TotalMatchTest.java
 package scenario1;
 
 import java.util.ArrayList;
@@ -9,10 +7,14 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link TotalMatch}.
+* It contains ten unit test cases for the {@link TotalMatch#totalMatch(List, List)} method.
+*/
 class TotalMatchTest {
 
     @Test
-    void testTotalMatchWithEmptyLists() {
+    void testEmptyLists() {
         List<Object> lst1 = new ArrayList<>();
         List<Object> lst2 = new ArrayList<>();
         List<Object> result = TotalMatch.totalMatch(lst1, lst2);
@@ -20,7 +22,7 @@ class TotalMatchTest {
     }
 
     @Test
-    void testTotalMatchWithOneEmptyList() {
+    void testOneEmptyList() {
         List<Object> lst1 = new ArrayList<>();
         List<Object> lst2 = Arrays.asList("hello", "world");
         List<Object> result = TotalMatch.totalMatch(lst1, lst2);
@@ -28,7 +30,7 @@ class TotalMatchTest {
     }
 
     @Test
-    void testTotalMatchWithEqualStringSum() {
+    void testEqualLengthStringLists() {
         List<Object> lst1 = Arrays.asList("hello", "world");
         List<Object> lst2 = Arrays.asList("foo", "bar");
         List<Object> result = TotalMatch.totalMatch(lst1, lst2);
@@ -36,57 +38,58 @@ class TotalMatchTest {
     }
 
     @Test
-    void testTotalMatchWithLargerStringSum() {
+    void testDifferentLengthStringLists() {
         List<Object> lst1 = Arrays.asList("hello", "world");
         List<Object> lst2 = Arrays.asList("foo", "bar", "baz");
         List<Object> result = TotalMatch.totalMatch(lst1, lst2);
+        assertEquals(lst2, result);
+    }
+
+    @Test
+    void testMixedLists() {
+        List<Object> lst1 = Arrays.asList("hello", 42, "world");
+        List<Object> lst2 = Arrays.asList("foo", "bar", 3.14);
+        List<Object> result = TotalMatch.totalMatch(lst1, lst2);
+        assertEquals(lst2, result);
+    }
+
+    @Test
+    void testOnlyNumbers() {
+        List<Object> lst1 = Arrays.asList(1, 2, 3);
+        List<Object> lst2 = Arrays.asList(4, 5, 6);
+        List<Object> result = TotalMatch.totalMatch(lst1, lst2);
         assertEquals(lst1, result);
     }
 
     @Test
-    void testTotalMatchWithSmallerStringSum() {
-        List<Object> lst1 = Arrays.asList("hello", "world", "foo");
-        List<Object> lst2 = Arrays.asList("bar", "baz");
-        List<Object> result = TotalMatch.totalMatch(lst1, lst2);
-        assertEquals(lst2, result);
-    }
-
-    @Test
-    void testTotalMatchWithMixedTypes() {
-        List<Object> lst1 = Arrays.asList("hello", 42, "world");
+    void testOnlyStrings() {
+        List<Object> lst1 = Arrays.asList("hello", "world");
         List<Object> lst2 = Arrays.asList("foo", "bar");
         List<Object> result = TotalMatch.totalMatch(lst1, lst2);
-        assertEquals(lst2, result);
+        assertEquals(lst1, result);
     }
 
     @Test
-    void testTotalMatchWithNullLists() {
-        List<Object> result = TotalMatch.totalMatch(null, null);
+    void testOnlyBooleans() {
+        List<Object> lst1 = Arrays.asList(true, false);
+        List<Object> lst2 = Arrays.asList(false, true);
+        List<Object> result = TotalMatch.totalMatch(lst1, lst2);
+        assertEquals(lst1, result);
+    }
+
+    @Test
+    void testNullLists() {
+        List<Object> lst1 = null;
+        List<Object> lst2 = null;
+        List<Object> result = TotalMatch.totalMatch(lst1, lst2);
         assertNull(result);
     }
 
     @Test
-    void testTotalMatchWithNullList1() {
-        List<Object> lst2 = Arrays.asList("hello", "world");
-        List<Object> result = TotalMatch.totalMatch(null, lst2);
-        assertEquals(lst2, result);
-    }
-
-    @Test
-    void testTotalMatchWithNullList2() {
-        List<Object> lst1 = Arrays.asList("foo", "bar");
-        List<Object> result = TotalMatch.totalMatch(lst1, null);
-        assertEquals(lst1, result);
-    }
-
-    @Test
-    void testTotalMatchWithNonStringValues() {
-        List<Object> lst1 = Arrays.asList(1, 2, 3);
+    void testNullAndNonNullLists() {
+        List<Object> lst1 = null;
         List<Object> lst2 = Arrays.asList("hello", "world");
         List<Object> result = TotalMatch.totalMatch(lst1, lst2);
         assertEquals(lst2, result);
     }
 }
-```
-
-This test class contains ten unit test cases for the `totalMatch` method of the `TotalMatch` class. The test cases cover various scenarios, including empty lists, lists with different string sums, mixed types, and null lists. Each test case uses the `assertEquals` or `assertNull` method to verify that the expected result is returned by the `totalMatch` method.

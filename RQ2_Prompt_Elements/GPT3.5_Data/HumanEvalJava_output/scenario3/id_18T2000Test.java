@@ -26,12 +26,9 @@ class HowManyTimes {
             return 0;
         }
         int count = 0;
-        int index = 0;
-        while (index != -1) {
-            index = string.indexOf(substring, index);
-            if (index != -1) {
+        for (int i = 0; i <= string.length() - substring.length(); i++) {
+            if (string.substring(i, i + substring.length()).equals(substring)) {
                 count++;
-                index += substring.length() - 1;
             }
         }
         return count;
@@ -54,33 +51,50 @@ class HowManyTimesTest {
     @Test
     void testEmptyString() {
         assertEquals(0, HowManyTimes.howManyTimes("", "a"));
-        assertEquals(0, HowManyTimes.howManyTimes("", ""));
+    }
+
+    @Test
+    void testSingleCharString() {
+        assertEquals(3, HowManyTimes.howManyTimes("aaa", "a"));
+    }
+
+    @Test
+    void testMultipleCharString() {
+        assertEquals(3, HowManyTimes.howManyTimes("aaaa", "aa"));
     }
 
     @Test
     void testEmptySubstring() {
-        assertEquals(0, HowManyTimes.howManyTimes("aaa", ""));
         assertEquals(0, HowManyTimes.howManyTimes("xyxyxyx", ""));
     }
 
     @Test
-    void testNonEmptyStringAndSubstring() {
-        assertEquals(3, HowManyTimes.howManyTimes("aaa", "a"));
-        assertEquals(3, HowManyTimes.howManyTimes("aaaa", "aa"));
+    void testMultipleOccurrences() {
         assertEquals(4, HowManyTimes.howManyTimes("xyxyxyx", "x"));
-        assertEquals(4, HowManyTimes.howManyTimes("cacacacac", "cac"));
-        assertEquals(1, HowManyTimes.howManyTimes("john doe", "john"));
     }
 
     @Test
-    void testSubstringNotInString() {
-        assertEquals(0, HowManyTimes.howManyTimes("aaa", "b"));
-        assertEquals(0, HowManyTimes.howManyTimes("xyxyxyx", "z"));
+    void testOverlappingOccurrences() {
+        assertEquals(4, HowManyTimes.howManyTimes("cacacacac", "cac"));
+    }
+
+    @Test
+    void testSingleOccurrence() {
+        assertEquals(1, HowManyTimes.howManyTimes("john doe", "john"));
     }
 
     @Test
     void testSubstringLongerThanString() {
         assertEquals(0, HowManyTimes.howManyTimes("a", "aa"));
-        assertEquals(0, HowManyTimes.howManyTimes("xy", "xyz"));
+    }
+
+    @Test
+    void testNullString() {
+        assertEquals(0, HowManyTimes.howManyTimes(null, "a"));
+    }
+
+    @Test
+    void testNullSubstring() {
+        assertEquals(0, HowManyTimes.howManyTimes("aaa", null));
     }
 }

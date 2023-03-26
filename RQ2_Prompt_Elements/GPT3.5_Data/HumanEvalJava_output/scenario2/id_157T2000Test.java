@@ -1,13 +1,6 @@
-// RightAngleTriangleTest.java
-package scenario2;
+Here's the code for the test class:
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Test class of {@link RightAngleTriangle}.
- * It contains ten unit test cases for the {@link RightAngleTriangle#rightAngleTriangle(int, int, int)} method.
- */
+```
 class RightAngleTriangleTest {
 
     @Test
@@ -52,11 +45,14 @@ class RightAngleTriangleTest {
 
     @Test
     void testRightAngleTriangle9() {
-        assertFalse(RightAngleTriangle.rightAngleTriangle(7, 8, 9));
+        assertFalse(RightAngleTriangle.rightAngleTriangle(3, 4, 6));
     }
 
     @Test
     void testRightAngleTriangle10() {
-        assertTrue(RightAngleTriangle.rightAngleTriangle(12, 16, 20));
+        assertFalse(RightAngleTriangle.rightAngleTriangle(1, 1, 2));
     }
 }
+```
+
+This test class contains ten test cases for the `rightAngleTriangle` method of the `RightAngleTriangle` class. Each test case tests a different scenario and checks whether the method returns the expected result. The `assertTrue` and `assertFalse` methods are used to check whether the method returns `true` or `false`, respectively.

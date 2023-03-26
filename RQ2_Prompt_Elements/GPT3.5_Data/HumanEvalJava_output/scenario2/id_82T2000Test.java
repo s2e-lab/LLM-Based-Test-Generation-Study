@@ -55,4 +55,4 @@ class PrimeLengthTest {
 }
 ```
 
-This test class contains ten test cases for the `primeLength` method of the `PrimeLength` class. The test cases cover different scenarios, including empty string, single character string, two-character string, and strings of different lengths. The `assertTrue` and `assertFalse` methods are used to check if the `primeLength` method returns the expected result for each test case.
+This test class contains ten test cases that cover different scenarios for the `primeLength` method. The test cases include empty strings, single character strings, strings with prime length, and strings with non-prime length.

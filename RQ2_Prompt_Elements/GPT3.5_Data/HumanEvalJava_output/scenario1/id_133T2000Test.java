@@ -1,83 +1,100 @@
-Here's an example of how you can write unit tests for the `SumSquares` class:
+// SumSquares.java
+package scenario1;
 
-```
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
+
+class SumSquares {
+
+    public static int sumSquares(List<Number> lst) {
+        int sum = 0;
+        for (Number n : lst) {
+            sum += Math.pow(Math.ceil(n.doubleValue()), 2);
+        }
+        return sum;
+    }
+}
+
+// SumSquaresTest.java
+package scenario1;
+
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link SumSquares}.
+* It contains ten unit test cases for the {@link SumSquares#sumSquares(List)} method.
+*/
 class SumSquaresTest {
-
+    
     @Test
-    void testSumSquaresWithEmptyList() {
+    void testEmptyList() {
         List<Number> lst = Arrays.asList();
         int result = SumSquares.sumSquares(lst);
         assertEquals(0, result);
     }
-
+    
     @Test
-    void testSumSquaresWithPositiveNumbers() {
-        List<Number> lst = Arrays.asList(2, 3.5, 4);
-        int result = SumSquares.sumSquares(lst);
-        assertEquals(30, result);
-    }
-
-    @Test
-    void testSumSquaresWithNegativeNumbers() {
-        List<Number> lst = Arrays.asList(-2, -3.5, -4);
-        int result = SumSquares.sumSquares(lst);
-        assertEquals(30, result);
-    }
-
-    @Test
-    void testSumSquaresWithMixedNumbers() {
-        List<Number> lst = Arrays.asList(-2, 3.5, 4);
-        int result = SumSquares.sumSquares(lst);
-        assertEquals(23, result);
-    }
-
-    @Test
-    void testSumSquaresWithZero() {
+    void testListWithOneZero() {
         List<Number> lst = Arrays.asList(0);
         int result = SumSquares.sumSquares(lst);
         assertEquals(0, result);
     }
-
+    
     @Test
-    void testSumSquaresWithLargeNumbers() {
+    void testListWithOnePositiveNumber() {
+        List<Number> lst = Arrays.asList(5);
+        int result = SumSquares.sumSquares(lst);
+        assertEquals(25, result);
+    }
+    
+    @Test
+    void testListWithOneNegativeNumber() {
+        List<Number> lst = Arrays.asList(-5);
+        int result = SumSquares.sumSquares(lst);
+        assertEquals(25, result);
+    }
+    
+    @Test
+    void testListWithTwoPositiveNumbers() {
+        List<Number> lst = Arrays.asList(2, 3);
+        int result = SumSquares.sumSquares(lst);
+        assertEquals(13, result);
+    }
+    
+    @Test
+    void testListWithTwoNegativeNumbers() {
+        List<Number> lst = Arrays.asList(-2, -3);
+        int result = SumSquares.sumSquares(lst);
+        assertEquals(13, result);
+    }
+    
+    @Test
+    void testListWithMixedNumbers() {
+        List<Number> lst = Arrays.asList(-2, 3);
+        int result = SumSquares.sumSquares(lst);
+        assertEquals(13, result);
+    }
+    
+    @Test
+    void testListWithDecimalNumbers() {
+        List<Number> lst = Arrays.asList(2.5, 3.7);
+        int result = SumSquares.sumSquares(lst);
+        assertEquals(20, result);
+    }
+    
+    @Test
+    void testListWithLargeNumbers() {
         List<Number> lst = Arrays.asList(1000000000, 2000000000);
         int result = SumSquares.sumSquares(lst);
         assertEquals(5000000000000000000L, result);
     }
-
+    
     @Test
-    void testSumSquaresWithDecimalNumbers() {
-        List<Number> lst = Arrays.asList(1.5, 2.7, 3.9);
+    void testListWithMixedNumbersAndZero() {
+        List<Number> lst = Arrays.asList(-2, 0, 3);
         int result = SumSquares.sumSquares(lst);
-        assertEquals(20, result);
-    }
-
-    @Test
-    void testSumSquaresWithNegativeDecimalNumbers() {
-        List<Number> lst = Arrays.asList(-1.5, -2.7, -3.9);
-        int result = SumSquares.sumSquares(lst);
-        assertEquals(20, result);
-    }
-
-    @Test
-    void testSumSquaresWithMixedDecimalNumbers() {
-        List<Number> lst = Arrays.asList(-1.5, 2.7, 3.9);
-        int result = SumSquares.sumSquares(lst);
-        assertEquals(20, result);
-    }
-
-    @Test
-    void testSumSquaresWithMaxValue() {
-        List<Number> lst = Arrays.asList(Integer.MAX_VALUE, Long.MAX_VALUE);
-        int result = SumSquares.sumSquares(lst);
-        assertEquals(4611686018427387903L, result);
+        assertEquals(13, result);
     }
 }
-```
-
-These tests cover a variety of scenarios, including empty lists, positive and negative numbers, zero, large numbers, decimal numbers, and the maximum value of `int` and `long`.

@@ -1,4 +1,4 @@
-Here's the code for the `FibTest` class with ten unit test cases for the `Fib.fib(int)` method:
+Here's the source code for the `FibTest` class with ten unit test cases for the `Fib.fib(int)` method:
 
 ```
 package scenario1;
@@ -60,4 +60,4 @@ class FibTest {
 }
 ```
 
-These test cases cover the first ten Fibonacci numbers, ensuring that the `Fib.fib(int)` method returns the correct value for each input.
+This class imports the `Test` class from the `org.junit.jupiter.api` package and the `Assertions` class from the same package. It contains ten test methods, each of which calls the `assertEquals` method to compare the expected result with the actual result of calling the `Fib.fib(int)` method with a specific input value.

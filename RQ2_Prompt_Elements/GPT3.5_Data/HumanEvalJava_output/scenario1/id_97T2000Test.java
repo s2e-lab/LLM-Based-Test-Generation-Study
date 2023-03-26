@@ -27,7 +27,7 @@ class MultiplyTest {
     }
 
     @Test
-    void testMultiplyMixedNumbers() {
+    void testMultiplyPositiveAndNegativeNumbers() {
         assertEquals(6, Multiply.multiply(-2, 3));
         assertEquals(35, Multiply.multiply(5, -7));
         assertEquals(200, Multiply.multiply(-10, 20));
@@ -43,13 +43,13 @@ class MultiplyTest {
     @Test
     void testMultiplySingleDigitNumbers() {
         assertEquals(5, Multiply.multiply(1, 5));
+        assertEquals(8, Multiply.multiply(2, 4));
         assertEquals(9, Multiply.multiply(3, 3));
-        assertEquals(0, Multiply.multiply(0, 9));
     }
 
     @Test
     void testMultiplyLargeNumbers() {
-        assertEquals(100000000, Multiply.multiply(10000, 10000));
+        assertEquals(1000000, Multiply.multiply(1000, 1000));
         assertEquals(99999999, Multiply.multiply(9999, 9999));
         assertEquals(123456789, Multiply.multiply(11111, 11111));
     }
@@ -76,4 +76,4 @@ class MultiplyTest {
 }
 ```
 
-This class contains ten test methods that cover a variety of scenarios for the `multiply` method in the `Multiply` class. The tests include positive and negative numbers, zero, single-digit numbers, large numbers, and extreme values such as `Integer.MAX_VALUE` and `Integer.MIN_VALUE`.
+This class contains ten test methods that cover a variety of scenarios for the `multiply` method in the `Multiply` class. The tests include positive and negative numbers, zero, single-digit numbers, large numbers, and extreme values such as `Integer.MAX_VALUE` and `Integer.MIN_VALUE`. The `assertEquals` method is used to compare the expected result with the actual result of calling the `multiply` method with the given arguments.

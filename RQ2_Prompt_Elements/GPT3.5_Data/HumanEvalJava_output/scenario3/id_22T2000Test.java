@@ -1,5 +1,8 @@
+// FilterIntegers.java
+package scenario3;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 class FilterIntegers {
 
@@ -28,75 +31,138 @@ class FilterIntegers {
     }
 }
 
+// FilterIntegersTest.java
+package scenario3;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link FilterIntegers}.
+* It contains ten unit test cases for the {@link FilterIntegers#filterIntegers(List)} method.
+*/
 class FilterIntegersTest {
 
     @Test
-    void testFilterIntegers1() {
-        List<Object> values = Arrays.asList("a", 3.14, 5);
-        List<Object> expected = Arrays.asList(5);
+    void testFilterIntegersWithMixedValues() {
+        List<Object> values = new ArrayList<>();
+        values.add("a");
+        values.add(3.14);
+        values.add(5);
+        List<Object> expected = new ArrayList<>();
+        expected.add(5);
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 
     @Test
-    void testFilterIntegers2() {
-        List<Object> values = Arrays.asList(1, 2, 3, "abc", {}, []);
-        List<Object> expected = Arrays.asList(1, 2, 3);
+    void testFilterIntegersWithNonIntegerValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(1);
+        values.add(2);
+        values.add(3);
+        values.add("abc");
+        values.add(new Object());
+        values.add(new ArrayList<>());
+        List<Object> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(2);
+        expected.add(3);
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 
     @Test
-    void testFilterIntegers3() {
+    void testFilterIntegersWithEmptyList() {
         List<Object> values = new ArrayList<>();
         List<Object> expected = new ArrayList<>();
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 
     @Test
-    void testFilterIntegers4() {
-        List<Object> values = Arrays.asList(4, {}, [], 23.2, 9, "adasd");
-        List<Object> expected = Arrays.asList(4, 9);
+    void testFilterIntegersWithMixedValuesAndNonIntegerValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(4);
+        values.add(new Object());
+        values.add(new ArrayList<>());
+        values.add(23.2);
+        values.add(9);
+        values.add("adasd");
+        List<Object> expected = new ArrayList<>();
+        expected.add(4);
+        expected.add(9);
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 
     @Test
-    void testFilterIntegers5() {
-        List<Object> values = Arrays.asList(3, "c", 3, 3, "a", "b");
-        List<Object> expected = Arrays.asList(3, 3, 3);
+    void testFilterIntegersWithRepeatedValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(3);
+        values.add("c");
+        values.add(3);
+        values.add(3);
+        values.add("a");
+        values.add("b");
+        List<Object> expected = new ArrayList<>();
+        expected.add(3);
+        expected.add(3);
+        expected.add(3);
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 
     @Test
-    void testFilterIntegers6() {
-        List<Object> values = Arrays.asList(1, 2, 3, 4, 5);
-        List<Object> expected = Arrays.asList(1, 2, 3, 4, 5);
-        assertEquals(expected, FilterIntegers.filterIntegers(values));
-    }
-
-    @Test
-    void testFilterIntegers7() {
-        List<Object> values = Arrays.asList("a", "b", "c");
+    void testFilterIntegersWithAllNonIntegerValues() {
+        List<Object> values = new ArrayList<>();
+        values.add("abc");
+        values.add(new Object());
+        values.add(new ArrayList<>());
         List<Object> expected = new ArrayList<>();
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 
     @Test
-    void testFilterIntegers8() {
-        List<Object> values = Arrays.asList(1.1, 2.2, 3.3);
+    void testFilterIntegersWithAllIntegerValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(1);
+        values.add(2);
+        values.add(3);
         List<Object> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(2);
+        expected.add(3);
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 
     @Test
-    void testFilterIntegers9() {
-        List<Object> values = Arrays.asList(null, 1, 2, null, 3);
-        List<Object> expected = Arrays.asList(1, 2, 3);
+    void testFilterIntegersWithNegativeIntegerValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(-1);
+        values.add(-2);
+        values.add(-3);
+        List<Object> expected = new ArrayList<>();
+        expected.add(-1);
+        expected.add(-2);
+        expected.add(-3);
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 
     @Test
-    void testFilterIntegers10() {
-        List<Object> values = Arrays.asList(1, 2, 3, "4", "5", "6");
-        List<Object> expected = Arrays.asList(1, 2, 3);
+    void testFilterIntegersWithZeroValue() {
+        List<Object> values = new ArrayList<>();
+        values.add(0);
+        List<Object> expected = new ArrayList<>();
+        expected.add(0);
+        assertEquals(expected, FilterIntegers.filterIntegers(values));
+    }
+
+    @Test
+    void testFilterIntegersWithLargeIntegerValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(Integer.MAX_VALUE);
+        values.add(Integer.MIN_VALUE);
+        List<Object> expected = new ArrayList<>();
+        expected.add(Integer.MAX_VALUE);
+        expected.add(Integer.MIN_VALUE);
         assertEquals(expected, FilterIntegers.filterIntegers(values));
     }
 }

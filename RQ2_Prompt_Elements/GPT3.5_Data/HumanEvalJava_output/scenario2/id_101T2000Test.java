@@ -1,14 +1,14 @@
-Here's the code for the `WordsStringTest` class with ten unit test cases for the `wordsString` method:
+Here's the code for the `WordsStringTest` class with ten unit test cases for the `WordsString` class:
 
 ```
 package scenario2;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WordsStringTest {
 

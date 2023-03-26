@@ -34,13 +34,16 @@ class RemoveVowels {
             return "";
         }
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            if (c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u' && c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U') {
+        for (char c : text.toCharArray()) {
+            if (!isVowel(c)) {
                 result.append(c);
             }
         }
         return result.toString();
+    }
+
+    private static boolean isVowel(char c) {
+        return "AEIOUaeiou".indexOf(c) != -1;
     }
 }
 
@@ -56,6 +59,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link RemoveVowels#removeVowels(String)} method.
 */
 class RemoveVowelsTest {
+
     @Test
     void testRemoveVowels1() {
         assertEquals("bcdf", RemoveVowels.removeVowels("abcdef"));

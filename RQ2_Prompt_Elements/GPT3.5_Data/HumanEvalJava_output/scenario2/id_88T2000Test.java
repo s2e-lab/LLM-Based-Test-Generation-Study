@@ -1,6 +1,42 @@
-Here's the code for the SortArray1Test class:
+// SortArray1.java
+package scenario2;
 
-```
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+class SortArray1 {
+
+    /**
+     * Given an array of non-negative integers, return a copy of the given array after sorting,
+     * you will sort the given array in ascending order if the sum( first index value, last index value) is odd,
+     * or sort it in descending order if the sum( first index value, last index value) is even.
+     * <p>
+     * Note:
+     * don't change the given array.
+     */
+    public static List<Object> sortArray(List<Object> array) {
+        if (array.size() <= 1) {
+            return array;
+        }
+        int sum = (Integer) array.get(0) + (Integer) array.get(array.size() - 1);
+        List<Object> sortedArray = new ArrayList<Object>(array);
+        Collections.sort(sortedArray, new Comparator<Object>() {
+
+            @Override
+            public int compare(Object o1, Object o2) {
+                return (Integer) o1 - (Integer) o2;
+            }
+        });
+        if (sum % 2 == 0) {
+            Collections.reverse(sortedArray);
+        }
+        return sortedArray;
+    }
+}
+
+// SortArray1Test.java
 package scenario2;
 
 import java.util.ArrayList;
@@ -9,117 +45,79 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link SortArray1}.
+ * It contains ten unit test cases for the {@link SortArray1#sortArray(List)} method.
+ */
 class SortArray1Test {
 
     @Test
-    void testSortArrayEmptyList() {
+    void testSortArrayWithEmptyList() {
         List<Object> array = new ArrayList<>();
         List<Object> expected = new ArrayList<>();
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 
     @Test
-    void testSortArraySingleElementList() {
+    void testSortArrayWithOneElement() {
         List<Object> array = Arrays.asList(5);
         List<Object> expected = Arrays.asList(5);
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 
     @Test
-    void testSortArrayOddSum() {
-        List<Object> array = Arrays.asList(3, 5, 1, 7, 9);
-        List<Object> expected = Arrays.asList(1, 3, 5, 7, 9);
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+    void testSortArrayWithTwoElements() {
+        List<Object> array = Arrays.asList(5, 3);
+        List<Object> expected = Arrays.asList(3, 5);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 
     @Test
-    void testSortArrayEvenSum() {
-        List<Object> array = Arrays.asList(3, 5, 1, 7, 9, 2);
-        List<Object> expected = Arrays.asList(9, 7, 5, 3, 2, 1);
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+    void testSortArrayWithOddSum() {
+        List<Object> array = Arrays.asList(5, 3, 2, 8, 1);
+        List<Object> expected = Arrays.asList(1, 2, 3, 5, 8);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 
     @Test
-    void testSortArrayAllEqual() {
+    void testSortArrayWithEvenSum() {
+        List<Object> array = Arrays.asList(5, 3, 2, 8, 1, 9);
+        List<Object> expected = Arrays.asList(9, 8, 5, 3, 2, 1);
+        assertEquals(expected, SortArray1.sortArray(array));
+    }
+
+    @Test
+    void testSortArrayWithAllEqualElements() {
         List<Object> array = Arrays.asList(5, 5, 5, 5, 5);
         List<Object> expected = Arrays.asList(5, 5, 5, 5, 5);
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 
     @Test
-    void testSortArrayNegativeNumbers() {
-        List<Object> array = Arrays.asList(-3, 5, -1, 7, 9, 2);
-        List<Object> expected = Arrays.asList(9, 7, 5, -3, -1, 2);
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+    void testSortArrayWithNegativeElements() {
+        List<Object> array = Arrays.asList(-5, 3, -2, 8, -1, 9);
+        List<Object> expected = Arrays.asList(9, 8, 3, -2, -1, -5);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 
     @Test
-    void testSortArrayMixedNumbers() {
-        List<Object> array = Arrays.asList(3, -5, 1, 7, -9, 2);
-        List<Object> expected = Arrays.asList(-9, -5, 1, 2, 3, 7);
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+    void testSortArrayWithZeroElements() {
+        List<Object> array = Arrays.asList(5, 3, 0, 8, 1, 9);
+        List<Object> expected = Arrays.asList(0, 1, 3, 5, 8, 9);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 
     @Test
-    void testSortArrayLargeList() {
-        List<Object> array = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
-            array.add((int) (Math.random() * 100));
-        }
-        List<Object> expected = new ArrayList<>(array);
-        int sum = (Integer) expected.get(0) + (Integer) expected.get(expected.size() - 1);
-        Collections.sort(expected, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                return (Integer) o1 - (Integer) o2;
-            }
-        });
-        if (sum % 2 == 0) {
-            Collections.reverse(expected);
-        }
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+    void testSortArrayWithLargeElements() {
+        List<Object> array = Arrays.asList(1000000, 500000, 2000000, 3000000, 1500000);
+        List<Object> expected = Arrays.asList(500000, 1000000, 1500000, 2000000, 3000000);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 
     @Test
-    void testSortArrayLargeListAllEqual() {
-        List<Object> array = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
-            array.add(5);
-        }
-        List<Object> expected = new ArrayList<>(array);
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void testSortArrayLargeListNegativeNumbers() {
-        List<Object> array = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
-            array.add((int) (Math.random() * 100) - 50);
-        }
-        List<Object> expected = new ArrayList<>(array);
-        int sum = (Integer) expected.get(0) + (Integer) expected.get(expected.size() - 1);
-        Collections.sort(expected, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                return (Integer) o1 - (Integer) o2;
-            }
-        });
-        if (sum % 2 == 0) {
-            Collections.reverse(expected);
-        }
-        List<Object> result = SortArray1.sortArray(array);
-        assertEquals(expected, result);
+    void testSortArrayWithDuplicateElements() {
+        List<Object> array = Arrays.asList(5, 3, 2, 8, 1, 9, 2, 5, 8);
+        List<Object> expected = Arrays.asList(9, 8, 8, 5, 5, 3, 2, 2, 1);
+        assertEquals(expected, SortArray1.sortArray(array));
     }
 }
-```
-
-This class contains ten unit test cases for the `SortArray1.sortArray()` method. The test cases cover different scenarios, such as empty list, single element list, odd sum, even sum, all equal elements, negative numbers, mixed numbers, and large lists. The test cases use the `assertEquals()` method to compare the expected result with the actual result returned by the `SortArray1.sortArray()` method.

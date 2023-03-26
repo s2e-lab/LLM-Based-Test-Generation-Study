@@ -36,7 +36,6 @@ class FilterBySubstring {
 package scenario3;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,15 +48,15 @@ class FilterBySubstringTest {
 
     @Test
     void testEmptyList() {
-        List<String> input = Collections.emptyList();
-        List<String> expectedOutput = Collections.emptyList();
+        List<String> input = Arrays.asList();
+        List<String> expectedOutput = Arrays.asList();
         assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "a"));
     }
 
     @Test
     void testNoMatch() {
         List<String> input = Arrays.asList("abc", "def", "ghi");
-        List<String> expectedOutput = Collections.emptyList();
+        List<String> expectedOutput = Arrays.asList();
         assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "j"));
     }
 
@@ -77,41 +76,43 @@ class FilterBySubstringTest {
 
     @Test
     void testMatchAtBeginning() {
-        List<String> input = Arrays.asList("xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx");
-        List<String> expectedOutput = Arrays.asList("xxx", "xxxAAA", "xxx");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "xxx"));
+        List<String> input = Arrays.asList("abc", "def", "ghi");
+        List<String> expectedOutput = Arrays.asList("abc");
+        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "ab"));
     }
 
     @Test
     void testMatchAtEnd() {
-        List<String> input = Arrays.asList("xxx", "asd", "aaaxxy", "john doe", "xxxAAA", "xxx");
-        List<String> expectedOutput = Arrays.asList("xxx", "aaaxxy", "xxxAAA", "xxx");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "xx"));
+        List<String> input = Arrays.asList("abc", "def", "ghi");
+        List<String> expectedOutput = Arrays.asList("abc");
+        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "bc"));
     }
 
     @Test
     void testMatchInMiddle() {
-        List<String> input = Arrays.asList("grunt", "trumpet", "prune", "gruesome");
-        List<String> expectedOutput = Arrays.asList("grunt", "prune");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "run"));
-    }
-
-    @Test
-    void testEmptySubstring() {
         List<String> input = Arrays.asList("abc", "def", "ghi");
-        List<String> expectedOutput = Collections.emptyList();
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, ""));
+        List<String> expectedOutput = Arrays.asList("abc");
+        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "b"));
     }
 
     @Test
-    void testNullInput() {
-        List<String> input = null;
-        assertThrows(NullPointerException.class, () -> FilterBySubstring.filterBySubstring(input, "a"));
-    }
-
-    @Test
-    void testNullSubstring() {
+    void testMatchCaseSensitive() {
         List<String> input = Arrays.asList("abc", "def", "ghi");
-        assertThrows(NullPointerException.class, () -> FilterBySubstring.filterBySubstring(input, null));
+        List<String> expectedOutput = Arrays.asList();
+        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "A"));
+    }
+
+    @Test
+    void testMatchSubstringIsLonger() {
+        List<String> input = Arrays.asList("abc", "def", "ghi");
+        List<String> expectedOutput = Arrays.asList();
+        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "abcd"));
+    }
+
+    @Test
+    void testMatchSubstringIsShorter() {
+        List<String> input = Arrays.asList("abc", "def", "ghi");
+        List<String> expectedOutput = Arrays.asList();
+        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "ab"));
     }
 }

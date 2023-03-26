@@ -1,5 +1,4 @@
-// Here's the generated source code for the IsNested class:
-
+// IsNested.java
 package scenario3;
 
 import java.util.Stack;
@@ -54,17 +53,20 @@ class IsNested {
                 stack.push(c);
             } else if (c == ']') {
                 if (!stack.isEmpty() && stack.peek() == '[') {
-                    return true;
+                    stack.pop();
+                    if (stack.size() > 0) {
+                        return true;
+                    }
+                } else {
+                    stack.push(c);
                 }
-                stack.push(c);
             }
         }
         return false;
     }
 }
 
-// And here's the generated source code for the IsNestedTest class:
-
+// IsNestedTest.java
 package scenario3;
 
 import org.junit.jupiter.api.Test;
@@ -124,5 +126,25 @@ class IsNestedTest {
     @Test
     void testIsNested10() {
         assertTrue(IsNested.isNested("[[]][["));
+    }
+
+    @Test
+    void testIsNested11() {
+        assertTrue(IsNested.isNested("[[][]]"));
+    }
+
+    @Test
+    void testIsNested12() {
+        assertFalse(IsNested.isNested(""));
+    }
+
+    @Test
+    void testIsNested13() {
+        assertFalse(IsNested.isNested("[[[[[[[["));
+    }
+
+    @Test
+    void testIsNested14() {
+        assertFalse(IsNested.isNested("]]]]]]]]"));
     }
 }

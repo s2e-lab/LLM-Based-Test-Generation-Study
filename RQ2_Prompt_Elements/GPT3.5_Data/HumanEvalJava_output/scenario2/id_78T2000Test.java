@@ -51,12 +51,12 @@ class HexKeyTest {
     }
 
     @Test
-    void testAllPrimes() {
-        assertEquals(10, HexKey.hexKey("2357BDF"));
+    void testUpperCase() {
+        assertEquals(6, HexKey.hexKey("2357BDCEF"));
     }
 
     @Test
     void testLowerCase() {
-        assertEquals(2, HexKey.hexKey("2b"));
+        assertEquals(6, HexKey.hexKey("2357bdcf"));
     }
 }

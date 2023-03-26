@@ -1,7 +1,9 @@
 // TriplesSumToZero.java
 package scenario3;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class TriplesSumToZero {
 
@@ -30,13 +32,12 @@ class TriplesSumToZero {
      * false
      */
     public static Boolean triplesSumToZero(List<Integer> l) {
-        int n = l.size();
-        for (int i = 0; i < n - 2; i++) {
-            for (int j = i + 1; j < n - 1; j++) {
-                for (int k = j + 1; k < n; k++) {
-                    if (l.get(i) + l.get(j) + l.get(k) == 0) {
-                        return true;
-                    }
+        Set<Integer> set = new HashSet<>(l);
+        for (int i = 0; i < l.size() - 1; i++) {
+            for (int j = i + 1; j < l.size(); j++) {
+                int sum = l.get(i) + l.get(j);
+                if (set.contains(-sum)) {
+                    return true;
                 }
             }
         }
@@ -76,44 +77,44 @@ class TriplesSumToZeroTest {
     }
 
     @Test
-    void testAllElementsAreZero() {
-        List<Integer> l = Arrays.asList(0, 0, 0);
-        assertTrue(TriplesSumToZero.triplesSumToZero(l));
-    }
-
-    @Test
-    void testOnePositiveAndTwoNegativeElements() {
-        List<Integer> l = Arrays.asList(1, -2, -1);
-        assertTrue(TriplesSumToZero.triplesSumToZero(l));
-    }
-
-    @Test
-    void testOneNegativeAndTwoPositiveElements() {
-        List<Integer> l = Arrays.asList(-1, 2, -1);
-        assertTrue(TriplesSumToZero.triplesSumToZero(l));
-    }
-
-    @Test
-    void testTwoPositiveAndOneNegativeElements() {
-        List<Integer> l = Arrays.asList(1, 2, -3);
-        assertTrue(TriplesSumToZero.triplesSumToZero(l));
-    }
-
-    @Test
-    void testTwoNegativeAndOnePositiveElements() {
-        List<Integer> l = Arrays.asList(-1, -2, 3);
-        assertTrue(TriplesSumToZero.triplesSumToZero(l));
-    }
-
-    @Test
-    void testThreePositiveElements() {
-        List<Integer> l = Arrays.asList(1, 2, 3);
+    void testNoTripleSumToZero2() {
+        List<Integer> l = Arrays.asList(1, 3, 5, -1);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
 
     @Test
-    void testThreeNegativeElements() {
-        List<Integer> l = Arrays.asList(-1, -2, -3);
+    void testNoTripleSumToZero3() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 7);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
+    }
+
+    @Test
+    void testNoTripleSumToZero4() {
+        List<Integer> l = Arrays.asList(1, 2, 5, 7);
+        assertFalse(TriplesSumToZero.triplesSumToZero(l));
+    }
+
+    @Test
+    void testNoTripleSumToZero5() {
+        List<Integer> l = Arrays.asList(1, 3, 5, -100);
+        assertFalse(TriplesSumToZero.triplesSumToZero(l));
+    }
+
+    @Test
+    void testNoTripleSumToZero6() {
+        List<Integer> l = Arrays.asList(100, 3, 5, -100);
+        assertFalse(TriplesSumToZero.triplesSumToZero(l));
+    }
+
+    @Test
+    void testTripleSumToZero() {
+        List<Integer> l = Arrays.asList(1, 3, -2, 1);
+        assertTrue(TriplesSumToZero.triplesSumToZero(l));
+    }
+
+    @Test
+    void testTripleSumToZero2() {
+        List<Integer> l = Arrays.asList(2, 4, -5, 3, 9, 7);
+        assertTrue(TriplesSumToZero.triplesSumToZero(l));
     }
 }

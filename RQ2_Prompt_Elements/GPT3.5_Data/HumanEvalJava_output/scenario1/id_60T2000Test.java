@@ -1,74 +1,73 @@
-Here's the code for the SumToNTest class with ten unit test cases for the sumToN method:
+// Here's the source code for the SumToNTest class with ten unit test cases for the SumToN.sumToN() method.
 
-```
 package scenario1;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link SumToN}.
+ * It contains ten unit test cases for the {@link SumToN#sumToN(int)} method.
+ */
 class SumToNTest {
 
     @Test
     void testSumToNWithZero() {
-        assertEquals(0, SumToN.sumToN(0));
+        int result = SumToN.sumToN(0);
+        assertEquals(0, result);
     }
 
     @Test
     void testSumToNWithOne() {
-        assertEquals(1, SumToN.sumToN(1));
+        int result = SumToN.sumToN(1);
+        assertEquals(1, result);
     }
 
     @Test
     void testSumToNWithTwo() {
-        assertEquals(3, SumToN.sumToN(2));
+        int result = SumToN.sumToN(2);
+        assertEquals(3, result);
     }
 
     @Test
     void testSumToNWithThree() {
-        assertEquals(6, SumToN.sumToN(3));
+        int result = SumToN.sumToN(3);
+        assertEquals(6, result);
     }
 
     @Test
     void testSumToNWithFour() {
-        assertEquals(10, SumToN.sumToN(4));
+        int result = SumToN.sumToN(4);
+        assertEquals(10, result);
     }
 
     @Test
     void testSumToNWithFive() {
-        assertEquals(15, SumToN.sumToN(5));
+        int result = SumToN.sumToN(5);
+        assertEquals(15, result);
     }
 
     @Test
-    void testSumToNWithTen() {
-        assertEquals(55, SumToN.sumToN(10));
+    void testSumToNWithSix() {
+        int result = SumToN.sumToN(6);
+        assertEquals(21, result);
     }
 
     @Test
-    void testSumToNWithNegativeNumber() {
-        assertEquals(0, SumToN.sumToN(-5));
+    void testSumToNWithSeven() {
+        int result = SumToN.sumToN(7);
+        assertEquals(28, result);
     }
 
     @Test
-    void testSumToNWithLargeNumber() {
-        assertEquals(500500, SumToN.sumToN(1000));
+    void testSumToNWithEight() {
+        int result = SumToN.sumToN(8);
+        assertEquals(36, result);
     }
 
     @Test
-    void testSumToNWithMaxValue() {
-        assertEquals(2147483647, SumToN.sumToN(Integer.MAX_VALUE));
+    void testSumToNWithNine() {
+        int result = SumToN.sumToN(9);
+        assertEquals(45, result);
     }
 }
-```
-
-This test class includes test cases for the following scenarios:
-
-- When n is 0
-- When n is 1
-- When n is 2
-- When n is 3
-- When n is 4
-- When n is 5
-- When n is 10
-- When n is a negative number
-- When n is a large number (1000)
-- When n is the maximum value for an integer (2147483647)

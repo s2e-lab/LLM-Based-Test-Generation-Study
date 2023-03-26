@@ -76,16 +76,9 @@ class ParseMusicTest {
     }
 
     @Test
-    void testMultipleDoubleNotes() {
-        List<Object> expected = Arrays.asList(2, 2, 2);
-        List<Object> actual = ParseMusic.parseMusic("o|o|o|");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testMixedNotesRestsAndDoubleNotes() {
-        List<Object> expected = Arrays.asList(4, 1, 2, 1, 4, 2);
-        List<Object> actual = ParseMusic.parseMusic("o.o|o.o|");
+    void testMixedNotesAndDoubleNotes() {
+        List<Object> expected = Arrays.asList(4, 2, 4, 2, 4);
+        List<Object> actual = ParseMusic.parseMusic("o|o|o");
         assertEquals(expected, actual);
     }
 }

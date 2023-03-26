@@ -53,47 +53,47 @@ class CountDistinctCharactersTest {
     }
 
     @Test
-    void testSingleDistinctCharacter() {
+    void testSingleCharacter() {
         assertEquals(1, CountDistinctCharacters.countDistinctCharacters("a"));
     }
 
     @Test
-    void testSingleNonLetterCharacter() {
-        assertEquals(0, CountDistinctCharacters.countDistinctCharacters("1"));
+    void testAllSameCharacters() {
+        assertEquals(1, CountDistinctCharacters.countDistinctCharacters("aaaaa"));
     }
 
     @Test
-    void testMultipleDistinctCharacters() {
+    void testAllDifferentCharacters() {
         assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abcde"));
     }
 
     @Test
-    void testMultipleMixedCaseDistinctCharacters() {
+    void testMixedCase() {
         assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abcdecadeCADE"));
     }
 
     @Test
-    void testMultipleSameCharacters() {
-        assertEquals(1, CountDistinctCharacters.countDistinctCharacters("aaaaAAAAaaaa"));
-    }
-
-    @Test
-    void testMultipleMixedCaseSameCharacters() {
-        assertEquals(1, CountDistinctCharacters.countDistinctCharacters("AAAAaaaa"));
-    }
-
-    @Test
-    void testMultipleWords() {
+    void testWithSpaces() {
         assertEquals(5, CountDistinctCharacters.countDistinctCharacters("Jerry jERRY JeRRRY"));
     }
 
     @Test
-    void testSpecialCharacters() {
-        assertEquals(2, CountDistinctCharacters.countDistinctCharacters("a!b@c#d$e%f^g&h*i(j)k_l+m=n{o}p[q]r\\s|t`u~v"));
+    void testWithNumbers() {
+        assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abc123de123"));
     }
 
     @Test
-    void testAllLetters() {
-        assertEquals(26, CountDistinctCharacters.countDistinctCharacters("abcdefghijklmnopqrstuvwxyz"));
+    void testWithSpecialCharacters() {
+        assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abc!@#de!@#"));
+    }
+
+    @Test
+    void testWithMixedCharacters() {
+        assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abcde123!@#"));
+    }
+
+    @Test
+    void testWithNull() {
+        assertThrows(NullPointerException.class, () -> CountDistinctCharacters.countDistinctCharacters(null));
     }
 }

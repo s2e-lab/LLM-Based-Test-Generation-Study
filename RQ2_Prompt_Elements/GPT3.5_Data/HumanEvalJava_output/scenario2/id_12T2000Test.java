@@ -1,76 +1,99 @@
-Here's the code for the LongestTest class:
+// Longest.java
+package scenario2;
 
-```
+import java.util.List;
+
+class Longest {
+
+    /**
+     * Out of list of strings, return the longest one. Return the first one in case of multiple
+     * strings of the same length. Return null in case the input list is empty.
+     */
+    public static String longest(List<String> strings) {
+        if (strings.size() == 0) {
+            return null;
+        }
+        String longest = strings.get(0);
+        for (int i = 1; i < strings.size(); i++) {
+            if (strings.get(i).length() > longest.length()) {
+                longest = strings.get(i);
+            }
+        }
+        return longest;
+    }
+}
+
+// LongestTest.java
 package scenario2;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link Longest}.
+* It contains ten unit test cases for the {@link Longest#longest(List)} method.
+*/
 class LongestTest {
 
     @Test
     void testLongestWithEmptyList() {
-        List<Object> strings = Collections.emptyList();
+        List<String> strings = Arrays.asList();
         assertNull(Longest.longest(strings));
     }
 
     @Test
-    void testLongestWithSingleString() {
-        List<Object> strings = Collections.singletonList("hello");
+    void testLongestWithOneElement() {
+        List<String> strings = Arrays.asList("hello");
         assertEquals("hello", Longest.longest(strings));
     }
 
     @Test
-    void testLongestWithMultipleStrings() {
-        List<Object> strings = Arrays.asList("hello", "world", "foo", "bar");
+    void testLongestWithTwoElements() {
+        List<String> strings = Arrays.asList("hello", "world");
+        assertEquals("world", Longest.longest(strings));
+    }
+
+    @Test
+    void testLongestWithMultipleElements() {
+        List<String> strings = Arrays.asList("hello", "world", "foo", "bar", "baz");
         assertEquals("hello", Longest.longest(strings));
     }
 
     @Test
-    void testLongestWithMultipleStringsOfSameLength() {
-        List<Object> strings = Arrays.asList("hello", "world", "foo", "bar", "test");
+    void testLongestWithMultipleElementsAndSameLength() {
+        List<String> strings = Arrays.asList("hello", "world", "foo", "bar", "baz", "hi");
         assertEquals("hello", Longest.longest(strings));
     }
 
     @Test
-    void testLongestWithNullString() {
-        List<Object> strings = Arrays.asList("hello", null, "world");
+    void testLongestWithNullElement() {
+        List<String> strings = Arrays.asList("hello", null, "world");
         assertEquals("hello", Longest.longest(strings));
     }
 
     @Test
     void testLongestWithEmptyString() {
-        List<Object> strings = Arrays.asList("hello", "", "world");
+        List<String> strings = Arrays.asList("hello", "", "world");
         assertEquals("hello", Longest.longest(strings));
     }
 
     @Test
     void testLongestWithWhitespaceString() {
-        List<Object> strings = Arrays.asList("hello", "  ", "world");
+        List<String> strings = Arrays.asList("hello", "  ", "world");
         assertEquals("hello", Longest.longest(strings));
     }
 
     @Test
-    void testLongestWithNumbers() {
-        List<Object> strings = Arrays.asList("hello", 123, "world");
-        assertEquals("hello", Longest.longest(strings));
-    }
-
-    @Test
-    void testLongestWithMixedTypes() {
-        List<Object> strings = Arrays.asList("hello", 123, true, "world");
-        assertEquals("hello", Longest.longest(strings));
+    void testLongestWithSpecialCharacters() {
+        List<String> strings = Arrays.asList("hello", "world!", "foo bar", "baz@#$%");
+        assertEquals("baz@#$%", Longest.longest(strings));
     }
 
     @Test
     void testLongestWithUnicodeCharacters() {
-        List<Object> strings = Arrays.asList("hello", "world", "👋");
-        assertEquals("👋", Longest.longest(strings));
+        List<String> strings = Arrays.asList("hello", "world", "foo", "bar", "baz", "こんにちは");
+        assertEquals("こんにちは", Longest.longest(strings));
     }
 }
-```
-
-This test class contains ten unit test cases for the `Longest.longest(List)` method. Each test case tests a different scenario, such as an empty list, a list with a single string, a list with multiple strings, a list with strings of the same length, a list with null or empty strings, a list with whitespace strings, a list with numbers or mixed types, and a list with Unicode characters. The `@Test` annotation is used to mark each test method, and the `assertEquals` and `assertNull` methods are used to check the expected results.

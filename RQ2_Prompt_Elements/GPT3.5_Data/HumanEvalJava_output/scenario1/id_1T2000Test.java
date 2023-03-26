@@ -1,95 +1,97 @@
-Here's the code for the `SeparateParenGroupsTest` class with ten unit test cases for the `separateParenGroups` method:
-
-```
-package scenario1;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Test class of {@link SeparateParenGroups}.
- * It contains ten unit test cases for the {@link SeparateParenGroups#separateParenGroups(String)} method.
- */
-class SeparateParenGroupsTest {
-
-    @Test
-    void testEmptyString() {
-        List<String> expected = new ArrayList<>();
-        List<String> actual = SeparateParenGroups.separateParenGroups("");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSingleGroup() {
-        List<String> expected = Arrays.asList("(abc)");
-        List<String> actual = SeparateParenGroups.separateParenGroups("(abc)");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testNestedGroups() {
-        List<String> expected = Arrays.asList("(abc(def))", "(ghi(jkl))");
-        List<String> actual = SeparateParenGroups.separateParenGroups("(abc(def))(ghi(jkl))");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testMultipleGroups() {
-        List<String> expected = Arrays.asList("(abc)", "(def)", "(ghi)");
-        List<String> actual = SeparateParenGroups.separateParenGroups("(abc)(def)(ghi)");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGroupsAndNonGroups() {
-        List<String> expected = Arrays.asList("(abc)", "def", "(ghi)");
-        List<String> actual = SeparateParenGroups.separateParenGroups("(abc)def(ghi)");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSingleOpenParen() {
-        List<String> expected = new ArrayList<>();
-        List<String> actual = SeparateParenGroups.separateParenGroups("(");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSingleCloseParen() {
-        List<String> expected = new ArrayList<>();
-        List<String> actual = SeparateParenGroups.separateParenGroups(")");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testMismatchedParens() {
-        List<String> expected = new ArrayList<>();
-        List<String> actual = SeparateParenGroups.separateParenGroups("(abc))def(");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testLeadingNonGroupChars() {
-        List<String> expected = Arrays.asList("(abc)");
-        List<String> actual = SeparateParenGroups.separateParenGroups("abc(abc)");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testTrailingNonGroupChars() {
-        List<String> expected = Arrays.asList("(abc)");
-        List<String> actual = SeparateParenGroups.separateParenGroups("(abc)abc");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testMixedNonGroupChars() {
-        List<String> expected = Arrays.asList("(abc)", "(def)");
-        List<String> actual = SeparateParenGroups.separateParenGroups("abc(abc)def(def)");
-        assertEquals(expected, actual);
-    }
+// Test case 1: Test with empty string
+@Test
+void testEmptyString() {
+    List<String> expected = new ArrayList<String>();
+    List<String> result = SeparateParenGroups.separateParenGroups("");
+    assertEquals(expected, result);
 }
-```
+
+// Test case 2: Test with single pair of parentheses
+@Test
+void testSinglePair() {
+    List<String> expected = new ArrayList<String>();
+    expected.add("()");
+    List<String> result = SeparateParenGroups.separateParenGroups("()");
+    assertEquals(expected, result);
+}
+
+// Test case 3: Test with multiple pairs of parentheses
+@Test
+void testMultiplePairs() {
+    List<String> expected = new ArrayList<String>();
+    expected.add("()");
+    expected.add("()");
+    expected.add("()");
+    List<String> result = SeparateParenGroups.separateParenGroups("()()()");
+    assertEquals(expected, result);
+}
+
+// Test case 4: Test with nested parentheses
+@Test
+void testNestedParentheses() {
+    List<String> expected = new ArrayList<String>();
+    expected.add("(())");
+    expected.add("()");
+    List<String> result = SeparateParenGroups.separateParenGroups("(())()");
+    assertEquals(expected, result);
+}
+
+// Test case 5: Test with unbalanced parentheses
+@Test
+void testUnbalancedParentheses() {
+    List<String> expected = new ArrayList<String>();
+    expected.add("()");
+    List<String> result = SeparateParenGroups.separateParenGroups("()(");
+    assertEquals(expected, result);
+}
+
+// Test case 6: Test with only opening parentheses
+@Test
+void testOnlyOpeningParentheses() {
+    List<String> expected = new ArrayList<String>();
+    List<String> result = SeparateParenGroups.separateParenGroups("(((");
+    assertEquals(expected, result);
+}
+
+// Test case 7: Test with only closing parentheses
+@Test
+void testOnlyClosingParentheses() {
+    List<String> expected = new ArrayList<String>();
+    List<String> result = SeparateParenGroups.separateParenGroups(")))");
+    assertEquals(expected, result);
+}
+
+// Test case 8: Test with mixed characters
+@Test
+void testMixedCharacters() {
+    List<String> expected = new ArrayList<String>();
+    expected.add("()");
+    expected.add("()");
+    List<String> result = SeparateParenGroups.separateParenGroups("a()b()c");
+    assertEquals(expected, result);
+}
+
+// Test case 9: Test with multiple levels of nesting
+@Test
+void testMultipleLevelsOfNesting() {
+    List<String> expected = new ArrayList<String>();
+    expected.add("((()))");
+    expected.add("()");
+    expected.add("((()))");
+    List<String> result = SeparateParenGroups.separateParenGroups("((()))()((()))");
+    assertEquals(expected, result);
+}
+
+// Test case 10: Test with complex string
+@Test
+void testComplexString() {
+    List<String> expected = new ArrayList<String>();
+    expected.add("()");
+    expected.add("((()))");
+    expected.add("()");
+    expected.add("()");
+    expected.add("((()))");
+    List<String> result = SeparateParenGroups.separateParenGroups("()((()))()()((()))");
+    assertEquals(expected, result);
+}
+}

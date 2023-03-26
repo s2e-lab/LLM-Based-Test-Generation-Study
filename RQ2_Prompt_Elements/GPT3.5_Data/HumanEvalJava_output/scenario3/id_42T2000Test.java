@@ -88,30 +88,42 @@ class IncrListTest {
     }
     
     @Test
-    void testIncrListWithNegativeNumbers() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(-1, -2, -3));
-        List<Integer> expected = new ArrayList<>(Arrays.asList(0, -1, -2));
-        assertEquals(expected, IncrList.incrList(input));
-    }
-    
-    @Test
-    void testIncrListWithZero() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(0));
-        List<Integer> expected = new ArrayList<>(Arrays.asList(1));
-        assertEquals(expected, IncrList.incrList(input));
-    }
-    
-    @Test
-    void testIncrListWithMaxValue() {
+    void testIncrListWithMaxIntegerValue() {
         List<Integer> input = new ArrayList<>(Arrays.asList(Integer.MAX_VALUE));
         List<Integer> expected = new ArrayList<>(Arrays.asList(Integer.MIN_VALUE));
         assertEquals(expected, IncrList.incrList(input));
     }
     
     @Test
-    void testIncrListWithMinValue() {
+    void testIncrListWithMinIntegerValue() {
         List<Integer> input = new ArrayList<>(Arrays.asList(Integer.MIN_VALUE));
         List<Integer> expected = new ArrayList<>(Arrays.asList(Integer.MIN_VALUE + 1));
+        assertEquals(expected, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithMaxListSize() {
+        List<Integer> input = new ArrayList<>();
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            input.add(0);
+        }
+        List<Integer> expected = new ArrayList<>();
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            expected.add(1);
+        }
+        assertEquals(expected, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithMinListSize() {
+        List<Integer> input = new ArrayList<>();
+        for (int i = 0; i > Integer.MIN_VALUE; i--) {
+            input.add(0);
+        }
+        List<Integer> expected = new ArrayList<>();
+        for (int i = 0; i > Integer.MIN_VALUE; i--) {
+            expected.add(1);
+        }
         assertEquals(expected, IncrList.incrList(input));
     }
 }

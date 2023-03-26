@@ -1,4 +1,4 @@
-Here's the source code for the `SameCharsTest` class:
+Here's the code for the `SameCharsTest` class with ten unit test cases for the `sameChars` method:
 
 ```
 package scenario2;
@@ -9,55 +9,55 @@ import static org.junit.jupiter.api.Assertions.*;
 class SameCharsTest {
 
     @Test
-    void testSameCharsWithSameWords() {
-        assertTrue(SameChars.sameChars("hello", "hello"));
-    }
-
-    @Test
-    void testSameCharsWithDifferentWords() {
-        assertFalse(SameChars.sameChars("hello", "world"));
-    }
-
-    @Test
     void testSameCharsWithEmptyStrings() {
         assertTrue(SameChars.sameChars("", ""));
     }
 
     @Test
-    void testSameCharsWithOneEmptyString() {
-        assertFalse(SameChars.sameChars("hello", ""));
+    void testSameCharsWithSameStrings() {
+        assertTrue(SameChars.sameChars("abc", "abc"));
     }
 
     @Test
-    void testSameCharsWithOneLetterWords() {
-        assertTrue(SameChars.sameChars("a", "a"));
+    void testSameCharsWithDifferentLengthStrings() {
+        assertFalse(SameChars.sameChars("abc", "abcd"));
     }
 
     @Test
-    void testSameCharsWithOneLetterWordsDifferent() {
-        assertFalse(SameChars.sameChars("a", "b"));
+    void testSameCharsWithSameLengthDifferentOrderStrings() {
+        assertTrue(SameChars.sameChars("abc", "cba"));
     }
 
     @Test
-    void testSameCharsWithMixedCaseWords() {
-        assertTrue(SameChars.sameChars("Hello", "hElLo"));
+    void testSameCharsWithSameLengthDifferentStrings() {
+        assertFalse(SameChars.sameChars("abc", "def"));
     }
 
     @Test
-    void testSameCharsWithPunctuation() {
-        assertTrue(SameChars.sameChars("hello, world!", "dlrow !olleh,"));
+    void testSameCharsWithUpperCaseStrings() {
+        assertTrue(SameChars.sameChars("ABC", "cba"));
     }
 
     @Test
-    void testSameCharsWithNumbers() {
-        assertTrue(SameChars.sameChars("12345", "54321"));
+    void testSameCharsWithNumericStrings() {
+        assertTrue(SameChars.sameChars("123", "321"));
     }
 
     @Test
-    void testSameCharsWithSpecialCharacters() {
-        assertTrue(SameChars.sameChars("!@#$%", "%$#@!"));
+    void testSameCharsWithSpecialCharacterStrings() {
+        assertTrue(SameChars.sameChars("!@#", "#!@"));
+    }
+
+    @Test
+    void testSameCharsWithNullStrings() {
+        assertThrows(NullPointerException.class, () -> SameChars.sameChars(null, null));
+    }
+
+    @Test
+    void testSameCharsWithOneNullString() {
+        assertThrows(NullPointerException.class, () -> SameChars.sameChars("abc", null));
     }
 }
 ```
 
-This class contains ten test methods that test the `sameChars` method of the `SameChars` class with different inputs. Each test method uses the `assertTrue` or `assertFalse` method to assert whether the `sameChars` method returns the expected result.
+This test class includes test cases for empty strings, same strings, different length strings, same length different order strings, same length different strings, uppercase strings, numeric strings, special character strings, null strings, and one null string.

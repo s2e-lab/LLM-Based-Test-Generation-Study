@@ -70,33 +70,42 @@ class CompareTest {
     }
 
     @Test
-    void testCompareDifferentSizeLists() {
+    void testCompareDifferentSize() {
         List<Integer> game = Arrays.asList(1, 2, 3);
         List<Integer> guess = Arrays.asList(1, 2);
         assertThrows(IndexOutOfBoundsException.class, () -> Compare.compare(game, guess));
     }
 
     @Test
-    void testCompareNullLists() {
+    void testCompareNullList() {
         List<Integer> game = null;
         List<Integer> guess = null;
         assertThrows(NullPointerException.class, () -> Compare.compare(game, guess));
     }
 
     @Test
-    void testCompareNullGameList() {
-        List<Integer> game = null;
+    void testCompareNullElement() {
+        List<Integer> game = Arrays.asList(1, 2, null);
         List<Integer> guess = Arrays.asList(1, 2, 3);
         assertThrows(NullPointerException.class, () -> Compare.compare(game, guess));
     }
 
     @Test
-    void testCompareNullGuessList() {
-        List<Integer> game = Arrays.asList(1, 2, 3);
-        List<Integer> guess = null;
-        assertThrows(NullPointerException.class, () -> Compare.compare(game, guess));
+    void testCompareLargeList() {
+        List<Integer> game = new ArrayList<>();
+        List<Integer> guess = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            game.add(i);
+            guess.add(i + 1);
+        }
+        List<Integer> expected = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            expected.add(1);
+        }
+        List<Integer> actual = Compare.compare(game, guess);
+        assertEquals(expected, actual);
     }
 }
 ```
 
-This class contains ten unit test cases for the `Compare.compare()` method. The test cases cover different scenarios such as comparing the same list, comparing different lists, comparing lists with one element different, comparing empty lists, comparing lists with different sizes, and comparing null lists. The `@Test` annotation is used to mark each test case method. The `assertEquals()` method is used to compare the expected and actual results of the `Compare.compare()` method. The `assertThrows()` method is used to test for expected exceptions.
+This class contains ten unit test cases for the `Compare.compare()` method. The test cases cover different scenarios such as comparing the same list, comparing different lists, comparing lists with one element different, comparing empty lists, comparing lists with different sizes, comparing null lists, comparing lists with null elements, and comparing large lists. The `@Test` annotation is used to mark each test case method. The `assertEquals()` method is used to compare the expected result with the actual result. The `assertThrows()` method is used to test for exceptions.

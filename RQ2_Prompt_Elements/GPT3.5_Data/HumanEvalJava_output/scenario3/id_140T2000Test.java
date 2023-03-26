@@ -1,10 +1,13 @@
+Here's the completed code for the `FixSpaces` class and `FixSpacesTest` class:
+
+```
 // FixSpaces.java
 package scenario3;
 
 class FixSpaces {
 
     /**
-     * * Given a string text, replace all spaces in it with underscores,
+     * Given a string text, replace all spaces in it with underscores,
      * and if a string has more than 2 consecutive spaces,
      * then replace all consecutive spaces with -
      *
@@ -25,37 +28,116 @@ class FixSpaces {
      * "-Exa_1_2_2_mple"
      */
     public static String fixSpaces(String text) {
-        String result = text.replaceAll(" ", "_");
-        if (result.contains("   ")) {
-            result = result.replaceAll("   ", "-");
+        StringBuilder sb = new StringBuilder();
+        int consecutiveSpaces = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (c == ' ') {
+                consecutiveSpaces++;
+                if (consecutiveSpaces > 2) {
+                    sb.append('-');
+                } else {
+                    sb.append('_');
+                }
+            } else {
+                consecutiveSpaces = 0;
+                sb.append(c);
+            }
         }
-        return result;
+        return sb.toString();
     }
 }
 
 // FixSpacesTest.java
 package scenario3;
 
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-* Test class of {@link FixSpaces}.
-* It contains ten unit test cases for the {@link FixSpaces#fixSpaces(String)} method.
-*/
+ * Test class of {@link FixSpaces}.
+ * It contains ten unit test cases for the {@link FixSpaces#fixSpaces(String)} method.
+ */
 class FixSpacesTest {
+
     @Test
-    void testFixSpaces() {
-        assertEquals("Example", FixSpaces.fixSpaces("Example"));
-        assertEquals("Example_1", FixSpaces.fixSpaces("Example 1"));
-        assertEquals("_Example_2", FixSpaces.fixSpaces(" Example 2"));
-        assertEquals("_Example-3", FixSpaces.fixSpaces(" Example   3"));
-        assertEquals("Mudasir_Hanif_", FixSpaces.fixSpaces("Mudasir Hanif "));
-        assertEquals("Yellow_Yellow__Dirty__Fellow", FixSpaces.fixSpaces("Yellow Yellow  Dirty  Fellow"));
-        assertEquals("Exa-mple", FixSpaces.fixSpaces("Exa   mple"));
-        assertEquals("-Exa_1_2_2_mple", FixSpaces.fixSpaces("   Exa 1 2 2 mple"));
-        assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z", FixSpaces.fixSpaces("a b c d e f g h i j k l m n o p q r s t u v w x y z"));
-        assertEquals("a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z", FixSpaces.fixSpaces("a  b   c    d     e      f       g        h         i          j           k            l             m              n               o                p                 q                  r                   s                    t                     u                      v                       w                        x                         y                          z"));
+    void testFixSpacesWithNoSpaces() {
+        String input = "Example";
+        String expectedOutput = "Example";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithOneSpace() {
+        String input = "Example 1";
+        String expectedOutput = "Example_1";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithLeadingSpace() {
+        String input = " Example 2";
+        String expectedOutput = "_Example_2";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithMultipleSpaces() {
+        String input = " Example   3";
+        String expectedOutput = "_Example-3";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithTrailingSpace() {
+        String input = "Mudasir Hanif ";
+        String expectedOutput = "Mudasir_Hanif_";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithConsecutiveSpaces() {
+        String input = "Yellow Yellow  Dirty  Fellow";
+        String expectedOutput = "Yellow_Yellow__Dirty__Fellow";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithConsecutiveSpacesAtStart() {
+        String input = "   Exa 1 2 2 mple";
+        String expectedOutput = "-Exa_1_2_2_mple";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithConsecutiveSpacesAtEnd() {
+        String input = "Exa   mple   ";
+        String expectedOutput = "Exa-mple_";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithOnlySpaces() {
+        String input = "   ";
+        String expectedOutput = "-";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFixSpacesWithEmptyString() {
+        String input = "";
+        String expectedOutput = "";
+        String actualOutput = FixSpaces.fixSpaces(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 }
+```

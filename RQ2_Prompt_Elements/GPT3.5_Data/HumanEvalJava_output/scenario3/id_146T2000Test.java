@@ -122,16 +122,16 @@ class SpecialfilterTest {
     }
 
     @Test
-    void testAllSpecialElementsButNotGreaterThan10() {
-        List<Integer> nums = Arrays.asList(1, 3, 5, 7, 9);
+    void testAllElementsGreaterThan10() {
+        List<Integer> nums = Arrays.asList(11, 12, 13, 14, 15);
         int result = Specialfilter.specialfilter(nums);
         assertEquals(0, result);
     }
 
     @Test
-    void testAllSpecialElementsButNotOddFirstDigit() {
-        List<Integer> nums = Arrays.asList(13, -73, 14, -15);
+    void testAllElementsSpecial() {
+        List<Integer> nums = Arrays.asList(135, -73, 143, -157, 135, -73, 143, -157);
         int result = Specialfilter.specialfilter(nums);
-        assertEquals(0, result);
+        assertEquals(8, result);
     }
 }

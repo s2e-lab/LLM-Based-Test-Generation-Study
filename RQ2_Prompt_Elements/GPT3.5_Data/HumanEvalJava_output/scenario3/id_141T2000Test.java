@@ -91,7 +91,7 @@ class FileNameCheck {
             return "No";
         }
 
-        // Check if there are not more than three digits ('0'-'9') in the file's name
+        // Check if there are not more than three digits ('0'-'9') in the file name
         int digitCount = 0;
         for (char c : fileName.toCharArray()) {
             if (Character.isDigit(c)) {
@@ -110,7 +110,6 @@ class FileNameCheck {
 // FileNameCheckTest.java
 package scenario3;
 
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -122,130 +121,33 @@ class FileNameCheckTest {
     @Test
     void testValidFileName() {
         assertEquals("Yes", FileNameCheck.fileNameCheck("example.txt"));
-    }
-
-    @Test
-    void testFileNameStartsWithDigit() {
-        assertEquals("No", FileNameCheck.fileNameCheck("1example.dll"));
-    }
-
-    @Test
-    void testFileNameContainsMoreThanThreeDigits() {
-        assertEquals("No", FileNameCheck.fileNameCheck("s1sdf3.asd"));
-    }
-
-    @Test
-    void testValidFileNameWithCapitalLetter() {
         assertEquals("Yes", FileNameCheck.fileNameCheck("K.dll"));
-    }
-
-    @Test
-    void testValidFileNameWithDigits() {
         assertEquals("Yes", FileNameCheck.fileNameCheck("MY16FILE3.exe"));
-    }
-
-    @Test
-    void testFileNameStartsWithDigitAndContainsMoreThanThreeDigits() {
-        assertEquals("No", FileNameCheck.fileNameCheck("His12FILE94.exe"));
-    }
-
-    @Test
-    void testFileNameStartsWithUnderscore() {
-        assertEquals("No", FileNameCheck.fileNameCheck("_Y.txt"));
-    }
-
-    @Test
-    void testFileNameStartsWithSpecialCharacter() {
-        assertEquals("No", FileNameCheck.fileNameCheck("?aREYA.exe"));
-    }
-
-    @Test
-    void testFileNameStartsWithSlash() {
-        assertEquals("No", FileNameCheck.fileNameCheck("/this_is_valid.dll"));
-    }
-
-    @Test
-    void testFileNameWithInvalidExtension() {
-        assertEquals("No", FileNameCheck.fileNameCheck("this_is_valid.wow"));
-    }
-
-    @Test
-    void testFileNameWithValidExtension() {
-        assertEquals("Yes", FileNameCheck.fileNameCheck("this_is_valid.txt"));
-    }
-
-    @Test
-    void testFileNameWithMultipleExtensions() {
-        assertEquals("No", FileNameCheck.fileNameCheck("this_is_valid.txtexe"));
-    }
-
-    @Test
-    void testFileNameWithDigitsInExtension() {
-        assertEquals("No", FileNameCheck.fileNameCheck("#this2_i4s_5valid.ten"));
-    }
-
-    @Test
-    void testFileNameWithSpecialCharactersInExtension() {
-        assertEquals("No", FileNameCheck.fileNameCheck("@this1_is6_valid.exe"));
-    }
-
-    @Test
-    void testFileNameWithDigitsInBothParts() {
-        assertEquals("No", FileNameCheck.fileNameCheck("this_is_12valid.6exe4.txt"));
-    }
-
-    @Test
-    void testFileNameWithMultipleDots() {
-        assertEquals("No", FileNameCheck.fileNameCheck("all.exe.txt"));
-    }
-
-    @Test
-    void testValidFileNameWithDigitsAndCapitalLetters() {
         assertEquals("Yes", FileNameCheck.fileNameCheck("I563_No.exe"));
-    }
-
-    @Test
-    void testValidFileNameWithDigitsAndLetters() {
         assertEquals("Yes", FileNameCheck.fileNameCheck("Is3youfault.txt"));
-    }
-
-    @Test
-    void testValidFileNameWithSpecialCharacters() {
         assertEquals("Yes", FileNameCheck.fileNameCheck("no_one#knows.dll"));
     }
 
     @Test
-    void testFileNameWithDigitsInBothPartsAndStartsWithDigit() {
+    void testInvalidFileName() {
+        assertEquals("No", FileNameCheck.fileNameCheck("1example.dll"));
+        assertEquals("No", FileNameCheck.fileNameCheck("s1sdf3.asd"));
+        assertEquals("No", FileNameCheck.fileNameCheck("His12FILE94.exe"));
+        assertEquals("No", FileNameCheck.fileNameCheck("_Y.txt"));
+        assertEquals("No", FileNameCheck.fileNameCheck("?aREYA.exe"));
+        assertEquals("No", FileNameCheck.fileNameCheck("/this_is_valid.dll"));
+        assertEquals("No", FileNameCheck.fileNameCheck("this_is_valid.wow"));
+        assertEquals("No", FileNameCheck.fileNameCheck("this_is_valid.txtexe"));
+        assertEquals("No", FileNameCheck.fileNameCheck("#this2_i4s_5valid.ten"));
+        assertEquals("No", FileNameCheck.fileNameCheck("@this1_is6_valid.exe"));
+        assertEquals("No", FileNameCheck.fileNameCheck("this_is_12valid.6exe4.txt"));
+        assertEquals("No", FileNameCheck.fileNameCheck("all.exe.txt"));
         assertEquals("No", FileNameCheck.fileNameCheck("1I563_Yes3.exe"));
-    }
-
-    @Test
-    void testFileNameWithDigitsInExtensionAndStartsWithDigit() {
         assertEquals("No", FileNameCheck.fileNameCheck("I563_Yes3.txtt"));
-    }
-
-    @Test
-    void testFileNameWithEmptyBeforeDot() {
         assertEquals("No", FileNameCheck.fileNameCheck("final..txt"));
-    }
-
-    @Test
-    void testFileNameWithoutExtension() {
         assertEquals("No", FileNameCheck.fileNameCheck("final132"));
-    }
-
-    @Test
-    void testFileNameWithEmptyAfterDot() {
         assertEquals("No", FileNameCheck.fileNameCheck("_f4indsartal132."));
-    }
-
-    @Test
-    void testFileNameWithOnlyExtension() {
         assertEquals("No", FileNameCheck.fileNameCheck(".txt"));
-    }
-
-    @Test
-    void testFileNameWithOnlyOneCharacterBeforeDot() {
         assertEquals("No", FileNameCheck.fileNameCheck("s."));
     }
 }

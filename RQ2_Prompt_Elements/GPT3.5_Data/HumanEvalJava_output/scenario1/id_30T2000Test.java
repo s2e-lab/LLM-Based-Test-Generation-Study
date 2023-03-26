@@ -1,114 +1,100 @@
-Here's the code for the GetPositiveTest class with ten unit test cases for the GetPositive.getPositive(List) method:
+Here's the source code for the GetPositiveTest class:
 
 ```
+package scenario1;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Test class of {@link GetPositive}.
+ * It contains ten unit test cases for the {@link GetPositive#getPositive(List)} method.
+ */
 class GetPositiveTest {
 
     @Test
     void testEmptyList() {
-        List<Object> l = new ArrayList<Object>();
-        List<Object> result = GetPositive.getPositive(l);
-        assertTrue(result.isEmpty());
+        List<Object> input = new ArrayList<>();
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testOnlyNegativeValues() {
-        List<Object> l = new ArrayList<Object>();
-        l.add(-1);
-        l.add(-2);
-        l.add(-3);
-        List<Object> result = GetPositive.getPositive(l);
-        assertTrue(result.isEmpty());
+    void testAllPositiveIntegers() {
+        List<Object> input = Arrays.asList(1, 2, 3, 4, 5);
+        List<Object> expected = Arrays.asList(1, 2, 3, 4, 5);
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testOnlyPositiveValues() {
-        List<Object> l = new ArrayList<Object>();
-        l.add(1);
-        l.add(2);
-        l.add(3);
-        List<Object> result = GetPositive.getPositive(l);
-        assertEquals(l, result);
+    void testAllNegativeIntegers() {
+        List<Object> input = Arrays.asList(-1, -2, -3, -4, -5);
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testMixedValues() {
-        List<Object> l = new ArrayList<Object>();
-        l.add(-1);
-        l.add(2);
-        l.add(-3);
-        l.add(4);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(2);
-        expected.add(4);
-        List<Object> result = GetPositive.getPositive(l);
-        assertEquals(expected, result);
+    void testMixedIntegers() {
+        List<Object> input = Arrays.asList(-1, 2, -3, 4, -5);
+        List<Object> expected = Arrays.asList(2, 4);
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testNullValue() {
-        List<Object> l = new ArrayList<Object>();
-        l.add(null);
-        List<Object> result = GetPositive.getPositive(l);
-        assertTrue(result.isEmpty());
+    void testAllPositiveDoubles() {
+        List<Object> input = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
+        List<Object> expected = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testStringValues() {
-        List<Object> l = new ArrayList<Object>();
-        l.add("hello");
-        l.add("world");
-        List<Object> result = GetPositive.getPositive(l);
-        assertTrue(result.isEmpty());
+    void testMixedDoubles() {
+        List<Object> input = Arrays.asList(-1.0, 2.0, -3.0, 4.0, -5.0);
+        List<Object> expected = Arrays.asList(2.0, 4.0);
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testMixedTypes() {
-        List<Object> l = new ArrayList<Object>();
-        l.add(-1);
-        l.add("hello");
-        l.add(2);
-        l.add(null);
-        l.add(3);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(2);
-        expected.add(3);
-        List<Object> result = GetPositive.getPositive(l);
-        assertEquals(expected, result);
+    void testMixedIntegersAndDoubles() {
+        List<Object> input = Arrays.asList(-1, 2.0, -3, 4.0, -5);
+        List<Object> expected = Arrays.asList(2.0, 4.0);
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testLargeValues() {
-        List<Object> l = new ArrayList<Object>();
-        l.add(Integer.MAX_VALUE);
-        l.add(Integer.MIN_VALUE);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(Integer.MAX_VALUE);
-        List<Object> result = GetPositive.getPositive(l);
-        assertEquals(expected, result);
+    void testMixedIntegersAndStrings() {
+        List<Object> input = Arrays.asList(-1, "2", -3, "4", -5);
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testZeroValue() {
-        List<Object> l = new ArrayList<Object>();
-        l.add(0);
-        List<Object> result = GetPositive.getPositive(l);
-        assertTrue(result.isEmpty());
+    void testMixedIntegersAndNull() {
+        List<Object> input = Arrays.asList(-1, null, -3, null, -5);
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testDuplicateValues() {
-        List<Object> l = new ArrayList<Object>();
-        l.add(1);
-        l.add(2);
-        l.add(2);
-        l.add(3);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(2);
-        expected.add(3);
-        List<Object> result = GetPositive.getPositive(l);
-        assertEquals(expected, result);
+    void testMixedIntegersAndBooleans() {
+        List<Object> input = Arrays.asList(-1, true, -3, false, -5);
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
     }
 }
 ```
+
+This class contains ten unit test cases for the `GetPositive.getPositive(List)` method. The test cases cover a variety of scenarios, including empty lists, lists with only positive integers, lists with only negative integers, lists with mixed integers and doubles, and lists with mixed data types. The test cases use the `assertEquals` method to compare the expected output with the actual output of the `GetPositive.getPositive(List)` method.

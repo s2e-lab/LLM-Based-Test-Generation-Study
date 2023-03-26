@@ -1,6 +1,4 @@
-Here's the completed `IscubeTest` class with ten unit test cases for the `iscube` method:
-
-```
+// IscubeTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
@@ -33,33 +31,32 @@ class IscubeTest {
     }
 
     @Test
-    void testSmallNumber() {
-        assertFalse(Iscube.iscube(10));
-    }
-
-    @Test
-    void testLargeNumber() {
+    void testLargeCube() {
         assertTrue(Iscube.iscube(19683));
     }
 
     @Test
-    void testMaxInt() {
+    void testSmallCube() {
+        assertTrue(Iscube.iscube(27));
+    }
+
+    @Test
+    void testNonCube() {
+        assertFalse(Iscube.iscube(10));
+    }
+
+    @Test
+    void testMaxValue() {
         assertFalse(Iscube.iscube(Integer.MAX_VALUE));
     }
 
     @Test
-    void testMinInt() {
+    void testMinValue() {
         assertFalse(Iscube.iscube(Integer.MIN_VALUE));
     }
 
     @Test
-    void testOddNumber() {
-        assertFalse(Iscube.iscube(27));
-    }
-
-    @Test
-    void testEvenNumber() {
-        assertTrue(Iscube.iscube(64));
+    void testEdgeCase() {
+        assertTrue(Iscube.iscube(1000000));
     }
 }
-```

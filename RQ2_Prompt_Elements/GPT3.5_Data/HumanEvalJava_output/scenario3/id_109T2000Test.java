@@ -42,21 +42,23 @@ class MoveOneBall {
      * > moveOneBall([])
      * true
      */
-    public static Boolean moveOneBall(List<Object> arr) {
+    public static Boolean moveOneBall(List<Integer> arr) {
         if (arr.isEmpty()) {
             return true;
         }
         int n = arr.size();
         int minIndex = 0;
         for (int i = 0; i < n; i++) {
-            if ((int) arr.get(i) < (int) arr.get(minIndex)) {
+            if (arr.get(i) < arr.get(minIndex)) {
                 minIndex = i;
             }
         }
-        int shifts = n - minIndex;
+        int shifts = n - minIndex - 1;
         for (int i = 0; i < n; i++) {
             int index = (i + shifts) % n;
-            if ((int) arr.get(index) < (int) arr.get((index + n - 1) % n)) {
+            if (arr.get(index) < arr.get((index + 1) % n)) {
+                continue;
+            } else {
                 return false;
             }
         }
@@ -78,64 +80,63 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link MoveOneBall#moveOneBall(List)} method.
 */
 class MoveOneBallTest {
-
     @Test
     void testEmptyList() {
-        List<Object> arr = Collections.emptyList();
+        List<Integer> arr = Collections.emptyList();
         assertTrue(MoveOneBall.moveOneBall(arr));
     }
 
     @Test
     void testSingleElementList() {
-        List<Object> arr = Collections.singletonList(1);
+        List<Integer> arr = Collections.singletonList(1);
         assertTrue(MoveOneBall.moveOneBall(arr));
     }
 
     @Test
     void testSortedArray() {
-        List<Object> arr = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5);
         assertTrue(MoveOneBall.moveOneBall(arr));
     }
 
     @Test
-    void testNonDecreasingArray() {
-        List<Object> arr = Arrays.asList(3, 4, 5, 1, 2);
+    void testUnsortedArray() {
+        List<Integer> arr = Arrays.asList(3, 4, 5, 1, 2);
         assertTrue(MoveOneBall.moveOneBall(arr));
     }
 
     @Test
-    void testNonDecreasingArray2() {
-        List<Object> arr = Arrays.asList(3, 5, 10, 1, 2);
+    void testUnsortedArray2() {
+        List<Integer> arr = Arrays.asList(3, 5, 10, 1, 2);
         assertTrue(MoveOneBall.moveOneBall(arr));
     }
 
     @Test
-    void testNonIncreasingArray() {
-        List<Object> arr = Arrays.asList(4, 3, 1, 2);
+    void testUnsortedArray3() {
+        List<Integer> arr = Arrays.asList(4, 3, 1, 2);
         assertFalse(MoveOneBall.moveOneBall(arr));
     }
 
     @Test
-    void testNonIncreasingArray2() {
-        List<Object> arr = Arrays.asList(3, 5, 4, 1, 2);
+    void testUnsortedArray4() {
+        List<Integer> arr = Arrays.asList(3, 5, 4, 1, 2);
         assertFalse(MoveOneBall.moveOneBall(arr));
     }
 
     @Test
-    void testRandomArray() {
-        List<Object> arr = Arrays.asList(5, 3, 4, 1, 2);
+    void testUnsortedArray5() {
+        List<Integer> arr = Arrays.asList(5, 4, 3, 2, 1);
+        assertFalse(MoveOneBall.moveOneBall(arr));
+    }
+
+    @Test
+    void testUnsortedArray6() {
+        List<Integer> arr = Arrays.asList(2, 1, 3, 5, 4);
+        assertFalse(MoveOneBall.moveOneBall(arr));
+    }
+
+    @Test
+    void testUnsortedArray7() {
+        List<Integer> arr = Arrays.asList(1, 2, 3, 5, 4);
         assertTrue(MoveOneBall.moveOneBall(arr));
-    }
-
-    @Test
-    void testRandomArray2() {
-        List<Object> arr = Arrays.asList(2, 5, 3, 4, 1);
-        assertFalse(MoveOneBall.moveOneBall(arr));
-    }
-
-    @Test
-    void testRandomArray3() {
-        List<Object> arr = Arrays.asList(1, 2, 3, 5, 4);
-        assertFalse(MoveOneBall.moveOneBall(arr));
     }
 }

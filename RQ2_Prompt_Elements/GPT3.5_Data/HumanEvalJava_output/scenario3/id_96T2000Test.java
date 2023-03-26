@@ -40,7 +40,7 @@ class CountUpTo {
      */
     public static List<Integer> countUpTo(int n) {
         List<Integer> primes = new ArrayList<>();
-        if (n <= 1) {
+        if (n < 2) {
             return primes;
         }
         primes.add(2);

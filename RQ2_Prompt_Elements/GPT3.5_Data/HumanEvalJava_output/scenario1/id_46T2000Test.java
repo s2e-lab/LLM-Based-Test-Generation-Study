@@ -1,6 +1,5 @@
-Here's the code for the `Fib4Test` class with ten unit test cases for the `Fib4.fib4()` method:
+// Here's the source code for the Fib4Test class with ten unit test cases for the fib4 method.
 
-```
 package scenario1;
 
 import org.junit.jupiter.api.Test;
@@ -45,19 +44,16 @@ class Fib4Test {
 
     @Test
     void testFib4WithSeven() {
-        assertEquals(30, Fib4.fib4(7));
+        assertEquals(32, Fib4.fib4(7));
     }
 
     @Test
     void testFib4WithEight() {
-        assertEquals(62, Fib4.fib4(8));
+        assertEquals(72, Fib4.fib4(8));
     }
 
     @Test
     void testFib4WithNine() {
-        assertEquals(126, Fib4.fib4(9));
+        assertEquals(162, Fib4.fib4(9));
     }
 }
-```
-
-These test cases cover a range of input values and expected output values for the `Fib4.fib4()` method.

@@ -1,90 +1,151 @@
-// Test class of NumericalLetterGrade
-package scenario2;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-class NumericalLetterGradeTest {
+public class NumericalLetterGradeTest {
 
     @Test
     void testNumericalLetterGrade() {
-        List<Number> grades = new ArrayList<>(Arrays.asList(4.0, 3.8, 3.5, 3.2, 2.9, 2.6, 2.3, 2.0, 1.7, 1.4, 1.1, 0.8, 0.5, 0.0));
-        List<String> expected = new ArrayList<>(Arrays.asList("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E", "E"));
+        List<Number> grades = new ArrayList<>();
+        grades.add(4.0);
+        grades.add(3.8);
+        grades.add(3.5);
+        grades.add(3.2);
+        grades.add(2.9);
+        grades.add(2.6);
+        grades.add(2.3);
+        grades.add(2.1);
+        grades.add(1.8);
+        grades.add(1.5);
+        grades.add(1.2);
+        grades.add(0.9);
+        grades.add(0.6);
+        grades.add(0.3);
+        grades.add(0.0);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("A+");
+        expected.add("A");
+        expected.add("A-");
+        expected.add("B+");
+        expected.add("B");
+        expected.add("B-");
+        expected.add("C+");
+        expected.add("C");
+        expected.add("C-");
+        expected.add("D+");
+        expected.add("D");
+        expected.add("D-");
+        expected.add("D-");
+        expected.add("E");
+        expected.add("E");
+
         List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+
         assertEquals(expected, actual);
     }
 
     @Test
     void testNumericalLetterGradeEmptyList() {
         List<Number> grades = new ArrayList<>();
+
         List<String> expected = new ArrayList<>();
+
         List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+
         assertEquals(expected, actual);
     }
 
     @Test
     void testNumericalLetterGradeSingleGrade() {
-        List<Number> grades = new ArrayList<>(Arrays.asList(3.5));
-        List<String> expected = new ArrayList<>(Arrays.asList("A-"));
+        List<Number> grades = new ArrayList<>();
+        grades.add(3.5);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("A-");
+
         List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+
         assertEquals(expected, actual);
     }
 
     @Test
-    void testNumericalLetterGradeAllGradesSame() {
-        List<Number> grades = new ArrayList<>(Arrays.asList(2.5, 2.5, 2.5, 2.5, 2.5));
-        List<String> expected = new ArrayList<>(Arrays.asList("C", "C", "C", "C", "C"));
+    void testNumericalLetterGradeAllGradesAPlus() {
+        List<Number> grades = new ArrayList<>();
+        grades.add(4.0);
+        grades.add(4.0);
+        grades.add(4.0);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("A+");
+        expected.add("A+");
+        expected.add("A+");
+
         List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+
         assertEquals(expected, actual);
     }
 
     @Test
-    void testNumericalLetterGradeAllGradesDifferent() {
-        List<Number> grades = new ArrayList<>(Arrays.asList(4.0, 3.0, 2.0, 1.0, 0.0));
-        List<String> expected = new ArrayList<>(Arrays.asList("A+", "B+", "C+", "D+", "E"));
-        List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
-        assertEquals(expected, actual);
-    }
+    void testNumericalLetterGradeAllGradesE() {
+        List<Number> grades = new ArrayList<>();
+        grades.add(0.0);
+        grades.add(0.0);
+        grades.add(0.0);
 
-    @Test
-    void testNumericalLetterGradeNegativeGrades() {
-        List<Number> grades = new ArrayList<>(Arrays.asList(-1.0, -2.0, -3.0, -4.0));
-        List<String> expected = new ArrayList<>(Arrays.asList("E", "E", "E", "E"));
+        List<String> expected = new ArrayList<>();
+        expected.add("E");
+        expected.add("E");
+        expected.add("E");
+
         List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+
         assertEquals(expected, actual);
     }
 
     @Test
     void testNumericalLetterGradeMixedGrades() {
-        List<Number> grades = new ArrayList<>(Arrays.asList(3.5, 2.0, 1.3, 4.0, 0.7, 2.7));
-        List<String> expected = new ArrayList<>(Arrays.asList("A-", "C+", "C-", "A+", "D", "B"));
+        List<Number> grades = new ArrayList<>();
+        grades.add(3.5);
+        grades.add(2.0);
+        grades.add(1.0);
+        grades.add(0.0);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("A-");
+        expected.add("C+");
+        expected.add("D+");
+        expected.add("E");
+
         List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
+
         assertEquals(expected, actual);
     }
 
     @Test
-    void testNumericalLetterGradeDecimalGrades() {
-        List<Number> grades = new ArrayList<>(Arrays.asList(3.75, 2.25, 1.5, 3.0, 0.9, 2.6));
-        List<String> expected = new ArrayList<>(Arrays.asList("A", "C", "D+", "B", "D-", "B-"));
-        List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
-        assertEquals(expected, actual);
-    }
+    void testNumericalLetterGradeNegativeGrades() {
+        List<Number> grades = new ArrayList<>();
+        grades.add(-1.0);
+        grades.add(-2.0);
+        grades.add(-3.0);
 
-    @Test
-    void testNumericalLetterGradeBoundaryGrades() {
-        List<Number> grades = new ArrayList<>(Arrays.asList(4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0));
-        List<String> expected = new ArrayList<>(Arrays.asList("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-"));
-        List<String> actual = NumericalLetterGrade.numericalLetterGrade(grades);
-        assertEquals(expected, actual);
+        assertThrows(IllegalArgumentException.class, () -> {
+            NumericalLetterGrade.numericalLetterGrade(grades);
+        });
     }
 
     @Test
     void testNumericalLetterGradeNullList() {
-        List<Number> grades = null;
-        assertThrows(NullPointerException.class, () -> NumericalLetterGrade.numericalLetterGrade(grades));
+        assertThrows(NullPointerException.class, () -> {
+            NumericalLetterGrade.numericalLetterGrade(null);
+        });
+    }
+
+    @Test
+    void testNumericalLetterGradeNullGrade() {
+        List<Number> grades = new ArrayList<>();
+        grades.add(3.5);
+        grades.add(null);
+        grades.add(2.0);
+
+        assertThrows(NullPointerException.class, () -> {
+            NumericalLetterGrade.numericalLetterGrade(grades);
+        });
     }
 }

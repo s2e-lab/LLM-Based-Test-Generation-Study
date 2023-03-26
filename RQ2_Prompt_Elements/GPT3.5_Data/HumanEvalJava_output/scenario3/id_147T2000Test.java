@@ -27,10 +27,10 @@ class GetMaxTriples {
      */
     public static int getMaxTriples(int n) {
         int[] a = new int[n];
-        int count = 0;
         for (int i = 0; i < n; i++) {
             a[i] = i * i - i + 1;
         }
+        int count = 0;
         for (int i = 0; i < n - 2; i++) {
             for (int j = i + 1; j < n - 1; j++) {
                 for (int k = j + 1; k < n; k++) {
@@ -103,6 +103,6 @@ class GetMaxTriplesTest {
 
     @Test
     void testGetMaxTriples10() {
-        assertEquals(1, GetMaxTriples.getMaxTriples(8));
+        assertEquals(0, GetMaxTriples.getMaxTriples(8));
     }
 }

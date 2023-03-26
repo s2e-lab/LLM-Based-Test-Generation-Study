@@ -1,4 +1,4 @@
-Here's the code for the AddElementsTest class:
+Here's the source code for the AddElementsTest class:
 
 ```
 package scenario1;
@@ -9,96 +9,98 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link AddElements}.
+ * It contains ten unit test cases for the {@link AddElements#addElements(List, int)} method.
+ */
 class AddElementsTest {
 
     @Test
     void testAddElementsWithEmptyList() {
         List<Integer> arr = new ArrayList<>();
         int k = 0;
-        int expected = 0;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
+        int expectedSum = 0;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
     void testAddElementsWithKGreaterThanListSize() {
         List<Integer> arr = Arrays.asList(1, 2, 3);
         int k = 4;
-        int expected = 6;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
+        int expectedSum = 6;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
     void testAddElementsWithAllElementsGreaterThan100() {
-        List<Integer> arr = Arrays.asList(200, 300, 400);
+        List<Integer> arr = Arrays.asList(101, 102, 103);
         int k = 3;
-        int expected = 0;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testAddElementsWithSomeElementsGreaterThan100() {
-        List<Integer> arr = Arrays.asList(50, 200, 300);
-        int k = 3;
-        int expected = 50;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
+        int expectedSum = 0;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
     void testAddElementsWithAllElementsLessThan100() {
-        List<Integer> arr = Arrays.asList(50, 60, 70);
+        List<Integer> arr = Arrays.asList(1, 2, 3);
         int k = 3;
-        int expected = 180;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
+        int expectedSum = 6;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
+    }
+
+    @Test
+    void testAddElementsWithSomeElementsGreaterThan100() {
+        List<Integer> arr = Arrays.asList(1, 2, 101, 102);
+        int k = 4;
+        int expectedSum = 3;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
     void testAddElementsWithSomeElementsLessThan100() {
-        List<Integer> arr = Arrays.asList(50, 60, 200);
-        int k = 3;
-        int expected = 110;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
+        List<Integer> arr = Arrays.asList(1, 2, 101, 102);
+        int k = 2;
+        int expectedSum = 3;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
-    void testAddElementsWithKEqualToListSize() {
-        List<Integer> arr = Arrays.asList(50, 60, 70);
-        int k = 3;
-        int expected = 180;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
+    void testAddElementsWithOneElementLessThan100() {
+        List<Integer> arr = Arrays.asList(99);
+        int k = 1;
+        int expectedSum = 99;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
-    void testAddElementsWithKLessThanListSize() {
-        List<Integer> arr = Arrays.asList(50, 60, 70, 80, 90);
-        int k = 3;
-        int expected = 180;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
+    void testAddElementsWithOneElementGreaterThan100() {
+        List<Integer> arr = Arrays.asList(101);
+        int k = 1;
+        int expectedSum = 0;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
     }
 
     @Test
-    void testAddElementsWithKEqualToZero() {
-        List<Integer> arr = Arrays.asList(50, 60, 70);
+    void testAddElementsWithNullList() {
+        List<Integer> arr = null;
         int k = 0;
-        int expected = 0;
-        int actual = AddElements.addElements(arr, k);
-        assertEquals(expected, actual);
+        assertThrows(NullPointerException.class, () -> AddElements.addElements(arr, k));
     }
 
     @Test
     void testAddElementsWithNegativeK() {
-        List<Integer> arr = Arrays.asList(50, 60, 70);
+        List<Integer> arr = Arrays.asList(1, 2, 3);
         int k = -1;
-        assertThrows(IndexOutOfBoundsException.class, () -> AddElements.addElements(arr, k));
+        assertThrows(IllegalArgumentException.class, () -> AddElements.addElements(arr, k));
     }
 }
 ```
 
-This test class contains ten unit test cases for the `AddElements.addElements(List<Integer>, int)` method. Each test case tests a different scenario, such as an empty list, a list with all elements greater than 100, a list with some elements less than 100, etc. The `assertEquals()` method is used to compare the expected result with the actual result. The `assertThrows()` method is used to test for an exception being thrown when the value of `k` is negative.
+This test class contains ten unit test cases for the `addElements` method of the `AddElements` class. The test cases cover different scenarios such as empty list, list with elements greater than 100, list with elements less than 100, null list, and negative k value. The `assertEquals` method is used to compare the expected and actual sum values. The `assertThrows` method is used to test for expected exceptions.

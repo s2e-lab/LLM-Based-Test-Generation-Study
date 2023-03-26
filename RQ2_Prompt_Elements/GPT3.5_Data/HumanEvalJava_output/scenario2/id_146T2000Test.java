@@ -1,68 +1,86 @@
-Here's the source code for the SpecialfilterTest class:
+// SpecialfilterTest.java
+package scenario2;
 
-```
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Specialfilter}.
+* It contains ten unit test cases for the {@link Specialfilter#specialfilter(List)} method.
+*/
 class SpecialfilterTest {
-
+    
     @Test
-    void testEmptyList() {
+    void testSpecialfilterWithEmptyList() {
         List<Object> nums = Arrays.asList();
-        assertEquals(0, Specialfilter.specialfilter(nums));
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(0, result);
     }
-
+    
     @Test
-    void testNoSpecialNumbers() {
-        List<Object> nums = Arrays.asList(2, 4, 6, 8, 10, 12, 14, 16, 18);
-        assertEquals(0, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithOneNumberGreaterThan10AndOddFirstAndLastDigits() {
+        List<Object> nums = Arrays.asList(123);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(1, result);
     }
-
+    
     @Test
-    void testOneSpecialNumber() {
-        List<Object> nums = Arrays.asList(13);
-        assertEquals(1, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithOneNumberGreaterThan10AndEvenFirstDigit() {
+        List<Object> nums = Arrays.asList(234);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(0, result);
     }
-
+    
     @Test
-    void testMultipleSpecialNumbers() {
-        List<Object> nums = Arrays.asList(13, 15, 17, 19, 31, 33, 35, 37, 39);
-        assertEquals(9, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithOneNumberGreaterThan10AndEvenLastDigit() {
+        List<Object> nums = Arrays.asList(3210);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(0, result);
     }
-
+    
     @Test
-    void testSpecialNumbersWithLeadingZeros() {
-        List<Object> nums = Arrays.asList(103, 105, 107, 109);
-        assertEquals(4, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithOneNumberGreaterThan10AndOddFirstDigitButEvenLastDigit() {
+        List<Object> nums = Arrays.asList(1350);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(0, result);
     }
-
+    
     @Test
-    void testSpecialNumbersWithTrailingZeros() {
-        List<Object> nums = Arrays.asList(130, 150, 170, 190);
-        assertEquals(0, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithOneNumberGreaterThan10AndEvenFirstDigitButOddLastDigit() {
+        List<Object> nums = Arrays.asList(2461);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(0, result);
     }
-
+    
     @Test
-    void testSpecialNumbersWithEvenDigits() {
-        List<Object> nums = Arrays.asList(123, 135, 157, 179);
-        assertEquals(0, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithOneNumberLessThan10() {
+        List<Object> nums = Arrays.asList(5);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(0, result);
     }
-
+    
     @Test
-    void testSpecialNumbersWithNonDigits() {
-        List<Object> nums = Arrays.asList(13, "15", 17.0, true, "abc");
-        assertEquals(1, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithTwoNumbersGreaterThan10AndOddFirstAndLastDigits() {
+        List<Object> nums = Arrays.asList(123, 789);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(2, result);
     }
-
+    
     @Test
-    void testSpecialNumbersWithNegativeNumbers() {
-        List<Object> nums = Arrays.asList(-13, -15, -17, -19, -31, -33, -35, -37, -39);
-        assertEquals(0, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithTwoNumbersGreaterThan10AndOnlyOneWithOddFirstAndLastDigits() {
+        List<Object> nums = Arrays.asList(123, 246);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(1, result);
     }
-
+    
     @Test
-    void testSpecialNumbersWithMixedNumbers() {
-        List<Object> nums = Arrays.asList(-13, 15, "17", 19.0, -31, "33", -35.0, true, "abc");
-        assertEquals(2, Specialfilter.specialfilter(nums));
+    void testSpecialfilterWithTwoNumbersGreaterThan10AndNoneWithOddFirstAndLastDigits() {
+        List<Object> nums = Arrays.asList(246, 468);
+        int result = Specialfilter.specialfilter(nums);
+        assertEquals(0, result);
     }
 }
-```
-
-This test class contains ten unit test cases for the `specialfilter` method of the `Specialfilter` class. Each test case tests a different scenario, such as an empty list, a list with no special numbers, a list with one special number, a list with multiple special numbers, and so on. The test cases cover a variety of input types, including integers, strings, doubles, and booleans. The test cases also cover edge cases, such as numbers with leading or trailing zeros, negative numbers, and non-digit characters.

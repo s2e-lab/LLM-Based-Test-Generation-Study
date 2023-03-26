@@ -11,82 +11,62 @@ import static org.junit.jupiter.api.Assertions.*;
 class CarRaceCollisionTest {
 
     @Test
-    void testNoCollisions() {
-        int n = 1;
-        int expected = 0;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testNoCars() {
+        int result = CarRaceCollision.carRaceCollision(0);
+        assertEquals(0, result);
     }
 
     @Test
-    void testOneCollision() {
-        int n = 2;
-        int expected = 1;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testOneCar() {
+        int result = CarRaceCollision.carRaceCollision(1);
+        assertEquals(0, result);
     }
 
     @Test
-    void testTwoCollisions() {
-        int n = 3;
-        int expected = 3;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testTwoCars() {
+        int result = CarRaceCollision.carRaceCollision(2);
+        assertEquals(1, result);
     }
 
     @Test
-    void testThreeCollisions() {
-        int n = 4;
-        int expected = 6;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testThreeCars() {
+        int result = CarRaceCollision.carRaceCollision(3);
+        assertEquals(3, result);
     }
 
     @Test
-    void testFourCollisions() {
-        int n = 5;
-        int expected = 10;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testFourCars() {
+        int result = CarRaceCollision.carRaceCollision(4);
+        assertEquals(6, result);
     }
 
     @Test
-    void testFiveCollisions() {
-        int n = 6;
-        int expected = 15;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testFiveCars() {
+        int result = CarRaceCollision.carRaceCollision(5);
+        assertEquals(10, result);
     }
 
     @Test
-    void testSixCollisions() {
-        int n = 7;
-        int expected = 21;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testSixCars() {
+        int result = CarRaceCollision.carRaceCollision(6);
+        assertEquals(15, result);
     }
 
     @Test
-    void testSevenCollisions() {
-        int n = 8;
-        int expected = 28;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testSevenCars() {
+        int result = CarRaceCollision.carRaceCollision(7);
+        assertEquals(21, result);
     }
 
     @Test
-    void testEightCollisions() {
-        int n = 9;
-        int expected = 36;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testEightCars() {
+        int result = CarRaceCollision.carRaceCollision(8);
+        assertEquals(28, result);
     }
 
     @Test
-    void testNineCollisions() {
-        int n = 10;
-        int expected = 45;
-        int actual = CarRaceCollision.carRaceCollision(n);
-        assertEquals(expected, actual);
+    void testNineCars() {
+        int result = CarRaceCollision.carRaceCollision(9);
+        assertEquals(36, result);
     }
 }

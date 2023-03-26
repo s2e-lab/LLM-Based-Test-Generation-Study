@@ -1,4 +1,4 @@
-Here's the completed code for the `AddTest` class:
+Here's an example implementation of the `AddTest` class with ten unit test cases for the `add` method:
 
 ```
 package scenario2;
@@ -25,53 +25,49 @@ class AddTest {
     }
 
     @Test
-    void testAddZeroToPositiveNumber() {
+    void testAddZeroAndPositiveNumber() {
         int result = Add.add(0, 5);
         assertEquals(5, result);
     }
 
     @Test
-    void testAddZeroToNegativeNumber() {
+    void testAddZeroAndNegativeNumber() {
         int result = Add.add(0, -5);
         assertEquals(-5, result);
     }
 
     @Test
-    void testAddPositiveNumberToZero() {
-        int result = Add.add(5, 0);
-        assertEquals(5, result);
-    }
-
-    @Test
-    void testAddNegativeNumberToZero() {
-        int result = Add.add(-5, 0);
-        assertEquals(-5, result);
-    }
-
-    @Test
-    void testAddMaxValueToPositiveNumber() {
+    void testAddMaxValueAndPositiveNumber() {
         int result = Add.add(Integer.MAX_VALUE, 5);
-        assertEquals(Integer.MAX_VALUE + 5, result);
+        assertEquals(Integer.MIN_VALUE + 4, result);
     }
 
     @Test
-    void testAddMaxValueToNegativeNumber() {
-        int result = Add.add(Integer.MAX_VALUE, -5);
+    void testAddMinValueAndNegativeNumber() {
+        int result = Add.add(Integer.MIN_VALUE, -5);
         assertEquals(Integer.MAX_VALUE - 4, result);
     }
 
     @Test
-    void testAddMinValueToPositiveNumber() {
-        int result = Add.add(Integer.MIN_VALUE, 5);
-        assertEquals(Integer.MIN_VALUE + 5, result);
+    void testAddPositiveOverflow() {
+        assertThrows(ArithmeticException.class, () -> Add.add(Integer.MAX_VALUE, 1));
     }
 
     @Test
-    void testAddMinValueToNegativeNumber() {
-        int result = Add.add(Integer.MIN_VALUE, -5);
-        assertEquals(Integer.MIN_VALUE - 6, result);
+    void testAddNegativeOverflow() {
+        assertThrows(ArithmeticException.class, () -> Add.add(Integer.MIN_VALUE, -1));
+    }
+
+    @Test
+    void testAddPositiveUnderflow() {
+        assertThrows(ArithmeticException.class, () -> Add.add(Integer.MIN_VALUE, -2));
+    }
+
+    @Test
+    void testAddNegativeUnderflow() {
+        assertThrows(ArithmeticException.class, () -> Add.add(Integer.MAX_VALUE, 2));
     }
 }
 ```
 
-This class contains ten test methods that cover a variety of scenarios for the `Add.add()` method. Each test method uses the `assertEquals()` method to verify that the expected result is returned by the `Add.add()` method.
+These test cases cover a range of scenarios, including positive and negative numbers, zero, overflow, and underflow.

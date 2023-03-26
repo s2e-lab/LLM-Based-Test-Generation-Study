@@ -1,62 +1,60 @@
-// ValidDateTest.java
-package scenario2;
+// Test case 1: Valid date
+@Test
+void testValidDate() {
+    assertTrue(ValidDate.validDate("01-01-2022"));
+}
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+// Test case 2: Invalid date format
+@Test
+void testInvalidDateFormat() {
+    assertFalse(ValidDate.validDate("01/01/2022"));
+}
 
-/**
- * Test class of {@link ValidDate}.
- * It contains ten unit test cases for the {@link ValidDate#validDate(String)} method.
- */
-class ValidDateTest {
+// Test case 3: Invalid month
+@Test
+void testInvalidMonth() {
+    assertFalse(ValidDate.validDate("13-01-2022"));
+}
 
-    @Test
-    void testValidDateWithEmptyString() {
-        assertFalse(ValidDate.validDate(""));
-    }
+// Test case 4: Invalid day for February
+@Test
+void testInvalidDayForFebruary() {
+    assertFalse(ValidDate.validDate("02-30-2022"));
+}
 
-    @Test
-    void testValidDateWithInvalidFormat() {
-        assertFalse(ValidDate.validDate("2021/01/01"));
-    }
+// Test case 5: Invalid day for April
+@Test
+void testInvalidDayForApril() {
+    assertFalse(ValidDate.validDate("04-31-2022"));
+}
 
-    @Test
-    void testValidDateWithInvalidMonth() {
-        assertFalse(ValidDate.validDate("13-01-2021"));
-    }
+// Test case 6: Invalid day for June
+@Test
+void testInvalidDayForJune() {
+    assertFalse(ValidDate.validDate("06-31-2022"));
+}
 
-    @Test
-    void testValidDateWithInvalidDay() {
-        assertFalse(ValidDate.validDate("02-31-2021"));
-    }
+// Test case 7: Invalid day for September
+@Test
+void testInvalidDayForSeptember() {
+    assertFalse(ValidDate.validDate("09-31-2022"));
+}
 
-    @Test
-    void testValidDateWithInvalidDayForFebruary() {
-        assertFalse(ValidDate.validDate("02-30-2021"));
-    }
+// Test case 8: Invalid day for November
+@Test
+void testInvalidDayForNovember() {
+    assertFalse(ValidDate.validDate("11-31-2022"));
+}
 
-    @Test
-    void testValidDateWithInvalidDayForApril() {
-        assertFalse(ValidDate.validDate("04-31-2021"));
-    }
+// Test case 9: Invalid year
+@Test
+void testInvalidYear() {
+    assertFalse(ValidDate.validDate("01-01-0000"));
+}
 
-    @Test
-    void testValidDateWithInvalidDayForJune() {
-        assertFalse(ValidDate.validDate("06-31-2021"));
-    }
-
-    @Test
-    void testValidDateWithInvalidDayForSeptember() {
-        assertFalse(ValidDate.validDate("09-31-2021"));
-    }
-
-    @Test
-    void testValidDateWithInvalidDayForNovember() {
-        assertFalse(ValidDate.validDate("11-31-2021"));
-    }
-
-    @Test
-    void testValidDateWithValidDate() {
-        assertTrue(ValidDate.validDate("01-01-2021"));
-    }
+// Test case 10: Empty date string
+@Test
+void testEmptyDateString() {
+    assertFalse(ValidDate.validDate(""));
+}
 }

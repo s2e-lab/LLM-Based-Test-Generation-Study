@@ -1,96 +1,134 @@
-I can help you generate the code for the MeanAbsoluteDeviationTest class. Here's an example:
-
-```
-package scenario2;
-
-import org.junit.jupiter.api.Test;
+// Import necessary packages
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link MeanAbsoluteDeviation}.
+ * It contains ten unit test cases for the {@link MeanAbsoluteDeviation#meanAbsoluteDeviation(List)} method.
+ */
 class MeanAbsoluteDeviationTest {
 
+    /**
+     * Test case for an empty list of numbers.
+     */
     @Test
-    void testMeanAbsoluteDeviation() {
-        List<Double> numbers = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
-        Double expectedMAD = 1.2;
-        Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
-    }
-
-    @Test
-    void testMeanAbsoluteDeviationEmptyList() {
+    void testEmptyList() {
         List<Double> numbers = Arrays.asList();
         Double expectedMAD = 0.0;
         Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
+        assertEquals(expectedMAD, actualMAD);
     }
 
+    /**
+     * Test case for a list of one number.
+     */
     @Test
-    void testMeanAbsoluteDeviationSingleElement() {
-        List<Double> numbers = Arrays.asList(1.0);
+    void testSingleNumber() {
+        List<Double> numbers = Arrays.asList(5.0);
         Double expectedMAD = 0.0;
         Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
+        assertEquals(expectedMAD, actualMAD);
     }
 
+    /**
+     * Test case for a list of two numbers.
+     */
     @Test
-    void testMeanAbsoluteDeviationNegativeNumbers() {
-        List<Double> numbers = Arrays.asList(-1.0, -2.0, -3.0, -4.0, -5.0);
-        Double expectedMAD = 1.2;
+    void testTwoNumbers() {
+        List<Double> numbers = Arrays.asList(5.0, 10.0);
+        Double expectedMAD = 2.5;
         Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
+        assertEquals(expectedMAD, actualMAD);
     }
 
+    /**
+     * Test case for a list of three numbers.
+     */
     @Test
-    void testMeanAbsoluteDeviationMixedNumbers() {
-        List<Double> numbers = Arrays.asList(-1.0, 2.0, -3.0, 4.0, -5.0);
-        Double expectedMAD = 2.0;
+    void testThreeNumbers() {
+        List<Double> numbers = Arrays.asList(5.0, 10.0, 15.0);
+        Double expectedMAD = 3.3333333333333335;
         Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
+        assertEquals(expectedMAD, actualMAD);
     }
 
+    /**
+     * Test case for a list of four numbers.
+     */
     @Test
-    void testMeanAbsoluteDeviationRepeatedNumbers() {
-        List<Double> numbers = Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0);
-        Double expectedMAD = 0.0;
+    void testFourNumbers() {
+        List<Double> numbers = Arrays.asList(5.0, 10.0, 15.0, 20.0);
+        Double expectedMAD = 5.0;
         Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
+        assertEquals(expectedMAD, actualMAD);
     }
 
+    /**
+     * Test case for a list of five numbers.
+     */
     @Test
-    void testMeanAbsoluteDeviationLargeNumbers() {
+    void testFiveNumbers() {
+        List<Double> numbers = Arrays.asList(5.0, 10.0, 15.0, 20.0, 25.0);
+        Double expectedMAD = 6.0;
+        Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expectedMAD, actualMAD);
+    }
+
+    /**
+     * Test case for a list of negative numbers.
+     */
+    @Test
+    void testNegativeNumbers() {
+        List<Double> numbers = Arrays.asList(-5.0, -10.0, -15.0, -20.0, -25.0);
+        Double expectedMAD = 6.0;
+        Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expectedMAD, actualMAD);
+    }
+
+    /**
+     * Test case for a list of mixed positive and negative numbers.
+     */
+    @Test
+    void testMixedNumbers() {
+        List<Double> numbers = Arrays.asList(-5.0, 10.0, -15.0, 20.0, -25.0);
+        Double expectedMAD = 12.0;
+        Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expectedMAD, actualMAD);
+    }
+
+    /**
+     * Test case for a list of decimal numbers.
+     */
+    @Test
+    void testDecimalNumbers() {
+        List<Double> numbers = Arrays.asList(1.5, 2.5, 3.5, 4.5, 5.5);
+        Double expectedMAD = 1.0;
+        Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expectedMAD, actualMAD);
+    }
+
+    /**
+     * Test case for a list of large numbers.
+     */
+    @Test
+    void testLargeNumbers() {
         List<Double> numbers = Arrays.asList(1000000.0, 2000000.0, 3000000.0, 4000000.0, 5000000.0);
-        Double expectedMAD = 1200000.0;
+        Double expectedMAD = 1000000.0;
         Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
+        assertEquals(expectedMAD, actualMAD);
     }
 
+    /**
+     * Test case for a list of very small numbers.
+     */
     @Test
-    void testMeanAbsoluteDeviationDecimalNumbers() {
-        List<Double> numbers = Arrays.asList(1.1, 2.2, 3.3, 4.4, 5.5);
-        Double expectedMAD = 1.32;
+    void testVerySmallNumbers() {
+        List<Double> numbers = Arrays.asList(0.0000001, 0.0000002, 0.0000003, 0.0000004, 0.0000005);
+        Double expectedMAD = 0.0000001;
         Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
-    }
-
-    @Test
-    void testMeanAbsoluteDeviationMixedDecimalNumbers() {
-        List<Double> numbers = Arrays.asList(-1.1, 2.2, -3.3, 4.4, -5.5);
-        Double expectedMAD = 2.64;
-        Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
-    }
-
-    @Test
-    void testMeanAbsoluteDeviationZeroNumbers() {
-        List<Double> numbers = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0);
-        Double expectedMAD = 0.0;
-        Double actualMAD = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expectedMAD, actualMAD, 0.001);
+        assertEquals(expectedMAD, actualMAD);
     }
 }
-```
-
-This test class contains ten unit test cases for the `MeanAbsoluteDeviation.meanAbsoluteDeviation()` method. Each test case covers a different scenario, such as an empty list, a list with a single element, negative numbers, repeated numbers, large numbers, decimal numbers, and zero numbers. The `assertEquals()` method is used to compare the expected and actual MAD values, with a delta of 0.001 to account for floating-point precision errors.

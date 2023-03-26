@@ -51,16 +51,23 @@ class PrimeFib {
             }
             i++;
         }
-        int fib = 1;
+        int fib = 0;
         int prev = 1;
-        for (int j = 3; j <= n; j++) {
-            int temp = fib;
-            fib += prev;
-            prev = temp;
+        int curr = 1;
+        while (primes.size() > 0) {
+            fib = prev + curr;
+            prev = curr;
+            curr = fib;
+            if (primes.contains(fib)) {
+                primes.remove(Integer.valueOf(fib));
+            }
         }
-        return primes.get(n - 1) * fib;
+        return fib;
     }
 
+    /**
+     * Returns true if the given number is prime, false otherwise.
+     */
     private static boolean isPrime(int n) {
         if (n <= 1) {
             return false;

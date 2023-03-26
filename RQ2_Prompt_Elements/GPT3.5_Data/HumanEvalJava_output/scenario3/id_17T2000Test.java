@@ -1,4 +1,5 @@
-// Here's an implementation of the ParseMusic class that passes all the test cases:
+// ParseMusic.java
+package scenario3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +35,10 @@ class ParseMusic {
             if (c == 'o') {
                 beats.add(4);
                 i++;
-            } else if (c == 'o' && i + 1 < musicString.length() && musicString.charAt(i + 1) == '|') {
+            } else if (c == 'o' && musicString.charAt(i + 1) == '|') {
                 beats.add(2);
                 i += 2;
-            } else if (c == '.' && i + 1 < musicString.length() && musicString.charAt(i + 1) == '|') {
+            } else if (c == '.' && musicString.charAt(i + 1) == '|') {
                 beats.add(1);
                 i += 2;
             } else {
@@ -48,7 +49,8 @@ class ParseMusic {
     }
 }
 
-// And here's the test class:
+// ParseMusicTest.java
+package scenario3;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -59,137 +61,67 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link ParseMusic#parseMusic(String)} method.
 */
 class ParseMusicTest {
-
     @Test
     void testEmptyString() {
-        List<Integer> beats = ParseMusic.parseMusic("");
-        assertEquals(0, beats.size());
+        List<Integer> expected = new ArrayList<>();
+        List<Integer> actual = ParseMusic.parseMusic("");
+        assertEquals(expected, actual);
     }
 
     @Test
     void testWholeNotes() {
-        List<Integer> beats = ParseMusic.parseMusic("o o o o");
-        assertEquals(4, beats.size());
-        assertEquals(4, beats.get(0));
-        assertEquals(4, beats.get(1));
-        assertEquals(4, beats.get(2));
-        assertEquals(4, beats.get(3));
+        List<Integer> expected = List.of(4, 4, 4, 4);
+        List<Integer> actual = ParseMusic.parseMusic("o o o o");
+        assertEquals(expected, actual);
     }
 
     @Test
     void testQuarterNotes() {
-        List<Integer> beats = ParseMusic.parseMusic(".| .| .| .|");
-        assertEquals(4, beats.size());
-        assertEquals(1, beats.get(0));
-        assertEquals(1, beats.get(1));
-        assertEquals(1, beats.get(2));
-        assertEquals(1, beats.get(3));
-    }
-
-    @Test
-    void testMixedNotes() {
-        List<Integer> beats = ParseMusic.parseMusic("o o| .| o| o| .| .| .| .| o o");
-        assertEquals(11, beats.size());
-        assertEquals(4, beats.get(0));
-        assertEquals(2, beats.get(1));
-        assertEquals(1, beats.get(2));
-        assertEquals(2, beats.get(3));
-        assertEquals(2, beats.get(4));
-        assertEquals(1, beats.get(5));
-        assertEquals(1, beats.get(6));
-        assertEquals(1, beats.get(7));
-        assertEquals(1, beats.get(8));
-        assertEquals(4, beats.get(9));
-        assertEquals(4, beats.get(10));
+        List<Integer> expected = List.of(1, 1, 1, 1);
+        List<Integer> actual = ParseMusic.parseMusic(".| .| .| .|");
+        assertEquals(expected, actual);
     }
 
     @Test
     void testHalfNotes() {
-        List<Integer> beats = ParseMusic.parseMusic("o| o| .| .| o o o o");
-        assertEquals(8, beats.size());
-        assertEquals(2, beats.get(0));
-        assertEquals(2, beats.get(1));
-        assertEquals(1, beats.get(2));
-        assertEquals(1, beats.get(3));
-        assertEquals(4, beats.get(4));
-        assertEquals(4, beats.get(5));
-        assertEquals(4, beats.get(6));
-        assertEquals(4, beats.get(7));
+        List<Integer> expected = List.of(2, 2, 2, 2);
+        List<Integer> actual = ParseMusic.parseMusic("o| o| o| o|");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testMixedNotes() {
+        List<Integer> expected = List.of(4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4);
+        List<Integer> actual = ParseMusic.parseMusic("o o| .| o| o| .| .| .| .| o o");
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMixedNotes2() {
-        List<Integer> beats = ParseMusic.parseMusic("o| .| o| .| o o| o o|");
-        assertEquals(8, beats.size());
-        assertEquals(2, beats.get(0));
-        assertEquals(1, beats.get(1));
-        assertEquals(2, beats.get(2));
-        assertEquals(1, beats.get(3));
-        assertEquals(4, beats.get(4));
-        assertEquals(2, beats.get(5));
-        assertEquals(4, beats.get(6));
-        assertEquals(2, beats.get(7));
+        List<Integer> expected = List.of(2, 2, 1, 1, 4, 4, 4, 4);
+        List<Integer> actual = ParseMusic.parseMusic("o| o| .| .| o o o o");
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testInvalidNotes() {
-        List<Integer> beats = ParseMusic.parseMusic("o o| .| x| o| .| .| .| .| o o");
-        assertEquals(9, beats.size());
-        assertEquals(4, beats.get(0));
-        assertEquals(2, beats.get(1));
-        assertEquals(1, beats.get(2));
-        assertEquals(2, beats.get(3));
-        assertEquals(1, beats.get(4));
-        assertEquals(1, beats.get(5));
-        assertEquals(1, beats.get(6));
-        assertEquals(1, beats.get(7));
-        assertEquals(4, beats.get(8));
+    void testMixedNotes3() {
+        List<Integer> expected = List.of(2, 1, 2, 1, 4, 2, 4, 2);
+        List<Integer> actual = ParseMusic.parseMusic("o| .| o| .| o o| o o|");
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testInvalidNotes2() {
-        List<Integer> beats = ParseMusic.parseMusic("o o| .| |o o| .| .| .| .| o o");
-        assertEquals(9, beats.size());
-        assertEquals(4, beats.get(0));
-        assertEquals(2, beats.get(1));
-        assertEquals(1, beats.get(2));
-        assertEquals(2, beats.get(3));
-        assertEquals(1, beats.get(4));
-        assertEquals(1, beats.get(5));
-        assertEquals(1, beats.get(6));
-        assertEquals(1, beats.get(7));
-        assertEquals(4, beats.get(8));
+    void testInvalidInput() {
+        assertThrows(StringIndexOutOfBoundsException.class, () -> ParseMusic.parseMusic("o| o| .| .| o o o"));
     }
 
     @Test
-    void testInvalidNotes3() {
-        List<Integer> beats = ParseMusic.parseMusic("o o| .| o| o| .| .| .| .| o o|");
-        assertEquals(10, beats.size());
-        assertEquals(4, beats.get(0));
-        assertEquals(2, beats.get(1));
-        assertEquals(1, beats.get(2));
-        assertEquals(2, beats.get(3));
-        assertEquals(2, beats.get(4));
-        assertEquals(1, beats.get(5));
-        assertEquals(1, beats.get(6));
-        assertEquals(1, beats.get(7));
-        assertEquals(1, beats.get(8));
-        assertEquals(4, beats.get(9));
+    void testInvalidInput2() {
+        assertThrows(StringIndexOutOfBoundsException.class, () -> ParseMusic.parseMusic("o| o| .| .| o o o|"));
     }
 
     @Test
-    void testInvalidNotes4() {
-        List<Integer> beats = ParseMusic.parseMusic("o o| .| o| o| .| .| .| .| o o| ");
-        assertEquals(10, beats.size());
-        assertEquals(4, beats.get(0));
-        assertEquals(2, beats.get(1));
-        assertEquals(1, beats.get(2));
-        assertEquals(2, beats.get(3));
-        assertEquals(2, beats.get(4));
-        assertEquals(1, beats.get(5));
-        assertEquals(1, beats.get(6));
-        assertEquals(1, beats.get(7));
-        assertEquals(1, beats.get(8));
-        assertEquals(4, beats.get(9));
+    void testInvalidInput3() {
+        assertThrows(StringIndexOutOfBoundsException.class, () -> ParseMusic.parseMusic("o| o| .| .| o o| o"));
     }
 }

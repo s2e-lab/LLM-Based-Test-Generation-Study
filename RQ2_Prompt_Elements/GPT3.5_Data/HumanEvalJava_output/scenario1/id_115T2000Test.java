@@ -1,19 +1,46 @@
-Here's the source code for the MaxFillTest class:
-
-```
+// MaxFill.java
 package scenario1;
 
-import java.util.ArrayList;
+import java.util.List;
+
+class MaxFill {
+
+    /**
+     * Calculates the maximum number of containers needed to fill a grid with a given capacity.
+     * @param grid a list of lists representing the grid
+     * @param capacity the maximum capacity of each container
+     * @return the maximum number of containers needed to fill the grid
+     */
+    public static int maxFill(List<List<Integer>> grid, int capacity) {
+        int sum = 0;
+        for (List<Integer> arr : grid) {
+            int sumArr = 0;
+            for (Integer i : arr) {
+                sumArr += i;
+            }
+            sum += Math.ceil((double) sumArr / capacity);
+        }
+        return sum;
+    }
+}
+
+// MaxFillTest.java
+package scenario1;
+
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link MaxFill}.
+* It contains ten unit test cases for the {@link MaxFill#maxFill(List, int)} method.
+*/
 class MaxFillTest {
 
     @Test
-    void testMaxFillWithEmptyGrid() {
-        List<List<Integer>> grid = new ArrayList<>();
+    void testEmptyGrid() {
+        List<List<Integer>> grid = Arrays.asList();
         int capacity = 5;
         int expected = 0;
         int actual = MaxFill.maxFill(grid, capacity);
@@ -21,91 +48,118 @@ class MaxFillTest {
     }
 
     @Test
-    void testMaxFillWithSingleRow() {
-        List<List<Integer>> grid = new ArrayList<>();
-        grid.add(Arrays.asList(3, 4, 2, 1));
+    void testSingleRow() {
+        List<List<Integer>> grid = Arrays.asList(Arrays.asList(1, 2, 3, 4, 5));
         int capacity = 5;
-        int expected = 2;
-        int actual = MaxFill.maxFill(grid, capacity);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testMaxFillWithMultipleRows() {
-        List<List<Integer>> grid = new ArrayList<>();
-        grid.add(Arrays.asList(3, 4, 2, 1));
-        grid.add(Arrays.asList(5, 2, 1, 3));
-        grid.add(Arrays.asList(2, 3, 5, 4));
-        int capacity = 5;
-        int expected = 5;
-        int actual = MaxFill.maxFill(grid, capacity);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testMaxFillWithCapacityGreaterThanSum() {
-        List<List<Integer>> grid = new ArrayList<>();
-        grid.add(Arrays.asList(3, 4, 2, 1));
-        int capacity = 20;
         int expected = 1;
         int actual = MaxFill.maxFill(grid, capacity);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMaxFillWithCapacityEqualToSum() {
-        List<List<Integer>> grid = new ArrayList<>();
-        grid.add(Arrays.asList(3, 4, 2, 1));
+    void testSingleColumn() {
+        List<List<Integer>> grid = Arrays.asList(
+                Arrays.asList(1),
+                Arrays.asList(2),
+                Arrays.asList(3),
+                Arrays.asList(4),
+                Arrays.asList(5)
+        );
+        int capacity = 5;
+        int expected = 1;
+        int actual = MaxFill.maxFill(grid, capacity);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testMultipleRowsAndColumns() {
+        List<List<Integer>> grid = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6),
+                Arrays.asList(7, 8, 9)
+        );
+        int capacity = 5;
+        int expected = 3;
+        int actual = MaxFill.maxFill(grid, capacity);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testCapacityGreaterThanSum() {
+        List<List<Integer>> grid = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6),
+                Arrays.asList(7, 8, 9)
+        );
+        int capacity = 100;
+        int expected = 1;
+        int actual = MaxFill.maxFill(grid, capacity);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testCapacityEqualToSum() {
+        List<List<Integer>> grid = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6),
+                Arrays.asList(7, 8, 9)
+        );
+        int capacity = 45;
+        int expected = 1;
+        int actual = MaxFill.maxFill(grid, capacity);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testCapacityLessThanSum() {
+        List<List<Integer>> grid = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6),
+                Arrays.asList(7, 8, 9)
+        );
         int capacity = 10;
-        int expected = 1;
+        int expected = 6;
         int actual = MaxFill.maxFill(grid, capacity);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMaxFillWithCapacityLessThanSum() {
-        List<List<Integer>> grid = new ArrayList<>();
-        grid.add(Arrays.asList(3, 4, 2, 1));
-        int capacity = 3;
-        int expected = 4;
-        int actual = MaxFill.maxFill(grid, capacity);
-        assertEquals(expected, actual);
+    void testNegativeCapacity() {
+        List<List<Integer>> grid = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6),
+                Arrays.asList(7, 8, 9)
+        );
+        int capacity = -5;
+        assertThrows(IllegalArgumentException.class, () -> MaxFill.maxFill(grid, capacity));
     }
 
     @Test
-    void testMaxFillWithNegativeValues() {
-        List<List<Integer>> grid = new ArrayList<>();
-        grid.add(Arrays.asList(-3, 4, -2, 1));
-        int capacity = 5;
-        int expected = 2;
-        int actual = MaxFill.maxFill(grid, capacity);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testMaxFillWithZeroCapacity() {
-        List<List<Integer>> grid = new ArrayList<>();
-        grid.add(Arrays.asList(3, 4, 2, 1));
-        int capacity = 0;
-        assertThrows(ArithmeticException.class, () -> MaxFill.maxFill(grid, capacity));
-    }
-
-    @Test
-    void testMaxFillWithNullGrid() {
+    void testNullGrid() {
         List<List<Integer>> grid = null;
         int capacity = 5;
         assertThrows(NullPointerException.class, () -> MaxFill.maxFill(grid, capacity));
     }
 
     @Test
-    void testMaxFillWithNullRow() {
-        List<List<Integer>> grid = new ArrayList<>();
-        grid.add(Arrays.asList(3, 4, 2, 1));
-        grid.add(null);
+    void testNullRow() {
+        List<List<Integer>> grid = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                null,
+                Arrays.asList(7, 8, 9)
+        );
+        int capacity = 5;
+        assertThrows(NullPointerException.class, () -> MaxFill.maxFill(grid, capacity));
+    }
+
+    @Test
+    void testNullElement() {
+        List<List<Integer>> grid = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, null, 6),
+                Arrays.asList(7, 8, 9)
+        );
         int capacity = 5;
         assertThrows(NullPointerException.class, () -> MaxFill.maxFill(grid, capacity));
     }
 }
-```
-
-This class contains ten unit test cases for the `maxFill` method of the `MaxFill` class. Each test case tests a different scenario, such as an empty grid, a single row, multiple rows, negative values, zero capacity, and null inputs. The `assertEquals` method is used to compare the expected result with the actual result returned by the `maxFill` method. The `assertThrows` method is used to test for exceptions thrown by the `maxFill` method.

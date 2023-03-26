@@ -1,4 +1,4 @@
-Here's the completed `IntToMiniRomanTest` class with ten unit test cases for the `intToMiniRoman` method:
+Here's an example implementation of the `IntToMiniRomanTest` class with ten unit test cases for the `intToMiniRoman` method:
 
 ```
 package scenario2;
@@ -34,16 +34,6 @@ class IntToMiniRomanTest {
     }
 
     @Test
-    void testOneThousand() {
-        assertEquals("m", IntToMiniRoman.intToMiniRoman(1000));
-    }
-
-    @Test
-    void testFour() {
-        assertEquals("iv", IntToMiniRoman.intToMiniRoman(4));
-    }
-
-    @Test
     void testNine() {
         assertEquals("ix", IntToMiniRoman.intToMiniRoman(9));
     }
@@ -57,7 +47,17 @@ class IntToMiniRomanTest {
     void testNinety() {
         assertEquals("xc", IntToMiniRoman.intToMiniRoman(90));
     }
+
+    @Test
+    void testFourHundred() {
+        assertEquals("cd", IntToMiniRoman.intToMiniRoman(400));
+    }
+
+    @Test
+    void testNineHundred() {
+        assertEquals("cm", IntToMiniRoman.intToMiniRoman(900));
+    }
 }
 ```
 
-These test cases cover the range of possible inputs for the `intToMiniRoman` method, including the edge cases of 1, 10, 50, 100, 500, and 1000, as well as some of the special cases like 4, 9, 40, and 90.
+These test cases cover a range of input values and expected output values for the `intToMiniRoman` method.

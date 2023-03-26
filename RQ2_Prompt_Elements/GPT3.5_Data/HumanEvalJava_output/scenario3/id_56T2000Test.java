@@ -1,4 +1,7 @@
-// Here's the source code for the CorrectBracketing class:
+// Here's the complete source code for the CorrectBracketing and CorrectBracketingTest classes:
+
+// CorrectBracketing.java
+package scenario3;
 
 class CorrectBracketing {
 
@@ -32,31 +35,23 @@ class CorrectBracketing {
      * false
      */
     public static Boolean correctBracketing(String brackets) {
-        // Initialize a stack to keep track of opening brackets
-        Stack<Character> stack = new Stack<Character>();
-        
-        // Loop through each character in the string
+        int count = 0;
         for (int i = 0; i < brackets.length(); i++) {
-            char c = brackets.charAt(i);
-            
-            // If the character is an opening bracket, push it onto the stack
-            if (c == '<') {
-                stack.push(c);
-            }
-            // If the character is a closing bracket, check if it matches the top of the stack
-            else if (c == '>') {
-                if (stack.isEmpty() || stack.pop() != '<') {
+            if (brackets.charAt(i) == '<') {
+                count++;
+            } else if (brackets.charAt(i) == '>') {
+                count--;
+                if (count < 0) {
                     return false;
                 }
             }
         }
-        
-        // If the stack is empty, all opening brackets have been matched with closing brackets
-        return stack.isEmpty();
+        return count == 0;
     }
 }
 
-// And here's the source code for the CorrectBracketingTest class:
+// CorrectBracketingTest.java
+package scenario3;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,53 +61,54 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CorrectBracketing#correctBracketing(String)} method.
 */
 class CorrectBracketingTest {
+
     @Test
     void testEmptyString() {
         assertTrue(CorrectBracketing.correctBracketing(""));
     }
-    
+
     @Test
     void testSingleOpeningBracket() {
         assertFalse(CorrectBracketing.correctBracketing("<"));
     }
-    
+
     @Test
     void testSingleClosingBracket() {
         assertFalse(CorrectBracketing.correctBracketing(">"));
     }
-    
+
     @Test
-    void testMismatchedBrackets() {
-        assertFalse(CorrectBracketing.correctBracketing("<<>"));
+    void testTwoOpeningBrackets() {
+        assertFalse(CorrectBracketing.correctBracketing("<<"));
     }
-    
+
+    @Test
+    void testTwoClosingBrackets() {
+        assertFalse(CorrectBracketing.correctBracketing(">>"));
+    }
+
+    @Test
+    void testOneOpeningAndOneClosingBracket() {
+        assertTrue(CorrectBracketing.correctBracketing("<>"));
+    }
+
     @Test
     void testNestedBrackets() {
-        assertTrue(CorrectBracketing.correctBracketing("<><<>>"));
+        assertTrue(CorrectBracketing.correctBracketing("<<><>>"));
     }
-    
+
     @Test
-    void testMultipleNestedBrackets() {
-        assertTrue(CorrectBracketing.correctBracketing("<><<><>>><<>>"));
+    void testMultiplePairsOfBrackets() {
+        assertTrue(CorrectBracketing.correctBracketing("<><><<><>><>><<><><<>>>"));
     }
-    
+
     @Test
-    void testMultipleOpeningBrackets() {
-        assertFalse(CorrectBracketing.correctBracketing("<<<"));
+    void testUnbalancedBrackets() {
+        assertFalse(CorrectBracketing.correctBracketing("<<<><>>>>"));
     }
-    
+
     @Test
-    void testMultipleClosingBrackets() {
-        assertFalse(CorrectBracketing.correctBracketing(">>>"));
-    }
-    
-    @Test
-    void testMultipleOpeningAndClosingBrackets() {
-        assertTrue(CorrectBracketing.correctBracketing("<><><<><>><>><<>>"));
-    }
-    
-    @Test
-    void testMultipleOpeningAndClosingBracketsWithMismatch() {
+    void testMixedUpBrackets() {
         assertFalse(CorrectBracketing.correctBracketing("<><><<><>><>>><>"));
     }
 }

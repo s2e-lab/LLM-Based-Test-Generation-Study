@@ -74,8 +74,8 @@ class Pluck {
 // PluckTest.java
 package scenario3;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -88,77 +88,71 @@ class PluckTest {
 
     @Test
     void testPluckWithEvenValues() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(4, 2, 3));
-        List<Integer> expected = new ArrayList<>(Arrays.asList(2, 1));
+        List<Integer> input = Arrays.asList(4, 2, 3);
+        List<Integer> expected = Arrays.asList(2, 1);
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
-    void testPluckWithEvenValuesAndSmallestIndex() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3));
-        List<Integer> expected = new ArrayList<>(Arrays.asList(2, 1));
+    void testPluckWithEvenValues2() {
+        List<Integer> input = Arrays.asList(1, 2, 3);
+        List<Integer> expected = Arrays.asList(2, 1);
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
     void testPluckWithEmptyList() {
-        List<Integer> input = new ArrayList<>();
-        List<Integer> expected = new ArrayList<>();
+        List<Integer> input = Collections.emptyList();
+        List<Integer> expected = Collections.emptyList();
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
     void testPluckWithMultipleZeros() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(5, 0, 3, 0, 4, 2));
-        List<Integer> expected = new ArrayList<>(Arrays.asList(0, 1));
+        List<Integer> input = Arrays.asList(5, 0, 3, 0, 4, 2);
+        List<Integer> expected = Arrays.asList(0, 1);
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
     void testPluckWithMultipleEvenValues() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(1, 2, 3, 0, 5, 3));
-        List<Integer> expected = new ArrayList<>(Arrays.asList(0, 3));
+        List<Integer> input = Arrays.asList(1, 2, 3, 0, 5, 3);
+        List<Integer> expected = Arrays.asList(0, 3);
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
-    void testPluckWithMultipleEvenValuesAndSmallestIndex() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(5, 4, 8, 4, 8));
-        List<Integer> expected = new ArrayList<>(Arrays.asList(4, 1));
+    void testPluckWithRepeatedEvenValues() {
+        List<Integer> input = Arrays.asList(5, 4, 8, 4, 8);
+        List<Integer> expected = Arrays.asList(4, 1);
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
     void testPluckWithNoEvenValues() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(7, 6, 7, 1));
-        List<Integer> expected = new ArrayList<>(Arrays.asList(6, 1));
+        List<Integer> input = Arrays.asList(7, 6, 7, 1);
+        List<Integer> expected = Arrays.asList(6, 1);
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
-    void testPluckWithNoEvenValuesAndEmptyList() {
-        List<Integer> input = new ArrayList<>(Arrays.asList(7, 9, 7, 1));
-        List<Integer> expected = new ArrayList<>();
+    void testPluckWithNoEvenValues2() {
+        List<Integer> input = Arrays.asList(7, 9, 7, 1);
+        List<Integer> expected = Collections.emptyList();
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
-    void testPluckWithLargeList() {
-        List<Integer> input = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
-            input.add(i);
-        }
-        List<Integer> expected = new ArrayList<>(Arrays.asList(0, 0));
+    void testPluckWithMaxValues() {
+        List<Integer> input = Collections.nCopies(10000, Integer.MAX_VALUE);
+        List<Integer> expected = Collections.emptyList();
         assertEquals(expected, Pluck.pluck(input));
     }
 
     @Test
-    void testPluckWithLargeListAndNoEvenValues() {
-        List<Integer> input = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
-            input.add(i * 2 + 1);
-        }
-        List<Integer> expected = new ArrayList<>();
+    void testPluckWithRandomValues() {
+        List<Integer> input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> expected = Arrays.asList(2, 1);
         assertEquals(expected, Pluck.pluck(input));
     }
 }

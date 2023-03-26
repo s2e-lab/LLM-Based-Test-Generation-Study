@@ -1,6 +1,6 @@
-Here's a possible implementation of the `factorize` method in the `Factorize` class:
+// Factorize.java
+package scenario3;
 
-```java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,23 +36,19 @@ class Factorize {
      */
     public static List<Integer> factorize(int n) {
         List<Integer> factors = new ArrayList<>();
-        int divisor = 2;
-        while (n > 1) {
-            if (n % divisor == 0) {
-                factors.add(divisor);
-                n /= divisor;
-            } else {
-                divisor++;
+        for (int i = 2; i <= n; i++) {
+            while (n % i == 0) {
+                factors.add(i);
+                n /= i;
             }
         }
         return factors;
     }
 }
-```
 
-And here's a possible implementation of the `FactorizeTest` class:
+// FactorizeTest.java
+package scenario3;
 
-```java
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -63,70 +59,70 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Factorize#factorize(int)} method.
 */
 class FactorizeTest {
-
+    
     @Test
     void testFactorize8() {
         List<Integer> expected = Arrays.asList(2, 2, 2);
         List<Integer> actual = Factorize.factorize(8);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize25() {
         List<Integer> expected = Arrays.asList(5, 5);
         List<Integer> actual = Factorize.factorize(25);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize70() {
         List<Integer> expected = Arrays.asList(2, 5, 7);
         List<Integer> actual = Factorize.factorize(70);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize2() {
         List<Integer> expected = Arrays.asList(2);
         List<Integer> actual = Factorize.factorize(2);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize4() {
         List<Integer> expected = Arrays.asList(2, 2);
         List<Integer> actual = Factorize.factorize(4);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize57() {
         List<Integer> expected = Arrays.asList(3, 19);
         List<Integer> actual = Factorize.factorize(57);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize3249() {
         List<Integer> expected = Arrays.asList(3, 3, 19, 19);
         List<Integer> actual = Factorize.factorize(3249);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize185193() {
         List<Integer> expected = Arrays.asList(3, 3, 3, 19, 19, 19);
         List<Integer> actual = Factorize.factorize(185193);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize20577() {
         List<Integer> expected = Arrays.asList(3, 19, 19, 19);
         List<Integer> actual = Factorize.factorize(20577);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void testFactorize18() {
         List<Integer> expected = Arrays.asList(2, 3, 3);
@@ -134,4 +130,3 @@ class FactorizeTest {
         assertEquals(expected, actual);
     }
 }
-```

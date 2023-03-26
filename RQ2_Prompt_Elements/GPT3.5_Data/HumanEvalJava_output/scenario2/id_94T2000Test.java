@@ -1,75 +1,62 @@
-Here's the code for the SkjkasdkdTest class:
-
-```
-package scenario2;
-
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-class SkjkasdkdTest {
+public class SkjkasdkdTest {
 
     @Test
     void testEmptyList() {
-        List<Integer> lst = Arrays.asList();
+        List<Integer> lst = List.of();
         assertEquals(0, Skjkasdkd.skjkasdkd(lst));
     }
 
     @Test
-    void testNoPrimes() {
-        List<Integer> lst = Arrays.asList(4, 6, 8, 9);
+    void testNoPrime() {
+        List<Integer> lst = List.of(4, 6, 8, 9);
         assertEquals(0, Skjkasdkd.skjkasdkd(lst));
     }
 
     @Test
     void testOnePrime() {
-        List<Integer> lst = Arrays.asList(4, 6, 8, 7);
-        assertEquals(7, Skjkasdkd.skjkasdkd(lst));
+        List<Integer> lst = List.of(4, 6, 8, 9, 11);
+        assertEquals(2, Skjkasdkd.skjkasdkd(lst));
     }
 
     @Test
     void testMultiplePrimes() {
-        List<Integer> lst = Arrays.asList(4, 6, 8, 7, 11, 13, 17);
-        assertEquals(8, Skjkasdkd.skjkasdkd(lst));
+        List<Integer> lst = List.of(4, 6, 8, 9, 11, 13, 17, 19);
+        assertEquals(10, Skjkasdkd.skjkasdkd(lst));
     }
 
     @Test
     void testNegativeNumbers() {
-        List<Integer> lst = Arrays.asList(-4, -6, -8, -7, -11, -13, -17);
+        List<Integer> lst = List.of(-4, -6, -8, -9, -11, -13, -17, -19);
         assertEquals(0, Skjkasdkd.skjkasdkd(lst));
     }
 
     @Test
     void testMixedNumbers() {
-        List<Integer> lst = Arrays.asList(-4, 6, 8, -7, 11, -13, 17);
-        assertEquals(8, Skjkasdkd.skjkasdkd(lst));
-    }
-
-    @Test
-    void testDuplicatePrimes() {
-        List<Integer> lst = Arrays.asList(4, 6, 8, 7, 11, 13, 17, 13, 11);
-        assertEquals(8, Skjkasdkd.skjkasdkd(lst));
-    }
-
-    @Test
-    void testAllPrimes() {
-        List<Integer> lst = Arrays.asList(2, 3, 5, 7, 11, 13, 17);
+        List<Integer> lst = List.of(-4, 6, -8, 9, 11, -13, 17, -19);
         assertEquals(8, Skjkasdkd.skjkasdkd(lst));
     }
 
     @Test
     void testLargeNumbers() {
-        List<Integer> lst = Arrays.asList(100, 200, 300, 400, 500, 600, 700, 800, 900, 997);
-        assertEquals(25, Skjkasdkd.skjkasdkd(lst));
+        List<Integer> lst = List.of(100, 200, 300, 400, 500, 600, 700, 800, 900, 997);
+        assertEquals(31, Skjkasdkd.skjkasdkd(lst));
     }
 
     @Test
-    void testMaxInt() {
-        List<Integer> lst = Arrays.asList(Integer.MAX_VALUE);
-        assertEquals(7, Skjkasdkd.skjkasdkd(lst));
+    void testDuplicatePrimes() {
+        List<Integer> lst = List.of(2, 3, 5, 7, 7, 11, 13, 13, 17, 19);
+        assertEquals(18, Skjkasdkd.skjkasdkd(lst));
+    }
+
+    @Test
+    void testAllPrimes() {
+        List<Integer> lst = List.of(2, 3, 5, 7, 11, 13, 17, 19);
+        assertEquals(20, Skjkasdkd.skjkasdkd(lst));
+    }
+
+    @Test
+    void testLargeList() {
+        List<Integer> lst = List.of(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199);
+        assertEquals(19, Skjkasdkd.skjkasdkd(lst));
     }
 }
-```
-
-This test class contains ten unit test cases for the `Skjkasdkd.skjkasdkd(List)` method. The test cases cover different scenarios such as an empty list, a list with no primes, a list with one prime, a list with multiple primes, a list with negative numbers, a list with mixed numbers, a list with duplicate primes, a list with all primes, a list with large numbers, and a list with the maximum integer value.

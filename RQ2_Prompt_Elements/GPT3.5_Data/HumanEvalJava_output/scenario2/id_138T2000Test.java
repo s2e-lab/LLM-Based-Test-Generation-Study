@@ -1,11 +1,16 @@
-Here's an example implementation of the `IsEqualToSumEvenTest` class with ten unit test cases for the `isEqualToSumEven` method:
+Here's the code for the `IsEqualToSumEvenTest` class:
 
 ```
+// IsEqualToSumEvenTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link IsEqualToSumEven}.
+ * It contains ten unit test cases for the {@link IsEqualToSumEven#isEqualToSumEven(int)} method.
+ */
 class IsEqualToSumEvenTest {
 
     @Test
@@ -60,4 +65,4 @@ class IsEqualToSumEvenTest {
 }
 ```
 
-These test cases cover a range of scenarios, including negative numbers, odd numbers, even numbers less than 8, even numbers equal to 8, even numbers greater than 8, large even and odd numbers, and the edge cases of 0, 1, and 2.
+This test class contains ten test cases that cover different scenarios for the `isEqualToSumEven` method. Each test case is annotated with the `@Test` annotation and contains an assertion that checks the expected result of the method call.

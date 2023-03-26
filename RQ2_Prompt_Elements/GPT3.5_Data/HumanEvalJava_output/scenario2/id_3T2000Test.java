@@ -1,46 +1,75 @@
-Here's the code for the test class:
-
-```
+// BelowZeroTest.java
 package scenario2;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link BelowZero}.
+ * It contains ten unit test cases for the {@link BelowZero#belowZero(List)} method.
+ */
 class BelowZeroTest {
 
     @Test
-    void testBelowZero() {
-        List<Object> operations1 = Arrays.asList(100.0, -50.0, 20.0, -80.0);
-        assertTrue(BelowZero.belowZero(operations1));
+    void testEmptyList() {
+        List<Object> operations = Collections.emptyList();
+        assertFalse(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations2 = Arrays.asList(100, -50, 20, -80);
-        assertTrue(BelowZero.belowZero(operations2));
+    @Test
+    void testZeroBalance() {
+        List<Object> operations = Arrays.asList(10.0, -10.0);
+        assertFalse(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations3 = Arrays.asList(100.0, -50.0, 20.0, 80.0);
-        assertFalse(BelowZero.belowZero(operations3));
+    @Test
+    void testPositiveBalance() {
+        List<Object> operations = Arrays.asList(100, 50.0, -20.0, 30);
+        assertFalse(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations4 = Arrays.asList(100, -50, 20, 80);
-        assertFalse(BelowZero.belowZero(operations4));
+    @Test
+    void testNegativeBalance() {
+        List<Object> operations = Arrays.asList(100, -200, 50.0, -20.0, 30);
+        assertTrue(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations5 = Arrays.asList(100.0, -50.0, 20.0, -80.0, 30.0);
-        assertTrue(BelowZero.belowZero(operations5));
+    @Test
+    void testAllDeposits() {
+        List<Object> operations = Arrays.asList(100, 50.0, 20.0, 30);
+        assertFalse(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations6 = Arrays.asList(100, -50, 20, -80, 30);
-        assertTrue(BelowZero.belowZero(operations6));
+    @Test
+    void testAllWithdrawals() {
+        List<Object> operations = Arrays.asList(-100, -50.0, -20.0, -30);
+        assertTrue(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations7 = Arrays.asList(100.0, -50.0, 20.0, 80.0, -30.0);
-        assertFalse(BelowZero.belowZero(operations7));
+    @Test
+    void testMixedOperations() {
+        List<Object> operations = Arrays.asList(100, -50.0, 20.0, -30, 10, -5);
+        assertTrue(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations8 = Arrays.asList(100, -50, 20, 80, -30);
-        assertFalse(BelowZero.belowZero(operations8));
+    @Test
+    void testOnlyDeposits() {
+        List<Object> operations = Arrays.asList(100, 50.0, 20.0, 30, 10, 5);
+        assertFalse(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations9 = Arrays.asList(100.0, -50.0, 20.0, -80.0, 30.0, -10.0);
-        assertTrue(BelowZero.belowZero(operations9));
+    @Test
+    void testOnlyWithdrawals() {
+        List<Object> operations = Arrays.asList(-100, -50.0, -20.0, -30, -10, -5);
+        assertTrue(BelowZero.belowZero(operations));
+    }
 
-        List<Object> operations10 = Arrays.asList(100, -50, 20, -80, 30, -10);
-        assertTrue(BelowZero.belowZero(operations10));
+    @Test
+    void testInvalidOperationType() {
+        List<Object> operations = Arrays.asList(100, "50.0", 20.0, 30);
+        assertThrows(IllegalArgumentException.class, () -> BelowZero.belowZero(operations));
     }
 }
-```

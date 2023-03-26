@@ -1,123 +1,120 @@
 Here's the code for the test class:
 
 ```
+package scenario1;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link FindClosestElements}.
+* It contains ten unit test cases for the {@link FindClosestElements#findClosestElements(List)} method.
+*/
 class FindClosestElementsTest {
 
     @Test
     void testEmptyList() {
         List<Double> numbers = new ArrayList<>();
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertTrue(result.isEmpty());
+        List<Double> expected = new ArrayList<>();
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
     void testSingleElementList() {
-        List<Double> numbers = new ArrayList<>();
-        numbers.add(1.0);
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertTrue(result.isEmpty());
+        List<Double> numbers = Arrays.asList(1.0);
+        List<Double> expected = new ArrayList<>();
+        expected.add(1.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
     void testTwoElementList() {
-        List<Double> numbers = new ArrayList<>();
-        numbers.add(1.0);
-        numbers.add(2.0);
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertEquals(2, result.size());
-        assertEquals(1.0, result.get(0));
-        assertEquals(2.0, result.get(1));
+        List<Double> numbers = Arrays.asList(1.0, 2.0);
+        List<Double> expected = new ArrayList<>();
+        expected.add(1.0);
+        expected.add(2.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
     void testThreeElementList() {
-        List<Double> numbers = new ArrayList<>();
-        numbers.add(1.0);
-        numbers.add(2.0);
-        numbers.add(3.0);
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertEquals(2, result.size());
-        assertEquals(2.0, result.get(0));
-        assertEquals(3.0, result.get(1));
+        List<Double> numbers = Arrays.asList(1.0, 2.0, 3.0);
+        List<Double> expected = new ArrayList<>();
+        expected.add(2.0);
+        expected.add(3.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
     void testFourElementList() {
-        List<Double> numbers = new ArrayList<>();
-        numbers.add(1.0);
-        numbers.add(2.0);
-        numbers.add(3.0);
-        numbers.add(4.0);
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertEquals(2, result.size());
-        assertEquals(3.0, result.get(0));
-        assertEquals(4.0, result.get(1));
+        List<Double> numbers = Arrays.asList(1.0, 2.0, 3.0, 4.0);
+        List<Double> expected = new ArrayList<>();
+        expected.add(3.0);
+        expected.add(4.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
     void testFiveElementList() {
-        List<Double> numbers = new ArrayList<>();
-        numbers.add(1.0);
-        numbers.add(2.0);
-        numbers.add(3.0);
-        numbers.add(4.0);
-        numbers.add(5.0);
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertEquals(2, result.size());
-        assertEquals(4.0, result.get(0));
-        assertEquals(5.0, result.get(1));
+        List<Double> numbers = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
+        List<Double> expected = new ArrayList<>();
+        expected.add(4.0);
+        expected.add(5.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
     void testNegativeNumbers() {
-        List<Double> numbers = new ArrayList<>();
-        numbers.add(-1.0);
-        numbers.add(-2.0);
-        numbers.add(-3.0);
-        numbers.add(-4.0);
-        numbers.add(-5.0);
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertEquals(2, result.size());
-        assertEquals(-4.0, result.get(0));
-        assertEquals(-5.0, result.get(1));
+        List<Double> numbers = Arrays.asList(-5.0, -3.0, -1.0, 1.0, 3.0, 5.0);
+        List<Double> expected = new ArrayList<>();
+        expected.add(-1.0);
+        expected.add(1.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
     void testMixedNumbers() {
-        List<Double> numbers = new ArrayList<>();
-        numbers.add(-1.0);
-        numbers.add(2.0);
-        numbers.add(-3.0);
-        numbers.add(4.0);
-        numbers.add(-5.0);
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertEquals(2, result.size());
-        assertEquals(-1.0, result.get(0));
-        assertEquals(2.0, result.get(1));
+        List<Double> numbers = Arrays.asList(-5.0, -3.0, 1.0, 3.0, 5.0);
+        List<Double> expected = new ArrayList<>();
+        expected.add(1.0);
+        expected.add(3.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
-    void testEqualNumbers() {
-        List<Double> numbers = new ArrayList<>();
-        numbers.add(1.0);
-        numbers.add(1.0);
-        numbers.add(1.0);
-        numbers.add(1.0);
-        numbers.add(1.0);
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertEquals(2, result.size());
-        assertEquals(1.0, result.get(0));
-        assertEquals(1.0, result.get(1));
+    void testDuplicateNumbers() {
+        List<Double> numbers = Arrays.asList(1.0, 2.0, 2.0, 3.0, 4.0, 4.0);
+        List<Double> expected = new ArrayList<>();
+        expected.add(2.0);
+        expected.add(2.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 
     @Test
     void testLargeList() {
         List<Double> numbers = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
-            numbers.add(Math.random() * 100);
+        for (int i = 0; i < 1000; i++) {
+            numbers.add((double) i);
         }
-        List<Double> result = FindClosestElements.findClosestElements(numbers);
-        assertEquals(2, result.size());
+        List<Double> expected = new ArrayList<>();
+        expected.add(999.0);
+        expected.add(1000.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
+    }
+
+    @Test
+    void testLargeNegativeList() {
+        List<Double> numbers = new ArrayList<>();
+        for (int i = -1000; i < 0; i++) {
+            numbers.add((double) i);
+        }
+        List<Double> expected = new ArrayList<>();
+        expected.add(-2.0);
+        expected.add(-1.0);
+        assertEquals(expected, FindClosestElements.findClosestElements(numbers));
     }
 }
 ```

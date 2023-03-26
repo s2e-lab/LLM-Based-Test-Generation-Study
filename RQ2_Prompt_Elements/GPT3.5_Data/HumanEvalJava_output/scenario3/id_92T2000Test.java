@@ -40,9 +40,9 @@ class AnyInt {
      */
     public static Boolean anyInt(Number x, Number y, Number z) {
         if (x instanceof Integer && y instanceof Integer && z instanceof Integer) {
-            int a = (int) x;
-            int b = (int) y;
-            int c = (int) z;
+            int a = x.intValue();
+            int b = y.intValue();
+            int c = z.intValue();
             return a == b + c || b == a + c || c == a + b;
         }
         return false;

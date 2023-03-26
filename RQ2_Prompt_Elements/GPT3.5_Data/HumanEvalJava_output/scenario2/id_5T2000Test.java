@@ -1,110 +1,144 @@
-Here's the code for the `IntersperseTest` class:
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-```
-package scenario2;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Test class of {@link Intersperse}.
- * It contains ten unit test cases for the {@link Intersperse#intersperse(List, int)} method.
- */
 class IntersperseTest {
 
     @Test
     void testIntersperseWithEmptyList() {
         List<Object> input = new ArrayList<>();
         List<Object> expectedOutput = new ArrayList<>();
-        int delimiter = 1;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, 5));
     }
 
     @Test
     void testIntersperseWithSingleElementList() {
-        List<Object> input = Arrays.asList(1);
-        List<Object> expectedOutput = Arrays.asList(1);
-        int delimiter = 2;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+        List<Object> input = new ArrayList<>();
+        input.add(10);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(10);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, 5));
     }
 
     @Test
     void testIntersperseWithTwoElementList() {
-        List<Object> input = Arrays.asList(1, 2);
-        List<Object> expectedOutput = Arrays.asList(1, 2);
-        int delimiter = 3;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+        List<Object> input = new ArrayList<>();
+        input.add(10);
+        input.add(20);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(10);
+        expectedOutput.add(5);
+        expectedOutput.add(20);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, 5));
     }
 
     @Test
-    void testIntersperseWithThreeElementList() {
-        List<Object> input = Arrays.asList(1, 2, 3);
-        List<Object> expectedOutput = Arrays.asList(1, 4, 2, 4, 3);
-        int delimiter = 4;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+    void testIntersperseWithMultipleElementList() {
+        List<Object> input = new ArrayList<>();
+        input.add(10);
+        input.add(20);
+        input.add(30);
+        input.add(40);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(10);
+        expectedOutput.add(5);
+        expectedOutput.add(20);
+        expectedOutput.add(5);
+        expectedOutput.add(30);
+        expectedOutput.add(5);
+        expectedOutput.add(40);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, 5));
     }
 
     @Test
-    void testIntersperseWithFourElementList() {
-        List<Object> input = Arrays.asList(1, 2, 3, 4);
-        List<Object> expectedOutput = Arrays.asList(1, 5, 2, 5, 3, 5, 4);
-        int delimiter = 5;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+    void testIntersperseWithNegativeDelimiter() {
+        List<Object> input = new ArrayList<>();
+        input.add(10);
+        input.add(20);
+        input.add(30);
+        input.add(40);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(10);
+        expectedOutput.add(-5);
+        expectedOutput.add(20);
+        expectedOutput.add(-5);
+        expectedOutput.add(30);
+        expectedOutput.add(-5);
+        expectedOutput.add(40);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, -5));
     }
 
     @Test
-    void testIntersperseWithFiveElementList() {
-        List<Object> input = Arrays.asList(1, 2, 3, 4, 5);
-        List<Object> expectedOutput = Arrays.asList(1, 6, 2, 6, 3, 6, 4, 6, 5);
-        int delimiter = 6;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+    void testIntersperseWithZeroDelimiter() {
+        List<Object> input = new ArrayList<>();
+        input.add(10);
+        input.add(20);
+        input.add(30);
+        input.add(40);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(10);
+        expectedOutput.add(0);
+        expectedOutput.add(20);
+        expectedOutput.add(0);
+        expectedOutput.add(30);
+        expectedOutput.add(0);
+        expectedOutput.add(40);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, 0));
     }
 
     @Test
-    void testIntersperseWithSixElementList() {
-        List<Object> input = Arrays.asList(1, 2, 3, 4, 5, 6);
-        List<Object> expectedOutput = Arrays.asList(1, 7, 2, 7, 3, 7, 4, 7, 5, 7, 6);
-        int delimiter = 7;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+    void testIntersperseWithNullList() {
+        List<Object> input = null;
+        List<Object> expectedOutput = null;
+        assertEquals(expectedOutput, Intersperse.intersperse(input, 5));
     }
 
     @Test
-    void testIntersperseWithSevenElementList() {
-        List<Object> input = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
-        List<Object> expectedOutput = Arrays.asList(1, 8, 2, 8, 3, 8, 4, 8, 5, 8, 6, 8, 7);
-        int delimiter = 8;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+    void testIntersperseWithNullDelimiter() {
+        List<Object> input = new ArrayList<>();
+        input.add(10);
+        input.add(20);
+        input.add(30);
+        input.add(40);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(10);
+        expectedOutput.add(null);
+        expectedOutput.add(20);
+        expectedOutput.add(null);
+        expectedOutput.add(30);
+        expectedOutput.add(null);
+        expectedOutput.add(40);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, null));
     }
 
     @Test
-    void testIntersperseWithEightElementList() {
-        List<Object> input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
-        List<Object> expectedOutput = Arrays.asList(1, 9, 2, 9, 3, 9, 4, 9, 5, 9, 6, 9, 7, 9, 8);
-        int delimiter = 9;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+    void testIntersperseWithMixedTypeList() {
+        List<Object> input = new ArrayList<>();
+        input.add(10);
+        input.add("hello");
+        input.add(30);
+        input.add(40.5);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(10);
+        expectedOutput.add(5);
+        expectedOutput.add("hello");
+        expectedOutput.add(5);
+        expectedOutput.add(30);
+        expectedOutput.add(5);
+        expectedOutput.add(40.5);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, 5));
     }
 
     @Test
-    void testIntersperseWithNineElementList() {
-        List<Object> input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Object> expectedOutput = Arrays.asList(1, 10, 2, 10, 3, 10, 4, 10, 5, 10, 6, 10, 7, 10, 8, 10, 9);
-        int delimiter = 10;
-        List<Object> actualOutput = Intersperse.intersperse(input, delimiter);
-        assertEquals(expectedOutput, actualOutput);
+    void testIntersperseWithLargeList() {
+        List<Object> input = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            input.add(i);
+        }
+        List<Object> expectedOutput = new ArrayList<>();
+        for (int i = 0; i < 99999; i++) {
+            expectedOutput.add(i);
+            expectedOutput.add(5);
+        }
+        expectedOutput.add(99999);
+        assertEquals(expectedOutput, Intersperse.intersperse(input, 5));
     }
 }
-```
-
-This test class contains ten test cases for the `intersperse` method of the `Intersperse` class. The test cases cover different scenarios, such as empty list, single element list, two element list, etc. The expected output for each test case is calculated manually and compared with the actual output returned by the `intersperse` method. If the expected and actual outputs match, the test case passes, otherwise it fails.

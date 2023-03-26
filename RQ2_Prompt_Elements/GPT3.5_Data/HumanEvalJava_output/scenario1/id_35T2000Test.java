@@ -1,6 +1,7 @@
-Here's the code for the MaxElementTest class:
+Here's the source code for the MaxElementTest class:
 
 ```
+// MaxElementTest.java
 package scenario1;
 
 import java.util.Arrays;
@@ -45,6 +46,12 @@ class MaxElementTest {
     }
 
     @Test
+    void testMaxElementWithMixedElements() {
+        List<Integer> l = Arrays.asList(-5, 10, -15, 20, -25);
+        assertEquals(20, MaxElement.maxElement(l));
+    }
+
+    @Test
     void testMaxElementWithDuplicateElements() {
         List<Integer> l = Arrays.asList(5, 10, 15, 20, 25, 25);
         assertEquals(25, MaxElement.maxElement(l));
@@ -58,22 +65,33 @@ class MaxElementTest {
 
     @Test
     void testMaxElementWithLargeList() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-        assertEquals(20, MaxElement.maxElement(l));
+        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
+                45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68,
+                69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92,
+                93, 94, 95, 96, 97, 98, 99, 100);
+        assertEquals(100, MaxElement.maxElement(l));
     }
 
     @Test
-    void testMaxElementWithRandomElements() {
-        List<Integer> l = Arrays.asList(5, 10, 15, 20, 25, 30, 35, 40, 45, 50);
-        assertEquals(50, MaxElement.maxElement(l));
-    }
-
-    @Test
-    void testMaxElementWithMaxValue() {
-        List<Integer> l = Arrays.asList(Integer.MIN_VALUE, Integer.MAX_VALUE);
-        assertEquals(Integer.MAX_VALUE, MaxElement.maxElement(l));
-    }
-}
-```
-
-This class contains ten test methods that test different scenarios for the `maxElement` method of the `MaxElement` class. The tests cover cases such as an empty list, a list with one element, a list with multiple elements, a list with negative elements, a list with duplicate elements, a null list, a large list, a list with random elements, and a list with the maximum and minimum integer values. The tests use the `assertEquals` and `assertThrows` methods from the JUnit library to check if the expected result is equal to the actual result or if an exception is thrown, respectively.
+    void testMaxElementWithRepeatedLargeList() {
+        List<Integer> l = Arrays.asList(100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,

@@ -1,72 +1,56 @@
-Here's a possible implementation of the `greatestCommonDivisor` method:
+// GreatestCommonDivisor.java
+package scenario3;
 
-```java
-public static int greatestCommonDivisor(int a, int b) {
-    if (b == 0) {
-        return a;
-    } else {
-        return greatestCommonDivisor(b, a % b);
+class GreatestCommonDivisor {
+
+    /**
+     * Return the greatest common divisor of two integers a and b.
+     *
+     * > greatestCommonDivisor(3, 5)
+     * 1
+     * > greatestCommonDivisor(25, 15)
+     * 5
+     * > greatestCommonDivisor(3, 7)
+     * 1
+     * > greatestCommonDivisor(10, 15)
+     * 5
+     * > greatestCommonDivisor(49, 14)
+     * 7
+     * > greatestCommonDivisor(144, 60)
+     * 12
+     */
+    public static int greatestCommonDivisor(int a, int b) {
+        if (b == 0) {
+            return a;
+        } else {
+            return greatestCommonDivisor(b, a % b);
+        }
     }
 }
-```
 
-This is a recursive implementation of the Euclidean algorithm for finding the greatest common divisor of two integers. The algorithm works by repeatedly taking the remainder of the division of the larger number by the smaller number, until the remainder is zero. At that point, the last non-zero remainder is the greatest common divisor.
+// GreatestCommonDivisorTest.java
+package scenario3;
 
-The `GreatestCommonDivisorTest` class can now be completed with the following test cases:
 
-```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link GreatestCommonDivisor}.
+* It contains ten unit test cases for the {@link GreatestCommonDivisor#greatestCommonDivisor(int, int)} method.
+*/
 class GreatestCommonDivisorTest {
-
     @Test
-    void testGreatestCommonDivisor1() {
+    void testGreatestCommonDivisor() {
         assertEquals(1, GreatestCommonDivisor.greatestCommonDivisor(3, 5));
-    }
-
-    @Test
-    void testGreatestCommonDivisor2() {
         assertEquals(5, GreatestCommonDivisor.greatestCommonDivisor(25, 15));
-    }
-
-    @Test
-    void testGreatestCommonDivisor3() {
         assertEquals(1, GreatestCommonDivisor.greatestCommonDivisor(3, 7));
-    }
-
-    @Test
-    void testGreatestCommonDivisor4() {
         assertEquals(5, GreatestCommonDivisor.greatestCommonDivisor(10, 15));
-    }
-
-    @Test
-    void testGreatestCommonDivisor5() {
         assertEquals(7, GreatestCommonDivisor.greatestCommonDivisor(49, 14));
-    }
-
-    @Test
-    void testGreatestCommonDivisor6() {
         assertEquals(12, GreatestCommonDivisor.greatestCommonDivisor(144, 60));
-    }
-
-    @Test
-    void testGreatestCommonDivisor7() {
         assertEquals(1, GreatestCommonDivisor.greatestCommonDivisor(1, 1));
-    }
-
-    @Test
-    void testGreatestCommonDivisor8() {
-        assertEquals(1, GreatestCommonDivisor.greatestCommonDivisor(1, 7));
-    }
-
-    @Test
-    void testGreatestCommonDivisor9() {
-        assertEquals(7, GreatestCommonDivisor.greatestCommonDivisor(49, 0));
-    }
-
-    @Test
-    void testGreatestCommonDivisor10() {
-        assertEquals(10, GreatestCommonDivisor.greatestCommonDivisor(10, 0));
+        assertEquals(1, GreatestCommonDivisor.greatestCommonDivisor(1, 2));
+        assertEquals(1, GreatestCommonDivisor.greatestCommonDivisor(2, 1));
+        assertEquals(2, GreatestCommonDivisor.greatestCommonDivisor(2, 2));
     }
 }
-```
-
-These test cases cover various scenarios, including edge cases where one or both inputs are zero or one.

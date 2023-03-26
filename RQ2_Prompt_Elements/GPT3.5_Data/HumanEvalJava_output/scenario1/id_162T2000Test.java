@@ -1,64 +1,81 @@
-Here's the code for the StringToMd5Test class with ten unit test cases for the stringToMd5 method:
-
-```
-package scenario1;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
 
 class StringToMd5Test {
 
     @Test
+    @DisplayName("Test empty string")
     void testEmptyString() {
-        assertNull(StringToMd5.stringToMd5(""));
+        String result = StringToMd5.stringToMd5("");
+        assertNull(result);
     }
 
     @Test
-    void testSingleCharacter() {
-        assertEquals("0bdc9d2d256b3ee9daae347be6f4dc835a467ffe", StringToMd5.stringToMd5("a"));
+    @DisplayName("Test lowercase string")
+    void testLowercaseString() {
+        String result = StringToMd5.stringToMd5("hello world");
+        assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", result);
     }
 
     @Test
-    void testMultipleCharacters() {
-        assertEquals("900150983cd24fb0d6963f7d28e17f72", StringToMd5.stringToMd5("abc"));
+    @DisplayName("Test uppercase string")
+    void testUppercaseString() {
+        String result = StringToMd5.stringToMd5("HELLO WORLD");
+        assertEquals("b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9", result);
     }
 
     @Test
-    void testUpperCase() {
-        assertEquals("1bc29b36f623ba82aaf6724fd3b16718", StringToMd5.stringToMd5("ABC"));
+    @DisplayName("Test mixed case string")
+    void testMixedCaseString() {
+        String result = StringToMd5.stringToMd5("Hello World");
+        assertEquals("b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9", result);
     }
 
     @Test
-    void testNumbers() {
-        assertEquals("d41d8cd98f00b204e9800998ecf8427e", StringToMd5.stringToMd5("123"));
+    @DisplayName("Test string with numbers")
+    void testStringWithNumbers() {
+        String result = StringToMd5.stringToMd5("Hello123World");
+        assertEquals("f7c3bc1d808e04732adf679965ccc34ca7ae3441e5cb1b3f163fed1238bb6bb1", result);
     }
 
     @Test
-    void testSpecialCharacters() {
-        assertEquals("d41d8cd98f00b204e9800998ecf8427e", StringToMd5.stringToMd5("!@#$%^&*()"));
+    @DisplayName("Test string with special characters")
+    void testStringWithSpecialCharacters() {
+        String result = StringToMd5.stringToMd5("Hello!@#$%^&*()_+World");
+        assertEquals("d7d5f1f2c8fbbf7b3c0e7e9d7d9c8c5d", result);
     }
 
     @Test
-    void testLongString() {
-        assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", StringToMd5.stringToMd5("This is a long string that should produce a longer hash value."));
+    @DisplayName("Test string with leading and trailing spaces")
+    void testStringWithLeadingAndTrailingSpaces() {
+        String result = StringToMd5.stringToMd5("  Hello World  ");
+        assertEquals("b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9", result);
     }
 
     @Test
-    void testNullString() {
-        assertNull(StringToMd5.stringToMd5(null));
+    @DisplayName("Test string with only spaces")
+    void testStringWithOnlySpaces() {
+        String result = StringToMd5.stringToMd5("     ");
+        assertEquals("7215ee9c7d9dc229d2921a40e899ec5f", result);
     }
 
     @Test
-    void testSameString() {
-        String text = "This is a test string.";
-        assertEquals(StringToMd5.stringToMd5(text), StringToMd5.stringToMd5(text));
+    @DisplayName("Test string with newline characters")
+    void testStringWithNewlineCharacters() {
+        String result = StringToMd5.stringToMd5("Hello\nWorld");
+        assertEquals("6f5902ac237024bdd0c176cb93063dc4", result);
     }
 
     @Test
-    void testDifferentStrings() {
-        assertNotEquals(StringToMd5.stringToMd5("This is a test string."), StringToMd5.stringToMd5("This is a different test string."));
+    @DisplayName("Test string with carriage return characters")
+    void testStringWithCarriageReturnCharacters() {
+        String result = StringToMd5.stringToMd5("Hello\rWorld");
+        assertEquals("6f5902ac237024bdd0c176cb93063dc4", result);
+    }
+
+    @Test
+    @DisplayName("Test string with tab characters")
+    void testStringWithTabCharacters() {
+        String result = StringToMd5.stringToMd5("Hello\tWorld");
+        assertEquals("6f5902ac237024bdd0c176cb93063dc4", result);
     }
 }
-```
-
-These test cases cover a range of scenarios, including empty strings, single characters, multiple characters, upper case letters, numbers, special characters, long strings, null strings, and comparing the hash values of the same and different strings.

@@ -1,15 +1,11 @@
-Here's the code for the `IsSortedTest` class:
+// Here's the source code for the IsSortedTest class:
 
-```
 package scenario2;
-
-import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class IsSortedTest {
 
@@ -69,10 +65,7 @@ class IsSortedTest {
 
     @Test
     void testLargeUnsortedList() {
-        List<Object> lst = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10, 9, 8);
+        List<Object> lst = Arrays.asList(1, 2, 3, 4, 5, 10, 9, 8, 7, 6);
         assertFalse(IsSorted.isSorted(lst));
     }
 }
-```
-
-This test class contains ten unit test cases for the `IsSorted.isSorted()` method. The test cases cover various scenarios, including empty lists, single-element lists, sorted and unsorted lists of different sizes, and lists with duplicate elements. The `assertTrue()` and `assertFalse()` methods are used to assert the expected results of the `IsSorted.isSorted()` method.

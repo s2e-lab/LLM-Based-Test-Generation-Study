@@ -1,6 +1,4 @@
-Here's the code for the test class:
-
-```
+// DoubleTheDifferenceTest.java
 package scenario2;
 
 import java.util.Arrays;
@@ -8,74 +6,79 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link DoubleTheDifference}.
+* It contains ten unit test cases for the {@link DoubleTheDifference#doubleTheDifference(List)} method.
+*/
 class DoubleTheDifferenceTest {
 
     @Test
     void testEmptyList() {
         List<Object> lst = Arrays.asList();
-        assertEquals(0, DoubleTheDifference.doubleTheDifference(lst));
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(0, result);
     }
 
     @Test
     void testOnlyNegativeNumbers() {
         List<Object> lst = Arrays.asList(-1, -3, -5);
-        assertEquals(0, DoubleTheDifference.doubleTheDifference(lst));
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(0, result);
     }
 
     @Test
     void testOnlyEvenNumbers() {
         List<Object> lst = Arrays.asList(2, 4, 6);
-        assertEquals(0, DoubleTheDifference.doubleTheDifference(lst));
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(0, result);
     }
 
     @Test
     void testOnlyOddNumbers() {
         List<Object> lst = Arrays.asList(1, 3, 5);
-        assertEquals(35, DoubleTheDifference.doubleTheDifference(lst));
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(35, result);
     }
 
     @Test
     void testMixedNumbers() {
-        List<Object> lst = Arrays.asList(1, -2, 3.5, 4, 5, -6);
-        assertEquals(26, DoubleTheDifference.doubleTheDifference(lst));
+        List<Object> lst = Arrays.asList(1, -2, 3.5, 4, 5, -6, 7);
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(75, result);
     }
 
     @Test
-    void testOnlyZero() {
+    void testZero() {
         List<Object> lst = Arrays.asList(0);
-        assertEquals(0, DoubleTheDifference.doubleTheDifference(lst));
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(0, result);
     }
 
     @Test
-    void testOnlyOne() {
-        List<Object> lst = Arrays.asList(1);
-        assertEquals(1, DoubleTheDifference.doubleTheDifference(lst));
+    void testLargeNumbers() {
+        List<Object> lst = Arrays.asList(1000000000, 2000000000, 3000000000);
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(0, result);
     }
 
     @Test
-    void testOnlyTwo() {
-        List<Object> lst = Arrays.asList(2);
-        assertEquals(0, DoubleTheDifference.doubleTheDifference(lst));
+    void testMaxIntegerValue() {
+        List<Object> lst = Arrays.asList(Integer.MAX_VALUE);
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(0, result);
     }
 
     @Test
-    void testOnlyThree() {
-        List<Object> lst = Arrays.asList(3);
-        assertEquals(9, DoubleTheDifference.doubleTheDifference(lst));
+    void testMinIntegerValue() {
+        List<Object> lst = Arrays.asList(Integer.MIN_VALUE);
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(0, result);
     }
 
     @Test
-    void testOnlyFour() {
-        List<Object> lst = Arrays.asList(4);
-        assertEquals(0, DoubleTheDifference.doubleTheDifference(lst));
-    }
-
-    @Test
-    void testOnlyFive() {
-        List<Object> lst = Arrays.asList(5);
-        assertEquals(25, DoubleTheDifference.doubleTheDifference(lst));
+    void testMixedTypes() {
+        List<Object> lst = Arrays.asList(1, "two", 3.5, true, 5);
+        int result = DoubleTheDifference.doubleTheDifference(lst);
+        assertEquals(26, result);
     }
 }
-```
-
-This test class contains ten test cases that cover different scenarios for the `doubleTheDifference` method. The test cases include empty list, only negative numbers, only even numbers, only odd numbers, mixed numbers, and different single numbers. The `assertEquals` method is used to compare the expected result with the actual result of the method call.

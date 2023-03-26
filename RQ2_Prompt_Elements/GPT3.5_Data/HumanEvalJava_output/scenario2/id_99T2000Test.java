@@ -1,4 +1,4 @@
-Here's the source code for the ClosestIntegerTest class:
+Here's the code for the ClosestIntegerTest class:
 
 ```
 package scenario2;
@@ -49,4 +49,4 @@ class ClosestIntegerTest {
 }
 ```
 
-This test class contains ten unit test cases for the `closestInteger` method of the `ClosestInteger` class. The test cases cover different scenarios, including positive, negative, and zero numbers, large numbers, and invalid input. The `assertEquals` method is used to compare the expected result with the actual result returned by the `closestInteger` method. The `assertThrows` method is used to test the behavior of the method when invalid input is provided.
+This test class contains ten unit test cases for the `closestInteger` method. The first six test cases test positive and negative decimal numbers, while the seventh and eighth test cases test zero and large numbers respectively. The ninth test case tests invalid input, and the last test case tests that an exception is thrown when invalid input is provided.

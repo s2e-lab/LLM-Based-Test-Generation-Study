@@ -1,15 +1,10 @@
-Here's the completed `DigitsumTest` class with ten unit test cases for the `digitSum` method:
+// Here's the source code for the DigitsumTest class with ten unit test cases for the digitSum method.
 
-```
 package scenario1;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link Digitsum}.
- * It contains ten unit test cases for the {@link Digitsum#digitSum(String)} method.
- */
 class DigitsumTest {
 
     @Test
@@ -49,7 +44,7 @@ class DigitsumTest {
 
     @Test
     void testUnicodeCharacters() {
-        assertEquals(195, Digitsum.digitSum("ABC\u00E9def\u00F6GHI"));
+        assertEquals(195, Digitsum.digitSum("ABC\u00DFdef\u00D6GHI"));
     }
 
     @Test
@@ -66,7 +61,6 @@ class DigitsumTest {
         }
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        assertTrue(duration < 1000, "Performance test failed: " + duration + "ms");
+        assertTrue(duration < 1000);
     }
 }
-```

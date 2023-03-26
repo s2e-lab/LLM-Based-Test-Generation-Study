@@ -159,6 +159,9 @@ class SumProductTest {
     @Test
     void testSumProductWithNull() {
         List<Integer> numbers = null;
-        assertThrows(NullPointerException.class, () -> SumProduct.sumProduct(numbers));
+        List<Integer> expected = new ArrayList<>();
+        expected.add(0);
+        expected.add(1);
+        assertEquals(expected, SumProduct.sumProduct(numbers));
     }
 }

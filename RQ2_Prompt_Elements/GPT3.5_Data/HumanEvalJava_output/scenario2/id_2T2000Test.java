@@ -67,6 +67,6 @@ class TruncateNumberTest {
     @Test
     void testTruncateNumberWithNaN() {
         Double result = TruncateNumber.truncateNumber(Double.NaN);
-        assertTrue(result.isNaN());
+        assertTrue(Double.isNaN(result));
     }
 }

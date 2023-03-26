@@ -1,94 +1,112 @@
-Here's the source code for the FilterIntegersTest class with ten unit test cases for the filterIntegers method:
-
-```
-package scenario2;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FilterIntegersTest {
 
     @Test
-    void testEmptyList() {
-        List<Object> values = new ArrayList<Object>();
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithEmptyList() {
+        List<Object> values = new ArrayList<>();
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(0, result.size());
     }
 
     @Test
-    void testListWithNoIntegers() {
-        List<Object> values = Arrays.asList("hello", 3.14, true);
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithNonIntegerValues() {
+        List<Object> values = new ArrayList<>();
+        values.add("hello");
+        values.add(3.14);
+        values.add(true);
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(0, result.size());
     }
 
     @Test
-    void testListWithOneInteger() {
-        List<Object> values = Arrays.asList(42);
-        List<Object> expected = Arrays.asList(42);
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithIntegerValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(1);
+        values.add(2);
+        values.add(3);
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(3, result.size());
+        assertEquals(1, result.get(0));
+        assertEquals(2, result.get(1));
+        assertEquals(3, result.get(2));
     }
 
     @Test
-    void testListWithMultipleIntegers() {
-        List<Object> values = Arrays.asList(1, "two", 3.0, 4, false, 5);
-        List<Object> expected = Arrays.asList(1, 4, 5);
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithMixedValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(1);
+        values.add("hello");
+        values.add(2);
+        values.add(3.14);
+        values.add(true);
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(2, result.size());
+        assertEquals(1, result.get(0));
+        assertEquals(2, result.get(1));
     }
 
     @Test
-    void testListWithAllIntegers() {
-        List<Object> values = Arrays.asList(1, 2, 3, 4, 5);
-        List<Object> expected = Arrays.asList(1, 2, 3, 4, 5);
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithNullValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(null);
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(0, result.size());
     }
 
     @Test
-    void testListWithNullValues() {
-        List<Object> values = Arrays.asList(null, 1, null, 2, null);
-        List<Object> expected = Arrays.asList(1, 2);
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithLargeList() {
+        List<Object> values = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            values.add(i);
+        }
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(1000000, result.size());
     }
 
     @Test
-    void testListWithMixedTypes() {
-        List<Object> values = Arrays.asList(1, "two", 3.0, true, false, 'c');
-        List<Object> expected = Arrays.asList(1);
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithNegativeValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(-1);
+        values.add(-2);
+        values.add(3);
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(3, result.size());
+        assertEquals(-1, result.get(0));
+        assertEquals(-2, result.get(1));
+        assertEquals(3, result.get(2));
     }
 
     @Test
-    void testListWithLargeValues() {
-        List<Object> values = Arrays.asList(Integer.MAX_VALUE, Long.MAX_VALUE, Double.MAX_VALUE);
-        List<Object> expected = Arrays.asList(Integer.MAX_VALUE);
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithZeroValue() {
+        List<Object> values = new ArrayList<>();
+        values.add(0);
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(1, result.size());
+        assertEquals(0, result.get(0));
     }
 
     @Test
-    void testListWithNegativeValues() {
-        List<Object> values = Arrays.asList(-1, -2, -3, -4, -5);
-        List<Object> expected = Arrays.asList(-1, -2, -3, -4, -5);
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithDuplicateValues() {
+        List<Object> values = new ArrayList<>();
+        values.add(1);
+        values.add(2);
+        values.add(2);
+        values.add(3);
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(3, result.size());
+        assertEquals(1, result.get(0));
+        assertEquals(2, result.get(1));
+        assertEquals(3, result.get(2));
     }
 
     @Test
-    void testListWithMixedSignValues() {
-        List<Object> values = Arrays.asList(-1, 2, -3, 4, -5);
-        List<Object> expected = Arrays.asList(-1, 2, -3, 4, -5);
-        List<Object> actual = FilterIntegers.filterIntegers(values);
-        assertEquals(expected, actual);
+    void testFilterIntegersWithLargeNegativeValues() {
+        List<Object> values = new ArrayList<>();
+        for (int i = -1000000; i < 0; i++) {
+            values.add(i);
+        }
+        List<Object> result = FilterIntegers.filterIntegers(values);
+        assertEquals(1000000, result.size());
     }
 }
-```

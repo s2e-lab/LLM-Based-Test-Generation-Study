@@ -63,18 +63,47 @@ class EvenOddPalindrome {
         return result;
     }
 
-    private static boolean isPalindrome(int n) {
-        String str = String.valueOf(n);
-        int i = 0;
-        int j = str.length() - 1;
-        while (i < j) {
-            if (str.charAt(i) != str.charAt(j)) {
-                return false;
-            }
-            i++;
-            j--;
+    /**
+     * * Given an integer n, return true if it is a palindrome.
+     *
+     * Example 1:
+     *
+     * Input: 121
+     * Output: true
+     *
+     * Example 2:
+     *
+     * Input: -121
+     * Output: false
+     * Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+     *
+     * Example 3:
+     *
+     * Input: 10
+     * Output: false
+     * Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+     *
+     * Note:
+     * 1. -2^31 <= x <= 2^31 - 1
+     *
+     * > isPalindrome(121)
+     * true
+     * > isPalindrome(-121)
+     * false
+     * > isPalindrome(10)
+     * false
+     */
+    public static boolean isPalindrome(int n) {
+        if (n < 0) {
+            return false;
         }
-        return true;
+        int reversed = 0;
+        int original = n;
+        while (n != 0) {
+            reversed = reversed * 10 + n % 10;
+            n /= 10;
+        }
+        return original == reversed;
     }
 }
 

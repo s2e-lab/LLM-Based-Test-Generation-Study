@@ -72,12 +72,12 @@ class StringSequenceTest {
     }
 
     @Test
-    void testStringSequenceWithOddNumber() {
-        String expected = "0 1 2 3 4 5 6 7 8 9 10 11";
-        String actual = StringSequence.stringSequence(11);
+    void testStringSequenceWithRandomNumber() {
+        String expected = "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20";
+        String actual = StringSequence.stringSequence(20);
         assertEquals(expected, actual);
     }
 }
 ```
 
-This test class contains ten unit test cases for the `stringSequence` method of the `StringSequence` class. The test cases cover different scenarios such as zero, positive and negative numbers, large numbers, and the maximum and minimum values of an integer. The `assertEquals` method is used to compare the expected and actual results of the `stringSequence` method.
+This test class contains ten unit test cases for the `StringSequence.stringSequence(int)` method. The test cases cover different scenarios such as zero, positive, negative, large, and extreme values. The `assertEquals` method is used to compare the expected output with the actual output of the `stringSequence` method.

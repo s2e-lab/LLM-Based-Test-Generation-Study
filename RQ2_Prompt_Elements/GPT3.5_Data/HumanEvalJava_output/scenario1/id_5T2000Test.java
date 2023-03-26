@@ -1,4 +1,4 @@
-Here's the code for the `IntersperseTest` class:
+Here's the source code for the IntersperseTest class:
 
 ```
 package scenario1;
@@ -19,7 +19,8 @@ class IntersperseTest {
     void testIntersperseWithEmptyList() {
         List<Object> numbers = new ArrayList<>();
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = Intersperse.intersperse(numbers, 0);
+        int delimiter = 0;
+        List<Object> actual = Intersperse.intersperse(numbers, delimiter);
         assertEquals(expected, actual);
     }
 
@@ -27,7 +28,8 @@ class IntersperseTest {
     void testIntersperseWithSingleElementList() {
         List<Object> numbers = Arrays.asList(1);
         List<Object> expected = Arrays.asList(1);
-        List<Object> actual = Intersperse.intersperse(numbers, 0);
+        int delimiter = 0;
+        List<Object> actual = Intersperse.intersperse(numbers, delimiter);
         assertEquals(expected, actual);
     }
 
@@ -35,7 +37,8 @@ class IntersperseTest {
     void testIntersperseWithTwoElementList() {
         List<Object> numbers = Arrays.asList(1, 2);
         List<Object> expected = Arrays.asList(1, 0, 2);
-        List<Object> actual = Intersperse.intersperse(numbers, 0);
+        int delimiter = 0;
+        List<Object> actual = Intersperse.intersperse(numbers, delimiter);
         assertEquals(expected, actual);
     }
 
@@ -43,7 +46,8 @@ class IntersperseTest {
     void testIntersperseWithThreeElementList() {
         List<Object> numbers = Arrays.asList(1, 2, 3);
         List<Object> expected = Arrays.asList(1, 0, 2, 0, 3);
-        List<Object> actual = Intersperse.intersperse(numbers, 0);
+        int delimiter = 0;
+        List<Object> actual = Intersperse.intersperse(numbers, delimiter);
         assertEquals(expected, actual);
     }
 
@@ -51,58 +55,52 @@ class IntersperseTest {
     void testIntersperseWithFourElementList() {
         List<Object> numbers = Arrays.asList(1, 2, 3, 4);
         List<Object> expected = Arrays.asList(1, 0, 2, 0, 3, 0, 4);
-        List<Object> actual = Intersperse.intersperse(numbers, 0);
+        int delimiter = 0;
+        List<Object> actual = Intersperse.intersperse(numbers, delimiter);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testIntersperseWithDelimiterAtBeginning() {
-        List<Object> numbers = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(0, 1, 0, 2, 0, 3);
-        List<Object> actual = Intersperse.intersperse(numbers, 0);
+    void testIntersperseWithDelimiterGreaterThanZero() {
+        List<Object> numbers = Arrays.asList(1, 2, 3, 4);
+        List<Object> expected = Arrays.asList(1, 5, 2, 5, 3, 5, 4);
+        int delimiter = 5;
+        List<Object> actual = Intersperse.intersperse(numbers, delimiter);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testIntersperseWithDelimiterAtEnd() {
-        List<Object> numbers = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(1, 0, 2, 0, 3, 0);
-        List<Object> actual = Intersperse.intersperse(numbers, 0);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testIntersperseWithNegativeDelimiter() {
-        List<Object> numbers = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(1, -1, 2, -1, 3);
-        List<Object> actual = Intersperse.intersperse(numbers, -1);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testIntersperseWithMixedTypes() {
-        List<Object> numbers = Arrays.asList(1, "two", 3.0);
-        List<Object> expected = Arrays.asList(1, 0, "two", 0, 3.0);
-        List<Object> actual = Intersperse.intersperse(numbers, 0);
+    void testIntersperseWithDelimiterLessThanZero() {
+        List<Object> numbers = Arrays.asList(1, 2, 3, 4);
+        List<Object> expected = Arrays.asList(1, -5, 2, -5, 3, -5, 4);
+        int delimiter = -5;
+        List<Object> actual = Intersperse.intersperse(numbers, delimiter);
         assertEquals(expected, actual);
     }
 
     @Test
     void testIntersperseWithNullList() {
         List<Object> numbers = null;
-        assertThrows(NullPointerException.class, () -> {
-            Intersperse.intersperse(numbers, 0);
-        });
+        int delimiter = 0;
+        assertThrows(NullPointerException.class, () -> Intersperse.intersperse(numbers, delimiter));
     }
 
     @Test
     void testIntersperseWithNullDelimiter() {
-        List<Object> numbers = Arrays.asList(1, 2, 3);
-        assertThrows(NullPointerException.class, () -> {
-            Intersperse.intersperse(numbers, null);
-        });
+        List<Object> numbers = Arrays.asList(1, 2, 3, 4);
+        Integer delimiter = null;
+        assertThrows(NullPointerException.class, () -> Intersperse.intersperse(numbers, delimiter));
+    }
+
+    @Test
+    void testIntersperseWithMixedTypes() {
+        List<Object> numbers = Arrays.asList(1, "two", 3.0, true);
+        List<Object> expected = Arrays.asList(1, 0, "two", 0, 3.0, 0, true);
+        int delimiter = 0;
+        List<Object> actual = Intersperse.intersperse(numbers, delimiter);
+        assertEquals(expected, actual);
     }
 }
 ```
 
-This class contains ten test cases for the `Intersperse.intersperse()` method. The test cases cover different scenarios, such as empty list, single element list, list with multiple elements, list with negative delimiter, list with mixed types, and null list/delimiter. The `@Test` annotation is used to mark each test case method, and the `assertEquals()` method is used to compare the expected and actual results. The `assertThrows()` method is used to test for expected exceptions.
+This class contains ten unit test cases for the `Intersperse.intersperse()` method. The test cases cover various scenarios, such as empty list, single element list, list with multiple elements, list with mixed types, null list, null delimiter, and delimiter greater than or less than zero. The `@Test` annotation is used to mark each test case method, and the `assertEquals()` method is used to compare the expected and actual results. The `assertThrows()` method is used to test for expected exceptions.

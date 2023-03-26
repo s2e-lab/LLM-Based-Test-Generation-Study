@@ -1,151 +1,113 @@
-Here's the code for the SortEvenTest class with ten unit test cases for the sortEven method:
+Here's an example implementation of the SortEvenTest class with ten unit test cases for the SortEven.sortEven(List) method:
 
 ```
+package scenario1;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Test class of {@link SortEven}.
+ * It contains ten unit test cases for the {@link SortEven#sortEven(List)} method.
+ */
 class SortEvenTest {
 
     @Test
-    void testSortEvenEmptyList() {
-        List<Integer> l = new ArrayList<Integer>();
-        List<Integer> expected = new ArrayList<Integer>();
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_emptyList() {
+        List<Integer> l = new ArrayList<>();
+        List<Integer> expected = new ArrayList<>();
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenSingleElementList() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(1);
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(1);
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_singleElementList() {
+        List<Integer> l = Arrays.asList(1);
+        List<Integer> expected = Arrays.asList(1);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenTwoElementList() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(2);
-        l.add(1);
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(1);
-        expected.add(2);
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_twoElementList() {
+        List<Integer> l = Arrays.asList(2, 1);
+        List<Integer> expected = Arrays.asList(1, 2);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenThreeElementList() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(3);
-        l.add(2);
-        l.add(1);
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(3);
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_threeElementList() {
+        List<Integer> l = Arrays.asList(3, 2, 1);
+        List<Integer> expected = Arrays.asList(3, 1, 2);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenFourElementList() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(4);
-        l.add(3);
-        l.add(2);
-        l.add(1);
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(1);
-        expected.add(3);
-        expected.add(2);
-        expected.add(4);
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_fourElementList() {
+        List<Integer> l = Arrays.asList(4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(3, 1, 2, 4);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenFiveElementList() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(5);
-        l.add(4);
-        l.add(3);
-        l.add(2);
-        l.add(1);
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(1);
-        expected.add(4);
-        expected.add(3);
-        expected.add(2);
-        expected.add(5);
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_fiveElementList() {
+        List<Integer> l = Arrays.asList(5, 4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(5, 1, 3, 2, 4);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenDuplicateElements() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(2);
-        l.add(1);
-        l.add(2);
-        l.add(1);
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(1);
-        expected.add(2);
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_duplicateElements() {
+        List<Integer> l = Arrays.asList(2, 1, 2, 1);
+        List<Integer> expected = Arrays.asList(1, 1, 2, 2);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenNegativeElements() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(-2);
-        l.add(-1);
-        l.add(-4);
-        l.add(-3);
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(-4);
-        expected.add(-1);
-        expected.add(-3);
-        expected.add(-2);
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_negativeElements() {
+        List<Integer> l = Arrays.asList(-2, -1, -4, -3);
+        List<Integer> expected = Arrays.asList(-1, -3, -2, -4);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenMixedElements() {
-        List<Integer> l = new ArrayList<Integer>();
-        l.add(2);
-        l.add(-1);
-        l.add(4);
-        l.add(-3);
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(-1);
-        expected.add(2);
-        expected.add(-3);
-        expected.add(4);
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+    void testSortEven_allEvenElements() {
+        List<Integer> l = Arrays.asList(4, 2, 6, 8);
+        List<Integer> expected = Arrays.asList(2, 4, 6, 8);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSortEvenLargeList() {
-        List<Integer> l = new ArrayList<Integer>();
-        for (int i = 0; i < 1000; i++) {
+    void testSortEven_allOddElements() {
+        List<Integer> l = Arrays.asList(3, 5, 1, 7);
+        List<Integer> expected = Arrays.asList(3, 1, 5, 7);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testSortEven_largeList() {
+        List<Integer> l = new ArrayList<>();
+        for (int i = 1000; i >= 1; i--) {
             l.add(i);
         }
-        List<Integer> expected = new ArrayList<Integer>();
-        for (int i = 0; i < 1000; i++) {
-            if (i % 2 == 0) {
-                expected.add(i / 2);
-            } else {
-                expected.add((1000 - i) / 2);
-            }
+        List<Integer> expected = new ArrayList<>();
+        for (int i = 1; i <= 1000; i++) {
+            expected.add(i);
         }
-        List<Integer> result = SortEven.sortEven(l);
-        assertEquals(expected, result);
+        List<Integer> actual = SortEven.sortEven(l);
+        assertEquals(expected, actual);
     }
-
 }
 ```

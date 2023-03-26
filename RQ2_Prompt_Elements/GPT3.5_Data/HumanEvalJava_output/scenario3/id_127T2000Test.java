@@ -82,94 +82,73 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Intersection#intersection(List, List)} method.
 */
 class IntersectionTest {
-
     @Test
     void testIntersection1() {
         List<Integer> interval1 = Arrays.asList(1, 2);
         List<Integer> interval2 = Arrays.asList(2, 3);
-        String expected = "NO";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("NO", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection2() {
         List<Integer> interval1 = Arrays.asList(-1, 1);
         List<Integer> interval2 = Arrays.asList(0, 4);
-        String expected = "NO";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("NO", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection3() {
         List<Integer> interval1 = Arrays.asList(-3, -1);
         List<Integer> interval2 = Arrays.asList(-5, 5);
-        String expected = "YES";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("YES", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection4() {
         List<Integer> interval1 = Arrays.asList(-2, 2);
         List<Integer> interval2 = Arrays.asList(-4, 0);
-        String expected = "YES";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("YES", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection5() {
         List<Integer> interval1 = Arrays.asList(-11, 2);
         List<Integer> interval2 = Arrays.asList(-1, -1);
-        String expected = "NO";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("NO", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection6() {
         List<Integer> interval1 = Arrays.asList(1, 2);
         List<Integer> interval2 = Arrays.asList(3, 5);
-        String expected = "NO";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("NO", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection7() {
         List<Integer> interval1 = Arrays.asList(1, 2);
         List<Integer> interval2 = Arrays.asList(1, 2);
-        String expected = "NO";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("NO", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection8() {
         List<Integer> interval1 = Arrays.asList(-2, -2);
         List<Integer> interval2 = Arrays.asList(-3, -2);
-        String expected = "NO";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("NO", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection9() {
         List<Integer> interval1 = Arrays.asList(0, 0);
         List<Integer> interval2 = Arrays.asList(0, 0);
-        String expected = "NO";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        assertEquals("NO", Intersection.intersection(interval1, interval2));
     }
 
     @Test
     void testIntersection10() {
-        List<Integer> interval1 = Arrays.asList(-100, 100);
-        List<Integer> interval2 = Arrays.asList(-100, 100);
-        String expected = "NO";
-        String actual = Intersection.intersection(interval1, interval2);
-        assertEquals(expected, actual);
+        List<Integer> interval1 = Arrays.asList(1, 10);
+        List<Integer> interval2 = Arrays.asList(5, 15);
+        assertEquals("NO", Intersection.intersection(interval1, interval2));
     }
 }

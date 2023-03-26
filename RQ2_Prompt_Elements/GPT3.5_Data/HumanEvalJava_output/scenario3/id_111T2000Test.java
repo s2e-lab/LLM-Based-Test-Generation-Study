@@ -61,7 +61,6 @@ class Histogram {
 // HistogramTest.java
 package scenario3;
 
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -79,7 +78,7 @@ class HistogramTest {
     }
 
     @Test
-    void testSingleLetter() {
+    void testSingleCharacter() {
         Map<Character, Integer> expected = new HashMap<>();
         expected.put('a', 1);
         Map<Character, Integer> actual = Histogram.histogram("a");
@@ -87,7 +86,7 @@ class HistogramTest {
     }
 
     @Test
-    void testMultipleLettersWithSameCount() {
+    void testMultipleCharactersWithEqualCounts() {
         Map<Character, Integer> expected = new HashMap<>();
         expected.put('a', 2);
         expected.put('b', 2);
@@ -96,7 +95,7 @@ class HistogramTest {
     }
 
     @Test
-    void testMultipleLettersWithDifferentCount() {
+    void testMultipleCharactersWithDifferentCounts() {
         Map<Character, Integer> expected = new HashMap<>();
         expected.put('a', 2);
         expected.put('b', 2);
@@ -105,7 +104,15 @@ class HistogramTest {
     }
 
     @Test
-    void testAllLettersWithSameCount() {
+    void testMultipleCharactersWithOneMaxCount() {
+        Map<Character, Integer> expected = new HashMap<>();
+        expected.put('b', 4);
+        Map<Character, Integer> actual = Histogram.histogram("b b b b a");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testMultipleCharactersWithAllMaxCount() {
         Map<Character, Integer> expected = new HashMap<>();
         expected.put('a', 1);
         expected.put('b', 1);
@@ -117,7 +124,7 @@ class HistogramTest {
     }
 
     @Test
-    void testAllLettersWithDifferentCount() {
+    void testMultipleCharactersWithNoSpaces() {
         Map<Character, Integer> expected = new HashMap<>();
         expected.put('r', 1);
         expected.put('t', 1);
@@ -127,47 +134,32 @@ class HistogramTest {
     }
 
     @Test
-    void testAllSameLetter() {
+    void testMultipleCharactersWithSpaces() {
         Map<Character, Integer> expected = new HashMap<>();
-        expected.put('b', 4);
-        Map<Character, Integer> actual = Histogram.histogram("b b b b a");
+        expected.put('r', 1);
+        expected.put('t', 1);
+        expected.put('g', 1);
+        Map<Character, Integer> actual = Histogram.histogram("r t g ");
         assertEquals(expected, actual);
     }
 
     @Test
-    void testStringWithSpaces() {
+    void testMultipleCharactersWithLeadingSpaces() {
         Map<Character, Integer> expected = new HashMap<>();
-        expected.put('a', 2);
-        expected.put('b', 2);
-        Map<Character, Integer> actual = Histogram.histogram("a b c ");
+        expected.put('r', 1);
+        expected.put('t', 1);
+        expected.put('g', 1);
+        Map<Character, Integer> actual = Histogram.histogram(" r t g");
         assertEquals(expected, actual);
     }
 
     @Test
-    void testStringWithSpacesAndTabs() {
+    void testMultipleCharactersWithTrailingSpaces() {
         Map<Character, Integer> expected = new HashMap<>();
-        expected.put('a', 2);
-        expected.put('b', 2);
-        Map<Character, Integer> actual = Histogram.histogram("a b\tc ");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testStringWithNewLines() {
-        Map<Character, Integer> expected = new HashMap<>();
-        expected.put('a', 2);
-        expected.put('b', 2);
-        Map<Character, Integer> actual = Histogram.histogram("a\nb\nc\n");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testStringWithSpecialCharacters() {
-        Map<Character, Integer> expected = new HashMap<>();
-        expected.put('a', 2);
-        expected.put('b', 2);
-        expected.put('c', 1);
-        Map<Character, Integer> actual = Histogram.histogram("a b c ! @ b a");
+        expected.put('r', 1);
+        expected.put('t', 1);
+        expected.put('g', 1);
+        Map<Character, Integer> actual = Histogram.histogram("r t g ");
         assertEquals(expected, actual);
     }
 }

@@ -1,6 +1,4 @@
-Here's the completed code for the GetClosestVowelTest class:
-
-```
+// GetClosestVowelTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
@@ -30,14 +28,22 @@ class GetClosestVowelTest {
 
     @Test
     void testGetClosestVowel3() {
-        String word = "testing";
-        String expected = "i";
+        String word = "apple";
+        String expected = "";
         String actual = GetClosestVowel.getClosestVowel(word);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGetClosestVowel4() {
+        String word = "banana";
+        String expected = "a";
+        String actual = GetClosestVowel.getClosestVowel(word);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testGetClosestVowel5() {
         String word = "computer";
         String expected = "u";
         String actual = GetClosestVowel.getClosestVowel(word);
@@ -45,7 +51,7 @@ class GetClosestVowelTest {
     }
 
     @Test
-    void testGetClosestVowel5() {
+    void testGetClosestVowel6() {
         String word = "programming";
         String expected = "a";
         String actual = GetClosestVowel.getClosestVowel(word);
@@ -53,16 +59,8 @@ class GetClosestVowelTest {
     }
 
     @Test
-    void testGetClosestVowel6() {
-        String word = "algorithm";
-        String expected = "o";
-        String actual = GetClosestVowel.getClosestVowel(word);
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void testGetClosestVowel7() {
-        String word = "java";
+        String word = "Java";
         String expected = "";
         String actual = GetClosestVowel.getClosestVowel(word);
         assertEquals(expected, actual);
@@ -70,7 +68,7 @@ class GetClosestVowelTest {
 
     @Test
     void testGetClosestVowel8() {
-        String word = "python";
+        String word = "Python";
         String expected = "o";
         String actual = GetClosestVowel.getClosestVowel(word);
         assertEquals(expected, actual);
@@ -78,7 +76,7 @@ class GetClosestVowelTest {
 
     @Test
     void testGetClosestVowel9() {
-        String word = "ruby";
+        String word = "Ruby";
         String expected = "";
         String actual = GetClosestVowel.getClosestVowel(word);
         assertEquals(expected, actual);
@@ -86,12 +84,9 @@ class GetClosestVowelTest {
 
     @Test
     void testGetClosestVowel10() {
-        String word = "javascript";
+        String word = "JavaScript";
         String expected = "a";
         String actual = GetClosestVowel.getClosestVowel(word);
         assertEquals(expected, actual);
     }
 }
-```
-
-This test class contains ten unit test cases for the `GetClosestVowel.getClosestVowel()` method. Each test case tests a different input word and expected output. The `assertEquals()` method is used to compare the expected output with the actual output of the method.

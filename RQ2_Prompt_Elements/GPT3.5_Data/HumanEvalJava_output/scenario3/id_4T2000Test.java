@@ -48,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link MeanAbsoluteDeviation#meanAbsoluteDeviation(List)} method.
 */
 class MeanAbsoluteDeviationTest {
+    
     @Test
     void testMeanAbsoluteDeviation() {
         List<Double> numbers1 = Arrays.asList(1.0, 2.0, 3.0);

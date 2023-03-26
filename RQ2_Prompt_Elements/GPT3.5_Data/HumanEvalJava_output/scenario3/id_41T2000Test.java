@@ -25,7 +25,6 @@ class CarRaceCollision {
      * 100
      */
     public static int carRaceCollision(int n) {
-        // Calculate the number of collisions using the formula n^2
         return n * n;
     }
 }

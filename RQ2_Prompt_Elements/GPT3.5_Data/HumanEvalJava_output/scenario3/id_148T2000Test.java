@@ -3,7 +3,9 @@ package scenario3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class Bf {
 
@@ -38,18 +40,39 @@ class Bf {
      * []
      */
     public static List<String> bf(String planet1, String planet2) {
-        List<String> planets = Arrays.asList("Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune");
+        Map<String, Integer> planets = new HashMap<>();
+        planets.put("Mercury", 1);
+        planets.put("Venus", 2);
+        planets.put("Earth", 3);
+        planets.put("Mars", 4);
+        planets.put("Jupiter", 5);
+        planets.put("Saturn", 6);
+        planets.put("Uranus", 7);
+        planets.put("Neptune", 8);
+
         List<String> result = new ArrayList<>();
-        int index1 = planets.indexOf(planet1);
-        int index2 = planets.indexOf(planet2);
-        if (index1 == -1 || index2 == -1 || index1 == index2) {
+
+        if (!planets.containsKey(planet1) || !planets.containsKey(planet2)) {
             return result;
         }
-        int start = Math.min(index1, index2);
-        int end = Math.max(index1, index2);
-        for (int i = start + 1; i < end; i++) {
-            result.add(planets.get(i));
+
+        int orbit1 = planets.get(planet1);
+        int orbit2 = planets.get(planet2);
+
+        if (orbit1 == orbit2) {
+            return result;
         }
+
+        int minOrbit = Math.min(orbit1, orbit2);
+        int maxOrbit = Math.max(orbit1, orbit2);
+
+        for (Map.Entry<String, Integer> entry : planets.entrySet()) {
+            int orbit = entry.getValue();
+            if (orbit > minOrbit && orbit < maxOrbit) {
+                result.add(entry.getKey());
+            }
+        }
+
         return result;
     }
 }

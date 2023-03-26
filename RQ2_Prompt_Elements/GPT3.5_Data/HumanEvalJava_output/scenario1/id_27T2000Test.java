@@ -1,6 +1,5 @@
-Here's the completed `FlipCaseTest` class with ten unit test cases for the `flipCase` method:
+// Here's the complete code for FlipCaseTest.java
 
-```
 package scenario1;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FlipCaseTest {
 
     @Test
-    void testFlipCase_emptyString() {
+    void testFlipCaseWithEmptyString() {
         String input = "";
         String expectedOutput = "";
         String actualOutput = FlipCase.flipCase(input);
@@ -21,7 +20,7 @@ class FlipCaseTest {
     }
 
     @Test
-    void testFlipCase_allLowerCase() {
+    void testFlipCaseWithLowerCaseString() {
         String input = "hello world";
         String expectedOutput = "HELLO WORLD";
         String actualOutput = FlipCase.flipCase(input);
@@ -29,7 +28,7 @@ class FlipCaseTest {
     }
 
     @Test
-    void testFlipCase_allUpperCase() {
+    void testFlipCaseWithUpperCaseString() {
         String input = "HELLO WORLD";
         String expectedOutput = "hello world";
         String actualOutput = FlipCase.flipCase(input);
@@ -37,7 +36,7 @@ class FlipCaseTest {
     }
 
     @Test
-    void testFlipCase_mixedCase() {
+    void testFlipCaseWithMixedCaseString() {
         String input = "HeLLo WoRLd";
         String expectedOutput = "hEllO wOrlD";
         String actualOutput = FlipCase.flipCase(input);
@@ -45,7 +44,21 @@ class FlipCaseTest {
     }
 
     @Test
-    void testFlipCase_singleCharacter() {
+    void testFlipCaseWithNumbersAndSpecialCharacters() {
+        String input = "123!@#";
+        String expectedOutput = "123!@#";
+        String actualOutput = FlipCase.flipCase(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testFlipCaseWithNullString() {
+        String input = null;
+        assertThrows(NullPointerException.class, () -> FlipCase.flipCase(input));
+    }
+
+    @Test
+    void testFlipCaseWithOneCharacterString() {
         String input = "a";
         String expectedOutput = "A";
         String actualOutput = FlipCase.flipCase(input);
@@ -53,41 +66,26 @@ class FlipCaseTest {
     }
 
     @Test
-    void testFlipCase_numbers() {
-        String input = "12345";
-        String expectedOutput = "12345";
+    void testFlipCaseWithWhitespaceString() {
+        String input = "   ";
+        String expectedOutput = "   ";
         String actualOutput = FlipCase.flipCase(input);
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testFlipCase_specialCharacters() {
-        String input = "!@#$%^&*()_+-=";
-        String expectedOutput = "!@#$%^&*()_+-=";
+    void testFlipCaseWithLongString() {
+        String input = "This is a long string with many characters and spaces and punctuation marks.";
+        String expectedOutput = "tHIS IS A LONG STRING WITH MANY CHARACTERS AND SPACES AND PUNCTUATION MARKS.";
         String actualOutput = FlipCase.flipCase(input);
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testFlipCase_nullInput() {
-        String input = null;
-        assertThrows(NullPointerException.class, () -> FlipCase.flipCase(input));
-    }
-
-    @Test
-    void testFlipCase_longString() {
-        String input = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.";
-        String expectedOutput = "lOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. sED NON RISUS. sUSPENDISSE LECTUS TORTOR, DIGNISSIM SIT AMET, ADIPISCING NEC, ULTRICIES SED, DOLOR.";
-        String actualOutput = FlipCase.flipCase(input);
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    void testFlipCase_unicodeCharacters() {
-        String input = "こんにちは世界";
-        String expectedOutput = "こんにちは世界";
+    void testFlipCaseWithNonAsciiCharacters() {
+        String input = "Héllo Wórld";
+        String expectedOutput = "hÉLLO wÓRLD";
         String actualOutput = FlipCase.flipCase(input);
         assertEquals(expectedOutput, actualOutput);
     }
 }
-```

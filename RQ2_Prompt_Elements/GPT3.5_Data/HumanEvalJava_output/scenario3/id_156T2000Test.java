@@ -43,22 +43,15 @@ class IntToMiniRoman {
      * "m"
      */
     public static String intToMiniRoman(int number) {
-        if (number < 1 || number > 1000) {
-            throw new IllegalArgumentException("Number must be between 1 and 1000");
-        }
-
         String[] romanNumerals = {"m", "cm", "d", "cd", "c", "xc", "l", "xl", "x", "ix", "v", "iv", "i"};
         int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-
         StringBuilder result = new StringBuilder();
-
         for (int i = 0; i < values.length; i++) {
             while (number >= values[i]) {
                 result.append(romanNumerals[i]);
                 number -= values[i];
             }
         }
-
         return result.toString();
     }
 }
@@ -91,11 +84,5 @@ class IntToMiniRomanTest {
         assertEquals("cm", IntToMiniRoman.intToMiniRoman(900));
         assertEquals("cmxciv", IntToMiniRoman.intToMiniRoman(994));
         assertEquals("m", IntToMiniRoman.intToMiniRoman(1000));
-    }
-
-    @Test
-    void testIntToMiniRomanInvalidNumber() {
-        assertThrows(IllegalArgumentException.class, () -> IntToMiniRoman.intToMiniRoman(0));
-        assertThrows(IllegalArgumentException.class, () -> IntToMiniRoman.intToMiniRoman(1001));
     }
 }

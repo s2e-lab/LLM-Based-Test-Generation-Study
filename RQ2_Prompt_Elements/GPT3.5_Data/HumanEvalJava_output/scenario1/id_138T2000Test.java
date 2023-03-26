@@ -1,4 +1,4 @@
-Here's the completed code for the `IsEqualToSumEvenTest` class:
+Here's the code for the `IsEqualToSumEvenTest` class:
 
 ```
 package scenario1;
@@ -28,40 +28,40 @@ class IsEqualToSumEvenTest {
     }
 
     @Test
-    void testIsEqualToSumEvenWithNegativeEvenNumber() {
-        assertFalse(IsEqualToSumEven.isEqualToSumEven(-10));
+    void testIsEqualToSumEvenWith7() {
+        assertFalse(IsEqualToSumEven.isEqualToSumEven(7));
     }
 
     @Test
-    void testIsEqualToSumEvenWithNegativeOddNumber() {
-        assertFalse(IsEqualToSumEven.isEqualToSumEven(-11));
+    void testIsEqualToSumEvenWith6() {
+        assertTrue(IsEqualToSumEven.isEqualToSumEven(6));
     }
 
     @Test
-    void testIsEqualToSumEvenWithNegativeNumberLessThanMinus8() {
-        assertFalse(IsEqualToSumEven.isEqualToSumEven(-9));
+    void testIsEqualToSumEvenWith5() {
+        assertFalse(IsEqualToSumEven.isEqualToSumEven(5));
     }
 
     @Test
-    void testIsEqualToSumEvenWithZero() {
-        assertFalse(IsEqualToSumEven.isEqualToSumEven(0));
+    void testIsEqualToSumEvenWith4() {
+        assertTrue(IsEqualToSumEven.isEqualToSumEven(4));
     }
 
     @Test
-    void testIsEqualToSumEvenWithMaxValue() {
-        assertFalse(IsEqualToSumEven.isEqualToSumEven(Integer.MAX_VALUE));
+    void testIsEqualToSumEvenWith3() {
+        assertFalse(IsEqualToSumEven.isEqualToSumEven(3));
     }
 
     @Test
-    void testIsEqualToSumEvenWithMinValue() {
-        assertFalse(IsEqualToSumEven.isEqualToSumEven(Integer.MIN_VALUE));
+    void testIsEqualToSumEvenWith2() {
+        assertFalse(IsEqualToSumEven.isEqualToSumEven(2));
     }
 
     @Test
-    void testIsEqualToSumEvenWithLargeEvenNumber() {
-        assertTrue(IsEqualToSumEven.isEqualToSumEven(1000000));
+    void testIsEqualToSumEvenWith1() {
+        assertFalse(IsEqualToSumEven.isEqualToSumEven(1));
     }
 }
 ```
 
-This test class contains ten test cases for the `isEqualToSumEven` method of the `IsEqualToSumEven` class. Each test case tests a different scenario, such as an even number greater than 8, an odd number greater than 8, a negative even number, and so on. The `assertTrue` and `assertFalse` methods are used to check the expected result of each test case.
+This class contains ten test methods, each testing a different scenario for the `isEqualToSumEven` method of the `IsEqualToSumEven` class. The `@Test` annotation indicates that each method is a test method. The `assertTrue` and `assertFalse` methods are used to assert that the expected result of the `isEqualToSumEven` method is true or false, respectively.

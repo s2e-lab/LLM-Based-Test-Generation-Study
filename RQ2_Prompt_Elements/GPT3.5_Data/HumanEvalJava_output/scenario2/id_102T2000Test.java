@@ -1,4 +1,4 @@
-Here's the code for the ChooseNumTest class:
+Here's an example implementation of the ChooseNumTest class with ten unit test cases for the chooseNum method:
 
 ```
 package scenario2;
@@ -9,65 +9,46 @@ import static org.junit.jupiter.api.Assertions.*;
 class ChooseNumTest {
 
     @Test
-    void testChooseNum1() {
-        int result = ChooseNum.chooseNum(1, 10);
-        assertEquals(10, result);
+    void testChooseNumWithEvenNumbers() {
+        assertEquals(10, ChooseNum.chooseNum(1, 10));
+        assertEquals(100, ChooseNum.chooseNum(50, 100));
+        assertEquals(20, ChooseNum.chooseNum(10, 20));
     }
 
     @Test
-    void testChooseNum2() {
-        int result = ChooseNum.chooseNum(1, 9);
-        assertEquals(8, result);
+    void testChooseNumWithOddNumbers() {
+        assertEquals(-1, ChooseNum.chooseNum(1, 5));
+        assertEquals(-1, ChooseNum.chooseNum(3, 9));
+        assertEquals(-1, ChooseNum.chooseNum(11, 15));
     }
 
     @Test
-    void testChooseNum3() {
-        int result = ChooseNum.chooseNum(2, 8);
-        assertEquals(8, result);
+    void testChooseNumWithNegativeNumbers() {
+        assertEquals(-1, ChooseNum.chooseNum(-10, -5));
+        assertEquals(-1, ChooseNum.chooseNum(-20, -10));
+        assertEquals(-6, ChooseNum.chooseNum(-10, -6));
     }
 
     @Test
-    void testChooseNum4() {
-        int result = ChooseNum.chooseNum(3, 7);
-        assertEquals(6, result);
+    void testChooseNumWithSameNumbers() {
+        assertEquals(-1, ChooseNum.chooseNum(5, 5));
+        assertEquals(6, ChooseNum.chooseNum(6, 6));
+        assertEquals(-1, ChooseNum.chooseNum(-3, -3));
     }
 
     @Test
-    void testChooseNum5() {
-        int result = ChooseNum.chooseNum(4, 6);
-        assertEquals(6, result);
-    }
-
-    @Test
-    void testChooseNum6() {
-        int result = ChooseNum.chooseNum(5, 5);
-        assertEquals(-1, result);
-    }
-
-    @Test
-    void testChooseNum7() {
-        int result = ChooseNum.chooseNum(6, 4);
-        assertEquals(-1, result);
-    }
-
-    @Test
-    void testChooseNum8() {
-        int result = ChooseNum.chooseNum(7, 3);
-        assertEquals(-1, result);
-    }
-
-    @Test
-    void testChooseNum9() {
-        int result = ChooseNum.chooseNum(8, 2);
-        assertEquals(-1, result);
-    }
-
-    @Test
-    void testChooseNum10() {
-        int result = ChooseNum.chooseNum(9, 1);
-        assertEquals(-1, result);
+    void testChooseNumWithReverseRange() {
+        assertEquals(10, ChooseNum.chooseNum(10, 1));
+        assertEquals(100, ChooseNum.chooseNum(100, 50));
+        assertEquals(20, ChooseNum.chooseNum(20, 10));
     }
 }
 ```
 
-This test class contains ten unit test cases for the `chooseNum` method of the `ChooseNum` class. Each test case tests a different scenario and checks if the method returns the expected result. The `assertEquals` method is used to compare the expected result with the actual result returned by the method.
+This test class includes test cases for the following scenarios:
+
+- Even numbers in the range
+- Odd numbers in the range
+- Negative numbers in the range
+- Same numbers in the range
+- Reverse range (where the second parameter is smaller than the first parameter)

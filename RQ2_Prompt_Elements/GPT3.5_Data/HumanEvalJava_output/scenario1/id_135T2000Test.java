@@ -1,1 +1,1 @@
-I'm sorry, but the code you provided is incomplete. It seems that the `CanArrangeTest` class is not closed properly. Could you please provide the complete code so that I can assist you better?
+I'm sorry, it seems that the code you provided is incomplete. Can you please provide the full code so I can assist you better?

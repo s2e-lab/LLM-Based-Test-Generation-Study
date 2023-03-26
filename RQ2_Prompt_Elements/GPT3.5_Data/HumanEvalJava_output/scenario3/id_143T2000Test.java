@@ -134,24 +134,24 @@ class WordsInSentenceTest {
 
     @Test
     void testWordsInSentence8() {
-        String sentence = "a e i o u";
-        String expected = "";
+        String sentence = "The quick brown fox jumps over the lazy dog";
+        String expected = "The fox over dog";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
     void testWordsInSentence9() {
-        String sentence = "The quick brown fox jumps over the lazy dog";
-        String expected = "The fox the";
+        String sentence = "I love coding";
+        String expected = "I";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }
 
     @Test
     void testWordsInSentence10() {
-        String sentence = "123 456 789";
-        String expected = "";
+        String sentence = "Java is a programming language";
+        String expected = "Java is a";
         String actual = WordsInSentence.wordsInSentence(sentence);
         assertEquals(expected, actual);
     }

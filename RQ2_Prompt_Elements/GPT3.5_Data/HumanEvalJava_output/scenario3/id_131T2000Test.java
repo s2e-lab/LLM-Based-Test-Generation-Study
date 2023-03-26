@@ -53,53 +53,57 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Digits#digits(int)} method.
 */
 class DigitsTest {
+    
     @Test
     void testDigitsWithOneDigitNumber() {
         assertEquals(1, Digits.digits(1));
     }
-
+    
     @Test
     void testDigitsWithEvenNumber() {
         assertEquals(0, Digits.digits(4));
     }
-
+    
     @Test
     void testDigitsWithOddNumber() {
         assertEquals(15, Digits.digits(235));
     }
-
+    
     @Test
-    void testDigitsWithNumberFive() {
+    void testDigitsWithSingleOddDigit() {
         assertEquals(5, Digits.digits(5));
     }
-
+    
     @Test
-    void testDigitsWithNumberFiftyFour() {
-        assertEquals(5, Digits.digits(54));
+    void testDigitsWithSingleEvenDigit() {
+        assertEquals(0, Digits.digits(4));
     }
-
+    
     @Test
-    void testDigitsWithNumberOneHundredTwenty() {
-        assertEquals(1, Digits.digits(120));
+    void testDigitsWithAllEvenDigits() {
+        assertEquals(0, Digits.digits(2468));
     }
-
+    
     @Test
-    void testDigitsWithNumberFiveThousandFourteen() {
-        assertEquals(5, Digits.digits(5014));
-    }
-
-    @Test
-    void testDigitsWithNumberNinetyEightThousandSevenHundredSixtyFive() {
+    void testDigitsWithAllOddDigits() {
         assertEquals(315, Digits.digits(98765));
     }
-
+    
     @Test
-    void testDigitsWithNumberFiveMillionFiveHundredSeventySixThousandFiveHundredFortyThree() {
+    void testDigitsWithMixedDigits() {
+        assertEquals(5, Digits.digits(5014));
+        assertEquals(5, Digits.digits(54));
+        assertEquals(1, Digits.digits(120));
         assertEquals(2625, Digits.digits(5576543));
     }
-
+    
     @Test
-    void testDigitsWithNumberTwoThousandFourHundredSixtyEight() {
-        assertEquals(0, Digits.digits(2468));
+    void testDigitsWithZero() {
+        assertEquals(0, Digits.digits(0));
+    }
+    
+    @Test
+    void testDigitsWithLargeNumber() {
+        assertEquals(945, Digits.digits(123456789));
     }
 }

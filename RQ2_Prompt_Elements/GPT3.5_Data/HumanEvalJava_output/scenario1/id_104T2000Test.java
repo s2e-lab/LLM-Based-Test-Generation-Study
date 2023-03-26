@@ -1,165 +1,138 @@
-I can help you write the test cases for the UniqueDigits class. Here are some examples:
+Here's the code for UniqueDigitsTest class with ten unit test cases for the uniqueDigits method:
 
 ```
-@Test
-void testUniqueDigits() {
-    List<Integer> input = new ArrayList<>();
-    input.add(123);
-    input.add(456);
-    input.add(789);
-    input.add(246);
-    input.add(135);
-    input.add(579);
-    List<Object> expectedOutput = new ArrayList<>();
-    expectedOutput.add(123);
-    expectedOutput.add(135);
-    expectedOutput.add(579);
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    Collections.sort(actualOutput, new Comparator<Object>() {
-        public int compare(Object a, Object b) {
-            return (Integer) a - (Integer) b;
-        }
-    });
-    assertEquals(expectedOutput, actualOutput);
-}
+class UniqueDigitsTest {
 
-@Test
-void testUniqueDigitsWithEmptyList() {
-    List<Integer> input = new ArrayList<>();
-    List<Object> expectedOutput = new ArrayList<>();
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    assertEquals(expectedOutput, actualOutput);
-}
+    @Test
+    void testEmptyList() {
+        List<Integer> input = new ArrayList<>();
+        List<Object> expected = new ArrayList<>();
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 
-@Test
-void testUniqueDigitsWithAllEvenNumbers() {
-    List<Integer> input = new ArrayList<>();
-    input.add(246);
-    input.add(468);
-    input.add(864);
-    List<Object> expectedOutput = new ArrayList<>();
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    assertEquals(expectedOutput, actualOutput);
-}
+    @Test
+    void testNoUniqueDigits() {
+        List<Integer> input = new ArrayList<>();
+        input.add(22);
+        input.add(44);
+        input.add(66);
+        List<Object> expected = new ArrayList<>();
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 
-@Test
-void testUniqueDigitsWithAllOddNumbers() {
-    List<Integer> input = new ArrayList<>();
-    input.add(135);
-    input.add(357);
-    input.add(579);
-    List<Object> expectedOutput = new ArrayList<>();
-    expectedOutput.add(135);
-    expectedOutput.add(357);
-    expectedOutput.add(579);
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    Collections.sort(actualOutput, new Comparator<Object>() {
-        public int compare(Object a, Object b) {
-            return (Integer) a - (Integer) b;
-        }
-    });
-    assertEquals(expectedOutput, actualOutput);
-}
+    @Test
+    void testAllUniqueDigits() {
+        List<Integer> input = new ArrayList<>();
+        input.add(13579);
+        input.add(2468);
+        input.add(97531);
+        List<Object> expected = new ArrayList<>();
+        expected.add(13579);
+        expected.add(97531);
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 
-@Test
-void testUniqueDigitsWithMixedNumbers() {
-    List<Integer> input = new ArrayList<>();
-    input.add(123);
-    input.add(456);
-    input.add(789);
-    input.add(246);
-    input.add(135);
-    input.add(579);
-    input.add(468);
-    input.add(864);
-    List<Object> expectedOutput = new ArrayList<>();
-    expectedOutput.add(123);
-    expectedOutput.add(135);
-    expectedOutput.add(579);
-    expectedOutput.add(789);
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    Collections.sort(actualOutput, new Comparator<Object>() {
-        public int compare(Object a, Object b) {
-            return (Integer) a - (Integer) b;
-        }
-    });
-    assertEquals(expectedOutput, actualOutput);
-}
+    @Test
+    void testMixedDigits() {
+        List<Integer> input = new ArrayList<>();
+        input.add(123);
+        input.add(456);
+        input.add(789);
+        input.add(13579);
+        input.add(2468);
+        input.add(97531);
+        List<Object> expected = new ArrayList<>();
+        expected.add(123);
+        expected.add(789);
+        expected.add(13579);
+        expected.add(97531);
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 
-@Test
-void testUniqueDigitsWithDuplicateNumbers() {
-    List<Integer> input = new ArrayList<>();
-    input.add(123);
-    input.add(456);
-    input.add(789);
-    input.add(246);
-    input.add(135);
-    input.add(579);
-    input.add(123);
-    input.add(246);
-    List<Object> expectedOutput = new ArrayList<>();
-    expectedOutput.add(123);
-    expectedOutput.add(135);
-    expectedOutput.add(579);
-    expectedOutput.add(789);
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    Collections.sort(actualOutput, new Comparator<Object>() {
-        public int compare(Object a, Object b) {
-            return (Integer) a - (Integer) b;
-        }
-    });
-    assertEquals(expectedOutput, actualOutput);
-}
+    @Test
+    void testNegativeNumbers() {
+        List<Integer> input = new ArrayList<>();
+        input.add(-123);
+        input.add(-456);
+        input.add(-789);
+        input.add(-13579);
+        input.add(-2468);
+        input.add(-97531);
+        List<Object> expected = new ArrayList<>();
+        expected.add(-123);
+        expected.add(-789);
+        expected.add(-13579);
+        expected.add(-97531);
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 
-@Test
-void testUniqueDigitsWithNegativeNumbers() {
-    List<Integer> input = new ArrayList<>();
-    input.add(-123);
-    input.add(456);
-    input.add(-789);
-    input.add(246);
-    input.add(135);
-    input.add(579);
-    List<Object> expectedOutput = new ArrayList<>();
-    expectedOutput.add(-789);
-    expectedOutput.add(135);
-    expectedOutput.add(579);
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    Collections.sort(actualOutput, new Comparator<Object>() {
-        public int compare(Object a, Object b) {
-            return (Integer) a - (Integer) b;
-        }
-    });
-    assertEquals(expectedOutput, actualOutput);
-}
+    @Test
+    void testMixedPositiveAndNegativeNumbers() {
+        List<Integer> input = new ArrayList<>();
+        input.add(-123);
+        input.add(456);
+        input.add(-789);
+        input.add(13579);
+        input.add(-2468);
+        input.add(97531);
+        List<Object> expected = new ArrayList<>();
+        expected.add(-123);
+        expected.add(13579);
+        expected.add(-789);
+        expected.add(97531);
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 
-@Test
-void testUniqueDigitsWithZero() {
-    List<Integer> input = new ArrayList<>();
-    input.add(0);
-    List<Object> expectedOutput = new ArrayList<>();
-    expectedOutput.add(0);
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    assertEquals(expectedOutput, actualOutput);
-}
+    @Test
+    void testSingleDigitNumbers() {
+        List<Integer> input = new ArrayList<>();
+        input.add(1);
+        input.add(2);
+        input.add(3);
+        input.add(4);
+        input.add(5);
+        List<Object> expected = new ArrayList<>();
+        expected.add(1);
+        expected.add(3);
+        expected.add(5);
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 
-@Test
-void testUniqueDigitsWithMaxValue() {
-    List<Integer> input = new ArrayList<>();
-    input.add(Integer.MAX_VALUE);
-    List<Object> expectedOutput = new ArrayList<>();
-    expectedOutput.add(Integer.MAX_VALUE);
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    assertEquals(expectedOutput, actualOutput);
-}
+    @Test
+    void testDuplicateNumbers() {
+        List<Integer> input = new ArrayList<>();
+        input.add(123);
+        input.add(456);
+        input.add(789);
+        input.add(123);
+        input.add(456);
+        input.add(789);
+        List<Object> expected = new ArrayList<>();
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 
-@Test
-void testUniqueDigitsWithMinValue() {
-    List<Integer> input = new ArrayList<>();
-    input.add(Integer.MIN_VALUE);
-    List<Object> expectedOutput = new ArrayList<>();
-    expectedOutput.add(Integer.MIN_VALUE);
-    List<Object> actualOutput = UniqueDigits.uniqueDigits(input);
-    assertEquals(expectedOutput, actualOutput);
+    @Test
+    void testLargeNumbers() {
+        List<Integer> input = new ArrayList<>();
+        input.add(123456789);
+        input.add(987654321);
+        input.add(111111111);
+        input.add(222222222);
+        input.add(333333333);
+        input.add(444444444);
+        List<Object> expected = new ArrayList<>();
+        expected.add(111111111);
+        expected.add(333333333);
+        expected.add(987654321);
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
+
+    @Test
+    void testZero() {
+        List<Integer> input = new ArrayList<>();
+        input.add(0);
+        List<Object> expected = new ArrayList<>();
+        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    }
 }
 ```

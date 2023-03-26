@@ -1,12 +1,5 @@
-Here's the code for the FindMaxTest class with ten unit test cases for the findMax method:
-
-```
-package scenario1;
-
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class FindMaxTest {
 
@@ -17,57 +10,46 @@ class FindMaxTest {
 
     @Test
     void testFindMaxWithEmptyList() {
-        assertNull(FindMax.findMax(Arrays.asList()));
+        assertNull(FindMax.findMax(new ArrayList<>()));
     }
 
     @Test
     void testFindMaxWithOneWord() {
-        List<String> words = Arrays.asList("hello");
-        assertEquals("hello", FindMax.findMax(words));
+        assertEquals("hello", FindMax.findMax(Arrays.asList("hello")));
     }
 
     @Test
     void testFindMaxWithTwoWords() {
-        List<String> words = Arrays.asList("hello", "world");
-        assertEquals("world", FindMax.findMax(words));
+        assertEquals("world", FindMax.findMax(Arrays.asList("hello", "world")));
     }
 
     @Test
-    void testFindMaxWithTwoWordsSameLength() {
-        List<String> words = Arrays.asList("hello", "world");
-        assertEquals("hello", FindMax.findMax(words));
+    void testFindMaxWithWordsOfSameLengthAndUniqueChars() {
+        assertEquals("world", FindMax.findMax(Arrays.asList("hello", "world", "java")));
     }
 
     @Test
-    void testFindMaxWithThreeWords() {
-        List<String> words = Arrays.asList("hello", "world", "java");
-        assertEquals("world", FindMax.findMax(words));
+    void testFindMaxWithWordsOfSameLengthAndSameChars() {
+        assertEquals("hello", FindMax.findMax(Arrays.asList("hello", "jello", "mello")));
     }
 
     @Test
-    void testFindMaxWithThreeWordsSameLength() {
-        List<String> words = Arrays.asList("hello", "world", "java");
-        assertEquals("java", FindMax.findMax(words));
+    void testFindMaxWithWordsOfDifferentLengthAndUniqueChars() {
+        assertEquals("programming", FindMax.findMax(Arrays.asList("hello", "world", "java", "programming")));
     }
 
     @Test
-    void testFindMaxWithRepeatedCharacters() {
-        List<String> words = Arrays.asList("hello", "world", "java", "apple", "banana");
-        assertEquals("banana", FindMax.findMax(words));
+    void testFindMaxWithWordsOfDifferentLengthAndSameChars() {
+        assertEquals("hello", FindMax.findMax(Arrays.asList("hello", "jello", "mello", "yellow")));
     }
 
     @Test
-    void testFindMaxWithAllWordsSameLength() {
-        List<String> words = Arrays.asList("hello", "world", "java", "apple");
-        assertEquals("apple", FindMax.findMax(words));
+    void testFindMaxWithWordsContainingSpaces() {
+        assertEquals("hello world", FindMax.findMax(Arrays.asList("hello world", "world hello")));
     }
 
     @Test
-    void testFindMaxWithSpecialCharacters() {
-        List<String> words = Arrays.asList("hello", "world", "java", "apple", "banana", "c++");
-        assertEquals("c++", FindMax.findMax(words));
+    void testFindMaxWithWordsContainingSpecialCharacters() {
+        assertEquals("hello-world", FindMax.findMax(Arrays.asList("hello-world", "world-hello")));
     }
 }
-```
-
-These test cases cover various scenarios such as null and empty lists, lists with one or multiple words, words with repeated characters, words with special characters, and words with the same length.

@@ -68,13 +68,13 @@ class LongestTest {
     }
 
     @Test
-    void testLongestWithMultipleElementListAndEqualLengthStrings() {
+    void testLongestWithMultipleElementListAndEqualLength() {
         List<String> strings = Arrays.asList("x", "y", "z");
         assertEquals("x", Longest.longest(strings));
     }
 
     @Test
-    void testLongestWithMultipleElementListAndEqualLengthStrings2() {
+    void testLongestWithMultipleElementListAndEqualLength2() {
         List<String> strings = Arrays.asList("x", "yyy", "zzzz", "www", "kkkk", "abc");
         assertEquals("zzzz", Longest.longest(strings));
     }
@@ -94,13 +94,13 @@ class LongestTest {
     @Test
     void testLongestWithEmptyString() {
         List<String> strings = Arrays.asList("a", "", "ccc");
-        assertEquals("a", Longest.longest(strings));
+        assertEquals("ccc", Longest.longest(strings));
     }
 
     @Test
     void testLongestWithWhitespaceString() {
         List<String> strings = Arrays.asList("a", "  ", "ccc");
-        assertEquals("a", Longest.longest(strings));
+        assertEquals("ccc", Longest.longest(strings));
     }
 
     @Test

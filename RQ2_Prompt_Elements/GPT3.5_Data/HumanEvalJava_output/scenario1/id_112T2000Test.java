@@ -1,6 +1,5 @@
-Here's the code for the ReverseDeleteTest class with ten unit test cases for the reverseDelete method:
+// Here's the source code for ReverseDeleteTest class with ten unit test cases for the reverseDelete method.
 
-```
 package scenario1;
 
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ class ReverseDeleteTest {
     @Test
     void testReverseDeleteWithNonEmptyStringAndNonEmptyCharacters() {
         List<Object> expected = Arrays.asList("hello", false);
-        List<Object> actual = ReverseDelete.reverseDelete("hello world", "abc");
+        List<Object> actual = ReverseDelete.reverseDelete("hello world", "wrd");
         assertEquals(expected, actual);
     }
 
@@ -54,33 +53,30 @@ class ReverseDeleteTest {
     }
 
     @Test
-    void testReverseDeleteWithMixedCaseString() {
-        List<Object> expected = Arrays.asList("Racecar", true);
-        List<Object> actual = ReverseDelete.reverseDelete("Racecar", "");
+    void testReverseDeleteWithPalindromeStringAndCharacters() {
+        List<Object> expected = Arrays.asList("racecar", true);
+        List<Object> actual = ReverseDelete.reverseDelete("racecar", "xyz");
         assertEquals(expected, actual);
     }
 
     @Test
-    void testReverseDeleteWithSpecialCharacters() {
-        List<Object> expected = Arrays.asList("racecar", true);
-        List<Object> actual = ReverseDelete.reverseDelete("r@cecar", "@");
+    void testReverseDeleteWithNonPalindromeStringAndCharacters() {
+        List<Object> expected = Arrays.asList("hello", false);
+        List<Object> actual = ReverseDelete.reverseDelete("hello world", "xyz");
         assertEquals(expected, actual);
     }
 
     @Test
-    void testReverseDeleteWithNumbers() {
-        List<Object> expected = Arrays.asList("racecar", true);
-        List<Object> actual = ReverseDelete.reverseDelete("r2a2c2e2c2a2r", "0123456789");
+    void testReverseDeleteWithUpperCaseCharacters() {
+        List<Object> expected = Arrays.asList("hello", false);
+        List<Object> actual = ReverseDelete.reverseDelete("Hello", "H");
         assertEquals(expected, actual);
     }
 
     @Test
-    void testReverseDeleteWithMixedCharacters() {
-        List<Object> expected = Arrays.asList("racecar", true);
-        List<Object> actual = ReverseDelete.reverseDelete("r2a@c2e2c2a2r", "0123456789@");
+    void testReverseDeleteWithLowerCaseCharacters() {
+        List<Object> expected = Arrays.asList("hello", false);
+        List<Object> actual = ReverseDelete.reverseDelete("Hello", "h");
         assertEquals(expected, actual);
     }
 }
-```
-
-These test cases cover a variety of scenarios, including empty strings, non-empty strings, palindromes, mixed case strings, special characters, and numbers.
