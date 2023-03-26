@@ -1,68 +1,55 @@
-// Here's the source code for the IsHappyTest class:
-
-package original;
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link IsHappy}.
- * It contains ten unit test cases for the {@link IsHappy#isHappy(String)} method.
- */
 class IsHappyTest {
 
     @Test
-    void testEmptyString() {
-        assertFalse(IsHappy.isHappy(""));
-    }
-
-    @Test
-    void testSingleCharacterString() {
+    void testIsHappyWithSingleLetter() {
         assertFalse(IsHappy.isHappy("a"));
     }
 
     @Test
-    void testTwoCharacterString() {
+    void testIsHappyWithTwoSameLetters() {
         assertFalse(IsHappy.isHappy("aa"));
     }
 
     @Test
-    void testThreeCharacterStringWithDistinctCharacters() {
+    void testIsHappyWithThreeDistinctLetters() {
         assertTrue(IsHappy.isHappy("abc"));
     }
 
     @Test
-    void testThreeCharacterStringWithRepeatedCharacters() {
+    void testIsHappyWithThreeSameLetters() {
         assertFalse(IsHappy.isHappy("aaa"));
     }
 
     @Test
-    void testFourCharacterStringWithDistinctCharacters() {
+    void testIsHappyWithThreeLettersWithTwoSame() {
+        assertFalse(IsHappy.isHappy("abb"));
+    }
+
+    @Test
+    void testIsHappyWithFourDistinctLetters() {
         assertTrue(IsHappy.isHappy("abcd"));
     }
 
     @Test
-    void testFourCharacterStringWithRepeatedCharacters() {
+    void testIsHappyWithFourLettersWithTwoSame() {
         assertFalse(IsHappy.isHappy("aabb"));
     }
 
     @Test
-    void testFiveCharacterStringWithDistinctCharacters() {
+    void testIsHappyWithFourLettersWithThreeSame() {
+        assertFalse(IsHappy.isHappy("aaab"));
+    }
+
+    @Test
+    void testIsHappyWithFiveDistinctLetters() {
         assertTrue(IsHappy.isHappy("abcde"));
     }
 
     @Test
-    void testFiveCharacterStringWithRepeatedCharacters() {
-        assertFalse(IsHappy.isHappy("abbbc"));
-    }
-
-    @Test
-    void testLongStringWithDistinctCharacters() {
-        assertTrue(IsHappy.isHappy("iopaxpoi"));
-    }
-
-    @Test
-    void testLongStringWithRepeatedCharacters() {
-        assertFalse(IsHappy.isHappy("iopaxioi"));
+    void testIsHappyWithFiveLettersWithTwoSame() {
+        assertFalse(IsHappy.isHappy("abccd"));
     }
 }

@@ -1,11 +1,13 @@
-Here's the source code for the `CycpatternCheckTest` class:
-
-```
+// CycpatternCheckTest.java
 package original;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link CycpatternCheck}.
+ * It contains ten unit test cases for the {@link CycpatternCheck#cycpatternCheck(String, String)} method.
+ */
 class CycpatternCheckTest {
 
     @Test
@@ -68,6 +70,3 @@ class CycpatternCheckTest {
         assertTrue(CycpatternCheck.cycpatternCheck("winemtt", "tinem"));
     }
 }
-```
-
-This class contains 12 test methods, each of which tests the `cycpatternCheck` method with different input values and expected output. The `@Test` annotation is used to mark each method as a test method. The `assertTrue` and `assertFalse` methods are used to check if the actual output of the `cycpatternCheck` method matches the expected output.

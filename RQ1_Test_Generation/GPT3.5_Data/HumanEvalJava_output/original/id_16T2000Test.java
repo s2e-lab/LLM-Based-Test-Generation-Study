@@ -1,3 +1,26 @@
+// CountDistinctCharacters.java
+package updated;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class CountDistinctCharacters {
+
+    /**
+     * Given a string, find out how many distinct characters (regardless of case)  it consists  of.
+     *
+     * @param string the input string
+     * @return the number of distinct characters in the string
+     */
+    public static int countDistinctCharacters(String string) {
+        Set<Character> distinctCharacters = new HashSet<Character>();
+        for (int i = 0; i < string.length(); i++) {
+            distinctCharacters.add(Character.toLowerCase(string.charAt(i)));
+        }
+        return distinctCharacters.size();
+    }
+}
+
 // CountDistinctCharactersTest.java
 package updated;
 
@@ -11,63 +34,52 @@ import static org.junit.jupiter.api.Assertions.*;
 class CountDistinctCharactersTest {
 
     @Test
-    void testCountDistinctCharactersWithEmptyString() {
-        int result = CountDistinctCharacters.countDistinctCharacters("");
-        assertEquals(0, result);
+    void testEmptyString() {
+        assertEquals(0, CountDistinctCharacters.countDistinctCharacters(""));
     }
 
     @Test
-    void testCountDistinctCharactersWithLowerCaseString() {
-        int result = CountDistinctCharacters.countDistinctCharacters("abcde");
-        assertEquals(5, result);
+    void testSingleCharacter() {
+        assertEquals(1, CountDistinctCharacters.countDistinctCharacters("a"));
     }
 
     @Test
-    void testCountDistinctCharactersWithUpperCaseString() {
-        int result = CountDistinctCharacters.countDistinctCharacters("XYZ");
-        assertEquals(3, result);
+    void testAllSameCharacters() {
+        assertEquals(1, CountDistinctCharacters.countDistinctCharacters("aaaaa"));
     }
 
     @Test
-    void testCountDistinctCharactersWithMixedCaseString() {
-        int result = CountDistinctCharacters.countDistinctCharacters("abcdecadeCADE");
-        assertEquals(5, result);
+    void testAllDifferentCharacters() {
+        assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abcde"));
     }
 
     @Test
-    void testCountDistinctCharactersWithRepeatedCharacters() {
-        int result = CountDistinctCharacters.countDistinctCharacters("aaaaAAAAaaaa");
-        assertEquals(1, result);
+    void testMixedCase() {
+        assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abcdecadeCADE"));
     }
 
     @Test
-    void testCountDistinctCharactersWithSpaces() {
-        int result = CountDistinctCharacters.countDistinctCharacters("Jerry jERRY JeRRRY");
-        assertEquals(5, result);
+    void testWithSpaces() {
+        assertEquals(5, CountDistinctCharacters.countDistinctCharacters("Jerry jERRY JeRRRY"));
     }
 
     @Test
-    void testCountDistinctCharactersWithSpecialCharacters() {
-        int result = CountDistinctCharacters.countDistinctCharacters("Hello, World!");
-        assertEquals(10, result);
+    void testWithNumbers() {
+        assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abc123ABC"));
     }
 
     @Test
-    void testCountDistinctCharactersWithNumbers() {
-        int result = CountDistinctCharacters.countDistinctCharacters("1234567890");
-        assertEquals(10, result);
+    void testWithSpecialCharacters() {
+        assertEquals(5, CountDistinctCharacters.countDistinctCharacters("abc!@#ABC"));
     }
 
     @Test
-    void testCountDistinctCharactersWithMixedCharacters() {
-        int result = CountDistinctCharacters.countDistinctCharacters("a1B2c3D4e5F6g7H8i9J0");
-        assertEquals(20, result);
+    void testWithUnicodeCharacters() {
+        assertEquals(2, CountDistinctCharacters.countDistinctCharacters("日本語English"));
     }
 
     @Test
-    void testCountDistinctCharactersWithNullString() {
-        assertThrows(NullPointerException.class, () -> {
-            CountDistinctCharacters.countDistinctCharacters(null);
-        });
+    void testWithNullString() {
+        assertThrows(NullPointerException.class, () -> CountDistinctCharacters.countDistinctCharacters(null));
     }
 }

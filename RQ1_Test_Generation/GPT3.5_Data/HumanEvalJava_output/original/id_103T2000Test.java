@@ -1,5 +1,5 @@
 // RoundedAvg.java
-package original;
+package updated;
 
 class RoundedAvg {
 
@@ -48,13 +48,13 @@ class RoundedAvg {
             sum += i;
         }
         double avg = (sum * 1.0) / (m - n + 1);
-        int roundedAvg = (int) Math.rint(avg);
+        int roundedAvg = (int) Math.round(avg);
         return "0b" + Integer.toBinaryString(roundedAvg);
     }
 }
 
 // RoundedAvgTest.java
-package original;
+package updated;
 
 
 import org.junit.jupiter.api.Test;

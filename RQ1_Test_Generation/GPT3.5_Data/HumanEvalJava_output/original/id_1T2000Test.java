@@ -1,5 +1,49 @@
+// SeparateParenGroups.java
+package updated;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class SeparateParenGroups {
+
+    /**
+     * Input to this function is a string containing multiple groups of nested parentheses.
+     * Your goal is to separate those group into separate strings and return the list of those.
+     * Separate groups are balanced (each open brace is properly closed) and not nested within each other.
+     * Ignore any spaces in the input string.
+     *
+     * > separateParenGroups("(()()) ((())) () ((())()())")
+     * ["(()())", "((()))", "()", "((())()())"]
+     * > separateParenGroups("() (()) ((())) (((())))")
+     * ["()", "(())", "((()))", "(((())))"]
+     * > separateParenGroups("(()(())((())))")
+     * ["(()(())((())))"]
+     * > separateParenGroups("( ) (( )) (( )( ))")
+     * ["()", "(())", "(()())"]
+     */
+    public static List<String> separateParenGroups(String parenString) {
+        List<String> result = new ArrayList<String>();
+        int count = 0;
+        StringBuilder curString = new StringBuilder();
+        for (int i = 0; i < parenString.length(); i++) {
+            if (parenString.charAt(i) == '(') {
+                count++;
+                curString.append('(');
+            } else if (parenString.charAt(i) == ')') {
+                count--;
+                curString.append(')');
+                if (count == 0) {
+                    result.add(curString.toString());
+                    curString = new StringBuilder();
+                }
+            }
+        }
+        return result;
+    }
+}
+
 // SeparateParenGroupsTest.java
-package original;
+package updated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,107 +55,82 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SeparateParenGroups#separateParenGroups(String)} method.
 */
 class SeparateParenGroupsTest {
-
+    
     @Test
-    void testSeparateParenGroups1() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("(()())");
-        expected.add("((()))");
-        expected.add("()");
-        expected.add("((())()())");
-        List<String> actual = SeparateParenGroups.separateParenGroups("(()()) ((())) () ((())()())");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups2() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("()");
-        expected.add("(())");
-        expected.add("((()))");
-        expected.add("(((())))");
-        List<String> actual = SeparateParenGroups.separateParenGroups("() (()) ((())) (((())))");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups3() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("(()(())((())))");
-        List<String> actual = SeparateParenGroups.separateParenGroups("(()(())((())))");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups4() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("()");
-        expected.add("(( ))");
-        expected.add("(( )( ))");
-        List<String> actual = SeparateParenGroups.separateParenGroups("( ) (( )) (( )( ))");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups5() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("()");
-        List<String> actual = SeparateParenGroups.separateParenGroups("()");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups6() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("()");
-        expected.add("()");
-        List<String> actual = SeparateParenGroups.separateParenGroups("()()");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups7() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        List<String> actual = SeparateParenGroups.separateParenGroups("()()()");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups8() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        List<String> actual = SeparateParenGroups.separateParenGroups("()()()()");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups9() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        List<String> actual = SeparateParenGroups.separateParenGroups("()()()()()");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSeparateParenGroups10() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        expected.add("()");
-        List<String> actual = SeparateParenGroups.separateParenGroups("()()()()()()");
-        assertEquals(expected, actual);
+    void testSeparateParenGroups() {
+        List<String> expectedOutput = new ArrayList<String>();
+        expectedOutput.add("(()())");
+        expectedOutput.add("((()))");
+        expectedOutput.add("()");
+        expectedOutput.add("((())()())");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("(()()) ((())) () ((())()())"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("()");
+        expectedOutput.add("(())");
+        expectedOutput.add("((()))");
+        expectedOutput.add("(((())))");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("() (()) ((())) (((())))"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("(()(())((())))");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("(()(())((())))"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("()");
+        expectedOutput.add("(())");
+        expectedOutput.add("(()())");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("( ) (( )) (( )( ))"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("()()()"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("()()()()"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("()()()()()"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("()()()()()()"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("()()()()()()()"));
+        
+        expectedOutput.clear();
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        expectedOutput.add("()");
+        assertEquals(expectedOutput, SeparateParenGroups.separateParenGroups("()()()()()()()()"));
     }
 }

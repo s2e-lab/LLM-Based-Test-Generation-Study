@@ -1,6 +1,4 @@
-Here's the completed `IsEqualToSumEvenTest` class with ten unit test cases for the `isEqualToSumEven` method:
-
-```
+// IsEqualToSumEvenTest.java
 package original;
 
 import org.junit.jupiter.api.Test;
@@ -62,6 +60,3 @@ class IsEqualToSumEvenTest {
         assertFalse(IsEqualToSumEven.isEqualToSumEven(0));
     }
 }
-```
-
-The first eight test cases cover the example cases given in the `IsEqualToSumEven` class, while the last two test cases check for edge cases (negative numbers and zero).

@@ -41,22 +41,22 @@ class LargestPrimeFactorTest {
     }
 
     @Test
-    void testLargestPrimeFactor1() {
-        assertThrows(IllegalArgumentException.class, () -> LargestPrimeFactor.largestPrimeFactor(1));
+    void testLargestPrimeFactor2() {
+        assertEquals(2, LargestPrimeFactor.largestPrimeFactor(2));
     }
 
     @Test
-    void testLargestPrimeFactorNegative() {
-        assertThrows(IllegalArgumentException.class, () -> LargestPrimeFactor.largestPrimeFactor(-10));
+    void testLargestPrimeFactor3() {
+        assertEquals(3, LargestPrimeFactor.largestPrimeFactor(3));
     }
 
     @Test
-    void testLargestPrimeFactorPrime() {
-        assertThrows(IllegalArgumentException.class, () -> LargestPrimeFactor.largestPrimeFactor(7));
+    void testLargestPrimeFactorLargeNumber() {
+        assertEquals(17, LargestPrimeFactor.largestPrimeFactor(17 * 19 * 23 * 29 * 31));
     }
 
     @Test
-    void testLargestPrimeFactorZero() {
-        assertThrows(IllegalArgumentException.class, () -> LargestPrimeFactor.largestPrimeFactor(0));
+    void testLargestPrimeFactorPrimeNumber() {
+        assertThrows(AssertionError.class, () -> LargestPrimeFactor.largestPrimeFactor(7));
     }
 }

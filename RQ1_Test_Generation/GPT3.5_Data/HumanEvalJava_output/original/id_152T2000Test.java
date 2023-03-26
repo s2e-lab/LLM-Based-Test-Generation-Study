@@ -1,3 +1,30 @@
+// Compare.java
+package updated;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Compare {
+
+    /**
+     * Determines if a person correctly guessed the results of a number of matches.
+     * You are given two arrays of scores and guesses of equal length, where each index shows a match.
+     * Return an array of the same length denoting how far off each guess was. If they have guessed correctly,
+     * the value is 0, and if not, the value is the absolute difference between the guess and the score.
+     *
+     * @param game  List of scores
+     * @param guess List of guesses
+     * @return List of differences between scores and guesses
+     */
+    public static List<Integer> compare(List<Integer> game, List<Integer> guess) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < game.size(); i++) {
+            result.add(Math.abs(game.get(i) - guess.get(i)));
+        }
+        return result;
+    }
+}
+
 // CompareTest.java
 package updated;
 
@@ -24,23 +51,7 @@ class CompareTest {
     }
 
     @Test
-    void testCompareWithAllIncorrectGuesses() {
-        List<Integer> game = Arrays.asList(1, 2, 3, 4, 5, 1);
-        List<Integer> guess = Arrays.asList(6, 7, 8, 9, 10, 2);
-        List<Integer> expected = Arrays.asList(5, 5, 5, 5, 5, 1);
-        assertEquals(expected, Compare.compare(game, guess));
-    }
-
-    @Test
-    void testCompareWithAllCorrectGuesses() {
-        List<Integer> game = Arrays.asList(1, 2, 3, 4, 5, 1);
-        List<Integer> guess = Arrays.asList(1, 2, 3, 4, 5, 1);
-        List<Integer> expected = Arrays.asList(0, 0, 0, 0, 0, 0);
-        assertEquals(expected, Compare.compare(game, guess));
-    }
-
-    @Test
-    void testCompareWithSomeCorrectGuesses() {
+    void testCompareWithDifferentLists() {
         List<Integer> game = Arrays.asList(1, 2, 3, 4, 5, 1);
         List<Integer> guess = Arrays.asList(1, 2, 3, 4, 2, -2);
         List<Integer> expected = Arrays.asList(0, 0, 0, 0, 3, 3);
@@ -48,26 +59,26 @@ class CompareTest {
     }
 
     @Test
-    void testCompareWithSomeIncorrectGuesses() {
-        List<Integer> game = Arrays.asList(0, 5, 0, 0, 0, 4);
-        List<Integer> guess = Arrays.asList(4, 1, 1, 0, 0, -2);
-        List<Integer> expected = Arrays.asList(4, 4, 1, 0, 0, 6);
+    void testCompareWithAllZeros() {
+        List<Integer> game = Arrays.asList(0, 0, 0, 0, 0, 0);
+        List<Integer> guess = Arrays.asList(0, 0, 0, 0, 0, 0);
+        List<Integer> expected = Arrays.asList(0, 0, 0, 0, 0, 0);
         assertEquals(expected, Compare.compare(game, guess));
     }
 
     @Test
     void testCompareWithNegativeNumbers() {
-        List<Integer> game = Arrays.asList(-1, -2, -3);
-        List<Integer> guess = Arrays.asList(1, 2, 3);
+        List<Integer> game = Arrays.asList(1, 2, 3);
+        List<Integer> guess = Arrays.asList(-1, -2, -3);
         List<Integer> expected = Arrays.asList(2, 4, 6);
         assertEquals(expected, Compare.compare(game, guess));
     }
 
     @Test
-    void testCompareWithDifferentLengthLists() {
+    void testCompareWithMixedNumbers() {
         List<Integer> game = Arrays.asList(1, 2, 3, 5);
-        List<Integer> guess = Arrays.asList(-1, 2, 3, 4, 5);
-        List<Integer> expected = new ArrayList<>();
+        List<Integer> guess = Arrays.asList(-1, 2, 3, 4);
+        List<Integer> expected = Arrays.asList(2, 0, 0, 1);
         assertEquals(expected, Compare.compare(game, guess));
     }
 
@@ -76,6 +87,14 @@ class CompareTest {
         List<Integer> game = new ArrayList<>();
         List<Integer> guess = new ArrayList<>();
         List<Integer> expected = new ArrayList<>();
+        assertEquals(expected, Compare.compare(game, guess));
+    }
+
+    @Test
+    void testCompareWithDifferentListSizes() {
+        List<Integer> game = Arrays.asList(1, 2, 3, 4, 5, 1);
+        List<Integer> guess = Arrays.asList(1, 2, 3, 4, 2);
+        List<Integer> expected = null;
         assertEquals(expected, Compare.compare(game, guess));
     }
 
@@ -91,6 +110,14 @@ class CompareTest {
     void testCompareWithOneNullList() {
         List<Integer> game = Arrays.asList(1, 2, 3, 4, 5, 1);
         List<Integer> guess = null;
+        List<Integer> expected = null;
+        assertEquals(expected, Compare.compare(game, guess));
+    }
+
+    @Test
+    void testCompareWithOneEmptyList() {
+        List<Integer> game = Arrays.asList(1, 2, 3, 4, 5, 1);
+        List<Integer> guess = new ArrayList<>();
         List<Integer> expected = null;
         assertEquals(expected, Compare.compare(game, guess));
     }

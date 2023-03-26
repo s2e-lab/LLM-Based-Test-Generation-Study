@@ -1,5 +1,5 @@
 // ByLength.java
-package revised;
+package updated;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,7 @@ public class ByLength {
      * return = ['One']
      *
      * @param arr the input array of integers
-     * @return a list of strings representing the sorted and converted integers
+     * @return the list of corresponding names of integers between 1 and 9 inclusive
      */
     public static List<String> byLength(List<Integer> arr) {
         List<Integer> sorted = new ArrayList<>();
@@ -77,7 +77,7 @@ public class ByLength {
 }
 
 // ByLengthTest.java
-package revised;
+package updated;
 
 import org.junit.jupiter.api.Test;
 
@@ -104,7 +104,7 @@ class ByLengthTest {
     @Test
     void testArrayWithStrangeNumbers() {
         List<Integer> arr = Arrays.asList(1, -1, 55);
-        List<String> expected = Collections.singletonList("One");
+        List<String> expected = Arrays.asList("One");
         assertEquals(expected, ByLength.byLength(arr));
     }
 
@@ -117,50 +117,50 @@ class ByLengthTest {
 
     @Test
     void testArrayWithAllNumbersGreaterThanNine() {
-        List<Integer> arr = Arrays.asList(10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+        List<Integer> arr = Arrays.asList(10, 11, 12);
         List<String> expected = new ArrayList<>();
         assertEquals(expected, ByLength.byLength(arr));
     }
 
     @Test
     void testArrayWithAllNumbersLessThanOne() {
-        List<Integer> arr = Arrays.asList(-1, -2, -3, -4, -5, -6, -7, -8, -9);
+        List<Integer> arr = Arrays.asList(-1, 0);
         List<String> expected = new ArrayList<>();
         assertEquals(expected, ByLength.byLength(arr));
     }
 
     @Test
-    void testArrayWithSomeNumbersBetweenOneAndNine() {
-        List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+    void testArrayWithOneNumberBetweenOneAndNine() {
+        List<Integer> arr = Arrays.asList(3);
+        List<String> expected = Arrays.asList("Three");
+        assertEquals(expected, ByLength.byLength(arr));
+    }
+
+    @Test
+    void testArrayWithOneNumberLessThanOne() {
+        List<Integer> arr = Arrays.asList(0);
+        List<String> expected = new ArrayList<>();
+        assertEquals(expected, ByLength.byLength(arr));
+    }
+
+    @Test
+    void testArrayWithOneNumberGreaterThanNine() {
+        List<Integer> arr = Arrays.asList(10);
+        List<String> expected = new ArrayList<>();
+        assertEquals(expected, ByLength.byLength(arr));
+    }
+
+    @Test
+    void testArrayWithRepeatedNumbers() {
+        List<Integer> arr = Arrays.asList(2, 2, 2, 1, 1, 1, 3, 3, 3);
+        List<String> expected = Arrays.asList("Three", "Three", "Three", "Two", "Two", "Two", "One", "One", "One");
+        assertEquals(expected, ByLength.byLength(arr));
+    }
+
+    @Test
+    void testArrayWithNumbersInDescendingOrder() {
+        List<Integer> arr = Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 1);
         List<String> expected = Arrays.asList("Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two", "One");
-        assertEquals(expected, ByLength.byLength(arr));
-    }
-
-    @Test
-    void testArrayWithOneNumber() {
-        List<Integer> arr = Collections.singletonList(5);
-        List<String> expected = Collections.singletonList("Five");
-        assertEquals(expected, ByLength.byLength(arr));
-    }
-
-    @Test
-    void testArrayWithTwoNumbers() {
-        List<Integer> arr = Arrays.asList(5, 3);
-        List<String> expected = Arrays.asList("Three", "Five");
-        assertEquals(expected, ByLength.byLength(arr));
-    }
-
-    @Test
-    void testArrayWithThreeNumbers() {
-        List<Integer> arr = Arrays.asList(5, 3, 7);
-        List<String> expected = Arrays.asList("Seven", "Three", "Five");
-        assertEquals(expected, ByLength.byLength(arr));
-    }
-
-    @Test
-    void testArrayWithFourNumbers() {
-        List<Integer> arr = Arrays.asList(5, 3, 7, 2);
-        List<String> expected = Arrays.asList("Three", "Two", "Seven", "Five");
         assertEquals(expected, ByLength.byLength(arr));
     }
 }

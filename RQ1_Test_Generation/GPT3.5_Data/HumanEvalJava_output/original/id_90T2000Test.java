@@ -54,7 +54,6 @@ class NextSmallest {
 package updated;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,7 +72,7 @@ class NextSmallestTest {
         List<Integer> lst2 = Arrays.asList(5, 1, 4, 3, 2);
         assertEquals(2, NextSmallest.nextSmallest(lst2));
         
-        List<Integer> lst3 = Collections.emptyList();
+        List<Integer> lst3 = Arrays.asList();
         assertNull(NextSmallest.nextSmallest(lst3));
         
         List<Integer> lst4 = Arrays.asList(1, 1);

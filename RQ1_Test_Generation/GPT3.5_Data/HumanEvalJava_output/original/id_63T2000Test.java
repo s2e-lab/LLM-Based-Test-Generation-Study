@@ -1,4 +1,4 @@
-Here's the source code for the `FibfibTest` class:
+Here's the source code for the `FibfibTest` class with ten unit test cases for the `Fibfib.fibfib(int)` method:
 
 ```
 package original;
@@ -6,10 +6,6 @@ package original;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link Fibfib}.
- * It contains ten unit test cases for the {@link Fibfib#fibfib(int)} method.
- */
 class FibfibTest {
 
     @Test
@@ -28,28 +24,8 @@ class FibfibTest {
     }
 
     @Test
-    void testFibfib3() {
-        assertEquals(1, Fibfib.fibfib(3));
-    }
-
-    @Test
-    void testFibfib4() {
-        assertEquals(2, Fibfib.fibfib(4));
-    }
-
-    @Test
     void testFibfib5() {
         assertEquals(4, Fibfib.fibfib(5));
-    }
-
-    @Test
-    void testFibfib6() {
-        assertEquals(9, Fibfib.fibfib(6));
-    }
-
-    @Test
-    void testFibfib7() {
-        assertEquals(20, Fibfib.fibfib(7));
     }
 
     @Test
@@ -58,10 +34,30 @@ class FibfibTest {
     }
 
     @Test
-    void testFibfib9() {
-        assertEquals(49, Fibfib.fibfib(9));
+    void testFibfib10() {
+        assertEquals(81, Fibfib.fibfib(10));
+    }
+
+    @Test
+    void testFibfib12() {
+        assertEquals(274, Fibfib.fibfib(12));
+    }
+
+    @Test
+    void testFibfib14() {
+        assertEquals(927, Fibfib.fibfib(14));
+    }
+
+    @Test
+    void testFibfibNegative() {
+        assertThrows(IllegalArgumentException.class, () -> Fibfib.fibfib(-1));
+    }
+
+    @Test
+    void testFibfibLarge() {
+        assertThrows(IllegalArgumentException.class, () -> Fibfib.fibfib(100));
     }
 }
 ```
 
-This class contains ten test methods, each of which tests the `Fibfib.fibfib()` method with a different input value and expected output. The `assertEquals()` method is used to check that the actual output of the `Fibfib.fibfib()` method matches the expected output.
+The first eight test cases correspond to the examples given in the problem statement. The ninth test case checks that an `IllegalArgumentException` is thrown when a negative input is given. The tenth test case checks that an `IllegalArgumentException` is thrown when a large input is given.

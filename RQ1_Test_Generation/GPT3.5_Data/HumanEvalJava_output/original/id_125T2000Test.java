@@ -84,7 +84,7 @@ class SplitWordsTest {
     }
     
     @Test
-    void testSplitWordsWithWhitespaceString() {
+    void testSplitWordsWithWhiteSpaceString() {
         String txt = "   ";
         Object expected = Arrays.asList("");
         Object actual = SplitWords.splitWords(txt);

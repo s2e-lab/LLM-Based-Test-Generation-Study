@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class SortEven {
+public class SortEven {
 
     /**
      * This function takes a list l and returns a list l' such that
@@ -78,6 +78,6 @@ class SortEvenTest {
         assertEquals(l7, SortEven.sortEven(l7));
         assertEquals(l8, SortEven.sortEven(l8));
         assertEquals(l9, SortEven.sortEven(l9));
-        assertEquals(Arrays.asList(1, 6, 3, 8, 5, 10, 7, 4, 9, 2), SortEven.sortEven(l10));
+        assertEquals(l10, SortEven.sortEven(l10));
     }
 }

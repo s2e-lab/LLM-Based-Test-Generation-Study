@@ -40,7 +40,16 @@ class AddElementsTest {
     }
     
     @Test
-    void testAddElementsWithSingleElement() {
+    void testAddElementsWithZero() {
+        List<Integer> arr = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+        int k = 4;
+        int expectedSum = 0;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
+    }
+    
+    @Test
+    void testAddElementsWithOneElement() {
         List<Integer> arr = Arrays.asList(1);
         int k = 1;
         int expectedSum = 1;
@@ -76,7 +85,7 @@ class AddElementsTest {
     }
     
     @Test
-    void testAddElementsWithKEqualToArraySize() {
+    void testAddElementsWithKEqualToArrayLength() {
         List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         int k = 9;
         int expectedSum = 45;
@@ -85,18 +94,11 @@ class AddElementsTest {
     }
     
     @Test
-    void testAddElementsWithKGreaterThanArraySize() {
+    void testAddElementsWithKGreaterThanArrayLength() {
         List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         int k = 10;
         int expectedSum = 45;
         int actualSum = AddElements.addElements(arr, k);
         assertEquals(expectedSum, actualSum);
-    }
-    
-    @Test
-    void testAddElementsWithKLessThanOne() {
-        List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        int k = 0;
-        assertThrows(IllegalArgumentException.class, () -> AddElements.addElements(arr, k));
     }
 }

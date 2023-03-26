@@ -1,5 +1,7 @@
+// Here's the corrected version of the test class:
+
 // CorrectBracketingTest.java
-package original;
+package corrected;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +24,7 @@ class CorrectBracketingTest {
 
     @Test
     void testCorrectBracketing3() {
-        assertTrue(CorrectBracketing.correctBracketing("<><><<><>><>><<><><<>>>"));
+        assertTrue(CorrectBracketing.correctBracketing("<><><<><>><>"));
     }
 
     @Test
@@ -58,5 +60,15 @@ class CorrectBracketingTest {
     @Test
     void testCorrectBracketing10() {
         assertFalse(CorrectBracketing.correctBracketing("<<>"));
+    }
+
+    @Test
+    void testCorrectBracketing11() {
+        assertFalse(CorrectBracketing.correctBracketing("<><><<><>><>><<>"));
+    }
+
+    @Test
+    void testCorrectBracketing12() {
+        assertFalse(CorrectBracketing.correctBracketing("<><><<><>><>>><>"));
     }
 }

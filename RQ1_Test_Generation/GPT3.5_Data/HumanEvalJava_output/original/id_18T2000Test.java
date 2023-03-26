@@ -1,4 +1,4 @@
-// Here's the corrected code for the test class:
+// Here's the complete source code for the HowManyTimesTest class:
 
 package original;
 
@@ -14,50 +14,32 @@ class HowManyTimesTest {
     @Test
     void testEmptyString() {
         assertEquals(0, HowManyTimes.howManyTimes("", "a"));
-    }
-
-    @Test
-    void testSingleCharString() {
-        assertEquals(3, HowManyTimes.howManyTimes("aaa", "a"));
-    }
-
-    @Test
-    void testDoubleCharString() {
-        assertEquals(3, HowManyTimes.howManyTimes("aaaa", "aa"));
-    }
-
-    @Test
-    void testNonMatchingSubstring() {
         assertEquals(0, HowManyTimes.howManyTimes("", "x"));
     }
 
     @Test
-    void testMultipleOccurrences() {
-        assertEquals(4, HowManyTimes.howManyTimes("xyxyxyx", "x"));
+    void testSingleCharacter() {
+        assertEquals(3, HowManyTimes.howManyTimes("aaa", "a"));
+        assertEquals(1, HowManyTimes.howManyTimes("john doe", "j"));
     }
 
     @Test
-    void testOverlappingOccurrences() {
+    void testMultipleCharacters() {
+        assertEquals(3, HowManyTimes.howManyTimes("aaaa", "aa"));
+        assertEquals(4, HowManyTimes.howManyTimes("xyxyxyx", "x"));
         assertEquals(4, HowManyTimes.howManyTimes("cacacacac", "cac"));
     }
 
     @Test
-    void testSubstringAtBeginning() {
-        assertEquals(1, HowManyTimes.howManyTimes("john doe", "john"));
+    void testNonexistentSubstring() {
+        assertEquals(0, HowManyTimes.howManyTimes("aaa", "b"));
+        assertEquals(0, HowManyTimes.howManyTimes("john doe", "jane"));
     }
 
     @Test
-    void testSubstringAtEnd() {
-        assertEquals(1, HowManyTimes.howManyTimes("doe john", "john"));
-    }
-
-    @Test
-    void testSubstringInMiddle() {
-        assertEquals(1, HowManyTimes.howManyTimes("hello world", "lo"));
-    }
-
-    @Test
-    void testSubstringNotFound() {
-        assertEquals(0, HowManyTimes.howManyTimes("hello world", "foo"));
+    void testOverlappingSubstring() {
+        assertEquals(2, HowManyTimes.howManyTimes("aaa", "aa"));
+        assertEquals(3, HowManyTimes.howManyTimes("xyxyxyx", "xy"));
+        assertEquals(3, HowManyTimes.howManyTimes("cacacacac", "ca"));
     }
 }

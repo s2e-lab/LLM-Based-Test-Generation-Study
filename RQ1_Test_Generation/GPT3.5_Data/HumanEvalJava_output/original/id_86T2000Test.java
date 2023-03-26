@@ -1,13 +1,8 @@
-// AntiShuffleTest.java
-package original;
+// Here's the source code for the AntiShuffleTest class:
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link AntiShuffle}.
- * It contains ten unit test cases for the {@link AntiShuffle#antiShuffle(String)} method.
- */
 class AntiShuffleTest {
 
     @Test
@@ -43,14 +38,6 @@ class AntiShuffleTest {
     }
 
     @Test
-    void testMultipleWordsSorted() {
-        String input = "Hi. My name is Mister Robot. How are you?";
-        String expectedOutput = ".Hi My aemn is Meirst .Rboot How aer ?ouy";
-        String actualOutput = AntiShuffle.antiShuffle(input);
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
     void testAllCharactersSame() {
         String input = "aaaaa";
         String expectedOutput = "aaaaa";
@@ -60,32 +47,40 @@ class AntiShuffleTest {
 
     @Test
     void testAllCharactersDifferent() {
-        String input = "abcde";
-        String expectedOutput = "abcde";
+        String input = "abcd";
+        String expectedOutput = "abcd";
         String actualOutput = AntiShuffle.antiShuffle(input);
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
     void testMixedCase() {
-        String input = "HeLLo WoRLd";
-        String expectedOutput = "HLWdoo eLLr";
+        String input = "Hi. My name is Mister Robot. How are you?";
+        String expectedOutput = ".Hi My aemn is Meirst .Rboot How aer ?ouy";
         String actualOutput = AntiShuffle.antiShuffle(input);
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
     void testNumbers() {
-        String input = "12345";
-        String expectedOutput = "12345";
+        String input = "1234567890";
+        String expectedOutput = "0123456789";
         String actualOutput = AntiShuffle.antiShuffle(input);
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
     void testSpecialCharacters() {
-        String input = "!@#$%";
-        String expectedOutput = "!@#$%";
+        String input = "!@#$%^&*()_+-={}[]\\|;:'\",.<>/?";
+        String expectedOutput = "!\"#$%&'()*+,-./0123456789:;<=>?@[\\]^_`{|}~";
+        String actualOutput = AntiShuffle.antiShuffle(input);
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testMixedCharacters() {
+        String input = "Hello World! 123";
+        String expectedOutput = "H !Wdellor 123";
         String actualOutput = AntiShuffle.antiShuffle(input);
         assertEquals(expectedOutput, actualOutput);
     }

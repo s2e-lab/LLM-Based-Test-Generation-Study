@@ -1,5 +1,4 @@
-// Here's the updated SolveTest.java file with ten unit test cases for the solve() method.
-
+// SolveTest.java
 package original;
 
 import org.junit.jupiter.api.Test;
@@ -12,82 +11,62 @@ import static org.junit.jupiter.api.Assertions.*;
 class SolveTest {
 
     @Test
-    void testSolveWithLowerCaseLetters() {
-        String input = "hello world";
-        String expectedOutput = "HELLO WORLD";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve1() {
+        String result = Solve.solve("AsDf");
+        assertEquals("aSdF", result);
     }
 
     @Test
-    void testSolveWithUpperCaseLetters() {
-        String input = "HELLO WORLD";
-        String expectedOutput = "hello world";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve2() {
+        String result = Solve.solve("1234");
+        assertEquals("4321", result);
     }
 
     @Test
-    void testSolveWithMixedCaseLetters() {
-        String input = "HeLlO wOrLd";
-        String expectedOutput = "hElLo WoRlD";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve3() {
+        String result = Solve.solve("ab");
+        assertEquals("AB", result);
     }
 
     @Test
-    void testSolveWithNumbers() {
-        String input = "1234567890";
-        String expectedOutput = "0987654321";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve4() {
+        String result = Solve.solve("#a@C");
+        assertEquals("#A@c", result);
     }
 
     @Test
-    void testSolveWithSpecialCharacters() {
-        String input = "#$%^&*()_+-=";
-        String expectedOutput = "#$%^&*()_+-=";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve5() {
+        String result = Solve.solve("#AsdfW^45");
+        assertEquals("#aSDFw^45", result);
     }
 
     @Test
-    void testSolveWithMixedCharacters() {
-        String input = "aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890!@#$%^&*()_+-=";
-        String expectedOutput = "AbCdEfGhIjKlMnOpQrStUvWxYz1234567890!@#$%^&*()_+-=";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve6() {
+        String result = Solve.solve("#6@2");
+        assertEquals("2@6#", result);
     }
 
     @Test
-    void testSolveWithNoLetters() {
-        String input = "1234567890!@#$%^&*()_+-=";
-        String expectedOutput = "=+-_)(*&^%$#@!0987654321";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve7() {
+        String result = Solve.solve("#$a^D");
+        assertEquals("#$A^d", result);
     }
 
     @Test
-    void testSolveWithEmptyString() {
-        String input = "";
-        String expectedOutput = "";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve8() {
+        String result = Solve.solve("#ccc");
+        assertEquals("#CCC", result);
     }
 
     @Test
-    void testSolveWithSingleLetter() {
-        String input = "a";
-        String expectedOutput = "A";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve9() {
+        String result = Solve.solve("aBcDeFgHiJkLmNoPqRsTuVwXyZ");
+        assertEquals("AbCdEfGhIjKlMnOpQrStUvWxYz", result);
     }
 
     @Test
-    void testSolveWithSingleSpecialCharacter() {
-        String input = "#";
-        String expectedOutput = "#";
-        String actualOutput = Solve.solve(input);
-        assertEquals(expectedOutput, actualOutput);
+    void testSolve10() {
+        String result = Solve.solve("1234#$%&");
+        assertEquals("&%$#4321", result);
     }
 }

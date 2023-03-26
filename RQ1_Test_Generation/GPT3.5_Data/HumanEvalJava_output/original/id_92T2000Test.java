@@ -1,82 +1,88 @@
-// AnyIntTest.java
-package original;
+import org.junit.jupiter.api.DisplayName;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Test class of {@link AnyInt}.
- * It contains ten unit test cases for the {@link AnyInt#anyInt(Number, Number, Number)} method.
- */
 class AnyIntTest {
 
     @Test
-    void testAnyInt1() {
+    @DisplayName("Test case 1")
+    void test1() {
         assertTrue(AnyInt.anyInt(5, 2, 7));
     }
 
     @Test
-    void testAnyInt2() {
+    @DisplayName("Test case 2")
+    void test2() {
         assertFalse(AnyInt.anyInt(3, 2, 2));
     }
 
     @Test
-    void testAnyInt3() {
+    @DisplayName("Test case 3")
+    void test3() {
         assertTrue(AnyInt.anyInt(3, -2, 1));
     }
 
     @Test
-    void testAnyInt4() {
+    @DisplayName("Test case 4")
+    void test4() {
         assertFalse(AnyInt.anyInt(3.6, -2.2, 2));
     }
 
     @Test
-    void testAnyInt5() {
+    @DisplayName("Test case 5")
+    void test5() {
         assertTrue(AnyInt.anyInt(2, 3, 1));
     }
 
     @Test
-    void testAnyInt6() {
+    @DisplayName("Test case 6")
+    void test6() {
         assertFalse(AnyInt.anyInt(2.5, 2, 3));
     }
 
     @Test
-    void testAnyInt7() {
+    @DisplayName("Test case 7")
+    void test7() {
         assertFalse(AnyInt.anyInt(1.5, 5, 3.5));
     }
 
     @Test
-    void testAnyInt8() {
+    @DisplayName("Test case 8")
+    void test8() {
         assertFalse(AnyInt.anyInt(2, 6, 2));
     }
 
     @Test
-    void testAnyInt9() {
+    @DisplayName("Test case 9")
+    void test9() {
         assertTrue(AnyInt.anyInt(4, 2, 2));
     }
 
     @Test
-    void testAnyInt10() {
+    @DisplayName("Test case 10")
+    void test10() {
         assertFalse(AnyInt.anyInt(2.2, 2.2, 2.2));
     }
 
     @Test
-    void testAnyInt11() {
+    @DisplayName("Test case 11")
+    void test11() {
         assertTrue(AnyInt.anyInt(-4, 6, 2));
     }
 
     @Test
-    void testAnyInt12() {
+    @DisplayName("Test case 12")
+    void test12() {
         assertTrue(AnyInt.anyInt(2, 1, 1));
     }
 
     @Test
-    void testAnyInt13() {
+    @DisplayName("Test case 13")
+    void test13() {
         assertTrue(AnyInt.anyInt(3, 4, 7));
     }
 
     @Test
-    void testAnyInt14() {
+    @DisplayName("Test case 14")
+    void test14() {
         assertFalse(AnyInt.anyInt(3.0, 4, 7));
     }
 }

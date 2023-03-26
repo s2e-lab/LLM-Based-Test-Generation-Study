@@ -48,15 +48,15 @@ public class GetRow {
             }
         }
         Collections.sort(result, new Comparator<List<Integer>>() {
-            @Override
-            public int compare(List<Integer> o1, List<Integer> o2) {
-                int row1 = o1.get(0);
-                int row2 = o2.get(0);
+
+            public int compare(List<Integer> c1, List<Integer> c2) {
+                int row1 = c1.get(0);
+                int row2 = c2.get(0);
                 if (row1 != row2) {
                     return row1 - row2;
                 }
-                int col1 = o1.get(1);
-                int col2 = o2.get(1);
+                int col1 = c1.get(1);
+                int col2 = c2.get(1);
                 return col2 - col1;
             }
         });
@@ -122,9 +122,8 @@ class GetRowTest {
         lst.add(Arrays.asList(1, 2, 3, 4, 5, 6));
         lst.add(Arrays.asList(1, 2, 3, 4, 1, 6));
         lst.add(Arrays.asList(1, 2, 3, 4, 5, 1));
-        lst.add(Arrays.asList(1, 2, 3, 4, 1, 6));
-        List<List<Integer>> result = GetRow.getRow(lst, 1);
-        assertEquals(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(1, 4), Arrays.asList(1, 0), Arrays.asList(2, 5), Arrays.asList(2, 0), Arrays.asList(3, 4), Arrays.asList(3, 0)), result);
+        List<List<Integer>> result = GetRow.getRow(lst, 4);
+        assertEquals(Arrays.asList(Arrays.asList(0, 3), Arrays.asList(1, 3), Arrays.asList(2, 3)), result);
     }
 
     @Test
@@ -133,8 +132,8 @@ class GetRowTest {
         lst.add(Arrays.asList(-1, -2, -3, -4, -5, -6));
         lst.add(Arrays.asList(-1, -2, -3, -4, -1, -6));
         lst.add(Arrays.asList(-1, -2, -3, -4, -5, -1));
-        List<List<Integer>> result = GetRow.getRow(lst, -1);
-        assertEquals(Arrays.asList(Arrays.asList(1, 4), Arrays.asList(1, 0), Arrays.asList(2, 5), Arrays.asList(2, 0)), result);
+        List<List<Integer>> result = GetRow.getRow(lst, -3);
+        assertEquals(Arrays.asList(Arrays.asList(0, 2), Arrays.asList(1, 2), Arrays.asList(2, 2)), result);
     }
 
     @Test
@@ -144,9 +143,8 @@ class GetRowTest {
         lst.add(Arrays.asList(1, 2, 3, 4, 1, 6));
         lst.add(Arrays.asList(1, 2, 3, 4, 5, 1));
         lst.add(Arrays.asList(1, 2, 3, 4, 1, 6));
-        lst.add(Arrays.asList(1, 2, 3, 4, 5, 6));
-        List<List<Integer>> result = GetRow.getRow(lst, 6);
-        assertEquals(Arrays.asList(Arrays.asList(0, 5), Arrays.asList(1, 5), Arrays.asList(3, 5), Arrays.asList(4, 5)), result);
+        List<List<Integer>> result = GetRow.getRow(lst, 1);
+        assertEquals(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(1, 4), Arrays.asList(1, 0), Arrays.asList(2, 5), Arrays.asList(2, 0), Arrays.asList(3, 4), Arrays.asList(3, 0)), result);
     }
 
     @Test
@@ -155,26 +153,31 @@ class GetRowTest {
         lst.add(Arrays.asList(1, 2, 3, null, 5, 6));
         lst.add(Arrays.asList(1, 2, 3, 4, 1, 6));
         lst.add(Arrays.asList(1, 2, 3, 4, 5, null));
-        lst.add(Arrays.asList(1, 2, 3, 4, 1, 6));
-        lst.add(Arrays.asList(1, 2, 3, 4, null, 6));
         List<List<Integer>> result = GetRow.getRow(lst, null);
-        assertEquals(Arrays.asList(Arrays.asList(0, 5), Arrays.asList(2, 5), Arrays.asList(4, 4)), result);
+        assertEquals(Arrays.asList(Arrays.asList(0, 3), Arrays.asList(2, 5), Arrays.asList(2, 0)), result);
     }
 
     @Test
-    void testListWithMixedDataTypes() {
-        List<List<Object>> lst = new ArrayList<>();
-        lst.add(Arrays.asList(1, 2, 3, "4", 5, 6));
-        lst.add(Arrays.asList(1, 2, 3, 4, 1, 6));
-        lst.add(Arrays.asList(1, 2, 3, 4, 5, "1"));
-        lst.add(Arrays.asList(1, 2, 3, 4, 1, 6));
-        lst.add(Arrays.asList(1, 2, 3, 4, "5", 6));
-        List<List<Integer>> result = GetRow.getRow(lst, 4);
-        assertEquals(Arrays.asList(Arrays.asList(0, 3), Arrays.asList(1, 3), Arrays.asList(2, 3), Arrays.asList(3, 3), Arrays.asList(4, 3)), result);
-    }
-
-    @Test
-    void testListWithLargeNumbers() {
+    void testListWithAllNullValues() {
         List<List<Integer>> lst = new ArrayList<>();
-        lst.add(Arrays.asList(1000000000, 2000000000, 3000000000, 4000000000, 5000000000, 6000000000));
-        lst.add(Arrays.asList(1000000000, 2000000000, 300000
+        lst.add(Arrays.asList(null, null, null, null, null, null));
+        lst.add(Arrays.asList(null, null, null, null, null, null));
+        lst.add(Arrays.asList(null, null, null, null, null, null));
+        List<List<Integer>> result = GetRow.getRow(lst, null);
+        assertEquals(new ArrayList<>(), result);
+    }
+
+    @Test
+    void testListWithAllSameValues() {
+        List<List<Integer>> lst = new ArrayList<>();
+        lst.add(Arrays.asList(1, 1, 1, 1, 1, 1));
+        lst.add(Arrays.asList(1, 1, 1, 1, 1, 1));
+        lst.add(Arrays.asList(1, 1, 1, 1, 1, 1));
+        List<List<Integer>> result = GetRow.getRow(lst, 1);
+        assertEquals(Arrays.asList(Arrays.asList(0, 5), Arrays.asList(1, 5), Arrays.asList(2, 5), Arrays.asList(0, 4), Arrays.asList(1, 4), Arrays.asList(2, 4), Arrays.asList(0, 3), Arrays.asList(1, 3), Arrays.asList(2, 3), Arrays.asList(0, 2), Arrays.asList(1, 2), Arrays.asList(2, 2), Arrays.asList(0, 1), Arrays.asList(1, 1), Arrays.asList(2, 1), Arrays.asList(0, 0), Arrays.asList(1, 0), Arrays.asList(2, 0)), result);
+    }
+
+    @Test
+    void testListWithDifferentDataTypes() {
+        List<List<Object>> lst = new ArrayList<>();
+        lst.add(Arrays.asList(1, 2, 3,

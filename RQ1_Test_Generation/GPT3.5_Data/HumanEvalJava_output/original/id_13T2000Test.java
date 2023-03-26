@@ -1,6 +1,4 @@
-Here's the completed `GreatestCommonDivisorTest` class with ten unit test cases for the `greatestCommonDivisor` method:
-
-```
+// GreatestCommonDivisorTest.java
 package original;
 
 import org.junit.jupiter.api.Test;
@@ -13,63 +11,62 @@ import static org.junit.jupiter.api.Assertions.*;
 class GreatestCommonDivisorTest {
 
     @Test
-    void testGcdOfTwoPrimes() {
+    void testGreatestCommonDivisor1() {
         int result = GreatestCommonDivisor.greatestCommonDivisor(3, 5);
         assertEquals(1, result);
     }
 
     @Test
-    void testGcdOfTwoNumbersWithCommonFactor() {
+    void testGreatestCommonDivisor2() {
         int result = GreatestCommonDivisor.greatestCommonDivisor(25, 15);
         assertEquals(5, result);
     }
 
     @Test
-    void testGcdOfTwoCoprimeNumbers() {
+    void testGreatestCommonDivisor3() {
         int result = GreatestCommonDivisor.greatestCommonDivisor(3, 7);
         assertEquals(1, result);
     }
 
     @Test
-    void testGcdOfTwoNumbersWithMultipleCommonFactors() {
+    void testGreatestCommonDivisor4() {
         int result = GreatestCommonDivisor.greatestCommonDivisor(10, 15);
         assertEquals(5, result);
     }
 
     @Test
-    void testGcdOfTwoNumbersWithCommonFactorGreaterThanOne() {
+    void testGreatestCommonDivisor5() {
         int result = GreatestCommonDivisor.greatestCommonDivisor(49, 14);
         assertEquals(7, result);
     }
 
     @Test
-    void testGcdOfTwoNumbersWithCommonFactorAndMultipleFactors() {
+    void testGreatestCommonDivisor6() {
         int result = GreatestCommonDivisor.greatestCommonDivisor(144, 60);
         assertEquals(12, result);
     }
 
     @Test
-    void testGcdOfTwoNegativeNumbers() {
-        int result = GreatestCommonDivisor.greatestCommonDivisor(-10, -15);
+    void testGreatestCommonDivisor7() {
+        int result = GreatestCommonDivisor.greatestCommonDivisor(0, 5);
         assertEquals(5, result);
     }
 
     @Test
-    void testGcdOfOneNegativeNumber() {
-        int result = GreatestCommonDivisor.greatestCommonDivisor(-10, 15);
+    void testGreatestCommonDivisor8() {
+        int result = GreatestCommonDivisor.greatestCommonDivisor(5, 0);
         assertEquals(5, result);
     }
 
     @Test
-    void testGcdOfZeroAndNonZeroNumber() {
-        int result = GreatestCommonDivisor.greatestCommonDivisor(0, 15);
-        assertEquals(15, result);
-    }
-
-    @Test
-    void testGcdOfZeroAndZero() {
+    void testGreatestCommonDivisor9() {
         int result = GreatestCommonDivisor.greatestCommonDivisor(0, 0);
         assertEquals(0, result);
     }
+
+    @Test
+    void testGreatestCommonDivisor10() {
+        int result = GreatestCommonDivisor.greatestCommonDivisor(-10, 15);
+        assertEquals(5, result);
+    }
 }
-```

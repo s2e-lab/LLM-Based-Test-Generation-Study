@@ -78,7 +78,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CountUpToTest {
     
     @Test
-    void testCountUpToWithFive() {
+    void testCountUpToWith5() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);
@@ -86,7 +86,7 @@ class CountUpToTest {
     }
     
     @Test
-    void testCountUpToWithSix() {
+    void testCountUpToWith6() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);
@@ -95,7 +95,7 @@ class CountUpToTest {
     }
     
     @Test
-    void testCountUpToWithSeven() {
+    void testCountUpToWith7() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);
@@ -105,7 +105,7 @@ class CountUpToTest {
     }
     
     @Test
-    void testCountUpToWithTen() {
+    void testCountUpToWith10() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);
@@ -115,13 +115,13 @@ class CountUpToTest {
     }
     
     @Test
-    void testCountUpToWithZero() {
+    void testCountUpToWith0() {
         List<Integer> expected = new ArrayList<Integer>();
         assertEquals(expected, CountUpTo.countUpTo(0));
     }
     
     @Test
-    void testCountUpToWithTwentyTwo() {
+    void testCountUpToWith22() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);
@@ -135,13 +135,13 @@ class CountUpToTest {
     }
     
     @Test
-    void testCountUpToWithOne() {
+    void testCountUpToWith1() {
         List<Integer> expected = new ArrayList<Integer>();
         assertEquals(expected, CountUpTo.countUpTo(1));
     }
     
     @Test
-    void testCountUpToWithEighteen() {
+    void testCountUpToWith18() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);
@@ -154,7 +154,7 @@ class CountUpToTest {
     }
     
     @Test
-    void testCountUpToWithFortySeven() {
+    void testCountUpToWith47() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);
@@ -174,7 +174,7 @@ class CountUpToTest {
     }
     
     @Test
-    void testCountUpToWithOneHundredOne() {
+    void testCountUpToWith101() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);

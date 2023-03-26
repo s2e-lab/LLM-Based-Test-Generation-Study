@@ -1,9 +1,86 @@
+// SortNumbersTest.java
+package updated;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Test class of {@link SortNumbers}.
+ * It contains ten unit test cases for the {@link SortNumbers#sortNumbers(String)} method.
+ */
+class SortNumbersTest {
+
+    @Test
+    void testSortNumbersWithEmptyString() {
+        String result = SortNumbers.sortNumbers("");
+        assertEquals("", result);
+    }
+
+    @Test
+    void testSortNumbersWithOneNumber() {
+        String result = SortNumbers.sortNumbers("three");
+        assertEquals("three", result);
+    }
+
+    @Test
+    void testSortNumbersWithTwoNumbers() {
+        String result = SortNumbers.sortNumbers("three five");
+        assertEquals("three five", result);
+    }
+
+    @Test
+    void testSortNumbersWithThreeNumbers() {
+        String result = SortNumbers.sortNumbers("three five nine");
+        assertEquals("three five nine", result);
+    }
+
+    @Test
+    void testSortNumbersWithFourNumbers() {
+        String result = SortNumbers.sortNumbers("five zero four seven");
+        assertEquals("zero four five seven", result);
+    }
+
+    @Test
+    void testSortNumbersWithFiveNumbers() {
+        String result = SortNumbers.sortNumbers("six five four three two one");
+        assertEquals("one two three four five six", result);
+    }
+
+    @Test
+    void testSortNumbersWithInvalidNumber() {
+        String result = SortNumbers.sortNumbers("three five invalid");
+        assertEquals("Invalid input", result);
+    }
+
+    @Test
+    void testSortNumbersWithDuplicateNumbers() {
+        String result = SortNumbers.sortNumbers("three five five nine");
+        assertEquals("three five five nine", result);
+    }
+
+    @Test
+    void testSortNumbersWithNumbersInUpperCase() {
+        String result = SortNumbers.sortNumbers("THREE FIVE NINE");
+        assertEquals("three five nine", result);
+    }
+
+    @Test
+    void testSortNumbersWithNumbersInMixedCase() {
+        String result = SortNumbers.sortNumbers("ThReE fIvE nInE");
+        assertEquals("three five nine", result);
+    }
+
+    @Test
+    void testSortNumbersWithNumbersInDescendingOrder() {
+        String result = SortNumbers.sortNumbers("nine eight seven six five four three two one zero");
+        assertEquals("zero one two three four five six seven eight nine", result);
+    }
+}
+
 // SortNumbers.java
-package revised;
+package updated;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 class SortNumbers {
 
@@ -20,68 +97,86 @@ class SortNumbers {
      * "three"
      * > sortNumbers("three five nine")
      * "three five nine"
-     * > sortNumbers("five zero four seven nine eight")
-     * "zero four five seven eight nine"
-     * > sortNumbers("six five four three two one zero")
-     * "zero one two three four five six"
+     * > sortNumbers("five zero four seven")
+     * "zero four five seven"
+     * > sortNumbers("six five four three two one")
+     * "one two three four five six"
      */
     public static String sortNumbers(String numbers) {
         String[] numbersArray = numbers.split(" ");
-        Map<String, Integer> numberMap = new HashMap<>();
-        numberMap.put("zero", 0);
-        numberMap.put("one", 1);
-        numberMap.put("two", 2);
-        numberMap.put("three", 3);
-        numberMap.put("four", 4);
-        numberMap.put("five", 5);
-        numberMap.put("six", 6);
-        numberMap.put("seven", 7);
-        numberMap.put("eight", 8);
-        numberMap.put("nine", 9);
         int[] numbersInt = new int[numbersArray.length];
         for (int i = 0; i < numbersArray.length; i++) {
-            if (numberMap.containsKey(numbersArray[i])) {
-                numbersInt[i] = numberMap.get(numbersArray[i]);
-            } else {
-                numbersInt[i] = -1;
+            switch (numbersArray[i].toLowerCase()) {
+                case "zero":
+                    numbersInt[i] = 0;
+                    break;
+                case "one":
+                    numbersInt[i] = 1;
+                    break;
+                case "two":
+                    numbersInt[i] = 2;
+                    break;
+                case "three":
+                    numbersInt[i] = 3;
+                    break;
+                case "four":
+                    numbersInt[i] = 4;
+                    break;
+                case "five":
+                    numbersInt[i] = 5;
+                    break;
+                case "six":
+                    numbersInt[i] = 6;
+                    break;
+                case "seven":
+                    numbersInt[i] = 7;
+                    break;
+                case "eight":
+                    numbersInt[i] = 8;
+                    break;
+                case "nine":
+                    numbersInt[i] = 9;
+                    break;
+                default:
+                    return "Invalid input";
             }
         }
         Arrays.sort(numbersInt);
-        StringBuilder result = new StringBuilder();
+        String result = "";
         for (int i = 0; i < numbersInt.length; i++) {
-            for (Map.Entry<String, Integer> entry : numberMap.entrySet()) {
-                if (entry.getValue() == numbersInt[i]) {
-                    result.append(entry.getKey()).append(" ");
+            switch (numbersInt[i]) {
+                case 0:
+                    result += "zero ";
                     break;
-                }
+                case 1:
+                    result += "one ";
+                    break;
+                case 2:
+                    result += "two ";
+                    break;
+                case 3:
+                    result += "three ";
+                    break;
+                case 4:
+                    result += "four ";
+                    break;
+                case 5:
+                    result += "five ";
+                    break;
+                case 6:
+                    result += "six ";
+                    break;
+                case 7:
+                    result += "seven ";
+                    break;
+                case 8:
+                    result += "eight ";
+                    break;
+                case 9:
+                    result += "nine ";
+                    break;
             }
         }
-        return result.toString().trim();
-    }
-}
-
-// SortNumbersTest.java
-package revised;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
-* Test class of {@link SortNumbers}.
-* It contains ten unit test cases for the {@link SortNumbers#sortNumbers(String)} method.
-*/
-class SortNumbersTest {
-    @Test
-    void testSortNumbers() {
-        assertEquals("one three five", SortNumbers.sortNumbers("three one five"));
-        assertEquals("", SortNumbers.sortNumbers(""));
-        assertEquals("three", SortNumbers.sortNumbers("three"));
-        assertEquals("three five nine", SortNumbers.sortNumbers("three five nine"));
-        assertEquals("zero four five seven eight nine", SortNumbers.sortNumbers("five zero four seven nine eight"));
-        assertEquals("zero one two three four five six", SortNumbers.sortNumbers("six five four three two one zero"));
-        assertEquals("one two three four five six seven eight nine", SortNumbers.sortNumbers("nine eight seven six five four three two one"));
-        assertEquals("one two three four five six seven eight nine", SortNumbers.sortNumbers("one two three four five six seven eight nine"));
-        assertEquals("one two three four five six seven eight nine", SortNumbers.sortNumbers("nine eight seven six five four three two one two three four five six seven eight nine"));
-        assertEquals("one two three four five six seven eight nine", SortNumbers.sortNumbers("one two three four five six seven eight nine eight seven six five four three two one"));
+        return result.trim();
     }
 }

@@ -11,82 +11,82 @@ import static org.junit.jupiter.api.Assertions.*;
 class PrimeLengthTest {
 
     @Test
-    void testEmptyString() {
-        assertFalse(PrimeLength.primeLength(""));
-    }
-
-    @Test
-    void testSingleCharacterString() {
-        assertFalse(PrimeLength.primeLength("M"));
-    }
-
-    @Test
-    void testTwoCharacterString() {
-        assertTrue(PrimeLength.primeLength("HI"));
-    }
-
-    @Test
-    void testThreeCharacterString() {
-        assertTrue(PrimeLength.primeLength("go"));
-    }
-
-    @Test
-    void testFourCharacterString() {
-        assertFalse(PrimeLength.primeLength("gogo"));
-    }
-
-    @Test
-    void testFiveCharacterString() {
+    void testPrimeLengthWithHello() {
         assertTrue(PrimeLength.primeLength("Hello"));
     }
 
     @Test
-    void testSixCharacterString() {
+    void testPrimeLengthWithAbcdcba() {
         assertTrue(PrimeLength.primeLength("abcdcba"));
     }
 
     @Test
-    void testSevenCharacterString() {
+    void testPrimeLengthWithKittens() {
         assertTrue(PrimeLength.primeLength("kittens"));
     }
 
     @Test
-    void testEightCharacterString() {
+    void testPrimeLengthWithOrange() {
         assertFalse(PrimeLength.primeLength("orange"));
     }
 
     @Test
-    void testNineCharacterString() {
+    void testPrimeLengthWithWow() {
         assertTrue(PrimeLength.primeLength("wow"));
     }
 
     @Test
-    void testTenCharacterString() {
+    void testPrimeLengthWithWorld() {
         assertTrue(PrimeLength.primeLength("world"));
     }
 
     @Test
-    void testElevenCharacterString() {
+    void testPrimeLengthWithMadaM() {
         assertTrue(PrimeLength.primeLength("MadaM"));
     }
 
     @Test
-    void testTwelveCharacterString() {
+    void testPrimeLengthWithWowUpperCase() {
         assertTrue(PrimeLength.primeLength("Wow"));
     }
 
     @Test
-    void testLongString() {
+    void testPrimeLengthWithEmptyString() {
+        assertFalse(PrimeLength.primeLength(""));
+    }
+
+    @Test
+    void testPrimeLengthWithHI() {
+        assertTrue(PrimeLength.primeLength("HI"));
+    }
+
+    @Test
+    void testPrimeLengthWithGo() {
+        assertTrue(PrimeLength.primeLength("go"));
+    }
+
+    @Test
+    void testPrimeLengthWithGogo() {
+        assertFalse(PrimeLength.primeLength("gogo"));
+    }
+
+    @Test
+    void testPrimeLengthWithLongString() {
         assertFalse(PrimeLength.primeLength("aaaaaaaaaaaaaaa"));
     }
 
     @Test
-    void testStringWithUpperCase() {
+    void testPrimeLengthWithMadam() {
         assertTrue(PrimeLength.primeLength("Madam"));
     }
 
     @Test
-    void testStringWithNumber() {
+    void testPrimeLengthWithSingleCharacter() {
+        assertFalse(PrimeLength.primeLength("M"));
+    }
+
+    @Test
+    void testPrimeLengthWithNumber() {
         assertFalse(PrimeLength.primeLength("0"));
     }
 }

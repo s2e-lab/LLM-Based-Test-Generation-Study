@@ -37,6 +37,12 @@ class MonotonicTest {
     }
 
     @Test
+    void testMonotonicEqual2() {
+        List<Integer> l = Arrays.asList(1, 1, 1, 1);
+        assertTrue(Monotonic.monotonic(l));
+    }
+
+    @Test
     void testMonotonicNonMonotonic() {
         List<Integer> l = Arrays.asList(1, 20, 4, 10);
         assertFalse(Monotonic.monotonic(l));
@@ -49,26 +55,20 @@ class MonotonicTest {
     }
 
     @Test
-    void testMonotonicIncreasingThenDecreasing() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5, 4, 3, 2, 1);
+    void testMonotonicNonMonotonic3() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5, 60);
         assertTrue(Monotonic.monotonic(l));
     }
 
     @Test
-    void testMonotonicDecreasingThenIncreasing() {
-        List<Integer> l = Arrays.asList(5, 4, 3, 2, 1, 2, 3, 4, 5);
+    void testMonotonicNonMonotonic4() {
+        List<Integer> l = Arrays.asList(4, 1, 1, 0);
         assertTrue(Monotonic.monotonic(l));
     }
 
     @Test
     void testMonotonicSingleElement() {
         List<Integer> l = Arrays.asList(1);
-        assertTrue(Monotonic.monotonic(l));
-    }
-
-    @Test
-    void testMonotonicTwoElements() {
-        List<Integer> l = Arrays.asList(1, 2);
         assertTrue(Monotonic.monotonic(l));
     }
 }

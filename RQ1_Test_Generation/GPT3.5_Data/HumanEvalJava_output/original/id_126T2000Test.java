@@ -7,7 +7,7 @@ import java.util.List;
 class IsSorted {
 
     /**
-     * * Given a list of numbers, return whether or not they are sorted
+     * Given a list of numbers, return whether or not they are sorted
      * in ascending order. If list has more than 1 duplicate of the same
      * number, return False. Assume no negative numbers and only integers.
      *
@@ -21,32 +21,8 @@ class IsSorted {
      * isSorted([1, 2, 2, 3, 3, 4]) ➞ True
      * isSorted([1, 2, 2, 2, 3, 4]) ➞ False
      *
-     * > isSorted([5])
-     * true
-     * > isSorted([1, 2, 3, 4, 5])
-     * true
-     * > isSorted([1, 3, 2, 4, 5])
-     * false
-     * > isSorted([1, 2, 3, 4, 5, 6])
-     * true
-     * > isSorted([1, 2, 3, 4, 5, 6, 7])
-     * true
-     * > isSorted([1, 3, 2, 4, 5, 6, 7])
-     * false
-     * > isSorted([])
-     * true
-     * > isSorted([1])
-     * true
-     * > isSorted([3, 2, 1])
-     * false
-     * > isSorted([1, 2, 2, 2, 3, 4])
-     * false
-     * > isSorted([1, 2, 3, 3, 3, 4])
-     * false
-     * > isSorted([1, 2, 2, 3, 3, 4])
-     * true
-     * > isSorted([1, 2, 3, 4])
-     * true
+     * @param lst list of integers to check if sorted
+     * @return true if the list is sorted in ascending order and has at most one duplicate of each number, false otherwise
      */
     public static Boolean isSorted(List<Integer> lst) {
         if (lst.size() <= 1) {
@@ -56,7 +32,7 @@ class IsSorted {
         for (int i = 0; i < lst.size(); i++) {
             int curr = lst.get(i);
             map.put(curr, map.getOrDefault(curr, 0) + 1);
-            if (map.get(curr) > 1) {
+            if (map.get(curr) > 2) {
                 return false;
             }
         }
@@ -85,64 +61,64 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link IsSorted#isSorted(List)} method.
 */
 class IsSortedTest {
-    
+
     @Test
     void testEmptyList() {
         List<Integer> lst = Arrays.asList();
         assertTrue(IsSorted.isSorted(lst));
     }
-    
+
     @Test
     void testSingleElementList() {
         List<Integer> lst = Arrays.asList(5);
         assertTrue(IsSorted.isSorted(lst));
     }
-    
+
     @Test
     void testSortedAscendingList() {
         List<Integer> lst = Arrays.asList(1, 2, 3, 4, 5);
         assertTrue(IsSorted.isSorted(lst));
     }
-    
+
     @Test
     void testUnsortedList() {
         List<Integer> lst = Arrays.asList(1, 3, 2, 4, 5);
         assertFalse(IsSorted.isSorted(lst));
     }
-    
+
     @Test
-    void testSortedListWithDuplicates() {
+    void testSortedListWithDuplicate() {
         List<Integer> lst = Arrays.asList(1, 2, 2, 3, 3, 4);
         assertTrue(IsSorted.isSorted(lst));
     }
-    
+
     @Test
-    void testUnsortedListWithDuplicates() {
+    void testSortedListWithMultipleDuplicates() {
         List<Integer> lst = Arrays.asList(1, 2, 2, 2, 3, 4);
         assertFalse(IsSorted.isSorted(lst));
     }
-    
+
     @Test
-    void testSortedListWithSevenElements() {
-        List<Integer> lst = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
-        assertTrue(IsSorted.isSorted(lst));
-    }
-    
-    @Test
-    void testUnsortedListWithSevenElements() {
-        List<Integer> lst = Arrays.asList(1, 3, 2, 4, 5, 6, 7);
+    void testSortedListWithMultipleDuplicates2() {
+        List<Integer> lst = Arrays.asList(1, 2, 3, 3, 3, 4);
         assertFalse(IsSorted.isSorted(lst));
     }
-    
+
     @Test
-    void testSortedListWithThreeElements() {
-        List<Integer> lst = Arrays.asList(1, 2, 3);
+    void testSortedDescendingList() {
+        List<Integer> lst = Arrays.asList(5, 4, 3, 2, 1);
+        assertFalse(IsSorted.isSorted(lst));
+    }
+
+    @Test
+    void testSortedListWithOneDuplicate() {
+        List<Integer> lst = Arrays.asList(1, 2, 3, 4, 4);
         assertTrue(IsSorted.isSorted(lst));
     }
-    
+
     @Test
-    void testUnsortedListWithThreeElements() {
-        List<Integer> lst = Arrays.asList(3, 2, 1);
-        assertFalse(IsSorted.isSorted(lst));
+    void testSortedListWithOneDuplicate2() {
+        List<Integer> lst = Arrays.asList(1, 2, 3, 3, 4);
+        assertTrue(IsSorted.isSorted(lst));
     }
 }

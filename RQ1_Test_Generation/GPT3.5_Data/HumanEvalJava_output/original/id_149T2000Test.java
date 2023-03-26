@@ -1,5 +1,5 @@
 // SortedListSum.java
-package original;
+package updated;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,20 +39,20 @@ class SortedListSum {
      * ["cc", "dd", "aaaa", "bbbb"]
      */
     public static List<String> sortedListSum(List<String> lst) {
-        List<String> result = new ArrayList<String>();
-        for (int i = 0; i < lst.size(); i++) {
-            if (lst.get(i).length() % 2 == 0) {
-                result.add(lst.get(i));
+        List<String> result = new ArrayList<>();
+        for (String s : lst) {
+            if (s.length() % 2 == 0) {
+                result.add(s);
             }
         }
         Collections.sort(result, new Comparator<String>() {
 
             @Override
-            public int compare(String o1, String o2) {
-                if (o1.length() == o2.length()) {
-                    return o1.compareTo(o2);
+            public int compare(String s1, String s2) {
+                if (s1.length() == s2.length()) {
+                    return s1.compareTo(s2);
                 } else {
-                    return o1.length() - o2.length();
+                    return s1.length() - s2.length();
                 }
             }
         });
@@ -61,7 +61,7 @@ class SortedListSum {
 }
 
 // SortedListSumTest.java
-package original;
+package updated;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,74 +74,81 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SortedListSum#sortedListSum(List)} method.
 */
 class SortedListSumTest {
-    
+
     @Test
     void testEmptyList() {
-        List<String> lst = new ArrayList<String>();
-        List<String> expected = new ArrayList<String>();
+        List<String> lst = new ArrayList<>();
+        List<String> expected = new ArrayList<>();
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
-    void testNoEvenLengthStrings() {
-        List<String> lst = Arrays.asList("a", "bb", "ccc", "dddd");
-        List<String> expected = new ArrayList<String>();
+    void testAllOddLengthStrings() {
+        List<String> lst = Arrays.asList("a", "bc", "def");
+        List<String> expected = new ArrayList<>();
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
     void testAllEvenLengthStrings() {
-        List<String> lst = Arrays.asList("aa", "bb", "cc", "dd");
-        List<String> expected = Arrays.asList("aa", "bb", "cc", "dd");
+        List<String> lst = Arrays.asList("aa", "bb", "cc");
+        List<String> expected = Arrays.asList("aa", "bb", "cc");
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
     void testMixedLengthStrings() {
-        List<String> lst = Arrays.asList("a", "bb", "ccc", "dddd", "eeeee");
+        List<String> lst = Arrays.asList("a", "bb", "ccc", "dddd");
         List<String> expected = Arrays.asList("bb", "dddd");
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
     void testDuplicateStrings() {
-        List<String> lst = Arrays.asList("aa", "bb", "cc", "bb", "aa");
-        List<String> expected = Arrays.asList("aa", "aa", "bb", "bb");
+        List<String> lst = Arrays.asList("aa", "bb", "aa", "cc");
+        List<String> expected = Arrays.asList("aa", "aa", "bb");
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
     void testMixedCaseStrings() {
         List<String> lst = Arrays.asList("school", "AI", "asdf", "b");
         List<String> expected = Arrays.asList("AI", "asdf", "school");
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
-    void testSameLengthDifferentOrder() {
+    void testDescendingOrderStrings() {
+        List<String> lst = Arrays.asList("d", "c", "b", "a");
+        List<String> expected = new ArrayList<>();
+        assertEquals(expected, SortedListSum.sortedListSum(lst));
+    }
+
+    @Test
+    void testMixedLengthAndCaseStrings() {
         List<String> lst = Arrays.asList("d", "dcba", "abcd", "a");
         List<String> expected = Arrays.asList("abcd", "dcba");
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
-    void testSameLengthSameOrder() {
+    void testMixedLengthAndDuplicateStrings() {
         List<String> lst = Arrays.asList("AI", "ai", "au");
         List<String> expected = Arrays.asList("AI", "ai", "au");
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
-    void testAllSameString() {
-        List<String> lst = Arrays.asList("aaaa", "aaaa", "aaaa", "aaaa");
-        List<String> expected = Arrays.asList("aaaa", "aaaa", "aaaa", "aaaa");
+    void testDuplicateEvenLengthStrings() {
+        List<String> lst = Arrays.asList("a", "b", "b", "c", "c", "a");
+        List<String> expected = new ArrayList<>();
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
-    
+
     @Test
-    void testMixedStrings() {
-        List<String> lst = Arrays.asList("a", "b", "b", "c", "c", "a");
-        List<String> expected = new ArrayList<String>();
+    void testMixedLengthAndDuplicateEvenLengthStrings() {
+        List<String> lst = Arrays.asList("aaaa", "bbbb", "dd", "cc");
+        List<String> expected = Arrays.asList("cc", "dd", "aaaa", "bbbb");
         assertEquals(expected, SortedListSum.sortedListSum(lst));
     }
 }

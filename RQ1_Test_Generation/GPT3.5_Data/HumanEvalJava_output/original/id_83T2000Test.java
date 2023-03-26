@@ -1,5 +1,4 @@
-// Here's the updated code for StartsOneEndsTest.java with ten unit test cases for the startsOneEnds method:
-
+// StartsOneEndsTest.java
 package original;
 
 import org.junit.jupiter.api.Test;

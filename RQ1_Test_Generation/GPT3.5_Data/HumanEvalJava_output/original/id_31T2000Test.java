@@ -1,61 +1,110 @@
-Here's the updated code for the `IsPrimeTest` class with ten unit test cases for the `isPrime` method:
+// IsPrime.java
+package updated;
 
-```
-package original;
+public class IsPrime {
+
+    /**
+     * Return true if a given number is prime, and false otherwise.
+     *
+     * > isPrime(6)
+     * false
+     * > isPrime(101)
+     * true
+     * > isPrime(11)
+     * true
+     * > isPrime(13441)
+     * true
+     * > isPrime(61)
+     * true
+     * > isPrime(4)
+     * false
+     * > isPrime(1)
+     * false
+     * > isPrime(5)
+     * true
+     * > isPrime(11)
+     * true
+     * > isPrime(17)
+     * true
+     * > isPrime(85)
+     * false
+     * > isPrime(77)
+     * false
+     * > isPrime(255379)
+     * false
+     */
+    public static boolean isPrime(int n) {
+        if (n <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+// IsPrimeTest.java
+package updated;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link IsPrime}.
+* It contains ten unit test cases for the {@link IsPrime#isPrime(int)} method.
+*/
 class IsPrimeTest {
-
+    
     @Test
-    void testIsPrimeWithSix() {
-        assertFalse(IsPrime.isPrime(6));
+    void testIsPrimeWithNegativeNumber() {
+        assertFalse(IsPrime.isPrime(-5));
     }
-
+    
     @Test
-    void testIsPrimeWith101() {
-        assertTrue(IsPrime.isPrime(101));
+    void testIsPrimeWithZero() {
+        assertFalse(IsPrime.isPrime(0));
     }
-
-    @Test
-    void testIsPrimeWithEleven() {
-        assertTrue(IsPrime.isPrime(11));
-    }
-
-    @Test
-    void testIsPrimeWith13441() {
-        assertTrue(IsPrime.isPrime(13441));
-    }
-
-    @Test
-    void testIsPrimeWith61() {
-        assertTrue(IsPrime.isPrime(61));
-    }
-
-    @Test
-    void testIsPrimeWithFour() {
-        assertFalse(IsPrime.isPrime(4));
-    }
-
+    
     @Test
     void testIsPrimeWithOne() {
         assertFalse(IsPrime.isPrime(1));
     }
-
+    
     @Test
-    void testIsPrimeWithFive() {
-        assertTrue(IsPrime.isPrime(5));
+    void testIsPrimeWithTwo() {
+        assertTrue(IsPrime.isPrime(2));
     }
-
+    
     @Test
-    void testIsPrimeWithSeventeen() {
-        assertTrue(IsPrime.isPrime(17));
+    void testIsPrimeWithEvenNumber() {
+        assertFalse(IsPrime.isPrime(4));
     }
-
+    
     @Test
-    void testIsPrimeWith255379() {
-        assertFalse(IsPrime.isPrime(255379));
+    void testIsPrimeWithOddNumber() {
+        assertTrue(IsPrime.isPrime(7));
+    }
+    
+    @Test
+    void testIsPrimeWithLargePrimeNumber() {
+        assertTrue(IsPrime.isPrime(999983));
+    }
+    
+    @Test
+    void testIsPrimeWithLargeNonPrimeNumber() {
+        assertFalse(IsPrime.isPrime(999981));
+    }
+    
+    @Test
+    void testIsPrimeWithMaxValue() {
+        assertFalse(IsPrime.isPrime(Integer.MAX_VALUE));
+    }
+    
+    @Test
+    void testIsPrimeWithMinValue() {
+        assertFalse(IsPrime.isPrime(Integer.MIN_VALUE));
     }
 }
-```

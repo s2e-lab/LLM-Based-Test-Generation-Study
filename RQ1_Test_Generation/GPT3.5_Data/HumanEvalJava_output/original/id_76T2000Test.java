@@ -1,10 +1,8 @@
-// Here's the generated code for the IsSimplePowerTest class:
-
-package generated;
+// IsSimplePowerTest.java
+package original;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import original.IsSimplePower;
 
 /**
  * Test class of {@link IsSimplePower}.
@@ -13,52 +11,52 @@ import original.IsSimplePower;
 class IsSimplePowerTest {
 
     @Test
-    void testIsSimplePower_1() {
+    void testIsSimplePower1() {
         assertTrue(IsSimplePower.isSimplePower(16, 2));
     }
 
     @Test
-    void testIsSimplePower_2() {
+    void testIsSimplePower2() {
         assertFalse(IsSimplePower.isSimplePower(143214, 16));
     }
 
     @Test
-    void testIsSimplePower_3() {
+    void testIsSimplePower3() {
         assertTrue(IsSimplePower.isSimplePower(4, 2));
     }
 
     @Test
-    void testIsSimplePower_4() {
+    void testIsSimplePower4() {
         assertTrue(IsSimplePower.isSimplePower(9, 3));
     }
 
     @Test
-    void testIsSimplePower_5() {
+    void testIsSimplePower5() {
         assertTrue(IsSimplePower.isSimplePower(16, 4));
     }
 
     @Test
-    void testIsSimplePower_6() {
+    void testIsSimplePower6() {
         assertFalse(IsSimplePower.isSimplePower(24, 2));
     }
 
     @Test
-    void testIsSimplePower_7() {
+    void testIsSimplePower7() {
         assertFalse(IsSimplePower.isSimplePower(128, 4));
     }
 
     @Test
-    void testIsSimplePower_8() {
+    void testIsSimplePower8() {
         assertFalse(IsSimplePower.isSimplePower(12, 6));
     }
 
     @Test
-    void testIsSimplePower_9() {
+    void testIsSimplePower9() {
         assertTrue(IsSimplePower.isSimplePower(1, 1));
     }
 
     @Test
-    void testIsSimplePower_10() {
+    void testIsSimplePower10() {
         assertTrue(IsSimplePower.isSimplePower(1, 12));
     }
 }

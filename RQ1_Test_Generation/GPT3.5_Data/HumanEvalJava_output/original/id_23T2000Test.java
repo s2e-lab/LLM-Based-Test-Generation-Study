@@ -1,6 +1,8 @@
-Here's the completed `StrlenTest` class with ten unit test cases for the `Strlen#strlen(String)` method:
+// Here's an example implementation of the StrlenTest class with ten unit test cases for the Strlen class.
 
-```
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 class StrlenTest {
 
     @Test
@@ -25,12 +27,9 @@ class StrlenTest {
 
     @Test
     void testNullString() {
-        assertThrows(NullPointerException.class, () -> Strlen.strlen(null));
-    }
-
-    @Test
-    void testUnicodeString() {
-        assertEquals(4, Strlen.strlen("👋🏼🌎"));
+        assertThrows(NullPointerException.class, () -> {
+            Strlen.strlen(null);
+        });
     }
 
     @Test
@@ -39,18 +38,22 @@ class StrlenTest {
     }
 
     @Test
-    void testTabString() {
-        assertEquals(1, Strlen.strlen("\t"));
+    void testUnicodeString() {
+        assertEquals(4, Strlen.strlen("😀😁😂😃"));
     }
 
     @Test
-    void testNewlineString() {
-        assertEquals(1, Strlen.strlen("\n"));
+    void testUpperCaseString() {
+        assertEquals(6, Strlen.strlen("HELLO "));
     }
 
     @Test
-    void testCarriageReturnString() {
-        assertEquals(1, Strlen.strlen("\r"));
+    void testLowerCaseString() {
+        assertEquals(6, Strlen.strlen(" world"));
+    }
+
+    @Test
+    void testMixedCaseString() {
+        assertEquals(11, Strlen.strlen("Hello World"));
     }
 }
-```
