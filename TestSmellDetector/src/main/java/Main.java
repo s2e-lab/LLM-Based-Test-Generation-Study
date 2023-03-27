@@ -29,7 +29,7 @@ public class Main {
 //            }
 //        }
 
-        String fileName = "TestSmellInput-HumanEvalJava.csv";
+        String fileName = "/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-results/OpenAI/HumanEvalJava-Results/csv-data/TestSmellInput-HumanEvalJava-Codex.csv";
 
         TestSmellDetector testSmellDetector = new TestSmellDetector(new DefaultThresholds());
 

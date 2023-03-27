@@ -73,15 +73,18 @@ public class CompilationAnalyzer {
     /**
      * Inspects the generated tests and reports the possible syntax errors.
      *
-     * @param isOriginalCompilable
-     * @param isCompilableAfterFix
-     * @return
+     * @param isOriginalCompilable true if the original test generated is compilable
+     * @param isCompilableAfterFix true if the modified code removed extra code is compilable
+     * @param finishReason         why the model stopped generating the code
+     * @return a string indicating the syntax check status
      */
-    public static String getSyntaxCheck(boolean isOriginalCompilable, boolean isCompilableAfterFix) {
+    public static String getSyntaxCheck(boolean isOriginalCompilable, boolean isCompilableAfterFix, String finishReason) {
         if (isOriginalCompilable)
             return "ORIGINAL_SYNTAX_OK";
         if (isCompilableAfterFix)
             return "EXTRA_CODE";
+        if (finishReason.equals("length"))
+            return "INCOMPLETE_CODE";
         return "UNKNOWN_SYNTAX_ERROR";
     }
 
@@ -107,7 +110,15 @@ public class CompilationAnalyzer {
         return el == null || el.toString().equals("null") ? "" : el.getAsString();
     }
 
-
+    /**
+     * Generates a report on the compilation of the generated tests.
+     * It saves the results in two CSV files (see {@link CompilationAnalyzer#STATISTICS_CSV_OUTPUT}).
+     * One CSV is to be used as input for tsDetect, the other has the raw data regarding compilation.
+     *
+     * @param dataset the dataset used to generate the tests
+     * @param model   the model used to generate the tests
+     * @throws IOException if the report cannot be generated
+     */
     public static void generateReport(String dataset, String model) throws IOException {
         String[] scenarios = {"original", "scenario1", "scenario2", "scenario3"};
         String csvFilePath = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "compilation_" + dataset);
@@ -121,7 +132,7 @@ public class CompilationAnalyzer {
         try (final CSVPrinter printer = new CSVPrinter(csvWriter, csvFormat)) {
 
             for (String scenario : scenarios) {
-                for (int token : new int[]{2000, 4000}) {
+                for (int token : new int[]{2000/*, 4000*/}) {
                     String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
                     String rqCsvFile = scenario.equals("original") ? RQ1_CSV_PROMPT_INPUT : RQ2_CSV_PROMPT_INPUT;
                     JsonArray promptArr = getJsonArray(format(rqJsonFile, model, dataset, scenario, token));
@@ -137,15 +148,17 @@ public class CompilationAnalyzer {
                         JsonObject resp = promptObj.getAsJsonObject();
                         String promptID = resp.get("prompt_id").getAsString();
                         String prompt = resp.get("test_prompt").getAsString();
+                        String classname = promptMetadata.get(promptID).a;
+                        String methodSignature = promptMetadata.get(promptID).b;
                         String fixedCode = resp.get("choices").getAsJsonArray().get(0)
                                 .getAsJsonObject().get("text").getAsString();
                         // if it does not contain the prompt, then prepend it
-                        String jUnitCodeAfterFix = fixedCode.contains(prompt) ?
+                        String jUnitCodeAfterFix = fixedCode.contains(prompt.strip()) || fixedCode.contains("class %sTest {".formatted(classname)) ?
                                 fixedCode :
                                 prompt + "\n\t\t" + fixedCode;
                         // if it does not contain the prompt, then prepend it
                         String originalCode = resp.get("original_generated_code").getAsString();
-                        String jUnitOriginalCode = originalCode.contains(prompt) ?
+                        String jUnitOriginalCode = originalCode.contains(prompt.strip())  || originalCode.contains("class %sTest {".formatted(classname))?
                                 originalCode :
                                 prompt + "\n\t\t" + originalCode;
                         String finishReason = getFinishReason(resp);
@@ -156,8 +169,7 @@ public class CompilationAnalyzer {
                         boolean removedExtraCode = resp.get("removed_extra_code").getAsBoolean();
                         CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
                         promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
-                        String classname = promptMetadata.get(promptID).a;
-                        String methodSignature = promptMetadata.get(promptID).b;
+
                         String jUnitTestFileName = "%s_%s_%d_Test".formatted(
                                 classname, methodSignature.split("\\(")[0], token
                         );
@@ -175,14 +187,14 @@ public class CompilationAnalyzer {
                         // "number_test_methods", "number_assertions", "test_filename"
                         printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
                                 isOriginalCompilable, removedExtraCode, isCompilableAfterFix,
-                                computeNumberTestMethods(cu), computeNumberAssertions(cu), getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix));
+                                computeNumberTestMethods(cu), computeNumberAssertions(cu), getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason));
                         if (isOriginalCompilable || isCompilableAfterFix) {
                             // import the java util package
                             cu.addImport("java.util.*");
                             cu.getType(0).setName(jUnitTestFileName);
                         }
 
-                        sb.append("%s-%s,%s,%s".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
+                        sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
                         saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
                     }
                 }
@@ -190,7 +202,8 @@ public class CompilationAnalyzer {
         }
 
 
-        String testSmellsCsv = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "TestSmellInput-%s-%s.csv".formatted(dataset, model));
+        // saves the information for test smells detection by tsDetect
+        String testSmellsCsv = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "TestSmellInput-%s-%s".formatted(dataset, model));
         try (FileWriter f = new FileWriter(testSmellsCsv)) {
             f.write(sb.toString());
         }
@@ -263,8 +276,9 @@ public class CompilationAnalyzer {
 
 
     public static void main(String[] args) throws IOException {
-//        generateReport("HumanEvalJava", "GPT3.5");
-        generateReport("HumanEvalJava", "OpenAI");
+//        generateReport("HumanEvalJava", "CodeGen");
+        generateReport("HumanEvalJava", "GPT3.5");
+//        generateReport("HumanEvalJava", "OpenAI");
 //        generateReport("SF110", "OpenAI");
     }
 }
