@@ -1,21 +1,15 @@
 # Scripts
 
-- `generate_tests_openai.py`:
-Generates test cases using OpenAI's API. It produces a JSON containing the results metadata as well as all the generated test files in separate `.java` files. 
+- `generate_tests_*.py`:
+Generates test cases using an LLM (Codex, ChatGPT3.5, or CodeGen). It produces a JSON containing the results metadata as well as all the generated test files in separate `.java` files. 
 The token size and scenario under analysis are specified as program arguments.
-- `fix_tests_openai.py`: Re-generates test cases using OpenAI's API for samples that run out of the token size. Token size is `4096`.
+- `fix_extracode_openai.py`: It inspects the JSON outputs and apply heuristics to remove extra code and/or common patterns of syntax errors. It works for OpenAI models (ie Codex, ChatGPT3.5)
+- `merge_tests_codegen.py`: It process the JSON outputs to create one prompt-output per generated suggestion. This is because CodeGen has a different configuration (we ask for 1 unit test and 10 suggestions for it).
+- `*_job.sh`: shell scripts to run the job on a computing server.
 
 # Configuration
-
-
 - `example_config.json`: File used for configuring the script `test_file_generation.py`: 
 	- `API_KEY`: You OpenAI API developer key.
 	- `BASE_DIRECTORY`: Full/relative path to the **OpenAI_Data** folder that contains the HumanEval dataset decomposed into 3 scenarios. For example: `/Users/abcd/Documents/study_repo/RQ1_Prompt_Elements/OpenAI_Data/`.
 
 
-
-# Folders
-
-- `data`: Java samples extracted from HumanEval (java version)
-- `OpenAI_Data`: JSON files with prompts used to generate tests (`inputs`) and the outcome of the results (`output`) 
-- `RQ1_Result`
