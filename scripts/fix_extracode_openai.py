@@ -90,7 +90,7 @@ def remove_extra_code(model: str, code: str, scenario: str) -> str:
     @return: code without the extra code
     """
     # tracks what heuristic(s) were applied, if any
-    applied_heuristics = [False for i in range(0, 5)]
+    applied_heuristics = [False for _ in range(0, 5)]
     
 
     if model == "GPT3.5":
