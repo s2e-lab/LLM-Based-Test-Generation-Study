@@ -88,7 +88,12 @@ public class CompilationAnalyzer {
         return "UNKNOWN_SYNTAX_ERROR";
     }
 
-
+    /**
+     * Computes the number of test methods in the generated test, based on the number of @Test annotations.
+     *
+     * @param cu compilation unit
+     * @return the number of test methods, or -1 if the compilation unit is null.
+     */
     public static int computeNumberTestMethods(CompilationUnit cu) {
         if (cu == null) return -1;
         return (int) cu.findAll(AnnotationExpr.class).stream()
@@ -96,6 +101,12 @@ public class CompilationAnalyzer {
                 .count();
     }
 
+    /**
+     * Computes the number of assertions in the generated test, based on the number of assert* calls.
+     *
+     * @param cu compilation unit
+     * @return the number of assertions or -1 if the compilation unit is null
+     */
     public static int computeNumberAssertions(CompilationUnit cu) {
         if (cu == null) return -1;
         return (int) cu.findAll(MethodCallExpr.class).stream()
@@ -104,6 +115,12 @@ public class CompilationAnalyzer {
                 .count();
     }
 
+    /**
+     * Returns a string with the finish reason of the model.
+     *
+     * @param resp the response from the model
+     * @return the finish reason.
+     */
     public static String getFinishReason(JsonObject resp) {
         JsonElement el = resp.get("choices").getAsJsonArray().get(0)
                 .getAsJsonObject().get("finish_reason");
@@ -119,8 +136,8 @@ public class CompilationAnalyzer {
      * @param model   the model used to generate the tests
      * @throws IOException if the report cannot be generated
      */
-    public static void generateReport(String dataset, String model) throws IOException {
-        String[] scenarios = {"original", "scenario1", "scenario2", "scenario3"};
+    public static void generateReport(String dataset, String model, String[] scenarios, int[] max_tokens) throws IOException {
+
         String csvFilePath = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "compilation_" + dataset);
         FileWriter csvWriter = new FileWriter(csvFilePath);
         CSVFormat csvFormat = CSVFormat.DEFAULT
@@ -130,26 +147,41 @@ public class CompilationAnalyzer {
 
         StringBuilder sb = new StringBuilder();
         try (final CSVPrinter printer = new CSVPrinter(csvWriter, csvFormat)) {
-
             for (String scenario : scenarios) {
-                for (int token : new int[]{2000/*, 4000*/}) {
+                for (int token : max_tokens) {
                     String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
                     String rqCsvFile = scenario.equals("original") ? RQ1_CSV_PROMPT_INPUT : RQ2_CSV_PROMPT_INPUT;
                     JsonArray promptArr = getJsonArray(format(rqJsonFile, model, dataset, scenario, token));
 
                     // key = promptID, value = Pair<classname, method_signature>
                     String promptInputFile = format(rqCsvFile, model, dataset, scenario);
-                    Map<String, Pair<String, String>> promptMetadata = loadCsvInputprompts(promptInputFile);
+                    Map<String, Pair<String, String>> promptMetadata = loadCsvInputPrompts(promptInputFile);
                     // key = promptID, value = Pair<isCompilable, hasExtraCode>
                     Map<String, Pair<Boolean, Boolean>> promptCompileStatus = new HashMap<>();
-
-                    assert promptArr.size() == promptMetadata.size();
+                    // enforce some integrity checks: either we have the same # of prompts, or 10x more, for CodeGen
+                    assert promptArr.size() == promptMetadata.size() || promptArr.size() == promptMetadata.size() * 10;
                     for (JsonElement promptObj : promptArr) {
                         JsonObject resp = promptObj.getAsJsonObject();
                         String promptID = resp.get("prompt_id").getAsString();
                         String prompt = resp.get("test_prompt").getAsString();
                         String classname = promptMetadata.get(promptID).a;
-                        String methodSignature = promptMetadata.get(promptID).b;
+                        String methodName = promptMetadata.get(promptID).b.split("\\(")[0];
+                        String jUnitTestFileName = "%s_%s_%d_%sTest".formatted(
+                                classname, methodName, token,
+                                resp.has("choice_no") ? resp.get("choice_no").getAsString() + "_" : ""
+                        );
+                        File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
+                                model,
+                                dataset,
+                                scenario,
+                                jUnitTestFileName)
+                        );
+                        File productionFile = new File("..", promptID);
+                        assert productionFile.exists();
+
+
+                        // process the generated code
+
                         String fixedCode = resp.get("choices").getAsJsonArray().get(0)
                                 .getAsJsonObject().get("text").getAsString();
                         // if it does not contain the prompt, then prepend it
@@ -158,7 +190,7 @@ public class CompilationAnalyzer {
                                 prompt + "\n\t\t" + fixedCode;
                         // if it does not contain the prompt, then prepend it
                         String originalCode = resp.get("original_generated_code").getAsString();
-                        String jUnitOriginalCode = originalCode.contains(prompt.strip())  || originalCode.contains("class %sTest {".formatted(classname))?
+                        String jUnitOriginalCode = originalCode.contains(prompt.strip()) || originalCode.contains("class %sTest {".formatted(classname)) ?
                                 originalCode :
                                 prompt + "\n\t\t" + originalCode;
                         String finishReason = getFinishReason(resp);
@@ -170,17 +202,6 @@ public class CompilationAnalyzer {
                         CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
                         promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
 
-                        String jUnitTestFileName = "%s_%s_%d_Test".formatted(
-                                classname, methodSignature.split("\\(")[0], token
-                        );
-                        File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
-                                model,
-                                dataset,
-                                scenario,
-                                jUnitTestFileName)
-                        );
-                        File productionFile = new File("..", promptID);
-                        assert productionFile.exists();
 
                         // "id", "scenario", "token_size", "jUnitTestFileName", "finish_reason",
                         // "original_syntax_ok", "removed_extra_code", "syntax_ok_after_extra_code_removal"
@@ -203,12 +224,32 @@ public class CompilationAnalyzer {
 
 
         // saves the information for test smells detection by tsDetect
+//        saveTestSmellCsvInput(dataset, model, sb);
+    }
+
+    /**
+     * Create a CSV file to be used as input by tsDetect.
+     *
+     * @param dataset the dataset used for unit test generation
+     * @param model   the name of the  LLM
+     * @param sb      the string builder containing the information to be saved
+     * @throws IOException in case of input/output error.
+     */
+    private static void saveTestSmellCsvInput(String dataset, String model, StringBuilder sb) throws IOException {
         String testSmellsCsv = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "TestSmellInput-%s-%s".formatted(dataset, model));
         try (FileWriter f = new FileWriter(testSmellsCsv)) {
             f.write(sb.toString());
         }
     }
 
+
+    /**
+     * Saves the given unit test to a Java file.
+     *
+     * @param jUnitTestFile the file to save the unit test
+     * @param unitTest      the contents of the file
+     * @throws IOException in case of input/output error.
+     */
     private static void saveToJavaFile(File jUnitTestFile, String unitTest) throws IOException {
         jUnitTestFile.getParentFile().mkdirs(); // create parent dirs if needed
         try (FileWriter f = new FileWriter(jUnitTestFile)) {
@@ -251,11 +292,11 @@ public class CompilationAnalyzer {
     /**
      * Loads a CSV file and returns a map.
      *
-     * @param csvFilePath
-     * @return
-     * @throws IOException
+     * @param csvFilePath the path to the CSV file to load (i.e., the CSV file containing the input prompts).
+     * @return a map containing the prompts' metadata (id, method_signature, classname).
+     * @throws IOException in case of IO error.
      */
-    private static Map<String, Pair<String, String>> loadCsvInputprompts(String csvFilePath) throws IOException {
+    private static Map<String, Pair<String, String>> loadCsvInputPrompts(String csvFilePath) throws IOException {
         Map<String, Pair<String, String>> output = new HashMap<>();
         // read a CSV file and put the data into a map
         String[] headers = {"id", "method_signature", "classname"};
@@ -276,9 +317,11 @@ public class CompilationAnalyzer {
 
 
     public static void main(String[] args) throws IOException {
-//        generateReport("HumanEvalJava", "CodeGen");
-        generateReport("HumanEvalJava", "GPT3.5");
-//        generateReport("HumanEvalJava", "OpenAI");
-//        generateReport("SF110", "OpenAI");
+        /* HumanEvalJava */
+
+        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+//        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+//        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000,4000});
+
     }
 }
