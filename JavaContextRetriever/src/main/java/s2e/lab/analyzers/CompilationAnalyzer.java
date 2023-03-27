@@ -20,7 +20,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static s2e.lab.generators.JavaOpenAIPromptGenerator.RQ1_BASE_DIR;
@@ -51,7 +50,7 @@ public class CompilationAnalyzer {
             RQ2_BASE_DIR + "%s_Data/%s_input/%s_prompt.csv";
     // where to save things (solely based on the dataset & model!)
     public static String STATISTICS_CSV_OUTPUT =
-            "../../ICSE23-results/%s/%s-Results/%s.csv";
+            "../../ICSE23-results/%s/%s-Results/csv-data/%s.csv";
     public static String STATISTICS_JAVA_OUTPUT =
             "../../ICSE23-results/%s/%s-Results/src/test/java/%s/%s.java";
 
@@ -61,17 +60,31 @@ public class CompilationAnalyzer {
             "id",
             "scenario",
             "token_size",
-            "classname",
-            "method_signature",
-            "is_original_compilable",
+            "jUnitTestFileName",
+            "finish_reason",
+            "original_syntax_ok",
             "removed_extra_code",
-            "is_compilable_after_removal",
+            "syntax_ok_after_extra_code_removal",
             "number_test_methods",
             "number_assertions",
+            "syntax_check"
     };
 
-    // regex to identify assertions
-    private static Pattern ASSERT_REGEX = Pattern.compile("assert.*\\(.*\\)");
+    /**
+     * Inspects the generated tests and reports the possible syntax errors.
+     *
+     * @param isOriginalCompilable
+     * @param isCompilableAfterFix
+     * @return
+     */
+    public static String getSyntaxCheck(boolean isOriginalCompilable, boolean isCompilableAfterFix) {
+        if (isOriginalCompilable)
+            return "ORIGINAL_SYNTAX_OK";
+        if (isCompilableAfterFix)
+            return "EXTRA_CODE";
+        return "UNKNOWN_SYNTAX_ERROR";
+    }
+
 
     public static int computeNumberTestMethods(CompilationUnit cu) {
         if (cu == null) return -1;
@@ -88,9 +101,16 @@ public class CompilationAnalyzer {
                 .count();
     }
 
+    public static String getFinishReason(JsonObject resp) {
+        JsonElement el = resp.get("choices").getAsJsonArray().get(0)
+                .getAsJsonObject().get("finish_reason");
+        return el == null || el.toString().equals("null") ? "" : el.getAsString();
+    }
+
+
     public static void generateReport(String dataset, String model) throws IOException {
-        String[] scenarios = {"original"/*, "scenario1", "scenario2", "scenario3"*/};
-        String csvFilePath = STATISTICS_CSV_OUTPUT.formatted(model, dataset, dataset);
+        String[] scenarios = {"original", "scenario1", "scenario2", "scenario3"};
+        String csvFilePath = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "compilation_" + dataset);
         FileWriter csvWriter = new FileWriter(csvFilePath);
         CSVFormat csvFormat = CSVFormat.DEFAULT
                 .builder()
@@ -101,7 +121,7 @@ public class CompilationAnalyzer {
         try (final CSVPrinter printer = new CSVPrinter(csvWriter, csvFormat)) {
 
             for (String scenario : scenarios) {
-                for (int token : new int[]{2000/*, 4000*/}) {
+                for (int token : new int[]{2000, 4000}) {
                     String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
                     String rqCsvFile = scenario.equals("original") ? RQ1_CSV_PROMPT_INPUT : RQ2_CSV_PROMPT_INPUT;
                     JsonArray promptArr = getJsonArray(format(rqJsonFile, model, dataset, scenario, token));
@@ -113,53 +133,66 @@ public class CompilationAnalyzer {
                     Map<String, Pair<Boolean, Boolean>> promptCompileStatus = new HashMap<>();
 
                     assert promptArr.size() == promptMetadata.size();
-                    for (JsonElement prompObj : promptArr) {
-                        JsonObject jsonObject = prompObj.getAsJsonObject();
-                        String promptID = jsonObject.get("prompt_id").getAsString();
-                        String prompt = jsonObject.get("test_prompt").getAsString();
-                        String generatedTest = jsonObject.get("choices").getAsJsonArray().get(0)
+                    for (JsonElement promptObj : promptArr) {
+                        JsonObject resp = promptObj.getAsJsonObject();
+                        String promptID = resp.get("prompt_id").getAsString();
+                        String prompt = resp.get("test_prompt").getAsString();
+                        String fixedCode = resp.get("choices").getAsJsonArray().get(0)
                                 .getAsJsonObject().get("text").getAsString();
-                        String jUnitCodeAfterFix = prompt + "\n\t\t" + generatedTest;
-                        String jUnitOriginalCode =
-                                prompt + "\n\t\t" + jsonObject.get("original_generated_code").getAsString();
-
+                        // if it does not contain the prompt, then prepend it
+                        String jUnitCodeAfterFix = fixedCode.contains(prompt) ?
+                                fixedCode :
+                                prompt + "\n\t\t" + fixedCode;
+                        // if it does not contain the prompt, then prepend it
+                        String originalCode = resp.get("original_generated_code").getAsString();
+                        String jUnitOriginalCode = originalCode.contains(prompt) ?
+                                originalCode :
+                                prompt + "\n\t\t" + originalCode;
+                        String finishReason = getFinishReason(resp);
                         CompilationUnit originalCUnit = getCompilationUnit(jUnitOriginalCode);
                         boolean isOriginalCompilable = originalCUnit != null;
                         CompilationUnit fixedCUnit = getCompilationUnit(jUnitCodeAfterFix);
                         boolean isCompilableAfterFix = fixedCUnit != null;
-                        boolean removedExtraCode = jsonObject.get("removed_extra_code").getAsBoolean();
+                        boolean removedExtraCode = resp.get("removed_extra_code").getAsBoolean();
                         CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
                         promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
                         String classname = promptMetadata.get(promptID).a;
                         String methodSignature = promptMetadata.get(promptID).b;
-                        // "id", "scenario", "token_size", "classname", "method_signature",
-                        // "is_original_compilable", "removed_extra_code", "is_compilable_after_removal"
-                        // "number_test_methods", "number_assertions"
-                        printer.printRecord(promptID, scenario, token, classname, methodSignature,
+                        String jUnitTestFileName = "%s_%s_%d_Test".formatted(
+                                classname, methodSignature.split("\\(")[0], token
+                        );
+                        File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
+                                model,
+                                dataset,
+                                scenario,
+                                jUnitTestFileName)
+                        );
+                        File productionFile = new File("..", promptID);
+                        assert productionFile.exists();
+
+                        // "id", "scenario", "token_size", "jUnitTestFileName", "finish_reason",
+                        // "original_syntax_ok", "removed_extra_code", "syntax_ok_after_extra_code_removal"
+                        // "number_test_methods", "number_assertions", "test_filename"
+                        printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
                                 isOriginalCompilable, removedExtraCode, isCompilableAfterFix,
-                                computeNumberTestMethods(cu), computeNumberAssertions(cu));
+                                computeNumberTestMethods(cu), computeNumberAssertions(cu), getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix));
                         if (isOriginalCompilable || isCompilableAfterFix) {
-                            // import the original sample, that we will use to compute coverage
-                            cu.addImport("original.%s".formatted(classname));
-                            String jUnitTestFileName = "%s_%s_%d_Test".formatted(
-                                    classname, methodSignature.split("\\(")[0], token
-                            );
+                            // import the java util package
+                            cu.addImport("java.util.*");
                             cu.getType(0).setName(jUnitTestFileName);
-                            File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
-                                    model,
-                                    dataset,
-                                    scenario,
-                                    jUnitTestFileName                            )
-                            );
-
-
-                            saveToJavaFile(jUnitTestFile, cu.toString());
-                            File productionFile = new File("..", promptID);
-                            sb.append("%s-%s,%s,%s".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
                         }
+
+                        sb.append("%s-%s,%s,%s".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
+                        saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
                     }
                 }
             }
+        }
+
+
+        String testSmellsCsv = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "TestSmellInput-%s-%s.csv".formatted(dataset, model));
+        try (FileWriter f = new FileWriter(testSmellsCsv)) {
+            f.write(sb.toString());
         }
     }
 
@@ -230,8 +263,8 @@ public class CompilationAnalyzer {
 
 
     public static void main(String[] args) throws IOException {
-        generateReport("HumanEvalJava", "GPT3.5");
-//        generateReport("HumanEvalJava", "OpenAI");
+//        generateReport("HumanEvalJava", "GPT3.5");
+        generateReport("HumanEvalJava", "OpenAI");
 //        generateReport("SF110", "OpenAI");
     }
 }

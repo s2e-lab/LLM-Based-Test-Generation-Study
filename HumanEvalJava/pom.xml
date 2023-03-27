@@ -127,6 +127,8 @@
                         <exclude>**/scenario3/*.java</exclude>
                     </excludes>
                     <testExcludes>
+                        <testExclude>**/scenario1/*.java</testExclude>
+                        <testExclude>**/scenario2/*.java</testExclude>
                         <testExclude>**/scenario3/*.java</testExclude>
                     </testExcludes>
                 </configuration>

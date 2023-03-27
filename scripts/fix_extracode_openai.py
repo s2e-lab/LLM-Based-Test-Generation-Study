@@ -27,6 +27,17 @@ def get_generated_test(model: str, response: dict):
     raise Exception(f"{model} is an unexpected value")
 
 
+# def check_code_blocks(new_code, response):
+#     test_prompt = response["test_prompt"].strip()
+#     finish_reason = response["choices"][0]["finish_reason"]
+#     if "class " in new_code:
+#         print("HERE 1")
+#     if test_prompt not in new_code:
+#         gen_code = test_prompt + "\n\t\t" + new_code
+#     else:
+#         gen_code = new_code
+#     if gen_code.count("{") != gen_code.count("}") and finish_reason == 'length':
+#         print("HERE")
 
 
 def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str) -> None:
@@ -56,6 +67,9 @@ def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_to
         r["original_generated_code"] = old_code
         r["choices"][0]["text"] = new_code
         print("\tPROMPT", r["prompt_id"], "FIXED?", r["removed_extra_code"])
+        # code has un-matching {} pairs
+        # check_code_blocks(new_code, r)
+
         filtered_responses.append(r)
 
     fixed_json_file = json_file.replace(".json", "_fixed_extracode.json")
@@ -67,8 +81,8 @@ def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_to
 def main():
     config = load_config("config.json")
     dataset = "HumanEvalJava"
-    model = "GPT3.5"
-    scenarios = ["original"]#, "scenario1", "scenario2", "scenario3","scenario4"]
+    model = "OpenAI"
+    scenarios = ["original", "scenario1", "scenario2", "scenario3"]
     tokens = [2000]#, 4000]
     for max_tokens in tokens:
         for scenario in scenarios:
