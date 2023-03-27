@@ -14,9 +14,13 @@ def heuristic_1(code: str) -> tuple[str, bool]:
         (code without the extra code, bool indicating whether heuristic was or not applied)
     """
     old_code = code
+    ignore_line_before = 150
     # removes the extra code
     for e in EOF:
         if e in code:
+            print("Removing extra code at ", e, code.index(e))
+            if code.index(e)<ignore_line_before:
+                continue
             code = code[: code.index(e)]
     return code, old_code != code
 
@@ -58,7 +62,7 @@ def heuristic_4(code: str, scenario: str) -> tuple[str, bool]:
     @return: code with the scenario name as the package name
     """
     old_code = code
-    keywords = ["updated", "revised", "modified", "changed", "altered"]
+    keywords = ["updated", "revised", "modified", "changed", "altered","corrected"]
     for keyword in keywords:
         code = code.replace(f"package {keyword};", f"package {scenario};")
     return code, old_code != code
@@ -87,14 +91,14 @@ def remove_extra_code(model: str, code: str, scenario: str) -> str:
     """
     # tracks what heuristic(s) were applied, if any
     applied_heuristics = [False for i in range(0, 5)]
-    code, applied_heuristics[0] = heuristic_1(code)
+    
 
     if model == "GPT3.5":
         code, applied_heuristics[1] = heuristic_2(code)
         code, applied_heuristics[2] = heuristic_3(code)
         code, applied_heuristics[3] = heuristic_4(code, scenario)
         code, applied_heuristics[4] = heuristic_5(code, scenario)
-
+    code, applied_heuristics[0] = heuristic_1(code)
     applied_heuristics = [f"H{i + 1}" for i in range(0, 5) if applied_heuristics[i]]
 
     return code, applied_heuristics
@@ -155,8 +159,8 @@ def fix_extra_code(
             r["choices"][0]["text"] = new_code
         if model == "GPT3.5":
             r["choices"][0]["message"]["content"] = new_code
-            # with open("./dummy_output/" + r["prompt_id"].replace("/", "_"), "w") as f:
-            #     f.write(new_code)
+            with open("./dummy_output/" + r["prompt_id"].replace("/", "_"), "w") as f:
+                f.write(new_code)
 
         r["choices"][0]["text"] = new_code
         print("\tPROMPT", r["prompt_id"], "APPLIED HEURISTICS", r["applied_heuristics"])
