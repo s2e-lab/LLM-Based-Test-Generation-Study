@@ -1,6 +1,7 @@
 Here's the code for the test class:
 
 ```
+// BelowThresholdTest.java
 package scenario1;
 
 import java.util.Arrays;
@@ -8,58 +9,62 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link BelowThreshold}.
+* It contains ten unit test cases for the {@link BelowThreshold#belowThreshold(List, int)} method.
+*/
 class BelowThresholdTest {
 
     @Test
-    void testBelowThresholdWithEmptyList() {
+    void testEmptyList() {
         List<Integer> l = Arrays.asList();
         assertTrue(BelowThreshold.belowThreshold(l, 5));
     }
 
     @Test
-    void testBelowThresholdWithSingleElementBelowThreshold() {
-        List<Integer> l = Arrays.asList(3);
+    void testAllBelowThreshold() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 4);
         assertTrue(BelowThreshold.belowThreshold(l, 5));
     }
 
     @Test
-    void testBelowThresholdWithSingleElementAboveThreshold() {
-        List<Integer> l = Arrays.asList(7);
+    void testAllAboveThreshold() {
+        List<Integer> l = Arrays.asList(6, 7, 8, 9);
         assertFalse(BelowThreshold.belowThreshold(l, 5));
     }
 
     @Test
-    void testBelowThresholdWithMultipleElementsAllBelowThreshold() {
-        List<Integer> l = Arrays.asList(3, 2, 1, 4);
+    void testMixedList() {
+        List<Integer> l = Arrays.asList(1, 5, 7, 3);
+        assertFalse(BelowThreshold.belowThreshold(l, 5));
+    }
+
+    @Test
+    void testSingleElementBelowThreshold() {
+        List<Integer> l = Arrays.asList(4);
         assertTrue(BelowThreshold.belowThreshold(l, 5));
     }
 
     @Test
-    void testBelowThresholdWithMultipleElementsSomeAboveThreshold() {
-        List<Integer> l = Arrays.asList(3, 2, 7, 4);
+    void testSingleElementAboveThreshold() {
+        List<Integer> l = Arrays.asList(6);
         assertFalse(BelowThreshold.belowThreshold(l, 5));
     }
 
     @Test
-    void testBelowThresholdWithMultipleElementsAllAboveThreshold() {
-        List<Integer> l = Arrays.asList(7, 8, 9, 10);
+    void testMultipleElementsBelowThreshold() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5);
+        assertTrue(BelowThreshold.belowThreshold(l, 6));
+    }
+
+    @Test
+    void testMultipleElementsAboveThreshold() {
+        List<Integer> l = Arrays.asList(6, 7, 8, 9, 10);
         assertFalse(BelowThreshold.belowThreshold(l, 5));
     }
 
     @Test
-    void testBelowThresholdWithNegativeThreshold() {
-        List<Integer> l = Arrays.asList(3, 2, 1, 4);
-        assertFalse(BelowThreshold.belowThreshold(l, -5));
-    }
-
-    @Test
-    void testBelowThresholdWithZeroThreshold() {
-        List<Integer> l = Arrays.asList(3, 2, 1, 4);
-        assertFalse(BelowThreshold.belowThreshold(l, 0));
-    }
-
-    @Test
-    void testBelowThresholdWithNullList() {
+    void testNullList() {
         List<Integer> l = null;
         assertThrows(NullPointerException.class, () -> {
             BelowThreshold.belowThreshold(l, 5);
@@ -67,13 +72,9 @@ class BelowThresholdTest {
     }
 
     @Test
-    void testBelowThresholdWithNullElement() {
-        List<Integer> l = Arrays.asList(3, null, 1, 4);
-        assertThrows(NullPointerException.class, () -> {
-            BelowThreshold.belowThreshold(l, 5);
-        });
+    void testNegativeThreshold() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 4);
+        assertFalse(BelowThreshold.belowThreshold(l, -1));
     }
 }
 ```
-
-This test class contains ten unit test cases for the `BelowThreshold.belowThreshold()` method. The test cases cover different scenarios such as empty list, single element list, multiple element list, negative threshold, zero threshold, null list, and null element. The `assertTrue()` and `assertFalse()` methods are used to check the expected output of the method under test. The `assertThrows()` method is used to check if the method throws the expected exception.

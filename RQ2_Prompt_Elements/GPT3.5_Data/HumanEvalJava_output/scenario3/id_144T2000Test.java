@@ -1,8 +1,7 @@
-// Here's the generated source code for the Simplify class:
+// Here's the implementation of the Simplify class and the test cases for the simplify method.
 
+// Simplify.java
 package scenario3;
-
-import java.math.BigInteger;
 
 class Simplify {
 
@@ -49,23 +48,33 @@ class Simplify {
         String[] xParts = x.split("/");
         String[] nParts = n.split("/");
 
-        BigInteger xNum = new BigInteger(xParts[0]);
-        BigInteger xDen = new BigInteger(xParts[1]);
-        BigInteger nNum = new BigInteger(nParts[0]);
-        BigInteger nDen = new BigInteger(nParts[1]);
+        int xNumerator = Integer.parseInt(xParts[0]);
+        int xDenominator = Integer.parseInt(xParts[1]);
+        int nNumerator = Integer.parseInt(nParts[0]);
+        int nDenominator = Integer.parseInt(nParts[1]);
 
-        BigInteger productNum = xNum.multiply(nNum);
-        BigInteger productDen = xDen.multiply(nDen);
+        int numerator = xNumerator * nNumerator;
+        int denominator = xDenominator * nDenominator;
 
-        BigInteger gcd = productNum.gcd(productDen);
+        int gcd = gcd(numerator, denominator);
 
-        return productDen.divide(gcd).equals(BigInteger.ONE);
+        numerator /= gcd;
+        denominator /= gcd;
+
+        return denominator == 1;
+    }
+
+    private static int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
     }
 }
 
-// And here's the generated source code for the SimplifyTest class:
-
+// SimplifyTest.java
 package scenario3;
+
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

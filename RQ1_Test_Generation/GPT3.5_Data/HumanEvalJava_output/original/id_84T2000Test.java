@@ -1,8 +1,13 @@
-// Here's the generated code for the Solve1Test class
+// Solve1Test.java
+package original;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link Solve1}.
+ * It contains ten unit test cases for the {@link Solve1#solve(int)} method.
+ */
 class Solve1Test {
 
     @Test

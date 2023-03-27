@@ -1,4 +1,4 @@
-Here's the completed `IsNestedTest` class with ten unit test cases for the `IsNested#isNested(String)` method:
+Here's the source code for the `IsNestedTest` class:
 
 ```
 package scenario1;
@@ -6,10 +6,6 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link IsNested}.
- * It contains ten unit test cases for the {@link IsNested#isNested(String)} method.
- */
 class IsNestedTest {
 
     @Test
@@ -29,37 +25,39 @@ class IsNestedTest {
 
     @Test
     void testSingleNestedPair() {
-        assertTrue(IsNested.isNested("[[]]"));
+        assertFalse(IsNested.isNested("[]"));
     }
 
     @Test
     void testMultipleNestedPairs() {
-        assertTrue(IsNested.isNested("[[[][]]]"));
+        assertTrue(IsNested.isNested("[[]]"));
     }
 
     @Test
     void testMultipleOpeningBrackets() {
-        assertFalse(IsNested.isNested("[[[]]"));
+        assertFalse(IsNested.isNested("[["));
     }
 
     @Test
     void testMultipleClosingBrackets() {
-        assertFalse(IsNested.isNested("[[]]]"));
+        assertFalse(IsNested.isNested("]]"));
     }
 
     @Test
-    void testNestedPairsWithExtraCharacters() {
-        assertTrue(IsNested.isNested("a[b[c[d]]]e"));
+    void testMultipleOpeningAndClosingBrackets() {
+        assertFalse(IsNested.isNested("[[[]]]]"));
     }
 
     @Test
-    void testNonNestedPairsWithExtraCharacters() {
-        assertFalse(IsNested.isNested("a[b]c[d]e"));
+    void testMultipleNestedPairsWithOtherCharacters() {
+        assertTrue(IsNested.isNested("a[b[c]d]e"));
     }
 
     @Test
-    void testMixedBrackets() {
-        assertFalse(IsNested.isNested("[a[b]c]d"));
+    void testMultipleNestedPairsWithOtherCharactersAndExtraBrackets() {
+        assertTrue(IsNested.isNested("a[b[c]d]e[f[g]h]i"));
     }
 }
 ```
+
+This class contains ten test cases for the `IsNested.isNested()` method. Each test case is annotated with the `@Test` annotation, and uses the `assert` methods from JUnit to verify the expected output of the `IsNested.isNested()` method. The test cases cover a range of scenarios, including empty strings, single brackets, nested pairs, multiple nested pairs, and nested pairs with other characters.

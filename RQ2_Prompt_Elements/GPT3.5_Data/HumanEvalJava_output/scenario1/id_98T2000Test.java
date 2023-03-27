@@ -1,4 +1,4 @@
-Here's the completed `CountUpperTest` class with ten unit test cases for the `countUpper` method:
+Here's the source code for the CountUpperTest class:
 
 ```
 package scenario1;
@@ -6,70 +6,58 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link CountUpper}.
- * It contains ten unit test cases for the {@link CountUpper#countUpper(String)} method.
- */
 class CountUpperTest {
 
     @Test
-    void testEmptyString() {
+    void testCountUpperWithEmptyString() {
         assertEquals(0, CountUpper.countUpper(""));
     }
 
     @Test
-    void testNoUpperCase() {
+    void testCountUpperWithLowerCaseLetters() {
         assertEquals(0, CountUpper.countUpper("hello world"));
     }
 
     @Test
-    void testNoVowels() {
+    void testCountUpperWithUpperCaseLetters() {
+        assertEquals(1, CountUpper.countUpper("HELLO"));
+    }
+
+    @Test
+    void testCountUpperWithMixedCaseLetters() {
+        assertEquals(1, CountUpper.countUpper("HeLLo"));
+    }
+
+    @Test
+    void testCountUpperWithVowels() {
+        assertEquals(1, CountUpper.countUpper("AEIOU"));
+    }
+
+    @Test
+    void testCountUpperWithConsonants() {
         assertEquals(0, CountUpper.countUpper("BCDFGHJKLMNPQRSTVWXYZ"));
     }
 
     @Test
-    void testEvenIndex() {
-        assertEquals(2, CountUpper.countUpper("aEbIcOdUe"));
+    void testCountUpperWithNumbers() {
+        assertEquals(0, CountUpper.countUpper("1234567890"));
     }
 
     @Test
-    void testOddIndex() {
-        assertEquals(1, CountUpper.countUpper("aEbIcOdUeF"));
+    void testCountUpperWithSpecialCharacters() {
+        assertEquals(0, CountUpper.countUpper("!@#$%^&*()_+-={}[]|\\:;\"'<>,.?/"));
     }
 
     @Test
-    void testAllUpperCase() {
-        assertEquals(2, CountUpper.countUpper("AEIOU"));
+    void testCountUpperWithWhitespace() {
+        assertEquals(0, CountUpper.countUpper(" \t\n\r\f"));
     }
 
     @Test
-    void testAllVowels() {
-        assertEquals(2, CountUpper.countUpper("aeiou"));
-    }
-
-    @Test
-    void testMixedCase() {
-        assertEquals(1, CountUpper.countUpper("aEbIcOdUeFg"));
-    }
-
-    @Test
-    void testMixedCaseAndNonLetters() {
-        assertEquals(1, CountUpper.countUpper("aEbIcOdUeFg!"));
-    }
-
-    @Test
-    void testLongString() {
-        String s = "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ" +
-                   "aEbIcOdUeFgHiJkLmNoPqRsTuVwXyZ";
-        assertEquals(25, CountUpper.countUpper(s));
+    void testCountUpperWithNullString() {
+        assertThrows(NullPointerException.class, () -> CountUpper.countUpper(null));
     }
 }
 ```
+
+This test class contains ten unit test cases for the `CountUpper.countUpper(String)` method. Each test case tests a different scenario, such as an empty string, a string with only lowercase letters, a string with only uppercase letters, a string with mixed case letters, a string with only vowels, a string with only consonants, a string with numbers, a string with special characters, a string with whitespace, and a null string. The `assertEquals` method is used to compare the expected result with the actual result of the method call. The `assertThrows` method is used to test that the method throws a `NullPointerException` when given a null string.

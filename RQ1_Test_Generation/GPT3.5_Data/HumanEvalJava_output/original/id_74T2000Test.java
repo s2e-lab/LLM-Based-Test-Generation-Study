@@ -86,10 +86,10 @@ class TotalMatchTest {
     }
 
     @Test
-    void testMixedListsWithNonStringElements() {
-        List<Object> lst1 = Arrays.asList("hi", 123, "admin", true);
-        List<Object> lst2 = Arrays.asList("hI", "hi", "hi", 456, false);
-        List<Object> expected = Arrays.asList("hI", "hi", "hi", 456, false);
+    void testMixedLists() {
+        List<Object> lst1 = Arrays.asList("hi", 1, "admin", 2);
+        List<Object> lst2 = Arrays.asList("hI", "hi", "hi", 3);
+        List<Object> expected = Arrays.asList("hI", "hi", "hi", 3);
         assertEquals(expected, TotalMatch.totalMatch(lst1, lst2));
     }
 }

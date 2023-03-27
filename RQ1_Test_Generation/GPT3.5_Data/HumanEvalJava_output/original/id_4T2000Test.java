@@ -1,38 +1,10 @@
-// Here's an updated version of the code with some improvements:
-
-// MeanAbsoluteDeviation.java
-package updated;
-
-import java.util.List;
-
-public class MeanAbsoluteDeviation {
-
-    /**
-     * For a given list of input numbers, calculate Mean Absolute Deviation
-     * around the mean of this dataset.
-     * Mean Absolute Deviation is the average absolute difference between each
-     * element and a centerpoint (mean in this case):
-     * MAD = average | x - x_mean |
-     *
-     * @param numbers the list of input numbers
-     * @return the mean absolute deviation of the input numbers
-     */
-    public static double meanAbsoluteDeviation(List<Double> numbers) {
-        double mean = numbers.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
-        double mad = numbers.stream().mapToDouble(number -> Math.abs(number - mean)).average().orElse(0.0);
-        return mad;
-    }
-}
-
 // MeanAbsoluteDeviationTest.java
-package updated;
-
-import org.junit.jupiter.api.Test;
+package original;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class of {@link MeanAbsoluteDeviation}.
@@ -43,88 +15,88 @@ class MeanAbsoluteDeviationTest {
     @Test
     void testEmptyList() {
         List<Double> numbers = Arrays.asList();
-        double expected = 0.0;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = null;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of empty list should be null");
     }
 
     @Test
-    void testSingleNumber() {
+    void testSingleElementList() {
         List<Double> numbers = Arrays.asList(1.0);
-        double expected = 0.0;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = 0.0;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of single element list should be 0.0");
     }
 
     @Test
-    void testTwoNumbers() {
+    void testTwoElementList() {
         List<Double> numbers = Arrays.asList(1.0, 2.0);
-        double expected = 0.5;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = 0.5;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of two element list should be 0.5");
     }
 
     @Test
-    void testThreeNumbers() {
+    void testThreeElementList() {
         List<Double> numbers = Arrays.asList(1.0, 2.0, 3.0);
-        double expected = 0.6666666666666666;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = 0.6666666666666666;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of three element list should be 0.6666666666666666");
     }
 
     @Test
-    void testFourNumbers() {
+    void testFourElementList() {
         List<Double> numbers = Arrays.asList(1.0, 2.0, 3.0, 4.0);
-        double expected = 1.0;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = 1.0;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of four element list should be 1.0");
     }
 
     @Test
-    void testFiveNumbers() {
+    void testFiveElementList() {
         List<Double> numbers = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
-        double expected = 1.2;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = 1.2;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of five element list should be 1.2");
     }
 
     @Test
     void testNegativeNumbers() {
         List<Double> numbers = Arrays.asList(-1.0, -2.0, -3.0, -4.0, -5.0);
-        double expected = 1.2;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = 1.2;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of negative numbers should be 1.2");
     }
 
     @Test
     void testMixedNumbers() {
         List<Double> numbers = Arrays.asList(-1.0, 2.0, -3.0, 4.0, -5.0);
-        double expected = 2.4;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testLargeNumbers() {
-        List<Double> numbers = Arrays.asList(1000000.0, 2000000.0, 3000000.0, 4000000.0, 5000000.0);
-        double expected = 1200000.0;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testDecimalNumbers() {
-        List<Double> numbers = Arrays.asList(1.1, 2.2, 3.3, 4.4, 5.5);
-        double expected = 1.32;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = 2.4;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of mixed numbers should be 2.4");
     }
 
     @Test
     void testRepeatedNumbers() {
         List<Double> numbers = Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0);
-        double expected = 0.0;
-        double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
-        assertEquals(expected, actual);
+        Double expected = 0.0;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of repeated numbers should be 0.0");
+    }
+
+    @Test
+    void testLargeNumbers() {
+        List<Double> numbers = Arrays.asList(1000000.0, 2000000.0, 3000000.0, 4000000.0, 5000000.0);
+        Double expected = 1200000.0;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of large numbers should be 1200000.0");
+    }
+
+    @Test
+    void testDecimalNumbers() {
+        List<Double> numbers = Arrays.asList(0.1, 0.2, 0.3, 0.4, 0.5);
+        Double expected = 0.12;
+        Double actual = MeanAbsoluteDeviation.meanAbsoluteDeviation(numbers);
+        assertEquals(expected, actual, "MAD of decimal numbers should be 0.12");
     }
 }

@@ -83,25 +83,21 @@ class FilterIntegersTest {
     }
     
     @Test
-    void testFilterIntegersWithAllIntegerValues() {
+    void testFilterIntegersWithAllIntegers() {
         List<Object> values = new ArrayList<>();
         values.add(1);
         values.add(2);
         values.add(3);
-        values.add(4);
-        values.add(5);
         List<Object> expected = new ArrayList<>();
         expected.add(1);
         expected.add(2);
         expected.add(3);
-        expected.add(4);
-        expected.add(5);
         List<Object> actual = FilterIntegers.filterIntegers(values);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testFilterIntegersWithAllNonIntegerValues() {
+    void testFilterIntegersWithAllNonIntegers() {
         List<Object> values = new ArrayList<>();
         values.add("a");
         values.add(3.14);
@@ -122,25 +118,21 @@ class FilterIntegersTest {
     }
     
     @Test
-    void testFilterIntegersWithNegativeIntegerValues() {
+    void testFilterIntegersWithNegativeValues() {
         List<Object> values = new ArrayList<>();
-        values.add(-5);
-        values.add(-3);
-        values.add(0);
-        values.add(2);
-        values.add(4);
+        values.add(-1);
+        values.add(-2);
+        values.add(3);
         List<Object> expected = new ArrayList<>();
-        expected.add(-5);
-        expected.add(-3);
-        expected.add(0);
-        expected.add(2);
-        expected.add(4);
+        expected.add(-1);
+        expected.add(-2);
+        expected.add(3);
         List<Object> actual = FilterIntegers.filterIntegers(values);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testFilterIntegersWithLargeIntegerValues() {
+    void testFilterIntegersWithLargeValues() {
         List<Object> values = new ArrayList<>();
         values.add(Integer.MAX_VALUE);
         values.add(Integer.MIN_VALUE);

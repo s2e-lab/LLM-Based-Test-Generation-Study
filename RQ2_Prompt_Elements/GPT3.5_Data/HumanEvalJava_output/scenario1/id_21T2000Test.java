@@ -1,86 +1,85 @@
-Here's the source code for the RescaleToUnitTest class with ten unit test cases for the RescaleToUnit.rescaleToUnit() method:
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Arrays;
 
-```
 class RescaleToUnitTest {
 
     @Test
-    void testEmptyList() {
-        List<Double> input = new ArrayList<>();
-        List<Double> expected = new ArrayList<>();
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnit() {
+        List<Double> input = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
+        List<Double> expectedOutput = Arrays.asList(0.0, 0.25, 0.5, 0.75, 1.0);
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testSingleValue() {
-        List<Double> input = List.of(1.0);
-        List<Double> expected = List.of(0.0);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithNegativeNumbers() {
+        List<Double> input = Arrays.asList(-5.0, -4.0, -3.0, -2.0, -1.0);
+        List<Double> expectedOutput = Arrays.asList(0.0, 0.25, 0.5, 0.75, 1.0);
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testAllEqualValues() {
-        List<Double> input = List.of(1.0, 1.0, 1.0, 1.0);
-        List<Double> expected = List.of(0.0, 0.0, 0.0, 0.0);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithRepeatedNumbers() {
+        List<Double> input = Arrays.asList(1.0, 1.0, 1.0, 1.0, 1.0);
+        List<Double> expectedOutput = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0);
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testPositiveValues() {
-        List<Double> input = List.of(1.0, 2.0, 3.0, 4.0);
-        List<Double> expected = List.of(0.0, 0.3333333333333333, 0.6666666666666666, 1.0);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithOneNumber() {
+        List<Double> input = Arrays.asList(1.0);
+        List<Double> expectedOutput = Arrays.asList(0.0);
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testNegativeValues() {
-        List<Double> input = List.of(-4.0, -3.0, -2.0, -1.0);
-        List<Double> expected = List.of(0.0, 0.3333333333333333, 0.6666666666666666, 1.0);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithEmptyList() {
+        List<Double> input = new ArrayList<Double>();
+        List<Double> expectedOutput = new ArrayList<Double>();
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testMixedValues() {
-        List<Double> input = List.of(-2.0, 0.0, 2.0, 4.0);
-        List<Double> expected = List.of(0.0, 0.3333333333333333, 0.6666666666666666, 1.0);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithNullList() {
+        List<Double> input = null;
+        List<Double> expectedOutput = null;
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testRepeatedValues() {
-        List<Double> input = List.of(1.0, 2.0, 2.0, 3.0, 3.0, 3.0);
-        List<Double> expected = List.of(0.0, 0.25, 0.25, 0.5, 0.5, 0.5);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithMaxValue() {
+        List<Double> input = Arrays.asList(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+        List<Double> expectedOutput = Arrays.asList(0.0, 0.0, 0.0);
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testExtremeValues() {
-        List<Double> input = List.of(Double.MIN_VALUE, Double.MAX_VALUE);
-        List<Double> expected = List.of(0.0, 1.0);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithMinValue() {
+        List<Double> input = Arrays.asList(Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE);
+        List<Double> expectedOutput = Arrays.asList(0.0, 0.0, 0.0);
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testNaNValues() {
-        List<Double> input = List.of(1.0, Double.NaN, 2.0, Double.NaN);
-        List<Double> expected = List.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithMixedNumbers() {
+        List<Double> input = Arrays.asList(-5.0, 0.0, 5.0);
+        List<Double> expectedOutput = Arrays.asList(0.0, 0.5, 1.0);
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testInfinityValues() {
-        List<Double> input = List.of(1.0, Double.POSITIVE_INFINITY, 2.0, Double.NEGATIVE_INFINITY);
-        List<Double> expected = List.of(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
-        List<Double> actual = RescaleToUnit.rescaleToUnit(input);
-        assertEquals(expected, actual);
+    void testRescaleToUnitWithNaN() {
+        List<Double> input = Arrays.asList(1.0, Double.NaN, 3.0);
+        List<Double> expectedOutput = Arrays.asList(0.0, Double.NaN, 1.0);
+        List<Double> actualOutput = RescaleToUnit.rescaleToUnit(input);
+        assertEquals(expectedOutput, actualOutput);
     }
 }
-```

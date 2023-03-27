@@ -9,18 +9,8 @@ class GetPositive {
     /**
      * Return only positive numbers in the list.
      *
-     * > getPositive([-1, 2, -4, 5, 6])
-     * [2, 5, 6]
-     * > getPositive([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
-     * [5, 3, 2, 3, 9, 123, 1]
-     * > getPositive([-1, -2, 4, 5, 6])
-     * [4, 5, 6]
-     * > getPositive([5, 3, -5, 2, 3, 3, 9, 0, 123, 1, -10])
-     * [5, 3, 2, 3, 3, 9, 123, 1]
-     * > getPositive([-1, -2])
-     * []
-     * > getPositive([])
-     * []
+     * @param l the list of integers
+     * @return the list of positive integers
      */
     public static List<Integer> getPositive(List<Integer> l) {
         List<Integer> result = new ArrayList<Integer>();
@@ -47,15 +37,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link GetPositive#getPositive(List)} method.
 */
 class GetPositiveTest {
-    
-    @Test
-    void testGetPositiveWithPositiveNumbers() {
-        List<Integer> input = Arrays.asList(1, 2, 3, 4, 5);
-        List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5);
-        List<Integer> actual = GetPositive.getPositive(input);
-        assertEquals(expected, actual);
-    }
-    
+
     @Test
     void testGetPositiveWithNegativeNumbers() {
         List<Integer> input = Arrays.asList(-1, -2, -3, -4, -5);
@@ -63,23 +45,31 @@ class GetPositiveTest {
         List<Integer> actual = GetPositive.getPositive(input);
         assertEquals(expected, actual);
     }
-    
+
+    @Test
+    void testGetPositiveWithPositiveNumbers() {
+        List<Integer> input = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
+    }
+
     @Test
     void testGetPositiveWithMixedNumbers() {
-        List<Integer> input = Arrays.asList(-1, 2, -3, 4, -5);
-        List<Integer> expected = Arrays.asList(2, 4);
+        List<Integer> input = Arrays.asList(-1, 2, -4, 5, 6);
+        List<Integer> expected = Arrays.asList(2, 5, 6);
         List<Integer> actual = GetPositive.getPositive(input);
         assertEquals(expected, actual);
     }
-    
+
     @Test
     void testGetPositiveWithZero() {
-        List<Integer> input = Arrays.asList(0);
-        List<Integer> expected = new ArrayList<Integer>();
+        List<Integer> input = Arrays.asList(0, 1, 2, 3, 4, 5);
+        List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5);
         List<Integer> actual = GetPositive.getPositive(input);
         assertEquals(expected, actual);
     }
-    
+
     @Test
     void testGetPositiveWithEmptyList() {
         List<Integer> input = new ArrayList<Integer>();
@@ -87,15 +77,15 @@ class GetPositiveTest {
         List<Integer> actual = GetPositive.getPositive(input);
         assertEquals(expected, actual);
     }
-    
+
     @Test
-    void testGetPositiveWithNull() {
+    void testGetPositiveWithNullList() {
         List<Integer> input = null;
         assertThrows(NullPointerException.class, () -> {
             GetPositive.getPositive(input);
         });
     }
-    
+
     @Test
     void testGetPositiveWithLargeList() {
         List<Integer> input = new ArrayList<Integer>();
@@ -109,27 +99,27 @@ class GetPositiveTest {
         List<Integer> actual = GetPositive.getPositive(input);
         assertEquals(expected, actual);
     }
-    
+
     @Test
-    void testGetPositiveWithSinglePositiveNumber() {
-        List<Integer> input = Arrays.asList(5);
-        List<Integer> expected = Arrays.asList(5);
+    void testGetPositiveWithDuplicateNumbers() {
+        List<Integer> input = Arrays.asList(1, 2, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(1, 2, 3, 2, 1);
         List<Integer> actual = GetPositive.getPositive(input);
         assertEquals(expected, actual);
     }
-    
+
     @Test
-    void testGetPositiveWithSingleNegativeNumber() {
-        List<Integer> input = Arrays.asList(-5);
+    void testGetPositiveWithLargePositiveNumbers() {
+        List<Integer> input = Arrays.asList(Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 2);
+        List<Integer> expected = Arrays.asList(Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 2);
+        List<Integer> actual = GetPositive.getPositive(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testGetPositiveWithLargeNegativeNumbers() {
+        List<Integer> input = Arrays.asList(Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2);
         List<Integer> expected = new ArrayList<Integer>();
-        List<Integer> actual = GetPositive.getPositive(input);
-        assertEquals(expected, actual);
-    }
-    
-    @Test
-    void testGetPositiveWithMultiplePositiveNumbers() {
-        List<Integer> input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         List<Integer> actual = GetPositive.getPositive(input);
         assertEquals(expected, actual);
     }

@@ -1,5 +1,56 @@
+// MakeAPile.java
+package updated;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MakeAPile {
+
+    /**
+     * Given a positive integer n, you have to make a pile of n levels of stones.
+     * The first level has n stones.
+     * The number of stones in the next level is:
+     * - the next odd number if n is odd.
+     * - the next even number if n is even.
+     * Return the number of stones in each level in a list, where element at index
+     * i represents the number of stones in the level (i+1).
+     *
+     * Examples:
+     * >>> makeAPile(3)
+     * [3, 5, 7]
+     *
+     * > makeAPile(3)
+     * [3, 5, 7]
+     * > makeAPile(4)
+     * [4, 6, 8, 10]
+     * > makeAPile(5)
+     * [5, 7, 9, 11, 13]
+     * > makeAPile(6)
+     * [6, 8, 10, 12, 14, 16]
+     * > makeAPile(8)
+     * [8, 10, 12, 14, 16, 18, 20, 22]
+     */
+    public static List<Integer> makeAPile(int n) {
+        List<Integer> result = new ArrayList<Integer>();
+        int i = 1;
+        while (i <= n) {
+            if (i == 1) {
+                result.add(n);
+            } else {
+                if (n % 2 == 0) {
+                    result.add(result.get(i - 2) + 2);
+                } else {
+                    result.add(result.get(i - 2) + 2*i-1);
+                }
+            }
+            i++;
+        }
+        return result;
+    }
+}
+
 // MakeAPileTest.java
-package original;
+package updated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +69,7 @@ class MakeAPileTest {
         expected.add(3);
         expected.add(5);
         expected.add(7);
-        List<Integer> actual = MakeAPile.makeAPile(3);
-        assertEquals(expected, actual);
+        assertEquals(expected, MakeAPile.makeAPile(3));
     }
     
     @Test
@@ -29,8 +79,7 @@ class MakeAPileTest {
         expected.add(6);
         expected.add(8);
         expected.add(10);
-        List<Integer> actual = MakeAPile.makeAPile(4);
-        assertEquals(expected, actual);
+        assertEquals(expected, MakeAPile.makeAPile(4));
     }
     
     @Test
@@ -41,8 +90,7 @@ class MakeAPileTest {
         expected.add(9);
         expected.add(11);
         expected.add(13);
-        List<Integer> actual = MakeAPile.makeAPile(5);
-        assertEquals(expected, actual);
+        assertEquals(expected, MakeAPile.makeAPile(5));
     }
     
     @Test
@@ -54,8 +102,7 @@ class MakeAPileTest {
         expected.add(12);
         expected.add(14);
         expected.add(16);
-        List<Integer> actual = MakeAPile.makeAPile(6);
-        assertEquals(expected, actual);
+        assertEquals(expected, MakeAPile.makeAPile(6));
     }
     
     @Test
@@ -69,23 +116,20 @@ class MakeAPileTest {
         expected.add(18);
         expected.add(20);
         expected.add(22);
-        List<Integer> actual = MakeAPile.makeAPile(8);
-        assertEquals(expected, actual);
+        assertEquals(expected, MakeAPile.makeAPile(8));
     }
     
     @Test
     void testMakeAPileWithOne() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(1);
-        List<Integer> actual = MakeAPile.makeAPile(1);
-        assertEquals(expected, actual);
+        assertEquals(expected, MakeAPile.makeAPile(1));
     }
     
     @Test
     void testMakeAPileWithZero() {
         List<Integer> expected = new ArrayList<Integer>();
-        List<Integer> actual = MakeAPile.makeAPile(0);
-        assertEquals(expected, actual);
+        assertEquals(expected, MakeAPile.makeAPile(0));
     }
     
     @Test
@@ -199,73 +243,6 @@ class MakeAPileTest {
         expected.add(1000196);
         expected.add(1000198);
         expected.add(1000200);
-        expected.add(1000202);
-        expected.add(1000204);
-        expected.add(1000206);
-        expected.add(1000208);
-        expected.add(1000210);
-        expected.add(1000212);
-        expected.add(1000214);
-        expected.add(1000216);
-        expected.add(1000218);
-        expected.add(1000220);
-        expected.add(1000222);
-        expected.add(1000224);
-        expected.add(1000226);
-        expected.add(1000228);
-        expected.add(1000230);
-        expected.add(1000232);
-        expected.add(1000234);
-        expected.add(1000236);
-        expected.add(1000238);
-        expected.add(1000240);
-        expected.add(1000242);
-        expected.add(1000244);
-        expected.add(1000246);
-        expected.add(1000248);
-        expected.add(1000250);
-        expected.add(1000252);
-        expected.add(1000254);
-        expected.add(1000256);
-        expected.add(1000258);
-        expected.add(1000260);
-        expected.add(1000262);
-        expected.add(1000264);
-        expected.add(1000266);
-        expected.add(1000268);
-        expected.add(1000270);
-        expected.add(1000272);
-        expected.add(1000274);
-        expected.add(1000276);
-        expected.add(1000278);
-        expected.add(1000280);
-        expected.add(1000282);
-        expected.add(1000284);
-        expected.add(1000286);
-        expected.add(1000288);
-        expected.add(1000290);
-        expected.add(1000292);
-        expected.add(1000294);
-        expected.add(1000296);
-        expected.add(1000298);
-        expected.add(1000300);
-        expected.add(1000302);
-        expected.add(1000304);
-        expected.add(1000306);
-        expected.add(1000308);
-        expected.add(1000310);
-        expected.add(1000312);
-        expected.add(1000314);
-        expected.add(1000316);
-        expected.add(1000318);
-        expected.add(1000320);
-        expected.add(1000322);
-        expected.add(1000324);
-        expected.add(1000326);
-        expected.add(1000328);
-        expected.add(1000330);
-        expected.add(1000332);
-        expected.add(1000334);
-        expected.add(1000336);
-        expected.add(1000338);
-        expected
+        assertEquals(expected, MakeAPile.makeAPile(1000000));
+    }
+}

@@ -1,7 +1,6 @@
-Here's the completed code for the `TriangleAreaTest` class:
+Here's the code for the TriangleAreaTest class:
 
 ```
-// TriangleAreaTest.java
 package scenario1;
 
 import org.junit.jupiter.api.Test;
@@ -19,22 +18,22 @@ class TriangleAreaTest {
     }
 
     @Test
-    void testTriangleAreaWithZeroBase() {
-        assertEquals(0.0, TriangleArea.triangleArea(0, 4));
+    void testTriangleAreaWithZeroValues() {
+        assertEquals(0.0, TriangleArea.triangleArea(0, 0));
     }
 
     @Test
-    void testTriangleAreaWithZeroHeight() {
-        assertEquals(0.0, TriangleArea.triangleArea(5, 0));
+    void testTriangleAreaWithOneZeroValue() {
+        assertEquals(0.0, TriangleArea.triangleArea(0, 5));
     }
 
     @Test
-    void testTriangleAreaWithNegativeBase() {
+    void testTriangleAreaWithNegativeValues() {
         assertEquals(-10.0, TriangleArea.triangleArea(-5, 4));
     }
 
     @Test
-    void testTriangleAreaWithNegativeHeight() {
+    void testTriangleAreaWithOneNegativeValue() {
         assertEquals(-10.0, TriangleArea.triangleArea(5, -4));
     }
 
@@ -44,13 +43,8 @@ class TriangleAreaTest {
     }
 
     @Test
-    void testTriangleAreaWithSmallValues() {
-        assertEquals(0.00005, TriangleArea.triangleArea(0.01, 10000));
-    }
-
-    @Test
     void testTriangleAreaWithDecimalValues() {
-        assertEquals(2.5, TriangleArea.triangleArea(1, 5));
+        assertEquals(2.5, TriangleArea.triangleArea(5, 1));
     }
 
     @Test
@@ -62,7 +56,12 @@ class TriangleAreaTest {
     void testTriangleAreaWithMinValues() {
         assertEquals(Double.MIN_VALUE, TriangleArea.triangleArea(Integer.MIN_VALUE, Integer.MIN_VALUE));
     }
+
+    @Test
+    void testTriangleAreaWithLargeNegativeValues() {
+        assertEquals(500000000.0, TriangleArea.triangleArea(-100000000, -10));
+    }
 }
 ```
 
-This test class contains ten unit test cases for the `triangleArea` method of the `TriangleArea` class. The test cases cover a range of scenarios, including positive and negative values, zero values, large and small values, decimal values, and the maximum and minimum values for integers. Each test case uses the `assertEquals` method to compare the expected result with the actual result returned by the `triangleArea` method.
+This test class contains ten unit test cases for the `triangleArea` method of the `TriangleArea` class. The test cases cover a range of scenarios, including positive and negative values, zero values, large values, decimal values, and extreme values. The `assertEquals` method is used to compare the expected result with the actual result of the `triangleArea` method.

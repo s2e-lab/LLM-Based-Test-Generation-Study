@@ -1,5 +1,3 @@
-// Here's the implementation of the iscube method and the test cases for it:
-
 // Iscube.java
 package scenario3;
 
@@ -55,7 +53,6 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link Iscube#iscube(int)} method.
 */
 class IscubeTest {
-
     @Test
     void test1() {
         assertTrue(Iscube.iscube(1));

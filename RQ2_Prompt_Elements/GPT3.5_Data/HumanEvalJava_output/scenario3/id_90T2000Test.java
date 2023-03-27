@@ -62,35 +62,61 @@ import static org.junit.jupiter.api.Assertions.*;
 class NextSmallestTest {
 
     @Test
-    void testNextSmallest() {
-        List<Integer> lst1 = Arrays.asList(1, 2, 3, 4, 5);
-        assertEquals(2, NextSmallest.nextSmallest(lst1));
-        
-        List<Integer> lst2 = Arrays.asList(5, 1, 4, 3, 2);
-        assertEquals(2, NextSmallest.nextSmallest(lst2));
-        
-        List<Integer> lst3 = Collections.emptyList();
-        assertNull(NextSmallest.nextSmallest(lst3));
-        
-        List<Integer> lst4 = Arrays.asList(1, 1);
-        assertNull(NextSmallest.nextSmallest(lst4));
-        
-        List<Integer> lst5 = Arrays.asList(1, 1, 1, 1, 0);
-        assertEquals(1, NextSmallest.nextSmallest(lst5));
-        
-        List<Integer> lst6 = Arrays.asList(1, 1);
-        assertNull(NextSmallest.nextSmallest(lst6));
-        
-        List<Integer> lst7 = Arrays.asList(-35, 34, 12, -45);
-        assertEquals(-35, NextSmallest.nextSmallest(lst7));
-        
-        List<Integer> lst8 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        assertEquals(2, NextSmallest.nextSmallest(lst8));
-        
-        List<Integer> lst9 = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
-        assertEquals(2, NextSmallest.nextSmallest(lst9));
-        
-        List<Integer> lst10 = Arrays.asList(1, 2, 3, 4, 5, 5, 4, 3, 2, 1);
-        assertEquals(2, NextSmallest.nextSmallest(lst10));
+    void testNextSmallestWithValidInput() {
+        List<Integer> lst = Arrays.asList(1, 2, 3, 4, 5);
+        assertEquals(2, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testNextSmallestWithValidInput2() {
+        List<Integer> lst = Arrays.asList(5, 1, 4, 3, 2);
+        assertEquals(2, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testNextSmallestWithEmptyList() {
+        List<Integer> lst = Collections.emptyList();
+        assertNull(NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testNextSmallestWithSingleElementList() {
+        List<Integer> lst = Collections.singletonList(1);
+        assertNull(NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testNextSmallestWithDuplicateElements() {
+        List<Integer> lst = Arrays.asList(1, 1, 1, 1, 0);
+        assertEquals(1, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testNextSmallestWithDuplicateElements2() {
+        List<Integer> lst = Arrays.asList(1, 1);
+        assertNull(NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testNextSmallestWithNegativeElements() {
+        List<Integer> lst = Arrays.asList(-35, 34, 12, -45);
+        assertEquals(-35, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testNextSmallestWithNullInput() {
+        assertNull(NextSmallest.nextSmallest(null));
+    }
+
+    @Test
+    void testNextSmallestWithLargeList() {
+        List<Integer> lst = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+        assertEquals(2, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testNextSmallestWithLargeList2() {
+        List<Integer> lst = Arrays.asList(20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+        assertEquals(2, NextSmallest.nextSmallest(lst));
     }
 }

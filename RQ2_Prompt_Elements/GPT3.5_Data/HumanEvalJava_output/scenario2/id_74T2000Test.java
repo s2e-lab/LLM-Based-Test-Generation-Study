@@ -25,16 +25,16 @@ class TotalMatchTest {
     @Test
     void testTotalMatchWithOneEmptyList() {
         List<Object> lst1 = new ArrayList<>();
-        List<Object> lst2 = Arrays.asList("hello", "world");
-        List<Object> expected = lst2;
+        List<Object> lst2 = Arrays.asList("abc", "def");
+        List<Object> expected = lst1;
         List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
         assertEquals(expected, actual);
     }
 
     @Test
     void testTotalMatchWithEqualLengthLists() {
-        List<Object> lst1 = Arrays.asList("hello", "world");
-        List<Object> lst2 = Arrays.asList("hi", "there");
+        List<Object> lst1 = Arrays.asList("abc", "def");
+        List<Object> lst2 = Arrays.asList("ghi", "jkl");
         List<Object> expected = lst1;
         List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
         assertEquals(expected, actual);
@@ -42,61 +42,26 @@ class TotalMatchTest {
 
     @Test
     void testTotalMatchWithDifferentLengthLists() {
-        List<Object> lst1 = Arrays.asList("hello", "world", "how", "are", "you");
-        List<Object> lst2 = Arrays.asList("hi", "there", "i'm", "fine");
+        List<Object> lst1 = Arrays.asList("abc", "def", "ghi");
+        List<Object> lst2 = Arrays.asList("jkl", "mno");
         List<Object> expected = lst2;
         List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testTotalMatchWithNonStringValues() {
-        List<Object> lst1 = Arrays.asList("hello", 123, "world");
-        List<Object> lst2 = Arrays.asList("hi", "there", true);
+    void testTotalMatchWithListsContainingNonStringObjects() {
+        List<Object> lst1 = Arrays.asList("abc", 123, "def");
+        List<Object> lst2 = Arrays.asList("ghi", "jkl", 456);
         List<Object> expected = lst1;
         List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testTotalMatchWithNullValues() {
-        List<Object> lst1 = Arrays.asList("hello", null, "world");
-        List<Object> lst2 = Arrays.asList("hi", "there", null);
-        List<Object> expected = lst1;
-        List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testTotalMatchWithOnlyNullValues() {
-        List<Object> lst1 = Arrays.asList(null, null, null);
-        List<Object> lst2 = Arrays.asList(null, null);
-        List<Object> expected = lst1;
-        List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testTotalMatchWithLargeLists() {
-        List<Object> lst1 = new ArrayList<>();
-        List<Object> lst2 = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
-            lst1.add("hello");
-            lst2.add("world");
-        }
-        List<Object> expected = lst1;
-        List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testTotalMatchWithVeryLargeLists() {
-        List<Object> lst1 = new ArrayList<>();
-        List<Object> lst2 = new ArrayList<>();
-        for (int i = 0; i < 1000000; i++) {
-            lst1.add("hello");
-            lst2.add("world");
-        }
+    void testTotalMatchWithListsContainingNullValues() {
+        List<Object> lst1 = Arrays.asList("abc", null, "def");
+        List<Object> lst2 = Arrays.asList("ghi", "jkl", null);
         List<Object> expected = lst1;
         List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
         assertEquals(expected, actual);
@@ -104,9 +69,36 @@ class TotalMatchTest {
 
     @Test
     void testTotalMatchWithListsContainingEmptyStrings() {
-        List<Object> lst1 = Arrays.asList("", "hello", "", "world", "");
-        List<Object> lst2 = Arrays.asList("hi", "", "there", "", "i'm", "fine");
-        List<Object> expected = lst2;
+        List<Object> lst1 = Arrays.asList("abc", "", "def");
+        List<Object> lst2 = Arrays.asList("ghi", "jkl", "");
+        List<Object> expected = lst1;
+        List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testTotalMatchWithListsContainingWhitespaceStrings() {
+        List<Object> lst1 = Arrays.asList("abc", "  ", "def");
+        List<Object> lst2 = Arrays.asList("ghi", "jkl", " ");
+        List<Object> expected = lst1;
+        List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testTotalMatchWithListsContainingSpecialCharacters() {
+        List<Object> lst1 = Arrays.asList("abc", "!@#", "def");
+        List<Object> lst2 = Arrays.asList("ghi", "$%^", "&*(");
+        List<Object> expected = lst1;
+        List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testTotalMatchWithListsContainingUnicodeCharacters() {
+        List<Object> lst1 = Arrays.asList("abc", "\u00E9", "def");
+        List<Object> lst2 = Arrays.asList("ghi", "\u00F6", "\u00FC");
+        List<Object> expected = lst1;
         List<Object> actual = TotalMatch.totalMatch(lst1, lst2);
         assertEquals(expected, actual);
     }

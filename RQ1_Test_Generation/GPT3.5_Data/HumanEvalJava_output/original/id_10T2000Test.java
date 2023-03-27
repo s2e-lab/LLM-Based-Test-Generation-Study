@@ -31,33 +31,32 @@ class MakePalindromeTest {
     }
 
     @Test
-    void testPalindromeString() {
-        assertEquals("racecar", MakePalindrome.makePalindrome("racecar"));
-    }
-
-    @Test
-    void testNonPalindromeString() {
-        assertEquals("jerryrrej", MakePalindrome.makePalindrome("jerry"));
-    }
-
-    @Test
-    void testPalindromeSubstring() {
+    void testFourCharacterString() {
         assertEquals("catac", MakePalindrome.makePalindrome("cata"));
     }
 
     @Test
-    void testPalindromeSubstring2() {
+    void testFiveCharacterString() {
         assertEquals("catac", MakePalindrome.makePalindrome("cat"));
     }
 
     @Test
-    void testLongString() {
-        String longString = "abcdefghijklmnopqrstuvwxyz";
-        assertEquals("abcdefghijklmnopqrstuvwxyzzyxwvutsrqponmlkjihgfedcba", MakePalindrome.makePalindrome(longString));
+    void testSixCharacterString() {
+        assertEquals("jerryrrej", MakePalindrome.makePalindrome("jerry"));
     }
 
     @Test
-    void testNullString() {
-        assertNull(MakePalindrome.makePalindrome(null));
+    void testSevenCharacterString() {
+        assertEquals("racecar", MakePalindrome.makePalindrome("race"));
+    }
+
+    @Test
+    void testEightCharacterString() {
+        assertEquals("deified", MakePalindrome.makePalindrome("dei"));
+    }
+
+    @Test
+    void testNineCharacterString() {
+        assertEquals("level", MakePalindrome.makePalindrome("lev"));
     }
 }

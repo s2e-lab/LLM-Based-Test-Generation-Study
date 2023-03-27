@@ -1,11 +1,6 @@
-Here's the code for the `CorrectBracketingTest` class with ten unit test cases for the `correctBracketing` method:
+Here's the code for the test class:
 
 ```
-package scenario2;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 class CorrectBracketingTest {
 
     @Test
@@ -44,18 +39,20 @@ class CorrectBracketingTest {
     }
 
     @Test
-    void testUnmatchedOpeningBracket() {
+    void testUnbalancedNestedBrackets() {
         assertFalse(CorrectBracketing.correctBracketing("<><"));
     }
 
     @Test
-    void testUnmatchedClosingBracket() {
-        assertFalse(CorrectBracketing.correctBracketing("><>"));
+    void testUnbalancedNestedBrackets2() {
+        assertFalse(CorrectBracketing.correctBracketing("<>><"));
     }
 
     @Test
-    void testMultipleNestedBrackets() {
-        assertTrue(CorrectBracketing.correctBracketing("<<><>>"));
+    void testUnbalancedNestedBrackets3() {
+        assertFalse(CorrectBracketing.correctBracketing("<<>>"));
     }
 }
 ```
+
+This test class contains ten test cases that cover various scenarios for the `correctBracketing` method. The `@Test` annotation is used to mark each test method, and the `assertTrue` and `assertFalse` methods are used to check the expected result of each test case.

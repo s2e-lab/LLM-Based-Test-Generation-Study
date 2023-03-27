@@ -1,77 +1,96 @@
-// Here's the updated version of the EncodeTest class with ten unit test cases for the encode() method.
+// Here's an updated version of the Encode and EncodeTest classes with additional test cases and comments:
+
+// Encode.java
+package updated;
+
+public class Encode {
+
+    /**
+     * Encodes a message by swapping the case of all letters and replacing all vowels with the letter that appears
+     * 2 places ahead of that vowel in the English alphabet.
+     *
+     * @param message the message to encode
+     * @return the encoded message
+     */
+    public static String encode(String message) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            char c = message.charAt(i);
+            if (Character.isLetter(c)) {
+                if (Character.isUpperCase(c)) {
+                    c = Character.toLowerCase(c);
+                } else {
+                    c = Character.toUpperCase(c);
+                }
+                if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                    c += 2;
+                    if (c > 'z') {
+                        c -= 26;
+                    }
+                }
+            }
+            result.append(c);
+        }
+        return result.toString();
+    }
+}
+
+// EncodeTest.java
+package updated;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-class EncodeTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class EncodeTest {
 
     @Test
-    void testEncodeWithLowerCase() {
-        String actual = Encode.encode("test");
-        String expected = "TGST";
-        assertEquals(expected, actual);
+    public void testEncodeEmptyString() {
+        assertEquals("", Encode.encode(""));
     }
 
     @Test
-    void testEncodeWithMixedCase() {
-        String actual = Encode.encode("This is a message");
-        String expected = "tHKS KS C MGSSCGG";
-        assertEquals(expected, actual);
+    public void testEncodeAllLowercase() {
+        assertEquals("tgs", Encode.encode("test"));
     }
 
     @Test
-    void testEncodeWithUpperCase() {
-        String actual = Encode.encode("TEST");
-        String expected = "tgst";
-        assertEquals(expected, actual);
+    public void testEncodeAllUppercase() {
+        assertEquals("TGS", Encode.encode("TEST"));
     }
 
     @Test
-    void testEncodeWithMixedCaseAndNumbers() {
-        String actual = Encode.encode("I DoNt KnOw WhAt tO WrItE 123");
-        String expected = "k dQnT kNqW wHcT Tq wRkTg 123";
-        assertEquals(expected, actual);
+    public void testEncodeMixedCase() {
+        assertEquals("tHKS KS C MGSSCGG", Encode.encode("This is a message"));
     }
 
     @Test
-    void testEncodeWithOnlyVowels() {
-        String actual = Encode.encode("aeiouAEIOU");
-        String expected = "CGKMQcgkmq";
-        assertEquals(expected, actual);
+    public void testEncodeWithNonLetters() {
+        assertEquals("k dQnT kNqW wHcT Tq wRkTg!", Encode.encode("I DoNt KnOw WhAt tO WrItE!"));
     }
 
     @Test
-    void testEncodeWithNoVowels() {
-        String actual = Encode.encode("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ");
-        String expected = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz";
-        assertEquals(expected, actual);
+    public void testEncodeWithVowelsAtEnd() {
+        assertEquals("mWDCSKR", Encode.encode("Mudasir"));
     }
 
     @Test
-    void testEncodeWithSingleCharacter() {
-        String actual = Encode.encode("a");
-        String expected = "C";
-        assertEquals(expected, actual);
+    public void testEncodeWithVowelsAtBeginning() {
+        assertEquals("ygs", Encode.encode("YES"));
     }
 
     @Test
-    void testEncodeWithEmptyString() {
-        String actual = Encode.encode("");
-        String expected = "";
-        assertEquals(expected, actual);
+    public void testEncodeWithVowelsInMiddle() {
+        assertEquals("k dQnT kNqW wHcT Tq wRkTg", Encode.encode("I DoNt KnOw WhAt tO WrItE"));
     }
 
     @Test
-    void testEncodeWithSpecialCharacters() {
-        String actual = Encode.encode("!@#$%^&*()_+-=[]{}|;':\",./<>?");
-        String expected = "!@#$%^&*()_+-=[]{}|;':\",./<>?";
-        assertEquals(expected, actual);
+    public void testEncodeWithAllVowels() {
+        assertEquals("CGIKO", Encode.encode("AEIOU"));
     }
 
     @Test
-    void testEncodeWithUnicodeCharacters() {
-        String actual = Encode.encode("こんにちは");
-        String expected = "MqGqOEqI";
-        assertEquals(expected, actual);
+    public void testEncodeWithNonAsciiCharacters() {
+        assertEquals("hëllö wörld", Encode.encode("HëLLö WöRLD"));
     }
 }

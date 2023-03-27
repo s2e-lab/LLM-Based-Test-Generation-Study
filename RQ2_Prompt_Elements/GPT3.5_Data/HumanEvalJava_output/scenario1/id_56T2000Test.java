@@ -1,4 +1,4 @@
-Here's the code for the `CorrectBracketingTest` class with ten unit test cases for the `correctBracketing` method:
+Here's the source code for the CorrectBracketingTest class:
 
 ```
 package scenario1;
@@ -6,10 +6,6 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link CorrectBracketing}.
- * It contains ten unit test cases for the {@link CorrectBracketing#correctBracketing(String)} method.
- */
 class CorrectBracketingTest {
 
     @Test
@@ -53,13 +49,15 @@ class CorrectBracketingTest {
     }
 
     @Test
-    void testUnbalancedNestedBrackets() {
+    void testUnbalancedBrackets() {
         assertFalse(CorrectBracketing.correctBracketing("<><"));
     }
 
     @Test
-    void testUnbalancedNestedBrackets2() {
-        assertFalse(CorrectBracketing.correctBracketing("<>><"));
+    void testMultipleNestedBrackets() {
+        assertTrue(CorrectBracketing.correctBracketing("<<><>>"));
     }
 }
 ```
+
+This class contains ten unit test cases for the `correctBracketing` method of the `CorrectBracketing` class. Each test case checks a different scenario for the input string of brackets and verifies that the method returns the expected result. The `assertTrue` and `assertFalse` methods are used to check the boolean return value of the method.

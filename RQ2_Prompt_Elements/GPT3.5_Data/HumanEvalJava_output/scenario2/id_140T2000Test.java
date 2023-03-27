@@ -1,13 +1,11 @@
-// FixSpacesTest.java
+Here's the source code for the FixSpacesTest class with ten unit test cases for the fixSpaces method:
+
+```
 package scenario2;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link FixSpaces}.
- * It contains ten unit test cases for the {@link FixSpaces#fixSpaces(String)} method.
- */
 class FixSpacesTest {
 
     @Test
@@ -29,7 +27,7 @@ class FixSpacesTest {
     @Test
     void testFixSpaces_multipleSpaces() {
         String input = "   ";
-        String expectedOutput = "-";
+        String expectedOutput = "---";
         String actualOutput = FixSpaces.fixSpaces(input);
         assertEquals(expectedOutput, actualOutput);
     }
@@ -45,7 +43,7 @@ class FixSpacesTest {
     @Test
     void testFixSpaces_spacesAtBeginning() {
         String input = "   hello";
-        String expectedOutput = "-hello";
+        String expectedOutput = "---hello";
         String actualOutput = FixSpaces.fixSpaces(input);
         assertEquals(expectedOutput, actualOutput);
     }
@@ -53,23 +51,23 @@ class FixSpacesTest {
     @Test
     void testFixSpaces_spacesAtEnd() {
         String input = "hello   ";
-        String expectedOutput = "hello-";
+        String expectedOutput = "hello---";
         String actualOutput = FixSpaces.fixSpaces(input);
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
     void testFixSpaces_spacesInMiddle() {
-        String input = "hello   world";
-        String expectedOutput = "hello-world";
+        String input = "he  llo";
+        String expectedOutput = "he__llo";
         String actualOutput = FixSpaces.fixSpaces(input);
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testFixSpaces_multipleSpacesInMiddle() {
-        String input = "hello     world";
-        String expectedOutput = "hello--world";
+    void testFixSpaces_mixedSpaces() {
+        String input = "he  llo   wor  ld";
+        String expectedOutput = "he__llo---wor__ld";
         String actualOutput = FixSpaces.fixSpaces(input);
         assertEquals(expectedOutput, actualOutput);
     }
@@ -77,16 +75,17 @@ class FixSpacesTest {
     @Test
     void testFixSpaces_onlySpaces() {
         String input = "     ";
-        String expectedOutput = "-";
+        String expectedOutput = "---";
         String actualOutput = FixSpaces.fixSpaces(input);
         assertEquals(expectedOutput, actualOutput);
     }
 
     @Test
-    void testFixSpaces_mixedSpacesAndCharacters() {
-        String input = "h e l l o   w o r l d";
-        String expectedOutput = "h_e_l_l_o-world";
+    void testFixSpaces_longString() {
+        String input = "This is a long string with multiple spaces and some words.";
+        String expectedOutput = "This_is_a_long_string_with_multiple_spaces_and_some_words.";
         String actualOutput = FixSpaces.fixSpaces(input);
         assertEquals(expectedOutput, actualOutput);
     }
 }
+```

@@ -1,6 +1,5 @@
-// Here is the modified code for FilterBySubstring.java
-
-package modified;
+// FilterBySubstring.java
+package updated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +8,12 @@ public class FilterBySubstring {
 
     /**
      * Filter an input list of strings only for ones that contain given substring
-     * > filterBySubstring([], "a")
-     * []
-     * > filterBySubstring(["abc", "bacd", "cde", "array"], "a")
-     * ["abc", "bacd", "array"]
-     * > filterBySubstring([], "john")
-     * []
-     * > filterBySubstring(["xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx"], "xxx")
-     * ["xxx", "xxxAAA", "xxx"]
-     * > filterBySubstring(["xxx", "asd", "aaaxxy", "john doe", "xxxAAA", "xxx"], "xx")
-     * ["xxx", "aaaxxy", "xxxAAA", "xxx"]
-     * > filterBySubstring(["grunt", "trumpet", "prune", "gruesome"], "run")
-     * ["grunt", "prune"]
+     * @param strings List of strings to be filtered
+     * @param substring Substring to be searched in the strings
+     * @return List of strings containing the given substring
      */
     public static List<String> filterBySubstring(List<String> strings, String substring) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         for (String s : strings) {
             if (s.contains(substring)) {
                 result.add(s);
@@ -33,89 +23,90 @@ public class FilterBySubstring {
     }
 }
 
-// Here is the modified code for FilterBySubstringTest.java
+// FilterBySubstringTest.java
+package updated;
 
-package modified;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
-* Test class of {@link FilterBySubstring}.
-* It contains ten unit test cases for the {@link FilterBySubstring#filterBySubstring(List, String)} method.
-*/
+ * Test class of {@link FilterBySubstring}.
+ * It contains ten unit test cases for the {@link FilterBySubstring#filterBySubstring(List, String)} method.
+ */
 class FilterBySubstringTest {
 
     @Test
     void testEmptyList() {
-        List<String> input = new ArrayList<String>();
-        List<String> expectedOutput = new ArrayList<String>();
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "a"));
+        List<String> input = new ArrayList<>();
+        List<String> expected = new ArrayList<>();
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, "a"));
     }
 
     @Test
     void testNoMatch() {
         List<String> input = Arrays.asList("abc", "def", "ghi");
-        List<String> expectedOutput = new ArrayList<String>();
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "j"));
+        List<String> expected = new ArrayList<>();
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, "j"));
     }
 
     @Test
     void testSingleMatch() {
         List<String> input = Arrays.asList("abc", "def", "ghi");
-        List<String> expectedOutput = Arrays.asList("abc");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "a"));
+        List<String> expected = Arrays.asList("abc");
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, "a"));
     }
 
     @Test
     void testMultipleMatches() {
         List<String> input = Arrays.asList("abc", "bacd", "cde", "array");
-        List<String> expectedOutput = Arrays.asList("abc", "bacd", "array");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "a"));
+        List<String> expected = Arrays.asList("abc", "bacd", "array");
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, "a"));
     }
 
     @Test
     void testMatchAtBeginning() {
-        List<String> input = Arrays.asList("abc", "def", "ghi");
-        List<String> expectedOutput = Arrays.asList("abc");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "ab"));
+        List<String> input = Arrays.asList("xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx");
+        List<String> expected = Arrays.asList("xxx", "xxxAAA", "xxx");
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, "xxx"));
     }
 
     @Test
     void testMatchAtEnd() {
-        List<String> input = Arrays.asList("abc", "def", "ghi");
-        List<String> expectedOutput = Arrays.asList("abc");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "bc"));
+        List<String> input = Arrays.asList("xxx", "asd", "aaaxxy", "john doe", "xxxAAA", "xxx");
+        List<String> expected = Arrays.asList("xxx", "aaaxxy", "xxxAAA", "xxx");
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, "xx"));
     }
 
     @Test
     void testMatchInMiddle() {
+        List<String> input = Arrays.asList("grunt", "trumpet", "prune", "gruesome");
+        List<String> expected = Arrays.asList("grunt", "prune");
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, "run"));
+    }
+
+    @Test
+    void testEmptySubstring() {
         List<String> input = Arrays.asList("abc", "def", "ghi");
-        List<String> expectedOutput = Arrays.asList("abc");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "b"));
+        List<String> expected = new ArrayList<>();
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, ""));
     }
 
     @Test
-    void testMatchCaseSensitive() {
+    void testNullSubstring() {
         List<String> input = Arrays.asList("abc", "def", "ghi");
-        List<String> expectedOutput = new ArrayList<String>();
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "A"));
+        List<String> expected = new ArrayList<>();
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, null));
     }
 
     @Test
-    void testMatchWithSpaces() {
-        List<String> input = Arrays.asList("xxx", "asd", "xxy", "john doe", "xxxAAA", "xxx");
-        List<String> expectedOutput = Arrays.asList("john doe", "xxxAAA");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "o"));
-    }
-
-    @Test
-    void testMatchWithNumbers() {
-        List<String> input = Arrays.asList("xxx", "asd", "aaaxxy", "john doe", "xxxAAA", "xxx");
-        List<String> expectedOutput = Arrays.asList("aaaxxy", "xxxAAA");
-        assertEquals(expectedOutput, FilterBySubstring.filterBySubstring(input, "xx"));
+    void testNullList() {
+        List<String> input = null;
+        List<String> expected = new ArrayList<>();
+        assertEquals(expected, FilterBySubstring.filterBySubstring(input, "a"));
     }
 }

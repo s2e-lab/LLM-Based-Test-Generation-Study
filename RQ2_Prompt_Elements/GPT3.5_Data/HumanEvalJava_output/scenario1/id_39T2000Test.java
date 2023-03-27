@@ -1,67 +1,62 @@
-Here's the completed code for the `PrimeFibTest` class:
-
-```
+// PrimeFibTest.java
 package scenario1;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class of {@link PrimeFib}.
- * It contains ten unit test cases for the {@link PrimeFib#primeFib(int)} method.
- */
+* Test class of {@link PrimeFib}.
+* It contains ten unit test cases for the {@link PrimeFib#primeFib(int)} method.
+*/
 class PrimeFibTest {
 
     @Test
-    void testPrimeFib1() {
+    void testPrimeFibWithZero() {
+        assertEquals(0, PrimeFib.primeFib(0));
+    }
+
+    @Test
+    void testPrimeFibWithOne() {
         assertEquals(2, PrimeFib.primeFib(1));
     }
 
     @Test
-    void testPrimeFib2() {
+    void testPrimeFibWithTwo() {
         assertEquals(3, PrimeFib.primeFib(2));
     }
 
     @Test
-    void testPrimeFib3() {
+    void testPrimeFibWithThree() {
         assertEquals(5, PrimeFib.primeFib(3));
     }
 
     @Test
-    void testPrimeFib4() {
+    void testPrimeFibWithFour() {
         assertEquals(13, PrimeFib.primeFib(4));
     }
 
     @Test
-    void testPrimeFib5() {
+    void testPrimeFibWithFive() {
         assertEquals(89, PrimeFib.primeFib(5));
     }
 
     @Test
-    void testPrimeFib6() {
+    void testPrimeFibWithSix() {
         assertEquals(233, PrimeFib.primeFib(6));
     }
 
     @Test
-    void testPrimeFib7() {
+    void testPrimeFibWithSeven() {
         assertEquals(1597, PrimeFib.primeFib(7));
     }
 
     @Test
-    void testPrimeFib8() {
+    void testPrimeFibWithEight() {
         assertEquals(28657, PrimeFib.primeFib(8));
     }
 
     @Test
-    void testPrimeFib9() {
+    void testPrimeFibWithNine() {
         assertEquals(514229, PrimeFib.primeFib(9));
     }
-
-    @Test
-    void testPrimeFib10() {
-        assertEquals(433494437, PrimeFib.primeFib(10));
-    }
 }
-```
-
-This test class contains ten unit test cases for the `primeFib` method of the `PrimeFib` class. Each test case calls the `primeFib` method with a different input value and checks that the output is equal to the expected value using the `assertEquals` method from the JUnit library.

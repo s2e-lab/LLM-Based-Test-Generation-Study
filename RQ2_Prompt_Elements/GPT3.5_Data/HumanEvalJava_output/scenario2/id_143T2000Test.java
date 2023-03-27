@@ -98,4 +98,4 @@ class WordsInSentenceTest {
 }
 ```
 
-This test class contains ten test cases that cover different scenarios for the `wordsInSentence` method. Each test case has a descriptive name that explains what it's testing. The `@Test` annotation is used to mark each test method, and the `assertEquals` method is used to compare the expected result with the actual result returned by the `wordsInSentence` method.
+This test class contains ten test cases that cover different scenarios for the `wordsInSentence` method. The test cases include empty string, one word, two words, three words, four words, five words, six words, seven words, eight words, and ten words. The expected output for each test case is compared with the actual output returned by the `wordsInSentence` method using the `assertEquals` method from the JUnit library.

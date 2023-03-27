@@ -53,14 +53,14 @@ class DerivativeTest {
     @Test
     void testDerivativeOfQuintic() {
         List<Integer> xs = Arrays.asList(5, 4, 3, 2, 1, 6);
-        List<Object> expected = Arrays.asList(4, 6, 6, 4, 30);
+        List<Object> expected = Arrays.asList(4, 6, 8, 10, 30);
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
     void testDerivativeOfEmptyList() {
-        List<Integer> xs = new ArrayList<>();
-        List<Object> expected = new ArrayList<>();
+        List<Integer> xs = new ArrayList<Integer>();
+        List<Object> expected = new ArrayList<Object>();
         assertEquals(expected, Derivative.derivative(xs));
     }
 

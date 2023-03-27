@@ -60,4 +60,4 @@ class ChangeBaseTest {
 }
 ```
 
-This test class contains ten test cases for the changeBase method, each with a different base value. The expected output for each test case is calculated manually and compared with the actual output of the changeBase method using the assertEquals method from the JUnit library.
+This test class contains ten test cases that cover different numerical bases, including base 2, 3, 4, 5, 6, 7, 8, 9, 10, and 16. Each test case calls the changeBase method with a different input number and base, and checks if the returned string representation is correct using the assertEquals method.

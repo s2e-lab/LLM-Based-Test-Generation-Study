@@ -85,9 +85,9 @@ class ParseMusicTest {
     }
 
     @Test
-    void testNotesWithExtraSpacesAndTabs() {
+    void testNotesWithTrailingSpaces() {
         List<Object> expected = Arrays.asList(4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4);
-        List<Object> actual = ParseMusic.parseMusic("\to o| .| o| o| .| .| .| .| o o \t");
+        List<Object> actual = ParseMusic.parseMusic("o o| .| o| o| .| .| .| .| o o ");
         assertEquals(expected, actual);
     }
 }

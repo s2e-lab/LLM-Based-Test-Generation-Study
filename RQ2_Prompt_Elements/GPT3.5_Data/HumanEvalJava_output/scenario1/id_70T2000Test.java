@@ -1,130 +1,99 @@
-I can help you write the test cases for the `StrangeSortList` class. Here are ten test cases that you can use:
+Here's the source code for the `StrangeSortListTest` class with ten unit test cases for the `strangeSortList` method:
 
 ```
+package scenario1;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Test class of {@link StrangeSortList}.
+ * It contains ten unit test cases for the {@link StrangeSortList#strangeSortList(List)} method.
+ */
 class StrangeSortListTest {
 
     @Test
     void testEmptyList() {
-        List<Object> lst = new ArrayList<>();
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertTrue(result.isEmpty());
+        List<Object> input = new ArrayList<>();
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testListWithOneInteger() {
-        List<Object> lst = new ArrayList<>();
-        lst.add(1);
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(1, result.size());
-        assertEquals(1, result.get(0));
-    }
-
-    @Test
-    void testListWithTwoIntegers() {
-        List<Object> lst = new ArrayList<>();
-        lst.add(2);
-        lst.add(1);
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(2, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals(2, result.get(1));
-    }
-
-    @Test
-    void testListWithThreeIntegers() {
-        List<Object> lst = new ArrayList<>();
-        lst.add(3);
-        lst.add(1);
-        lst.add(2);
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(3, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals(3, result.get(1));
-        assertEquals(2, result.get(2));
+        List<Object> input = Arrays.asList(1);
+        List<Object> expected = Arrays.asList(1);
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testListWithOneString() {
-        List<Object> lst = new ArrayList<>();
-        lst.add("hello");
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(1, result.size());
-        assertEquals("hello", result.get(0));
+        List<Object> input = Arrays.asList("hello");
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithOneIntegerAndOneString() {
-        List<Object> lst = new ArrayList<>();
-        lst.add(1);
-        lst.add("hello");
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(2, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals("hello", result.get(1));
+    void testListWithMixedTypes() {
+        List<Object> input = Arrays.asList(1, "hello", 2, "world", 3);
+        List<Object> expected = Arrays.asList(1, 3, 2);
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithTwoIntegersAndOneString() {
-        List<Object> lst = new ArrayList<>();
-        lst.add(2);
-        lst.add("hello");
-        lst.add(1);
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(3, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals(2, result.get(1));
-        assertEquals("hello", result.get(2));
+    void testListWithNegativeIntegers() {
+        List<Object> input = Arrays.asList(-3, -1, -2);
+        List<Object> expected = Arrays.asList(-3, -1, -2);
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithTwoIntegersAndTwoStrings() {
-        List<Object> lst = new ArrayList<>();
-        lst.add(2);
-        lst.add("hello");
-        lst.add("world");
-        lst.add(1);
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(4, result.size());
-        assertEquals(1, result.get(0));
-        assertEquals(2, result.get(1));
-        assertEquals("world", result.get(2));
-        assertEquals("hello", result.get(3));
+    void testListWithDuplicateIntegers() {
+        List<Object> input = Arrays.asList(1, 2, 1, 3, 2);
+        List<Object> expected = Arrays.asList(1, 2, 2, 3);
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithTwoIntegersAndTwoStringsAndNull() {
-        List<Object> lst = new ArrayList<>();
-        lst.add(2);
-        lst.add("hello");
-        lst.add(null);
-        lst.add("world");
-        lst.add(1);
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(5, result.size());
-        assertNull(result.get(0));
-        assertEquals(1, result.get(1));
-        assertEquals(2, result.get(2));
-        assertEquals("world", result.get(3));
-        assertEquals("hello", result.get(4));
+    void testListWithAllIntegersInDescendingOrder() {
+        List<Object> input = Arrays.asList(5, 4, 3, 2, 1);
+        List<Object> expected = Arrays.asList(1, 3, 2, 4, 5);
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithTwoIntegersAndTwoStringsAndOneEmptyString() {
-        List<Object> lst = new ArrayList<>();
-        lst.add(2);
-        lst.add("hello");
-        lst.add("");
-        lst.add("world");
-        lst.add(1);
-        List<Object> result = StrangeSortList.strangeSortList(lst);
-        assertEquals(5, result.size());
-        assertEquals("", result.get(0));
-        assertEquals(1, result.get(1));
-        assertEquals(2, result.get(2));
-        assertEquals("world", result.get(3));
-        assertEquals("hello", result.get(4));
+    void testListWithAllIntegersInAscendingOrder() {
+        List<Object> input = Arrays.asList(1, 2, 3, 4, 5);
+        List<Object> expected = Arrays.asList(1, 5, 2, 4, 3);
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testListWithAllIntegersEqual() {
+        List<Object> input = Arrays.asList(1, 1, 1, 1, 1);
+        List<Object> expected = Arrays.asList(1, 1, 1, 1, 1);
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testListWithNullValues() {
+        List<Object> input = Arrays.asList(null, 1, null, 2, null);
+        List<Object> expected = Arrays.asList(1, 2);
+        List<Object> actual = StrangeSortList.strangeSortList(input);
+        assertEquals(expected, actual);
     }
 }
 ```
-
-These test cases cover various scenarios such as empty list, list with one integer, list with two integers, list with three integers, list with one string, list with one integer and one string, list with two integers and one string, list with two integers and two strings, list with two integers and two strings and null, and list with two integers and two strings and one empty string.

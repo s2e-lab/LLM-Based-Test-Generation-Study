@@ -1,127 +1,103 @@
-Here's the code for the test class:
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-```
 class IncrListTest {
 
     @Test
-    void testEmptyList() {
-        List<Object> input = new ArrayList<Object>();
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
+    void testIncrListWithEmptyList() {
+        List<Object> input = new ArrayList<>();
+        List<Object> expectedOutput = new ArrayList<>();
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithOneInteger() {
-        List<Object> input = new ArrayList<Object>();
-        input.add(1);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(2);
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
+    void testIncrListWithOneInteger() {
+        List<Object> input = new ArrayList<>();
+        input.add(5);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(6);
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithOneNonInteger() {
-        List<Object> input = new ArrayList<Object>();
+    void testIncrListWithOneNonInteger() {
+        List<Object> input = new ArrayList<>();
         input.add("hello");
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
+        List<Object> expectedOutput = new ArrayList<>();
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithMultipleIntegers() {
-        List<Object> input = new ArrayList<Object>();
-        input.add(1);
-        input.add(2);
-        input.add(3);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(2);
-        expected.add(3);
-        expected.add(4);
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
+    void testIncrListWithMultipleIntegers() {
+        List<Object> input = new ArrayList<>();
+        input.add(5);
+        input.add(10);
+        input.add(15);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(6);
+        expectedOutput.add(11);
+        expectedOutput.add(16);
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithMultipleIntegersAndNonIntegers() {
-        List<Object> input = new ArrayList<Object>();
-        input.add(1);
+    void testIncrListWithMultipleMixedTypes() {
+        List<Object> input = new ArrayList<>();
+        input.add(5);
         input.add("hello");
-        input.add(2);
+        input.add(10);
         input.add("world");
-        input.add(3);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(2);
-        expected.add(3);
-        expected.add(4);
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
+        input.add(15);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(6);
+        expectedOutput.add(11);
+        expectedOutput.add(16);
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithAllNonIntegers() {
-        List<Object> input = new ArrayList<Object>();
-        input.add("hello");
-        input.add("world");
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void testListWithNull() {
+    void testIncrListWithNullInput() {
         List<Object> input = null;
-        assertThrows(NullPointerException.class, () -> {
-            IncrList.incrList(input);
-        });
+        List<Object> expectedOutput = null;
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithNestedList() {
-        List<Object> input = new ArrayList<Object>();
-        List<Object> nestedList = new ArrayList<Object>();
-        nestedList.add(1);
-        nestedList.add(2);
-        input.add(nestedList);
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> expectedNestedList = new ArrayList<Object>();
-        expectedNestedList.add(2);
-        expectedNestedList.add(3);
-        expected.add(expectedNestedList);
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
+    void testIncrListWithLargeInteger() {
+        List<Object> input = new ArrayList<>();
+        input.add(Integer.MAX_VALUE);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(Integer.MIN_VALUE);
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithNestedListAndNonInteger() {
-        List<Object> input = new ArrayList<Object>();
-        List<Object> nestedList = new ArrayList<Object>();
-        nestedList.add(1);
-        nestedList.add("hello");
-        nestedList.add(2);
-        input.add(nestedList);
-        input.add("world");
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> expectedNestedList = new ArrayList<Object>();
-        expectedNestedList.add(2);
-        expectedNestedList.add(3);
-        expected.add(expectedNestedList);
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
+    void testIncrListWithNegativeInteger() {
+        List<Object> input = new ArrayList<>();
+        input.add(-5);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(-4);
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithNestedListAndNull() {
-        List<Object> input = new ArrayList<Object>();
-        List<Object> nestedList = null;
-        input.add(nestedList);
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> expectedNestedList = null;
-        expected.add(expectedNestedList);
-        List<Object> result = IncrList.incrList(input);
-        assertEquals(expected, result);
+    void testIncrListWithZero() {
+        List<Object> input = new ArrayList<>();
+        input.add(0);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(1);
+        assertEquals(expectedOutput, IncrList.incrList(input));
+    }
+
+    @Test
+    void testIncrListWithMultipleZeros() {
+        List<Object> input = new ArrayList<>();
+        input.add(0);
+        input.add(0);
+        input.add(0);
+        List<Object> expectedOutput = new ArrayList<>();
+        expectedOutput.add(1);
+        expectedOutput.add(1);
+        expectedOutput.add(1);
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 }
-```

@@ -1,6 +1,5 @@
-Here's the code for the `IsNestedTest` class:
+// Here's the source code for the IsNestedTest class
 
-```
 class IsNestedTest {
     
     @Test
@@ -34,25 +33,4 @@ class IsNestedTest {
     }
     
     @Test
-    void testMultipleNestedBrackets() {
-        assertTrue(IsNested.isNested("[[[]]]"));
-    }
-    
-    @Test
-    void testNonNestedBrackets() {
-        assertFalse(IsNested.isNested("[][]"));
-    }
-    
-    @Test
-    void testNonNestedBracketsWithExtraCharacters() {
-        assertFalse(IsNested.isNested("[a][b]"));
-    }
-    
-    @Test
-    void testNestedBracketsWithExtraCharacters() {
-        assertTrue(IsNested.isNested("[a[bc]d]"));
-    }
-}
-```
-
-This test class contains ten test cases for the `IsNested.isNested()` method. The first five test cases cover the scenarios where the input string contains invalid bracket sequences, while the remaining five test cases cover the scenarios where the input string contains valid bracket sequences.
+    void testMultiple

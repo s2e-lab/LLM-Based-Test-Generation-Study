@@ -56,8 +56,8 @@ class EncryptTest {
 
     @Test
     void testEncryptLongString() {
-        String result = Encrypt.encrypt("The quick brown fox jumps over the lazy dog.");
-        assertEquals("Vjg swkem dtqyp hqz lworu qxgt vjg ncba fqi.", result);
+        String result = Encrypt.encrypt("The quick brown fox jumps over the lazy dog");
+        assertEquals("Vjg swkem dtqyp hqz lworu qxgt vjg ncba fqi", result);
     }
 
     @Test
@@ -68,14 +68,9 @@ class EncryptTest {
     }
 
     @Test
-    void testEncryptPerformance() {
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 100000; i++) {
-            Encrypt.encrypt("abcdefghijklmnopqrstuvwxyz");
-        }
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        assertTrue(duration < 1000);
+    void testEncryptNonAlphabeticString() {
+        String result = Encrypt.encrypt("1234!@#$");
+        assertEquals("1234!@#$", result);
     }
 }
 ```

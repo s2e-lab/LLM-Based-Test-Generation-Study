@@ -1,10 +1,6 @@
-// Here's the source code for the SimplifyTest class:
+Here's the code for the test class:
 
-package scenario2;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
+```
 class SimplifyTest {
 
     @Test
@@ -57,3 +53,6 @@ class SimplifyTest {
         assertFalse(Simplify.simplify("1/1", "3/2"));
     }
 }
+```
+
+This test class contains ten test cases for the `simplify` method of the `Simplify` class. Each test case checks whether the method returns the expected result for a given input. The test cases cover a range of scenarios, including cases where the input fractions are already simplified, cases where the input fractions can be simplified, and cases where the input fractions cannot be simplified.

@@ -23,7 +23,7 @@ public class StringToMd5 {
      * "5f4dcc3b5aa765d61d8327deb882cf99"
      */
     public static String stringToMd5(String text) {
-        if (text == null || text.isEmpty()) {
+        if (text == null || text.equals("")) {
             return null;
         }
         try {

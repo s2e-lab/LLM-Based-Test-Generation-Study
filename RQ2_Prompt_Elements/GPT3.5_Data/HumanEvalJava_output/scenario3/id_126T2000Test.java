@@ -76,7 +76,6 @@ class IsSorted {
 package scenario3;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -89,13 +88,13 @@ class IsSortedTest {
 
     @Test
     void testEmptyList() {
-        List<Integer> lst = Collections.emptyList();
+        List<Integer> lst = Arrays.asList();
         assertTrue(IsSorted.isSorted(lst));
     }
 
     @Test
     void testSingleElementList() {
-        List<Integer> lst = Collections.singletonList(5);
+        List<Integer> lst = Arrays.asList(5);
         assertTrue(IsSorted.isSorted(lst));
     }
 
@@ -125,25 +124,25 @@ class IsSortedTest {
 
     @Test
     void testSortedListWithMultipleDuplicates() {
-        List<Integer> lst = Arrays.asList(1, 2, 2, 3, 3, 3, 4, 4);
+        List<Integer> lst = Arrays.asList(1, 2, 2, 3, 3, 3, 4);
         assertFalse(IsSorted.isSorted(lst));
     }
 
     @Test
     void testUnsortedListWithMultipleDuplicates() {
-        List<Integer> lst = Arrays.asList(1, 2, 2, 3, 3, 4, 4, 3);
+        List<Integer> lst = Arrays.asList(1, 3, 2, 4, 5, 6, 7);
         assertFalse(IsSorted.isSorted(lst));
     }
 
     @Test
-    void testSortedListWithMultipleDuplicatesAtEnd() {
-        List<Integer> lst = Arrays.asList(1, 2, 3, 3, 3, 4, 4);
+    void testSortedListWithMultipleDuplicatesAndSingleDuplicate() {
+        List<Integer> lst = Arrays.asList(1, 2, 2, 3, 3, 4, 4);
         assertFalse(IsSorted.isSorted(lst));
     }
 
     @Test
-    void testUnsortedListWithMultipleDuplicatesAtEnd() {
-        List<Integer> lst = Arrays.asList(1, 2, 3, 3, 4, 4, 3);
+    void testDescendingList() {
+        List<Integer> lst = Arrays.asList(3, 2, 1);
         assertFalse(IsSorted.isSorted(lst));
     }
 }

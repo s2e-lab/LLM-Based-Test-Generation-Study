@@ -100,51 +100,41 @@ class GetClosestVowelTest {
 
     @Test
     void testGetClosestVowel5() {
-        assertEquals("", GetClosestVowel.getClosestVowel("easy"));
-    }
-
-    @Test
-    void testGetClosestVowel6() {
         assertEquals("", GetClosestVowel.getClosestVowel("eAsy"));
     }
 
     @Test
-    void testGetClosestVowel7() {
+    void testGetClosestVowel6() {
         assertEquals("", GetClosestVowel.getClosestVowel("ali"));
     }
 
     @Test
-    void testGetClosestVowel8() {
+    void testGetClosestVowel7() {
         assertEquals("a", GetClosestVowel.getClosestVowel("bad"));
     }
 
     @Test
-    void testGetClosestVowel9() {
+    void testGetClosestVowel8() {
         assertEquals("o", GetClosestVowel.getClosestVowel("most"));
     }
 
     @Test
-    void testGetClosestVowel10() {
+    void testGetClosestVowel9() {
         assertEquals("", GetClosestVowel.getClosestVowel("ba"));
     }
 
     @Test
-    void testGetClosestVowel11() {
-        assertEquals("", GetClosestVowel.getClosestVowel("quick"));
-    }
-
-    @Test
-    void testGetClosestVowel12() {
+    void testGetClosestVowel10() {
         assertEquals("i", GetClosestVowel.getClosestVowel("anime"));
     }
 
     @Test
-    void testGetClosestVowel13() {
+    void testGetClosestVowel11() {
         assertEquals("", GetClosestVowel.getClosestVowel("Asia"));
     }
 
     @Test
-    void testGetClosestVowel14() {
+    void testGetClosestVowel12() {
         assertEquals("o", GetClosestVowel.getClosestVowel("Above"));
     }
 }

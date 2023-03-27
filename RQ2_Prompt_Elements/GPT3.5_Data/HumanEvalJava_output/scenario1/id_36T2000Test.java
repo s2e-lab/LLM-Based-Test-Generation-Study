@@ -46,17 +46,17 @@ class FizzBuzzTest {
     }
     
     @Test
-    void testFizzBuzzWithTwentyThree() {
-        assertEquals(0, FizzBuzz.fizzBuzz(23));
-    }
-    
-    @Test
     void testFizzBuzzWithSeventySeven() {
         assertEquals(1, FizzBuzz.fizzBuzz(77));
     }
     
     @Test
     void testFizzBuzzWithOneHundred() {
-        assertEquals(0, FizzBuzz.fizzBuzz(100));
+        assertEquals(1, FizzBuzz.fizzBuzz(100));
+    }
+    
+    @Test
+    void testFizzBuzzWithOneHundredAndOne() {
+        assertEquals(1, FizzBuzz.fizzBuzz(101));
     }
 }

@@ -1,95 +1,131 @@
-Here's the code for the AllPrefixesTest class with ten unit test cases for the allPrefixes method:
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-```
-package scenario2;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Test class of {@link AllPrefixes}.
- * It contains ten unit test cases for the {@link AllPrefixes#allPrefixes(String)} method.
- */
 class AllPrefixesTest {
 
     @Test
-    void testEmptyString() {
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = AllPrefixes.allPrefixes("");
-        assertEquals(expected, actual);
+    void testAllPrefixes() {
+        String input = "hello";
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("h");
+        expectedOutput.add("he");
+        expectedOutput.add("hel");
+        expectedOutput.add("hell");
+        expectedOutput.add("hello");
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testSingleCharacterString() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("a"));
-        List<Object> actual = AllPrefixes.allPrefixes("a");
-        assertEquals(expected, actual);
+    void testAllPrefixesEmptyString() {
+        String input = "";
+        List<String> expectedOutput = new ArrayList<>();
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testTwoCharacterString() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("a", "ab"));
-        List<Object> actual = AllPrefixes.allPrefixes("ab");
-        assertEquals(expected, actual);
+    void testAllPrefixesSingleCharacter() {
+        String input = "a";
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("a");
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testThreeCharacterString() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("a", "ab", "abc"));
-        List<Object> actual = AllPrefixes.allPrefixes("abc");
-        assertEquals(expected, actual);
+    void testAllPrefixesRepeatedCharacters() {
+        String input = "aaa";
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("a");
+        expectedOutput.add("aa");
+        expectedOutput.add("aaa");
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testFourCharacterString() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("a", "ab", "abc", "abcd"));
-        List<Object> actual = AllPrefixes.allPrefixes("abcd");
-        assertEquals(expected, actual);
+    void testAllPrefixesNumbers() {
+        String input = "12345";
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("1");
+        expectedOutput.add("12");
+        expectedOutput.add("123");
+        expectedOutput.add("1234");
+        expectedOutput.add("12345");
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testFiveCharacterString() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("a", "ab", "abc", "abcd", "abcde"));
-        List<Object> actual = AllPrefixes.allPrefixes("abcde");
-        assertEquals(expected, actual);
+    void testAllPrefixesSpecialCharacters() {
+        String input = "!@#$%";
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("!");
+        expectedOutput.add("!@");
+        expectedOutput.add("!@#");
+        expectedOutput.add("!@#$");
+        expectedOutput.add("!@#$%");
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testStringWithSpaces() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("a", "ab", "abc", "abcd", "abcde"));
-        List<Object> actual = AllPrefixes.allPrefixes("a b c d e");
-        assertEquals(expected, actual);
+    void testAllPrefixesWhitespace() {
+        String input = "   ";
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add(" ");
+        expectedOutput.add("  ");
+        expectedOutput.add("   ");
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testStringWithNumbers() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("1", "12", "123", "1234", "12345"));
-        List<Object> actual = AllPrefixes.allPrefixes("12345");
-        assertEquals(expected, actual);
+    void testAllPrefixesMixedCharacters() {
+        String input = "a1!b2@c3#";
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("a");
+        expectedOutput.add("a1");
+        expectedOutput.add("a1!");
+        expectedOutput.add("a1!b");
+        expectedOutput.add("a1!b2");
+        expectedOutput.add("a1!b2@");
+        expectedOutput.add("a1!b2@c");
+        expectedOutput.add("a1!b2@c3");
+        expectedOutput.add("a1!b2@c3#");
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testStringWithSpecialCharacters() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("#", "#$", "#$%", "#$%^", "#$%^&"));
-        List<Object> actual = AllPrefixes.allPrefixes("#$%^&");
-        assertEquals(expected, actual);
+    void testAllPrefixesNullInput() {
+        String input = null;
+        List<String> expectedOutput = new ArrayList<>();
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 
     @Test
-    void testStringWithMixedCharacters() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("a", "ab", "abc", "a1", "a1b", "a1b2"));
-        List<Object> actual = AllPrefixes.allPrefixes("a1b2c");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testStringWithUnicodeCharacters() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("अ", "अन", "अनु", "अनुच", "अनुच्", "अनुच्छ", "अनुच्छ्"));
-        List<Object> actual = AllPrefixes.allPrefixes("अनुच्छ");
-        assertEquals(expected, actual);
+    void testAllPrefixesLongInput() {
+        String input = "abcdefghijklmnopqrstuvwxyz";
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("a");
+        expectedOutput.add("ab");
+        expectedOutput.add("abc");
+        expectedOutput.add("abcd");
+        expectedOutput.add("abcde");
+        expectedOutput.add("abcdef");
+        expectedOutput.add("abcdefg");
+        expectedOutput.add("abcdefgh");
+        expectedOutput.add("abcdefghi");
+        expectedOutput.add("abcdefghij");
+        expectedOutput.add("abcdefghijk");
+        expectedOutput.add("abcdefghijkl");
+        expectedOutput.add("abcdefghijklm");
+        expectedOutput.add("abcdefghijklmn");
+        expectedOutput.add("abcdefghijklmno");
+        expectedOutput.add("abcdefghijklmnop");
+        expectedOutput.add("abcdefghijklmnopq");
+        expectedOutput.add("abcdefghijklmnopqr");
+        expectedOutput.add("abcdefghijklmnopqrs");
+        expectedOutput.add("abcdefghijklmnopqrst");
+        expectedOutput.add("abcdefghijklmnopqrstu");
+        expectedOutput.add("abcdefghijklmnopqrstuv");
+        expectedOutput.add("abcdefghijklmnopqrstuvw");
+        expectedOutput.add("abcdefghijklmnopqrstuvwx");
+        expectedOutput.add("abcdefghijklmnopqrstuvwxy");
+        expectedOutput.add("abcdefghijklmnopqrstuvwxyz");
+        assertEquals(expectedOutput, AllPrefixes.allPrefixes(input));
     }
 }
-```

@@ -1,4 +1,4 @@
-Here's the completed code for the `GetMaxTriplesTest` class:
+Here's the code for the test class:
 
 ```
 package scenario1;
@@ -6,10 +6,6 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link GetMaxTriples}.
- * It contains ten unit test cases for the {@link GetMaxTriples#getMaxTriples(int)} method.
- */
 class GetMaxTriplesTest {
 
     @Test
@@ -74,4 +70,4 @@ class GetMaxTriplesTest {
 }
 ```
 
-This test class contains ten unit test cases for the `GetMaxTriples#getMaxTriples(int)` method. Each test case tests the method with a different input value and checks that the output is correct. The `assertEquals` method is used to compare the expected output with the actual output of the method.
+This test class contains ten test cases that cover different input values for the `getMaxTriples` method. Each test case checks if the method returns the expected output for a given input. The `assertEquals` method is used to compare the expected output with the actual output of the method.

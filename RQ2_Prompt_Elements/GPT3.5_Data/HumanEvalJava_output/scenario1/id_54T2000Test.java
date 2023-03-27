@@ -59,7 +59,7 @@ class SameCharsTest {
 
     @Test
     void testSameCharsWithUnicodeChars() {
-        assertTrue(SameChars.sameChars("こんにちは", "んちはここ"));
+        assertTrue(SameChars.sameChars("日本語", "語本日"));
     }
 }
 ```

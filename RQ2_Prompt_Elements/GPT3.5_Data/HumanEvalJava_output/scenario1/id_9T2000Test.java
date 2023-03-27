@@ -1,146 +1,104 @@
-Here's the code for the RollingMaxTest class:
+Here's the source code for the RollingMaxTest class:
 
 ```
+package scenario1;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Test class of {@link RollingMax}.
+ * It contains ten unit test cases for the {@link RollingMax#rollingMax(List)} method.
+ */
 class RollingMaxTest {
 
     @Test
     void testEmptyList() {
-        List<Object> numbers = new ArrayList<Object>();
-        List<Object> expected = new ArrayList<Object>();
+        List<Object> numbers = new ArrayList<>();
+        List<Object> expected = new ArrayList<>();
         List<Object> actual = RollingMax.rollingMax(numbers);
         assertEquals(expected, actual);
     }
 
     @Test
     void testSingleNumber() {
-        List<Object> numbers = new ArrayList<Object>();
-        numbers.add(5);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(5);
+        List<Object> numbers = Arrays.asList(5);
+        List<Object> expected = Arrays.asList(5);
         List<Object> actual = RollingMax.rollingMax(numbers);
         assertEquals(expected, actual);
     }
 
     @Test
     void testIncreasingNumbers() {
-        List<Object> numbers = new ArrayList<Object>();
-        numbers.add(1);
-        numbers.add(2);
-        numbers.add(3);
-        numbers.add(4);
-        numbers.add(5);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(3);
-        expected.add(4);
-        expected.add(5);
+        List<Object> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        List<Object> expected = Arrays.asList(1, 2, 3, 4, 5);
         List<Object> actual = RollingMax.rollingMax(numbers);
         assertEquals(expected, actual);
     }
 
     @Test
     void testDecreasingNumbers() {
-        List<Object> numbers = new ArrayList<Object>();
-        numbers.add(5);
-        numbers.add(4);
-        numbers.add(3);
-        numbers.add(2);
-        numbers.add(1);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(5);
-        expected.add(5);
-        expected.add(5);
-        expected.add(5);
-        expected.add(5);
+        List<Object> numbers = Arrays.asList(5, 4, 3, 2, 1);
+        List<Object> expected = Arrays.asList(5, 5, 5, 5, 5);
+        List<Object> actual = RollingMax.rollingMax(numbers);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testRandomNumbers() {
+        List<Object> numbers = Arrays.asList(3, 1, 4, 1, 5, 9, 2, 6, 5, 3);
+        List<Object> expected = Arrays.asList(3, 3, 4, 4, 5, 9, 9, 9, 9, 9);
         List<Object> actual = RollingMax.rollingMax(numbers);
         assertEquals(expected, actual);
     }
 
     @Test
     void testMixedNumbers() {
-        List<Object> numbers = new ArrayList<Object>();
-        numbers.add(1);
-        numbers.add(5);
-        numbers.add(3);
-        numbers.add(2);
-        numbers.add(4);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(1);
-        expected.add(5);
-        expected.add(5);
-        expected.add(5);
-        expected.add(5);
+        List<Object> numbers = Arrays.asList(1, 2, 3, "4", 5, 6, "7", 8, 9);
+        assertThrows(IllegalArgumentException.class, () -> RollingMax.rollingMax(numbers));
+    }
+
+    @Test
+    void testNullNumber() {
+        List<Object> numbers = Arrays.asList(1, 2, null, 4, 5);
+        assertThrows(NullPointerException.class, () -> RollingMax.rollingMax(numbers));
+    }
+
+    @Test
+    void testLargeNumbers() {
+        List<Object> numbers = Arrays.asList(Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        List<Object> expected = Arrays.asList(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        List<Object> actual = RollingMax.rollingMax(numbers);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testDuplicateNumbers() {
+        List<Object> numbers = Arrays.asList(1, 2, 2, 3, 3, 3, 4, 4, 4, 4);
+        List<Object> expected = Arrays.asList(1, 2, 2, 3, 3, 3, 4, 4, 4, 4);
         List<Object> actual = RollingMax.rollingMax(numbers);
         assertEquals(expected, actual);
     }
 
     @Test
     void testNegativeNumbers() {
-        List<Object> numbers = new ArrayList<Object>();
-        numbers.add(-5);
-        numbers.add(-2);
-        numbers.add(-10);
-        numbers.add(-8);
-        numbers.add(-3);
-        List<Object> expected = new ArrayList<Object>();
-        expected.add(-5);
-        expected.add(-2);
-        expected.add(-2);
-        expected.add(-2);
-        expected.add(-2);
+        List<Object> numbers = Arrays.asList(-5, -2, -10, -8, -3);
+        List<Object> expected = Arrays.asList(-5, -2, -2, -2, -2);
         List<Object> actual = RollingMax.rollingMax(numbers);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMixedTypes() {
-        List<Object> numbers = new ArrayList<Object>();
-        numbers.add(1);
-        numbers.add(2);
-        numbers.add("3");
-        numbers.add(4);
-        numbers.add(5);
-        assertThrows(IllegalArgumentException.class, () -> {
-            RollingMax.rollingMax(numbers);
-        });
-    }
-
-    @Test
-    void testNullInput() {
-        assertThrows(NullPointerException.class, () -> {
-            RollingMax.rollingMax(null);
-        });
-    }
-
-    @Test
-    void testLargeInput() {
-        List<Object> numbers = new ArrayList<Object>();
-        for (int i = 0; i < 1000000; i++) {
-            numbers.add(i);
-        }
-        List<Object> expected = new ArrayList<Object>();
-        for (int i = 0; i < 1000000; i++) {
-            expected.add(i);
-        }
-        List<Object> actual = RollingMax.rollingMax(numbers);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testLargeNegativeInput() {
-        List<Object> numbers = new ArrayList<Object>();
-        for (int i = -1000000; i < 0; i++) {
-            numbers.add(i);
-        }
-        List<Object> expected = new ArrayList<Object>();
-        for (int i = -1000000; i < 0; i++) {
-            expected.add(-i);
-        }
+    void testMixedNegativeNumbers() {
+        List<Object> numbers = Arrays.asList(-5, -2, 3, -10, 8, -8, -3);
+        List<Object> expected = Arrays.asList(-5, -2, 3, 3, 8, 8, 8);
         List<Object> actual = RollingMax.rollingMax(numbers);
         assertEquals(expected, actual);
     }
 }
 ```
 
-This test class contains ten unit test cases for the `RollingMax.rollingMax(List)` method. The test cases cover various scenarios such as empty list, single number, increasing numbers, decreasing numbers, mixed numbers, negative numbers, mixed types, null input, large input, and large negative input. Each test case uses the `assertEquals` method to compare the expected output with the actual output of the `RollingMax.rollingMax(List)` method. If the expected output and the actual output are not equal, the test case fails.
+This class contains ten unit test cases for the `RollingMax` class. The test cases cover various scenarios, including empty lists, single numbers, increasing and decreasing numbers, random numbers, mixed numbers, null numbers, large numbers, duplicate numbers, and negative numbers. The test cases use the `assertEquals` method to compare the expected output with the actual output of the `rollingMax` method. The `assertThrows` method is used to test for exceptions.

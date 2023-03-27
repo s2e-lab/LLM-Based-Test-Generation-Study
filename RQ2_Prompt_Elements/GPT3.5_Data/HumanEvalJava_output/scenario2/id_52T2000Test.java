@@ -1,6 +1,4 @@
-Here's the code for the test class:
-
-```
+// BelowThresholdTest.java
 package scenario2;
 
 import java.util.Arrays;
@@ -8,68 +6,69 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link BelowThreshold}.
+* It contains ten unit test cases for the {@link BelowThreshold#belowThreshold(List, int)} method.
+*/
 class BelowThresholdTest {
-
+    
     @Test
-    void testBelowThresholdAllBelow() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5);
-        assertTrue(BelowThreshold.belowThreshold(l, 6));
-    }
-
-    @Test
-    void testBelowThresholdAllAbove() {
-        List<Integer> l = Arrays.asList(6, 7, 8, 9, 10);
-        assertFalse(BelowThreshold.belowThreshold(l, 6));
-    }
-
-    @Test
-    void testBelowThresholdMixed() {
-        List<Integer> l = Arrays.asList(1, 2, 6, 4, 5);
-        assertFalse(BelowThreshold.belowThreshold(l, 6));
-    }
-
-    @Test
-    void testBelowThresholdEmptyList() {
+    void testEmptyList() {
         List<Integer> l = Arrays.asList();
-        assertTrue(BelowThreshold.belowThreshold(l, 6));
+        assertTrue(BelowThreshold.belowThreshold(l, 5));
     }
-
+    
     @Test
-    void testBelowThresholdSingleElementBelow() {
-        List<Integer> l = Arrays.asList(5);
-        assertTrue(BelowThreshold.belowThreshold(l, 6));
+    void testAllNumbersBelowThreshold() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 4);
+        assertTrue(BelowThreshold.belowThreshold(l, 5));
     }
-
+    
     @Test
-    void testBelowThresholdSingleElementAbove() {
-        List<Integer> l = Arrays.asList(7);
-        assertFalse(BelowThreshold.belowThreshold(l, 6));
+    void testAllNumbersAboveThreshold() {
+        List<Integer> l = Arrays.asList(6, 7, 8, 9);
+        assertFalse(BelowThreshold.belowThreshold(l, 5));
     }
-
+    
     @Test
-    void testBelowThresholdMultipleElementsBelow() {
-        List<Integer> l = Arrays.asList(1, 2, 3);
-        assertTrue(BelowThreshold.belowThreshold(l, 4));
+    void testOneNumberEqualToThreshold() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5);
+        assertFalse(BelowThreshold.belowThreshold(l, 5));
     }
-
+    
     @Test
-    void testBelowThresholdMultipleElementsAbove() {
-        List<Integer> l = Arrays.asList(5, 6, 7);
-        assertFalse(BelowThreshold.belowThreshold(l, 4));
+    void testOneNumberAboveThreshold() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 4, 6);
+        assertFalse(BelowThreshold.belowThreshold(l, 5));
     }
-
+    
     @Test
-    void testBelowThresholdDuplicateElements() {
-        List<Integer> l = Arrays.asList(1, 2, 2, 3);
-        assertTrue(BelowThreshold.belowThreshold(l, 4));
+    void testOneNumberBelowThreshold() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 4, 4);
+        assertTrue(BelowThreshold.belowThreshold(l, 5));
     }
-
+    
     @Test
-    void testBelowThresholdNegativeElements() {
-        List<Integer> l = Arrays.asList(-5, -4, -3);
+    void testNegativeNumbers() {
+        List<Integer> l = Arrays.asList(-4, -3, -2, -1);
         assertTrue(BelowThreshold.belowThreshold(l, 0));
     }
+    
+    @Test
+    void testMixedNumbers() {
+        List<Integer> l = Arrays.asList(-4, 0, 2, 4);
+        assertTrue(BelowThreshold.belowThreshold(l, 5));
+    }
+    
+    @Test
+    void testLargeNumbers() {
+        List<Integer> l = Arrays.asList(1000000, 2000000, 3000000);
+        assertTrue(BelowThreshold.belowThreshold(l, 5000000));
+    }
+    
+    @Test
+    void testRepeatedNumbers() {
+        List<Integer> l = Arrays.asList(1, 1, 1, 1);
+        assertTrue(BelowThreshold.belowThreshold(l, 2));
+    }
 }
-```
-
-This test class contains ten test cases for the `belowThreshold` method of the `BelowThreshold` class. The test cases cover a range of scenarios, including empty lists, single-element lists, lists with duplicate elements, and lists with negative elements. The test cases ensure that the `belowThreshold` method returns the correct result for each scenario.

@@ -1,15 +1,6 @@
-Here's the source code for the `FibfibTest` class:
-
-```
-package scenario2;
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link Fibfib}.
- * It contains ten unit test cases for the {@link Fibfib#fibfib(int)} method.
- */
 class FibfibTest {
 
     @Test
@@ -62,6 +53,3 @@ class FibfibTest {
         assertEquals(44, Fibfib.fibfib(9));
     }
 }
-```
-
-This class contains ten test methods, each of which tests the `Fibfib.fibfib()` method with a different input value. The `assertEquals()` method is used to check that the actual result of the `Fibfib.fibfib()` method matches the expected result. If the actual and expected results do not match, the test will fail.

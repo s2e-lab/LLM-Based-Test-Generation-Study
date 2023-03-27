@@ -53,49 +53,49 @@ class CountNumsTest {
     }
 
     @Test
-    void testCountNums_singleDigitPositive() {
-        List<Object> arr = Arrays.asList(5);
-        int expected = 1;
+    void testCountNums_singleDigit() {
+        List<Object> arr = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        int expected = 9;
         int actual = CountNums.countNums(arr);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testCountNums_singleDigitNegative() {
-        List<Object> arr = Arrays.asList(-5);
-        int expected = 1;
+    void testCountNums_multipleDigits() {
+        List<Object> arr = Arrays.asList(10, 20, 30, 40, 50, 60, 70, 80, 90);
+        int expected = 9;
         int actual = CountNums.countNums(arr);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testCountNums_multipleDigitsPositive() {
-        List<Object> arr = Arrays.asList(12345, 67890);
-        int expected = 2;
+    void testCountNums_negativeSingleDigit() {
+        List<Object> arr = Arrays.asList(-1, -2, -3, -4, -5, -6, -7, -8, -9);
+        int expected = 9;
         int actual = CountNums.countNums(arr);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testCountNums_multipleDigitsNegative() {
-        List<Object> arr = Arrays.asList(-12345, -67890);
-        int expected = 2;
+    void testCountNums_negativeMultipleDigits() {
+        List<Object> arr = Arrays.asList(-10, -20, -30, -40, -50, -60, -70, -80, -90);
+        int expected = 9;
         int actual = CountNums.countNums(arr);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testCountNums_mixedDigits() {
-        List<Object> arr = Arrays.asList(-12345, 67890);
-        int expected = 2;
+    void testCountNums_mixedSingleDigit() {
+        List<Object> arr = Arrays.asList(-1, 2, -3, 4, -5, 6, -7, 8, -9);
+        int expected = 9;
         int actual = CountNums.countNums(arr);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testCountNums_largeNumbers() {
-        List<Object> arr = Arrays.asList(1234567890, -987654321);
-        int expected = 2;
+    void testCountNums_mixedMultipleDigits() {
+        List<Object> arr = Arrays.asList(-10, 20, -30, 40, -50, 60, -70, 80, -90);
+        int expected = 9;
         int actual = CountNums.countNums(arr);
         assertEquals(expected, actual);
     }

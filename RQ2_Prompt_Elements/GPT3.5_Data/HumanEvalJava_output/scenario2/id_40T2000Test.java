@@ -11,70 +11,64 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link TriplesSumToZero#triplesSumToZero(List)} method.
 */
 class TriplesSumToZeroTest {
-
+    
     @Test
     void testEmptyList() {
         List<Integer> l = Arrays.asList();
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithOneElement() {
         List<Integer> l = Arrays.asList(1);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithTwoElements() {
         List<Integer> l = Arrays.asList(1, 2);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithThreeElementsSummingToZero() {
-        List<Integer> l = Arrays.asList(-1, 0, 1);
+        List<Integer> l = Arrays.asList(1, -2, 1);
         assertTrue(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithThreeElementsNotSummingToZero() {
-        List<Integer> l = Arrays.asList(-1, 0, 2);
+        List<Integer> l = Arrays.asList(1, 2, 3);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithFourElementsSummingToZero() {
-        List<Integer> l = Arrays.asList(-1, 0, 1, 2);
+        List<Integer> l = Arrays.asList(1, -2, 1, 0);
         assertTrue(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithFourElementsNotSummingToZero() {
-        List<Integer> l = Arrays.asList(-1, 0, 2, 3);
+        List<Integer> l = Arrays.asList(1, 2, 3, 4);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithFiveElementsSummingToZero() {
-        List<Integer> l = Arrays.asList(-1, 0, 1, 2, -2);
+        List<Integer> l = Arrays.asList(1, -2, 1, 0, 0);
         assertTrue(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithFiveElementsNotSummingToZero() {
-        List<Integer> l = Arrays.asList(-1, 0, 1, 2, 3);
+        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
-
+    
     @Test
     void testListWithSixElementsSummingToZero() {
-        List<Integer> l = Arrays.asList(-1, 0, 1, 2, -2, 3);
+        List<Integer> l = Arrays.asList(1, -2, 1, 0, 0, 2);
         assertTrue(TriplesSumToZero.triplesSumToZero(l));
-    }
-
-    @Test
-    void testListWithSixElementsNotSummingToZero() {
-        List<Integer> l = Arrays.asList(-1, 0, 1, 2, 3, 4);
-        assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
 }

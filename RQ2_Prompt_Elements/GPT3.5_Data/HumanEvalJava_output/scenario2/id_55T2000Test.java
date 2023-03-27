@@ -1,6 +1,4 @@
-Here's the source code for the `FibTest` class:
-
-```
+// FibTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
@@ -13,55 +11,52 @@ import static org.junit.jupiter.api.Assertions.*;
 class FibTest {
 
     @Test
-    void testFib0() {
+    void testFibonacciZero() {
         assertEquals(0, Fib.fib(0));
     }
 
     @Test
-    void testFib1() {
+    void testFibonacciOne() {
         assertEquals(1, Fib.fib(1));
     }
 
     @Test
-    void testFib2() {
+    void testFibonacciTwo() {
         assertEquals(1, Fib.fib(2));
     }
 
     @Test
-    void testFib3() {
+    void testFibonacciThree() {
         assertEquals(2, Fib.fib(3));
     }
 
     @Test
-    void testFib4() {
+    void testFibonacciFour() {
         assertEquals(3, Fib.fib(4));
     }
 
     @Test
-    void testFib5() {
+    void testFibonacciFive() {
         assertEquals(5, Fib.fib(5));
     }
 
     @Test
-    void testFib6() {
+    void testFibonacciSix() {
         assertEquals(8, Fib.fib(6));
     }
 
     @Test
-    void testFib7() {
+    void testFibonacciSeven() {
         assertEquals(13, Fib.fib(7));
     }
 
     @Test
-    void testFib8() {
+    void testFibonacciEight() {
         assertEquals(21, Fib.fib(8));
     }
 
     @Test
-    void testFib9() {
+    void testFibonacciNine() {
         assertEquals(34, Fib.fib(9));
     }
 }
-```
-
-This class contains ten test methods, each of which calls the `Fib.fib()` method with a different input value and checks that the output is correct using the `assertEquals()` method from JUnit.

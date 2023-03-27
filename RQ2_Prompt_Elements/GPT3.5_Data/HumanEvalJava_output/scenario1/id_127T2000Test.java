@@ -1,1 +1,1 @@
-I'm sorry, but the code you provided is incomplete. It seems that the class `IntersectionTest` is not closed properly. Can you please provide the complete code for `IntersectionTest`?
+I'm sorry, but the code you provided is incomplete. Please provide the full code so I can assist you better.

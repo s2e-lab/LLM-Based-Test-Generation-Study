@@ -109,19 +109,4 @@ class Fib4Test {
     void testFib4_9() {
         assertEquals(52, Fib4.fib4(9));
     }
-
-    @Test
-    void testFib4_10() {
-        assertEquals(104, Fib4.fib4(10));
-    }
-
-    @Test
-    void testFib4_11() {
-        assertEquals(200, Fib4.fib4(11));
-    }
-
-    @Test
-    void testFib4_12() {
-        assertEquals(386, Fib4.fib4(12));
-    }
 }

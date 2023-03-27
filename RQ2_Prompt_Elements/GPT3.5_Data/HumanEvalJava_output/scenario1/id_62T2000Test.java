@@ -24,71 +24,64 @@ class DerivativeTest {
 
     @Test
     void testDerivativeWithSingleElementList() {
-        List<Integer> xs = Arrays.asList(1);
+        List<Integer> xs = Arrays.asList(5);
         List<Object> expected = new ArrayList<>();
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
     void testDerivativeWithTwoElementList() {
-        List<Integer> xs = Arrays.asList(1, 2);
-        List<Object> expected = Arrays.asList(2);
+        List<Integer> xs = Arrays.asList(5, 7);
+        List<Object> expected = Arrays.asList(7);
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
     void testDerivativeWithThreeElementList() {
-        List<Integer> xs = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(2, 6);
+        List<Integer> xs = Arrays.asList(5, 7, 9);
+        List<Object> expected = Arrays.asList(7, 18);
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
     void testDerivativeWithFourElementList() {
-        List<Integer> xs = Arrays.asList(1, 2, 3, 4);
-        List<Object> expected = Arrays.asList(2, 6, 12);
+        List<Integer> xs = Arrays.asList(5, 7, 9, 11);
+        List<Object> expected = Arrays.asList(7, 18, 33);
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
     void testDerivativeWithFiveElementList() {
-        List<Integer> xs = Arrays.asList(1, 2, 3, 4, 5);
-        List<Object> expected = Arrays.asList(2, 6, 12, 20);
+        List<Integer> xs = Arrays.asList(5, 7, 9, 11, 13);
+        List<Object> expected = Arrays.asList(7, 18, 33, 52);
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
-    void testDerivativeWithSixElementList() {
-        List<Integer> xs = Arrays.asList(1, 2, 3, 4, 5, 6);
-        List<Object> expected = Arrays.asList(2, 6, 12, 20, 30);
+    void testDerivativeWithNegativeElements() {
+        List<Integer> xs = Arrays.asList(-5, -7, -9, -11, -13);
+        List<Object> expected = Arrays.asList(-7, -18, -33, -52);
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
-    void testDerivativeWithSevenElementList() {
-        List<Integer> xs = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
-        List<Object> expected = Arrays.asList(2, 6, 12, 20, 30, 42);
+    void testDerivativeWithMixedElements() {
+        List<Integer> xs = Arrays.asList(-5, 7, -9, 11, -13);
+        List<Object> expected = Arrays.asList(7, -18, 33, -52);
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
-    void testDerivativeWithEightElementList() {
-        List<Integer> xs = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
-        List<Object> expected = Arrays.asList(2, 6, 12, 20, 30, 42, 56);
+    void testDerivativeWithZeroElement() {
+        List<Integer> xs = Arrays.asList(5, 0, 9, 11, 13);
+        List<Object> expected = Arrays.asList(0, 18, 33, 52);
         assertEquals(expected, Derivative.derivative(xs));
     }
 
     @Test
-    void testDerivativeWithNineElementList() {
-        List<Integer> xs = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Object> expected = Arrays.asList(2, 6, 12, 20, 30, 42, 56, 72);
-        assertEquals(expected, Derivative.derivative(xs));
-    }
-
-    @Test
-    void testDerivativeWithTenElementList() {
-        List<Integer> xs = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        List<Object> expected = Arrays.asList(2, 6, 12, 20, 30, 42, 56, 72, 90);
+    void testDerivativeWithMaxIntegerValue() {
+        List<Integer> xs = Arrays.asList(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        List<Object> expected = Arrays.asList(Integer.MAX_VALUE, Integer.MAX_VALUE * 2);
         assertEquals(expected, Derivative.derivative(xs));
     }
 }

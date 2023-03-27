@@ -84,44 +84,44 @@ class CountNumsTest {
     }
     
     @Test
-    void testOnePositive() {
+    void testMixedNumbers() {
+        List<Integer> arr = Arrays.asList(1, 1, 2, -2, 3, 4, 5);
+        assertEquals(6, CountNums.countNums(arr));
+    }
+    
+    @Test
+    void testMixedNumbersWithZeros() {
+        List<Integer> arr = Arrays.asList(1, 6, 9, -6, 0, 1, 5);
+        assertEquals(5, CountNums.countNums(arr));
+    }
+    
+    @Test
+    void testMixedNumbersWithNegatives() {
+        List<Integer> arr = Arrays.asList(1, 100, 98, -7, 1, -1);
+        assertEquals(4, CountNums.countNums(arr));
+    }
+    
+    @Test
+    void testMixedNumbersWithNegativesAndZeros() {
+        List<Integer> arr = Arrays.asList(12, 23, 34, -45, -56, 0);
+        assertEquals(5, CountNums.countNums(arr));
+    }
+    
+    @Test
+    void testSinglePositiveNumber() {
         List<Integer> arr = Arrays.asList(1);
         assertEquals(1, CountNums.countNums(arr));
     }
     
     @Test
-    void testOneNegative() {
+    void testSingleNegativeNumber() {
         List<Integer> arr = Arrays.asList(-1);
         assertEquals(1, CountNums.countNums(arr));
     }
     
     @Test
-    void testMixed() {
-        List<Integer> arr = Arrays.asList(1, 2, -3, 4, -5, 0);
-        assertEquals(4, CountNums.countNums(arr));
-    }
-    
-    @Test
-    void testMixedWithZeros() {
-        List<Integer> arr = Arrays.asList(1, 2, -3, 0, 4, -5, 0);
-        assertEquals(4, CountNums.countNums(arr));
-    }
-    
-    @Test
-    void testMixedWithLargeNumbers() {
-        List<Integer> arr = Arrays.asList(123, 456, -789, 0, 111, -222);
-        assertEquals(4, CountNums.countNums(arr));
-    }
-    
-    @Test
-    void testMixedWithSingleDigitNumbers() {
-        List<Integer> arr = Arrays.asList(1, 2, -3, 4, -5, 0, 11, -22);
-        assertEquals(6, CountNums.countNums(arr));
-    }
-    
-    @Test
-    void testMixedWithMultipleDigitNumbers() {
-        List<Integer> arr = Arrays.asList(123, 456, -789, 0, 111, -222, 999);
-        assertEquals(5, CountNums.countNums(arr));
+    void testMixedNumbersWithSingleZero() {
+        List<Integer> arr = Arrays.asList(0, 1);
+        assertEquals(1, CountNums.countNums(arr));
     }
 }

@@ -1,5 +1,5 @@
 // FindMax.java
-package revised;
+package updated;
 
 import java.util.HashSet;
 import java.util.List;
@@ -61,7 +61,7 @@ public class FindMax {
 }
 
 // FindMaxTest.java
-package revised;
+package updated;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,22 +73,22 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link FindMax#findMax(List)} method.
 */
 class FindMaxTest {
-    
+
     @Test
     void testFindMaxWithNullList() {
         assertNull(FindMax.findMax(null));
     }
-    
+
     @Test
     void testFindMaxWithEmptyList() {
         assertNull(FindMax.findMax(Arrays.asList()));
     }
-    
+
     @Test
     void testFindMaxWithOneElement() {
         assertEquals("b", FindMax.findMax(Arrays.asList("b")));
     }
-    
+
     @Test
     void testFindMaxWithMultipleElements() {
         assertEquals("string", FindMax.findMax(Arrays.asList("name", "of", "string")));
@@ -101,11 +101,11 @@ class FindMaxTest {
         assertEquals("this", FindMax.findMax(Arrays.asList("this", "is", "a", "prrk")));
         assertEquals("play", FindMax.findMax(Arrays.asList("play", "play", "play")));
     }
-    
+
     @Test
     void testFindMaxWithDuplicateMaxUniqueElements() {
         assertEquals("abc", FindMax.findMax(Arrays.asList("abc", "cba", "bac")));
-        assertEquals("enam", FindMax.findMax(Arrays.asList("enam", "name", "amen")));
-        assertEquals("footbott", FindMax.findMax(Arrays.asList("footbott", "bootfott", "tootfbto")));
+        assertEquals("enam", FindMax.findMax(Arrays.asList("name", "enam", "amen")));
+        assertEquals("footbott", FindMax.findMax(Arrays.asList("play", "this", "game", "of", "footbott", "bottfoot")));
     }
 }

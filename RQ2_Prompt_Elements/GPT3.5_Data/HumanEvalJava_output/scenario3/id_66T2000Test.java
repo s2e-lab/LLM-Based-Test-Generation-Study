@@ -61,28 +61,47 @@ class DigitsumTest {
     }
 
     @Test
-    void testAllLowerCase() {
+    void testLowerCaseOnly() {
         assertEquals(0, Digitsum.digitSum("abcde"));
     }
 
     @Test
-    void testAllUpperCase() {
-        assertEquals(429, Digitsum.digitSum("ABCDE"));
+    void testUpperCaseOnly() {
+        assertEquals(327, Digitsum.digitSum("YOU ARE VERY SMART"));
     }
 
     @Test
     void testMixedCase() {
-        assertEquals(131, Digitsum.digitSum("abAB"));
-        assertEquals(67, Digitsum.digitSum("abcCd"));
-        assertEquals(69, Digitsum.digitSum("helloE"));
-        assertEquals(131, Digitsum.digitSum("woArBld"));
-        assertEquals(153, Digitsum.digitSum("aAaaaXa"));
         assertEquals(151, Digitsum.digitSum(" How are yOu?"));
-        assertEquals(327, Digitsum.digitSum("You arE Very Smart"));
     }
 
     @Test
-    void testNonAlphabeticCharacters() {
-        assertEquals(429, Digitsum.digitSum("123!@#$"));
+    void testAllUpperCase() {
+        assertEquals(131, Digitsum.digitSum("ABCD"));
+    }
+
+    @Test
+    void testAllLowerCase() {
+        assertEquals(0, Digitsum.digitSum("abcd"));
+    }
+
+    @Test
+    void testMixedCaseWithNumbers() {
+        assertEquals(153, Digitsum.digitSum("aAaaaXa"));
+    }
+
+    @Test
+    void testMixedCaseWithSpecialCharacters() {
+        assertEquals(67, Digitsum.digitSum("abcCd"));
+    }
+
+    @Test
+    void testMixedCaseWithSpaces() {
+        assertEquals(131, Digitsum.digitSum("woArBld"));
+    }
+
+    @Test
+    void testMixedCaseWithSpacesAndNumbers() {
+        assertEquals(131, Digitsum.digitSum("woArBld123"));
     }
 }

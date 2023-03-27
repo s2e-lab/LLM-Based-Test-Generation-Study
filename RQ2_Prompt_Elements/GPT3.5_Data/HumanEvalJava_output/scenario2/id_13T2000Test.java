@@ -1,7 +1,6 @@
-Here's the code for the `GreatestCommonDivisorTest` class:
+Here's the code for the test class:
 
 ```
-// GreatestCommonDivisorTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
@@ -38,15 +37,15 @@ class GreatestCommonDivisorTest {
     }
 
     @Test
-    void testGCDWithSameNumbers() {
-        int result = GreatestCommonDivisor.greatestCommonDivisor(12, 12);
-        assertEquals(12, result);
-    }
-
-    @Test
     void testGCDWithOne() {
         int result = GreatestCommonDivisor.greatestCommonDivisor(12, 1);
         assertEquals(1, result);
+    }
+
+    @Test
+    void testGCDWithSameNumbers() {
+        int result = GreatestCommonDivisor.greatestCommonDivisor(12, 12);
+        assertEquals(12, result);
     }
 
     @Test
@@ -62,17 +61,17 @@ class GreatestCommonDivisorTest {
     }
 
     @Test
-    void testGCDWithNegativePrimeNumbers() {
-        int result = GreatestCommonDivisor.greatestCommonDivisor(-17, -23);
-        assertEquals(1, result);
+    void testGCDWithOddAndEvenNumbers() {
+        int result = GreatestCommonDivisor.greatestCommonDivisor(12, 15);
+        assertEquals(3, result);
     }
 
     @Test
-    void testGCDWithOneNegativePrimeNumber() {
-        int result = GreatestCommonDivisor.greatestCommonDivisor(-17, 23);
-        assertEquals(1, result);
+    void testGCDWithEvenAndOddNumbers() {
+        int result = GreatestCommonDivisor.greatestCommonDivisor(15, 12);
+        assertEquals(3, result);
     }
 }
 ```
 
-This class contains ten test methods that test different scenarios for the `greatestCommonDivisor` method of the `GreatestCommonDivisor` class. Each test method uses the `assertEquals` method from the JUnit library to check if the actual result of the method call matches the expected result.
+This test class contains ten test cases that cover different scenarios for the `greatestCommonDivisor` method.

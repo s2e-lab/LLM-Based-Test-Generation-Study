@@ -1,91 +1,110 @@
-Here's the source code for the IntersperseTest class:
+// IntersperseTest.java
+package updated;
 
-```
-package original;
-
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link Intersperse}.
+ * It contains ten unit test cases for the {@link Intersperse#intersperse(List, int)} method.
+ */
 class IntersperseTest {
 
     @Test
-    void testEmptyList() {
-        List<Object> input = new ArrayList<>();
+    void testIntersperseWithEmptyList() {
+        List<Object> numbers = new ArrayList<>();
         List<Object> expected = new ArrayList<>();
-        assertEquals(expected, Intersperse.intersperse(input, 4));
+        int delimiter = 4;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
     }
 
     @Test
-    void testSingleElementList() {
-        List<Object> input = Arrays.asList(1);
+    void testIntersperseWithSingleElementList() {
+        List<Object> numbers = Arrays.asList(1);
         List<Object> expected = Arrays.asList(1);
-        assertEquals(expected, Intersperse.intersperse(input, 4));
+        int delimiter = 4;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
     }
 
     @Test
-    void testTwoElementList() {
-        List<Object> input = Arrays.asList(1, 2);
+    void testIntersperseWithTwoElementList() {
+        List<Object> numbers = Arrays.asList(1, 2);
         List<Object> expected = Arrays.asList(1, 4, 2);
-        assertEquals(expected, Intersperse.intersperse(input, 4));
+        int delimiter = 4;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
     }
 
     @Test
-    void testThreeElementList() {
-        List<Object> input = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(1, 4, 2, 4, 3);
-        assertEquals(expected, Intersperse.intersperse(input, 4));
-    }
-
-    @Test
-    void testFourElementList() {
-        List<Object> input = Arrays.asList(5, 6, 3, 2);
+    void testIntersperseWithMultipleElementList() {
+        List<Object> numbers = Arrays.asList(5, 6, 3, 2);
         List<Object> expected = Arrays.asList(5, 8, 6, 8, 3, 8, 2);
-        assertEquals(expected, Intersperse.intersperse(input, 8));
+        int delimiter = 8;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
     }
 
     @Test
-    void testAllSameElementList() {
-        List<Object> input = Arrays.asList(2, 2, 2);
+    void testIntersperseWithAllSameElements() {
+        List<Object> numbers = Arrays.asList(2, 2, 2);
         List<Object> expected = Arrays.asList(2, 2, 2, 2, 2);
-        assertEquals(expected, Intersperse.intersperse(input, 2));
+        int delimiter = 2;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
     }
 
     @Test
-    void testDelimiterAtBeginning() {
-        List<Object> input = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(4, 1, 4, 2, 4, 3);
-        assertEquals(expected, Intersperse.intersperse(input, 4));
-    }
-
-    @Test
-    void testDelimiterAtEnd() {
-        List<Object> input = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(1, 4, 2, 4, 3, 4);
-        assertEquals(expected, Intersperse.intersperse(input, 4));
-    }
-
-    @Test
-    void testNegativeDelimiter() {
-        List<Object> input = Arrays.asList(1, 2, 3);
+    void testIntersperseWithNegativeDelimiter() {
+        List<Object> numbers = Arrays.asList(1, 2, 3);
         List<Object> expected = Arrays.asList(1, -4, 2, -4, 3);
-        assertEquals(expected, Intersperse.intersperse(input, -4));
+        int delimiter = -4;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
     }
 
     @Test
-    void testZeroDelimiter() {
-        List<Object> input = Arrays.asList(1, 2, 3);
+    void testIntersperseWithZeroDelimiter() {
+        List<Object> numbers = Arrays.asList(1, 2, 3);
         List<Object> expected = Arrays.asList(1, 0, 2, 0, 3);
-        assertEquals(expected, Intersperse.intersperse(input, 0));
+        int delimiter = 0;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
     }
 
     @Test
-    void testNullInput() {
-        assertThrows(NullPointerException.class, () -> Intersperse.intersperse(null, 4));
+    void testIntersperseWithMaxValueDelimiter() {
+        List<Object> numbers = Arrays.asList(1, 2, 3);
+        List<Object> expected = Arrays.asList(1, Integer.MAX_VALUE, 2, Integer.MAX_VALUE, 3);
+        int delimiter = Integer.MAX_VALUE;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
+    }
+
+    @Test
+    void testIntersperseWithMinValueDelimiter() {
+        List<Object> numbers = Arrays.asList(1, 2, 3);
+        List<Object> expected = Arrays.asList(1, Integer.MIN_VALUE, 2, Integer.MIN_VALUE, 3);
+        int delimiter = Integer.MIN_VALUE;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
+    }
+
+    @Test
+    void testIntersperseWithNullList() {
+        List<Object> numbers = null;
+        int delimiter = 4;
+        assertThrows(NullPointerException.class, () -> Intersperse.intersperse(numbers, delimiter));
+    }
+
+    @Test
+    void testIntersperseWithLargeList() {
+        List<Object> numbers = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            numbers.add(i);
+        }
+        List<Object> expected = new ArrayList<>();
+        for (int i = 0; i < 999999; i++) {
+            expected.add(i);
+            expected.add(4);
+        }
+        expected.add(999999);
+        int delimiter = 4;
+        assertEquals(expected, Intersperse.intersperse(numbers, delimiter));
     }
 }
-```
-
-This test class contains ten test cases for the `intersperse` method of the `Intersperse` class. The test cases cover various scenarios, such as empty input list, single element list, list with all same elements, negative delimiter, zero delimiter, and null input. The expected output for each test case is compared with the actual output using the `assertEquals` method.

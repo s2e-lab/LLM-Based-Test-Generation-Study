@@ -12,20 +12,61 @@ class AddTest {
 
     @Test
     void testAddZero() {
-        assertEquals(0, Add.add(0, 0));
+        int result = Add.add(0, 0);
+        assertEquals(0, result);
     }
 
     @Test
     void testAddPositiveNumbers() {
-        assertEquals(2, Add.add(1, 1));
-        assertEquals(5, Add.add(2, 3));
-        assertEquals(12, Add.add(5, 7));
-        assertEquals(1297, Add.add(572, 725));
-        assertEquals(855, Add.add(51, 804));
-        assertEquals(741, Add.add(645, 96));
-        assertEquals(1565, Add.add(712, 853));
-        assertEquals(324, Add.add(223, 101));
-        assertEquals(105, Add.add(76, 29));
-        assertEquals(565, Add.add(416, 149));
+        int result = Add.add(2, 3);
+        assertEquals(5, result);
+    }
+
+    @Test
+    void testAddNegativeNumbers() {
+        int result = Add.add(-2, -3);
+        assertEquals(-5, result);
+    }
+
+    @Test
+    void testAddPositiveAndNegativeNumbers() {
+        int result = Add.add(2, -3);
+        assertEquals(-1, result);
+    }
+
+    @Test
+    void testAddMaxValue() {
+        int result = Add.add(Integer.MAX_VALUE, 1);
+        assertEquals(Integer.MIN_VALUE, result);
+    }
+
+    @Test
+    void testAddMinValue() {
+        int result = Add.add(Integer.MIN_VALUE, -1);
+        assertEquals(Integer.MAX_VALUE, result);
+    }
+
+    @Test
+    void testAddLargeNumbers() {
+        int result = Add.add(572, 725);
+        assertEquals(1297, result);
+    }
+
+    @Test
+    void testAddZeroAndPositiveNumber() {
+        int result = Add.add(0, 1);
+        assertEquals(1, result);
+    }
+
+    @Test
+    void testAddPositiveNumberAndZero() {
+        int result = Add.add(1, 0);
+        assertEquals(1, result);
+    }
+
+    @Test
+    void testAddNegativeNumberAndZero() {
+        int result = Add.add(-1, 0);
+        assertEquals(-1, result);
     }
 }

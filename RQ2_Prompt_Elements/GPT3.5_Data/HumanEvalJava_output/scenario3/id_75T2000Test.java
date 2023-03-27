@@ -36,42 +36,29 @@ class IsMultiplyPrime {
      */
     public static Boolean isMultiplyPrime(int a) {
         ArrayList<Integer> primes = new ArrayList<Integer>();
-        primes.add(2);
-        primes.add(3);
-        primes.add(5);
-        primes.add(7);
-        primes.add(11);
-        primes.add(13);
-        primes.add(17);
-        primes.add(19);
-        primes.add(23);
-        primes.add(29);
-        primes.add(31);
-        primes.add(37);
-        primes.add(41);
-        primes.add(43);
-        primes.add(47);
-        primes.add(53);
-        primes.add(59);
-        primes.add(61);
-        primes.add(67);
-        primes.add(71);
-        primes.add(73);
-        primes.add(79);
-        primes.add(83);
-        primes.add(89);
-        primes.add(97);
-
+        for (int i = 2; i <= a; i++) {
+            boolean isPrime = true;
+            for (int j = 2; j < i; j++) {
+                if (i % j == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+            if (isPrime) {
+                primes.add(i);
+            }
+        }
         int count = 0;
         for (int i = 0; i < primes.size(); i++) {
-            if (a % primes.get(i) == 0) {
-                count++;
-                if (count == 3) {
-                    return true;
+            for (int j = i + 1; j < primes.size(); j++) {
+                for (int k = j + 1; k < primes.size(); k++) {
+                    if (primes.get(i) * primes.get(j) * primes.get(k) == a) {
+                        count++;
+                    }
                 }
             }
         }
-        return false;
+        return count == 1;
     }
 }
 

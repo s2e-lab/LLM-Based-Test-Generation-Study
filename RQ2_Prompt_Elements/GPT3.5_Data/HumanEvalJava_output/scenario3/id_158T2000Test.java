@@ -41,14 +41,12 @@ class FindMax {
         int maxUniqueChars = 0;
         for (String word : words) {
             Set<Character> uniqueChars = new HashSet<>();
-            for (int i = 0; i < word.length(); i++) {
-                uniqueChars.add(word.charAt(i));
+            for (char c : word.toCharArray()) {
+                uniqueChars.add(c);
             }
-            if (uniqueChars.size() > maxUniqueChars) {
+            if (uniqueChars.size() > maxUniqueChars || (uniqueChars.size() == maxUniqueChars && word.compareTo(maxWord) < 0)) {
+                maxWord = word;
                 maxUniqueChars = uniqueChars.size();
-                maxWord = word;
-            } else if (uniqueChars.size() == maxUniqueChars && word.compareTo(maxWord) < 0) {
-                maxWord = word;
             }
         }
         return maxWord;

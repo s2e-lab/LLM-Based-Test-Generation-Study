@@ -1,7 +1,36 @@
-Here's the source code for the IncrListTest class:
+// IncrList.java
+package updated;
 
-```
-package original;
+import java.util.ArrayList;
+import java.util.List;
+
+class IncrList {
+
+    /**
+     * Return list with elements incremented by 1.
+     *
+     * > incrList([1, 2, 3])
+     * [2, 3, 4]
+     * > incrList([5, 3, 5, 2, 3, 3, 9, 0, 123])
+     * [6, 4, 6, 3, 4, 4, 10, 1, 124]
+     * > incrList([])
+     * []
+     * > incrList([3, 2, 1])
+     * [4, 3, 2]
+     * > incrList([5, 2, 5, 2, 3, 3, 9, 0, 123])
+     * [6, 3, 6, 3, 4, 4, 10, 1, 124]
+     */
+    public static List<Integer> incrList(List<Integer> l) {
+        List<Integer> result = new ArrayList<Integer>();
+        for (Integer value : l) {
+            result.add(value + 1);
+        }
+        return result;
+    }
+}
+
+// IncrListTest.java
+package updated;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,50 +38,87 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link IncrList}.
+* It contains ten unit test cases for the {@link IncrList#incrList(List)} method.
+*/
 class IncrListTest {
-
+    
     @Test
-    void testIncrList() {
-        List<Object> input = new ArrayList<>(Arrays.asList(1, 2, 3));
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 3, 4));
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = new ArrayList<>(Arrays.asList(5, 3, 5, 2, 3, 3, 9, 0, 123));
-        expected = new ArrayList<>(Arrays.asList(6, 4, 6, 3, 4, 4, 10, 1, 124));
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = new ArrayList<>();
-        expected = new ArrayList<>();
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = new ArrayList<>(Arrays.asList(3, 2, 1));
-        expected = new ArrayList<>(Arrays.asList(4, 3, 2));
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = new ArrayList<>(Arrays.asList(5, 2, 5, 2, 3, 3, 9, 0, 123));
-        expected = new ArrayList<>(Arrays.asList(6, 3, 6, 3, 4, 4, 10, 1, 124));
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = new ArrayList<>(Arrays.asList(1, "two", 3));
-        expected = new ArrayList<>(Arrays.asList(2, 4));
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = new ArrayList<>(Arrays.asList("hello", "world"));
-        expected = new ArrayList<>();
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = new ArrayList<>(Arrays.asList(1.5, 2.5, 3.5));
-        expected = new ArrayList<>();
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = new ArrayList<>(Arrays.asList(null, 2, 3));
-        expected = new ArrayList<>();
-        assertEquals(expected, IncrList.incrList(input));
-
-        input = null;
-        assertThrows(NullPointerException.class, () -> IncrList.incrList(input));
+    void testIncrListWithPositiveNumbers() {
+        List<Integer> input = Arrays.asList(1, 2, 3);
+        List<Integer> expectedOutput = Arrays.asList(2, 3, 4);
+        assertEquals(expectedOutput, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithMixedNumbers() {
+        List<Integer> input = Arrays.asList(5, 3, 5, 2, 3, 3, 9, 0, 123);
+        List<Integer> expectedOutput = Arrays.asList(6, 4, 6, 3, 4, 4, 10, 1, 124);
+        assertEquals(expectedOutput, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithEmptyList() {
+        List<Integer> input = new ArrayList<Integer>();
+        List<Integer> expectedOutput = new ArrayList<Integer>();
+        assertEquals(expectedOutput, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithDescendingNumbers() {
+        List<Integer> input = Arrays.asList(3, 2, 1);
+        List<Integer> expectedOutput = Arrays.asList(4, 3, 2);
+        assertEquals(expectedOutput, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithRepeatedNumbers() {
+        List<Integer> input = Arrays.asList(5, 2, 5, 2, 3, 3, 9, 0, 123);
+        List<Integer> expectedOutput = Arrays.asList(6, 3, 6, 3, 4, 4, 10, 1, 124);
+        assertEquals(expectedOutput, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithNull() {
+        List<Integer> input = null;
+        assertThrows(NullPointerException.class, () -> {
+            IncrList.incrList(input);
+        });
+    }
+    
+    @Test
+    void testIncrListWithNonIntegerValues() {
+        List<Object> input = Arrays.asList("a", 2, 3.5, true);
+        assertThrows(ClassCastException.class, () -> {
+            IncrList.incrList(input);
+        });
+    }
+    
+    @Test
+    void testIncrListWithMaxIntegerValue() {
+        List<Integer> input = Arrays.asList(Integer.MAX_VALUE);
+        List<Integer> expectedOutput = Arrays.asList(Integer.MIN_VALUE);
+        assertEquals(expectedOutput, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithMinIntegerValue() {
+        List<Integer> input = Arrays.asList(Integer.MIN_VALUE);
+        List<Integer> expectedOutput = Arrays.asList(Integer.MIN_VALUE + 1);
+        assertEquals(expectedOutput, IncrList.incrList(input));
+    }
+    
+    @Test
+    void testIncrListWithLargeList() {
+        List<Integer> input = new ArrayList<Integer>();
+        for (int i = 0; i < 1000000; i++) {
+            input.add(i);
+        }
+        List<Integer> expectedOutput = new ArrayList<Integer>();
+        for (int i = 0; i < 1000000; i++) {
+            expectedOutput.add(i + 1);
+        }
+        assertEquals(expectedOutput, IncrList.incrList(input));
     }
 }
-```
-
-This test class contains ten unit test cases for the `incrList` method of the `IncrList` class. The test cases cover various scenarios, including empty lists, lists with only non-integer elements, and null input. The `assertEquals` method is used to compare the expected output with the actual output of the `incrList` method. The `assertThrows` method is used to test for a `NullPointerException` when the input list is null.

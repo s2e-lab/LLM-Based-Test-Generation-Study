@@ -1,6 +1,4 @@
-Here's the completed code for the `CheckIfLastCharIsALetterTest` class:
-
-```
+// CheckIfLastCharIsALetterTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
@@ -28,40 +26,37 @@ class CheckIfLastCharIsALetterTest {
     }
 
     @Test
-    void testLetterInWord() {
+    void testSingleLetterInWord() {
         assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("hello"));
     }
 
     @Test
-    void testNonLetterInWord() {
+    void testSingleNonLetterInWord() {
         assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("hello1"));
     }
 
     @Test
-    void testLetterAfterSpace() {
-        assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("hello world a"));
+    void testMultipleLetters() {
+        assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("abc def ghi jkl mno pqr stu vwx yz a"));
     }
 
     @Test
-    void testNonLetterAfterSpace() {
-        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("hello world 1"));
+    void testMultipleNonLetters() {
+        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("abc def ghi jkl mno pqr stu vwx yz 1"));
     }
 
     @Test
-    void testLetterAfterPunctuation() {
-        assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("hello, world! a"));
+    void testMultipleLettersInWord() {
+        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("abc def ghi jkl mno pqr stu vwx yz hello"));
     }
 
     @Test
-    void testNonLetterAfterPunctuation() {
-        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("hello, world! 1"));
+    void testMultipleNonLettersInWord() {
+        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("abc def ghi jkl mno pqr stu vwx yz hello1"));
     }
 
     @Test
-    void testMultipleSpaces() {
-        assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("hello   a"));
+    void testMultipleWords() {
+        assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("abc def ghi jkl mno pqr stu vwx yz a b c"));
     }
 }
-```
-
-This test class contains ten test cases that cover various scenarios for the `checkIfLastCharIsALetter` method. The `@Test` annotation is used to mark each test method, and the `assertTrue` and `assertFalse` methods are used to assert the expected result of each test case.

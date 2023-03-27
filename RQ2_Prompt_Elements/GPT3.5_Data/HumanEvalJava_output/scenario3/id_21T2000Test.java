@@ -90,12 +90,12 @@ class RescaleToUnitTest {
         List<Double> expectedOutput8 = Arrays.asList(0.0, 0.0, 1.0, 1.0);
         assertEquals(expectedOutput8, RescaleToUnit.rescaleToUnit(input8));
         
-        List<Double> input9 = Arrays.asList(1.0, 2.0, 2.0, 3.0);
-        List<Double> expectedOutput9 = Arrays.asList(0.0, 0.5, 0.5, 1.0);
+        List<Double> input9 = Arrays.asList(1.0, 2.0);
+        List<Double> expectedOutput9 = Arrays.asList(0.0, 1.0);
         assertEquals(expectedOutput9, RescaleToUnit.rescaleToUnit(input9));
         
-        List<Double> input10 = Arrays.asList(1.0, 2.0);
-        List<Double> expectedOutput10 = Arrays.asList(0.0, 1.0);
+        List<Double> input10 = Arrays.asList(1.0, 1.0);
+        List<Double> expectedOutput10 = Arrays.asList(0.5, 0.5);
         assertEquals(expectedOutput10, RescaleToUnit.rescaleToUnit(input10));
     }
 }

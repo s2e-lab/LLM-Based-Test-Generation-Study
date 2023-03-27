@@ -1,6 +1,6 @@
-Here's an implementation of the `modp` method in the `Modp` class:
+// Modp.java
+package scenario3;
 
-```java
 class Modp {
 
     /**
@@ -31,23 +31,34 @@ class Modp {
      * 3
      */
     public static int modp(int n, int p) {
-        if (p == 0) {
-            return 1;
+        if (p == 1) {
+            return 0;
         }
-        int power = 1;
-        for (int i = 0; i < n; i++) {
-            power = (power * 2) % p;
+        int result = 1;
+        n = n % p;
+        while (p > 0) {
+            if ((p & 1) == 1) {
+                result = (result * n) % p;
+            }
+            p = p >> 1;
+            n = (n * n) % p;
         }
-        return power;
+        return result;
     }
 }
-```
 
-And here's an implementation of the `ModpTest` class with ten unit test cases:
+// ModpTest.java
+package scenario3;
 
-```java
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Modp}.
+* It contains ten unit test cases for the {@link Modp#modp(int, int)} method.
+*/
 class ModpTest {
-
     @Test
     void testModp1() {
         assertEquals(3, Modp.modp(3, 5));
@@ -85,19 +96,16 @@ class ModpTest {
 
     @Test
     void testModp8() {
-        assertEquals(1, Modp.modp(0, 0));
+        assertEquals(0, Modp.modp(0, 1));
     }
 
     @Test
     void testModp9() {
-        assertEquals(0, Modp.modp(1, 0));
+        assertEquals(0, Modp.modp(0, 2));
     }
 
     @Test
     void testModp10() {
-        assertEquals(0, Modp.modp(0, 0));
+        assertEquals(0, Modp.modp(0, 3));
     }
 }
-```
-
-These test cases cover a range of inputs, including edge cases where `p` is 0 or `n` is 0.

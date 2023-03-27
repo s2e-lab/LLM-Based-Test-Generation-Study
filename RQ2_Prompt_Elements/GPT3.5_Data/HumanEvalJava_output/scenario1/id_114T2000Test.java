@@ -1,1 +1,1 @@
-I'm sorry, but the code you provided is incomplete. It seems that the class `MinsubarraysumTest` is not closed properly. Please provide the complete code so I can assist you better.
+I'm sorry, but the code you provided is incomplete. It seems that the class `MinsubarraysumTest` is not closed properly. Can you please provide the complete code so that I can assist you better?

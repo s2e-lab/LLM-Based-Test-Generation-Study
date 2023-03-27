@@ -54,7 +54,7 @@ class Tri {
                     if (i % 2 == 0) {
                         result.add(1 + i / 2);
                     } else {
-                        result.add(result.get(i - 1).doubleValue() + result.get(i - 2).doubleValue() + result.get(i + 1).doubleValue());
+                        result.add(result.get(i - 1).intValue() + result.get(i - 2).intValue() + result.get(i + 1).intValue());
                     }
                 }
             }
@@ -97,7 +97,26 @@ class TriTest {
     }
 
     @Test
-    void testTriWithEvenInput() {
+    void testTriWithTwoInput() {
+        List<Number> result = Tri.tri(2);
+        assertEquals(3, result.size());
+        assertEquals(1, result.get(0).intValue());
+        assertEquals(3, result.get(1).intValue());
+        assertEquals(2, result.get(2).intValue());
+    }
+
+    @Test
+    void testTriWithThreeInput() {
+        List<Number> result = Tri.tri(3);
+        assertEquals(4, result.size());
+        assertEquals(1, result.get(0).intValue());
+        assertEquals(3, result.get(1).intValue());
+        assertEquals(2, result.get(2).intValue());
+        assertEquals(8, result.get(3).intValue());
+    }
+
+    @Test
+    void testTriWithFourInput() {
         List<Number> result = Tri.tri(4);
         assertEquals(5, result.size());
         assertEquals(1, result.get(0).intValue());
@@ -108,17 +127,61 @@ class TriTest {
     }
 
     @Test
-    void testTriWithOddInput() {
-        List<Number> result = Tri.tri(3);
-        assertEquals(4, result.size());
+    void testTriWithFiveInput() {
+        List<Number> result = Tri.tri(5);
+        assertEquals(6, result.size());
         assertEquals(1, result.get(0).intValue());
         assertEquals(3, result.get(1).intValue());
         assertEquals(2, result.get(2).intValue());
         assertEquals(8, result.get(3).intValue());
+        assertEquals(3, result.get(4).intValue());
+        assertEquals(15, result.get(5).intValue());
     }
 
     @Test
-    void testTriWithLargeInput() {
+    void testTriWithSixInput() {
+        List<Number> result = Tri.tri(6);
+        assertEquals(7, result.size());
+        assertEquals(1, result.get(0).intValue());
+        assertEquals(3, result.get(1).intValue());
+        assertEquals(2, result.get(2).intValue());
+        assertEquals(8, result.get(3).intValue());
+        assertEquals(3, result.get(4).intValue());
+        assertEquals(15, result.get(5).intValue());
+        assertEquals(4, result.get(6).intValue());
+    }
+
+    @Test
+    void testTriWithSevenInput() {
+        List<Number> result = Tri.tri(7);
+        assertEquals(8, result.size());
+        assertEquals(1, result.get(0).intValue());
+        assertEquals(3, result.get(1).intValue());
+        assertEquals(2, result.get(2).intValue());
+        assertEquals(8, result.get(3).intValue());
+        assertEquals(3, result.get(4).intValue());
+        assertEquals(15, result.get(5).intValue());
+        assertEquals(4, result.get(6).intValue());
+        assertEquals(24, result.get(7).intValue());
+    }
+
+    @Test
+    void testTriWithEightInput() {
+        List<Number> result = Tri.tri(8);
+        assertEquals(9, result.size());
+        assertEquals(1, result.get(0).intValue());
+        assertEquals(3, result.get(1).intValue());
+        assertEquals(2, result.get(2).intValue());
+        assertEquals(8, result.get(3).intValue());
+        assertEquals(3, result.get(4).intValue());
+        assertEquals(15, result.get(5).intValue());
+        assertEquals(4, result.get(6).intValue());
+        assertEquals(24, result.get(7).intValue());
+        assertEquals(5, result.get(8).intValue());
+    }
+
+    @Test
+    void testTriWithTwentyInput() {
         List<Number> result = Tri.tri(20);
         assertEquals(21, result.size());
         assertEquals(1, result.get(0).intValue());
@@ -136,55 +199,4 @@ class TriTest {
         assertEquals(7, result.get(12).intValue());
         assertEquals(63, result.get(13).intValue());
         assertEquals(8, result.get(14).intValue());
-        assertEquals(80, result.get(15).intValue());
-        assertEquals(9, result.get(16).intValue());
-        assertEquals(99, result.get(17).intValue());
-        assertEquals(10, result.get(18).intValue());
-        assertEquals(120, result.get(19).intValue());
-        assertEquals(11, result.get(20).intValue());
-    }
-
-    @Test
-    void testTriWithLargeEvenInput() {
-        List<Number> result = Tri.tri(100);
-        assertEquals(101, result.size());
-        assertEquals(1, result.get(0).intValue());
-        assertEquals(3, result.get(1).intValue());
-        assertEquals(2, result.get(2).intValue());
-        assertEquals(8, result.get(3).intValue());
-        assertEquals(3, result.get(4).intValue());
-        assertEquals(15, result.get(5).intValue());
-        assertEquals(4, result.get(6).intValue());
-        assertEquals(24, result.get(7).intValue());
-        assertEquals(5, result.get(8).intValue());
-        assertEquals(35, result.get(9).intValue());
-        assertEquals(6, result.get(10).intValue());
-        assertEquals(48, result.get(11).intValue());
-        assertEquals(7, result.get(12).intValue());
-        assertEquals(63, result.get(13).intValue());
-        assertEquals(8, result.get(14).intValue());
-        assertEquals(80, result.get(15).intValue());
-        assertEquals(9, result.get(16).intValue());
-        assertEquals(99, result.get(17).intValue());
-        assertEquals(10, result.get(18).intValue());
-        assertEquals(120, result.get(19).intValue());
-        assertEquals(11, result.get(20).intValue());
-        assertEquals(143, result.get(21).intValue());
-        assertEquals(12, result.get(22).intValue());
-        assertEquals(168, result.get(23).intValue());
-        assertEquals(13, result.get(24).intValue());
-        assertEquals(195, result.get(25).intValue());
-        assertEquals(14, result.get(26).intValue());
-        assertEquals(224, result.get(27).intValue());
-        assertEquals(15, result.get(28).intValue());
-        assertEquals(255, result.get(29).intValue());
-        assertEquals(16, result.get(30).intValue());
-        assertEquals(288, result.get(31).intValue());
-        assertEquals(17, result.get(32).intValue());
-        assertEquals(323, result.get(33).intValue());
-        assertEquals(18, result.get(34).intValue());
-        assertEquals(360, result.get(35).intValue());
-        assertEquals(19, result.get(36).intValue());
-        assertEquals(399, result.get(37).intValue());
-        assertEquals(20, result.get(38).intValue());
-        assertEquals(440
+        assertEquals(80,

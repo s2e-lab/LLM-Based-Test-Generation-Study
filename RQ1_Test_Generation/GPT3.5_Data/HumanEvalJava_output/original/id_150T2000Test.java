@@ -1,15 +1,17 @@
-Here's the source code for the XOrYTest class:
-
-```
+// XOrYTest.java
 package original;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link XOrY}.
+ * It contains ten unit test cases for the {@link XOrY#xOrY(int, int, int)} method.
+ */
 class XOrYTest {
 
     @Test
-    void testXOrYPrime() {
+    void testPrimeNumber() {
         assertEquals(34, XOrY.xOrY(7, 34, 12));
         assertEquals(5, XOrY.xOrY(15, 8, 5));
         assertEquals(33, XOrY.xOrY(3, 33, 5212));
@@ -18,7 +20,7 @@ class XOrYTest {
     }
 
     @Test
-    void testXOrYComposite() {
+    void testNonPrimeNumber() {
         assertEquals(583, XOrY.xOrY(3609, 1245, 583));
         assertEquals(129, XOrY.xOrY(91, 56, 129));
         assertEquals(1234, XOrY.xOrY(6, 34, 1234));
@@ -26,6 +28,3 @@ class XOrYTest {
         assertEquals(2, XOrY.xOrY(2, 2, 0));
     }
 }
-```
-
-This test class contains two test methods: `testXOrYPrime` and `testXOrYComposite`. The first method tests the behavior of the `xOrY` method when the input `n` is a prime number, while the second method tests the behavior when `n` is a composite number. Each test case uses the `assertEquals` method to compare the expected output with the actual output of the `xOrY` method.

@@ -1,6 +1,5 @@
-Here's the completed code for DecimalToBinaryTest.java:
+// Here's the source code for DecimalToBinaryTest.java
 
-```
 package scenario1;
 
 import org.junit.jupiter.api.Test;
@@ -28,6 +27,11 @@ class DecimalToBinaryTest {
     }
 
     @Test
+    void testDecimalToBinaryWithThree() {
+        assertEquals("db11db", DecimalToBinary.decimalToBinary(3));
+    }
+
+    @Test
     void testDecimalToBinaryWithTen() {
         assertEquals("db1010db", DecimalToBinary.decimalToBinary(10));
     }
@@ -38,8 +42,13 @@ class DecimalToBinaryTest {
     }
 
     @Test
-    void testDecimalToBinaryWithSixtyFour() {
-        assertEquals("db1000000db", DecimalToBinary.decimalToBinary(64));
+    void testDecimalToBinaryWithSixtyNine() {
+        assertEquals("db1000101db", DecimalToBinary.decimalToBinary(69));
+    }
+
+    @Test
+    void testDecimalToBinaryWithOneHundred() {
+        assertEquals("db1100100db", DecimalToBinary.decimalToBinary(100));
     }
 
     @Test
@@ -51,17 +60,4 @@ class DecimalToBinaryTest {
     void testDecimalToBinaryWithMaxValue() {
         assertEquals("db1111111111111111111111111111111db", DecimalToBinary.decimalToBinary(Integer.MAX_VALUE));
     }
-
-    @Test
-    void testDecimalToBinaryWithMinValue() {
-        assertEquals("db10000000000000000000000000000000db", DecimalToBinary.decimalToBinary(Integer.MIN_VALUE));
-    }
-
-    @Test
-    void testDecimalToBinaryWithRandomNumber() {
-        assertEquals("db101011001001001001001001001001db", DecimalToBinary.decimalToBinary(174329));
-    }
 }
-```
-
-This test class contains ten unit test cases for the `DecimalToBinary.decimalToBinary(int)` method. Each test case tests a different input value and expected output. The `@Test` annotation is used to mark each test method, and the `assertEquals` method is used to compare the actual output of the method with the expected output.

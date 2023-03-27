@@ -1,4 +1,4 @@
-Here's the completed code for the `HowManyTimesTest` class:
+Here's the code for the HowManyTimesTest class:
 
 ```
 package scenario2;
@@ -53,15 +53,15 @@ class HowManyTimesTest {
     }
 
     @Test
-    void testSubstringSameAsOriginalString() {
+    void testSubstringEqualToString() {
         assertEquals(1, HowManyTimes.howManyTimes("test", "test"));
     }
 
     @Test
-    void testSubstringLengthGreaterThanOriginalString() {
-        assertEquals(0, HowManyTimes.howManyTimes("test", "testtest"));
+    void testSubstringEqualToSubstring() {
+        assertEquals(1, HowManyTimes.howManyTimes("test", "es"));
     }
 }
 ```
 
-This test class contains ten unit test cases for the `howManyTimes` method of the `HowManyTimes` class. Each test case tests a different scenario, such as an empty string, a substring not found in the original string, and a substring found multiple times. The `assertEquals` method is used to compare the expected result with the actual result returned by the `howManyTimes` method.
+This test class contains ten unit test cases for the `howManyTimes` method of the `HowManyTimes` class. Each test case tests a different scenario, such as an empty string, an empty substring, a substring not found in the string, a substring found multiple times, and so on. The `assertEquals` method is used to compare the expected result with the actual result returned by the `howManyTimes` method.

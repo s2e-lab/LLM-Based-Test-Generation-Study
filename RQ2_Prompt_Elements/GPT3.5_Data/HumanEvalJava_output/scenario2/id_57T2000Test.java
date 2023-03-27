@@ -1,6 +1,4 @@
-Here's the completed code for MonotonicTest.java:
-
-```
+// MonotonicTest.java
 package scenario2;
 
 import java.util.Arrays;
@@ -33,32 +31,26 @@ class MonotonicTest {
     }
 
     @Test
-    void testMonotonicIncreasingThenEqual() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 3, 3);
+    void testMonotonicIncreasingAndEqual() {
+        List<Integer> l = Arrays.asList(1, 1, 2, 2, 3);
         assertTrue(Monotonic.monotonic(l));
     }
 
     @Test
-    void testMonotonicDecreasingThenEqual() {
-        List<Integer> l = Arrays.asList(5, 4, 3, 3, 3);
+    void testMonotonicDecreasingAndEqual() {
+        List<Integer> l = Arrays.asList(3, 3, 2, 2, 1);
         assertTrue(Monotonic.monotonic(l));
     }
 
     @Test
-    void testMonotonicIncreasingThenDecreasing() {
+    void testMonotonicIncreasingAndDecreasing() {
         List<Integer> l = Arrays.asList(1, 2, 3, 2, 1);
         assertFalse(Monotonic.monotonic(l));
     }
 
     @Test
-    void testMonotonicDecreasingThenIncreasing() {
-        List<Integer> l = Arrays.asList(5, 4, 3, 4, 5);
-        assertFalse(Monotonic.monotonic(l));
-    }
-
-    @Test
-    void testMonotonicRandom() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 5, 4);
+    void testMonotonicDecreasingAndIncreasing() {
+        List<Integer> l = Arrays.asList(3, 2, 1, 2, 3);
         assertFalse(Monotonic.monotonic(l));
     }
 
@@ -69,11 +61,14 @@ class MonotonicTest {
     }
 
     @Test
-    void testMonotonicEmptyList() {
-        List<Integer> l = Arrays.asList();
+    void testMonotonicTwoElementsIncreasing() {
+        List<Integer> l = Arrays.asList(1, 2);
+        assertTrue(Monotonic.monotonic(l));
+    }
+
+    @Test
+    void testMonotonicTwoElementsDecreasing() {
+        List<Integer> l = Arrays.asList(2, 1);
         assertTrue(Monotonic.monotonic(l));
     }
 }
-```
-
-This test class contains ten unit test cases for the `monotonic` method of the `Monotonic` class. The test cases cover various scenarios, including increasing, decreasing, and equal lists, as well as lists that switch from increasing to decreasing or vice versa. There are also test cases for single-element and empty lists. The `assertTrue` and `assertFalse` methods are used to check the expected results of the `monotonic` method.

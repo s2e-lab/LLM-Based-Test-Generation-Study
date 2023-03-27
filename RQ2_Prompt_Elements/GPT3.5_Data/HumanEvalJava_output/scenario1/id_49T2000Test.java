@@ -1,4 +1,4 @@
-Here's the code for the ModpTest class:
+Here's the code for the ModpTest class with ten unit test cases for the modp method:
 
 ```
 package scenario1;
@@ -6,10 +6,6 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link Modp}.
- * It contains ten unit test cases for the {@link Modp#modp(int, int)} method.
- */
 class ModpTest {
 
     @Test
@@ -39,29 +35,29 @@ class ModpTest {
 
     @Test
     void testModp6() {
-        assertEquals(2, Modp.modp(5, 5));
+        assertEquals(1, Modp.modp(5, 5));
     }
 
     @Test
     void testModp7() {
-        assertEquals(4, Modp.modp(6, 5));
+        assertEquals(2, Modp.modp(6, 5));
     }
 
     @Test
     void testModp8() {
-        assertEquals(3, Modp.modp(7, 5));
+        assertEquals(4, Modp.modp(7, 5));
     }
 
     @Test
     void testModp9() {
-        assertEquals(1, Modp.modp(8, 5));
+        assertEquals(3, Modp.modp(8, 5));
     }
 
     @Test
     void testModp10() {
-        assertEquals(2, Modp.modp(9, 5));
+        assertEquals(1, Modp.modp(9, 5));
     }
 }
 ```
 
-This test class contains ten unit test cases for the `Modp.modp(int, int)` method. Each test case uses the `assertEquals` method to compare the expected result with the actual result of calling the `Modp.modp` method with different input values.
+These test cases cover a range of inputs and expected outputs for the modp method.

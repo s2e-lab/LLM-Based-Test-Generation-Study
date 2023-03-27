@@ -1,4 +1,4 @@
-Here's the source code for the CountUpperTest class:
+Here's the code for the CountUpperTest class:
 
 ```
 package scenario2;
@@ -29,35 +29,35 @@ class CountUpperTest {
     }
 
     @Test
-    void testCountUpper_onlyUppercaseConsonants() {
-        assertEquals(0, CountUpper.countUpper("BCDFGHJKLMNPQRSTVWXYZ"));
+    void testCountUpper_onlyUppercaseVowels() {
+        assertEquals(1, CountUpper.countUpper("AEiOU"));
+    }
+
+    @Test
+    void testCountUpper_onlyEvenIndices() {
+        assertEquals(1, CountUpper.countUpper("aEiOu"));
+    }
+
+    @Test
+    void testCountUpper_onlyOddIndices() {
+        assertEquals(0, CountUpper.countUpper("aeiou"));
     }
 
     @Test
     void testCountUpper_mixedCase() {
-        assertEquals(2, CountUpper.countUpper("aEiOu"));
+        assertEquals(2, CountUpper.countUpper("hEllo wOrld"));
     }
 
     @Test
     void testCountUpper_specialCharacters() {
-        assertEquals(0, CountUpper.countUpper("!@#$%^&*()_+-=[]{}|;':\",./<>?\\"));
+        assertEquals(0, CountUpper.countUpper("!@#$%^&*()"));
     }
 
     @Test
     void testCountUpper_numbers() {
         assertEquals(0, CountUpper.countUpper("1234567890"));
     }
-
-    @Test
-    void testCountUpper_whitespace() {
-        assertEquals(0, CountUpper.countUpper(" \t\n\r\f"));
-    }
-
-    @Test
-    void testCountUpper_allCharacters() {
-        assertEquals(2, CountUpper.countUpper("aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"));
-    }
 }
 ```
 
-This test class contains ten unit test cases for the `CountUpper.countUpper(String)` method. Each test case tests a different scenario, such as an empty string, a string with no uppercase vowels, a string with one uppercase vowel, and so on. The `@Test` annotation is used to mark each method as a test case, and the `assertEquals` method is used to check that the actual result of the method matches the expected result.
+This test class contains ten unit test cases for the `CountUpper.countUpper(String)` method. Each test case tests a different scenario, such as an empty string, a string with no uppercase vowels, a string with only one uppercase vowel, and so on. The `assertEquals` method is used to compare the expected result with the actual result returned by the `countUpper` method.

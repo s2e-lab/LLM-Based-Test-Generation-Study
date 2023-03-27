@@ -1,6 +1,4 @@
-Here's the completed code for the `NextSmallestTest` class:
-
-```
+// NextSmallestTest.java
 package scenario2;
 
 import java.util.Arrays;
@@ -45,41 +43,38 @@ class NextSmallestTest {
     }
 
     @Test
-    void testDuplicateElements() {
-        List<Object> lst = Arrays.asList(4, 3, 2, 1, 2);
+    void testFiveElementList() {
+        List<Object> lst = Arrays.asList(5, 4, 3, 2, 1);
         assertEquals(2, NextSmallest.nextSmallest(lst));
     }
 
     @Test
-    void testAllElementsEqual() {
-        List<Object> lst = Arrays.asList(1, 1, 1, 1);
-        assertNull(NextSmallest.nextSmallest(lst));
+    void testDuplicateElements() {
+        List<Object> lst = Arrays.asList(5, 4, 3, 2, 1, 1, 2, 3, 4, 5);
+        assertEquals(2, NextSmallest.nextSmallest(lst));
     }
 
     @Test
     void testNegativeElements() {
-        List<Object> lst = Arrays.asList(-4, -3, -2, -1);
-        assertEquals(-3, NextSmallest.nextSmallest(lst));
+        List<Object> lst = Arrays.asList(-5, -4, -3, -2, -1);
+        assertEquals(-4, NextSmallest.nextSmallest(lst));
     }
 
     @Test
     void testMixedElements() {
-        List<Object> lst = Arrays.asList(4, -3, 2, -1);
-        assertEquals(-1, NextSmallest.nextSmallest(lst));
+        List<Object> lst = Arrays.asList(5, -4, 3, -2, 1);
+        assertEquals(-2, NextSmallest.nextSmallest(lst));
+    }
+
+    @Test
+    void testAllEqualElements() {
+        List<Object> lst = Arrays.asList(1, 1, 1, 1, 1);
+        assertNull(NextSmallest.nextSmallest(lst));
     }
 
     @Test
     void testNullElements() {
-        List<Object> lst = Arrays.asList(4, null, 2, null);
+        List<Object> lst = Arrays.asList(null, 1, 2, null, 3);
         assertEquals(2, NextSmallest.nextSmallest(lst));
     }
-
-    @Test
-    void testAllNullElements() {
-        List<Object> lst = Arrays.asList(null, null, null);
-        assertNull(NextSmallest.nextSmallest(lst));
-    }
 }
-```
-
-This class contains ten test cases that cover a variety of scenarios, including empty lists, lists with a single element, lists with duplicate elements, lists with all elements equal, lists with negative elements, lists with mixed elements, and lists with null elements. Each test case uses the `assertEquals()` or `assertNull()` method to check the expected output of the `nextSmallest()` method against the actual output.

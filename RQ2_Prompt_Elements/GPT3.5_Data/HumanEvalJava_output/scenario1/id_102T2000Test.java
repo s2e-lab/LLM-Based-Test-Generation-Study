@@ -1,4 +1,4 @@
-Here's the completed code for the `ChooseNumTest` class:
+Here's the source code for the ChooseNumTest class:
 
 ```
 package scenario1;
@@ -14,54 +14,64 @@ class ChooseNumTest {
 
     @Test
     void testChooseNumWithEvenNumbers() {
-        assertEquals(10, ChooseNum.chooseNum(1, 10));
+        int result = ChooseNum.chooseNum(2, 10);
+        assertEquals(10, result);
     }
 
     @Test
     void testChooseNumWithOddNumbers() {
-        assertEquals(-1, ChooseNum.chooseNum(1, 9));
+        int result = ChooseNum.chooseNum(1, 9);
+        assertEquals(-1, result);
     }
 
     @Test
     void testChooseNumWithNegativeNumbers() {
-        assertEquals(-1, ChooseNum.chooseNum(-10, -1));
+        int result = ChooseNum.chooseNum(-10, -2);
+        assertEquals(-2, result);
     }
 
     @Test
     void testChooseNumWithSameNumbers() {
-        assertEquals(-1, ChooseNum.chooseNum(5, 5));
+        int result = ChooseNum.chooseNum(5, 5);
+        assertEquals(-1, result);
     }
 
     @Test
-    void testChooseNumWithDescendingNumbers() {
-        assertEquals(-1, ChooseNum.chooseNum(10, 1));
+    void testChooseNumWithReverseOrder() {
+        int result = ChooseNum.chooseNum(10, 2);
+        assertEquals(10, result);
     }
 
     @Test
     void testChooseNumWithLargeNumbers() {
-        assertEquals(1000000, ChooseNum.chooseNum(1, 1000000));
+        int result = ChooseNum.chooseNum(100, 1000);
+        assertEquals(1000, result);
     }
 
     @Test
-    void testChooseNumWithZero() {
-        assertEquals(-1, ChooseNum.chooseNum(0, 0));
+    void testChooseNumWithOneEvenNumber() {
+        int result = ChooseNum.chooseNum(1, 3);
+        assertEquals(2, result);
     }
 
     @Test
-    void testChooseNumWithMaxInt() {
-        assertEquals(2147483646, ChooseNum.chooseNum(1, Integer.MAX_VALUE));
+    void testChooseNumWithOneOddNumber() {
+        int result = ChooseNum.chooseNum(2, 4);
+        assertEquals(-1, result);
     }
 
     @Test
-    void testChooseNumWithMinInt() {
-        assertEquals(-1, ChooseNum.chooseNum(Integer.MIN_VALUE, 1));
+    void testChooseNumWithAllOddNumbers() {
+        int result = ChooseNum.chooseNum(1, 7);
+        assertEquals(-1, result);
     }
 
     @Test
-    void testChooseNumWithMaxAndMinInt() {
-        assertEquals(2147483646, ChooseNum.chooseNum(Integer.MIN_VALUE, Integer.MAX_VALUE));
+    void testChooseNumWithAllEvenNumbers() {
+        int result = ChooseNum.chooseNum(2, 8);
+        assertEquals(8, result);
     }
 }
 ```
 
-This test class contains ten test cases that cover different scenarios for the `chooseNum` method. Each test case is annotated with the `@Test` annotation, which tells JUnit to run it as a test. The `assertEquals` method is used to check that the actual result of the method matches the expected result.
+This test class contains ten unit test cases for the `chooseNum` method of the `ChooseNum` class. Each test case tests a different scenario, such as when the input range contains only even numbers, only odd numbers, or a mix of both. The `assertEquals` method is used to check that the actual result of the method matches the expected result.

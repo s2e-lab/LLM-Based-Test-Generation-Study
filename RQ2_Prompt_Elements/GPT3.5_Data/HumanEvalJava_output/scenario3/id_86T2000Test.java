@@ -110,7 +110,7 @@ class AntiShuffleTest {
     }
 
     @Test
-    void testMixedCharacters() {
+    void testSpecialCharacters() {
         String s = "Hello World!!!";
         String expected = "Hello !!!Wdlor";
         String actual = AntiShuffle.antiShuffle(s);

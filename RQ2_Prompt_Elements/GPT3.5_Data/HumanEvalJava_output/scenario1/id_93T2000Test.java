@@ -1,85 +1,73 @@
-Here's an example of how you can write unit tests for the `Encode` class:
+Here's the code for EncodeTest class with ten unit test cases for the encode() method:
 
 ```
-@Test
-void testEncode_lowercase() {
-    String message = "hello";
-    String expected = "JGNNQ";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+package scenario1;
 
-@Test
-void testEncode_uppercase() {
-    String message = "WORLD";
-    String expected = "dqtfn";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-@Test
-void testEncode_mixedcase() {
-    String message = "HeLLo WoRLd";
-    String expected = "jGnnQ dQtfN";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+class EncodeTest {
 
-@Test
-void testEncode_noVowels() {
-    String message = "hmm";
-    String expected = "JOO";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+    @Test
+    void testEncodeEmptyString() {
+        String result = Encode.encode("");
+        assertEquals("", result);
+    }
 
-@Test
-void testEncode_allVowels() {
-    String message = "aeiouAEIOU";
-    String expected = "cgkqwCGKQW";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+    @Test
+    void testEncodeLowerCase() {
+        String result = Encode.encode("hello");
+        assertEquals("JGNNQ", result);
+    }
 
-@Test
-void testEncode_emptyString() {
-    String message = "";
-    String expected = "";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+    @Test
+    void testEncodeUpperCase() {
+        String result = Encode.encode("WORLD");
+        assertEquals("dqtfn", result);
+    }
 
-@Test
-void testEncode_singleChar() {
-    String message = "a";
-    String expected = "C";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+    @Test
+    void testEncodeMixedCase() {
+        String result = Encode.encode("HeLLo");
+        assertEquals("JgNNq", result);
+    }
 
-@Test
-void testEncode_specialChars() {
-    String message = "!@#$%^&*()_+-={}[]|\\:;\"'<>,.?/";
-    String expected = "!@#$%^&*()_+-={}[]|\\:;\"'<>,.?/";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+    @Test
+    void testEncodeNoVowels() {
+        String result = Encode.encode("xyz");
+        assertEquals("XYZ", result);
+    }
 
-@Test
-void testEncode_numbers() {
-    String message = "1234567890";
-    String expected = "1234567890";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
-}
+    @Test
+    void testEncodeAllVowels() {
+        String result = Encode.encode("aeiouAEIOU");
+        assertEquals("CGKMQcgkmq", result);
+    }
 
-@Test
-void testEncode_longString() {
-    String message = "The quick brown fox jumps over the lazy dog.";
-    String expected = "Ujg swkem dtqyp hqz lworu qxgt vjg ncba fqi.";
-    String actual = Encode.encode(message);
-    assertEquals(expected, actual);
+    @Test
+    void testEncodeNumbers() {
+        String result = Encode.encode("123");
+        assertEquals("123", result);
+    }
+
+    @Test
+    void testEncodeSpecialCharacters() {
+        String result = Encode.encode("!@#$%^&*()");
+        assertEquals("!@#$%^&*()", result);
+    }
+
+    @Test
+    void testEncodeMixedCharacters() {
+        String result = Encode.encode("Hello, World!");
+        assertEquals("JgNNq, yqtnf!", result);
+    }
+
+    @Test
+    void testEncodeLongString() {
+        String message = "This is a long string with multiple words and characters. It should be encoded correctly.";
+        String result = Encode.encode(message);
+        String expected = "vjku ku c nqpi uvtkpi yjgp oqtg vjgncpf cpf ekrjgtetkcn. Kv ujqog dkqwu gfqwvgtu.";
+        assertEquals(expected, result);
+    }
 }
 ```
-
-These tests cover various scenarios such as lowercase, uppercase, mixed case, no vowels, all vowels, empty string, single character, special characters, numbers, and a long string. By testing these scenarios, we can ensure that the `Encode` class works as expected and handles different types of input correctly.

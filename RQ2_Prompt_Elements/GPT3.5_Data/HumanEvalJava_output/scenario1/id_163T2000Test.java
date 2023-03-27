@@ -1,72 +1,74 @@
-Here's the code for the `GenerateIntegersTest` class with ten unit test cases for the `generateIntegers` method:
+Here's the code for the test class:
 
 ```
-package scenario1;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Test class of {@link GenerateIntegers}.
- * It contains ten unit test cases for the {@link GenerateIntegers#generateIntegers(int, int)} method.
- */
 class GenerateIntegersTest {
 
     @Test
     void testGenerateIntegersWithEqualValues() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
         List<Object> actual = GenerateIntegers.generateIntegers(4, 4);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGenerateIntegersWithAscendingValues() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
-        List<Object> actual = GenerateIntegers.generateIntegers(2, 8);
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
+        List<Object> actual = GenerateIntegers.generateIntegers(2, 6);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGenerateIntegersWithDescendingValues() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
-        List<Object> actual = GenerateIntegers.generateIntegers(8, 2);
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
+        List<Object> actual = GenerateIntegers.generateIntegers(6, 2);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGenerateIntegersWithLowerValueGreaterThan8() {
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = GenerateIntegers.generateIntegers(10, 8);
+        List<Object> actual = GenerateIntegers.generateIntegers(10, 6);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGenerateIntegersWithUpperValueLessThan2() {
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = GenerateIntegers.generateIntegers(1, -1);
+        List<Object> actual = GenerateIntegers.generateIntegers(4, 0);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGenerateIntegersWithLowerValueLessThan2() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
-        List<Object> actual = GenerateIntegers.generateIntegers(0, 8);
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        List<Object> actual = GenerateIntegers.generateIntegers(0, 6);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGenerateIntegersWithUpperValueGreaterThan8() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
-        List<Object> actual = GenerateIntegers.generateIntegers(2, 10);
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
+        expected.add(8);
+        List<Object> actual = GenerateIntegers.generateIntegers(4, 10);
         assertEquals(expected, actual);
     }
 
     @Test
     void testGenerateIntegersWithBothValuesGreaterThan8() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
+        List<Object> expected = new ArrayList<>();
         List<Object> actual = GenerateIntegers.generateIntegers(10, 12);
         assertEquals(expected, actual);
     }
@@ -74,14 +76,17 @@ class GenerateIntegersTest {
     @Test
     void testGenerateIntegersWithBothValuesLessThan2() {
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = GenerateIntegers.generateIntegers(-1, -3);
+        List<Object> actual = GenerateIntegers.generateIntegers(0, 1);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testGenerateIntegersWithOddLowerValue() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(4, 6, 8));
-        List<Object> actual = GenerateIntegers.generateIntegers(3, 8);
+    void testGenerateIntegersWithNegativeValues() {
+        List<Object> expected = new ArrayList<>();
+        expected.add(-6);
+        expected.add(-4);
+        expected.add(-2);
+        List<Object> actual = GenerateIntegers.generateIntegers(-2, -6);
         assertEquals(expected, actual);
     }
 }

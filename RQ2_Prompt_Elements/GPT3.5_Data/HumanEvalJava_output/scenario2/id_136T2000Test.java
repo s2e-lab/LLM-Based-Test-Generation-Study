@@ -1,98 +1,128 @@
-Here's the code for the test class:
-
-```
-package scenario2;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Test class of {@link LargestSmallestIntegers}.
- * It contains ten unit test cases for the {@link LargestSmallestIntegers#largestSmallestIntegers(List)} method.
- */
-class LargestSmallestIntegersTest {
-
-    @Test
-    void testEmptyList() {
-        List<Object> lst = new ArrayList<>();
-        List<Integer> expected = Arrays.asList(null, null);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testOnlyNegativeIntegers() {
-        List<Object> lst = Arrays.asList(-5, -2, -10, -1);
-        List<Integer> expected = Arrays.asList(-1, null);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testOnlyPositiveIntegers() {
-        List<Object> lst = Arrays.asList(5, 2, 10, 1);
-        List<Integer> expected = Arrays.asList(null, 1);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testMixedIntegers() {
-        List<Object> lst = Arrays.asList(-5, 2, -10, 1);
-        List<Integer> expected = Arrays.asList(-1, 1);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testZero() {
-        List<Object> lst = Arrays.asList(0);
-        List<Integer> expected = Arrays.asList(null, null);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testMultipleZeros() {
-        List<Object> lst = Arrays.asList(0, 0, 0);
-        List<Integer> expected = Arrays.asList(null, null);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testLargeNumbers() {
-        List<Object> lst = Arrays.asList(-1000000, 1000000, 500000, -500000);
-        List<Integer> expected = Arrays.asList(-500000, 500000);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testDuplicateNumbers() {
-        List<Object> lst = Arrays.asList(-5, 2, -10, 1, 2, -5);
-        List<Integer> expected = Arrays.asList(-1, 1);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testMixedTypes() {
-        List<Object> lst = Arrays.asList(-5, "hello", 2, -10, 1, true);
-        List<Integer> expected = Arrays.asList(-1, 1);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testNullValues() {
-        List<Object> lst = Arrays.asList(-5, null, 2, -10, 1, null);
-        List<Integer> expected = Arrays.asList(-1, 1);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
-
-    @Test
-    void testLargeList() {
-        List<Object> lst = new ArrayList<>();
-        for (int i = -1000000; i <= 1000000; i++) {
-            lst.add(i);
-        }
-        List<Integer> expected = Arrays.asList(-1000000, -999999);
-        assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
-    }
+// Test case 1: Test with a list containing both negative and positive integers
+@Test
+void testLargestSmallestIntegers1() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(-10);
+    lst.add(5);
+    lst.add(3);
+    lst.add(-20);
+    lst.add(8);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(-10);
+    expected.add(3);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
 }
-```
+
+// Test case 2: Test with a list containing only negative integers
+@Test
+void testLargestSmallestIntegers2() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(-10);
+    lst.add(-5);
+    lst.add(-3);
+    lst.add(-20);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(-3);
+    expected.add(null);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+
+// Test case 3: Test with a list containing only positive integers
+@Test
+void testLargestSmallestIntegers3() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(10);
+    lst.add(5);
+    lst.add(3);
+    lst.add(20);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(null);
+    expected.add(3);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+
+// Test case 4: Test with an empty list
+@Test
+void testLargestSmallestIntegers4() {
+    List<Object> lst = new ArrayList<Object>();
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(null);
+    expected.add(null);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+
+// Test case 5: Test with a list containing only one negative integer
+@Test
+void testLargestSmallestIntegers5() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(-10);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(-10);
+    expected.add(null);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+
+// Test case 6: Test with a list containing only one positive integer
+@Test
+void testLargestSmallestIntegers6() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(10);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(null);
+    expected.add(10);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+
+// Test case 7: Test with a list containing only zero
+@Test
+void testLargestSmallestIntegers7() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(0);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(null);
+    expected.add(null);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+
+// Test case 8: Test with a list containing both negative and positive integers, but no negative integer
+@Test
+void testLargestSmallestIntegers8() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(10);
+    lst.add(5);
+    lst.add(3);
+    lst.add(20);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(null);
+    expected.add(3);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+
+// Test case 9: Test with a list containing both negative and positive integers, but no positive integer
+@Test
+void testLargestSmallestIntegers9() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(-10);
+    lst.add(-5);
+    lst.add(-3);
+    lst.add(-20);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(-3);
+    expected.add(null);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+
+// Test case 10: Test with a list containing both negative and positive integers, but all integers are the same
+@Test
+void testLargestSmallestIntegers10() {
+    List<Object> lst = new ArrayList<Object>();
+    lst.add(5);
+    lst.add(5);
+    lst.add(5);
+    lst.add(5);
+    List<Integer> expected = new ArrayList<Integer>();
+    expected.add(null);
+    expected.add(null);
+    assertEquals(expected, LargestSmallestIntegers.largestSmallestIntegers(lst));
+}
+}

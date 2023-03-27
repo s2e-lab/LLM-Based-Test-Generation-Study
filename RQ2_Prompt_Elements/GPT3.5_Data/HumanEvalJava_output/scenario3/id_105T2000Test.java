@@ -140,7 +140,7 @@ class ByLengthTest {
     }
 
     @Test
-    void testArrayWithOneValidNumber() {
+    void testArrayWithOnlyOneValidNumber() {
         List<Integer> arr = Arrays.asList(5);
         List<String> expected = Arrays.asList("Five");
         List<String> result = ByLength.byLength(arr);
@@ -157,24 +157,32 @@ class ByLengthTest {
 
     @Test
     void testArrayWithRepeatedValidNumbers() {
-        List<Integer> arr = Arrays.asList(1, 1, 2, 2, 3, 3, 4, 4, 5, 5);
-        List<String> expected = Arrays.asList("Five", "Five", "Four", "Four", "Three", "Three", "Two", "Two", "One", "One");
+        List<Integer> arr = Arrays.asList(1, 2, 3, 2, 1);
+        List<String> expected = Arrays.asList("Three", "Two", "Two", "One", "One");
         List<String> result = ByLength.byLength(arr);
         assertEquals(expected, result);
     }
 
     @Test
     void testArrayWithValidAndStrangeNumbers() {
-        List<Integer> arr = Arrays.asList(1, -1, 3, 2);
-        List<String> expected = Arrays.asList("Three", "Two", "One");
+        List<Integer> arr = Arrays.asList(1, 2, -1, 3, 4, 55, 5, 6, 7, 8, 9);
+        List<String> expected = Arrays.asList("Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two", "One");
         List<String> result = ByLength.byLength(arr);
         assertEquals(expected, result);
     }
 
     @Test
-    void testArrayWithAllStrangeNumbers() {
-        List<Integer> arr = Arrays.asList(-1, 0, 10, 11);
-        List<String> expected = new ArrayList<>();
+    void testArrayWithValidAndStrangeNumbersInDescendingOrder() {
+        List<Integer> arr = Arrays.asList(9, 8, 7, 6, 5, 4, 3, -1, 2, 1, 55);
+        List<String> expected = Arrays.asList("Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two", "One");
+        List<String> result = ByLength.byLength(arr);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testArrayWithValidAndStrangeNumbersInAscendingOrder() {
+        List<Integer> arr = Arrays.asList(-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 55);
+        List<String> expected = Arrays.asList("Nine", "Eight", "Seven", "Six", "Five", "Four", "Three", "Two", "One");
         List<String> result = ByLength.byLength(arr);
         assertEquals(expected, result);
     }

@@ -1,6 +1,7 @@
-Here's the completed code for the `PairsSumToZeroTest` class:
+Here's the code for the test class:
 
 ```
+// PairsSumToZeroTest.java
 package scenario1;
 
 import java.util.Arrays;
@@ -22,19 +23,19 @@ class PairsSumToZeroTest {
 
     @Test
     void testSingleElementList() {
-        List<Integer> l = Arrays.asList(5);
+        List<Integer> l = Arrays.asList(1);
         assertFalse(PairsSumToZero.pairsSumToZero(l));
     }
 
     @Test
     void testTwoElementListSumToZero() {
-        List<Integer> l = Arrays.asList(-2, 2);
+        List<Integer> l = Arrays.asList(-1, 1);
         assertTrue(PairsSumToZero.pairsSumToZero(l));
     }
 
     @Test
     void testTwoElementListSumNotToZero() {
-        List<Integer> l = Arrays.asList(-2, 3);
+        List<Integer> l = Arrays.asList(-1, 2);
         assertFalse(PairsSumToZero.pairsSumToZero(l));
     }
 
@@ -46,34 +47,32 @@ class PairsSumToZeroTest {
 
     @Test
     void testThreeElementListSumNotToZero() {
-        List<Integer> l = Arrays.asList(-1, 2, 1);
+        List<Integer> l = Arrays.asList(-1, 0, 2);
         assertFalse(PairsSumToZero.pairsSumToZero(l));
     }
 
     @Test
     void testFourElementListSumToZero() {
-        List<Integer> l = Arrays.asList(-1, 2, -2, 1);
+        List<Integer> l = Arrays.asList(-1, 0, 1, 2);
         assertTrue(PairsSumToZero.pairsSumToZero(l));
     }
 
     @Test
     void testFourElementListSumNotToZero() {
-        List<Integer> l = Arrays.asList(-1, 2, 3, 1);
+        List<Integer> l = Arrays.asList(-1, 0, 2, 3);
         assertFalse(PairsSumToZero.pairsSumToZero(l));
     }
 
     @Test
     void testLargeListSumToZero() {
-        List<Integer> l = Arrays.asList(-1, 2, -2, 1, 0, 5, -5, 3, -3, 4, -4);
+        List<Integer> l = Arrays.asList(-1, 0, 1, 2, -2, 3, -3, 4, -4, 5, -5);
         assertTrue(PairsSumToZero.pairsSumToZero(l));
     }
 
     @Test
     void testLargeListSumNotToZero() {
-        List<Integer> l = Arrays.asList(-1, 2, 3, 1, 0, 5, -5, 3, -3, 4, -4);
+        List<Integer> l = Arrays.asList(-1, 0, 1, 2, -2, 3, -3, 4, -4, 5, 6);
         assertFalse(PairsSumToZero.pairsSumToZero(l));
     }
 }
 ```
-
-This class contains ten test cases for the `pairsSumToZero` method, covering various scenarios such as empty lists, single-element lists, lists with two, three, and four elements, and large lists. Each test case uses the `assert` methods to check whether the expected result matches the actual result returned by the `pairsSumToZero` method.

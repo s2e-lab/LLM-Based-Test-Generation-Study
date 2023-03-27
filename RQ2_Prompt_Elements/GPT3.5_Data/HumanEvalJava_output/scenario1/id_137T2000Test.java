@@ -1,87 +1,79 @@
-Here's the completed code for CompareOneTest.java:
+// Here's an example of how you can write unit tests for the CompareOne class using JUnit 5:
 
-```
 package scenario1;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link CompareOne}.
- * It contains ten unit test cases for the {@link CompareOne#compareOne(Object, Object)} method.
- */
 class CompareOneTest {
 
     @Test
-    void testEqualFloats() {
-        Object a = 1.0f;
-        Object b = 1.0f;
+    void testCompareOneWithEqualFloats() {
+        Object a = 1.23f;
+        Object b = 1.23f;
         assertNull(CompareOne.compareOne(a, b));
     }
 
     @Test
-    void testEqualInts() {
-        Object a = 1;
-        Object b = 1;
+    void testCompareOneWithDifferentFloats() {
+        Object a = 1.23f;
+        Object b = 4.56f;
+        assertEquals(b, CompareOne.compareOne(a, b));
+    }
+
+    @Test
+    void testCompareOneWithEqualIntegers() {
+        Object a = 42;
+        Object b = 42;
         assertNull(CompareOne.compareOne(a, b));
     }
 
     @Test
-    void testEqualStrings() {
-        Object a = "1.0";
-        Object b = "1.0";
+    void testCompareOneWithDifferentIntegers() {
+        Object a = 42;
+        Object b = 1337;
+        assertEquals(b, CompareOne.compareOne(a, b));
+    }
+
+    @Test
+    void testCompareOneWithEqualStrings() {
+        Object a = "3.14";
+        Object b = "3.14";
         assertNull(CompareOne.compareOne(a, b));
     }
 
     @Test
-    void testDifferentFloats() {
-        Object a = 1.0f;
-        Object b = 2.0f;
+    void testCompareOneWithDifferentStrings() {
+        Object a = "3.14";
+        Object b = "2.72";
+        assertEquals(a, CompareOne.compareOne(a, b));
+    }
+
+    @Test
+    void testCompareOneWithMixedTypes() {
+        Object a = 3.14f;
+        Object b = "2.72";
+        assertEquals(a, CompareOne.compareOne(a, b));
+    }
+
+    @Test
+    void testCompareOneWithNull() {
+        Object a = null;
+        Object b = 42;
         assertEquals(b, CompareOne.compareOne(a, b));
     }
 
     @Test
-    void testDifferentInts() {
-        Object a = 1;
-        Object b = 2;
-        assertEquals(b, CompareOne.compareOne(a, b));
+    void testCompareOneWithNulls() {
+        Object a = null;
+        Object b = null;
+        assertNull(CompareOne.compareOne(a, b));
     }
 
     @Test
-    void testDifferentStrings() {
-        Object a = "1.0";
-        Object b = "2.0";
-        assertEquals(b, CompareOne.compareOne(a, b));
-    }
-
-    @Test
-    void testStringAndFloat() {
-        Object a = "1.0";
-        Object b = 2.0f;
-        assertEquals(b, CompareOne.compareOne(a, b));
-    }
-
-    @Test
-    void testStringAndInt() {
-        Object a = "1.0";
-        Object b = 2;
-        assertEquals(b, CompareOne.compareOne(a, b));
-    }
-
-    @Test
-    void testFloatAndInt() {
-        Object a = 1.0f;
-        Object b = 2;
-        assertEquals(b, CompareOne.compareOne(a, b));
-    }
-
-    @Test
-    void testInvalidString() {
-        Object a = "invalid";
-        Object b = 2.0f;
+    void testCompareOneWithInvalidInput() {
+        Object a = "foo";
+        Object b = "bar";
         assertThrows(NumberFormatException.class, () -> CompareOne.compareOne(a, b));
     }
 }
-```
-
-This code includes ten unit test cases for the `compareOne` method, covering various scenarios such as comparing equal and different floats, ints, and strings, as well as comparing different types of objects. It also includes a test case for an invalid string input, which should throw a `NumberFormatException`.

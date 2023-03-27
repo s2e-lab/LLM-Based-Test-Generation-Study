@@ -1,4 +1,4 @@
-Here's an example implementation of the `IncrListTest` class with ten unit test cases for the `incrList` method:
+Here's the source code for the IncrListTest class:
 
 ```
 package scenario1;
@@ -51,38 +51,40 @@ class IncrListTest {
     }
 
     @Test
-    void testListWithMixedValues() {
-        List<Object> input = Arrays.asList(1, "hello", 3.14, true, -5);
-        List<Object> expected = Arrays.asList(2, -4);
+    void testListWithZeroValue() {
+        List<Object> input = Arrays.asList(0);
+        List<Object> expected = Arrays.asList(1);
         assertEquals(expected, IncrList.incrList(input));
     }
 
     @Test
-    void testListWithNullValues() {
-        List<Object> input = Arrays.asList(null, 1, null, 2, null);
-        List<Object> expected = Arrays.asList(2, 3);
+    void testListWithMixedValues() {
+        List<Object> input = Arrays.asList(1, "hello", 2.5, true, -3);
+        List<Object> expected = Arrays.asList(2, -2);
+        assertEquals(expected, IncrList.incrList(input));
+    }
+
+    @Test
+    void testListWithNullValue() {
+        List<Object> input = Arrays.asList(null);
+        List<Object> expected = new ArrayList<>();
+        assertEquals(expected, IncrList.incrList(input));
+    }
+
+    @Test
+    void testListWithDuplicateValues() {
+        List<Object> input = Arrays.asList(1, 2, 2, 3, 3, 3, 4, 4, 4, 4);
+        List<Object> expected = Arrays.asList(2, 3, 3, 4, 4, 4, 5, 5, 5, 5);
         assertEquals(expected, IncrList.incrList(input));
     }
 
     @Test
     void testListWithMaxIntegerValue() {
         List<Object> input = Arrays.asList(Integer.MAX_VALUE);
-        List<Object> expected = Arrays.asList(Integer.MIN_VALUE);
-        assertEquals(expected, IncrList.incrList(input));
-    }
-
-    @Test
-    void testListWithMinIntegerValue() {
-        List<Object> input = Arrays.asList(Integer.MIN_VALUE);
-        List<Object> expected = Arrays.asList(Integer.MIN_VALUE + 1);
-        assertEquals(expected, IncrList.incrList(input));
-    }
-
-    @Test
-    void testListWithIntegerOverflow() {
-        List<Object> input = Arrays.asList(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        List<Object> expected = Arrays.asList(Integer.MIN_VALUE, Integer.MIN_VALUE + 1);
+        List<Object> expected = new ArrayList<>();
         assertEquals(expected, IncrList.incrList(input));
     }
 }
 ```
+
+This class contains ten unit test cases for the `incrList` method of the `IncrList` class. Each test case tests a different scenario, such as an empty list, a list with non-integer values, a list with negative integer values, etc. The `@Test` annotation is used to mark each test method, and the `assertEquals` method is used to compare the expected result with the actual result returned by the `incrList` method.

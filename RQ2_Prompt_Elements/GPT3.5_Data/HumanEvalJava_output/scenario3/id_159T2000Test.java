@@ -1,5 +1,6 @@
-// Here's the implementation of the Eat class:
+// Here's the source code for the Eat class and the EatTest class with ten unit test cases for the eat method.
 
+// Eat.java
 package scenario3;
 
 import java.util.ArrayList;
@@ -52,18 +53,18 @@ class Eat {
     public static List<Integer> eat(int number, int need, int remaining) {
         List<Integer> result = new ArrayList<>();
         int totalEaten = number + need;
-        int left = remaining - need;
-        if (left < 0) {
-            left = 0;
+        int leftOver = remaining - need;
+        if (leftOver < 0) {
+            totalEaten += leftOver;
+            leftOver = 0;
         }
         result.add(totalEaten);
-        result.add(left);
+        result.add(leftOver);
         return result;
     }
 }
 
-// And here's the implementation of the EatTest class:
-
+// EatTest.java
 package scenario3;
 
 import java.util.List;
@@ -79,7 +80,6 @@ class EatTest {
     @Test
     void testEat1() {
         List<Integer> result = Eat.eat(5, 6, 10);
-        assertEquals(2, result.size());
         assertEquals(11, result.get(0));
         assertEquals(4, result.get(1));
     }
@@ -87,7 +87,6 @@ class EatTest {
     @Test
     void testEat2() {
         List<Integer> result = Eat.eat(4, 8, 9);
-        assertEquals(2, result.size());
         assertEquals(12, result.get(0));
         assertEquals(1, result.get(1));
     }
@@ -95,7 +94,6 @@ class EatTest {
     @Test
     void testEat3() {
         List<Integer> result = Eat.eat(1, 10, 10);
-        assertEquals(2, result.size());
         assertEquals(11, result.get(0));
         assertEquals(0, result.get(1));
     }
@@ -103,7 +101,6 @@ class EatTest {
     @Test
     void testEat4() {
         List<Integer> result = Eat.eat(2, 11, 5);
-        assertEquals(2, result.size());
         assertEquals(7, result.get(0));
         assertEquals(0, result.get(1));
     }
@@ -111,7 +108,6 @@ class EatTest {
     @Test
     void testEat5() {
         List<Integer> result = Eat.eat(4, 5, 7);
-        assertEquals(2, result.size());
         assertEquals(9, result.get(0));
         assertEquals(2, result.get(1));
     }
@@ -119,7 +115,6 @@ class EatTest {
     @Test
     void testEat6() {
         List<Integer> result = Eat.eat(4, 5, 1);
-        assertEquals(2, result.size());
         assertEquals(5, result.get(0));
         assertEquals(0, result.get(1));
     }
@@ -127,7 +122,6 @@ class EatTest {
     @Test
     void testEat7() {
         List<Integer> result = Eat.eat(0, 0, 0);
-        assertEquals(2, result.size());
         assertEquals(0, result.get(0));
         assertEquals(0, result.get(1));
     }
@@ -135,7 +129,6 @@ class EatTest {
     @Test
     void testEat8() {
         List<Integer> result = Eat.eat(1000, 0, 1000);
-        assertEquals(2, result.size());
         assertEquals(1000, result.get(0));
         assertEquals(1000, result.get(1));
     }
@@ -143,7 +136,6 @@ class EatTest {
     @Test
     void testEat9() {
         List<Integer> result = Eat.eat(0, 1000, 0);
-        assertEquals(2, result.size());
         assertEquals(1000, result.get(0));
         assertEquals(0, result.get(1));
     }
@@ -151,7 +143,6 @@ class EatTest {
     @Test
     void testEat10() {
         List<Integer> result = Eat.eat(1000, 1000, 1000);
-        assertEquals(2, result.size());
         assertEquals(2000, result.get(0));
         assertEquals(0, result.get(1));
     }

@@ -1,3 +1,36 @@
+// Here's an implementation of the largestDivisor method and the test cases for it.
+
+// LargestDivisor.java
+package scenario3;
+
+class LargestDivisor {
+
+    /**
+     * For a given number n, find the largest number that divides n evenly, smaller than n
+     *
+     * > largestDivisor(15)
+     * 5
+     * > largestDivisor(3)
+     * 1
+     * > largestDivisor(7)
+     * 1
+     * > largestDivisor(10)
+     * 5
+     * > largestDivisor(100)
+     * 50
+     * > largestDivisor(49)
+     * 7
+     */
+    public static int largestDivisor(int n) {
+        for (int i = n - 1; i > 0; i--) {
+            if (n % i == 0) {
+                return i;
+            }
+        }
+        return 1;
+    }
+}
+
 // LargestDivisorTest.java
 package scenario3;
 
@@ -5,9 +38,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class of {@link LargestDivisor}.
- * It contains ten unit test cases for the {@link LargestDivisor#largestDivisor(int)} method.
- */
+* Test class of {@link LargestDivisor}.
+* It contains ten unit test cases for the {@link LargestDivisor#largestDivisor(int)} method.
+*/
 class LargestDivisorTest {
 
     @Test
@@ -47,16 +80,16 @@ class LargestDivisorTest {
 
     @Test
     void testLargestDivisorForNegativeNumber() {
-        assertEquals(-1, LargestDivisor.largestDivisor(-10));
+        assertEquals(1, LargestDivisor.largestDivisor(-10));
     }
 
     @Test
     void testLargestDivisorForZero() {
-        assertEquals(-1, LargestDivisor.largestDivisor(0));
+        assertEquals(1, LargestDivisor.largestDivisor(0));
     }
 
     @Test
-    void testLargestDivisorForMaxValue() {
-        assertEquals(1073741823, LargestDivisor.largestDivisor(Integer.MAX_VALUE));
+    void testLargestDivisorForLargeNumber() {
+        assertEquals(999999989, LargestDivisor.largestDivisor(999999990));
     }
 }

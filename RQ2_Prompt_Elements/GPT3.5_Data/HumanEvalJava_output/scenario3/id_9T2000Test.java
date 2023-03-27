@@ -83,41 +83,37 @@ class RollingMaxTest {
     }
 
     @Test
-    void testAllEqualList() {
-        List<Integer> input = Arrays.asList(1, 1, 1, 1, 1);
-        List<Integer> expected = Arrays.asList(1, 1, 1, 1, 1);
+    void testListWithDuplicates() {
+        List<Integer> input = Arrays.asList(1, 2, 2, 3, 3, 3, 2, 2);
+        List<Integer> expected = Arrays.asList(1, 2, 2, 3, 3, 3, 3, 3);
         assertEquals(expected, RollingMax.rollingMax(input));
     }
 
     @Test
-    void testNegativeNumbersList() {
+    void testListWithNegativeNumbers() {
         List<Integer> input = Arrays.asList(-1, -2, -3, -2, -3, -4, -2);
         List<Integer> expected = Arrays.asList(-1, -1, -1, -1, -1, -1, -1);
         assertEquals(expected, RollingMax.rollingMax(input));
     }
 
     @Test
-    void testMixedNumbersList() {
-        List<Integer> input = Arrays.asList(-1, 2, -3, 4, -5, 6, -7);
-        List<Integer> expected = Arrays.asList(-1, 2, 2, 4, 4, 6, 6);
+    void testListWithZero() {
+        List<Integer> input = Arrays.asList(1, 2, 3, 0, 4, 5);
+        List<Integer> expected = Arrays.asList(1, 2, 3, 3, 4, 5);
         assertEquals(expected, RollingMax.rollingMax(input));
     }
 
     @Test
-    void testDuplicateNumbersList() {
-        List<Integer> input = Arrays.asList(1, 2, 2, 3, 3, 3, 4, 4, 4, 4);
-        List<Integer> expected = Arrays.asList(1, 2, 2, 3, 3, 3, 4, 4, 4, 4);
+    void testListWithMaxValue() {
+        List<Integer> input = Arrays.asList(Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 2);
+        List<Integer> expected = Arrays.asList(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
         assertEquals(expected, RollingMax.rollingMax(input));
     }
 
     @Test
-    void testLargeList() {
-        List<Integer> input = new ArrayList<>();
-        List<Integer> expected = new ArrayList<>();
-        for (int i = 0; i < 1000000; i++) {
-            input.add(i);
-            expected.add(i);
-        }
+    void testListWithMinValue() {
+        List<Integer> input = Arrays.asList(Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2);
+        List<Integer> expected = Arrays.asList(Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2);
         assertEquals(expected, RollingMax.rollingMax(input));
     }
 }

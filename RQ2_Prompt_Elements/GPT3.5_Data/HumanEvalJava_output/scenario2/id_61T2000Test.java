@@ -1,3 +1,6 @@
+Here's the source code for the test class:
+
+```
 // CorrectBracketing1Test.java
 package scenario2;
 
@@ -41,22 +44,23 @@ class CorrectBracketing1Test {
     }
 
     @Test
-    void testMultipleOpeningBrackets() {
-        assertFalse(CorrectBracketing1.correctBracketing("((())"));
-    }
-
-    @Test
-    void testMultipleClosingBrackets() {
-        assertFalse(CorrectBracketing1.correctBracketing("(()))"));
-    }
-
-    @Test
     void testNestedBrackets() {
         assertTrue(CorrectBracketing1.correctBracketing("(()())"));
     }
 
     @Test
-    void testMixedBrackets() {
-        assertFalse(CorrectBracketing1.correctBracketing("(()())("));
+    void testUnbalancedNestedBrackets() {
+        assertFalse(CorrectBracketing1.correctBracketing("(()()"));
+    }
+
+    @Test
+    void testUnbalancedNestedBrackets2() {
+        assertFalse(CorrectBracketing1.correctBracketing(")()("));
+    }
+
+    @Test
+    void testLongString() {
+        assertTrue(CorrectBracketing1.correctBracketing("((((((()))))))"));
     }
 }
+```

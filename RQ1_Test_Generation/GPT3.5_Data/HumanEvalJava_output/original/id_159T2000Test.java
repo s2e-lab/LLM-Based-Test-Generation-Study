@@ -1,9 +1,11 @@
-// Here's the generated source code for the EatTest class:
+// Here's the source code for the EatTest class:
 
-package generated;
+package original;
 
-import original.Eat;
 import org.junit.jupiter.api.Test;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EatTest {

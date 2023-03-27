@@ -1,7 +1,40 @@
+// SumSquares1.java
+package scenario2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class SumSquares1 {
+
+    /**
+     * This function will take a list of integers. For all entries in the list, the function shall square the integer entry if its index is a
+     * multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3. The function will not
+     * change the entries in the list whose indexes are not a multiple of 3 or 4. The function shall then return the sum of all entries.
+     */
+    public static int sumSquares(List<Integer> lst) {
+        List<Integer> result = new ArrayList<Integer>();
+        for (int i = 0; i < lst.size(); i++) {
+            if (i % 3 == 0) {
+                result.add(lst.get(i) * lst.get(i));
+            } else if (i % 4 == 0 && i % 3 != 0) {
+                result.add(lst.get(i) * lst.get(i) * lst.get(i));
+            } else {
+                result.add(lst.get(i));
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < result.size(); i++) {
+            sum += result.get(i);
+        }
+        return sum;
+    }
+}
+
 // SumSquares1Test.java
 package scenario2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +47,7 @@ class SumSquares1Test {
     
     @Test
     void testEmptyList() {
-        List<Object> lst = new ArrayList<Object>();
+        List<Integer> lst = new ArrayList<Integer>();
         int expected = 0;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
@@ -22,122 +55,72 @@ class SumSquares1Test {
     
     @Test
     void testSingleEntry() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(2);
+        List<Integer> lst = Arrays.asList(2);
         int expected = 2;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testOnlyMultiplesOf3() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(2);
-        lst.add(3);
-        lst.add(4);
-        lst.add(5);
-        lst.add(6);
-        int expected = 2 + 9 + 4 + 25 + 36;
+    void testMultipleEntries() {
+        List<Integer> lst = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        int expected = 355;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testOnlyMultiplesOf4() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(2);
-        lst.add(3);
-        lst.add(4);
-        lst.add(5);
-        lst.add(6);
-        lst.add(7);
-        lst.add(8);
-        int expected = 2 + 3 + 64 + 5 + 6 + 7 + 512;
+    void testAllEntriesMultipleOf3() {
+        List<Integer> lst = Arrays.asList(3, 6, 9, 12, 15);
+        int expected = 495;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testMultiplesOf3And4() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(2);
-        lst.add(3);
-        lst.add(4);
-        lst.add(5);
-        lst.add(6);
-        lst.add(7);
-        lst.add(8);
-        lst.add(9);
-        int expected = 2 + 9 + 64 + 25 + 36 + 7 + 512 + 729;
+    void testAllEntriesMultipleOf4() {
+        List<Integer> lst = Arrays.asList(4, 8, 12, 16, 20);
+        int expected = 2144;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testNoMultiplesOf3Or4() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(2);
-        lst.add(5);
-        lst.add(7);
-        lst.add(11);
-        int expected = 2 + 5 + 7 + 11;
+    void testAllEntriesMultipleOf3And4() {
+        List<Integer> lst = Arrays.asList(12, 24, 36, 48, 60);
+        int expected = 22176;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testAllMultiplesOf3And4() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(2);
-        lst.add(3);
-        lst.add(4);
-        lst.add(5);
-        lst.add(6);
-        lst.add(7);
-        lst.add(8);
-        lst.add(9);
-        lst.add(10);
-        lst.add(11);
-        lst.add(12);
-        int expected = 2 + 9 + 64 + 25 + 36 + 7 + 512 + 729 + 100 + 121 + 1728;
+    void testNoEntriesMultipleOf3Or4() {
+        List<Integer> lst = Arrays.asList(1, 2, 5, 7, 11);
+        int expected = 139;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testNegativeNumbers() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(-2);
-        lst.add(3);
-        lst.add(-4);
-        lst.add(5);
-        lst.add(-6);
-        lst.add(7);
-        lst.add(-8);
-        lst.add(9);
-        int expected = 4 + 9 + 64 + 25 + 36 + 7 + 512 + 729;
+    void testNegativeEntries() {
+        List<Integer> lst = Arrays.asList(-2, 4, -6, 8, -10);
+        int expected = 340;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testZero() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(0);
+    void testZeroEntries() {
+        List<Integer> lst = Arrays.asList(0, 0, 0, 0, 0);
         int expected = 0;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }
     
     @Test
-    void testLargeNumbers() {
-        List<Object> lst = new ArrayList<Object>();
-        lst.add(1000000);
-        lst.add(2000000);
-        lst.add(3000000);
-        lst.add(4000000);
-        lst.add(5000000);
-        int expected = 10000000000000 + 8000000000000000000L + 2700000000000000000L + 64000000000000000000L + 250000000000000000000L;
+    void testLargeEntries() {
+        List<Integer> lst = Arrays.asList(1000, 2000, 3000, 4000, 5000);
+        int expected = 550000000;
         int actual = SumSquares1.sumSquares(lst);
         assertEquals(expected, actual);
     }

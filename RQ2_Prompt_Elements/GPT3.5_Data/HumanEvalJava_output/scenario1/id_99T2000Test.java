@@ -1,4 +1,4 @@
-Here's the completed `ClosestIntegerTest` class with ten unit test cases for the `closestInteger` method:
+Here's the code for the ClosestIntegerTest class:
 
 ```
 package scenario1;
@@ -6,10 +6,6 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link ClosestInteger}.
- * It contains ten unit test cases for the {@link ClosestInteger#closestInteger(String)} method.
- */
 class ClosestIntegerTest {
 
     @Test
@@ -19,7 +15,7 @@ class ClosestIntegerTest {
 
     @Test
     void testClosestIntegerNegative() {
-        assertEquals(-5, ClosestInteger.closestInteger("-4.6"));
+        assertEquals(-4, ClosestInteger.closestInteger("-4.6"));
     }
 
     @Test
@@ -53,7 +49,7 @@ class ClosestIntegerTest {
     }
 
     @Test
-    void testClosestIntegerPositiveInfinity() {
+    void testClosestIntegerInfinity() {
         assertEquals(Integer.MAX_VALUE, ClosestInteger.closestInteger(String.valueOf(Double.POSITIVE_INFINITY)));
     }
 
@@ -64,4 +60,4 @@ class ClosestIntegerTest {
 }
 ```
 
-These test cases cover a range of scenarios, including positive and negative values, zero, the maximum and minimum integer values, the maximum and minimum double values, NaN, positive and negative infinity.
+This test class contains ten unit test cases for the `closestInteger` method of the `ClosestInteger` class. The test cases cover a range of input values, including positive and negative numbers, zero, the maximum and minimum values of the `int` data type, the maximum and minimum values of the `double` data type, `NaN`, `Infinity`, and `-Infinity`. The `assertEquals` method is used to compare the expected output of the `closestInteger` method with the actual output.

@@ -1,79 +1,70 @@
-Here's the completed code for the `StringToMd5Test` class:
-
-```
-package scenario2;
-
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
 
 class StringToMd5Test {
 
     @Test
+    @DisplayName("Test empty string")
     void testEmptyString() {
         assertNull(StringToMd5.stringToMd5(""));
     }
 
     @Test
-    void testSingleCharacter() {
+    @DisplayName("Test string with one character")
+    void testOneCharacterString() {
         assertEquals("b026324c6904b2a9cb4b88d6d61c81d1", StringToMd5.stringToMd5("a"));
     }
 
     @Test
-    void testMultipleCharacters() {
-        assertEquals("900150983cd24fb0d6963f7d28e17f72", StringToMd5.stringToMd5("abc"));
+    @DisplayName("Test string with multiple characters")
+    void testMultipleCharacterString() {
+        assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", StringToMd5.stringToMd5("hello world"));
     }
 
     @Test
-    void testUpperCase() {
-        assertEquals("1bc29b36f623ba82aaf6724fd3b16718", StringToMd5.stringToMd5("ABC"));
-    }
-
-    @Test
-    void testNumbers() {
-        assertEquals("c4ca4238a0b923820dcc509a6f75849b", StringToMd5.stringToMd5("123"));
-    }
-
-    @Test
-    void testSpecialCharacters() {
+    @DisplayName("Test string with special characters")
+    void testSpecialCharacterString() {
         assertEquals("d41d8cd98f00b204e9800998ecf8427e", StringToMd5.stringToMd5("!@#$%^&*()"));
     }
 
     @Test
-    void testLongString() {
-        String longString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-                + "Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, "
-                + "ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, "
-                + "varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy "
-                + "molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. "
-                + "Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. "
-                + "Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. "
-                + "Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. "
-                + "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; "
-                + "Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.";
-
-        assertEquals("f5d7e6f3c2f6b6b2f8d7b7b7b7b7b7b7", StringToMd5.stringToMd5(longString));
+    @DisplayName("Test string with numbers")
+    void testNumberString() {
+        assertEquals("098f6bcd4621d373cade4e832627b4f6", StringToMd5.stringToMd5("1234567890"));
     }
 
     @Test
-    void testNullString() {
-        assertNull(StringToMd5.stringToMd5(null));
+    @DisplayName("Test string with uppercase letters")
+    void testUppercaseString() {
+        assertEquals("1bc29b36f623ba82aaf6724fd3b16718", StringToMd5.stringToMd5("HELLO WORLD"));
     }
 
     @Test
-    void testException() {
-        assertThrows(RuntimeException.class, () -> {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest("test".getBytes());
-            BigInteger number = new BigInteger(1, messageDigest);
-            String hashText = number.toString(16);
-            while (hashText.length() < 32) {
-                hashText = "0" + hashText;
-            }
-            StringToMd5.stringToMd5("test");
-        });
+    @DisplayName("Test string with lowercase letters")
+    void testLowercaseString() {
+        assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", StringToMd5.stringToMd5("hello world"));
+    }
+
+    @Test
+    @DisplayName("Test string with mixed case letters")
+    void testMixedCaseString() {
+        assertEquals("1bc29b36f623ba82aaf6724fd3b16718", StringToMd5.stringToMd5("Hello World"));
+    }
+
+    @Test
+    @DisplayName("Test string with leading and trailing spaces")
+    void testStringWithSpaces() {
+        assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", StringToMd5.stringToMd5("  hello world  "));
+    }
+
+    @Test
+    @DisplayName("Test string with newline characters")
+    void testStringWithNewlines() {
+        assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", StringToMd5.stringToMd5("hello\nworld"));
+    }
+
+    @Test
+    @DisplayName("Test string with tab characters")
+    void testStringWithTabs() {
+        assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", StringToMd5.stringToMd5("hello\tworld"));
     }
 }
-```
-
-This class contains ten test cases for the `stringToMd5` method, covering a range of input values and edge cases. The `@Test` annotation is used to mark each test method, and the `assertEquals` and `assertNull` methods are used to check the expected output of the `stringToMd5` method. The `assertThrows` method is used to test that an exception is thrown when the `MessageDigest.getInstance` method is called with an invalid algorithm name.

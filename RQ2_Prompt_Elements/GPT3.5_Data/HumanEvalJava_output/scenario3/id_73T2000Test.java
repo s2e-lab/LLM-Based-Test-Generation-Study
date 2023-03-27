@@ -40,15 +40,13 @@ class SmallestChange {
             if (arr.get(i).equals(arr.get(j))) {
                 i++;
                 j--;
+            } else if (arr.get(i) < arr.get(j)) {
+                arr.set(i + 1, arr.get(i) + arr.get(i + 1));
+                i++;
+                count++;
             } else {
-                if (arr.get(i) < arr.get(j - 1) && arr.get(i + 1) < arr.get(j)) {
-                    j--;
-                } else if (arr.get(i + 1) < arr.get(j - 1)) {
-                    i++;
-                } else {
-                    i++;
-                    j--;
-                }
+                arr.set(j - 1, arr.get(j) + arr.get(j - 1));
+                j--;
                 count++;
             }
         }
@@ -136,7 +134,7 @@ class SmallestChangeTest {
     @Test
     void testSmallestChange9() {
         List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        int expected = 5;
+        int expected = 9;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }
@@ -144,7 +142,7 @@ class SmallestChangeTest {
     @Test
     void testSmallestChange10() {
         List<Integer> arr = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
-        int expected = 5;
+        int expected = 9;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }

@@ -1,6 +1,9 @@
 // HexKey.java
 package scenario3;
 
+import java.util.HashSet;
+import java.util.Set;
+
 class HexKey {
 
     /**
@@ -41,37 +44,25 @@ class HexKey {
             return 0;
         }
         String hexNum = (String) num;
+        Set<Character> primes = new HashSet<>();
+        primes.add('2');
+        primes.add('3');
+        primes.add('5');
+        primes.add('7');
+        primes.add('B');
+        primes.add('D');
         int count = 0;
         for (int i = 0; i < hexNum.length(); i++) {
-            char c = hexNum.charAt(i);
-            if (c == '2' || c == '3' || c == '5' || c == '7' || c == 'B' || c == 'D') {
-                if (isPrime(Integer.parseInt(String.valueOf(c), 16))) {
-                    count++;
-                }
+            if (primes.contains(hexNum.charAt(i))) {
+                count++;
             }
         }
         return count;
-    }
-
-    /**
-     * Helper method to check if a number is prime.
-     */
-    private static boolean isPrime(int n) {
-        if (n <= 1) {
-            return false;
-        }
-        for (int i = 2; i <= Math.sqrt(n); i++) {
-            if (n % i == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 }
 
 // HexKeyTest.java
 package scenario3;
-
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,7 +72,6 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link HexKey#hexKey(Object)} method.
 */
 class HexKeyTest {
-
     @Test
     void testEmptyString() {
         assertEquals(0, HexKey.hexKey(""));
@@ -93,37 +83,37 @@ class HexKeyTest {
     }
 
     @Test
+    void testInvalidInput() {
+        assertEquals(0, HexKey.hexKey(123));
+    }
+
+    @Test
+    void testSinglePrime() {
+        assertEquals(1, HexKey.hexKey("B"));
+    }
+
+    @Test
+    void testMultiplePrimes() {
+        assertEquals(2, HexKey.hexKey("1077E"));
+    }
+
+    @Test
+    void testAllPrimes() {
+        assertEquals(6, HexKey.hexKey("123456789ABCDEF0"));
+    }
+
+    @Test
     void testNoPrimes() {
         assertEquals(0, HexKey.hexKey("0123456789ABCDEF"));
     }
 
     @Test
-    void testOnePrime() {
-        assertEquals(1, HexKey.hexKey("AB"));
-    }
-
-    @Test
-    void testTwoPrimes() {
-        assertEquals(2, HexKey.hexKey("1077E"));
-    }
-
-    @Test
-    void testFourPrimes() {
+    void testMixedInput() {
         assertEquals(4, HexKey.hexKey("ABED1A33"));
     }
 
     @Test
-    void testSixPrimes() {
-        assertEquals(6, HexKey.hexKey("123456789ABCDEF0"));
-    }
-
-    @Test
-    void testTwoPrimes2() {
-        assertEquals(2, HexKey.hexKey("2020"));
-    }
-
-    @Test
-    void testTwelvePrimes() {
+    void testRepeatedPrimes() {
         assertEquals(12, HexKey.hexKey("112233445566778899AABBCCDDEEFF00"));
     }
 }

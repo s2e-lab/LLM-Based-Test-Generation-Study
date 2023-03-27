@@ -67,31 +67,31 @@ class CountUpperTest {
 
     @Test
     void testTwoUppercaseVowels() {
-        assertEquals(2, CountUpper.countUpper("EEEE"));
+        assertEquals(2, CountUpper.countUpper("aBCdEFG"));
     }
 
     @Test
     void testAllUppercaseVowels() {
-        assertEquals(2, CountUpper.countUpper("AEIOU"));
+        assertEquals(2, CountUpper.countUpper("EEEE"));
     }
 
     @Test
-    void testMixedCase() {
-        assertEquals(1, CountUpper.countUpper("aBCDeF"));
+    void testAllUppercaseConsonants() {
+        assertEquals(0, CountUpper.countUpper("BCDFGH"));
     }
 
     @Test
-    void testOnlyUppercaseVowels() {
-        assertEquals(2, CountUpper.countUpper("AEIAOU"));
+    void testMixedCaseVowels() {
+        assertEquals(1, CountUpper.countUpper("aBCdEFGhIjKlMnOp"));
     }
 
     @Test
-    void testOnlyUppercaseConsonants() {
-        assertEquals(0, CountUpper.countUpper("BCDFGHJKLMNPQRSTVWXYZ"));
+    void testMixedCaseConsonants() {
+        assertEquals(0, CountUpper.countUpper("aBCdEFGhIjKlMnOpQrStUvWxYz"));
     }
 
     @Test
-    void testMixedCaseWithNumbersAndSpecialCharacters() {
-        assertEquals(1, CountUpper.countUpper("aB1C2dE3fG4"));
+    void testSpecialCharacters() {
+        assertEquals(0, CountUpper.countUpper("!@#$%^&*()_+-=[]{}|;':\",./<>?\\"));
     }
 }

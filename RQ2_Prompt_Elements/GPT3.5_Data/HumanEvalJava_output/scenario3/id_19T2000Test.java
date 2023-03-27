@@ -2,6 +2,7 @@
 package scenario3;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,6 @@ class SortNumbers {
             return "";
         }
 
-        String[] numberWords = numbers.split(" ");
         Map<String, Integer> numberMap = new HashMap<>();
         numberMap.put("zero", 0);
         numberMap.put("one", 1);
@@ -43,24 +43,26 @@ class SortNumbers {
         numberMap.put("eight", 8);
         numberMap.put("nine", 9);
 
-        Integer[] numberValues = new Integer[numberWords.length];
-        for (int i = 0; i < numberWords.length; i++) {
-            numberValues[i] = numberMap.get(numberWords[i]);
+        String[] numberArray = numbers.split(" ");
+        Integer[] intArray = new Integer[numberArray.length];
+
+        for (int i = 0; i < numberArray.length; i++) {
+            intArray[i] = numberMap.get(numberArray[i]);
         }
 
-        Arrays.sort(numberValues);
+        Arrays.sort(intArray, Comparator.naturalOrder());
 
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < numberValues.length; i++) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < intArray.length; i++) {
             for (Map.Entry<String, Integer> entry : numberMap.entrySet()) {
-                if (entry.getValue().equals(numberValues[i])) {
-                    result.append(entry.getKey()).append(" ");
+                if (entry.getValue().equals(intArray[i])) {
+                    sb.append(entry.getKey()).append(" ");
                     break;
                 }
             }
         }
 
-        return result.toString().trim();
+        return sb.toString().trim();
     }
 }
 
@@ -77,62 +79,51 @@ import static org.junit.jupiter.api.Assertions.*;
 class SortNumbersTest {
 
     @Test
-    void testEmptyString() {
-        String result = SortNumbers.sortNumbers("");
-        assertEquals("", result);
+    void testSortNumbersWithValidInput() {
+        assertEquals("one three five", SortNumbers.sortNumbers("three one five"));
+        assertEquals("three five nine", SortNumbers.sortNumbers("three five nine"));
+        assertEquals("zero four five seven eight nine", SortNumbers.sortNumbers("five zero four seven nine eight"));
+        assertEquals("zero one two three four five six", SortNumbers.sortNumbers("six five four three two one zero"));
     }
 
     @Test
-    void testSingleNumber() {
-        String result = SortNumbers.sortNumbers("three");
-        assertEquals("three", result);
+    void testSortNumbersWithEmptyInput() {
+        assertEquals("", SortNumbers.sortNumbers(""));
     }
 
     @Test
-    void testTwoNumbers() {
-        String result = SortNumbers.sortNumbers("three five");
-        assertEquals("three five", result);
+    void testSortNumbersWithSingleNumber() {
+        assertEquals("three", SortNumbers.sortNumbers("three"));
     }
 
     @Test
-    void testThreeNumbers() {
-        String result = SortNumbers.sortNumbers("three five nine");
-        assertEquals("three five nine", result);
+    void testSortNumbersWithInvalidInput() {
+        assertEquals("", SortNumbers.sortNumbers("invalid input"));
+        assertEquals("", SortNumbers.sortNumbers("one two three invalid"));
     }
 
     @Test
-    void testFourNumbers() {
-        String result = SortNumbers.sortNumbers("five zero four seven nine eight");
-        assertEquals("zero four five seven eight nine", result);
+    void testSortNumbersWithDuplicateNumbers() {
+        assertEquals("zero one two three four five six seven eight nine", SortNumbers.sortNumbers("zero one two three four five six seven eight nine zero one two three four five six seven eight nine"));
     }
 
     @Test
-    void testSixNumbers() {
-        String result = SortNumbers.sortNumbers("six five four three two one zero");
-        assertEquals("zero one two three four five six", result);
+    void testSortNumbersWithNumbersInReverseOrder() {
+        assertEquals("zero one two three four five six seven eight nine", SortNumbers.sortNumbers("nine eight seven six five four three two one zero"));
     }
 
     @Test
-    void testInvalidNumber() {
-        String result = SortNumbers.sortNumbers("three five invalid");
-        assertEquals("three five", result);
+    void testSortNumbersWithNumbersInRandomOrder() {
+        assertEquals("zero one two three four five six seven eight nine", SortNumbers.sortNumbers("five zero four seven nine eight one six two three"));
     }
 
     @Test
-    void testDuplicateNumbers() {
-        String result = SortNumbers.sortNumbers("three five five three");
-        assertEquals("three three five five", result);
+    void testSortNumbersWithNumbersInUpperCase() {
+        assertEquals("zero one two three four five six seven eight nine", SortNumbers.sortNumbers("ZERO ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE"));
     }
 
     @Test
-    void testNumbersWithDifferentCases() {
-        String result = SortNumbers.sortNumbers("Three fIvE zErO");
-        assertEquals("zErO fIvE Three", result);
-    }
-
-    @Test
-    void testNumbersWithLeadingAndTrailingSpaces() {
-        String result = SortNumbers.sortNumbers("  three five nine  ");
-        assertEquals("three five nine", result);
+    void testSortNumbersWithNumbersInMixedCase() {
+        assertEquals("zero one two three four five six seven eight nine", SortNumbers.sortNumbers("zErO oNe TwO ThReE fOuR fIvE sIx SeVeN eIgHt nInE"));
     }
 }

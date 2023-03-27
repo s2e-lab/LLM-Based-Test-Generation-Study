@@ -33,33 +33,37 @@ class CompareOne {
      */
     public static Object compareOne(Object a, Object b) {
         if (a instanceof String && b instanceof String) {
-            String aStr = (String) a;
-            String bStr = (String) b;
-            double aDouble = Double.parseDouble(aStr.replace(",", "."));
-            double bDouble = Double.parseDouble(bStr.replace(",", "."));
-            if (aDouble > bDouble) {
+            String strA = (String) a;
+            String strB = (String) b;
+            strA = strA.replace(',', '.');
+            strB = strB.replace(',', '.');
+            double doubleA = Double.parseDouble(strA);
+            double doubleB = Double.parseDouble(strB);
+            if (doubleA > doubleB) {
                 return a;
-            } else if (bDouble > aDouble) {
+            } else if (doubleB > doubleA) {
                 return b;
             } else {
                 return null;
             }
         } else if (a instanceof String) {
-            String aStr = (String) a;
-            double aDouble = Double.parseDouble(aStr.replace(",", "."));
-            if (aDouble > (double) b) {
+            String strA = (String) a;
+            strA = strA.replace(',', '.');
+            double doubleA = Double.parseDouble(strA);
+            if (doubleA > (double) b) {
                 return a;
-            } else if ((double) b > aDouble) {
+            } else if ((double) b > doubleA) {
                 return b;
             } else {
                 return null;
             }
         } else if (b instanceof String) {
-            String bStr = (String) b;
-            double bDouble = Double.parseDouble(bStr.replace(",", "."));
-            if ((double) a > bDouble) {
+            String strB = (String) b;
+            strB = strB.replace(',', '.');
+            double doubleB = Double.parseDouble(strB);
+            if ((double) a > doubleB) {
                 return a;
-            } else if (bDouble > (double) a) {
+            } else if (doubleB > (double) a) {
                 return b;
             } else {
                 return null;
@@ -92,8 +96,6 @@ class CompareOneTest {
     void testCompareOneIntegers() {
         assertEquals(2, CompareOne.compareOne(1, 2));
         assertEquals(2, CompareOne.compareOne(2, 1));
-        assertEquals(3, CompareOne.compareOne(2, 3));
-        assertEquals(3, CompareOne.compareOne(3, 2));
         assertNull(CompareOne.compareOne(1, 1));
     }
 
@@ -101,29 +103,24 @@ class CompareOneTest {
     void testCompareOneFloats() {
         assertEquals(2.5, CompareOne.compareOne(1.5, 2.5));
         assertEquals(2.5, CompareOne.compareOne(2.5, 1.5));
-        assertEquals(3.5, CompareOne.compareOne(2.5, 3.5));
-        assertEquals(3.5, CompareOne.compareOne(3.5, 2.5));
         assertNull(CompareOne.compareOne(1.5, 1.5));
     }
 
     @Test
     void testCompareOneStrings() {
-        assertEquals("2,3", CompareOne.compareOne("1,5", "2,3"));
-        assertEquals("2,3", CompareOne.compareOne("2,3", "1,5"));
-        assertEquals("3,5", CompareOne.compareOne("2,5", "3,5"));
-        assertEquals("3,5", CompareOne.compareOne("3,5", "2,5"));
-        assertNull(CompareOne.compareOne("1,5", "1,5"));
+        assertEquals("2.3", CompareOne.compareOne("1.5", "2.3"));
+        assertEquals("2.3", CompareOne.compareOne("2.3", "1.5"));
+        assertEquals("2.3", CompareOne.compareOne("2,3", "1.5"));
+        assertEquals("2,3", CompareOne.compareOne("1.5", "2,3"));
+        assertNull(CompareOne.compareOne("1.5", "1.5"));
     }
 
     @Test
     void testCompareOneMixed() {
-        assertEquals("2,3", CompareOne.compareOne("1,5", 2.3));
-        assertEquals("2,3", CompareOne.compareOne(2.3, "1,5"));
-        assertEquals("3,5", CompareOne.compareOne("2,5", 3.5));
-        assertEquals("3,5", CompareOne.compareOne(3.5, "2,5"));
-        assertNull(CompareOne.compareOne("1,5", 1.5));
-        assertNull(CompareOne.compareOne(1.5, "1,5"));
-        assertNull(CompareOne.compareOne(1, "1"));
+        assertEquals("2.3", CompareOne.compareOne("1.5", "2,3"));
+        assertEquals("2.3", CompareOne.compareOne("2,3", "1.5"));
+        assertEquals(2, CompareOne.compareOne("2", 1));
+        assertEquals(2, CompareOne.compareOne(1, "2"));
         assertNull(CompareOne.compareOne("1", 1));
     }
 }

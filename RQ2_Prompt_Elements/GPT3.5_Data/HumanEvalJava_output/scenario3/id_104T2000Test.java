@@ -29,24 +29,23 @@ class UniqueDigits {
      */
     public static List<Integer> uniqueDigits(List<Integer> x) {
         List<Integer> result = new ArrayList<>();
-        for (int i : x) {
-            if (hasNoEvenDigit(i)) {
-                result.add(i);
+        for (int num : x) {
+            boolean hasEvenDigit = false;
+            int temp = num;
+            while (temp > 0) {
+                int digit = temp % 10;
+                if (digit % 2 == 0) {
+                    hasEvenDigit = true;
+                    break;
+                }
+                temp /= 10;
+            }
+            if (!hasEvenDigit) {
+                result.add(num);
             }
         }
         result.sort(null);
         return result;
-    }
-
-    private static boolean hasNoEvenDigit(int n) {
-        while (n > 0) {
-            int digit = n % 10;
-            if (digit % 2 == 0) {
-                return false;
-            }
-            n /= 10;
-        }
-        return true;
     }
 }
 
@@ -65,72 +64,82 @@ import static org.junit.jupiter.api.Assertions.*;
 class UniqueDigitsTest {
 
     @Test
-    void testEmptyList() {
-        List<Integer> input = Arrays.asList();
-        List<Integer> expected = Arrays.asList();
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
-    }
-
-    @Test
-    void testNoEvenDigits() {
+    void testUniqueDigits1() {
         List<Integer> input = Arrays.asList(15, 33, 1422, 1);
         List<Integer> expected = Arrays.asList(1, 15, 33);
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testAllEvenDigits() {
+    void testUniqueDigits2() {
         List<Integer> input = Arrays.asList(152, 323, 1422, 10);
         List<Integer> expected = Arrays.asList();
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testMixedDigits() {
+    void testUniqueDigits3() {
         List<Integer> input = Arrays.asList(12345, 2033, 111, 151);
         List<Integer> expected = Arrays.asList(111, 151);
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSingleDigit() {
-        List<Integer> input = Arrays.asList(5);
-        List<Integer> expected = Arrays.asList(5);
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
-    }
-
-    @Test
-    void testTwoDigits() {
-        List<Integer> input = Arrays.asList(13, 24);
-        List<Integer> expected = Arrays.asList(13);
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
-    }
-
-    @Test
-    void testThreeDigits() {
+    void testUniqueDigits4() {
         List<Integer> input = Arrays.asList(135, 103, 31);
         List<Integer> expected = Arrays.asList(31, 135);
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testFourDigits() {
-        List<Integer> input = Arrays.asList(1234, 5678, 9012);
+    void testUniqueDigits5() {
+        List<Integer> input = Arrays.asList(2, 4, 6, 8);
         List<Integer> expected = Arrays.asList();
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testFiveDigits() {
-        List<Integer> input = Arrays.asList(12345, 67890, 13579);
-        List<Integer> expected = Arrays.asList(13579);
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    void testUniqueDigits6() {
+        List<Integer> input = Arrays.asList(1, 3, 5, 7, 9);
+        List<Integer> expected = Arrays.asList(1, 3, 5, 7, 9);
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testLargeNumbers() {
-        List<Integer> input = Arrays.asList(123456789, 987654321, 246813579);
-        List<Integer> expected = Arrays.asList(123456789, 246813579);
-        assertEquals(expected, UniqueDigits.uniqueDigits(input));
+    void testUniqueDigits7() {
+        List<Integer> input = Arrays.asList(10, 20, 30, 40, 50);
+        List<Integer> expected = Arrays.asList();
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testUniqueDigits8() {
+        List<Integer> input = Arrays.asList(11, 22, 33, 44, 55);
+        List<Integer> expected = Arrays.asList(11, 33, 55);
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testUniqueDigits9() {
+        List<Integer> input = Arrays.asList(123, 456, 789);
+        List<Integer> expected = Arrays.asList(123, 789);
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testUniqueDigits10() {
+        List<Integer> input = Arrays.asList(123456789);
+        List<Integer> expected = Arrays.asList(123456789);
+        List<Integer> actual = UniqueDigits.uniqueDigits(input);
+        assertEquals(expected, actual);
     }
 }

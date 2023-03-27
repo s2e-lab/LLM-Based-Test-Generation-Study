@@ -1,9 +1,9 @@
-Here's the completed code for Add1Test.java:
+Here's the source code for the Add1Test class:
 
 ```
+// Add1Test.java
 package scenario2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class Add1Test {
 
     @Test
     void testAddEmptyList() {
-        List<Integer> lst = new ArrayList<>();
+        List<Integer> lst = Arrays.asList();
         int result = Add1.add(lst);
         assertEquals(0, result);
     }
@@ -25,13 +25,6 @@ class Add1Test {
     @Test
     void testAddNoEvenElements() {
         List<Integer> lst = Arrays.asList(1, 3, 5, 7, 9);
-        int result = Add1.add(lst);
-        assertEquals(0, result);
-    }
-
-    @Test
-    void testAddNoOddIndices() {
-        List<Integer> lst = Arrays.asList(2, 4, 6, 8, 10);
         int result = Add1.add(lst);
         assertEquals(0, result);
     }
@@ -45,7 +38,7 @@ class Add1Test {
 
     @Test
     void testAddOneEvenElementAtEvenIndex() {
-        List<Integer> lst = Arrays.asList(2, 1, 4, 3, 6);
+        List<Integer> lst = Arrays.asList(1, 3, 2, 4, 5);
         int result = Add1.add(lst);
         assertEquals(0, result);
     }
@@ -59,7 +52,7 @@ class Add1Test {
 
     @Test
     void testAddMultipleEvenElementsAtEvenIndices() {
-        List<Integer> lst = Arrays.asList(2, 1, 4, 3, 6, 5, 8, 7, 10, 9);
+        List<Integer> lst = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         int result = Add1.add(lst);
         assertEquals(0, result);
     }
@@ -83,6 +76,13 @@ class Add1Test {
         List<Integer> lst = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         int result = Add1.add(lst);
         assertEquals(12, result);
+    }
+
+    @Test
+    void testAddDuplicateEvenElementsAtOddIndices() {
+        List<Integer> lst = Arrays.asList(1, 2, 3, 2, 5, 6, 7, 8, 9);
+        int result = Add1.add(lst);
+        assertEquals(16, result);
     }
 }
 ```

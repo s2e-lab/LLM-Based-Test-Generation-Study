@@ -1,4 +1,4 @@
-Here's the updated code for the `StartsOneEndsTest` class with ten unit test cases for the `startsOneEnds` method:
+Here's the source code for the StartsOneEndsTest class:
 
 ```
 package scenario1;
@@ -59,3 +59,5 @@ class StartsOneEndsTest {
     }
 }
 ```
+
+This test class contains ten unit test cases for the `startsOneEnds` method of the `StartsOneEnds` class. Each test case tests the method with a different input value and checks that the output is correct. The `assertEquals` method is used to compare the expected output with the actual output of the method.

@@ -1,11 +1,16 @@
-Here's the code for the `CheckIfLastCharIsALetterTest` class with ten unit test cases for the `checkIfLastCharIsALetter` method:
+Here's the code for the test class:
 
 ```
+// CheckIfLastCharIsALetterTest.java
 package scenario1;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link CheckIfLastCharIsALetter}.
+* It contains ten unit test cases for the {@link CheckIfLastCharIsALetter#checkIfLastCharIsALetter(String)} method.
+*/
 class CheckIfLastCharIsALetterTest {
 
     @Test

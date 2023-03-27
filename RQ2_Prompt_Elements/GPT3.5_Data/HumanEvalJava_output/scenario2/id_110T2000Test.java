@@ -1,6 +1,4 @@
-Here's the source code for the ExchangeTest class:
-
-```
+// ExchangeTest.java
 package scenario2;
 
 import java.util.Arrays;
@@ -8,6 +6,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link Exchange}.
+* It contains ten unit test cases for the {@link Exchange#exchange(List, List)} method.
+*/
 class ExchangeTest {
 
     @Test
@@ -80,6 +82,3 @@ class ExchangeTest {
         assertEquals("NO", Exchange.exchange(lst1, lst2));
     }
 }
-```
-
-This class contains ten test cases for the `Exchange.exchange()` method. Each test case consists of two lists of integers, one with even numbers and one with odd numbers. The expected result is either "YES" or "NO", depending on whether it is possible to exchange elements between the two lists to make the first list contain only even numbers. The `assertEquals()` method is used to compare the actual result with the expected result.

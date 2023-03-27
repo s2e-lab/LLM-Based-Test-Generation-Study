@@ -46,12 +46,12 @@ class MatchParens {
      * "Yes"
      */
     public static String matchParens(List<String> lst) {
-        String str1 = lst.get(0);
-        String str2 = lst.get(1);
-        String str = str1 + str2;
+        String s1 = lst.get(0);
+        String s2 = lst.get(1);
+        String s = s1 + s2;
         Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
             if (c == '(') {
                 stack.push(c);
             } else {
@@ -83,72 +83,96 @@ class MatchParensTest {
     @Test
     void testMatchParens1() {
         List<String> lst = Arrays.asList("()(", ")");
-        assertEquals("Yes", MatchParens.matchParens(lst));
+        String expected = "Yes";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens2() {
         List<String> lst = Arrays.asList(")", ")");
-        assertEquals("No", MatchParens.matchParens(lst));
+        String expected = "No";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens3() {
         List<String> lst = Arrays.asList("(()(())", "())())");
-        assertEquals("No", MatchParens.matchParens(lst));
+        String expected = "No";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens4() {
         List<String> lst = Arrays.asList(")())", "(()()(");
-        assertEquals("Yes", MatchParens.matchParens(lst));
+        String expected = "Yes";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens5() {
         List<String> lst = Arrays.asList("(())))", "(()())((");
-        assertEquals("Yes", MatchParens.matchParens(lst));
+        String expected = "Yes";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens6() {
         List<String> lst = Arrays.asList("()", "())");
-        assertEquals("No", MatchParens.matchParens(lst));
+        String expected = "No";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens7() {
         List<String> lst = Arrays.asList("(()(", "()))()");
-        assertEquals("Yes", MatchParens.matchParens(lst));
+        String expected = "Yes";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens8() {
         List<String> lst = Arrays.asList("((((", "((())");
-        assertEquals("No", MatchParens.matchParens(lst));
+        String expected = "No";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens9() {
         List<String> lst = Arrays.asList(")(()", "(()(");
-        assertEquals("No", MatchParens.matchParens(lst));
+        String expected = "No";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens10() {
         List<String> lst = Arrays.asList(")(", ")(");
-        assertEquals("No", MatchParens.matchParens(lst));
+        String expected = "No";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens11() {
         List<String> lst = Arrays.asList("(", ")");
-        assertEquals("Yes", MatchParens.matchParens(lst));
+        String expected = "Yes";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testMatchParens12() {
         List<String> lst = Arrays.asList(")", "(");
-        assertEquals("Yes", MatchParens.matchParens(lst));
+        String expected = "Yes";
+        String actual = MatchParens.matchParens(lst);
+        assertEquals(expected, actual);
     }
 }

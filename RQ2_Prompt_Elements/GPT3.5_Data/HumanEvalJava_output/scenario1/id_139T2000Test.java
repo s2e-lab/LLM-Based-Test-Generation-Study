@@ -1,4 +1,4 @@
-Here's the code for the SpecialFactorialTest class:
+Here's the code for the test class:
 
 ```
 package scenario1;
@@ -64,4 +64,4 @@ class SpecialFactorialTest {
 }
 ```
 
-This test class contains ten unit test cases for the `specialFactorial` method of the `SpecialFactorial` class. Each test case checks if the method returns the expected result for a given input. The test cases cover a range of input values from 0 to 9.
+This test class contains ten test cases for the `specialFactorial` method of the `SpecialFactorial` class. Each test case checks if the method returns the expected result for a given input. The test cases cover a range of input values, including zero, one, and larger values up to nine.

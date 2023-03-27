@@ -1,8 +1,29 @@
+// Concatenate.java
+package updated;
+
+import java.util.List;
+
+public class Concatenate {
+
+    /**
+     * Concatenate list of strings into a single string
+     *
+     * @param strings list of strings to concatenate
+     * @return concatenated string
+     */
+    public static String concatenate(List<String> strings) {
+        StringBuilder result = new StringBuilder();
+        for (String string : strings) {
+            result.append(string);
+        }
+        return result.toString();
+    }
+}
+
 // ConcatenateTest.java
-package original;
+package updated;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,71 +36,81 @@ class ConcatenateTest {
 
     @Test
     void testEmptyList() {
-        List<Object> strings = Collections.emptyList();
-        String result = Concatenate.concatenate(strings);
-        assertEquals("", result);
+        List<String> strings = Arrays.asList();
+        String expected = "";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSingleElementList() {
-        List<Object> strings = Collections.singletonList("a");
-        String result = Concatenate.concatenate(strings);
-        assertEquals("a", result);
+    void testSingleString() {
+        List<String> strings = Arrays.asList("a");
+        String expected = "a";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testMultipleElementList() {
-        List<Object> strings = Arrays.asList("a", "b", "c");
-        String result = Concatenate.concatenate(strings);
-        assertEquals("abc", result);
+    void testMultipleStrings() {
+        List<String> strings = Arrays.asList("a", "b", "c");
+        String expected = "abc";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithNullElement() {
-        List<Object> strings = Arrays.asList("a", null, "c");
-        String result = Concatenate.concatenate(strings);
-        assertEquals("anullc", result);
+    void testStringsWithSpaces() {
+        List<String> strings = Arrays.asList("hello", " ", "world");
+        String expected = "hello world";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithEmptyStringElement() {
-        List<Object> strings = Arrays.asList("a", "", "c");
-        String result = Concatenate.concatenate(strings);
-        assertEquals("ac", result);
+    void testStringsWithNumbers() {
+        List<String> strings = Arrays.asList("1", "2", "3");
+        String expected = "123";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithWhitespaceStringElement() {
-        List<Object> strings = Arrays.asList("a", " ", "c");
-        String result = Concatenate.concatenate(strings);
-        assertEquals("a c", result);
+    void testStringsWithSpecialCharacters() {
+        List<String> strings = Arrays.asList("!", "@", "#");
+        String expected = "!@#";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithIntegerElement() {
-        List<Object> strings = Arrays.asList("a", 1, "c");
-        String result = Concatenate.concatenate(strings);
-        assertEquals("a1c", result);
+    void testStringsWithNull() {
+        List<String> strings = Arrays.asList("a", null, "b");
+        String expected = "ab";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithDoubleElement() {
-        List<Object> strings = Arrays.asList("a", 1.5, "c");
-        String result = Concatenate.concatenate(strings);
-        assertEquals("a1.5c", result);
+    void testStringsWithEmptyString() {
+        List<String> strings = Arrays.asList("a", "", "b");
+        String expected = "ab";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithBooleanElement() {
-        List<Object> strings = Arrays.asList("a", true, "c");
-        String result = Concatenate.concatenate(strings);
-        assertEquals("atruec", result);
+    void testStringsWithOneNull() {
+        List<String> strings = Arrays.asList(null);
+        String expected = "";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testListWithMixedElements() {
-        List<Object> strings = Arrays.asList("a", 1, true, "c", 1.5);
-        String result = Concatenate.concatenate(strings);
-        assertEquals("a1truec1.5", result);
+    void testStringsWithOneEmptyString() {
+        List<String> strings = Arrays.asList("");
+        String expected = "";
+        String actual = Concatenate.concatenate(strings);
+        assertEquals(expected, actual);
     }
 }

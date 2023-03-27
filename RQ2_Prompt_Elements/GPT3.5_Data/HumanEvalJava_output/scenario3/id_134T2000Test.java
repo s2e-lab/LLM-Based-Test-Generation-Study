@@ -42,11 +42,10 @@ class CheckIfLastCharIsALetter {
         }
         String[] words = txt.split(" ");
         String lastWord = words[words.length - 1];
-        if (lastWord.isEmpty()) {
-            lastWord = words[words.length - 2];
+        if (lastWord.length() == 1 && Character.isLetter(lastWord.charAt(0))) {
+            return true;
         }
-        char lastChar = lastWord.charAt(lastWord.length() - 1);
-        return Character.isLetter(lastChar) && !lastWord.substring(0, lastWord.length() - 1).matches(".*[a-zA-Z]+.*");
+        return false;
     }
 }
 
@@ -62,6 +61,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link CheckIfLastCharIsALetter#checkIfLastCharIsALetter(String)} method.
 */
 class CheckIfLastCharIsALetterTest {
+
     @Test
     void testEmptyString() {
         assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter(""));
@@ -73,42 +73,42 @@ class CheckIfLastCharIsALetterTest {
     }
 
     @Test
-    void testSingleWord() {
+    void testSingleLetterWithSpace() {
+        assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("A "));
+    }
+
+    @Test
+    void testSingleLetterWithMultipleSpaces() {
+        assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("A   "));
+    }
+
+    @Test
+    void testSingleLetterWithWord() {
         assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple"));
     }
 
     @Test
-    void testSingleWordWithSpace() {
-        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple "));
+    void testMultipleLettersWithWord() {
+        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple pie"));
     }
 
     @Test
-    void testSingleWordWithNumber() {
-        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple1"));
-    }
-
-    @Test
-    void testSingleWordWithSpecialCharacter() {
-        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple!"));
-    }
-
-    @Test
-    void testMultipleWordsWithSpace() {
+    void testMultipleLettersWithSpace() {
         assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple pi e"));
+    }
+
+    @Test
+    void testMultipleLettersWithSpaceAndExtraSpace() {
+        assertTrue(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple pi e "));
+    }
+
+    @Test
+    void testMultipleWordsWithSpaceAndExtraSpace() {
+        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("Pumpkin pie "));
     }
 
     @Test
     void testMultipleWordsWithSpaceAndNumber() {
         assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("Pumpkin pie 1"));
-    }
-
-    @Test
-    void testMultipleWordsWithSpaceAndSpecialCharacter() {
-        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("Pumpkin pie!"));
-    }
-
-    @Test
-    void testMultipleWordsWithSpaceAndTrailingSpace() {
-        assertFalse(CheckIfLastCharIsALetter.checkIfLastCharIsALetter("apple pi e "));
     }
 }

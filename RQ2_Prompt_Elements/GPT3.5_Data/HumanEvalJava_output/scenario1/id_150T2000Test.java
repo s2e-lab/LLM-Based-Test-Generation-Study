@@ -1,4 +1,4 @@
-Here's the completed code for the XOrYTest class:
+Here's the code for the XOrYTest class:
 
 ```
 package scenario1;
@@ -6,72 +6,68 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link XOrY}.
- * It contains ten unit test cases for the {@link XOrY#xOrY(int, int, int)} method.
- */
 class XOrYTest {
 
     @Test
-    void testNEqualsOne() {
-        int result = XOrY.xOrY(1, 5, 10);
-        assertEquals(10, result);
+    void testXOrYWithPrimeNumber() {
+        int result = XOrY.xOrY(7, 1, 2);
+        assertEquals(1, result);
     }
 
     @Test
-    void testNEqualsTwo() {
-        int result = XOrY.xOrY(2, 5, 10);
-        assertEquals(5, result);
+    void testXOrYWithEvenNumber() {
+        int result = XOrY.xOrY(4, 3, 4);
+        assertEquals(4, result);
     }
 
     @Test
-    void testNIsPrime() {
-        int result = XOrY.xOrY(7, 5, 10);
-        assertEquals(5, result);
+    void testXOrYWithOddNumber() {
+        int result = XOrY.xOrY(5, 1, 2);
+        assertEquals(2, result);
     }
 
     @Test
-    void testNIsNotPrime() {
-        int result = XOrY.xOrY(6, 5, 10);
-        assertEquals(10, result);
+    void testXOrYWithOne() {
+        int result = XOrY.xOrY(1, 1, 2);
+        assertEquals(2, result);
     }
 
     @Test
-    void testNXEqualsY() {
-        int result = XOrY.xOrY(3, 5, 5);
-        assertEquals(5, result);
+    void testXOrYWithTwo() {
+        int result = XOrY.xOrY(2, 1, 2);
+        assertEquals(1, result);
     }
 
     @Test
-    void testNYEqualsX() {
-        int result = XOrY.xOrY(4, 10, 10);
-        assertEquals(10, result);
+    void testXOrYWithNegativeNumber() {
+        int result = XOrY.xOrY(-5, 1, 2);
+        assertEquals(2, result);
     }
 
     @Test
-    void testNXAndYAreZero() {
-        int result = XOrY.xOrY(3, 0, 0);
-        assertEquals(0, result);
+    void testXOrYWithZero() {
+        int result = XOrY.xOrY(0, 1, 2);
+        assertEquals(2, result);
     }
 
     @Test
-    void testNYAndXAreZero() {
-        int result = XOrY.xOrY(4, 0, 0);
-        assertEquals(0, result);
+    void testXOrYWithLargeNumber() {
+        int result = XOrY.xOrY(1000000, 1, 2);
+        assertEquals(2, result);
     }
 
     @Test
-    void testNXAndYAreNegative() {
-        int result = XOrY.xOrY(3, -5, -10);
-        assertEquals(-5, result);
+    void testXOrYWithMaxInt() {
+        int result = XOrY.xOrY(Integer.MAX_VALUE, 1, 2);
+        assertEquals(2, result);
     }
 
     @Test
-    void testNYAndXAreNegative() {
-        int result = XOrY.xOrY(4, -10, -5);
-        assertEquals(-5, result);
+    void testXOrYWithMinInt() {
+        int result = XOrY.xOrY(Integer.MIN_VALUE, 1, 2);
+        assertEquals(2, result);
     }
 }
 ```
 
-This test class contains ten test cases that cover different scenarios for the `xOrY` method. Each test case is annotated with the `@Test` annotation and contains an assertion using the `assertEquals` method to check the expected result against the actual result returned by the `xOrY` method.
+This test class contains ten unit test cases for the `xOrY` method of the `XOrY` class. Each test case tests a different scenario, such as a prime number, an even number, an odd number, a negative number, and so on. The `assertEquals` method is used to check that the actual result of the method matches the expected result.

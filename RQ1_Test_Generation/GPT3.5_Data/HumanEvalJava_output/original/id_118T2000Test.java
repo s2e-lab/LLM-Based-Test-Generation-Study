@@ -1,90 +1,135 @@
+// GetClosestVowel.java
+package original;
+
+class GetClosestVowel {
+
+    /**
+     * You are given a word. Your task is to find the closest vowel that stands between
+     * two consonants from the right side of the word (case sensitive).
+     *
+     * Vowels in the beginning and ending doesn't count. Return empty string if you didn't
+     * find any vowel met the above condition.
+     *
+     * You may assume that the given string contains English letter only.
+     *
+     * Example:
+     * getClosestVowel("yogurt") ==> "u"
+     * getClosestVowel("FULL") ==> "U"
+     * getClosestVowel("quick") ==> ""
+     * getClosestVowel("ab") ==> ""
+     *
+     * > getClosestVowel("yogurt")
+     * "u"
+     * > getClosestVowel("full")
+     * "u"
+     * > getClosestVowel("easy")
+     * ""
+     * > getClosestVowel("eAsy")
+     * ""
+     * > getClosestVowel("ali")
+     * ""
+     * > getClosestVowel("bad")
+     * "a"
+     * > getClosestVowel("most")
+     * "o"
+     * > getClosestVowel("ab")
+     * ""
+     * > getClosestVowel("ba")
+     * ""
+     * > getClosestVowel("quick")
+     * ""
+     * > getClosestVowel("anime")
+     * "i"
+     * > getClosestVowel("Asia")
+     * ""
+     * > getClosestVowel("Above")
+     * "o"
+     */
+    public static String getClosestVowel(String word) {
+        String vowels = "aeiouAEIOU";
+        int i = word.length() - 2;
+        while (i > 0) {
+            if (vowels.indexOf(word.charAt(i)) != -1) {
+                if (vowels.indexOf(word.charAt(i + 1)) == -1 && vowels.indexOf(word.charAt(i - 1)) == -1) {
+                    return word.substring(i, i + 1);
+                }
+            }
+            i--;
+        }
+        return "";
+    }
+}
+
 // GetClosestVowelTest.java
 package original;
+
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class of {@link GetClosestVowel}.
- * It contains ten unit test cases for the {@link GetClosestVowel#getClosestVowel(String)} method.
- */
+* Test class of {@link GetClosestVowel}.
+* It contains ten unit test cases for the {@link GetClosestVowel#getClosestVowel(String)} method.
+*/
 class GetClosestVowelTest {
-
+    
     @Test
     void testGetClosestVowel1() {
-        String result = GetClosestVowel.getClosestVowel("yogurt");
-        assertEquals("u", result);
+        assertEquals("u", GetClosestVowel.getClosestVowel("yogurt"));
     }
-
+    
     @Test
     void testGetClosestVowel2() {
-        String result = GetClosestVowel.getClosestVowel("full");
-        assertEquals("u", result);
+        assertEquals("U", GetClosestVowel.getClosestVowel("FULL"));
     }
-
+    
     @Test
     void testGetClosestVowel3() {
-        String result = GetClosestVowel.getClosestVowel("easy");
-        assertEquals("", result);
+        assertEquals("", GetClosestVowel.getClosestVowel("quick"));
     }
-
+    
     @Test
     void testGetClosestVowel4() {
-        String result = GetClosestVowel.getClosestVowel("eAsy");
-        assertEquals("", result);
+        assertEquals("", GetClosestVowel.getClosestVowel("ab"));
     }
-
+    
     @Test
     void testGetClosestVowel5() {
-        String result = GetClosestVowel.getClosestVowel("ali");
-        assertEquals("", result);
+        assertEquals("", GetClosestVowel.getClosestVowel("eAsy"));
     }
-
+    
     @Test
     void testGetClosestVowel6() {
-        String result = GetClosestVowel.getClosestVowel("bad");
-        assertEquals("a", result);
+        assertEquals("", GetClosestVowel.getClosestVowel("ali"));
     }
-
+    
     @Test
     void testGetClosestVowel7() {
-        String result = GetClosestVowel.getClosestVowel("most");
-        assertEquals("o", result);
+        assertEquals("a", GetClosestVowel.getClosestVowel("bad"));
     }
-
+    
     @Test
     void testGetClosestVowel8() {
-        String result = GetClosestVowel.getClosestVowel("ab");
-        assertEquals("", result);
+        assertEquals("o", GetClosestVowel.getClosestVowel("most"));
     }
-
+    
     @Test
     void testGetClosestVowel9() {
-        String result = GetClosestVowel.getClosestVowel("ba");
-        assertEquals("", result);
+        assertEquals("", GetClosestVowel.getClosestVowel("ba"));
     }
-
+    
     @Test
     void testGetClosestVowel10() {
-        String result = GetClosestVowel.getClosestVowel("quick");
-        assertEquals("", result);
+        assertEquals("i", GetClosestVowel.getClosestVowel("anime"));
     }
-
+    
     @Test
     void testGetClosestVowel11() {
-        String result = GetClosestVowel.getClosestVowel("anime");
-        assertEquals("i", result);
+        assertEquals("", GetClosestVowel.getClosestVowel("Asia"));
     }
-
+    
     @Test
     void testGetClosestVowel12() {
-        String result = GetClosestVowel.getClosestVowel("Asia");
-        assertEquals("", result);
-    }
-
-    @Test
-    void testGetClosestVowel13() {
-        String result = GetClosestVowel.getClosestVowel("Above");
-        assertEquals("o", result);
+        assertEquals("o", GetClosestVowel.getClosestVowel("Above"));
     }
 }

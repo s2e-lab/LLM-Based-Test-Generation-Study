@@ -1,10 +1,8 @@
-// Here's the generated source code for the CorrectBracketing1Test class:
-
-package generated;
+// CorrectBracketing1Test.java
+package original;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import original.CorrectBracketing1;
 
 /**
  * Test class of {@link CorrectBracketing1}.

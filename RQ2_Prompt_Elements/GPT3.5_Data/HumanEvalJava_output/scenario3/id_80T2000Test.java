@@ -1,5 +1,6 @@
-// Here's the generated code for the IsHappy class:
+// Here's the complete source code for the IsHappy and IsHappyTest classes:
 
+// IsHappy.java
 package scenario3;
 
 class IsHappy {
@@ -46,8 +47,7 @@ class IsHappy {
     }
 }
 
-// And here's the generated code for the IsHappyTest class:
-
+// IsHappyTest.java
 package scenario3;
 
 import org.junit.jupiter.api.Test;
@@ -60,52 +60,53 @@ import static org.junit.jupiter.api.Assertions.*;
 class IsHappyTest {
 
     @Test
-    void testIsHappyWithSingleLetter() {
-        assertFalse(IsHappy.isHappy("a"));
-    }
-
-    @Test
-    void testIsHappyWithDoubleLetter() {
-        assertFalse(IsHappy.isHappy("aa"));
-    }
-
-    @Test
-    void testIsHappyWithDistinctLetters() {
-        assertTrue(IsHappy.isHappy("abcd"));
-    }
-
-    @Test
-    void testIsHappyWithTwoPairsOfSameLetters() {
-        assertFalse(IsHappy.isHappy("aabb"));
-    }
-
-    @Test
-    void testIsHappyWithTwoDistinctLettersAndOneSameLetter() {
-        assertTrue(IsHappy.isHappy("adb"));
-    }
-
-    @Test
-    void testIsHappyWithTwoSameLettersAndOneDistinctLetter() {
-        assertFalse(IsHappy.isHappy("xyy"));
-    }
-
-    @Test
-    void testIsHappyWithDistinctLettersAndRepeatingPattern() {
-        assertTrue(IsHappy.isHappy("iopaxpoi"));
-    }
-
-    @Test
-    void testIsHappyWithDistinctLettersAndNonRepeatingPattern() {
-        assertFalse(IsHappy.isHappy("iopaxioi"));
-    }
-
-    @Test
-    void testIsHappyWithEmptyString() {
+    void testEmptyString() {
         assertFalse(IsHappy.isHappy(""));
     }
 
     @Test
-    void testIsHappyWithNullString() {
-        assertFalse(IsHappy.isHappy(null));
+    void testSingleCharacter() {
+        assertFalse(IsHappy.isHappy("a"));
+    }
+
+    @Test
+    void testTwoIdenticalCharacters() {
+        assertFalse(IsHappy.isHappy("aa"));
+    }
+
+    @Test
+    void testThreeIdenticalCharacters() {
+        assertFalse(IsHappy.isHappy("aaa"));
+    }
+
+    @Test
+    void testThreeDistinctCharacters() {
+        assertTrue(IsHappy.isHappy("abc"));
+    }
+
+    @Test
+    void testFourCharactersWithTwoIdentical() {
+        assertFalse(IsHappy.isHappy("aabc"));
+    }
+
+    @Test
+    void testFourCharactersWithTwoDistinct() {
+        assertTrue(IsHappy.isHappy("abcd"));
+    }
+
+    @Test
+    void testFiveCharactersWithTwoIdentical() {
+        assertFalse(IsHappy.isHappy("aabbc"));
+    }
+
+    @Test
+    void testFiveCharactersWithTwoDistinct() {
+        assertTrue(IsHappy.isHappy("abcde"));
+    }
+
+    @Test
+    void testLongString() {
+        assertTrue(IsHappy.isHappy("iopaxpoi"));
+        assertFalse(IsHappy.isHappy("iopaxioi"));
     }
 }

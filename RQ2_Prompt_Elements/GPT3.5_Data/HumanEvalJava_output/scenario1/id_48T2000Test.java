@@ -1,65 +1,81 @@
-Here's the completed `IsPalindromeTest` class with ten unit test cases for the `isPalindrome` method:
+// IsPalindrome.java
+package scenario1;
 
-```
+class IsPalindrome {
+
+    public static Boolean isPalindrome(String text) {
+        int i = 0;
+        int j = text.length() - 1;
+        while (i < j) {
+            if (text.charAt(i) != text.charAt(j)) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+}
+
+// IsPalindromeTest.java
 package scenario1;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class of {@link IsPalindrome}.
- * It contains ten unit test cases for the {@link IsPalindrome#isPalindrome(String)} method.
- */
+* Test class of {@link IsPalindrome}.
+* It contains ten unit test cases for the {@link IsPalindrome#isPalindrome(String)} method.
+*/
 class IsPalindromeTest {
-
+    
     @Test
-    void testEmptyString() {
+    void testIsPalindromeWithEmptyString() {
         assertTrue(IsPalindrome.isPalindrome(""));
     }
-
+    
     @Test
-    void testSingleCharacterString() {
+    void testIsPalindromeWithSingleCharacter() {
         assertTrue(IsPalindrome.isPalindrome("a"));
     }
-
+    
     @Test
-    void testPalindromeString() {
+    void testIsPalindromeWithTwoIdenticalCharacters() {
+        assertTrue(IsPalindrome.isPalindrome("aa"));
+    }
+    
+    @Test
+    void testIsPalindromeWithTwoDifferentCharacters() {
+        assertFalse(IsPalindrome.isPalindrome("ab"));
+    }
+    
+    @Test
+    void testIsPalindromeWithThreeIdenticalCharacters() {
+        assertTrue(IsPalindrome.isPalindrome("aaa"));
+    }
+    
+    @Test
+    void testIsPalindromeWithThreeDifferentCharacters() {
+        assertFalse(IsPalindrome.isPalindrome("abc"));
+    }
+    
+    @Test
+    void testIsPalindromeWithPalindromeString() {
         assertTrue(IsPalindrome.isPalindrome("racecar"));
     }
-
+    
     @Test
-    void testNonPalindromeString() {
+    void testIsPalindromeWithNonPalindromeString() {
         assertFalse(IsPalindrome.isPalindrome("hello"));
     }
-
+    
     @Test
-    void testPalindromeStringWithSpaces() {
-        assertTrue(IsPalindrome.isPalindrome("a man a plan a canal panama"));
+    void testIsPalindromeWithMixedCasePalindromeString() {
+        assertTrue(IsPalindrome.isPalindrome("Racecar"));
     }
-
+    
     @Test
-    void testNonPalindromeStringWithSpaces() {
-        assertFalse(IsPalindrome.isPalindrome("this is not a palindrome"));
-    }
-
-    @Test
-    void testPalindromeStringWithPunctuation() {
-        assertTrue(IsPalindrome.isPalindrome("a man, a plan, a canal, Panama!"));
-    }
-
-    @Test
-    void testNonPalindromeStringWithPunctuation() {
-        assertFalse(IsPalindrome.isPalindrome("this is not a palindrome!"));
-    }
-
-    @Test
-    void testPalindromeStringWithMixedCase() {
-        assertTrue(IsPalindrome.isPalindrome("A man a plan a canal Panama"));
-    }
-
-    @Test
-    void testNonPalindromeStringWithMixedCase() {
-        assertFalse(IsPalindrome.isPalindrome("This is not a palindrome"));
+    void testIsPalindromeWithMixedCaseNonPalindromeString() {
+        assertFalse(IsPalindrome.isPalindrome("Hello"));
     }
 }
-```

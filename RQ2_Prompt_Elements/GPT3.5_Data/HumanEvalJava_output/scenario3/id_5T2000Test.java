@@ -1,3 +1,39 @@
+// Intersperse.java
+package scenario3;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Intersperse {
+
+    /**
+     * Insert a number 'delimiter' between every two consecutive elements of input list `numbers'.
+     *
+     * > intersperse([], 4)
+     * []
+     * > intersperse([1, 2, 3], 4)
+     * [1, 4, 2, 4, 3]
+     * > intersperse([], 7)
+     * []
+     * > intersperse([5, 6, 3, 2], 8)
+     * [5, 8, 6, 8, 3, 8, 2]
+     * > intersperse([2, 2, 2], 2)
+     * [2, 2, 2, 2, 2]
+     */
+    public static List<Integer> intersperse(List<Integer> numbers, int delimiter) {
+        List<Integer> result = new ArrayList<>();
+        if (numbers == null || numbers.isEmpty()) {
+            return result;
+        }
+        for (int i = 0; i < numbers.size() - 1; i++) {
+            result.add(numbers.get(i));
+            result.add(delimiter);
+        }
+        result.add(numbers.get(numbers.size() - 1));
+        return result;
+    }
+}
+
 // IntersperseTest.java
 package scenario3;
 
@@ -15,78 +51,71 @@ class IntersperseTest {
 
     @Test
     void testEmptyList() {
-        List<Object> numbers = new ArrayList<>();
-        List<Object> expected = new ArrayList<>();
-        assertEquals(expected, Intersperse.intersperse(numbers, 4));
+        List<Integer> input = new ArrayList<>();
+        List<Integer> expected = new ArrayList<>();
+        assertEquals(expected, Intersperse.intersperse(input, 4));
     }
 
     @Test
-    void testListWithOneElement() {
-        List<Object> numbers = Arrays.asList(1);
-        List<Object> expected = Arrays.asList(1);
-        assertEquals(expected, Intersperse.intersperse(numbers, 4));
+    void testSingleElementList() {
+        List<Integer> input = Arrays.asList(1);
+        List<Integer> expected = Arrays.asList(1);
+        assertEquals(expected, Intersperse.intersperse(input, 4));
     }
 
     @Test
-    void testListWithTwoElements() {
-        List<Object> numbers = Arrays.asList(1, 2);
-        List<Object> expected = Arrays.asList(1, 4, 2);
-        assertEquals(expected, Intersperse.intersperse(numbers, 4));
+    void testTwoElementList() {
+        List<Integer> input = Arrays.asList(1, 2);
+        List<Integer> expected = Arrays.asList(1, 4, 2);
+        assertEquals(expected, Intersperse.intersperse(input, 4));
     }
 
     @Test
-    void testListWithThreeElements() {
-        List<Object> numbers = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(1, 4, 2, 4, 3);
-        assertEquals(expected, Intersperse.intersperse(numbers, 4));
+    void testThreeElementList() {
+        List<Integer> input = Arrays.asList(1, 2, 3);
+        List<Integer> expected = Arrays.asList(1, 4, 2, 4, 3);
+        assertEquals(expected, Intersperse.intersperse(input, 4));
     }
 
     @Test
-    void testListWithFourElements() {
-        List<Object> numbers = Arrays.asList(5, 6, 3, 2);
-        List<Object> expected = Arrays.asList(5, 8, 6, 8, 3, 8, 2);
-        assertEquals(expected, Intersperse.intersperse(numbers, 8));
+    void testFourElementList() {
+        List<Integer> input = Arrays.asList(5, 6, 3, 2);
+        List<Integer> expected = Arrays.asList(5, 8, 6, 8, 3, 8, 2);
+        assertEquals(expected, Intersperse.intersperse(input, 8));
     }
 
     @Test
-    void testListWithSameElements() {
-        List<Object> numbers = Arrays.asList(2, 2, 2);
-        List<Object> expected = Arrays.asList(2, 2, 2, 2, 2);
-        assertEquals(expected, Intersperse.intersperse(numbers, 2));
+    void testAllSameElementList() {
+        List<Integer> input = Arrays.asList(2, 2, 2);
+        List<Integer> expected = Arrays.asList(2, 2, 2, 2, 2);
+        assertEquals(expected, Intersperse.intersperse(input, 2));
     }
 
     @Test
-    void testListWithNegativeDelimiter() {
-        List<Object> numbers = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(1, -4, 2, -4, 3);
-        assertEquals(expected, Intersperse.intersperse(numbers, -4));
+    void testNullInput() {
+        List<Integer> input = null;
+        List<Integer> expected = new ArrayList<>();
+        assertEquals(expected, Intersperse.intersperse(input, 4));
     }
 
     @Test
-    void testListWithZeroDelimiter() {
-        List<Object> numbers = Arrays.asList(1, 2, 3);
-        List<Object> expected = Arrays.asList(1, 0, 2, 0, 3);
-        assertEquals(expected, Intersperse.intersperse(numbers, 0));
+    void testNegativeDelimiter() {
+        List<Integer> input = Arrays.asList(1, 2, 3);
+        List<Integer> expected = Arrays.asList(1, -4, 2, -4, 3);
+        assertEquals(expected, Intersperse.intersperse(input, -4));
     }
 
     @Test
-    void testListWithNullElements() {
-        List<Object> numbers = Arrays.asList(1, null, 3);
-        List<Object> expected = Arrays.asList(1, 4, null, 4, 3);
-        assertEquals(expected, Intersperse.intersperse(numbers, 4));
+    void testZeroDelimiter() {
+        List<Integer> input = Arrays.asList(1, 2, 3);
+        List<Integer> expected = Arrays.asList(1, 0, 2, 0, 3);
+        assertEquals(expected, Intersperse.intersperse(input, 0));
     }
 
     @Test
-    void testListWithDifferentTypes() {
-        List<Object> numbers = Arrays.asList(1, "two", 3.0);
-        List<Object> expected = Arrays.asList(1, 4, "two", 4, 3.0);
-        assertEquals(expected, Intersperse.intersperse(numbers, 4));
-    }
-
-    @Test
-    void testListWithLargeNumbers() {
-        List<Object> numbers = Arrays.asList(Integer.MAX_VALUE, Long.MAX_VALUE, Double.MAX_VALUE);
-        List<Object> expected = Arrays.asList(Integer.MAX_VALUE, 4, Long.MAX_VALUE, 4, Double.MAX_VALUE);
-        assertEquals(expected, Intersperse.intersperse(numbers, 4));
+    void testMaxValueDelimiter() {
+        List<Integer> input = Arrays.asList(1, 2, 3);
+        List<Integer> expected = Arrays.asList(1, Integer.MAX_VALUE, 2, Integer.MAX_VALUE, 3);
+        assertEquals(expected, Intersperse.intersperse(input, Integer.MAX_VALUE));
     }
 }

@@ -33,9 +33,9 @@ class ClosestInteger {
      */
     public static int closestInteger(String value) {
         double num = Double.parseDouble(value);
-        int roundedNum = (int) Math.round(num);
-        if (num == roundedNum) {
-            return roundedNum;
+        int rounded = (int) Math.round(num);
+        if (num == rounded) {
+            return rounded;
         } else if (num > 0) {
             return (int) Math.ceil(num);
         } else {

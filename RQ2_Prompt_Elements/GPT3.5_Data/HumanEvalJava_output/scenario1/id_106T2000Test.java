@@ -1,4 +1,4 @@
-Here's the code for the FTest class with ten unit test cases for the f(int) method:
+Here's the source code for the FTest class with ten unit test cases for the f(int) method:
 
 ```
 class FTest {
@@ -110,4 +110,4 @@ class FTest {
 }
 ```
 
-These test cases cover different scenarios, including edge cases (0 and 1), even and odd numbers, and increasing values of n.
+These test cases cover different scenarios, including edge cases (n = 0, n = 1), even and odd values of n, and larger values of n.

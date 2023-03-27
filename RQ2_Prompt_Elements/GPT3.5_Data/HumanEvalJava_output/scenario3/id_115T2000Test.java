@@ -80,7 +80,7 @@ import static org.junit.jupiter.api.Assertions.*;
 */
 class MaxFillTest {
     @Test
-    void testMaxFillExample1() {
+    void testMaxFill1() {
         List<List<Integer>> grid = Arrays.asList(
             Arrays.asList(0, 0, 1, 0),
             Arrays.asList(0, 1, 0, 0),
@@ -93,7 +93,7 @@ class MaxFillTest {
     }
 
     @Test
-    void testMaxFillExample2() {
+    void testMaxFill2() {
         List<List<Integer>> grid = Arrays.asList(
             Arrays.asList(0, 0, 1, 1),
             Arrays.asList(0, 0, 0, 0),
@@ -107,7 +107,7 @@ class MaxFillTest {
     }
 
     @Test
-    void testMaxFillExample3() {
+    void testMaxFill3() {
         List<List<Integer>> grid = Arrays.asList(
             Arrays.asList(0, 0, 0),
             Arrays.asList(0, 0, 0)
@@ -119,87 +119,91 @@ class MaxFillTest {
     }
 
     @Test
-    void testMaxFillAllOnes() {
+    void testMaxFill4() {
         List<List<Integer>> grid = Arrays.asList(
-            Arrays.asList(1, 1, 1),
-            Arrays.asList(1, 1, 1)
+            Arrays.asList(1, 1, 1, 1),
+            Arrays.asList(1, 1, 1, 1)
         );
         int capacity = 2;
-        int expected = 3;
+        int expected = 4;
         int actual = MaxFill.maxFill(grid, capacity);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMaxFillAllZeros() {
+    void testMaxFill5() {
         List<List<Integer>> grid = Arrays.asList(
+            Arrays.asList(1, 1, 1, 1),
+            Arrays.asList(1, 1, 1, 1)
+        );
+        int capacity = 9;
+        int expected = 2;
+        int actual = MaxFill.maxFill(grid, capacity);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testMaxFill6() {
+        List<List<Integer>> grid = Arrays.asList(
+            Arrays.asList(0, 0, 0),
             Arrays.asList(0, 0, 0),
             Arrays.asList(0, 0, 0)
         );
-        int capacity = 2;
+        int capacity = 1;
         int expected = 0;
         int actual = MaxFill.maxFill(grid, capacity);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMaxFillSingleWell() {
+    void testMaxFill7() {
         List<List<Integer>> grid = Arrays.asList(
             Arrays.asList(1, 0, 0),
-            Arrays.asList(0, 0, 0)
+            Arrays.asList(0, 1, 0),
+            Arrays.asList(0, 0, 1)
         );
         int capacity = 1;
-        int expected = 1;
+        int expected = 3;
         int actual = MaxFill.maxFill(grid, capacity);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMaxFillSingleBucket() {
+    void testMaxFill8() {
         List<List<Integer>> grid = Arrays.asList(
             Arrays.asList(1, 0, 0),
-            Arrays.asList(0, 0, 0)
+            Arrays.asList(0, 1, 0),
+            Arrays.asList(0, 0, 1)
         );
         int capacity = 2;
-        int expected = 1;
+        int expected = 2;
         int actual = MaxFill.maxFill(grid, capacity);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testMaxFillLargeGrid() {
-        int rows = 100;
-        int cols = 100;
-        List<List<Integer>> grid = generateGrid(rows, cols);
-        int capacity = 10;
-        int expected = (int) Math.ceil((double) (rows * cols) / capacity);
-        int actual = MaxFill.maxFill(grid, capacity);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testMaxFillLargeCapacity() {
+    void testMaxFill9() {
         List<List<Integer>> grid = Arrays.asList(
-            Arrays.asList(0, 0, 1, 1),
-            Arrays.asList(0, 0, 0, 0),
-            Arrays.asList(1, 1, 1, 1),
-            Arrays.asList(0, 1, 1, 1)
+            Arrays.asList(1, 0, 0),
+            Arrays.asList(0, 1, 0),
+            Arrays.asList(0, 0, 1)
         );
-        int capacity = 10;
+        int capacity = 3;
         int expected = 1;
         int actual = MaxFill.maxFill(grid, capacity);
         assertEquals(expected, actual);
     }
 
-    private List<List<Integer>> generateGrid(int rows, int cols) {
-        List<List<Integer>> grid = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            List<Integer> row = new ArrayList<>();
-            for (int j = 0; j < cols; j++) {
-                row.add(1);
-            }
-            grid.add(row);
-        }
-        return grid;
+    @Test
+    void testMaxFill10() {
+        List<List<Integer>> grid = Arrays.asList(
+            Arrays.asList(1, 0, 0),
+            Arrays.asList(0, 1, 0),
+            Arrays.asList(0, 0, 1)
+        );
+        int capacity = 4;
+        int expected = 1;
+        int actual = MaxFill.maxFill(grid, capacity);
+        assertEquals(expected, actual);
     }
 }

@@ -1,6 +1,7 @@
-Here's the completed code for the `AddElementsTest` class:
+Here's the source code for the `AddElementsTest` class:
 
 ```
+// AddElementsTest.java
 package scenario2;
 
 import java.util.Arrays;
@@ -33,7 +34,25 @@ class AddElementsTest {
     }
 
     @Test
-    void testAddElementsWithAllElementsHavingAtMostTwoDigits() {
+    void testAddElementsWithKEqualToListSize() {
+        List<Integer> arr = Arrays.asList(10, 20, 30);
+        int k = 3;
+        int expectedSum = 60;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
+    }
+
+    @Test
+    void testAddElementsWithKLessThanListSize() {
+        List<Integer> arr = Arrays.asList(10, 20, 30, 40, 50);
+        int k = 3;
+        int expectedSum = 30;
+        int actualSum = AddElements.addElements(arr, k);
+        assertEquals(expectedSum, actualSum);
+    }
+
+    @Test
+    void testAddElementsWithAllElementsHavingTwoDigits() {
         List<Integer> arr = Arrays.asList(10, 20, 30, 40, 50);
         int k = 5;
         int expectedSum = 150;
@@ -42,7 +61,7 @@ class AddElementsTest {
     }
 
     @Test
-    void testAddElementsWithNoElementsHavingAtMostTwoDigits() {
+    void testAddElementsWithAllElementsHavingMoreThanTwoDigits() {
         List<Integer> arr = Arrays.asList(100, 200, 300, 400, 500);
         int k = 5;
         int expectedSum = 0;
@@ -51,16 +70,16 @@ class AddElementsTest {
     }
 
     @Test
-    void testAddElementsWithSomeElementsHavingAtMostTwoDigits() {
-        List<Integer> arr = Arrays.asList(10, 20, 300, 400, 50);
+    void testAddElementsWithSomeElementsHavingTwoDigits() {
+        List<Integer> arr = Arrays.asList(10, 200, 30, 400, 50);
         int k = 5;
-        int expectedSum = 80;
+        int expectedSum = 90;
         int actualSum = AddElements.addElements(arr, k);
         assertEquals(expectedSum, actualSum);
     }
 
     @Test
-    void testAddElementsWithAllElementsHavingAtMostOneDigit() {
+    void testAddElementsWithAllElementsHavingOneDigit() {
         List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5);
         int k = 5;
         int expectedSum = 15;
@@ -69,37 +88,19 @@ class AddElementsTest {
     }
 
     @Test
-    void testAddElementsWithAllElementsHavingMoreThanTwoDigits() {
-        List<Integer> arr = Arrays.asList(1000, 2000, 3000, 4000, 5000);
+    void testAddElementsWithAllElementsHavingNegativeValues() {
+        List<Integer> arr = Arrays.asList(-10, -20, -30, -40, -50);
         int k = 5;
-        int expectedSum = 0;
+        int expectedSum = -150;
         int actualSum = AddElements.addElements(arr, k);
         assertEquals(expectedSum, actualSum);
     }
 
     @Test
-    void testAddElementsWithKEqualToZero() {
-        List<Integer> arr = Arrays.asList(10, 20, 30, 40, 50);
-        int k = 0;
-        int expectedSum = 0;
-        int actualSum = AddElements.addElements(arr, k);
-        assertEquals(expectedSum, actualSum);
-    }
-
-    @Test
-    void testAddElementsWithListContainingNegativeNumbers() {
-        List<Integer> arr = Arrays.asList(-10, 20, -30, 40, -50);
+    void testAddElementsWithSomeElementsHavingNegativeValues() {
+        List<Integer> arr = Arrays.asList(10, -20, 30, -40, 50);
         int k = 5;
-        int expectedSum = -40;
-        int actualSum = AddElements.addElements(arr, k);
-        assertEquals(expectedSum, actualSum);
-    }
-
-    @Test
-    void testAddElementsWithListContainingZero() {
-        List<Integer> arr = Arrays.asList(10, 20, 0, 40, 50);
-        int k = 5;
-        int expectedSum = 30;
+        int expectedSum = 40;
         int actualSum = AddElements.addElements(arr, k);
         assertEquals(expectedSum, actualSum);
     }

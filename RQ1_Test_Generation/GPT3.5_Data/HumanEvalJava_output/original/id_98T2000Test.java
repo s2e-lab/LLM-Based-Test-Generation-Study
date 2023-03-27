@@ -1,10 +1,37 @@
-Here's the completed `CountUpperTest` class with ten unit test cases for the `countUpper` method:
+// CountUpper.java
+package updated;
 
-```
-package original;
+public class CountUpper {
+
+    /**
+     * Given a string s, count the number of uppercase vowels in even indices.
+     *
+     * For example:
+     * countUpper('aBCdEf') returns 1
+     * countUpper('abcdefg') returns 0
+     * countUpper('dBBE') returns 0
+     *
+     * @param s the input string
+     * @return the number of uppercase vowels in even indices
+     */
+    public static int countUpper(String s) {
+        int result = 0;
+        for (int i = 0; i < s.length(); i += 2) {
+            char c = s.charAt(i);
+            if (Character.isUpperCase(c) && "AEIOU".indexOf(c) >= 0) {
+                result++;
+            }
+        }
+        return result;
+    }
+}
+
+// CountUpperTest.java
+package updated;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class of {@link CountUpper}.
@@ -23,44 +50,42 @@ class CountUpperTest {
     }
 
     @Test
-    void testSingleUppercaseVowel() {
-        assertEquals(1, CountUpper.countUpper("aBCdEf"));
-    }
-
-    @Test
-    void testMultipleUppercaseVowels() {
-        assertEquals(2, CountUpper.countUpper("aBCdEIOUf"));
-    }
-
-    @Test
-    void testUppercaseConsonant() {
+    void testNoEvenIndices() {
         assertEquals(0, CountUpper.countUpper("dBBE"));
     }
 
     @Test
+    void testOneUppercaseVowel() {
+        assertEquals(1, CountUpper.countUpper("aBCdEf"));
+    }
+
+    @Test
+    void testTwoUppercaseVowels() {
+        assertEquals(2, CountUpper.countUpper("aBCDEfGI"));
+    }
+
+    @Test
     void testAllUppercaseVowels() {
-        assertEquals(2, CountUpper.countUpper("EEEE"));
+        assertEquals(3, CountUpper.countUpper("AEIOUaeiouAEIOU"));
     }
 
     @Test
-    void testMixedCase() {
-        assertEquals(1, CountUpper.countUpper("aBCdEfG"));
-    }
-
-    @Test
-    void testOnlyUppercaseVowels() {
-        assertEquals(2, CountUpper.countUpper("AEIOU"));
-    }
-
-    @Test
-    void testOnlyUppercaseConsonants() {
+    void testAllUppercaseConsonants() {
         assertEquals(0, CountUpper.countUpper("BCDFGHJKLMNPQRSTVWXYZ"));
     }
 
     @Test
-    void testLongString() {
-        String s = "aBCdEfGhIjKlMnOpQrStUvWxYz";
-        assertEquals(7, CountUpper.countUpper(s));
+    void testMixedCaseVowels() {
+        assertEquals(2, CountUpper.countUpper("aBCdEFGi"));
+    }
+
+    @Test
+    void testMixedCaseConsonants() {
+        assertEquals(0, CountUpper.countUpper("bCDFgHjKLmNPqRstVwXyz"));
+    }
+
+    @Test
+    void testSpecialCharacters() {
+        assertEquals(0, CountUpper.countUpper("!@#$%^&*()_+-=[]{}|;':\",./<>?\\"));
     }
 }
-```

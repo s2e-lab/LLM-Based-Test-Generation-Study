@@ -1,5 +1,38 @@
+// MaxElement.java
+package updated;
+
+import java.util.List;
+
+public class MaxElement {
+
+    /**
+     * Return the maximum element in the list.
+     *
+     * > maxElement([1, 2, 3])
+     * 3
+     * > maxElement([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
+     * 123
+     * > maxElement([1, 2, 3])
+     * 3
+     * > maxElement([5, 3, -5, 2, -3, 3, 9, 0, 124, 1, -10])
+     * 124
+     */
+    public static int maxElement(List<Integer> list) {
+        if (list == null || list.isEmpty()) {
+            throw new IllegalArgumentException("List cannot be null or empty");
+        }
+        int max = Integer.MIN_VALUE;
+        for (Integer i : list) {
+            if (i > max) {
+                max = i;
+            }
+        }
+        return max;
+    }
+}
+
 // MaxElementTest.java
-package original;
+package updated;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,63 +44,63 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link MaxElement#maxElement(List)} method.
 */
 class MaxElementTest {
-    
+
     @Test
-    void testMaxElementWithPositiveNumbers() {
-        List<Integer> l = Arrays.asList(1, 2, 3);
-        assertEquals(3, MaxElement.maxElement(l));
+    void testMaxElementWithValidList() {
+        List<Integer> list = Arrays.asList(1, 2, 3);
+        assertEquals(3, MaxElement.maxElement(list));
     }
-    
+
     @Test
     void testMaxElementWithNegativeNumbers() {
-        List<Integer> l = Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10);
-        assertEquals(123, MaxElement.maxElement(l));
+        List<Integer> list = Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10);
+        assertEquals(123, MaxElement.maxElement(list));
     }
-    
+
     @Test
-    void testMaxElementWithRepeatedNumbers() {
-        List<Integer> l = Arrays.asList(1, 2, 3);
-        assertEquals(3, MaxElement.maxElement(l));
+    void testMaxElementWithDuplicateMaxValue() {
+        List<Integer> list = Arrays.asList(1, 2, 3, 3);
+        assertEquals(3, MaxElement.maxElement(list));
     }
-    
+
     @Test
-    void testMaxElementWithLargestNumberAtTheEnd() {
-        List<Integer> l = Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 124, 1, -10);
-        assertEquals(124, MaxElement.maxElement(l));
+    void testMaxElementWithSingleElementList() {
+        List<Integer> list = Arrays.asList(5);
+        assertEquals(5, MaxElement.maxElement(list));
     }
-    
+
     @Test
-    void testMaxElementWithLargestNumberAtTheBeginning() {
-        List<Integer> l = Arrays.asList(124, 5, 3, -5, 2, -3, 3, 9, 0, 1, -10);
-        assertEquals(124, MaxElement.maxElement(l));
+    void testMaxElementWithMaxValueAtStart() {
+        List<Integer> list = Arrays.asList(10, 2, 3, 4, 5);
+        assertEquals(10, MaxElement.maxElement(list));
     }
-    
+
     @Test
-    void testMaxElementWithOneElement() {
-        List<Integer> l = Arrays.asList(5);
-        assertEquals(5, MaxElement.maxElement(l));
+    void testMaxElementWithMaxValueAtEnd() {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 10);
+        assertEquals(10, MaxElement.maxElement(list));
     }
-    
+
     @Test
-    void testMaxElementWithEmptyList() {
-        List<Integer> l = Arrays.asList();
-        assertThrows(IllegalArgumentException.class, () -> MaxElement.maxElement(l));
+    void testMaxElementWithMaxValueInMiddle() {
+        List<Integer> list = Arrays.asList(1, 2, 10, 4, 5);
+        assertEquals(10, MaxElement.maxElement(list));
     }
-    
+
     @Test
     void testMaxElementWithNullList() {
-        assertThrows(NullPointerException.class, () -> MaxElement.maxElement(null));
+        assertThrows(IllegalArgumentException.class, () -> MaxElement.maxElement(null));
     }
-    
+
     @Test
-    void testMaxElementWithMaxValue() {
-        List<Integer> l = Arrays.asList(Integer.MIN_VALUE, Integer.MAX_VALUE);
-        assertEquals(Integer.MAX_VALUE, MaxElement.maxElement(l));
+    void testMaxElementWithEmptyList() {
+        List<Integer> list = Arrays.asList();
+        assertThrows(IllegalArgumentException.class, () -> MaxElement.maxElement(list));
     }
-    
+
     @Test
-    void testMaxElementWithMinValue() {
-        List<Integer> l = Arrays.asList(Integer.MIN_VALUE, Integer.MAX_VALUE);
-        assertEquals(Integer.MAX_VALUE, MaxElement.maxElement(l));
+    void testMaxElementWithAllNegativeNumbers() {
+        List<Integer> list = Arrays.asList(-5, -3, -10, -2, -7);
+        assertEquals(-2, MaxElement.maxElement(list));
     }
 }

@@ -1,4 +1,4 @@
-Here's the source code for the MakePalindromeTest class:
+Here's the code for the MakePalindromeTest class:
 
 ```
 package scenario2;
@@ -19,50 +19,45 @@ class MakePalindromeTest {
     }
 
     @Test
-    void testTwoCharacterString() {
-        assertEquals("aa", MakePalindrome.makePalindrome("a"));
-        assertEquals("bb", MakePalindrome.makePalindrome("b"));
-        assertEquals("cc", MakePalindrome.makePalindrome("c"));
-    }
-
-    @Test
-    void testThreeCharacterString() {
-        assertEquals("aba", MakePalindrome.makePalindrome("ab"));
-        assertEquals("aca", MakePalindrome.makePalindrome("ac"));
-        assertEquals("bab", MakePalindrome.makePalindrome("ba"));
-        assertEquals("cac", MakePalindrome.makePalindrome("ca"));
-        assertEquals("cbc", MakePalindrome.makePalindrome("cb"));
-        assertEquals("cdc", MakePalindrome.makePalindrome("cd"));
-    }
-
-    @Test
-    void testFourCharacterString() {
-        assertEquals("abba", MakePalindrome.makePalindrome("ab"));
-        assertEquals("acca", MakePalindrome.makePalindrome("ac"));
-        assertEquals("baab", MakePalindrome.makePalindrome("ba"));
-        assertEquals("cacc", MakePalindrome.makePalindrome("ca"));
-        assertEquals("cbcb", MakePalindrome.makePalindrome("cb"));
-        assertEquals("cdc", MakePalindrome.makePalindrome("cd"));
-    }
-
-    @Test
-    void testLongerString() {
-        assertEquals("racecar", MakePalindrome.makePalindrome("race"));
-        assertEquals("deified", MakePalindrome.makePalindrome("dei"));
-        assertEquals("level", MakePalindrome.makePalindrome("lev"));
-        assertEquals("rotator", MakePalindrome.makePalindrome("rota"));
-        assertEquals("step on no pets", MakePalindrome.makePalindrome("step on no pe"));
-    }
-
-    @Test
     void testPalindromeString() {
         assertEquals("racecar", MakePalindrome.makePalindrome("racecar"));
-        assertEquals("deified", MakePalindrome.makePalindrome("deified"));
-        assertEquals("level", MakePalindrome.makePalindrome("level"));
-        assertEquals("rotator", MakePalindrome.makePalindrome("rotator"));
-        assertEquals("step on no pets", MakePalindrome.makePalindrome("step on no pets"));
+    }
+
+    @Test
+    void testEvenLengthString() {
+        assertEquals("abcba", MakePalindrome.makePalindrome("abc"));
+    }
+
+    @Test
+    void testOddLengthString() {
+        assertEquals("ababa", MakePalindrome.makePalindrome("aba"));
+    }
+
+    @Test
+    void testStringWithNoPalindrome() {
+        assertEquals("abcdefgfedcba", MakePalindrome.makePalindrome("abcdefg"));
+    }
+
+    @Test
+    void testStringWithSingleCharacterPalindrome() {
+        assertEquals("abcba", MakePalindrome.makePalindrome("ab"));
+    }
+
+    @Test
+    void testStringWithMultiplePalindromes() {
+        assertEquals("abcba", MakePalindrome.makePalindrome("abcba"));
+    }
+
+    @Test
+    void testStringWithAllSameCharacters() {
+        assertEquals("aaaaa", MakePalindrome.makePalindrome("aaaaa"));
+    }
+
+    @Test
+    void testStringWithAllDifferentCharacters() {
+        assertEquals("abcdefgfedcba", MakePalindrome.makePalindrome("abcdefgfedcba"));
     }
 }
 ```
 
-This class contains ten test cases for the `makePalindrome` method of the `MakePalindrome` class. The test cases cover different scenarios, including empty strings, single-character strings, two-character strings, three-character strings, four-character strings, longer strings, and palindrome strings. The `assertEquals` method is used to compare the expected output with the actual output of the `makePalindrome` method.
+This test class contains ten unit test cases for the `makePalindrome` method of the `MakePalindrome` class. Each test case tests a different scenario, such as an empty string, a single character string, a palindrome string, a string with no palindrome, a string with multiple palindromes, etc. The `assertEquals` method is used to compare the expected output with the actual output of the `makePalindrome` method.

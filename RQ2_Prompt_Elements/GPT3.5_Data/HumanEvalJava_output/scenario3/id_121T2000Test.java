@@ -75,12 +75,12 @@ class SolutionTest {
         assertEquals(3, Solution.solution(lst7));
 
         List<Integer> lst8 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        assertEquals(9, Solution.solution(lst8));
+        assertEquals(16, Solution.solution(lst8));
 
         List<Integer> lst9 = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
         assertEquals(15, Solution.solution(lst9));
 
-        List<Integer> lst10 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
-        assertEquals(25, Solution.solution(lst10));
+        List<Integer> lst10 = Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+        assertEquals(0, Solution.solution(lst10));
     }
 }

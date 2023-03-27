@@ -59,5 +59,3 @@ class VowelsCountTest {
     }
 }
 ```
-
-These test cases cover a range of scenarios, including empty strings, strings with no vowels, strings with all vowels, mixed case strings, and strings with vowels and "y" at the end.

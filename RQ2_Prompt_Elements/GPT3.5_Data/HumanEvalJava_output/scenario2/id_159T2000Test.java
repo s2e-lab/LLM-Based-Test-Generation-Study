@@ -1,14 +1,16 @@
-Here's the source code for the `EatTest` class with ten unit test cases for the `eat` method:
+// Here's the source code for the EatTest class:
 
-```
 package scenario2;
 
-import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
-
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link Eat}.
+ * It contains ten unit test cases for the {@link Eat#eat(int, int, int)} method.
+ */
 class EatTest {
 
     @Test
@@ -63,10 +65,8 @@ class EatTest {
     }
 
     @Test
-    void testEatWithExceedingValues() {
-        assertThrows(IllegalArgumentException.class, () -> Eat.eat(1001, 1001, 1001));
+    void testEatWithTooManyCarrots() {
+        List<Integer> result = Eat.eat(5, 10, 15);
+        assertEquals(Arrays.asList(15, 0), result);
     }
 }
-```
-
-These test cases cover different scenarios, including cases where there are enough or not enough carrots, cases with zero values, cases with maximum values, cases with negative values, and cases with values that exceed the constraints.

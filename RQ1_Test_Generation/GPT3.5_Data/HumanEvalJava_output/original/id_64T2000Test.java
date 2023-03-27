@@ -11,52 +11,52 @@ import static org.junit.jupiter.api.Assertions.*;
 class VowelsCountTest {
 
     @Test
-    void testVowelsCountWithEmptyString() {
+    void testVowelsCount1() {
+        assertEquals(2, VowelsCount.vowelsCount("abcde"));
+    }
+
+    @Test
+    void testVowelsCount2() {
+        assertEquals(3, VowelsCount.vowelsCount("Alone"));
+    }
+
+    @Test
+    void testVowelsCount3() {
+        assertEquals(2, VowelsCount.vowelsCount("key"));
+    }
+
+    @Test
+    void testVowelsCount4() {
+        assertEquals(1, VowelsCount.vowelsCount("bye"));
+    }
+
+    @Test
+    void testVowelsCount5() {
+        assertEquals(2, VowelsCount.vowelsCount("keY"));
+    }
+
+    @Test
+    void testVowelsCount6() {
+        assertEquals(1, VowelsCount.vowelsCount("bYe"));
+    }
+
+    @Test
+    void testVowelsCount7() {
+        assertEquals(3, VowelsCount.vowelsCount("ACEDY"));
+    }
+
+    @Test
+    void testVowelsCount8() {
         assertEquals(0, VowelsCount.vowelsCount(""));
     }
 
     @Test
-    void testVowelsCountWithNoVowels() {
+    void testVowelsCount9() {
+        assertEquals(1, VowelsCount.vowelsCount("y"));
+    }
+
+    @Test
+    void testVowelsCount10() {
         assertEquals(0, VowelsCount.vowelsCount("xyz"));
-    }
-
-    @Test
-    void testVowelsCountWithAllVowels() {
-        assertEquals(5, VowelsCount.vowelsCount("aeiou"));
-    }
-
-    @Test
-    void testVowelsCountWithMixedCaseVowels() {
-        assertEquals(5, VowelsCount.vowelsCount("aEiOu"));
-    }
-
-    @Test
-    void testVowelsCountWithYAtEnd() {
-        assertEquals(1, VowelsCount.vowelsCount("sky"));
-    }
-
-    @Test
-    void testVowelsCountWithYAtEndMixedCase() {
-        assertEquals(1, VowelsCount.vowelsCount("sKy"));
-    }
-
-    @Test
-    void testVowelsCountWithYNotAtEnd() {
-        assertEquals(0, VowelsCount.vowelsCount("yellow"));
-    }
-
-    @Test
-    void testVowelsCountWithYNotAtEndMixedCase() {
-        assertEquals(0, VowelsCount.vowelsCount("yEllow"));
-    }
-
-    @Test
-    void testVowelsCountWithYAtEndAndOtherVowels() {
-        assertEquals(2, VowelsCount.vowelsCount("happy"));
-    }
-
-    @Test
-    void testVowelsCountWithYAtEndAndOtherVowelsMixedCase() {
-        assertEquals(2, VowelsCount.vowelsCount("hAppy"));
     }
 }

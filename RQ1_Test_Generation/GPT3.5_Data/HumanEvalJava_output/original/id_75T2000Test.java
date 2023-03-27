@@ -1,15 +1,13 @@
-// Here's the generated code for IsMultiplyPrimeTest.java
-
-package generated;
+// IsMultiplyPrimeTest.java
+package original;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import original.IsMultiplyPrime;
 
 /**
-* Test class of {@link IsMultiplyPrime}.
-* It contains ten unit test cases for the {@link IsMultiplyPrime#isMultiplyPrime(int)} method.
-*/
+ * Test class of {@link IsMultiplyPrime}.
+ * It contains ten unit test cases for the {@link IsMultiplyPrime#isMultiplyPrime(int)} method.
+ */
 class IsMultiplyPrimeTest {
 
     @Test

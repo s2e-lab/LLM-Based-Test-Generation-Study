@@ -1,4 +1,4 @@
-Here's the code for the test class:
+Here's the source code for the `ParseNestedParensTest` class with ten unit test cases for the `parseNestedParens` method:
 
 ```
 class ParseNestedParensTest {
@@ -6,16 +6,16 @@ class ParseNestedParensTest {
     @Test
     void testEmptyString() {
         List<Integer> expected = new ArrayList<Integer>();
-        List<Integer> result = ParseNestedParens.parseNestedParens("");
-        assertEquals(expected, result);
+        List<Integer> actual = ParseNestedParens.parseNestedParens("");
+        assertEquals(expected, actual);
     }
 
     @Test
     void testSinglePair() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(1);
-        List<Integer> result = ParseNestedParens.parseNestedParens("()");
-        assertEquals(expected, result);
+        List<Integer> actual = ParseNestedParens.parseNestedParens("()");
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -24,8 +24,8 @@ class ParseNestedParensTest {
         expected.add(1);
         expected.add(2);
         expected.add(1);
-        List<Integer> result = ParseNestedParens.parseNestedParens("()()()");
-        assertEquals(expected, result);
+        List<Integer> actual = ParseNestedParens.parseNestedParens("()()()");
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -33,8 +33,16 @@ class ParseNestedParensTest {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(1);
-        List<Integer> result = ParseNestedParens.parseNestedParens("(())()");
-        assertEquals(expected, result);
+        List<Integer> actual = ParseNestedParens.parseNestedParens("(())()");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testSingleNestedPair() {
+        List<Integer> expected = new ArrayList<Integer>();
+        expected.add(2);
+        List<Integer> actual = ParseNestedParens.parseNestedParens("(()())");
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -42,57 +50,44 @@ class ParseNestedParensTest {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(2);
         expected.add(3);
-        expected.add(1);
-        List<Integer> result = ParseNestedParens.parseNestedParens("(()())()");
-        assertEquals(expected, result);
+        expected.add(2);
+        List<Integer> actual = ParseNestedParens.parseNestedParens("(()(()))()");
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testSingleNestedPair() {
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(2);
-        List<Integer> result = ParseNestedParens.parseNestedParens("(()())");
-        assertEquals(expected, result);
+    void testUnmatchedOpenParen() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ParseNestedParens.parseNestedParens("(()");
+        });
     }
 
     @Test
-    void testMultipleNestedPairs2() {
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(2);
-        expected.add(3);
-        expected.add(2);
-        List<Integer> result = ParseNestedParens.parseNestedParens("(()(()))()");
-        assertEquals(expected, result);
+    void testUnmatchedCloseParen() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ParseNestedParens.parseNestedParens("())");
+        });
     }
 
     @Test
-    void testMultipleNestedPairs3() {
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(2);
-        expected.add(3);
-        expected.add(3);
-        List<Integer> result = ParseNestedParens.parseNestedParens("(()(()()))()");
-        assertEquals(expected, result);
+    void testInvalidCharacter() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ParseNestedParens.parseNestedParens("(a)");
+        });
     }
 
     @Test
-    void testMultipleNestedPairs4() {
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(2);
-        expected.add(3);
-        expected.add(2);
-        List<Integer> result = ParseNestedParens.parseNestedParens("(()(()))");
-        assertEquals(expected, result);
+    void testOnlyOpenParens() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ParseNestedParens.parseNestedParens("(((");
+        });
     }
 
     @Test
-    void testMultipleNestedPairs5() {
-        List<Integer> expected = new ArrayList<Integer>();
-        expected.add(2);
-        expected.add(3);
-        expected.add(3);
-        List<Integer> result = ParseNestedParens.parseNestedParens("(()(()()))");
-        assertEquals(expected, result);
+    void testOnlyCloseParens() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            ParseNestedParens.parseNestedParens(")))");
+        });
     }
 }
 ```

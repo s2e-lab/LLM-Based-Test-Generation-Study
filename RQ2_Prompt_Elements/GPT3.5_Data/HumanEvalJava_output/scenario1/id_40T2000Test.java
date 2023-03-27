@@ -1,6 +1,4 @@
-Here's the completed code for the `TriplesSumToZeroTest` class:
-
-```
+// TriplesSumToZeroTest.java
 package scenario1;
 
 import java.util.Arrays;
@@ -21,59 +19,62 @@ class TriplesSumToZeroTest {
     }
 
     @Test
-    void testSingleElementList() {
+    void testListWithOneElement() {
         List<Integer> l = Arrays.asList(1);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
 
     @Test
-    void testTwoElementList() {
+    void testListWithTwoElements() {
         List<Integer> l = Arrays.asList(1, 2);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
 
     @Test
-    void testThreeElementListNoTripleSumToZero() {
-        List<Integer> l = Arrays.asList(1, 2, 3);
-        assertFalse(TriplesSumToZero.triplesSumToZero(l));
-    }
-
-    @Test
-    void testThreeElementListTripleSumToZero() {
-        List<Integer> l = Arrays.asList(1, -1, 0);
+    void testListWithThreeElementsSumToZero() {
+        List<Integer> l = Arrays.asList(-1, 0, 1);
         assertTrue(TriplesSumToZero.triplesSumToZero(l));
     }
 
     @Test
-    void testFourElementListNoTripleSumToZero() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 4);
+    void testListWithThreeElementsNotSumToZero() {
+        List<Integer> l = Arrays.asList(-1, 0, 2);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
 
     @Test
-    void testFourElementListTripleSumToZero() {
-        List<Integer> l = Arrays.asList(1, -1, 2, -2);
+    void testListWithFourElementsSumToZero() {
+        List<Integer> l = Arrays.asList(-1, 0, 1, 2);
         assertTrue(TriplesSumToZero.triplesSumToZero(l));
     }
 
     @Test
-    void testFiveElementListNoTripleSumToZero() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5);
+    void testListWithFourElementsNotSumToZero() {
+        List<Integer> l = Arrays.asList(-1, 0, 1, 3);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
 
     @Test
-    void testFiveElementListTripleSumToZero() {
-        List<Integer> l = Arrays.asList(1, -1, 2, -2, 0);
+    void testListWithFiveElementsSumToZero() {
+        List<Integer> l = Arrays.asList(-1, 0, 1, 2, -2);
         assertTrue(TriplesSumToZero.triplesSumToZero(l));
     }
 
     @Test
-    void testLargeListNoTripleSumToZero() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    void testListWithFiveElementsNotSumToZero() {
+        List<Integer> l = Arrays.asList(-1, 0, 1, 2, 3);
+        assertFalse(TriplesSumToZero.triplesSumToZero(l));
+    }
+
+    @Test
+    void testListWithSixElementsSumToZero() {
+        List<Integer> l = Arrays.asList(-1, 0, 1, 2, -2, 3);
+        assertTrue(TriplesSumToZero.triplesSumToZero(l));
+    }
+
+    @Test
+    void testListWithSixElementsNotSumToZero() {
+        List<Integer> l = Arrays.asList(-1, 0, 1, 2, 3, 4);
         assertFalse(TriplesSumToZero.triplesSumToZero(l));
     }
 }
-```
-
-This class contains ten test cases for the `triplesSumToZero` method, covering various scenarios such as empty lists, lists with only one or two elements, lists with three or more elements, and lists with and without triples that sum to zero. Each test case uses the `assert` methods to verify the expected output of the `triplesSumToZero` method.

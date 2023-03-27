@@ -1,5 +1,5 @@
 // SmallestChangeTest.java
-package updated;
+package original;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,83 +11,83 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link SmallestChange#smallestChange(List)} method.
 */
 class SmallestChangeTest {
-
+    
     @Test
-    void smallestChange_shouldReturn4_whenGivenList12354796() {
+    void testSmallestChange1() {
         List<Integer> arr = Arrays.asList(1, 2, 3, 5, 4, 7, 9, 6);
         int expected = 4;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void smallestChange_shouldReturn1_whenGivenList1234332() {
+    void testSmallestChange2() {
         List<Integer> arr = Arrays.asList(1, 2, 3, 4, 3, 2, 2);
         int expected = 1;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void smallestChange_shouldReturn0_whenGivenList12321() {
+    void testSmallestChange3() {
         List<Integer> arr = Arrays.asList(1, 2, 3, 2, 1);
         int expected = 0;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void smallestChange_shouldReturn0_whenGivenList3113() {
-        List<Integer> arr = Arrays.asList(3, 1, 1, 3);
-        int expected = 0;
-        int actual = SmallestChange.smallestChange(arr);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void smallestChange_shouldReturn0_whenGivenList1() {
-        List<Integer> arr = Arrays.asList(1);
-        int expected = 0;
-        int actual = SmallestChange.smallestChange(arr);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void smallestChange_shouldReturn1_whenGivenList12() {
-        List<Integer> arr = Arrays.asList(0, 1);
-        int expected = 1;
-        int actual = SmallestChange.smallestChange(arr);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void smallestChange_shouldReturn1_whenGivenList142() {
+    void testSmallestChange4() {
         List<Integer> arr = Arrays.asList(1, 4, 2);
         int expected = 1;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void smallestChange_shouldReturn1_whenGivenList1442() {
+    void testSmallestChange5() {
         List<Integer> arr = Arrays.asList(1, 4, 4, 2);
         int expected = 1;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void smallestChange_shouldReturn0_whenGivenListEmpty() {
-        List<Integer> arr = Arrays.asList();
+    void testSmallestChange6() {
+        List<Integer> arr = Arrays.asList(1, 2, 3, 2, 1);
         int expected = 0;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }
-
+    
     @Test
-    void smallestChange_shouldReturn0_whenGivenListNull() {
-        List<Integer> arr = null;
+    void testSmallestChange7() {
+        List<Integer> arr = Arrays.asList(3, 1, 1, 3);
         int expected = 0;
+        int actual = SmallestChange.smallestChange(arr);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSmallestChange8() {
+        List<Integer> arr = Arrays.asList(1);
+        int expected = 0;
+        int actual = SmallestChange.smallestChange(arr);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSmallestChange9() {
+        List<Integer> arr = Arrays.asList(0, 1);
+        int expected = 1;
+        int actual = SmallestChange.smallestChange(arr);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSmallestChange10() {
+        List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        int expected = 5;
         int actual = SmallestChange.smallestChange(arr);
         assertEquals(expected, actual);
     }

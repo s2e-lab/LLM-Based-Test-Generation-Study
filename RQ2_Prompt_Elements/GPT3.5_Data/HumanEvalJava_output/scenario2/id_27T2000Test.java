@@ -1,27 +1,95 @@
-Here's the source code for the `FlipCaseTest` class:
+// FlipCase.java
+package scenario2;
 
-```
+class FlipCase {
+
+    /**
+     * For a given string, flip lowercase characters to uppercase and uppercase to lowercase.
+     */
+    public static String flipCase(String string) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < string.length(); i++) {
+            char c = string.charAt(i);
+            if (Character.isUpperCase(c)) {
+                result.append(Character.toLowerCase(c));
+            } else {
+                result.append(Character.toUpperCase(c));
+            }
+        }
+        return result.toString();
+    }
+}
+
+// FlipCaseTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+* Test class of {@link FlipCase}.
+* It contains ten unit test cases for the {@link FlipCase#flipCase(String)} method.
+*/
 class FlipCaseTest {
-
+    
     @Test
-    void testFlipCase() {
-        assertEquals("hELLO wORLD", FlipCase.flipCase("Hello World"));
-        assertEquals("tHIS iS a tEST", FlipCase.flipCase("This Is A Test"));
-        assertEquals("1234", FlipCase.flipCase("1234"));
-        assertEquals("", FlipCase.flipCase(""));
-        assertEquals(" ", FlipCase.flipCase(" "));
-        assertEquals("a", FlipCase.flipCase("A"));
-        assertEquals("A", FlipCase.flipCase("a"));
-        assertEquals("aBcDeFgHiJkLmNoPqRsTuVwXyZ", FlipCase.flipCase("AbCdEfGhIjKlMnOpQrStUvWxYz"));
-        assertEquals("AbCdEfGhIjKlMnOpQrStUvWxYz", FlipCase.flipCase("aBcDeFgHiJkLmNoPqRsTuVwXyZ"));
-        assertEquals("hELLO wORLD 1234", FlipCase.flipCase("Hello World 1234"));
+    void testFlipCaseWithEmptyString() {
+        String result = FlipCase.flipCase("");
+        assertEquals("", result);
+    }
+    
+    @Test
+    void testFlipCaseWithAllUppercaseString() {
+        String result = FlipCase.flipCase("HELLO WORLD");
+        assertEquals("hello world", result);
+    }
+    
+    @Test
+    void testFlipCaseWithAllLowercaseString() {
+        String result = FlipCase.flipCase("hello world");
+        assertEquals("HELLO WORLD", result);
+    }
+    
+    @Test
+    void testFlipCaseWithMixedCaseString() {
+        String result = FlipCase.flipCase("HeLLo WoRLd");
+        assertEquals("hEllO wOrlD", result);
+    }
+    
+    @Test
+    void testFlipCaseWithNumbersAndSpecialCharacters() {
+        String result = FlipCase.flipCase("123!@#");
+        assertEquals("123!@#", result);
+    }
+    
+    @Test
+    void testFlipCaseWithNullString() {
+        assertThrows(NullPointerException.class, () -> {
+            FlipCase.flipCase(null);
+        });
+    }
+    
+    @Test
+    void testFlipCaseWithOneCharacterString() {
+        String result = FlipCase.flipCase("a");
+        assertEquals("A", result);
+    }
+    
+    @Test
+    void testFlipCaseWithWhitespaceString() {
+        String result = FlipCase.flipCase("   ");
+        assertEquals("   ", result);
+    }
+    
+    @Test
+    void testFlipCaseWithLongString() {
+        String result = FlipCase.flipCase("This is a long string with multiple words and characters.");
+        assertEquals("tHIS IS A LONG STRING WITH MULTIPLE WORDS AND CHARACTERS.", result);
+    }
+    
+    @Test
+    void testFlipCaseWithUnicodeCharacters() {
+        String result = FlipCase.flipCase("こんにちは");
+        assertEquals("こんにちは", result);
     }
 }
-```
-
-This class contains a single test method `testFlipCase()` which tests the `flipCase()` method of the `FlipCase` class with ten different input strings and expected output strings. The `assertEquals()` method is used to compare the actual output of the `flipCase()` method with the expected output. If the actual output matches the expected output, the test passes, otherwise it fails.

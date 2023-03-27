@@ -1,129 +1,55 @@
-// Here's an implementation of the ParseNestedParens class that passes all ten test cases:
+// Here's the source code for the ParseNestedParensTest class:
 
-import java.util.ArrayList;
-import java.util.List;
-
-class ParseNestedParens {
-
-    /**
-     * Input to this function is a string represented multiple groups for nested parentheses separated by spaces.
-     * For each of the group, output the deepest level of nesting of parentheses.
-     * E.g. (()()) has maximum two levels of nesting while ((())) has three.
-     *
-     * > parseNestedParens("(()()) ((())) () ((())()())")
-     * [2, 3, 1, 3]
-     * > parseNestedParens("() (()) ((())) (((())))")
-     * [1, 2, 3, 4]
-     * > parseNestedParens("(()(())((())))")
-     * [4]
-     */
-    public static List<Integer> parseNestedParens(String parenString) {
-        List<Integer> result = new ArrayList<>();
-        String[] groups = parenString.split(" ");
-        for (String group : groups) {
-            int maxDepth = 0;
-            int currentDepth = 0;
-            for (char c : group.toCharArray()) {
-                if (c == '(') {
-                    currentDepth++;
-                    maxDepth = Math.max(maxDepth, currentDepth);
-                } else if (c == ')') {
-                    currentDepth--;
-                }
-            }
-            result.add(maxDepth);
-        }
-        return result;
-    }
-}
-
-// And here's the test class:
+package scenario3;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
-* Test class of {@link ParseNestedParens}.
-* It contains ten unit test cases for the {@link ParseNestedParens#parseNestedParens(String)} method.
-*/
 class ParseNestedParensTest {
 
     @Test
-    void testEmptyString() {
-        List<Integer> expected = Arrays.asList();
-        List<Integer> actual = ParseNestedParens.parseNestedParens("");
-        assertEquals(expected, actual);
-    }
+    void testParseNestedParens() {
+        List<Integer> expected1 = Arrays.asList(2, 3, 1, 3);
+        List<Integer> result1 = ParseNestedParens.parseNestedParens("(()()) ((())) () ((())()())");
+        assertEquals(expected1, result1);
 
-    @Test
-    void testSingleGroup() {
-        List<Integer> expected = Arrays.asList(1);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("()");
-        assertEquals(expected, actual);
-    }
+        List<Integer> expected2 = Arrays.asList(1, 2, 3, 4);
+        List<Integer> result2 = ParseNestedParens.parseNestedParens("() (()) ((())) (((())))");
+        assertEquals(expected2, result2);
 
-    @Test
-    void testMultipleGroups() {
-        List<Integer> expected = Arrays.asList(2, 3, 1, 3);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("(()()) ((())) () ((())()())");
-        assertEquals(expected, actual);
-    }
+        List<Integer> expected3 = Arrays.asList(4);
+        List<Integer> result3 = ParseNestedParens.parseNestedParens("(()(())((())))");
+        assertEquals(expected3, result3);
 
-    @Test
-    void testNestedGroups() {
-        List<Integer> expected = Arrays.asList(2, 3, 1, 3);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("(()()) (((()))) () ((())()())");
-        assertEquals(expected, actual);
-    }
+        List<Integer> expected4 = Arrays.asList(1, 1, 1, 1, 1);
+        List<Integer> result4 = ParseNestedParens.parseNestedParens("() () () () ()");
+        assertEquals(expected4, result4);
 
-    @Test
-    void testDifferentGroupSizes() {
-        List<Integer> expected = Arrays.asList(1, 2, 3, 4);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("() (()) ((())) (((())))");
-        assertEquals(expected, actual);
-    }
+        List<Integer> expected5 = Arrays.asList(1, 2, 3, 2, 1);
+        List<Integer> result5 = ParseNestedParens.parseNestedParens("() (()) (((()))) (()) ()");
+        assertEquals(expected5, result5);
 
-    @Test
-    void testSingleGroupWithExtraCharacters() {
-        List<Integer> expected = Arrays.asList(1);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("(a) b c");
-        assertEquals(expected, actual);
-    }
+        List<Integer> expected6 = Arrays.asList(1, 2, 3, 2, 1, 2, 3, 2, 1);
+        List<Integer> result6 = ParseNestedParens.parseNestedParens("() (()) (((()))) (()) () (()) (((()))) (()) ()");
+        assertEquals(expected6, result6);
 
-    @Test
-    void testMultipleGroupsWithExtraCharacters() {
-        List<Integer> expected = Arrays.asList(2, 3, 1, 3);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("(()()) ((())) () ((())()()) extra");
-        assertEquals(expected, actual);
-    }
+        List<Integer> expected7 = Arrays.asList(1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1);
+        List<Integer> result7 = ParseNestedParens.parseNestedParens("() (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) ()");
+        assertEquals(expected7, result7);
 
-    @Test
-    void testSingleGroupWithNoParens() {
-        List<Integer> expected = Arrays.asList(0);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("hello world");
-        assertEquals(expected, actual);
-    }
+        List<Integer> expected8 = Arrays.asList(1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1);
+        List<Integer> result8 = ParseNestedParens.parseNestedParens("() (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) ()");
+        assertEquals(expected8, result8);
 
-    @Test
-    void testMultipleGroupsWithNoParens() {
-        List<Integer> expected = Arrays.asList(0, 1, 0, 2);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("() (hello) () ((world))");
-        assertEquals(expected, actual);
-    }
+        List<Integer> expected9 = Arrays.asList(1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1);
+        List<Integer> result9 = ParseNestedParens.parseNestedParens("() (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) ()");
+        assertEquals(expected9, result9);
 
-    @Test
-    void testSingleGroupWithOnlyOpeningParens() {
-        List<Integer> expected = Arrays.asList(1);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("(((((((");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSingleGroupWithOnlyClosingParens() {
-        List<Integer> expected = Arrays.asList(0);
-        List<Integer> actual = ParseNestedParens.parseNestedParens("))))))");
-        assertEquals(expected, actual);
+        List<Integer> expected10 = Arrays.asList(1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1);
+        List<Integer> result10 = ParseNestedParens.parseNestedParens("() (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) () (()) (((()))) (()) ()");
+        assertEquals(expected10, result10);
     }
 }

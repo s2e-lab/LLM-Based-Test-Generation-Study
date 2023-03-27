@@ -1,89 +1,92 @@
-// Test case 1: Test splitting on whitespace
+// SplitWordsTest.java
+package scenario2;
+
+import java.util.Arrays;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SplitWords}.
+* It contains ten unit test cases for the {@link SplitWords#splitWords(String)} method.
+*/
+class SplitWordsTest {
+    
     @Test
-    void testSplitWordsWithWhitespace() {
-        String txt = "Hello world";
-        Object expected = Arrays.asList("Hello", "world");
+    void testSplitWordsWithSpaces() {
+        String txt = "This is a test";
+        Object expected = Arrays.asList("This", "is", "a", "test");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
-    // Test case 2: Test splitting on comma
+    
     @Test
-    void testSplitWordsWithComma() {
-        String txt = "apple,banana,orange";
-        Object expected = Arrays.asList("apple", "banana", "orange");
+    void testSplitWordsWithCommas() {
+        String txt = "This,is,a,test";
+        Object expected = Arrays.asList("This", "is", "a", "test");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
-    // Test case 3: Test counting odd lower-case letters when no whitespaces or commas exist
+    
     @Test
-    void testSplitWordsWithNoWhitespaceOrComma() {
-        String txt = "Thequickbrownfoxjumpsoverthelazydog";
-        Object expected = 13;
+    void testSplitWordsWithMixedSeparators() {
+        String txt = "This is,a,test";
+        Object expected = Arrays.asList("This", "is", "a", "test");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }
-
-    // Test case 4: Test counting odd lower-case letters when input is empty
+    
     @Test
-    void testSplitWordsWithEmptyInput() {
+    void testSplitWordsWithNoSeparators() {
+        String txt = "Thisisatest";
+        Object expected = 4;
+        Object actual = SplitWords.splitWords(txt);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSplitWordsWithOnlySpaces() {
+        String txt = "   ";
+        Object expected = Arrays.asList("");
+        Object actual = SplitWords.splitWords(txt);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSplitWordsWithOnlyCommas() {
+        String txt = ",,,";
+        Object expected = Arrays.asList("", "", "", "");
+        Object actual = SplitWords.splitWords(txt);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSplitWordsWithMixedCase() {
+        String txt = "ThIs Is A TeSt";
+        Object expected = Arrays.asList("ThIs", "Is", "A", "TeSt");
+        Object actual = SplitWords.splitWords(txt);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSplitWordsWithNumbers() {
+        String txt = "This is a 123 test";
+        Object expected = Arrays.asList("This", "is", "a", "123", "test");
+        Object actual = SplitWords.splitWords(txt);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSplitWordsWithSpecialCharacters() {
+        String txt = "This is a $%& test";
+        Object expected = Arrays.asList("This", "is", "a", "$%&", "test");
+        Object actual = SplitWords.splitWords(txt);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testSplitWordsWithEmptyString() {
         String txt = "";
-        Object expected = 0;
-        Object actual = SplitWords.splitWords(txt);
-        assertEquals(expected, actual);
-    }
-
-    // Test case 5: Test splitting on multiple whitespaces
-    @Test
-    void testSplitWordsWithMultipleWhitespaces() {
-        String txt = "Hello     world";
-        Object expected = Arrays.asList("Hello", "world");
-        Object actual = SplitWords.splitWords(txt);
-        assertEquals(expected, actual);
-    }
-
-    // Test case 6: Test splitting on multiple commas
-    @Test
-    void testSplitWordsWithMultipleCommas() {
-        String txt = "apple,,,banana,orange";
-        Object expected = Arrays.asList("apple", "", "banana", "orange");
-        Object actual = SplitWords.splitWords(txt);
-        assertEquals(expected, actual);
-    }
-
-    // Test case 7: Test splitting on mixed whitespaces and commas
-    @Test
-    void testSplitWordsWithMixedWhitespacesAndCommas() {
-        String txt = "apple, banana orange";
-        Object expected = Arrays.asList("apple,", "banana", "orange");
-        Object actual = SplitWords.splitWords(txt);
-        assertEquals(expected, actual);
-    }
-
-    // Test case 8: Test splitting on only one word
-    @Test
-    void testSplitWordsWithOneWord() {
-        String txt = "Hello";
-        Object expected = Arrays.asList("Hello");
-        Object actual = SplitWords.splitWords(txt);
-        assertEquals(expected, actual);
-    }
-
-    // Test case 9: Test counting odd lower-case letters when no letters exist
-    @Test
-    void testSplitWordsWithNoLetters() {
-        String txt = "1234567890";
-        Object expected = 0;
-        Object actual = SplitWords.splitWords(txt);
-        assertEquals(expected, actual);
-    }
-
-    // Test case 10: Test counting odd lower-case letters when all letters are even
-    @Test
-    void testSplitWordsWithAllEvenLetters() {
-        String txt = "bcdfghjklmnpqrstvwxyz";
-        Object expected = 0;
+        Object expected = Arrays.asList("");
         Object actual = SplitWords.splitWords(txt);
         assertEquals(expected, actual);
     }

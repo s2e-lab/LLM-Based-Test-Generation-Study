@@ -1,9 +1,6 @@
-Here's the completed ExchangeTest class with ten unit test cases for the Exchange.exchange() method:
-
-```
+// ExchangeTest.java
 package scenario1;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -17,72 +14,71 @@ class ExchangeTest {
 
     @Test
     void testExchangeWithEmptyLists() {
-        List<Integer> lst1 = new ArrayList<>();
-        List<Integer> lst2 = new ArrayList<>();
+        List<Integer> lst1 = Arrays.asList();
+        List<Integer> lst2 = Arrays.asList();
         assertEquals("YES", Exchange.exchange(lst1, lst2));
     }
 
     @Test
-    void testExchangeWithOddAndEvenNumbers() {
-        List<Integer> lst1 = Arrays.asList(1, 3, 5);
-        List<Integer> lst2 = Arrays.asList(2, 4, 6);
+    void testExchangeWithOneEvenNumberAndOneOddNumber() {
+        List<Integer> lst1 = Arrays.asList(2);
+        List<Integer> lst2 = Arrays.asList(3);
         assertEquals("YES", Exchange.exchange(lst1, lst2));
     }
 
     @Test
-    void testExchangeWithEvenAndOddNumbers() {
-        List<Integer> lst1 = Arrays.asList(2, 4, 6);
-        List<Integer> lst2 = Arrays.asList(1, 3, 5);
+    void testExchangeWithOneEvenNumberAndOneEvenNumber() {
+        List<Integer> lst1 = Arrays.asList(2);
+        List<Integer> lst2 = Arrays.asList(4);
         assertEquals("NO", Exchange.exchange(lst1, lst2));
     }
 
     @Test
-    void testExchangeWithOnlyOddNumbers() {
-        List<Integer> lst1 = Arrays.asList(1, 3, 5);
-        List<Integer> lst2 = new ArrayList<>();
+    void testExchangeWithOneOddNumberAndOneOddNumber() {
+        List<Integer> lst1 = Arrays.asList(3);
+        List<Integer> lst2 = Arrays.asList(5);
         assertEquals("YES", Exchange.exchange(lst1, lst2));
     }
 
     @Test
-    void testExchangeWithOnlyEvenNumbers() {
-        List<Integer> lst1 = new ArrayList<>();
-        List<Integer> lst2 = Arrays.asList(2, 4, 6);
+    void testExchangeWithTwoOddNumbersAndTwoEvenNumbers() {
+        List<Integer> lst1 = Arrays.asList(1, 3);
+        List<Integer> lst2 = Arrays.asList(2, 4);
         assertEquals("YES", Exchange.exchange(lst1, lst2));
     }
 
     @Test
-    void testExchangeWithEqualNumberOfOddAndEvenNumbers() {
-        List<Integer> lst1 = Arrays.asList(1, 3, 5);
-        List<Integer> lst2 = Arrays.asList(2, 4, 6);
+    void testExchangeWithTwoOddNumbersAndOneEvenNumber() {
+        List<Integer> lst1 = Arrays.asList(1, 3);
+        List<Integer> lst2 = Arrays.asList(2);
         assertEquals("YES", Exchange.exchange(lst1, lst2));
     }
 
     @Test
-    void testExchangeWithMoreOddNumbersInFirstList() {
-        List<Integer> lst1 = Arrays.asList(1, 3, 5, 7);
-        List<Integer> lst2 = Arrays.asList(2, 4, 6);
+    void testExchangeWithTwoOddNumbersAndTwoEvenNumbersAndOneZero() {
+        List<Integer> lst1 = Arrays.asList(1, 3);
+        List<Integer> lst2 = Arrays.asList(0, 2, 4);
+        assertEquals("YES", Exchange.exchange(lst1, lst2));
+    }
+
+    @Test
+    void testExchangeWithTwoOddNumbersAndTwoEvenNumbersAndTwoZeros() {
+        List<Integer> lst1 = Arrays.asList(1, 3);
+        List<Integer> lst2 = Arrays.asList(0, 2, 4, 0);
         assertEquals("NO", Exchange.exchange(lst1, lst2));
     }
 
     @Test
-    void testExchangeWithMoreEvenNumbersInFirstList() {
-        List<Integer> lst1 = Arrays.asList(2, 4, 6);
-        List<Integer> lst2 = Arrays.asList(1, 3, 5, 7);
-        assertEquals("YES", Exchange.exchange(lst1, lst2));
+    void testExchangeWithTwoOddNumbersAndTwoEvenNumbersAndThreeZeros() {
+        List<Integer> lst1 = Arrays.asList(1, 3);
+        List<Integer> lst2 = Arrays.asList(0, 2, 4, 0, 0);
+        assertEquals("NO", Exchange.exchange(lst1, lst2));
     }
 
     @Test
-    void testExchangeWithNegativeNumbers() {
-        List<Integer> lst1 = Arrays.asList(-1, -3, -5);
-        List<Integer> lst2 = Arrays.asList(-2, -4, -6);
-        assertEquals("YES", Exchange.exchange(lst1, lst2));
-    }
-
-    @Test
-    void testExchangeWithMixedPositiveAndNegativeNumbers() {
-        List<Integer> lst1 = Arrays.asList(-1, 3, -5);
-        List<Integer> lst2 = Arrays.asList(2, -4, 6);
+    void testExchangeWithTwoOddNumbersAndTwoEvenNumbersAndFourZeros() {
+        List<Integer> lst1 = Arrays.asList(1, 3);
+        List<Integer> lst2 = Arrays.asList(0, 2, 4, 0, 0, 0);
         assertEquals("YES", Exchange.exchange(lst1, lst2));
     }
 }
-```

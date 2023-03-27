@@ -1,5 +1,4 @@
-// Here's the source code for the MakePalindrome class:
-
+// MakePalindrome.java
 package scenario3;
 
 class MakePalindrome {
@@ -31,16 +30,14 @@ class MakePalindrome {
         if (string == null || string.isEmpty()) {
             return "";
         }
-
         int length = string.length();
         int i = length - 1;
         while (i >= 0) {
-            if (isPalindrome(string, i)) {
+            if (isPalindrome(string, 0, i)) {
                 break;
             }
             i--;
         }
-
         StringBuilder sb = new StringBuilder(string);
         for (int j = i + 1; j < length; j++) {
             sb.append(string.charAt(j));
@@ -48,12 +45,10 @@ class MakePalindrome {
         for (int j = i - 1; j >= 0; j--) {
             sb.append(string.charAt(j));
         }
-
         return sb.toString();
     }
 
-    private static boolean isPalindrome(String string, int end) {
-        int start = 0;
+    private static boolean isPalindrome(String string, int start, int end) {
         while (start < end) {
             if (string.charAt(start) != string.charAt(end)) {
                 return false;
@@ -65,9 +60,9 @@ class MakePalindrome {
     }
 }
 
-// And here's the source code for the MakePalindromeTest class:
-
+// MakePalindromeTest.java
 package scenario3;
+
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -124,7 +119,7 @@ class MakePalindromeTest {
     }
 
     @Test
-    void testNineCharacterString() {
-        assertEquals("abcedcba", MakePalindrome.makePalindrome("abcde"));
+    void testLongString() {
+        assertEquals("jerryrrej", MakePalindrome.makePalindrome("jerry"));
     }
 }

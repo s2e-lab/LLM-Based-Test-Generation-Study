@@ -63,47 +63,36 @@ class SplitWords {
 // SplitWordsTest.java
 package scenario3;
 
-
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-* Test class of {@link SplitWords}.
-* It contains ten unit test cases for the {@link SplitWords#splitWords(String)} method.
-*/
+ * Test class of {@link SplitWords}.
+ * It contains ten unit test cases for the {@link SplitWords#splitWords(String)} method.
+ */
 class SplitWordsTest {
 
     @Test
     void testSplitWords1() {
-        List<String> expected = new ArrayList<>();
-        expected.add("Hello");
-        expected.add("world!");
-        assertEquals(expected, SplitWords.splitWords("Hello world!"));
+        assertEquals(Arrays.asList("Hello", "world!"), SplitWords.splitWords("Hello world!"));
     }
 
     @Test
     void testSplitWords2() {
-        List<String> expected = new ArrayList<>();
-        expected.add("Hello");
-        expected.add("world!");
-        assertEquals(expected, SplitWords.splitWords("Hello,world!"));
+        assertEquals(Arrays.asList("Hello", "world!"), SplitWords.splitWords("Hello,world!"));
     }
 
     @Test
     void testSplitWords3() {
-        List<String> expected = new ArrayList<>();
-        expected.add("Hello");
-        expected.add("world,!");
-        assertEquals(expected, SplitWords.splitWords("Hello world,!"));
+        assertEquals(Arrays.asList("Hello", "world,!"), SplitWords.splitWords("Hello world,!"));
     }
 
     @Test
     void testSplitWords4() {
-        List<String> expected = new ArrayList<>();
-        expected.add("Hello");
-        expected.add("Hello");
-        expected.add("world !");
-        assertEquals(expected, SplitWords.splitWords("Hello,Hello,world !"));
+        assertEquals(Arrays.asList("Hello,Hello,world", "!"), SplitWords.splitWords("Hello,Hello,world !"));
     }
 
     @Test
@@ -128,19 +117,11 @@ class SplitWordsTest {
 
     @Test
     void testSplitWords9() {
-        List<String> expected = new ArrayList<>();
-        expected.add("Hello");
-        expected.add("world");
-        expected.add("!");
-        assertEquals(expected, SplitWords.splitWords("Hello world! "));
+        assertEquals(Arrays.asList("Hello", "world", "this", "is", "a", "test"), SplitWords.splitWords("Hello world this is a test"));
     }
 
     @Test
     void testSplitWords10() {
-        List<String> expected = new ArrayList<>();
-        expected.add("Hello");
-        expected.add("world");
-        expected.add("!");
-        assertEquals(expected, SplitWords.splitWords("Hello world ! "));
+        assertEquals(Arrays.asList("Hello", "world", "this", "is", "a", "test"), SplitWords.splitWords("Hello,world,this,is,a,test"));
     }
 }

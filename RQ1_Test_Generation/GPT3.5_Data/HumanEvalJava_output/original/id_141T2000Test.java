@@ -1,6 +1,4 @@
-// Here's the source code for the test class
-
-package original;
+// Here's the source code for the test class of FileNameCheck
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,201 +7,126 @@ class FileNameCheckTest {
 
     @Test
     void testValidFileName() {
-        String fileName = "example.txt";
-        String expected = "Yes";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+        assertEquals("Yes", FileNameCheck.fileNameCheck("example.txt"));
     }
 
     @Test
     void testFileNameWithNumberAtBeginning() {
-        String fileName = "1example.dll";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+        assertEquals("No", FileNameCheck.fileNameCheck("1example.dll"));
     }
 
     @Test
-    void testFileNameWithNumbersInName() {
-        String fileName = "s1sdf3.asd";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testFileNameWithNumbers() {
+        assertEquals("No", FileNameCheck.fileNameCheck("s1sdf3.asd"));
     }
 
     @Test
-    void testFileNameWithSingleLetter() {
-        String fileName = "K.dll";
-        String expected = "Yes";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testValidFileNameWithCapitalLetter() {
+        assertEquals("Yes", FileNameCheck.fileNameCheck("K.dll"));
     }
 
     @Test
-    void testFileNameWithMultipleDigits() {
-        String fileName = "MY16FILE3.exe";
-        String expected = "Yes";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testValidFileNameWithNumbers() {
+        assertEquals("Yes", FileNameCheck.fileNameCheck("MY16FILE3.exe"));
     }
 
     @Test
-    void testFileNameWithMultipleDigitsInName() {
-        String fileName = "His12FILE94.exe";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithNumbers() {
+        assertEquals("No", FileNameCheck.fileNameCheck("His12FILE94.exe"));
     }
 
     @Test
-    void testFileNameWithUnderscoreAtBeginning() {
-        String fileName = "_Y.txt";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithUnderscore() {
+        assertEquals("No", FileNameCheck.fileNameCheck("_Y.txt"));
     }
 
     @Test
-    void testFileNameWithSpecialCharacterAtBeginning() {
-        String fileName = "?aREYA.exe";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithSpecialCharacter() {
+        assertEquals("No", FileNameCheck.fileNameCheck("?aREYA.exe"));
     }
 
     @Test
-    void testFileNameWithSlashAtBeginning() {
-        String fileName = "/this_is_valid.dll";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithPath() {
+        assertEquals("No", FileNameCheck.fileNameCheck("/this_is_valid.dll"));
     }
 
     @Test
-    void testFileNameWithInvalidExtension() {
-        String fileName = "this_is_valid.wow";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithWrongExtension() {
+        assertEquals("No", FileNameCheck.fileNameCheck("this_is_valid.wow"));
     }
 
     @Test
-    void testFileNameWithInvalidExtensionInName() {
-        String fileName = "this_is_valid.txtexe";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testValidFileNameWithMultipleExtensions() {
+        assertEquals("No", FileNameCheck.fileNameCheck("this_is_valid.txtexe"));
     }
 
     @Test
-    void testFileNameWithNumbersInExtension() {
-        String fileName = "#this2_i4s_5valid.ten";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithNumbersInExtension() {
+        assertEquals("No", FileNameCheck.fileNameCheck("#this2_i4s_5valid.ten"));
     }
 
     @Test
-    void testFileNameWithSpecialCharacterInExtension() {
-        String fileName = "@this1_is6_valid.exe";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithSpecialCharactersInExtension() {
+        assertEquals("No", FileNameCheck.fileNameCheck("@this1_is6_valid.exe"));
     }
 
     @Test
-    void testFileNameWithNumbersAndInvalidExtension() {
-        String fileName = "this_is_12valid.6exe4.txt";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithNumbersAndExtensions() {
+        assertEquals("No", FileNameCheck.fileNameCheck("this_is_12valid.6exe4.txt"));
     }
 
     @Test
-    void testFileNameWithMultipleExtensions() {
-        String fileName = "all.exe.txt";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithMultipleDots() {
+        assertEquals("No", FileNameCheck.fileNameCheck("all.exe.txt"));
     }
 
     @Test
-    void testFileNameWithNumberAndLetter() {
-        String fileName = "I563_No.exe";
-        String expected = "Yes";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testValidFileNameWithNumbersAndCapitalLetters() {
+        assertEquals("Yes", FileNameCheck.fileNameCheck("I563_No.exe"));
     }
 
     @Test
-    void testFileNameWithNumbersAndLetters() {
-        String fileName = "Is3youfault.txt";
-        String expected = "Yes";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testValidFileNameWithNumbersAndLetters() {
+        assertEquals("Yes", FileNameCheck.fileNameCheck("Is3youfault.txt"));
     }
 
     @Test
-    void testFileNameWithSpecialCharacter() {
-        String fileName = "no_one#knows.dll";
-        String expected = "Yes";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testValidFileNameWithSpecialCharacters() {
+        assertEquals("Yes", FileNameCheck.fileNameCheck("no_one#knows.dll"));
     }
 
     @Test
-    void testFileNameWithNumberAndInvalidExtension() {
-        String fileName = "1I563_Yes3.exe";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithNumbersAtBeginningAndEnd() {
+        assertEquals("No", FileNameCheck.fileNameCheck("1I563_Yes3.exe"));
     }
 
     @Test
-    void testFileNameWithInvalidExtensionInNameAndValidExtension() {
-        String fileName = "I563_Yes3.txtt";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithNumbersAtEnd() {
+        assertEquals("No", FileNameCheck.fileNameCheck("I563_Yes3.txtt"));
     }
 
     @Test
-    void testFileNameWithDoubleDot() {
-        String fileName = "final..txt";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithDoubleDot() {
+        assertEquals("No", FileNameCheck.fileNameCheck("final..txt"));
     }
 
     @Test
-    void testFileNameWithoutExtension() {
-        String fileName = "final132";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithNoExtension() {
+        assertEquals("No", FileNameCheck.fileNameCheck("final132"));
     }
 
     @Test
-    void testFileNameWithInvalidExtensionAtEnd() {
-        String fileName = "_f4indsartal132.";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithNumbersAtEndAndDot() {
+        assertEquals("No", FileNameCheck.fileNameCheck("_f4indsartal132."));
     }
 
     @Test
-    void testFileNameWithOnlyExtension() {
-        String fileName = ".txt";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithOnlyExtension() {
+        assertEquals("No", FileNameCheck.fileNameCheck(".txt"));
     }
 
     @Test
-    void testFileNameWithSingleLetterAndDot() {
-        String fileName = "s.";
-        String expected = "No";
-        String actual = FileNameCheck.fileNameCheck(fileName);
-        assertEquals(expected, actual);
+    void testInvalidFileNameWithOnlyLetterAndDot() {
+        assertEquals("No", FileNameCheck.fileNameCheck("s."));
     }
 }

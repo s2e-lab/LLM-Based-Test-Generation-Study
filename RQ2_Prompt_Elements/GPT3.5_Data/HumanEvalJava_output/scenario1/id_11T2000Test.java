@@ -1,4 +1,4 @@
-Here's the completed code for the `StringXorTest` class:
+Here's the completed `StringXorTest` class with ten unit test cases for the `StringXor.stringXor()` method:
 
 ```
 package scenario1;
@@ -59,48 +59,39 @@ class StringXorTest {
     }
 
     @Test
-    void testStringXorWithUpperCaseStrings() {
-        String a = "10101010";
-        String b = "01010101";
-        String expected = "11111111";
-        String actual = StringXor.stringXor(a.toUpperCase(), b.toUpperCase());
+    void testStringXorWithAllOnes() {
+        String a = "11111111";
+        String b = "11111111";
+        String expected = "00000000";
+        String actual = StringXor.stringXor(a, b);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testStringXorWithLowerCaseStrings() {
-        String a = "10101010";
-        String b = "01010101";
-        String expected = "11111111";
-        String actual = StringXor.stringXor(a.toLowerCase(), b.toLowerCase());
+    void testStringXorWithAllZeros() {
+        String a = "00000000";
+        String b = "00000000";
+        String expected = "00000000";
+        String actual = StringXor.stringXor(a, b);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testStringXorWithMixedCaseStrings() {
+    void testStringXorWithMixedOnesAndZeros() {
         String a = "10101010";
         String b = "01010101";
         String expected = "11111111";
-        String actual = StringXor.stringXor(a.toUpperCase(), b.toLowerCase());
+        String actual = StringXor.stringXor(a, b);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testStringXorWithNonBinaryStrings() {
-        String a = "10101010";
-        String b = "0a1b2c3d";
-        assertThrows(IllegalArgumentException.class, () -> StringXor.stringXor(a, b));
+    void testStringXorWithUnicodeCharacters() {
+        String a = "Hello, world!";
+        String b = "こんにちは、世界！";
+        String expected = "????????????????????";
+        String actual = StringXor.stringXor(a, b);
+        assertEquals(expected, actual);
     }
 }
 ```
-
-This test class contains ten unit test cases for the `StringXor.stringXor()` method. The test cases cover a range of scenarios, including:
-
-- Strings of equal length
-- Strings of different length
-- Empty strings
-- Null strings
-- Mixed case strings
-- Non-binary strings
-
-Each test case uses the `assertEquals()` method to compare the expected result with the actual result returned by the `StringXor.stringXor()` method. If the expected and actual results do not match, the test case will fail.

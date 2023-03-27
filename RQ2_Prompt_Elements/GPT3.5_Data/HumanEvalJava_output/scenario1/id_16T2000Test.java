@@ -1,11 +1,6 @@
-Here's the code for the CountDistinctCharactersTest class with ten unit test cases for the countDistinctCharacters method:
+Here's the source code for the CountDistinctCharactersTest class:
 
 ```
-package scenario1;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 class CountDistinctCharactersTest {
 
     @Test
@@ -59,3 +54,5 @@ class CountDistinctCharactersTest {
     }
 }
 ```
+
+This test class contains ten unit test cases for the `countDistinctCharacters` method of the `CountDistinctCharacters` class. Each test case tests a different scenario, such as an empty string, a string with all the same characters, a string with mixed case, a string with spaces, a string with numbers, a string with special characters, a string with mixed characters, and a string with Unicode characters. The `assertEquals` method is used to compare the expected result with the actual result of the method call.

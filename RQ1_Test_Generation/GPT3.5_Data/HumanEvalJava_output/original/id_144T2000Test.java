@@ -1,10 +1,9 @@
-// Here's the generated source code for the SimplifyTest class:
+// Here's the source code for the SimplifyTest class:
 
-package generated;
+package original;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import original.Simplify;
 
 /**
  * Test class of {@link Simplify}.

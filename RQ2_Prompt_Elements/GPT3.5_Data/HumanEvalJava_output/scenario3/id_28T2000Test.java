@@ -1,6 +1,3 @@
-Here's an implementation of the `Concatenate` class that passes all the test cases:
-
-```
 // Concatenate.java
 package scenario3;
 
@@ -22,19 +19,15 @@ class Concatenate {
      * > concatenate(["x", "y", "z", "w", "k"])
      * "xyzwk"
      */
-    public static String concatenate(List<Object> strings) {
+    public static String concatenate(List<String> strings) {
         StringBuilder sb = new StringBuilder();
-        for (Object s : strings) {
-            sb.append(s.toString());
+        for (String s : strings) {
+            sb.append(s);
         }
         return sb.toString();
     }
 }
-```
 
-And here's an implementation of the `ConcatenateTest` class:
-
-```
 // ConcatenateTest.java
 package scenario3;
 
@@ -52,72 +45,71 @@ class ConcatenateTest {
 
     @Test
     void testEmptyList() {
-        List<Object> strings = Collections.emptyList();
+        List<String> strings = Collections.emptyList();
         String result = Concatenate.concatenate(strings);
         assertEquals("", result);
     }
 
     @Test
-    void testSingleString() {
-        List<Object> strings = Collections.singletonList("hello");
+    void testSingleElementList() {
+        List<String> strings = Collections.singletonList("a");
         String result = Concatenate.concatenate(strings);
-        assertEquals("hello", result);
+        assertEquals("a", result);
     }
 
     @Test
-    void testMultipleStrings() {
-        List<Object> strings = Arrays.asList("a", "b", "c");
+    void testMultipleElementList() {
+        List<String> strings = Arrays.asList("a", "b", "c");
         String result = Concatenate.concatenate(strings);
         assertEquals("abc", result);
     }
 
     @Test
-    void testMultipleStringsWithSpaces() {
-        List<Object> strings = Arrays.asList("x", "y", "z");
+    void testListWithNullElement() {
+        List<String> strings = Arrays.asList("a", null, "c");
         String result = Concatenate.concatenate(strings);
-        assertEquals("xyz", result);
+        assertNull(result);
     }
 
     @Test
-    void testLongerList() {
-        List<Object> strings = Arrays.asList("x", "y", "z", "w", "k");
+    void testListWithEmptyStringElement() {
+        List<String> strings = Arrays.asList("a", "", "c");
         String result = Concatenate.concatenate(strings);
-        assertEquals("xyzwk", result);
+        assertEquals("ac", result);
     }
 
     @Test
-    void testListWithNull() {
-        List<Object> strings = Arrays.asList("x", null, "z");
+    void testListWithWhitespaceStringElement() {
+        List<String> strings = Arrays.asList("a", " ", "c");
         String result = Concatenate.concatenate(strings);
-        assertEquals("xnullz", result);
+        assertEquals("a c", result);
     }
 
     @Test
-    void testListWithIntegers() {
-        List<Object> strings = Arrays.asList("x", 1, "z");
+    void testListWithNumbers() {
+        List<String> strings = Arrays.asList("1", "2", "3");
         String result = Concatenate.concatenate(strings);
-        assertEquals("x1z", result);
+        assertEquals("123", result);
     }
 
     @Test
-    void testListWithBooleans() {
-        List<Object> strings = Arrays.asList("x", true, "z");
+    void testListWithSpecialCharacters() {
+        List<String> strings = Arrays.asList("!", "@", "#");
         String result = Concatenate.concatenate(strings);
-        assertEquals("xtruez", result);
+        assertEquals("!@#", result);
     }
 
     @Test
     void testListWithMixedTypes() {
-        List<Object> strings = Arrays.asList("x", 1, true, null, "z");
+        List<String> strings = Arrays.asList("a", "1", "!", null);
         String result = Concatenate.concatenate(strings);
-        assertEquals("x1truenullz", result);
+        assertNull(result);
     }
 
     @Test
-    void testListWithEmptyStrings() {
-        List<Object> strings = Arrays.asList("x", "", "z");
+    void testListWithLargeNumberOfElements() {
+        List<String> strings = Collections.nCopies(100000, "a");
         String result = Concatenate.concatenate(strings);
-        assertEquals("xz", result);
+        assertEquals(100000, result.length());
     }
 }
-```

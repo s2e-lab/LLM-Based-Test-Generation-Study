@@ -18,9 +18,9 @@ class ValidDateTest {
         assertTrue(ValidDate.validDate("06-30-2020"));
         assertTrue(ValidDate.validDate("09-30-2020"));
         assertTrue(ValidDate.validDate("11-30-2020"));
+        assertFalse(ValidDate.validDate("00-01-2020"));
         assertFalse(ValidDate.validDate("13-01-2020"));
+        assertFalse(ValidDate.validDate("01-00-2020"));
         assertFalse(ValidDate.validDate("01-32-2020"));
-        assertFalse(ValidDate.validDate("02-30-2020"));
-        assertFalse(ValidDate.validDate("04-31-2020"));
     }
 }

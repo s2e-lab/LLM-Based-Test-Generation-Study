@@ -19,9 +19,9 @@ class CycpatternCheckTest {
         assertFalse(CycpatternCheck.cycpatternCheck("abcabcabc", "abcab"));
         assertFalse(CycpatternCheck.cycpatternCheck("abcabcabc", "abcabcab"));
         assertFalse(CycpatternCheck.cycpatternCheck("abcabcabc", "abcabcabcabc"));
-        assertFalse(CycpatternCheck.cycpatternCheck("abcabcabc", "abcabcabcab"));
+        assertFalse(CycpatternCheck.cycpatternCheck("abcabcabc", ""));
     }
 }
 ```
 
-This test class contains ten unit test cases for the `cycpatternCheck` method of the `CycpatternCheck` class. Five of the test cases should return `true` and five should return `false`. The `@Test` annotation is used to mark the `testCycpatternCheck` method as a test case. The `assertTrue` and `assertFalse` methods are used to check the expected output of the `cycpatternCheck` method for each test case.
+This test class contains ten unit test cases for the `cycpatternCheck` method of the `CycpatternCheck` class. Five of the test cases should return `true` and five should return `false`. The `@Test` annotation is used to mark each test method, and the `assertTrue` and `assertFalse` methods are used to check the expected results.

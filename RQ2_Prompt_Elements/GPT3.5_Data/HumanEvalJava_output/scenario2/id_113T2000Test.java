@@ -1,6 +1,5 @@
-Here's the code for the `OddCountTest` class with ten unit test cases for the `OddCount` class:
+// Here's the source code for the OddCountTest class:
 
-```
 package scenario2;
 
 import java.util.ArrayList;
@@ -24,75 +23,89 @@ class OddCountTest {
 
     @Test
     void testSingleDigit() {
-        List<String> lst = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9");
-        List<String> expected = Arrays.asList("the number of odd elements in the string 1 of the input.",
-                "0", "the number of odd elements in the string 3 of the input.", "0",
-                "the number of odd elements in the string 5 of the input.", "0",
-                "the number of odd elements in the string 7 of the input.", "0",
-                "the number of odd elements in the string 9 of the input.");
+        List<String> lst = Arrays.asList("1");
+        List<String> expected = Arrays.asList("the number of odd elements in the string 1 of the input.");
         assertEquals(expected, OddCount.oddCount(lst));
     }
 
     @Test
     void testSingleEvenDigit() {
-        List<String> lst = Arrays.asList("0", "2", "4", "6", "8");
-        List<String> expected = Arrays.asList("0", "0", "0", "0", "0");
+        List<String> lst = Arrays.asList("2");
+        List<String> expected = Arrays.asList("the number of odd elements in the string 0 of the input.");
+        assertEquals(expected, OddCount.oddCount(lst));
+    }
+
+    @Test
+    void testSingleOddDigit() {
+        List<String> lst = Arrays.asList("3");
+        List<String> expected = Arrays.asList("the number of odd elements in the string 1 of the input.");
         assertEquals(expected, OddCount.oddCount(lst));
     }
 
     @Test
     void testMultipleDigits() {
-        List<String> lst = Arrays.asList("123", "456", "789", "2468", "13579");
-        List<String> expected = Arrays.asList("2", "0", "2", "0", "5");
+        List<String> lst = Arrays.asList("123", "456", "789");
+        List<String> expected = Arrays.asList("the number of odd elements in the string 2 of the input.", 
+                                               "the number of odd elements in the string 0 of the input.", 
+                                               "the number of odd elements in the string 2 of the input.");
         assertEquals(expected, OddCount.oddCount(lst));
     }
 
     @Test
     void testLeadingZeros() {
-        List<String> lst = Arrays.asList("001", "010", "100", "000", "111");
-        List<String> expected = Arrays.asList("0", "1", "1", "0", "3");
+        List<String> lst = Arrays.asList("00123", "0456", "00789");
+        List<String> expected = Arrays.asList("the number of odd elements in the string 2 of the input.", 
+                                               "the number of odd elements in the string 0 of the input.", 
+                                               "the number of odd elements in the string 2 of the input.");
         assertEquals(expected, OddCount.oddCount(lst));
     }
 
     @Test
-    void testMixedDigits() {
-        List<String> lst = Arrays.asList("12a3", "4b56", "c7d89", "e2468f", "g13579h");
-        List<String> expected = Arrays.asList("2", "1", "2", "0", "5");
+    void testNonDigitCharacters() {
+        List<String> lst = Arrays.asList("12a3", "4.56", "7#89");
+        List<String> expected = Arrays.asList("the number of odd elements in the string 1 of the input.", 
+                                               "the number of odd elements in the string 1 of the input.", 
+                                               "the number of odd elements in the string 1 of the input.");
         assertEquals(expected, OddCount.oddCount(lst));
     }
 
     @Test
     void testEmptyString() {
-        List<String> lst = Arrays.asList("", "", "", "", "");
-        List<String> expected = Arrays.asList("0", "0", "0", "0", "0");
+        List<String> lst = Arrays.asList("");
+        List<String> expected = Arrays.asList("the number of odd elements in the string 0 of the input.");
         assertEquals(expected, OddCount.oddCount(lst));
     }
 
     @Test
     void testNullString() {
-        List<String> lst = Arrays.asList(null, null, null, null, null);
-        assertThrows(NullPointerException.class, () -> OddCount.oddCount(lst));
-    }
-
-    @Test
-    void testLargeNumbers() {
-        List<String> lst = Arrays.asList("123456789", "987654321", "111111111", "222222222", "333333333");
-        List<String> expected = Arrays.asList("5", "5", "9", "0", "0");
+        List<String> lst = Arrays.asList(null);
+        List<String> expected = Arrays.asList("the number of odd elements in the string 0 of the input.");
         assertEquals(expected, OddCount.oddCount(lst));
     }
 
     @Test
-    void testSpecialCharacters() {
-        List<String> lst = Arrays.asList("1!3@5#7$9", "2^4&6*8(", "9)7%5$3#1@", "!@#$%^&*()", "abcdefghijklmnopqrstuvwxyz");
-        List<String> expected = Arrays.asList("5", "0", "4", "0", "0");
+    void testMixedNullAndNonNullStrings() {
+        List<String> lst = Arrays.asList("123", null, "456", null, "789");
+        List<String> expected = Arrays.asList("the number of odd elements in the string 2 of the input.", 
+                                               "the number of odd elements in the string 0 of the input.", 
+                                               "the number of odd elements in the string 0 of the input.", 
+                                               "the number of odd elements in the string 0 of the input.", 
+                                               "the number of odd elements in the string 2 of the input.");
         assertEquals(expected, OddCount.oddCount(lst));
     }
 
     @Test
-    void testWhitespace() {
-        List<String> lst = Arrays.asList("1 3 5 7 9", "2 4 6 8", "9 7 5 3 1", "   ", " \t\n\r\f");
-        List<String> expected = Arrays.asList("5", "0", "4", "0", "0");
+    void testLargeInput() {
+        List<String> lst = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 100000; i++) {
+            sb.append(i % 10);
+            lst.add(sb.toString());
+        }
+        List<String> expected = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            expected.add("the number of odd elements in the string " + ((i % 2 == 0) ? "0" : "1") + " of the input.");
+        }
         assertEquals(expected, OddCount.oddCount(lst));
     }
 }
-```

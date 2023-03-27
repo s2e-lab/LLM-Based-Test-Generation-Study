@@ -15,15 +15,15 @@ class FileNameCheckTest {
     }
 
     @Test
-    void testInvalidFileExtension() {
+    void testInvalidExtension() {
         String fileName = "file1.pdf";
         String result = FileNameCheck.fileNameCheck(fileName);
         assertEquals("No", result);
     }
 
     @Test
-    void testInvalidFileNameFormat() {
-        String fileName = "file1txt";
+    void testInvalidFileName() {
+        String fileName = "1file.txt";
         String result = FileNameCheck.fileNameCheck(fileName);
         assertEquals("No", result);
     }
@@ -36,43 +36,43 @@ class FileNameCheckTest {
     }
 
     @Test
-    void testFileNameStartsWithNumber() {
-        String fileName = "1file.txt";
-        String result = FileNameCheck.fileNameCheck(fileName);
-        assertEquals("No", result);
-    }
-
-    @Test
-    void testFileNameWithMoreThanThreeDigits() {
+    void testInvalidFileNameLength() {
         String fileName = "file1234.txt";
         String result = FileNameCheck.fileNameCheck(fileName);
         assertEquals("No", result);
     }
 
     @Test
-    void testFileNameWithThreeDigits() {
-        String fileName = "file123.txt";
+    void testInvalidFileNameCharacters() {
+        String fileName = "file#.txt";
         String result = FileNameCheck.fileNameCheck(fileName);
-        assertEquals("Yes", result);
+        assertEquals("No", result);
     }
 
     @Test
-    void testFileNameWithTwoDigits() {
-        String fileName = "file12.txt";
+    void testInvalidFileNameDigits() {
+        String fileName = "file12345.txt";
         String result = FileNameCheck.fileNameCheck(fileName);
-        assertEquals("Yes", result);
+        assertEquals("No", result);
     }
 
     @Test
-    void testFileNameWithOneDigit() {
-        String fileName = "file1.txt";
+    void testInvalidFileNameExtension() {
+        String fileName = "file1.exe1";
         String result = FileNameCheck.fileNameCheck(fileName);
-        assertEquals("Yes", result);
+        assertEquals("No", result);
     }
 
     @Test
-    void testFileNameWithUpperCaseExtension() {
-        String fileName = "file1.TXT";
+    void testInvalidFileNameExtensionLength() {
+        String fileName = "file1.longextension";
+        String result = FileNameCheck.fileNameCheck(fileName);
+        assertEquals("No", result);
+    }
+
+    @Test
+    void testInvalidFileNameExtensionCharacters() {
+        String fileName = "file1.tx#";
         String result = FileNameCheck.fileNameCheck(fileName);
         assertEquals("No", result);
     }

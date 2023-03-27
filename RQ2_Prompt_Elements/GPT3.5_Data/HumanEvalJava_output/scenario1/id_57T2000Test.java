@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class of {@link Monotonic}.
- * It contains ten unit test cases for the {@link Monotonic#monotonic(List)} method.
- */
+* Test class of {@link Monotonic}.
+* It contains ten unit test cases for the {@link Monotonic#monotonic(List)} method.
+*/
 class MonotonicTest {
 
     @Test
@@ -33,38 +33,32 @@ class MonotonicTest {
     }
 
     @Test
-    void testMonotonicIncreasingEqual() {
-        List<Integer> l = Arrays.asList(1, 1, 2, 2, 3);
+    void testMonotonicIncreasingThenEqual() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 3, 3);
         assertTrue(Monotonic.monotonic(l));
     }
 
     @Test
-    void testMonotonicDecreasingEqual() {
-        List<Integer> l = Arrays.asList(3, 2, 2, 1, 1);
+    void testMonotonicDecreasingThenEqual() {
+        List<Integer> l = Arrays.asList(5, 4, 3, 3, 3);
         assertTrue(Monotonic.monotonic(l));
     }
 
     @Test
-    void testMonotonicIncreasingNotEqual() {
-        List<Integer> l = Arrays.asList(1, 2, 3, 2, 5);
+    void testMonotonicIncreasingThenDecreasing() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 2, 1);
         assertFalse(Monotonic.monotonic(l));
     }
 
     @Test
-    void testMonotonicDecreasingNotEqual() {
-        List<Integer> l = Arrays.asList(5, 4, 3, 4, 1);
+    void testMonotonicDecreasingThenIncreasing() {
+        List<Integer> l = Arrays.asList(5, 4, 3, 4, 5);
         assertFalse(Monotonic.monotonic(l));
     }
 
     @Test
-    void testMonotonicIncreasingEqualNotEqual() {
-        List<Integer> l = Arrays.asList(1, 1, 2, 3, 2);
-        assertFalse(Monotonic.monotonic(l));
-    }
-
-    @Test
-    void testMonotonicDecreasingEqualNotEqual() {
-        List<Integer> l = Arrays.asList(3, 2, 2, 4, 1);
+    void testMonotonicRandom() {
+        List<Integer> l = Arrays.asList(1, 2, 3, 5, 4);
         assertFalse(Monotonic.monotonic(l));
     }
 
@@ -73,7 +67,13 @@ class MonotonicTest {
         List<Integer> l = Arrays.asList(1);
         assertTrue(Monotonic.monotonic(l));
     }
+
+    @Test
+    void testMonotonicEmptyList() {
+        List<Integer> l = Arrays.asList();
+        assertTrue(Monotonic.monotonic(l));
+    }
 }
 ```
 
-This test class contains ten unit test cases for the `Monotonic.monotonic(List)` method. Each test case tests a different scenario, such as a list that is monotonically increasing, monotonically decreasing, or has equal elements. The test cases also cover scenarios where the list is not monotonic. The `assertTrue` and `assertFalse` methods are used to check the expected result of the `Monotonic.monotonic(List)` method.
+This test class contains ten unit test cases for the `Monotonic.monotonic(List)` method. Each test case tests a different scenario, such as an increasing list, a decreasing list, an equal list, and so on. The `assertTrue` and `assertFalse` methods are used to check if the method returns the expected result for each scenario.

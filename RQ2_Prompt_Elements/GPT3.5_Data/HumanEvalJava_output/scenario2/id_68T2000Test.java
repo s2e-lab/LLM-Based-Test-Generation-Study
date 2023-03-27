@@ -80,12 +80,13 @@ class PluckTest {
     }
 
     @Test
-    void testLargeListAllOdd() {
+    void testLargeListWithEvenValues() {
         List<Object> arr = new ArrayList<Object>();
-        for (int i = 1; i < 10000; i += 2) {
-            arr.add(i);
+        for (int i = 0; i < 10000; i++) {
+            arr.add(i * 2 + 1);
         }
-        List<Object> expected = new ArrayList<Object>();
+        arr.set(5000, 2);
+        List<Object> expected = Arrays.asList(2, 5000);
         assertEquals(expected, Pluck.pluck(arr));
     }
 }

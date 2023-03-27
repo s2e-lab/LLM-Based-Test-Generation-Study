@@ -1,4 +1,4 @@
-Here's the code for the `FilterBySubstringTest` class with ten unit test cases for the `filterBySubstring` method:
+Here's the source code for the test class:
 
 ```
 package scenario2;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FilterBySubstringTest {
 
     @Test
-    void testEmptyList() {
+    void testFilterBySubstring_emptyList() {
         List<Object> input = new ArrayList<>();
         List<Object> expected = new ArrayList<>();
         List<Object> actual = FilterBySubstring.filterBySubstring(input, "test");
@@ -20,7 +20,7 @@ class FilterBySubstringTest {
     }
 
     @Test
-    void testNoMatch() {
+    void testFilterBySubstring_noMatch() {
         List<Object> input = Arrays.asList("hello", "world", "java");
         List<Object> expected = new ArrayList<>();
         List<Object> actual = FilterBySubstring.filterBySubstring(input, "test");
@@ -28,7 +28,7 @@ class FilterBySubstringTest {
     }
 
     @Test
-    void testSingleMatch() {
+    void testFilterBySubstring_singleMatch() {
         List<Object> input = Arrays.asList("hello", "world", "java");
         List<Object> expected = Arrays.asList("world");
         List<Object> actual = FilterBySubstring.filterBySubstring(input, "orl");
@@ -36,7 +36,7 @@ class FilterBySubstringTest {
     }
 
     @Test
-    void testMultipleMatches() {
+    void testFilterBySubstring_multipleMatches() {
         List<Object> input = Arrays.asList("hello", "world", "java", "corona", "virus");
         List<Object> expected = Arrays.asList("corona", "virus");
         List<Object> actual = FilterBySubstring.filterBySubstring(input, "or");
@@ -44,39 +44,23 @@ class FilterBySubstringTest {
     }
 
     @Test
-    void testSubstringAtBeginning() {
-        List<Object> input = Arrays.asList("hello", "world", "java");
-        List<Object> expected = Arrays.asList("hello");
-        List<Object> actual = FilterBySubstring.filterBySubstring(input, "he");
+    void testFilterBySubstring_caseSensitive() {
+        List<Object> input = Arrays.asList("hello", "World", "java");
+        List<Object> expected = Arrays.asList("World");
+        List<Object> actual = FilterBySubstring.filterBySubstring(input, "W");
         assertEquals(expected, actual);
     }
 
     @Test
-    void testSubstringAtEnd() {
-        List<Object> input = Arrays.asList("hello", "world", "java");
-        List<Object> expected = Arrays.asList("java");
-        List<Object> actual = FilterBySubstring.filterBySubstring(input, "va");
-        assertEquals(expected, actual);
+    void testFilterBySubstring_nullInput() {
+        List<Object> input = null;
+        assertThrows(NullPointerException.class, () -> {
+            FilterBySubstring.filterBySubstring(input, "test");
+        });
     }
 
     @Test
-    void testSubstringIsWholeString() {
-        List<Object> input = Arrays.asList("hello", "world", "java");
-        List<Object> expected = Arrays.asList("world");
-        List<Object> actual = FilterBySubstring.filterBySubstring(input, "world");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSubstringIsSingleCharacter() {
-        List<Object> input = Arrays.asList("hello", "world", "java");
-        List<Object> expected = Arrays.asList("hello", "world");
-        List<Object> actual = FilterBySubstring.filterBySubstring(input, "l");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testSubstringIsNull() {
+    void testFilterBySubstring_nullSubstring() {
         List<Object> input = Arrays.asList("hello", "world", "java");
         List<Object> expected = new ArrayList<>();
         List<Object> actual = FilterBySubstring.filterBySubstring(input, null);
@@ -84,10 +68,26 @@ class FilterBySubstringTest {
     }
 
     @Test
-    void testInputListIsNull() {
-        List<Object> input = null;
+    void testFilterBySubstring_emptySubstring() {
+        List<Object> input = Arrays.asList("hello", "world", "java");
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = FilterBySubstring.filterBySubstring(input, "test");
+        List<Object> actual = FilterBySubstring.filterBySubstring(input, "");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testFilterBySubstring_inputContainsNull() {
+        List<Object> input = Arrays.asList("hello", null, "world", "java");
+        List<Object> expected = Arrays.asList(null);
+        List<Object> actual = FilterBySubstring.filterBySubstring(input, "l");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testFilterBySubstring_inputContainsNonString() {
+        List<Object> input = Arrays.asList("hello", 123, "world", true);
+        List<Object> expected = new ArrayList<>();
+        List<Object> actual = FilterBySubstring.filterBySubstring(input, "l");
         assertEquals(expected, actual);
     }
 }

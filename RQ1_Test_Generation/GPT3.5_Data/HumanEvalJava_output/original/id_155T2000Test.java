@@ -1,41 +1,84 @@
-Here's the code for the test class:
-
-```
+// EvenOddCountTest.java
 package original;
 
-import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+* Test class of {@link EvenOddCount}.
+* It contains ten unit test cases for the {@link EvenOddCount#evenOddCount(int)} method.
+*/
 class EvenOddCountTest {
-
+    
     @Test
-    void testEvenOddCount() {
-        List<Integer> expected1 = Arrays.asList(1, 1);
-        List<Integer> expected2 = Arrays.asList(1, 2);
-        List<Integer> expected3 = Arrays.asList(0, 1);
-        List<Integer> expected4 = Arrays.asList(1, 1);
-        List<Integer> expected5 = Arrays.asList(2, 2);
-        List<Integer> expected6 = Arrays.asList(3, 3);
-        List<Integer> expected7 = Arrays.asList(1, 0);
-        List<Integer> expected8 = Arrays.asList(2, 3);
-        List<Integer> expected9 = Arrays.asList(1, 0);
-        List<Integer> expected10 = Arrays.asList(0, 1);
-
-        assertEquals(expected1, EvenOddCount.evenOddCount(-12));
-        assertEquals(expected2, EvenOddCount.evenOddCount(123));
-        assertEquals(expected3, EvenOddCount.evenOddCount(7));
-        assertEquals(expected4, EvenOddCount.evenOddCount(-78));
-        assertEquals(expected5, EvenOddCount.evenOddCount(3452));
-        assertEquals(expected6, EvenOddCount.evenOddCount(346211));
-        assertEquals(expected7, EvenOddCount.evenOddCount(-2));
-        assertEquals(expected8, EvenOddCount.evenOddCount(-45347));
-        assertEquals(expected9, EvenOddCount.evenOddCount(0));
-        assertEquals(expected10, EvenOddCount.evenOddCount(101));
+    void testEvenOddCountWithPositiveEvenNumber() {
+        List<Integer> expected = Arrays.asList(2, 0);
+        List<Integer> actual = EvenOddCount.evenOddCount(2468);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithPositiveOddNumber() {
+        List<Integer> expected = Arrays.asList(0, 4);
+        List<Integer> actual = EvenOddCount.evenOddCount(1357);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithNegativeEvenNumber() {
+        List<Integer> expected = Arrays.asList(2, 0);
+        List<Integer> actual = EvenOddCount.evenOddCount(-2468);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithNegativeOddNumber() {
+        List<Integer> expected = Arrays.asList(0, 4);
+        List<Integer> actual = EvenOddCount.evenOddCount(-1357);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithZero() {
+        List<Integer> expected = Arrays.asList(1, 0);
+        List<Integer> actual = EvenOddCount.evenOddCount(0);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithSingleDigitPositiveEvenNumber() {
+        List<Integer> expected = Arrays.asList(1, 0);
+        List<Integer> actual = EvenOddCount.evenOddCount(8);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithSingleDigitPositiveOddNumber() {
+        List<Integer> expected = Arrays.asList(0, 1);
+        List<Integer> actual = EvenOddCount.evenOddCount(7);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithSingleDigitNegativeEvenNumber() {
+        List<Integer> expected = Arrays.asList(1, 0);
+        List<Integer> actual = EvenOddCount.evenOddCount(-8);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithSingleDigitNegativeOddNumber() {
+        List<Integer> expected = Arrays.asList(0, 1);
+        List<Integer> actual = EvenOddCount.evenOddCount(-7);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void testEvenOddCountWithMaxValue() {
+        List<Integer> expected = Arrays.asList(0, 19);
+        List<Integer> actual = EvenOddCount.evenOddCount(Integer.MAX_VALUE);
+        assertEquals(expected, actual);
     }
 }
-```
-
-This test class contains ten test cases for the `evenOddCount` method. Each test case has an expected result, which is compared to the actual result returned by the method using the `assertEquals` method.

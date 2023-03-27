@@ -8,78 +8,68 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class of {@link Bf}.
- * It contains ten unit test cases for the {@link Bf#bf(String, String)} method.
- */
+* Test class of {@link Bf}.
+* It contains ten unit test cases for the {@link Bf#bf(String, String)} method.
+*/
 class BfTest {
 
     @Test
     void testBfWithCorrectPlanets() {
         List<Object> expected = new ArrayList<Object>(Arrays.asList("Venus", "Earth", "Mars"));
-        List<Object> actual = Bf.bf("Venus", "Mars");
-        assertEquals(expected, actual);
+        assertEquals(expected, Bf.bf("Venus", "Mars"));
     }
 
     @Test
     void testBfWithSamePlanets() {
         List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = Bf.bf("Earth", "Earth");
-        assertEquals(expected, actual);
+        assertEquals(expected, Bf.bf("Earth", "Earth"));
     }
 
     @Test
     void testBfWithIncorrectPlanet1() {
         List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = Bf.bf("Pluto", "Mars");
-        assertEquals(expected, actual);
+        assertEquals(expected, Bf.bf("Pluto", "Mars"));
     }
 
     @Test
     void testBfWithIncorrectPlanet2() {
         List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = Bf.bf("Venus", "Pluto");
-        assertEquals(expected, actual);
+        assertEquals(expected, Bf.bf("Venus", "Pluto"));
     }
 
     @Test
     void testBfWithIncorrectPlanets() {
         List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = Bf.bf("Pluto", "Uranus");
-        assertEquals(expected, actual);
+        assertEquals(expected, Bf.bf("Pluto", "Pluto"));
     }
 
     @Test
-    void testBfWithPlanetsInReverseOrder() {
+    void testBfWithPlanet1BeforePlanet2() {
         List<Object> expected = new ArrayList<Object>(Arrays.asList("Venus", "Earth", "Mars"));
-        List<Object> actual = Bf.bf("Mars", "Venus");
-        assertEquals(expected, actual);
+        assertEquals(expected, Bf.bf("Venus", "Mars"));
     }
 
     @Test
-    void testBfWithPlanetsInRandomOrder() {
+    void testBfWithPlanet2BeforePlanet1() {
         List<Object> expected = new ArrayList<Object>(Arrays.asList("Venus", "Earth", "Mars"));
-        List<Object> actual = Bf.bf("Mars", "Venus");
-        assertEquals(expected, actual);
+        assertEquals(expected, Bf.bf("Mars", "Venus"));
     }
 
     @Test
-    void testBfWithPlanetsNotInOrder() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("Venus", "Earth", "Mars"));
-        List<Object> actual = Bf.bf("Mars", "Venus");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testBfWithPlanetsNotInList() {
+    void testBfWithPlanet1AndPlanet2Adjacent() {
         List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = Bf.bf("Pluto", "Ceres");
-        assertEquals(expected, actual);
+        assertEquals(expected, Bf.bf("Earth", "Mars"));
     }
 
     @Test
-    void testBfWithPlanetsInListButNotInOrder() {
-        List<Object> expected = new ArrayList<Object>(Arrays.asList("Venus", "Earth", "Mars"));
-        List<Object> actual = Bf.bf("Mars", "Venus");
-        assertEquals(expected, actual);
+    void testBfWithPlanet1AndPlanet2SeparatedByOnePlanet() {
+        List<Object> expected = new ArrayList<Object>(Arrays.asList("Venus"));
+        assertEquals(expected, Bf.bf("Earth", "Mercury"));
+    }
+
+    @Test
+    void testBfWithPlanet1AndPlanet2SeparatedByMoreThanOnePlanet() {
+        List<Object> expected = new ArrayList<Object>(Arrays.asList("Venus", "Earth", "Mars", "Jupiter", "Saturn"));
+        assertEquals(expected, Bf.bf("Venus", "Saturn"));
     }
 }

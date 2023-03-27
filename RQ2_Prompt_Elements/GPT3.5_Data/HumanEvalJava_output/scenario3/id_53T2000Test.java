@@ -1,15 +1,237 @@
+// Add.java
+package scenario3;
+
+class Add {
+
+    /**
+     * Add two numbers x and y
+     *
+     * > add(0, 1)
+     * 1
+     * > add(1, 0)
+     * 1
+     * > add(2, 3)
+     * 5
+     * > add(5, 7)
+     * 12
+     * > add(7, 5)
+     * 12
+     * > add(572, 725)
+     * 1297
+     * > add(51, 804)
+     * 855
+     * > add(645, 96)
+     * 741
+     * > add(712, 853)
+     * 1565
+     * > add(223, 101)
+     * 324
+     * > add(76, 29)
+     * 105
+     * > add(416, 149)
+     * 565
+     * > add(145, 409)
+     * 554
+     * > add(535, 430)
+     * 965
+     * > add(118, 303)
+     * 421
+     * > add(287, 94)
+     * 381
+     * > add(768, 257)
+     * 1025
+     * > add(421, 677)
+     * 1098
+     * > add(802, 814)
+     * 1616
+     * > add(510, 922)
+     * 1432
+     * > add(345, 819)
+     * 1164
+     * > add(895, 436)
+     * 1331
+     * > add(123, 424)
+     * 547
+     * > add(923, 245)
+     * 1168
+     * > add(23, 438)
+     * 461
+     * > add(565, 133)
+     * 698
+     * > add(945, 925)
+     * 1870
+     * > add(261, 983)
+     * 1244
+     * > add(139, 577)
+     * 716
+     * > add(763, 178)
+     * 941
+     * > add(147, 892)
+     * 1039
+     * > add(436, 402)
+     * 838
+     * > add(610, 581)
+     * 1191
+     * > add(103, 416)
+     * 519
+     * > add(339, 990)
+     * 1329
+     * > add(130, 504)
+     * 634
+     * > add(242, 717)
+     * 959
+     * > add(562, 110)
+     * 672
+     * > add(396, 909)
+     * 1305
+     * > add(887, 703)
+     * 1590
+     * > add(870, 551)
+     * 1421
+     * > add(422, 391)
+     * 813
+     * > add(299, 505)
+     * 804
+     * > add(346, 56)
+     * 402
+     * > add(36, 706)
+     * 742
+     * > add(738, 411)
+     * 1149
+     * > add(679, 87)
+     * 766
+     * > add(25, 303)
+     * 328
+     * > add(161, 612)
+     * 773
+     * > add(306, 841)
+     * 1147
+     * > add(973, 411)
+     * 1384
+     * > add(711, 157)
+     * 868
+     * > add(471, 27)
+     * 498
+     * > add(714, 792)
+     * 1506
+     * > add(38, 206)
+     * 244
+     * > add(907, 343)
+     * 1250
+     * > add(23, 760)
+     * 783
+     * > add(524, 859)
+     * 1383
+     * > add(30, 529)
+     * 559
+     * > add(341, 691)
+     * 1032
+     * > add(167, 729)
+     * 896
+     * > add(636, 289)
+     * 925
+     * > add(503, 144)
+     * 647
+     * > add(51, 985)
+     * 1036
+     * > add(287, 149)
+     * 436
+     * > add(659, 75)
+     * 734
+     * > add(462, 797)
+     * 1259
+     * > add(406, 141)
+     * 547
+     * > add(106, 44)
+     * 150
+     * > add(300, 934)
+     * 1234
+     * > add(471, 524)
+     * 995
+     * > add(122, 429)
+     * 551
+     * > add(735, 195)
+     * 930
+     * > add(335, 484)
+     * 819
+     * > add(28, 809)
+     * 837
+     * > add(430, 20)
+     * 450
+     * > add(916, 635)
+     * 1551
+     * > add(301, 999)
+     * 1300
+     * > add(454, 466)
+     * 920
+     * > add(905, 259)
+     * 1164
+     * > add(168, 205)
+     * 373
+     * > add(570, 434)
+     * 1004
+     * > add(64, 959)
+     * 1023
+     * > add(957, 510)
+     * 1467
+     * > add(722, 598)
+     * 1320
+     * > add(770, 226)
+     * 996
+     * > add(579, 66)
+     * 645
+     * > add(117, 674)
+     * 791
+     * > add(530, 30)
+     * 560
+     * > add(776, 345)
+     * 1121
+     * > add(327, 389)
+     * 716
+     * > add(596, 12)
+     * 608
+     * > add(599, 511)
+     * 1110
+     * > add(936, 476)
+     * 1412
+     * > add(461, 14)
+     * 475
+     * > add(966, 157)
+     * 1123
+     * > add(326, 91)
+     * 417
+     * > add(392, 455)
+     * 847
+     * > add(446, 477)
+     * 923
+     * > add(324, 860)
+     * 1184
+     * > add(945, 85)
+     * 1030
+     * > add(886, 582)
+     * 1468
+     * > add(886, 712)
+     * 1598
+     * > add(842, 953)
+     * 1795
+     */
+    public static int add(int x, int y) {
+        return x + y;
+    }
+}
+
 // AddTest.java
 package scenario3;
+
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class of {@link Add}.
- * It contains ten unit test cases for the {@link Add#add(int, int)} method.
- */
+* Test class of {@link Add}.
+* It contains ten unit test cases for the {@link Add#add(int, int)} method.
+*/
 class AddTest {
-
     @Test
     void testAddition() {
         assertEquals(1, Add.add(0, 1));
@@ -33,88 +255,4 @@ class AddTest {
         assertEquals(1616, Add.add(802, 814));
         assertEquals(1432, Add.add(510, 922));
         assertEquals(1164, Add.add(345, 819));
-        assertEquals(1331, Add.add(895, 436));
-        assertEquals(547, Add.add(123, 424));
-        assertEquals(1168, Add.add(923, 245));
-        assertEquals(461, Add.add(23, 438));
-        assertEquals(698, Add.add(565, 133));
-        assertEquals(1870, Add.add(945, 925));
-        assertEquals(1244, Add.add(261, 983));
-        assertEquals(716, Add.add(139, 577));
-        assertEquals(941, Add.add(763, 178));
-        assertEquals(1039, Add.add(147, 892));
-        assertEquals(838, Add.add(436, 402));
-        assertEquals(1191, Add.add(610, 581));
-        assertEquals(519, Add.add(103, 416));
-        assertEquals(1329, Add.add(339, 990));
-        assertEquals(634, Add.add(130, 504));
-        assertEquals(959, Add.add(242, 717));
-        assertEquals(672, Add.add(562, 110));
-        assertEquals(1305, Add.add(396, 909));
-        assertEquals(1590, Add.add(887, 703));
-        assertEquals(1421, Add.add(870, 551));
-        assertEquals(813, Add.add(422, 391));
-        assertEquals(804, Add.add(299, 505));
-        assertEquals(402, Add.add(346, 56));
-        assertEquals(742, Add.add(36, 706));
-        assertEquals(1149, Add.add(738, 411));
-        assertEquals(766, Add.add(679, 87));
-        assertEquals(328, Add.add(25, 303));
-        assertEquals(773, Add.add(161, 612));
-        assertEquals(1147, Add.add(306, 841));
-        assertEquals(1384, Add.add(973, 411));
-        assertEquals(868, Add.add(711, 157));
-        assertEquals(498, Add.add(471, 27));
-        assertEquals(1506, Add.add(714, 792));
-        assertEquals(244, Add.add(38, 206));
-        assertEquals(1250, Add.add(907, 343));
-        assertEquals(783, Add.add(23, 760));
-        assertEquals(1383, Add.add(524, 859));
-        assertEquals(559, Add.add(30, 529));
-        assertEquals(1032, Add.add(341, 691));
-        assertEquals(896, Add.add(167, 729));
-        assertEquals(925, Add.add(636, 289));
-        assertEquals(647, Add.add(503, 144));
-        assertEquals(1036, Add.add(51, 985));
-        assertEquals(436, Add.add(287, 149));
-        assertEquals(734, Add.add(659, 75));
-        assertEquals(1259, Add.add(462, 797));
-        assertEquals(547, Add.add(406, 141));
-        assertEquals(150, Add.add(106, 44));
-        assertEquals(1234, Add.add(300, 934));
-        assertEquals(995, Add.add(471, 524));
-        assertEquals(551, Add.add(122, 429));
-        assertEquals(930, Add.add(735, 195));
-        assertEquals(819, Add.add(335, 484));
-        assertEquals(837, Add.add(28, 809));
-        assertEquals(450, Add.add(430, 20));
-        assertEquals(1551, Add.add(916, 635));
-        assertEquals(1300, Add.add(301, 999));
-        assertEquals(920, Add.add(454, 466));
-        assertEquals(1164, Add.add(905, 259));
-        assertEquals(373, Add.add(168, 205));
-        assertEquals(1004, Add.add(570, 434));
-        assertEquals(1023, Add.add(64, 959));
-        assertEquals(1467, Add.add(957, 510));
-        assertEquals(1320, Add.add(722, 598));
-        assertEquals(996, Add.add(770, 226));
-        assertEquals(645, Add.add(579, 66));
-        assertEquals(791, Add.add(117, 674));
-        assertEquals(560, Add.add(530, 30));
-        assertEquals(1121, Add.add(776, 345));
-        assertEquals(716, Add.add(327, 389));
-        assertEquals(608, Add.add(596, 12));
-        assertEquals(1110, Add.add(599, 511));
-        assertEquals(1412, Add.add(936, 476));
-        assertEquals(475, Add.add(461, 14));
-        assertEquals(1123, Add.add(966, 157));
-        assertEquals(417, Add.add(326, 91));
-        assertEquals(847, Add.add(392, 455));
-        assertEquals(923, Add.add(446, 477));
-        assertEquals(1184, Add.add(324, 860));
-        assertEquals(1030, Add.add(945, 85));
-        assertEquals(1468, Add.add(886, 582));
-        assertEquals(1598, Add.add(886, 712));
-        assertEquals(1795, Add.add(842, 953));
-    }
-}
+       

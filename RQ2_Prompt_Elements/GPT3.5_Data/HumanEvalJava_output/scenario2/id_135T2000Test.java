@@ -1,6 +1,4 @@
-Here's the code for the CanArrangeTest class:
-
-```
+// CanArrangeTest.java
 package scenario2;
 
 import java.util.Arrays;
@@ -8,78 +6,69 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link CanArrange}.
+ * It contains ten unit test cases for the {@link CanArrange#canArrange(List)} method.
+ */
 class CanArrangeTest {
+
+    @Test
+    void testCanArrangeWithNullList() {
+        List<Object> arr = null;
+        assertThrows(NullPointerException.class, () -> CanArrange.canArrange(arr));
+    }
 
     @Test
     void testCanArrangeWithEmptyList() {
         List<Object> arr = Arrays.asList();
-        int result = CanArrange.canArrange(arr);
-        assertEquals(-1, result);
+        assertEquals(-1, CanArrange.canArrange(arr));
     }
 
     @Test
-    void testCanArrangeWithSingleElementList() {
+    void testCanArrangeWithOneElementList() {
         List<Object> arr = Arrays.asList(1);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(-1, result);
+        assertEquals(-1, CanArrange.canArrange(arr));
     }
 
     @Test
     void testCanArrangeWithIncreasingList() {
         List<Object> arr = Arrays.asList(1, 2, 3, 4, 5);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(-1, result);
+        assertEquals(-1, CanArrange.canArrange(arr));
     }
 
     @Test
     void testCanArrangeWithDecreasingList() {
         List<Object> arr = Arrays.asList(5, 4, 3, 2, 1);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(0, result);
+        assertEquals(0, CanArrange.canArrange(arr));
     }
 
     @Test
     void testCanArrangeWithRandomList() {
         List<Object> arr = Arrays.asList(1, 3, 2, 5, 4);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(2, result);
+        assertEquals(2, CanArrange.canArrange(arr));
     }
 
     @Test
     void testCanArrangeWithMixedList() {
         List<Object> arr = Arrays.asList(1, "a", 2, "b", 3);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(2, result);
+        assertEquals(2, CanArrange.canArrange(arr));
     }
 
     @Test
-    void testCanArrangeWithNullElement() {
-        List<Object> arr = Arrays.asList(1, null, 2, 3);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(2, result);
+    void testCanArrangeWithMixedList2() {
+        List<Object> arr = Arrays.asList("a", 1, "b", 2, "c");
+        assertEquals(3, CanArrange.canArrange(arr));
     }
 
     @Test
-    void testCanArrangeWithNegativeNumbers() {
-        List<Object> arr = Arrays.asList(-5, -4, -3, -2, -1);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(0, result);
+    void testCanArrangeWithMixedList3() {
+        List<Object> arr = Arrays.asList("a", "b", "c", 1, 2, 3);
+        assertEquals(3, CanArrange.canArrange(arr));
     }
 
     @Test
-    void testCanArrangeWithMixedNumbers() {
-        List<Object> arr = Arrays.asList(-5, 1, -3, 2, -1);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(2, result);
-    }
-
-    @Test
-    void testCanArrangeWithDuplicateElements() {
-        List<Object> arr = Arrays.asList(1, 2, 3, 3, 4);
-        int result = CanArrange.canArrange(arr);
-        assertEquals(2, result);
+    void testCanArrangeWithMixedList4() {
+        List<Object> arr = Arrays.asList(1, "a", "b", 2, "c", 3);
+        assertEquals(3, CanArrange.canArrange(arr));
     }
 }
-```
-
-This test class contains ten test cases for the `canArrange` method of the `CanArrange` class. The test cases cover different scenarios such as empty list, single element list, increasing list, decreasing list, random list, mixed list, null element, negative numbers, mixed numbers, and duplicate elements. Each test case asserts the expected result against the actual result returned by the `canArrange` method.

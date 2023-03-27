@@ -1,97 +1,90 @@
-Here's the code for the test class:
-
-```
-package scenario1;
-
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
-* Test class of {@link EvenOddPalindrome}.
-* It contains ten unit test cases for the {@link EvenOddPalindrome#evenOddPalindrome(int)} method.
-*/
-class EvenOddPalindromeTest {
-
+// Test case 1: Test with n = 0
     @Test
-    void testEvenOddPalindromeWithZero() {
+    void testWithZero() {
         List<Integer> expected = new ArrayList<Integer>();
         expected.add(0);
         expected.add(0);
         assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(0));
     }
 
+    // Test case 2: Test with n = 1
     @Test
-    void testEvenOddPalindromeWithOne() {
+    void testWithOne() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(0);
+        expected.add(1);
         expected.add(0);
         assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(1));
     }
 
+    // Test case 3: Test with n = 10
     @Test
-    void testEvenOddPalindromeWithTwo() {
+    void testWithTen() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(1);
-        expected.add(0);
-        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(2));
+        expected.add(5);
+        expected.add(5);
+        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(10));
     }
 
+    // Test case 4: Test with n = 100
     @Test
-    void testEvenOddPalindromeWithThree() {
+    void testWithHundred() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(1);
-        expected.add(1);
-        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(3));
+        expected.add(45);
+        expected.add(55);
+        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(100));
     }
 
+    // Test case 5: Test with n = 1000
     @Test
-    void testEvenOddPalindromeWithFour() {
+    void testWithThousand() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(2);
-        expected.add(1);
-        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(4));
+        expected.add(495);
+        expected.add(505);
+        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(1000));
     }
 
+    // Test case 6: Test with n = 10000
     @Test
-    void testEvenOddPalindromeWithFive() {
+    void testWithTenThousand() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(2);
-        expected.add(2);
-        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(5));
+        expected.add(4995);
+        expected.add(5005);
+        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(10000));
     }
 
+    // Test case 7: Test with n = 100000
     @Test
-    void testEvenOddPalindromeWithSix() {
+    void testWithHundredThousand() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(3);
-        expected.add(2);
-        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(6));
+        expected.add(49995);
+        expected.add(50005);
+        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(100000));
     }
 
+    // Test case 8: Test with n = 1000000
     @Test
-    void testEvenOddPalindromeWithSeven() {
+    void testWithMillion() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(3);
-        expected.add(3);
-        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(7));
+        expected.add(499995);
+        expected.add(500005);
+        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(1000000));
     }
 
+    // Test case 9: Test with n = 10000000
     @Test
-    void testEvenOddPalindromeWithEight() {
+    void testWithTenMillion() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(4);
-        expected.add(3);
-        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(8));
+        expected.add(4999995);
+        expected.add(5000005);
+        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(10000000));
     }
 
+    // Test case 10: Test with n = 100000000
     @Test
-    void testEvenOddPalindromeWithNine() {
+    void testWithHundredMillion() {
         List<Integer> expected = new ArrayList<Integer>();
-        expected.add(4);
-        expected.add(4);
-        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(9));
+        expected.add(49999995);
+        expected.add(50000005);
+        assertEquals(expected, EvenOddPalindrome.evenOddPalindrome(100000000));
     }
 }
-```

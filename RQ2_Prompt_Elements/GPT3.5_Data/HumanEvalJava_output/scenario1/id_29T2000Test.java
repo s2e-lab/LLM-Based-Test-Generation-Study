@@ -1,4 +1,4 @@
-Here's the code for the `FilterByPrefixTest` class:
+Here's the source code for the `FilterByPrefixTest` class:
 
 ```
 package scenario1;
@@ -45,7 +45,7 @@ class FilterByPrefixTest {
 
     @Test
     void testFilterByPrefixWithNoMatchingStrings() {
-        List<Object> strings = Arrays.asList("notprefix", "notprefixagain", "stillnotprefix");
+        List<Object> strings = Arrays.asList("notprefix", "notprefixagain", "definitelynotprefix");
         List<Object> result = FilterByPrefix.filterByPrefix(strings, "prefix");
         assertTrue(result.isEmpty());
     }
@@ -58,33 +58,33 @@ class FilterByPrefixTest {
     }
 
     @Test
-    void testFilterByPrefixWithAllMatchingStrings() {
-        List<Object> strings = Arrays.asList("prefix", "prefixagain", "prefixonceagain");
+    void testFilterByPrefixWithMultipleMatchingStrings() {
+        List<Object> strings = Arrays.asList("prefix", "notprefix", "prefixagain", "prefixmore", "prefixevenmore");
         List<Object> result = FilterByPrefix.filterByPrefix(strings, "prefix");
-        assertEquals(strings, result);
+        assertEquals(Arrays.asList("prefix", "prefixagain", "prefixmore", "prefixevenmore"), result);
     }
 
     @Test
-    void testFilterByPrefixWithMixedMatchingStrings() {
-        List<Object> strings = Arrays.asList("prefix", "notprefix", "prefixagain", "prefixonceagain", "stillnotprefix");
-        List<Object> result = FilterByPrefix.filterByPrefix(strings, "prefix");
-        assertEquals(Arrays.asList("prefix", "prefixagain", "prefixonceagain"), result);
-    }
-
-    @Test
-    void testFilterByPrefixWithNonStringObjects() {
-        List<Object> strings = Arrays.asList(1, "prefix", 2, "prefixagain", 3);
+    void testFilterByPrefixWithMixedTypes() {
+        List<Object> strings = Arrays.asList("prefix", 123, "prefixagain", true, "notprefix");
         List<Object> result = FilterByPrefix.filterByPrefix(strings, "prefix");
         assertEquals(Arrays.asList("prefix", "prefixagain"), result);
     }
 
     @Test
     void testFilterByPrefixWithUnicodeStrings() {
-        List<Object> strings = Arrays.asList("préfixe", "notprefix", "préfixeagain");
+        List<Object> strings = Arrays.asList("préfixe", "notprefix", "préfixeagain", "prefixmore", "prefixevenmore");
         List<Object> result = FilterByPrefix.filterByPrefix(strings, "pré");
         assertEquals(Arrays.asList("préfixe", "préfixeagain"), result);
+    }
+
+    @Test
+    void testFilterByPrefixWithEmptyStrings() {
+        List<Object> strings = Arrays.asList("", "notprefix", "prefixagain", "", "prefix");
+        List<Object> result = FilterByPrefix.filterByPrefix(strings, "prefix");
+        assertEquals(Arrays.asList("", "prefix"), result);
     }
 }
 ```
 
-This class contains ten test methods that cover different scenarios for the `filterByPrefix` method. The tests include cases with empty and null lists, null and empty prefixes, no matching strings, one matching string, all matching strings, mixed matching strings, non-string objects, and Unicode strings. The tests use the `assertEquals`, `assertNull`, and `assertTrue` methods from the `Assertions` class to verify the expected results.
+This class contains ten unit test cases for the `FilterByPrefix.filterByPrefix()` method. Each test case covers a different scenario, such as an empty list, a null list, a null prefix, an empty prefix, no matching strings, one matching string, multiple matching strings, mixed types, Unicode strings, and empty strings. The `@Test` annotation is used to mark each test method, and the `assertEquals()`, `assertTrue()`, and `assertNull()` methods are used to check the expected results.

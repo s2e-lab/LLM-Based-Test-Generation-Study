@@ -60,4 +60,4 @@ class IsPrimeTest {
 }
 ```
 
-This test class contains ten unit test cases for the `IsPrime.isPrime(int)` method. The test cases cover a range of scenarios, including negative numbers, zero, one, small prime numbers, small composite numbers, large composite numbers, and large prime numbers. The `@Test` annotation is used to mark each test method, and the `assertTrue` and `assertFalse` methods are used to check the expected results.
+This class contains ten unit test cases for the `IsPrime.isPrime(int)` method. Each test case tests a different scenario, such as negative numbers, zero, one, prime numbers, and large numbers. The `@Test` annotation is used to mark each test method, and the `Assertions` class is used to verify the expected results.

@@ -1,11 +1,14 @@
-Here's the source code for the Fib4Test class:
+// Here's the source code for the Fib4Test class
 
-```
 package scenario2;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link Fib4}.
+ * It contains ten unit test cases for the {@link Fib4#fib4(int)} method.
+ */
 class Fib4Test {
 
     @Test
@@ -58,6 +61,3 @@ class Fib4Test {
         assertEquals(48, Fib4.fib4(9));
     }
 }
-```
-
-This test class contains ten unit test cases for the `fib4` method of the `Fib4` class. Each test case tests the method with a different input value and checks that the output is correct using the `assertEquals` method from the JUnit library.

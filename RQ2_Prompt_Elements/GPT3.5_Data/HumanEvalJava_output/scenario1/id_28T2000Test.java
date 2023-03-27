@@ -1,4 +1,4 @@
-Here's the code for the ConcatenateTest class:
+Here's the source code for the ConcatenateTest class:
 
 ```
 package scenario1;
@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-* Test class of {@link Concatenate}.
-* It contains ten unit test cases for the {@link Concatenate#concatenate(List)} method.
-*/
+ * Test class of {@link Concatenate}.
+ * It contains ten unit test cases for the {@link Concatenate#concatenate(List)} method.
+ */
 class ConcatenateTest {
 
     @Test
@@ -79,11 +79,11 @@ class ConcatenateTest {
 
     @Test
     void testConcatenateUnicodeStrings() {
-        List<Object> strings = Arrays.asList("hello", "world", "\u00E9\u00E0\u00E8\u00EF");
+        List<Object> strings = Arrays.asList("hello", "\u00E9", "world");
         String result = Concatenate.concatenate(strings);
-        assertEquals("helloworld\u00E9\u00E0\u00E8\u00EF", result);
+        assertEquals("hello\u00E9world", result);
     }
 }
 ```
 
-This test class contains ten unit test cases for the `Concatenate.concatenate(List)` method. Each test case tests a different scenario, such as an empty list, a list with a single string, a list with multiple strings, a list with null or empty strings, a list with integers, a list with mixed types, a list with long strings, a list with a large number of strings, and a list with Unicode strings. The `assertEquals` method is used to check that the actual result of the method call matches the expected result.
+This class contains ten unit test cases for the `Concatenate.concatenate(List)` method. Each test case covers a different scenario, such as an empty list, a list with a single string, a list with multiple strings, a list with null or empty strings, a list with integers, a list with mixed types, a list with long strings, a list with a large number of strings, and a list with Unicode strings. The `@Test` annotation is used to mark each test case, and the `assertEquals` method is used to check the expected result against the actual result.

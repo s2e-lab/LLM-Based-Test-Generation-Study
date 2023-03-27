@@ -1,63 +1,76 @@
 Here's the code for the test class:
 
 ```
+// StartsOneEndsTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link StartsOneEnds}.
+ * It contains ten unit test cases for the {@link StartsOneEnds#startsOneEnds(int)} method.
+ */
 class StartsOneEndsTest {
 
     @Test
-    void testStartsOneEndsWithOneDigit() {
-        assertEquals(2, StartsOneEnds.startsOneEnds(1));
+    void testStartsOneEndsForOneDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(1);
+        assertEquals(2, result);
     }
 
     @Test
-    void testStartsOneEndsWithTwoDigits() {
-        assertEquals(20, StartsOneEnds.startsOneEnds(2));
+    void testStartsOneEndsForTwoDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(2);
+        assertEquals(20, result);
     }
 
     @Test
-    void testStartsOneEndsWithThreeDigits() {
-        assertEquals(200, StartsOneEnds.startsOneEnds(3));
+    void testStartsOneEndsForThreeDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(3);
+        assertEquals(200, result);
     }
 
     @Test
-    void testStartsOneEndsWithFourDigits() {
-        assertEquals(2000, StartsOneEnds.startsOneEnds(4));
+    void testStartsOneEndsForFourDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(4);
+        assertEquals(2000, result);
     }
 
     @Test
-    void testStartsOneEndsWithFiveDigits() {
-        assertEquals(20000, StartsOneEnds.startsOneEnds(5));
+    void testStartsOneEndsForFiveDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(5);
+        assertEquals(20000, result);
     }
 
     @Test
-    void testStartsOneEndsWithSixDigits() {
-        assertEquals(200000, StartsOneEnds.startsOneEnds(6));
+    void testStartsOneEndsForSixDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(6);
+        assertEquals(200000, result);
     }
 
     @Test
-    void testStartsOneEndsWithSevenDigits() {
-        assertEquals(2000000, StartsOneEnds.startsOneEnds(7));
+    void testStartsOneEndsForSevenDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(7);
+        assertEquals(2000000, result);
     }
 
     @Test
-    void testStartsOneEndsWithEightDigits() {
-        assertEquals(20000000, StartsOneEnds.startsOneEnds(8));
+    void testStartsOneEndsForEightDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(8);
+        assertEquals(20000000, result);
     }
 
     @Test
-    void testStartsOneEndsWithNineDigits() {
-        assertEquals(200000000, StartsOneEnds.startsOneEnds(9));
+    void testStartsOneEndsForNineDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(9);
+        assertEquals(200000000, result);
     }
 
     @Test
-    void testStartsOneEndsWithTenDigits() {
-        assertEquals(2000000000, StartsOneEnds.startsOneEnds(10));
+    void testStartsOneEndsForTenDigitNumber() {
+        int result = StartsOneEnds.startsOneEnds(10);
+        assertEquals(2000000000, result);
     }
 }
 ```
-
-This test class contains ten test cases that cover all possible values of n from 1 to 10. Each test case calls the `startsOneEnds` method with a specific value of n and checks that the returned value is equal to the expected value. The expected values are calculated manually based on the problem statement.

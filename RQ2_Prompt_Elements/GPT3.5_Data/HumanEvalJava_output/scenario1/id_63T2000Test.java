@@ -1,4 +1,4 @@
-Here's the completed `FibfibTest` class with ten unit test cases for the `Fibfib.fibfib(int)` method:
+Here's the code for the FibfibTest class with ten unit test cases for the fibfib method:
 
 ```
 package scenario1;
@@ -6,10 +6,6 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class of {@link Fibfib}.
- * It contains ten unit test cases for the {@link Fibfib#fibfib(int)} method.
- */
 class FibfibTest {
 
     @Test
@@ -63,3 +59,5 @@ class FibfibTest {
     }
 }
 ```
+
+These test cases cover a range of input values and expected output values to ensure that the fibfib method is working correctly.

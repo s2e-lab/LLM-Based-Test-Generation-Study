@@ -1,67 +1,108 @@
-Here's the implementation of the `cycpatternCheck` method in the `CycpatternCheck` class:
+// CycpatternCheck.java
+package scenario3;
 
-```java
-public static Boolean cycpatternCheck(String a, String b) {
-    if (a == null || b == null || a.length() < b.length()) {
-        return false;
+class CycpatternCheck {
+
+    /**
+     * You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word
+     * cycpatternCheck("abcd","abd") => False
+     * cycpatternCheck("hello","ell") => True
+     * cycpatternCheck("whassup","psus") => False
+     * cycpatternCheck("abab","baa") => True
+     * cycpatternCheck("efef","eeff") => False
+     * cycpatternCheck("himenss","simen") => True
+     *
+     * > cycpatternCheck("xyzw", "xyw")
+     * false
+     * > cycpatternCheck("yello", "ell")
+     * true
+     * > cycpatternCheck("whattup", "ptut")
+     * false
+     * > cycpatternCheck("efef", "fee")
+     * true
+     * > cycpatternCheck("abab", "aabb")
+     * false
+     * > cycpatternCheck("winemtt", "tinem")
+     * true
+     */
+    public static Boolean cycpatternCheck(String a, String b) {
+        if (a == null || b == null || a.length() < b.length()) {
+            return false;
+        }
+        String aDouble = a + a;
+        return aDouble.contains(b);
     }
-    String doubleA = a + a;
-    return doubleA.contains(b);
 }
-```
 
-And here are the ten unit test cases in the `CycpatternCheckTest` class:
+// CycpatternCheckTest.java
+package scenario3;
 
-```java
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CycpatternCheck}.
+* It contains ten unit test cases for the {@link CycpatternCheck#cycpatternCheck(String, String)} method.
+*/
 class CycpatternCheckTest {
     @Test
-    void test1() {
+    void testCycpatternCheck1() {
         assertFalse(CycpatternCheck.cycpatternCheck("abcd", "abd"));
     }
 
     @Test
-    void test2() {
+    void testCycpatternCheck2() {
         assertTrue(CycpatternCheck.cycpatternCheck("hello", "ell"));
     }
 
     @Test
-    void test3() {
+    void testCycpatternCheck3() {
         assertFalse(CycpatternCheck.cycpatternCheck("whassup", "psus"));
     }
 
     @Test
-    void test4() {
+    void testCycpatternCheck4() {
         assertTrue(CycpatternCheck.cycpatternCheck("abab", "baa"));
     }
 
     @Test
-    void test5() {
+    void testCycpatternCheck5() {
         assertFalse(CycpatternCheck.cycpatternCheck("efef", "eeff"));
     }
 
     @Test
-    void test6() {
+    void testCycpatternCheck6() {
         assertTrue(CycpatternCheck.cycpatternCheck("himenss", "simen"));
     }
 
     @Test
-    void test7() {
+    void testCycpatternCheck7() {
         assertFalse(CycpatternCheck.cycpatternCheck("xyzw", "xyw"));
     }
 
     @Test
-    void test8() {
+    void testCycpatternCheck8() {
         assertTrue(CycpatternCheck.cycpatternCheck("yello", "ell"));
     }
 
     @Test
-    void test9() {
+    void testCycpatternCheck9() {
         assertFalse(CycpatternCheck.cycpatternCheck("whattup", "ptut"));
     }
 
     @Test
-    void test10() {
+    void testCycpatternCheck10() {
         assertTrue(CycpatternCheck.cycpatternCheck("efef", "fee"));
     }
+
+    @Test
+    void testCycpatternCheck11() {
+        assertFalse(CycpatternCheck.cycpatternCheck("abab", "aabb"));
+    }
+
+    @Test
+    void testCycpatternCheck12() {
+        assertTrue(CycpatternCheck.cycpatternCheck("winemtt", "tinem"));
+    }
 }
-```

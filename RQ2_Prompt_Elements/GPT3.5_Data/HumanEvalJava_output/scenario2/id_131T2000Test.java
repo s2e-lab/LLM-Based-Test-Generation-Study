@@ -1,58 +1,85 @@
-Here's the code for the DigitsTest class:
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-```
 class DigitsTest {
-    
+
     @Test
     void testAllEvenDigits() {
-        assertEquals(0, Digits.digits(2468));
+        int n = 2468;
+        int expected = 0;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
     void testOneOddDigit() {
-        assertEquals(3, Digits.digits(1234));
+        int n = 1234;
+        int expected = 3;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
     void testMultipleOddDigits() {
-        assertEquals(15, Digits.digits(13579));
+        int n = 13579;
+        int expected = 945;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
     void testZero() {
-        assertEquals(0, Digits.digits(0));
+        int n = 0;
+        int expected = 0;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
     void testLargeNumber() {
-        assertEquals(45, Digits.digits(135797531));
+        int n = 123456789;
+        int expected = 945;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
     void testNegativeNumber() {
-        assertEquals(15, Digits.digits(-13579));
+        int n = -13579;
+        int expected = 945;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
-    void testSingleDigit() {
-        assertEquals(1, Digits.digits(1));
+    void testMaxValue() {
+        int n = Integer.MAX_VALUE;
+        int expected = 1;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
-    void testTwoDigits() {
-        assertEquals(1, Digits.digits(10));
+    void testMinValue() {
+        int n = Integer.MIN_VALUE;
+        int expected = 0;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
-    void testThreeDigits() {
-        assertEquals(5, Digits.digits(105));
+    void testRepeatedOddDigits() {
+        int n = 1133557799;
+        int expected = 2187;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
-    
+
     @Test
-    void testFourDigits() {
-        assertEquals(15, Digits.digits(1357));
+    void testRepeatedEvenDigits() {
+        int n = 22446688;
+        int expected = 0;
+        int actual = Digits.digits(n);
+        assertEquals(expected, actual);
     }
 }
-```
-
-This test class contains ten unit test cases for the `Digits.digits(int)` method. Each test case tests a different scenario, such as all even digits, one odd digit, multiple odd digits, zero, a large number, a negative number, a single digit, two digits, three digits, and four digits. The `assertEquals` method is used to compare the expected result with the actual result returned by the `Digits.digits(int)` method.

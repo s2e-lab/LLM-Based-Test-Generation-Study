@@ -1,89 +1,110 @@
-Here's the source code for the AllPrefixesTest class with ten unit test cases for the allPrefixes method:
+// AllPrefixes.java
+package updated;
 
-```
-package original;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AllPrefixes {
+
+    /**
+     * Return list of all prefixes from shortest to longest of the input string.
+     *
+     * @param string the input string
+     * @return list of all prefixes
+     */
+    public static List<String> allPrefixes(String string) {
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < string.length(); i++) {
+            result.add(string.substring(0, i + 1));
+        }
+        return result;
+    }
+}
+
+// AllPrefixesTest.java
+package updated;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+/**
+ * Test class of {@link AllPrefixes}.
+ * It contains ten unit test cases for the {@link AllPrefixes#allPrefixes(String)} method.
+ */
 class AllPrefixesTest {
 
     @Test
     void testAllPrefixesWithEmptyString() {
-        List<Object> expected = new ArrayList<Object>();
-        List<Object> actual = AllPrefixes.allPrefixes("");
+        List<String> expected = new ArrayList<>();
+        List<String> actual = AllPrefixes.allPrefixes("");
         assertEquals(expected, actual);
     }
 
     @Test
     void testAllPrefixesWithSingleCharacterString() {
-        List<Object> expected = Arrays.asList("a");
-        List<Object> actual = AllPrefixes.allPrefixes("a");
+        List<String> expected = Arrays.asList("a");
+        List<String> actual = AllPrefixes.allPrefixes("a");
         assertEquals(expected, actual);
     }
 
     @Test
-    void testAllPrefixesWithTwoCharacterString() {
-        List<Object> expected = Arrays.asList("a", "ab");
-        List<Object> actual = AllPrefixes.allPrefixes("ab");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testAllPrefixesWithThreeCharacterString() {
-        List<Object> expected = Arrays.asList("a", "ab", "abc");
-        List<Object> actual = AllPrefixes.allPrefixes("abc");
+    void testAllPrefixesWithMultipleCharacterString() {
+        List<String> expected = Arrays.asList("a", "ab", "abc", "abcd", "abcde");
+        List<String> actual = AllPrefixes.allPrefixes("abcde");
         assertEquals(expected, actual);
     }
 
     @Test
     void testAllPrefixesWithUpperCaseString() {
-        List<Object> expected = Arrays.asList("W", "WW", "WWW");
-        List<Object> actual = AllPrefixes.allPrefixes("WWW");
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testAllPrefixesWithLowerCaseString() {
-        List<Object> expected = Arrays.asList("a", "as", "asd", "asdf", "asdfg", "asdfgh");
-        List<Object> actual = AllPrefixes.allPrefixes("asdfgh");
+        List<String> expected = Arrays.asList("W", "WW", "WWW");
+        List<String> actual = AllPrefixes.allPrefixes("WWW");
         assertEquals(expected, actual);
     }
 
     @Test
     void testAllPrefixesWithNumericString() {
-        List<Object> expected = Arrays.asList("1", "12", "123", "1234");
-        List<Object> actual = AllPrefixes.allPrefixes("1234");
+        List<String> expected = Arrays.asList("1", "12", "123", "1234", "12345");
+        List<String> actual = AllPrefixes.allPrefixes("12345");
         assertEquals(expected, actual);
     }
 
     @Test
     void testAllPrefixesWithSpecialCharacterString() {
-        List<Object> expected = Arrays.asList("#", "#$", "#$%", "#$%^");
-        List<Object> actual = AllPrefixes.allPrefixes("#$%^");
+        List<String> expected = Arrays.asList("#", "#$", "#$%", "#$%^", "#$%^&");
+        List<String> actual = AllPrefixes.allPrefixes("#$%^&");
         assertEquals(expected, actual);
     }
 
     @Test
     void testAllPrefixesWithWhitespaceString() {
-        List<Object> expected = Arrays.asList(" ", "  ", "   ");
-        List<Object> actual = AllPrefixes.allPrefixes("   ");
+        List<String> expected = Arrays.asList(" ", "  ", "   ", "    ", "     ");
+        List<String> actual = AllPrefixes.allPrefixes("     ");
         assertEquals(expected, actual);
     }
 
     @Test
     void testAllPrefixesWithMixedString() {
-        List<Object> expected = Arrays.asList("a", "ab", "abc", "a1", "a1#", "a1#2", "a1#2$", "a1#2$%", "a1#2$% ");
-        List<Object> actual = AllPrefixes.allPrefixes("a1#2$% ");
+        List<String> expected = Arrays.asList("a", "ab", "abc", "a1", "a1#", "a1#2", "a1#2$", "a1#2$3");
+        List<String> actual = AllPrefixes.allPrefixes("a1#2$3");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testAllPrefixesWithUnicodeString() {
+        List<String> expected = Arrays.asList("न", "नम", "नमस", "नमस्", "नमस्त", "नमस्ते");
+        List<String> actual = AllPrefixes.allPrefixes("नमस्ते");
         assertEquals(expected, actual);
     }
 
     @Test
     void testAllPrefixesWithNullString() {
-        assertThrows(NullPointerException.class, () -> AllPrefixes.allPrefixes(null));
+        List<String> expected = new ArrayList<>();
+        List<String> actual = AllPrefixes.allPrefixes(null);
+        assertEquals(expected, actual);
     }
 }
-```

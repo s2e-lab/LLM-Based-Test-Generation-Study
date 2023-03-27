@@ -1,4 +1,4 @@
-Here's the code for the `PrimeLengthTest` class with ten unit test cases for the `primeLength` method:
+Here's the source code for the PrimeLengthTest class:
 
 ```
 package scenario1;
@@ -6,6 +6,10 @@ package scenario1;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link PrimeLength}.
+ * It contains ten unit test cases for the {@link PrimeLength#primeLength(String)} method.
+ */
 class PrimeLengthTest {
 
     @Test
@@ -50,14 +54,14 @@ class PrimeLengthTest {
 
     @Test
     void testEightCharacterString() {
-        assertFalse(PrimeLength.primeLength("abcdefgh"));
+        assertTrue(PrimeLength.primeLength("abcdefgh"));
     }
 
     @Test
     void testNineCharacterString() {
-        assertTrue(PrimeLength.primeLength("abcdefghi"));
+        assertFalse(PrimeLength.primeLength("abcdefghi"));
     }
 }
 ```
 
-These test cases cover a range of input string lengths and test both prime and non-prime lengths.
+This test class contains ten unit test cases for the `primeLength` method of the `PrimeLength` class. Each test case tests a different input string and verifies that the method returns the expected result. The test cases cover a range of string lengths, including empty strings, single-character strings, and strings of various lengths that are either prime or composite.

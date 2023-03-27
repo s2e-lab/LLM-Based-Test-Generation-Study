@@ -1,11 +1,16 @@
 Here's the source code for the DigitsumTest class:
 
 ```
+// DigitsumTest.java
 package scenario2;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class of {@link Digitsum}.
+ * It contains ten unit test cases for the {@link Digitsum#digitSum(String)} method.
+ */
 class DigitsumTest {
 
     @Test
@@ -20,47 +25,45 @@ class DigitsumTest {
 
     @Test
     void testUppercaseLetters() {
-        assertEquals(429, Digitsum.digitSum("ABC"));
+        assertEquals(429, Digitsum.digitSum("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
     }
 
     @Test
     void testMixedCaseLetters() {
-        assertEquals(429, Digitsum.digitSum("aBcDeFG"));
+        assertEquals(429, Digitsum.digitSum("aBcDeFGhIjKlMnOpQrStUvWxYz"));
     }
 
     @Test
     void testNumbers() {
-        assertEquals(0, Digitsum.digitSum("12345"));
+        assertEquals(0, Digitsum.digitSum("1234567890"));
     }
 
     @Test
     void testSpecialCharacters() {
-        assertEquals(0, Digitsum.digitSum("!@#$%"));
+        assertEquals(0, Digitsum.digitSum("!@#$%^&*()_+-={}[]|\\:;\"'<>,.?/"));
     }
 
     @Test
     void testWhitespace() {
-        assertEquals(0, Digitsum.digitSum("   "));
+        assertEquals(0, Digitsum.digitSum(" \t\n\r\f"));
     }
 
     @Test
     void testNullString() {
-        assertThrows(NullPointerException.class, () -> {
-            Digitsum.digitSum(null);
-        });
+        assertThrows(NullPointerException.class, () -> Digitsum.digitSum(null));
     }
 
     @Test
     void testLongString() {
-        String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        assertEquals(2015, Digitsum.digitSum(s));
+        String s = "A".repeat(1000000);
+        assertEquals(429 * 1000000, Digitsum.digitSum(s));
     }
 
     @Test
-    void testUnicodeCharacters() {
-        assertEquals(1040, Digitsum.digitSum("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"));
+    void testNonAsciiCharacters() {
+        assertEquals(0, Digitsum.digitSum("éàçùëïô"));
     }
 }
 ```
 
-This class contains ten unit test cases for the `digitSum` method of the `Digitsum` class. Each test case is annotated with the `@Test` annotation, which tells JUnit to run the method as a test. The `assertEquals` method is used to check that the actual result of the `digitSum` method matches the expected result. The `assertThrows` method is used to check that the `digitSum` method throws a `NullPointerException` when passed a null string.
+This class contains ten unit test cases for the `digitSum` method of the `Digitsum` class. The test cases cover various scenarios, such as empty strings, lowercase letters, uppercase letters, mixed case letters, numbers, special characters, whitespace, null strings, long strings, and non-ASCII characters. The `assertEquals` method is used to compare the expected result with the actual result of the `digitSum` method. The `assertThrows` method is used to test the behavior of the `digitSum` method when a null string is passed as input.

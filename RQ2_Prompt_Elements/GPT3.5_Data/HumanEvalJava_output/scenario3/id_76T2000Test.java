@@ -45,10 +45,7 @@ class IsSimplePower {
             while (p <= x) {
                 p *= i;
                 if (p == x) {
-                    if (n == i) {
-                        return true;
-                    }
-                    break;
+                    return true;
                 }
             }
         }

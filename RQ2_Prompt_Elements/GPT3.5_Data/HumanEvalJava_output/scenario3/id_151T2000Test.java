@@ -97,34 +97,34 @@ class DoubleTheDifferenceTest {
     
     @Test
     void testMixedNumbersWithDecimals() {
-        List<Object> lst = Arrays.asList(0.1, 2, 3, 4, 5, 0.2);
+        List<Object> lst = Arrays.asList(0.2, 3, 5);
         int result = DoubleTheDifference.doubleTheDifference(lst);
         assertEquals(34, result);
     }
     
     @Test
     void testMixedNumbersWithNegativeDecimals() {
-        List<Object> lst = Arrays.asList(-0.1, 2, 3, 4, 5, -0.2);
+        List<Object> lst = Arrays.asList(-0.2, 3, 5);
         int result = DoubleTheDifference.doubleTheDifference(lst);
         assertEquals(34, result);
     }
     
     @Test
-    void testMixedNumbersWithStrings() {
-        List<Object> lst = Arrays.asList("hello", 2, 3, 4, 5, "world");
+    void testMixedNumbersWithNegativeIntegers() {
+        List<Object> lst = Arrays.asList(-1, -2, 8);
         int result = DoubleTheDifference.doubleTheDifference(lst);
-        assertEquals(34, result);
+        assertEquals(0, result);
     }
     
     @Test
-    void testMixedNumbersWithNull() {
-        List<Object> lst = Arrays.asList(null, 2, 3, 4, 5, null);
+    void testMixedNumbersWithNegativeAndPositiveIntegers() {
+        List<Object> lst = Arrays.asList(-1, 2, 8);
         int result = DoubleTheDifference.doubleTheDifference(lst);
-        assertEquals(34, result);
+        assertEquals(1, result);
     }
     
     @Test
-    void testLargeList() {
+    void testLargeListOfNumbers() {
         List<Object> lst = new ArrayList<>();
         for (int i = -99; i <= 99; i++) {
             lst.add(i);

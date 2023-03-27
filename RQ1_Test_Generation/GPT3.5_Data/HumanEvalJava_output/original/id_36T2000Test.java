@@ -1,5 +1,5 @@
 // FizzBuzzTest.java
-package original;
+package updated;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,5 +68,35 @@ class FizzBuzzTest {
     void testFizzBuzzWithZero() {
         int result = FizzBuzz.fizzBuzz(0);
         assertEquals(0, result);
+    }
+} 
+
+// FizzBuzz.java
+package updated;
+
+class FizzBuzz {
+
+    /**
+     * Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.
+     *
+     * @param n the upper limit of the range of integers to check
+     * @return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13
+     */
+    public static int fizzBuzz(int n) {
+        if (n <= 0) {
+            return 0;
+        }
+        int count = 0;
+        for (int i = 1; i < n; i++) {
+            if (i % 11 == 0 || i % 13 == 0) {
+                String s = Integer.toString(i);
+                for (int j = 0; j < s.length(); j++) {
+                    if (s.charAt(j) == '7') {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
     }
 }

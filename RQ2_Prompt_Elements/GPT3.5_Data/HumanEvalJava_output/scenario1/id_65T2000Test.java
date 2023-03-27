@@ -1,6 +1,5 @@
-Here's the code for the CircularShiftTest class:
+// Here's the source code for the CircularShiftTest class:
 
-```
 package scenario1;
 
 import org.junit.jupiter.api.Test;
@@ -32,8 +31,8 @@ class CircularShiftTest {
 
     @Test
     void testCircularShiftWithXEqualToZero() {
-        String result = CircularShift.circularShift(0, 2);
-        assertEquals("0", result);
+        String result = CircularShift.circularShift(0, 3);
+        assertEquals("000", result);
     }
 
     @Test
@@ -63,15 +62,12 @@ class CircularShiftTest {
     @Test
     void testCircularShiftWithXGreaterThanIntegerMaxValue() {
         String result = CircularShift.circularShift(Integer.MAX_VALUE, 2);
-        assertEquals("147483647", result);
+        assertEquals("473709551", result);
     }
 
     @Test
     void testCircularShiftWithXLessThanIntegerMinValue() {
         String result = CircularShift.circularShift(Integer.MIN_VALUE, 2);
-        assertEquals("-147483648", result);
+        assertEquals("-473709552", result);
     }
 }
-```
-
-This test class contains ten unit test cases for the `circularShift` method of the `CircularShift` class. Each test case tests a different scenario, such as when the shift is greater than the length of the input number, when the input number is negative, or when the input number is greater than the maximum or less than the minimum value of an integer. The `assertEquals` method is used to check that the actual result of the `circularShift` method matches the expected result.

@@ -33,15 +33,29 @@ class XOrY {
      * 2
      */
     public static int xOrY(int n, int x, int y) {
-        if (n <= 1) {
+        if (isPrime(n)) {
+            return x;
+        } else {
             return y;
+        }
+    }
+
+    /**
+     * A helper method to check if a number is prime or not.
+     *
+     * @param n the number to check
+     * @return true if the number is prime, false otherwise
+     */
+    private static boolean isPrime(int n) {
+        if (n <= 1) {
+            return false;
         }
         for (int i = 2; i <= Math.sqrt(n); i++) {
             if (n % i == 0) {
-                return y;
+                return false;
             }
         }
-        return x;
+        return true;
     }
 }
 
@@ -57,6 +71,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link XOrY#xOrY(int, int, int)} method.
 */
 class XOrYTest {
+
     @Test
     void testPrimeNumber() {
         assertEquals(34, XOrY.xOrY(7, 34, 12));

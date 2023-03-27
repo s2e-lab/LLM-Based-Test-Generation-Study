@@ -1,4 +1,4 @@
-Here's the code for the SortThirdTest class:
+Here's the source code for the SortThirdTest class:
 
 ```
 package scenario2;
@@ -12,41 +12,82 @@ import static org.junit.jupiter.api.Assertions.*;
 class SortThirdTest {
 
     @Test
-    void testSortThird() {
-        List<Integer> l1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l2 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l3 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l4 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l5 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l6 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l7 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l8 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l9 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> l10 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+    void testSortThirdEmptyList() {
+        List<Integer> l = new ArrayList<>();
+        List<Integer> expected = new ArrayList<>();
+        assertEquals(expected, SortThird.sortThird(l));
+    }
 
-        List<Integer> expected1 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected2 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected3 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected4 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected5 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected6 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected7 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected8 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected9 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        List<Integer> expected10 = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+    @Test
+    void testSortThirdSingleElementList() {
+        List<Integer> l = Arrays.asList(1);
+        List<Integer> expected = Arrays.asList(1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
 
-        assertEquals(expected1, SortThird.sortThird(l1));
-        assertEquals(expected2, SortThird.sortThird(l2));
-        assertEquals(expected3, SortThird.sortThird(l3));
-        assertEquals(expected4, SortThird.sortThird(l4));
-        assertEquals(expected5, SortThird.sortThird(l5));
-        assertEquals(expected6, SortThird.sortThird(l6));
-        assertEquals(expected7, SortThird.sortThird(l7));
-        assertEquals(expected8, SortThird.sortThird(l8));
-        assertEquals(expected9, SortThird.sortThird(l9));
-        assertEquals(expected10, SortThird.sortThird(l10));
+    @Test
+    void testSortThirdTwoElementList() {
+        List<Integer> l = Arrays.asList(2, 1);
+        List<Integer> expected = Arrays.asList(2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
+
+    @Test
+    void testSortThirdThreeElementList() {
+        List<Integer> l = Arrays.asList(3, 2, 1);
+        List<Integer> expected = Arrays.asList(3, 2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
+
+    @Test
+    void testSortThirdFourElementList() {
+        List<Integer> l = Arrays.asList(4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(4, 3, 2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
+
+    @Test
+    void testSortThirdFiveElementList() {
+        List<Integer> l = Arrays.asList(5, 4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(5, 4, 3, 2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
+
+    @Test
+    void testSortThirdSixElementList() {
+        List<Integer> l = Arrays.asList(6, 5, 4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(6, 5, 4, 3, 2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
+
+    @Test
+    void testSortThirdSevenElementList() {
+        List<Integer> l = Arrays.asList(7, 6, 5, 4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(7, 6, 5, 4, 3, 2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
+
+    @Test
+    void testSortThirdEightElementList() {
+        List<Integer> l = Arrays.asList(8, 7, 6, 5, 4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(8, 7, 6, 5, 4, 3, 2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
+
+    @Test
+    void testSortThirdNineElementList() {
+        List<Integer> l = Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
+    }
+
+    @Test
+    void testSortThirdTenElementList() {
+        List<Integer> l = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+        List<Integer> expected = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+        assertEquals(expected, SortThird.sortThird(l));
     }
 }
 ```
 
-This test class contains ten unit test cases for the `sortThird` method of the `SortThird` class. Each test case creates a list of integers, calls the `sortThird` method on it, and compares the result to an expected list of integers. The expected lists are also created in the test cases using the `Arrays.asList` method. The `assertEquals` method is used to compare the expected and actual lists.
+This test class contains ten unit test cases for the `SortThird.sortThird()` method. Each test case covers a different scenario, from an empty list to a list with ten elements. The expected output for each test case is calculated manually and compared to the actual output of the `SortThird.sortThird()` method using the `assertEquals()` method from the JUnit library.

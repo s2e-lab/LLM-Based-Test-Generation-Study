@@ -41,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.*;
 * It contains ten unit test cases for the {@link MaxElement#maxElement(List)} method.
 */
 class MaxElementTest {
+    
     @Test
     void testMaxElement() {
         List<Integer> l1 = Arrays.asList(1, 2, 3);

@@ -1,88 +1,81 @@
-Here's the code for the test class:
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-```
-package scenario2;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Test class of {@link GenerateIntegers}.
- * It contains ten unit test cases for the {@link GenerateIntegers#generateIntegers(int, int)} method.
- */
 class GenerateIntegersTest {
 
     @Test
-    void testGenerateIntegersWithEqualEvenNumbers() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
-        List<Object> actual = GenerateIntegers.generateIntegers(2, 8);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGenerateIntegersWithEqualOddNumbers() {
+    void testGenerateIntegers() {
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = GenerateIntegers.generateIntegers(1, 7);
-        assertEquals(expected, actual);
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
+        assertEquals(expected, GenerateIntegers.generateIntegers(1, 7));
     }
 
     @Test
-    void testGenerateIntegersWithAscendingEvenNumbers() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
-        List<Object> actual = GenerateIntegers.generateIntegers(2, 10);
-        assertEquals(expected, actual);
+    void testGenerateIntegersWithSameNumbers() {
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
+        assertEquals(expected, GenerateIntegers.generateIntegers(7, 7));
     }
 
     @Test
-    void testGenerateIntegersWithDescendingEvenNumbers() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2, 4, 6, 8));
-        List<Object> actual = GenerateIntegers.generateIntegers(10, 2);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGenerateIntegersWithAscendingOddNumbers() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(4, 6));
-        List<Object> actual = GenerateIntegers.generateIntegers(3, 7);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGenerateIntegersWithDescendingOddNumbers() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(4, 6));
-        List<Object> actual = GenerateIntegers.generateIntegers(7, 3);
-        assertEquals(expected, actual);
+    void testGenerateIntegersWithNegativeNumbers() {
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
+        assertEquals(expected, GenerateIntegers.generateIntegers(-7, -1));
     }
 
     @Test
     void testGenerateIntegersWithOneEvenNumber() {
-        List<Object> expected = new ArrayList<>(Arrays.asList(2));
-        List<Object> actual = GenerateIntegers.generateIntegers(2, 3);
-        assertEquals(expected, actual);
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        assertEquals(expected, GenerateIntegers.generateIntegers(2, 3));
     }
 
     @Test
     void testGenerateIntegersWithOneOddNumber() {
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = GenerateIntegers.generateIntegers(3, 4);
-        assertEquals(expected, actual);
+        assertEquals(expected, GenerateIntegers.generateIntegers(3, 4));
     }
 
     @Test
-    void testGenerateIntegersWithEqualNumbersOutOfRange() {
+    void testGenerateIntegersWithNoEvenNumbers() {
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = GenerateIntegers.generateIntegers(10, 20);
-        assertEquals(expected, actual);
+        assertEquals(expected, GenerateIntegers.generateIntegers(1, 3));
     }
 
     @Test
-    void testGenerateIntegersWithAscendingNumbersOutOfRange() {
+    void testGenerateIntegersWithSameEvenNumbers() {
         List<Object> expected = new ArrayList<>();
-        List<Object> actual = GenerateIntegers.generateIntegers(10, 30);
-        assertEquals(expected, actual);
+        expected.add(2);
+        assertEquals(expected, GenerateIntegers.generateIntegers(2, 2));
+    }
+
+    @Test
+    void testGenerateIntegersWithSameOddNumbers() {
+        List<Object> expected = new ArrayList<>();
+        assertEquals(expected, GenerateIntegers.generateIntegers(3, 3));
+    }
+
+    @Test
+    void testGenerateIntegersWithLargeNumbers() {
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
+        assertEquals(expected, GenerateIntegers.generateIntegers(100, 1000));
+    }
+
+    @Test
+    void testGenerateIntegersWithReversedNumbers() {
+        List<Object> expected = new ArrayList<>();
+        expected.add(2);
+        expected.add(4);
+        expected.add(6);
+        assertEquals(expected, GenerateIntegers.generateIntegers(7, 1));
     }
 }
-```

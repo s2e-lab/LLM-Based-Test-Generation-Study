@@ -1,71 +1,84 @@
-Here's the code for EncryptTest.java with ten unit test cases for the encrypt() method:
-
-```
-package scenario2;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EncryptTest {
 
     @Test
     void testEncryptEmptyString() {
-        String result = Encrypt.encrypt("");
-        assertEquals("", result);
+        String s = "";
+        String expected = "";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testEncryptLowerCase() {
-        String result = Encrypt.encrypt("hello");
-        assertEquals("jgnnq", result);
+        String s = "hello";
+        String expected = "jgnnq";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testEncryptUpperCase() {
-        String result = Encrypt.encrypt("WORLD");
-        assertEquals("YQTNF", result);
+        String s = "WORLD";
+        String expected = "YQTNF";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testEncryptMixedCase() {
-        String result = Encrypt.encrypt("HeLLo");
-        assertEquals("JgNnq", result);
+        String s = "HeLLo";
+        String expected = "JgNnq";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testEncryptNonAlphabetic() {
-        String result = Encrypt.encrypt("123");
-        assertEquals("123", result);
-    }
-
-    @Test
-    void testEncryptSingleCharacter() {
-        String result = Encrypt.encrypt("a");
-        assertEquals("c", result);
-    }
-
-    @Test
-    void testEncryptLongString() {
-        String result = Encrypt.encrypt("The quick brown fox jumps over the lazy dog");
-        assertEquals("Vjg swkem dtqyp hqz lworu qxgt vjg ncba fqi", result);
-    }
-
-    @Test
-    void testEncryptWithPunctuation() {
-        String result = Encrypt.encrypt("Hello, world!");
-        assertEquals("Jgnnq, yqtnf!", result);
+        String s = "123";
+        String expected = "123";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testEncryptWithSpaces() {
-        String result = Encrypt.encrypt("Hello world");
-        assertEquals("Jgnnq yqtnf", result);
+        String s = "hello world";
+        String expected = "jgnnq yqtnf";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testEncryptWithPunctuation() {
+        String s = "hello, world!";
+        String expected = "jgnnq, yqtnf!";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
     }
 
     @Test
     void testEncryptWithSpecialCharacters() {
-        String result = Encrypt.encrypt("Hello@world#");
-        assertEquals("Jgnnq@yqtnf#", result);
+        String s = "hello@world#";
+        String expected = "jgnnq@yqtnf#";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testEncryptWithUnicodeCharacters() {
+        String s = "こんにちは";
+        String expected = "さようなら";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testEncryptWithLongString() {
+        String s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String expected = "cdefghijklmnopqrstuvwxyzabCDEFGHIJKLMNOPQRSTUVWXYZAB";
+        String actual = Encrypt.encrypt(s);
+        assertEquals(expected, actual);
     }
 }
-```
