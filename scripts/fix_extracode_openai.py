@@ -18,7 +18,6 @@ def heuristic_1(code: str) -> tuple[str, bool]:
     # removes the extra code
     for e in EOF:
         if e in code:
-            print("Removing extra code at ", e, code.index(e))
             if code.index(e)<ignore_line_before:
                 continue
             code = code[: code.index(e)]
@@ -50,7 +49,8 @@ def heuristic_3(code: str) -> tuple[str, bool]:
     bad_code = re.findall(pattern, code, re.DOTALL)
     if len(bad_code) > 0:
         bad_code = bad_code[0][0]
-        code = code.replace(bad_code, "")
+        if len(bad_code.strip()) != 0:
+            code = code.replace(bad_code, "\n")
     return code, old_code != code
 
 
