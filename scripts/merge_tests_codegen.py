@@ -14,15 +14,12 @@ def get_generated_test(model: str, response: dict):
             gen_code = gen_code[:index] + " " + gen_code[index + 1:]
             generated_test.append(gen_code)
 
-
     # if the # of {} is off-by-one, just add one "}" to close the test_prompt class
     test_code = "\n".join(generated_test)
     if (test_code.count("{") + 1) == test_code.count("}"):
         return test_code + "\n}"
 
     return test_code
-
-
 
 
 def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str) -> None:
@@ -47,16 +44,19 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
     filtered_responses = []
 
     for r in previous_responses:
-        old_code = get_generated_test(model, r)
-        r["removed_extra_code"] = False
-        r["original_generated_code"] = old_code
-        r["choices"][0]["text"] = old_code
-        r["choices"][0]["finish_reason"] = ";".join(x["finish_reason"] for x in r["choices"])
-        print("\tPROMPT", r["prompt_id"], "FIXED?", r["removed_extra_code"])
-        filtered_responses.append(r)
-        # only keep the first recommendation, that has the merged output
-        del filtered_responses[-1]["choices"][1:]
-
+        i = 1
+        for c in r["choices"]:
+            new_resp = r.copy()
+            gen_code = r["test_prompt"] + "\n\t" + c["text"]
+            new_resp["removed_extra_code"] = False
+            new_resp["original_generated_code"] = gen_code
+            new_resp["choices"][0]["text"] = gen_code
+            new_resp["choice_no"] = i
+            # only keep the first recommendation, that has the merged output with test prompt
+            del new_resp["choices"][1:]
+            filtered_responses.append(new_resp)
+            i += 1
+            print("\tPROMPT", r["prompt_id"], gen_code)
 
     fixed_json_file = json_file.replace(".json", "_fixed_extracode.json")
     with open(fixed_json_file, "w") as f:
@@ -68,7 +68,7 @@ def main():
     config = load_config("config.json")
     dataset = "HumanEvalJava"
     model = "CodeGen"
-    scenarios = ["original" , "scenario1", "scenario2", "scenario3"]
+    scenarios = ["original", "scenario1", "scenario2", "scenario3"]
     tokens = [2000]
     for max_tokens in tokens:
         for scenario in scenarios:
