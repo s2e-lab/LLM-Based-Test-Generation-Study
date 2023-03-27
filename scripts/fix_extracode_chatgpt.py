@@ -20,6 +20,11 @@ def heuristic_1(code: str) -> str:
 
 
 def heuristic_2(code: str) -> str:
+    """
+    Captures the code between the triple backticks.
+    @param code: generated code.
+    @return: code between the triple backticks
+    """
     pattern = r"[\S\s.]*?\`\`\`([\S\s.]*?)\`\`\`[\S\s.]*?"
     good_code = re.findall(pattern, code, re.DOTALL)
     if len(good_code) > 0:
@@ -28,6 +33,11 @@ def heuristic_2(code: str) -> str:
 
 
 def heuristic_3(code: str) -> str:
+    """
+    Remove the code that is not part of the test.
+    @param code: generated code.
+    @return: code that is part of the test
+    """
     pattern = r"([\S\s.]*?)(\/\/ [A-Za-z0-9]+Test.java)"
     bad_code = re.findall(pattern, code, re.DOTALL)
     if len(bad_code) > 0:
@@ -37,6 +47,12 @@ def heuristic_3(code: str) -> str:
 
 
 def heuristic_4(code: str, scenario: str) -> str:
+    """
+    Replaces the package name with the scenario name.
+    @param code: generated code.
+    @param scenario: scenario name
+    @return: code with the scenario name as the package name
+    """
     keywords = ["updated", "revised", "modified", "changed", "altered"]
     for keyword in keywords:
         code = code.replace(f"package {keyword};", f"package {scenario};")
@@ -44,12 +60,25 @@ def heuristic_4(code: str, scenario: str) -> str:
 
 
 def heuristic_5(code: str, scenario: str) -> str:
+    """
+    Adds the package name if it is missing.
+    @param code: generated code.
+    @param scenario: scenario name
+    @return: code with the scenario name as the package name
+    """
     if f"package {scenario};" not in code:
         code = f"package {scenario};\n" + code
     return code
 
 
 def remove_extra_code(model: str, code: str, scenario: str) -> str:
+    """
+    Removes the extra code from the generated tests.
+    @param model: model name (ex: OpenAI, CodeGen)
+    @param code: generated code.
+    @param scenario: scenario name
+    @return: code without the extra code
+    """
     code = heuristic_1(code)
     if model == "GPT3.5":
         code = heuristic_2(code)
@@ -62,6 +91,12 @@ def remove_extra_code(model: str, code: str, scenario: str) -> str:
 
 
 def get_generated_test(model: str, response: dict):
+    """
+    Gets the generated test from the response.
+    @param model: model name (ex: OpenAI, CodeGen)
+    @param response: response from the model
+    @return: generated test
+    """
     if model == "OpenAI":
         return response["choices"][0]["text"]
     if model == "GPT3.5":
