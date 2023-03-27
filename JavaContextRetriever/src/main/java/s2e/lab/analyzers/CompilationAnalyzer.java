@@ -67,7 +67,8 @@ public class CompilationAnalyzer {
             "syntax_ok_after_extra_code_removal",
             "number_test_methods",
             "number_assertions",
-            "syntax_check"
+            "syntax_check",
+            "applied_heuristics"
     };
 
     /**
@@ -171,17 +172,12 @@ public class CompilationAnalyzer {
                                 resp.has("choice_no") ? resp.get("choice_no").getAsString() + "_" : ""
                         );
                         File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
-                                model,
-                                dataset,
-                                scenario,
-                                jUnitTestFileName)
-                        );
+                                model, dataset, scenario, jUnitTestFileName));
                         File productionFile = new File("..", promptID);
                         assert productionFile.exists();
 
 
                         // process the generated code
-
                         String fixedCode = resp.get("choices").getAsJsonArray().get(0)
                                 .getAsJsonObject().get("text").getAsString();
                         // if it does not contain the prompt, then prepend it
@@ -199,24 +195,34 @@ public class CompilationAnalyzer {
                         CompilationUnit fixedCUnit = getCompilationUnit(jUnitCodeAfterFix);
                         boolean isCompilableAfterFix = fixedCUnit != null;
                         boolean removedExtraCode = resp.get("removed_extra_code").getAsBoolean();
+                        String appliedHeuristics = resp.has("applied_heuristics") ? resp.get("applied_heuristics").getAsString() : "";
                         CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
                         promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
 
 
                         // "id", "scenario", "token_size", "jUnitTestFileName", "finish_reason",
                         // "original_syntax_ok", "removed_extra_code", "syntax_ok_after_extra_code_removal"
-                        // "number_test_methods", "number_assertions", "test_filename"
+                        // "number_test_methods", "number_assertions", "test_filename", "applied_heuristics"
                         printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
                                 isOriginalCompilable, removedExtraCode, isCompilableAfterFix,
-                                computeNumberTestMethods(cu), computeNumberAssertions(cu), getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason));
+                                computeNumberTestMethods(cu), computeNumberAssertions(cu),
+                                getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason), appliedHeuristics
+                        );
                         if (isOriginalCompilable || isCompilableAfterFix) {
-                            // import the java util package
+                            // import all the java util package, and JUnit5 assertions
                             cu.addImport("java.util.*");
-                            cu.getType(0).setName(jUnitTestFileName);
-                        }
+                            cu.addImport("org.junit.jupiter.api.Assertions.*");
 
-                        sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
-                        saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
+                            cu.getType(0).getConstructors().forEach(c -> {
+                                // update the constructor name to match the renaming scheme
+                                c.setName(jUnitTestFileName);
+                            });
+                            // update the class name to our custom name
+                            cu.getType(0).setName(jUnitTestFileName);
+
+                            sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
+                            saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
+                        }
                     }
                 }
             }
@@ -224,7 +230,7 @@ public class CompilationAnalyzer {
 
 
         // saves the information for test smells detection by tsDetect
-//        saveTestSmellCsvInput(dataset, model, sb);
+        saveTestSmellCsvInput(dataset, model, sb);
     }
 
     /**
@@ -320,8 +326,8 @@ public class CompilationAnalyzer {
         /* HumanEvalJava */
 
         generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-//        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-//        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000,4000});
+        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000,4000});
 
     }
 }
