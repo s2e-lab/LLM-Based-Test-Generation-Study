@@ -3,7 +3,9 @@ import re
 
 # Define the regular expression pattern to match the class name
 class_name_pattern = re.compile(r"\nclass\s+(\w+)")
-directory = "../../ICSE23-results/OpenAI/HumanEvalJava-Results/src/test/java/scenario3"
+
+
+directory = "../../ICSE23-results/GPT3.5/HumanEvalJava-Results/src/test/java/original"#"../../ICSE23-results/OpenAI/HumanEvalJava-Results/src/test/java/scenario3"
 to_rename = []
 # Iterate over all the files in the current directory
 for filename in os.listdir(directory):
