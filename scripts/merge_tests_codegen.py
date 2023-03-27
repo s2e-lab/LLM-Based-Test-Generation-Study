@@ -1,5 +1,5 @@
 import json
-
+import copy
 from utils import load_config, get_output_files
 
 
@@ -45,9 +45,10 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
 
     for r in previous_responses:
         i = 1
+
         for c in r["choices"]:
-            new_resp = r.copy()
-            gen_code = r["test_prompt"] + "\n\t" + c["text"]
+            new_resp = copy.deepcopy(r)
+            gen_code = new_resp["test_prompt"] + "\n\t" + c["text"]
             new_resp["removed_extra_code"] = False
             new_resp["original_generated_code"] = gen_code
             new_resp["choices"][0]["text"] = gen_code
@@ -56,7 +57,7 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
             del new_resp["choices"][1:]
             filtered_responses.append(new_resp)
             i += 1
-            print("\tPROMPT", r["prompt_id"], gen_code)
+            print("\tPROMPT", r["prompt_id"], gen_code, new_resp["choice_no"])
 
     fixed_json_file = json_file.replace(".json", "_fixed_extracode.json")
     with open(fixed_json_file, "w") as f:
