@@ -81,7 +81,7 @@ def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_to
 def main():
     config = load_config("config.json")
     dataset = "HumanEvalJava"
-    model = "OpenAI"
+    model = "GPT3.5"#"OpenAI"
     scenarios = ["original", "scenario1", "scenario2", "scenario3"]
     tokens = [2000]#, 4000]
     for max_tokens in tokens:
