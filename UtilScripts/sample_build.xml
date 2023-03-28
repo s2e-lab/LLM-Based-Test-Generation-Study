@@ -115,8 +115,8 @@
       </structure>
       <!--  to produce reports in different formats.  -->
       <html destdir="${result.report.dir}" />
-      <csv destfile="${result.report.dir}/report.csv" />
-      <xml destfile="${result.report.dir}/report.xml" />
+      <csv destfile="${result.report.dir}/jacoco-NO_PROJECT_NAME.csv" />
+      <xml destfile="${result.report.dir}/jacoco-NO_PROJECT_NAME.xml" />
     </jacoco:report>
   </target>
   <target name="rebuild" depends="clean,compile,compile-tests,test,report" />
