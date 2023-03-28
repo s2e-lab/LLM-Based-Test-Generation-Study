@@ -1,5 +1,7 @@
-import json
 import copy
+import json
+import re
+from fix_extracode_openai import remove_extra_code
 from utils import load_config, get_output_files
 
 
@@ -48,21 +50,39 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
 
         for c in r["choices"]:
             new_resp = copy.deepcopy(r)
-            gen_code = new_resp["test_prompt"] + "\n\t" + c["text"]
-            new_resp["removed_extra_code"] = False
+            gen_code = c["text"]
+
+            new_code = remove_original_code(gen_code, r)
+
+            new_resp["removed_extra_code"] = new_code != gen_code
             new_resp["original_generated_code"] = gen_code
-            new_resp["choices"][0]["text"] = gen_code
+            new_resp["choices"][0]["text"] = new_code
             new_resp["choice_no"] = i
             # only keep the first recommendation, that has the merged output with test prompt
             del new_resp["choices"][1:]
             filtered_responses.append(new_resp)
             i += 1
-            print("\tPROMPT", r["prompt_id"], gen_code, new_resp["choice_no"])
+            # print("\tPROMPT", r["prompt_id"], "choice=", new_resp["choice_no"])
 
     fixed_json_file = json_file.replace(".json", "_fixed_extracode.json")
     with open(fixed_json_file, "w") as f:
         f.write(json.dumps(filtered_responses, indent=4))
     print("SAVED AT ", fixed_json_file)
+
+
+def remove_original_code(gen_code: str, r: dict) -> str:
+    # strip off the original code if needed (this is a more strict way of creating a customized regex)
+    classname = r["original_code"].split("\n")[0][2:-5].strip()
+    pattern = r"(\/\/ " + classname + ".java)([\S\s.]*?)(\/\/ " + classname + "Test.java)"
+    bad_code = re.findall(pattern, gen_code, re.DOTALL)
+    if len(bad_code) > 0:
+        header_comment, original_code, test_comment = bad_code[0]
+        if len(header_comment.strip()) != 0 and len(original_code.strip()) != 0:
+            gen_code = gen_code.replace(header_comment, "\n").replace(original_code, "\n").strip()
+            r["applied_heuristics"] = "H3"
+
+
+    return gen_code
 
 
 def main():

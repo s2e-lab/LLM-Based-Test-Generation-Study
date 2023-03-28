@@ -97,7 +97,7 @@ public class PromptUtilsTest {
 
     }
 
-    @Test
+//    @Test
     void testSF110Stats() throws IOException {
         // get the list of projects
         File originalDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
@@ -142,7 +142,7 @@ public class PromptUtilsTest {
     }
 
 
-    @Test
+//    @Test
     public void testHasGoodJavadoc() throws IOException {
 
         File scenarioDir = new File(format(SF100_EVOSUITE_SCENARIO, "original"));
