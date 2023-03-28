@@ -2,12 +2,12 @@ import os
 import shutil
 
 source_folder = "/Users/lsiddiqsunny/Downloads/SF110-20130704-src"
-destination_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/LLM-Based-Test-Generation-Study/EvoSuiteBenchmark/original"
+destination_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/OpenAI/SF110-Results"
 
 subfolders = [f.path for f in os.scandir(source_folder) if f.is_dir()]
 
 for projectFolder in subfolders:
-    current_target_folder = projectFolder.split("/")[-1] + "/lib"
+    current_target_folder = projectFolder.split("/")[-1] + "/test-lib"
     if os.path.exists(os.path.join(source_folder, current_target_folder)):
         print(projectFolder, "has lib folder")
 
