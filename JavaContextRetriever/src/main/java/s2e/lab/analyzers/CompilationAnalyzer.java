@@ -211,7 +211,10 @@ public class CompilationAnalyzer {
                         if (isOriginalCompilable || isCompilableAfterFix) {
                             // import all the java util package, and JUnit5 assertions
                             cu.addImport("java.util.*");
-                            cu.addImport("org.junit.jupiter.api.Assertions.*");
+                            cu.addImport("static org.junit.jupiter.api.Assertions.*");
+                            cu.addImport("org.junit.jupiter.api.*");
+                            // ensure class is on the right package
+                            cu.setPackageDeclaration(scenario);
 
                             cu.getType(0).getConstructors().forEach(c -> {
                                 // update the constructor name to match the renaming scheme
@@ -221,7 +224,7 @@ public class CompilationAnalyzer {
                             cu.getType(0).setName(jUnitTestFileName);
 
                             sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
-                            saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
+//                            saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
                         }
                     }
                 }
@@ -230,7 +233,7 @@ public class CompilationAnalyzer {
 
 
         // saves the information for test smells detection by tsDetect
-        saveTestSmellCsvInput(dataset, model, sb);
+//        saveTestSmellCsvInput(dataset, model, sb);
     }
 
     /**
@@ -326,8 +329,8 @@ public class CompilationAnalyzer {
         /* HumanEvalJava */
 
         generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000,4000});
+//        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+//        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000,4000});
 
     }
 }

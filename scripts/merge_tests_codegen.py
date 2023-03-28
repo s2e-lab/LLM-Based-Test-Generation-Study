@@ -79,6 +79,7 @@ def remove_original_code(gen_code: str, r: dict) -> str:
         header_comment, original_code, test_comment = bad_code[0]
         if len(header_comment.strip()) != 0 and len(original_code.strip()) != 0:
             gen_code = gen_code.replace(header_comment, "\n").replace(original_code, "\n").strip()
+            r["applied_heuristics"] = "H3"
     return gen_code
 
 
