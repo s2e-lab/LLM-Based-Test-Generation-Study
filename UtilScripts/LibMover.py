@@ -1,7 +1,7 @@
 import os
 import shutil
 
-source_folder = "/Users/lsiddiqsunny/Downloads/SF110-20130704"
+source_folder = "/Users/lsiddiqsunny/Downloads/SF110-20130704-src"
 destination_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/LLM-Based-Test-Generation-Study/EvoSuiteBenchmark/original"
 
 subfolders = [f.path for f in os.scandir(source_folder) if f.is_dir()]
