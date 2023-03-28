@@ -1,4 +1,5 @@
 import json
+import os
 import re
 
 from utils import load_config, get_output_files
@@ -18,7 +19,7 @@ def heuristic_1(code: str) -> tuple[str, bool]:
     # removes the extra code
     for e in EOF:
         if e in code:
-            if code.index(e)<ignore_line_before:
+            if code.index(e) < ignore_line_before:
                 continue
             code = code[: code.index(e)]
     return code, old_code != code
@@ -62,7 +63,7 @@ def heuristic_4(code: str, scenario: str) -> tuple[str, bool]:
     @return: code with the scenario name as the package name
     """
     old_code = code
-    keywords = ["updated", "revised", "modified", "changed", "altered","corrected"]
+    keywords = ["updated", "revised", "modified", "changed", "altered", "corrected"]
     for keyword in keywords:
         code = code.replace(f"package {keyword};", f"package {scenario};")
     return code, old_code != code
@@ -91,7 +92,6 @@ def remove_extra_code(model: str, code: str, scenario: str) -> str:
     """
     # tracks what heuristic(s) were applied, if any
     applied_heuristics = [False for _ in range(0, 5)]
-    
 
     if model == "GPT3.5":
         code, applied_heuristics[1] = heuristic_2(code)
@@ -175,23 +175,44 @@ def fix_extra_code(
     print("SAVED AT ", fixed_json_file)
 
 
+def run_humaneval(config, dataset, max_tokens, model, rq, rq_folder, scenario):
+    prompt_file = (
+        f"{rq_folder}/{model}_Data/HumanEvalJava_input/{scenario}_prompt.json"
+    )
+    print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
+    fix_extra_code(
+        config, rq, dataset, prompt_file, max_tokens, model, scenario
+    )
+
+
+def run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario):
+    prompt_folder = f"../{rq_folder}/{model}_Data/SF110_input/"
+    # finds all json files in prompt_folder
+    prompt_files = [f for f in os.listdir(prompt_folder) if
+                    f.endswith(".json") and ((rq == 1) or (rq == 2 and scenario in f))]
+    for prompt_file in prompt_files:
+        print(f"RQ{rq}\tScenario: {scenario}\tToken: {max_tokens}\tPrompt: {prompt_file}")
+        fix_extra_code(
+            config, rq, dataset, prompt_file, max_tokens, model, scenario
+        )
+
+
 def main():
     config = load_config("config.json")
-    dataset = "HumanEvalJava"
-    model =   "OpenAI" # "GPT3.5"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3"]
-    tokens = [2000 , 4000]
+    dataset = "SF110" # Possible values: "HumanEvalJava" "SF110"
+    model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5" "CodeGen"
+    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
+    tokens = [2000, 4000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
             rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
-            prompt_file = (
-                f"{rq_folder}/{model}_Data/HumanEvalJava_input/{scenario}_prompt.json"
-            )
-            print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
-            fix_extra_code(
-                config, rq, dataset, prompt_file, max_tokens, model, scenario
-            )
+            if dataset == "HumanEvalJava":
+                run_humaneval(config, dataset, max_tokens, model, rq, rq_folder, scenario)
+            elif dataset == "SF110":
+                run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario)
+            else:
+                raise Exception("Unknown")
 
 
 if __name__ == "__main__":
