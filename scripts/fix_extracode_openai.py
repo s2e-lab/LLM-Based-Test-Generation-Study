@@ -90,7 +90,7 @@ def remove_extra_code(model: str, code: str, scenario: str) -> str:
     @return: code without the extra code
     """
     # tracks what heuristic(s) were applied, if any
-    applied_heuristics = [False for i in range(0, 5)]
+    applied_heuristics = [False for _ in range(0, 5)]
     
 
     if model == "GPT3.5":
@@ -178,9 +178,9 @@ def fix_extra_code(
 def main():
     config = load_config("config.json")
     dataset = "HumanEvalJava"
-    model = "GPT3.5"  # "OpenAI"
+    model =   "OpenAI" # "GPT3.5"
     scenarios = ["original", "scenario1", "scenario2", "scenario3"]
-    tokens = [2000]  # , 4000]
+    tokens = [2000 , 4000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
