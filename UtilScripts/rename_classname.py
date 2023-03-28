@@ -2,7 +2,7 @@ import os
 import re
 
 # Define the regular expression pattern to match the class name
-class_name_pattern = re.compile(r"\nclass\s+(\w+)")
+class_name_pattern = re.compile(r"\npublic class\s+(\w+)")
 
 
 # directory = "../../ICSE23-results/GPT3.5/HumanEvalJava-Results/src/test/java/original"#"../../ICSE23-results/OpenAI/HumanEvalJava-Results/src/test/java/scenario3"

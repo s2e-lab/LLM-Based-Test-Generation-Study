@@ -1,7 +1,7 @@
 import copy
 import json
 import re
-
+from fix_extracode_openai import remove_extra_code
 from utils import load_config, get_output_files
 
 
@@ -80,6 +80,8 @@ def remove_original_code(gen_code: str, r: dict) -> str:
         if len(header_comment.strip()) != 0 and len(original_code.strip()) != 0:
             gen_code = gen_code.replace(header_comment, "\n").replace(original_code, "\n").strip()
             r["applied_heuristics"] = "H3"
+
+
     return gen_code
 
 
