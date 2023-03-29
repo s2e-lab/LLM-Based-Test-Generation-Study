@@ -10,38 +10,46 @@ for project in os.listdir("../RQ2_Prompt_Elements/OpenAI_Data/%s_input" % ("SF11
     if "scenario1" in project:
         projects.append("_".join(project.split("_")[1:3]))
 
-
-source_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/Experiment_Folder/SF110-Results"
+ignore_projects = ["23_", "40_", "57_", "79_", "84_", "86_"]
+source_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/OpenAI/SF110-Results"
 subfolders = [f.path for f in os.scandir(source_folder) if f.is_dir()]
 for subfolder in subfolders:
     projectName = subfolder.split("/")[-1]
     if projectName not in projects:
+        continue
+    is_continue = False
+    for ignore_project in ignore_projects:
+        if ignore_project in projectName:
+            is_continue = True
+            break
+    if is_continue:
         continue
     print(subfolder)
     os.chdir(subfolder)
 
     run_ant = True
 
+    run_count = 0
+
     while run_ant:
+        run_count += 1
+        if run_count > 5:
+            break
         # Run the "mvn test" command and capture the output
-        process = subprocess.Popen(['ant'], stdout=subprocess.PIPE)
+        process = subprocess.Popen(["ant"], stdout=subprocess.PIPE)
         output, error = process.communicate(timeout=60)
 
         # Print the output of the command
-        test_results = output.decode('utf-8')
+        test_results = output.decode("utf-8")
 
         # Check if the command ran successfully
         if process.returncode == 0:
-            print('ant test succeeded')
+            print("ant test succeeded")
             run_ant = False
         else:
-            print('ant test failed')
+            print("ant test failed")
             # parse the compilation output
             # test_results = test_results.replace("\n  ","")
-
-            if "Compile failed;" in test_results:
-                run_ant = False
-                continue
 
             lines = test_results.split("\n")
             print("Output # lines ", len(lines))
@@ -71,7 +79,7 @@ for subfolder in subfolders:
                     output.append("\t".join([file, location, error]))
 
             # save the compilation status
-            with open(f"output{time.time()}.csv","w") as f:
+            with open(f"output{time.time()}.csv", "w") as f:
                 f.write("\n".join(output))
 
             # delete the problematic test files

@@ -38,6 +38,13 @@
   <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
     <classpath path="${lib.dir}/jacocoant.jar" />
   </taskdef>
+  <path id="junit.platform.libs.classpath">
+    <fileset dir="${lib.dir}/junit-platform/" />
+  </path>
+
+  <path id="junit.engine.jupiter.classpath">
+    <fileset dir="${lib.dir}/jupiter/" />
+  </path>
 
   <target name="clean">
     <delete dir="${result.dir}" />
@@ -69,7 +76,7 @@
       includeantruntime="false"
     >
       <src path="${test.dir}" />
-      <include name="SCENARIO/*_TOKEN_Test.java" />
+      <!-- <include name="SCENARIO/*_TOKEN_Test.java" /> -->
 
       <classpath>
         <path refid="source.lib" />
@@ -81,23 +88,32 @@
 
   <target name="test" depends="compile-tests">
     <!--  Step 2: Wrap test execution with the JaCoCo coverage task  -->
-    <jacoco:coverage destfile="${result.exec.file}">
-      <junit printsummary="yes" haltonfailure="no" fork="yes"
-        showoutput="yes">
-        <formatter type="plain" usefile="false" />
-        <classpath>
-          <pathelement path="${result.classes.dir}" />
-          <pathelement path="${result.tests.dir}" />
-          <path refid="source.lib" />
-          <path refid="test.lib" />
-        </classpath>
-        <batchtest fork="yes">
-          <fileset dir="${test.dir}">
-            <include name="SCENARIO/*_TOKEN_Test.java" />
-          </fileset>
-        </batchtest>
-      </junit>
-    </jacoco:coverage>
+    <jacoco:agent property="jacocoagent" destfile="${result.exec.file}" />
+
+    <junitlauncher>
+      <!-- include the JUnit platform related libraries
+      required to run the tests -->
+      <classpath refid="junit.platform.libs.classpath" />
+
+      <!-- include the JUnit Jupiter engine libraries -->
+      <classpath refid="junit.engine.jupiter.classpath" />
+      <classpath>
+        <!-- the test classes themselves -->
+        <pathelement path="${result.classes.dir}" />
+        <pathelement path="${result.tests.dir}" />
+        <path refid="source.lib" />
+        <path refid="test.lib" />
+      </classpath>
+
+      <testclasses outputdir="${result.dir}">
+        <fileset dir="${result.tests.dir}" />
+        <listener type="legacy-brief" sendSysOut="true" />
+        <listener type="legacy-xml" sendSysErr="true" sendSysOut="true" />
+        <fork>
+          <jvmarg value="${jacocoagent}" />
+        </fork>
+      </testclasses>
+    </junitlauncher>
   </target>
   <target name="report" depends="test">
     <!--  Step 3: Create coverage report  -->
