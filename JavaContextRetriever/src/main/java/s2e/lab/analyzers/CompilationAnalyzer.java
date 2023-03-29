@@ -13,14 +13,16 @@ import com.google.gson.JsonParser;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static s2e.lab.generators.JavaOpenAIPromptGenerator.RQ1_BASE_DIR;
@@ -53,7 +55,7 @@ public class CompilationAnalyzer {
     public static String STATISTICS_CSV_OUTPUT =
             "../../ICSE23-results/%s/%s-Results/csv-data/%s.csv";
     public static String STATISTICS_JAVA_OUTPUT =
-            "../../ICSE23-results/%s/%s-Results/src/test/java/%s/%s.java";
+            "../../ICSE23-results/%s/%s-Results/%s/src/test/java/%s/%s.java";
 
 
     // metadata saved
@@ -129,6 +131,32 @@ public class CompilationAnalyzer {
         return el == null || el.toString().equals("null") ? "" : el.getAsString();
     }
 
+
+    private static List<JsonArray> getPromptArrays(String rqJsonFile, String model, String dataset, String scenario, int token) throws IOException {
+        switch (dataset) {
+            case "HumanEvalJava":
+                return Arrays.asList(getJsonArray(format(rqJsonFile, model, dataset, scenario, token)));
+            case "SF110":
+                List<JsonArray> output = new ArrayList<>();
+                File sfInputFolder = new File(rqJsonFile.formatted(model, dataset, "", 0)).getParentFile();
+                // find all JSON files in sfInputFolder
+                List<File> jsonOutputFiles = Arrays.stream(sfInputFolder.listFiles())
+                        .filter(f ->
+                                f.getName().endsWith("fixed_extracode.json") &&
+                                        f.getName().contains("_%d".formatted(token)) &&
+                                        (f.getName().contains("%s_".formatted(scenario)) || scenario.equals("original"))
+                        ).collect(Collectors.toList());
+
+                for (File jsonOutputFile : jsonOutputFiles) {
+                    output.add(getJsonArray(jsonOutputFile.getAbsolutePath()));
+                }
+                return output;
+        }
+        throw new IllegalArgumentException("Unknown dataset: " + dataset);
+
+
+    }
+
     /**
      * Generates a report on the compilation of the generated tests.
      * It saves the results in two CSV files (see {@link CompilationAnalyzer#STATISTICS_CSV_OUTPUT}).
@@ -153,89 +181,122 @@ public class CompilationAnalyzer {
                 for (int token : max_tokens) {
                     String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
                     String rqCsvFile = scenario.equals("original") ? RQ1_CSV_PROMPT_INPUT : RQ2_CSV_PROMPT_INPUT;
-                    JsonArray promptArr = getJsonArray(format(rqJsonFile, model, dataset, scenario, token));
+                    for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, dataset, scenario, token)) {
+                        String projectName = "";
+//                        JsonArray promptArr = getJsonArray(format(rqJsonOutFile, model, dataset, scenario, token));
 
-                    // key = promptID, value = Pair<classname, method_signature>
-                    String promptInputFile = format(rqCsvFile, model, dataset, scenario);
-                    Map<String, Pair<String, String>> promptMetadata = loadCsvInputPrompts(promptInputFile);
-                    // key = promptID, value = Pair<isCompilable, hasExtraCode>
-                    Map<String, Pair<Boolean, Boolean>> promptCompileStatus = new HashMap<>();
-                    // enforce some integrity checks: either we have the same # of prompts, or 10x more, for CodeGen
-                    assert promptArr.size() == promptMetadata.size() || promptArr.size() == promptMetadata.size() * 10;
-                    for (JsonElement promptObj : promptArr) {
-                        JsonObject resp = promptObj.getAsJsonObject();
-                        String promptID = resp.get("prompt_id").getAsString();
-                        String prompt = resp.get("test_prompt").getAsString();
-                        String classname = promptMetadata.get(promptID).a;
-                        String methodName = promptMetadata.get(promptID).b.split("\\(")[0];
-                        String jUnitTestFileName = "%s_%s_%d_%sTest".formatted(
-                                classname, methodName, token,
-                                resp.has("choice_no") ? resp.get("choice_no").getAsString() + "_" : ""
-                        );
-                        File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
-                                model, dataset, scenario, jUnitTestFileName));
-                        File productionFile = new File("..", promptID);
-                        assert productionFile.exists();
+                        // key = promptID, value = Pair<classname, method_signature>
+                        String filename = scenario;
+                        if (dataset.equals("SF110")) {
+                            projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
+                            if (scenario.equals("original")) filename = projectName;
+                            else filename = scenario + "_" + projectName;
+                        }
 
-
-                        // process the generated code
-                        String fixedCode = resp.get("choices").getAsJsonArray().get(0)
-                                .getAsJsonObject().get("text").getAsString();
-                        // if it does not contain the prompt, then prepend it
-                        String jUnitCodeAfterFix = fixedCode.contains(prompt.strip()) || fixedCode.contains("class %sTest {".formatted(classname)) ?
-                                fixedCode :
-                                prompt + "\n\t\t" + fixedCode;
-                        // if it does not contain the prompt, then prepend it
-                        String originalCode = resp.get("original_generated_code").getAsString();
-                        String jUnitOriginalCode = originalCode.contains(prompt.strip()) || originalCode.contains("class %sTest {".formatted(classname)) ?
-                                originalCode :
-                                prompt + "\n\t\t" + originalCode;
-                        String finishReason = getFinishReason(resp);
-                        CompilationUnit originalCUnit = getCompilationUnit(jUnitOriginalCode);
-                        boolean isOriginalCompilable = originalCUnit != null;
-                        CompilationUnit fixedCUnit = getCompilationUnit(jUnitCodeAfterFix);
-                        boolean isCompilableAfterFix = fixedCUnit != null;
-                        boolean removedExtraCode = resp.get("removed_extra_code").getAsBoolean();
-                        String appliedHeuristics = resp.has("applied_heuristics") ? resp.get("applied_heuristics").getAsString() : "";
-                        CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
-                        promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
-
-
-                        // "id", "scenario", "token_size", "jUnitTestFileName", "finish_reason",
-                        // "original_syntax_ok", "removed_extra_code", "syntax_ok_after_extra_code_removal"
-                        // "number_test_methods", "number_assertions", "test_filename", "applied_heuristics"
-                        printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
-                                isOriginalCompilable, removedExtraCode, isCompilableAfterFix,
-                                computeNumberTestMethods(cu), computeNumberAssertions(cu),
-                                getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason), appliedHeuristics
-                        );
-                        if (isOriginalCompilable || isCompilableAfterFix) {
-                            // import all the java util package, JUnit5 assertions, and method under test
-                            cu.addImport("java.util.*");
-                            cu.addImport("org.junit.jupiter.api.*");
-                            cu.addImport("static org.junit.jupiter.api.Assertions.*");
-
-                            // add an import statement for the static method in HumanEvalJava
-                            String fullyQualifiedCutName = getFullyQualifiedCutName(dataset, promptID, classname);
-
-                            if (dataset.equals("HumanEvalJava")) {
-                                cu.addImport("static %s.*".formatted(fullyQualifiedCutName));
-                            } else if (dataset.equals("SF110")) {
-                                cu.addImport("%s.*".formatted(fullyQualifiedCutName));
+                        String promptInputFile = format(rqCsvFile, model, dataset, filename);
+                        Map<String, Triple<String, String, String>> promptMetadata = loadCsvInputPrompts(promptInputFile);
+                        // key = promptID, value = Pair<isCompilable, hasExtraCode>
+                        Map<String, Pair<Boolean, Boolean>> promptCompileStatus = new HashMap<>();
+                        // enforce some integrity checks: either we have the same # of prompts, or 10x more, for CodeGen
+                        assert promptArr.size() == promptMetadata.size() || promptArr.size() == promptMetadata.size() * 10;
+                        for (JsonElement promptObj : promptArr) {
+                            JsonObject resp = promptObj.getAsJsonObject();
+                            String promptID = resp.get("prompt_id").getAsString();
+                            String prompt = resp.get("test_prompt").getAsString();
+                            // this if condition is because there is some weirdness in the SF110 dataset, the promptID refers to the original folder rather than the scenario folder :(
+                            String key = promptMetadata.containsKey(promptID) ? promptID : promptID.replace("/%s/".formatted(scenario), "/original/");
+                            // this if below is because some weird thing happened!
+                            // on the prompt output, ID is TransportKeyStoreBean0.java
+                            // but the original prompt ID is TransportKeyStoreBean_0Test.java
+                            if (!promptMetadata.containsKey(key)) {
+                                key = key.replace(".java", "Test.java");
+                                for (int i = key.length() - 4; i >= 0; i--) {
+                                    if (promptMetadata.containsKey(key.substring(0, i) + "_" + key.substring(i))) {
+                                        key = key.substring(0, i) + "_" + key.substring(i);
+                                        break;
+                                    }
+                                }
                             }
+                            String classname = promptMetadata.get(key).getLeft();
+                            String methodName = promptMetadata.get(key).getMiddle().split("\\(")[0];
+                            String packageName = promptMetadata.get(key).getRight();
+                            String jUnitTestFileName = "%s_%s_%s_%d_%sTest".formatted(
+                                    dataset.equals("SF110") ? scenario : "",
+                                    classname, methodName, token,
+                                    resp.has("choice_no") ? resp.get("choice_no").getAsString() + "_" : ""
+                            );
+                            File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
+                                    model, dataset, dataset.equals("SF110") ? projectName : "", packageName.replace(".","/"), jUnitTestFileName));
 
-                            // ensure class is on the right package
-                            cu.setPackageDeclaration(scenario);
+                            // replace the "_[0-9]+Test.java" with ".java"
+                            String productionFilePath = promptID.replaceAll("_[0-9]+Test.java", ".java");
+                            File productionFile = new File("..", productionFilePath);
+                            assert productionFile.exists();
 
-                            cu.getType(0).getConstructors().forEach(c -> {
-                                // update the constructor name to match the renaming scheme
-                                c.setName(jUnitTestFileName);
-                            });
-                            // update the class name to our custom name
-                            cu.getType(0).setName(jUnitTestFileName);
 
-                            sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
-                            saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
+                            // process the generated code
+                            String fixedCode = resp.get("choices").getAsJsonArray().get(0)
+                                    .getAsJsonObject().get("text").getAsString();
+                            // if it does not contain the prompt, then prepend it
+                            String jUnitCodeAfterFix = fixedCode.contains(prompt.strip()) || fixedCode.contains("class %sTest {".formatted(classname)) ?
+                                    fixedCode :
+                                    prompt + "\n\t\t" + fixedCode;
+                            // if it does not contain the prompt, then prepend it
+                            String originalCode = resp.get("original_generated_code").getAsString();
+                            String jUnitOriginalCode = originalCode.contains(prompt.strip()) || originalCode.contains("class %sTest {".formatted(classname)) ?
+                                    originalCode :
+                                    prompt + "\n\t\t" + originalCode;
+                            String finishReason = getFinishReason(resp);
+                            CompilationUnit originalCUnit = getCompilationUnit(jUnitOriginalCode);
+                            boolean isOriginalCompilable = originalCUnit != null;
+                            CompilationUnit fixedCUnit = getCompilationUnit(jUnitCodeAfterFix);
+                            boolean isCompilableAfterFix = fixedCUnit != null;
+                            boolean removedExtraCode = resp.get("removed_extra_code").getAsBoolean();
+                            String appliedHeuristics = resp.has("applied_heuristics") ? resp.get("applied_heuristics").getAsString() : "";
+                            CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
+                            promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
+
+
+                            // "id", "scenario", "token_size", "jUnitTestFileName", "finish_reason",
+                            // "original_syntax_ok", "removed_extra_code", "syntax_ok_after_extra_code_removal"
+                            // "number_test_methods", "number_assertions", "test_filename", "applied_heuristics"
+                            printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
+                                    isOriginalCompilable, removedExtraCode, isCompilableAfterFix,
+                                    computeNumberTestMethods(cu), computeNumberAssertions(cu),
+                                    getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason), appliedHeuristics
+                            );
+                            if (isOriginalCompilable || isCompilableAfterFix) {
+                                // import all the java util package, JUnit5 assertions, and method under test
+                                cu.addImport("java.util.*");
+                                cu.addImport("org.junit.jupiter.api.*");
+                                cu.addImport("static org.junit.jupiter.api.Assertions.*");
+
+                                // add an import statement for the static method in HumanEvalJava
+                                String fullyQualifiedCutName = getFullyQualifiedCutName(dataset, promptID, classname);
+
+                                if (dataset.equals("HumanEvalJava")) {
+                                    cu.addImport("static %s.*".formatted(fullyQualifiedCutName));
+                                } else if (dataset.equals("SF110")) {
+                                    //TODO: do we need this? probably not if the test is in the same package as the CUT
+//                                    CompilationUnit cuOriginalCode = getCompilationUnit(resp.get("original_code").getAsString());
+//                                    if (cuOriginalCode.getPackageDeclaration().isPresent())
+//                                        cu.addImport(cuOriginalCode.getPackageDeclaration().get().getName() + "." + classname);
+                                }
+
+                                // ensure class is on the right package (in case the generated test miss a package declaration or changed it)
+                                if (!packageName.isEmpty())
+                                    cu.setPackageDeclaration(packageName);
+
+                                cu.getType(0).getConstructors().forEach(c -> {
+                                    // update the constructor name to match the renaming scheme
+                                    c.setName(jUnitTestFileName);
+                                });
+                                // update the class name to our custom name
+                                cu.getType(0).setName(jUnitTestFileName);
+
+                                sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
+                                saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
+                            }
                         }
                     }
                 }
@@ -246,6 +307,7 @@ public class CompilationAnalyzer {
         // saves the information for test smells detection by tsDetect
         saveTestSmellCsvInput(dataset, model, sb);
     }
+
 
     private static String getFullyQualifiedCutName(String dataset, String promptID, String classname) {
         String parts[] = "%s.*".formatted(promptID
@@ -327,10 +389,11 @@ public class CompilationAnalyzer {
      * @return a map containing the prompts' metadata (id, method_signature, classname).
      * @throws IOException in case of IO error.
      */
-    private static Map<String, Pair<String, String>> loadCsvInputPrompts(String csvFilePath) throws IOException {
-        Map<String, Pair<String, String>> output = new HashMap<>();
+    private static Map<String, Triple<String, String, String>> loadCsvInputPrompts(String csvFilePath) throws IOException {
+
+        Map<String, Triple<String, String, String>> output = new HashMap<>();
         // read a CSV file and put the data into a map
-        String[] headers = {"id", "method_signature", "classname"};
+        String[] headers = {"id", "method_signature", "classname", "package"};
         CSVFormat csvFormat = CSVFormat.DEFAULT
                 .builder()
                 .setHeader(headers)
@@ -341,7 +404,8 @@ public class CompilationAnalyzer {
             String promptID = record.get("id");
             String methodSignature = record.get("method_signature");
             String classname = record.get("classname");
-            output.put(promptID, new Pair<>(classname, methodSignature));
+            String packageDecl = record.get("package");
+            output.put(promptID, new ImmutableTriple<>(classname, methodSignature, packageDecl));
         }
         return output;
     }
@@ -350,9 +414,13 @@ public class CompilationAnalyzer {
     public static void main(String[] args) throws IOException {
         /* HumanEvalJava */
 
-        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+//        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
 //        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
 //        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000,4000});
+
+
+        /* SF110 */
+        generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
 
     }
 }
