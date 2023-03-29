@@ -1,5 +1,4 @@
 <project name="PROJECT_NAME" default="rebuild" basedir="." xmlns:jacoco="antlib:org.jacoco.ant">
-
   <!-- Javac -->
   <property name="compile.debug" value="true" />
   <property name="compile.deprecation" value="true" />
@@ -32,9 +31,8 @@
     <fileset dir="test-lib">
       <include name="**/*.jar" />
     </fileset>
-    <pathelement location="${lib.dir}/junit-4.11.jar" />
+    <pathelement location="${lib.dir}/junit-jupiter-api-5.9.2.jar" />
   </path>
-
 
   <!--  Step 1: Import JaCoCo Ant tasks  -->
   <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
@@ -61,7 +59,8 @@
 
   <target name="compile-tests" depends="compile">
     <mkdir dir="${result.tests.dir}" />
-    <javac srcdir="${test.dir}" destdir="${result.tests.dir}" source="${compile.source}"
+    <javac destdir="${result.tests.dir}"
+      source="${compile.source}"
       target="${compile.target}"
       debug="${compile.debug}"
       deprecation="${compile.deprecation}"
@@ -69,6 +68,9 @@
       encoding="${compile.encoding}"
       includeantruntime="false"
     >
+      <src path="${test.dir}" />
+      <include name="SCENARIO/*_TOKEN_Test.java" />
+
       <classpath>
         <path refid="source.lib" />
         <path refid="test.lib" />
@@ -91,7 +93,7 @@
         </classpath>
         <batchtest fork="yes">
           <fileset dir="${test.dir}">
-            <include name="**/*.java" />
+            <include name="SCENARIO/*_TOKEN_Test.java" />
           </fileset>
         </batchtest>
       </junit>
@@ -115,8 +117,9 @@
       </structure>
       <!--  to produce reports in different formats.  -->
       <html destdir="${result.report.dir}" />
-      <csv destfile="${result.report.dir}/jacoco-NO_PROJECT_NAME.csv" />
-      <xml destfile="${result.report.dir}/jacoco-NO_PROJECT_NAME.xml" />
+
+      <csv destfile="./jacoco-NO_PROJECT_NAME_SCENARIO_TOKEN.csv" />
+      <xml destfile="./jacoco-NO_PROJECT_NAME_SCENARIO_TOKEN.xml" />
     </jacoco:report>
   </target>
   <target name="rebuild" depends="clean,compile,compile-tests,test,report" />
