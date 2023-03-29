@@ -13,6 +13,7 @@ import com.google.gson.JsonParser;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -168,6 +169,9 @@ public class CompilationAnalyzer {
      */
     public static void generateReport(String dataset, String model, String[] scenarios, int[] max_tokens) throws IOException {
 
+
+
+
         String csvFilePath = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "compilation_" + dataset);
         FileWriter csvWriter = new FileWriter(csvFilePath);
         CSVFormat csvFormat = CSVFormat.DEFAULT
@@ -192,9 +196,14 @@ public class CompilationAnalyzer {
                             if (scenario.equals("original")) filename = projectName;
                             else filename = scenario + "_" + projectName;
                         }
+                        // deletes old test files
+                        // "../../ICSE23-results/%s/%s-Results/%s/src/test/java/%s/%s.java"
+                        File projectTestFolder = new File(STATISTICS_JAVA_OUTPUT.formatted(model, dataset, dataset.equals("SF110") ? projectName : "", "", "").replace("//.java", ""));
+                        if(projectTestFolder.exists()) { FileUtils.cleanDirectory(projectTestFolder); }
+
 
                         String promptInputFile = format(rqCsvFile, model, dataset, filename);
-                        Map<String, Triple<String, String, String>> promptMetadata = loadCsvInputPrompts(promptInputFile);
+                        Map<String, Map<String, String>> promptMetadata = loadCsvInputPrompts(promptInputFile);
                         // key = promptID, value = Pair<isCompilable, hasExtraCode>
                         Map<String, Pair<Boolean, Boolean>> promptCompileStatus = new HashMap<>();
                         // enforce some integrity checks: either we have the same # of prompts, or 10x more, for CodeGen
@@ -217,16 +226,26 @@ public class CompilationAnalyzer {
                                     }
                                 }
                             }
-                            String classname = promptMetadata.get(key).getLeft();
-                            String methodName = promptMetadata.get(key).getMiddle().split("\\(")[0];
-                            String packageName = promptMetadata.get(key).getRight();
+                            String classname = promptMetadata.get(key).get("classname");
+                            String methodName = promptMetadata.get(key).get("method_signature").split("\\(")[0];
+                            String packageName = promptMetadata.get(key).get("package");
+
+                            // ensure a situation of unit testing an overload method (same name, different parameters)
+                            String suffix = promptMetadata.get(key).get("suffix");
+                            // choice_no is something related to codegen, it's the suggestion position
+                            // recall CodeGen generates 10 suggestions, per prompt, so we need to add this to the suffix
+                            String choiceNo = resp.has("choice_no") ? resp.get("choice_no").getAsString() : "";
+                            if (!choiceNo.isEmpty())
+                                suffix += "_" + choiceNo;
+
+
                             String jUnitTestFileName = "%s_%s_%s_%d_%sTest".formatted(
                                     dataset.equals("SF110") ? scenario : "",
                                     classname, methodName, token,
-                                    resp.has("choice_no") ? resp.get("choice_no").getAsString() + "_" : ""
+                                    !suffix.isEmpty() ? suffix + "_" : ""
                             );
                             File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
-                                    model, dataset, dataset.equals("SF110") ? projectName : "", packageName.replace(".","/"), jUnitTestFileName));
+                                    model, dataset, dataset.equals("SF110") ? projectName : "", packageName.replace(".", "/"), jUnitTestFileName));
 
                             // replace the "_[0-9]+Test.java" with ".java"
                             String productionFilePath = promptID.replaceAll("_[0-9]+Test.java", ".java");
@@ -347,7 +366,7 @@ public class CompilationAnalyzer {
         try (FileWriter f = new FileWriter(jUnitTestFile)) {
             f.write(unitTest);
         }
-        System.out.println("Saved " + jUnitTestFile);
+        System.out.println("\tSaved " + jUnitTestFile);
     }
 
 
@@ -389,11 +408,11 @@ public class CompilationAnalyzer {
      * @return a map containing the prompts' metadata (id, method_signature, classname).
      * @throws IOException in case of IO error.
      */
-    private static Map<String, Triple<String, String, String>> loadCsvInputPrompts(String csvFilePath) throws IOException {
+    private static Map<String, Map<String, String>> loadCsvInputPrompts(String csvFilePath) throws IOException {
 
-        Map<String, Triple<String, String, String>> output = new HashMap<>();
+        Map<String, Map<String, String>> output = new HashMap<>();
         // read a CSV file and put the data into a map
-        String[] headers = {"id", "method_signature", "classname", "package"};
+        String[] headers = {"id", "method_signature", "classname", "package", "suffix"};
         CSVFormat csvFormat = CSVFormat.DEFAULT
                 .builder()
                 .setHeader(headers)
@@ -401,11 +420,13 @@ public class CompilationAnalyzer {
                 .build();
         Iterable<CSVRecord> records = csvFormat.parse(new FileReader(csvFilePath));
         for (CSVRecord record : records) {
+            Map<String, String> row = new HashMap<>();
             String promptID = record.get("id");
-            String methodSignature = record.get("method_signature");
-            String classname = record.get("classname");
-            String packageDecl = record.get("package");
-            output.put(promptID, new ImmutableTriple<>(classname, methodSignature, packageDecl));
+            row.put("method_signature", record.get("method_signature"));
+            row.put("classname", record.get("classname"));
+            row.put("package", record.get("package"));
+            row.put("suffix", record.get("suffix"));
+            output.put(promptID, row);
         }
         return output;
     }
