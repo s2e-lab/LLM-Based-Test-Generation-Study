@@ -186,6 +186,7 @@ public class CompilationAnalyzer {
                     String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
                     String rqCsvFile = scenario.equals("original") ? RQ1_CSV_PROMPT_INPUT : RQ2_CSV_PROMPT_INPUT;
                     for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, dataset, scenario, token)) {
+
                         String projectName = "";
 //                        JsonArray promptArr = getJsonArray(format(rqJsonOutFile, model, dataset, scenario, token));
 
@@ -210,6 +211,7 @@ public class CompilationAnalyzer {
                         assert promptArr.size() == promptMetadata.size() || promptArr.size() == promptMetadata.size() * 10;
                         for (JsonElement promptObj : promptArr) {
                             try {
+
                                 JsonObject resp = promptObj.getAsJsonObject();
                                 String promptID = resp.get("prompt_id").getAsString();
                                 String prompt = resp.get("test_prompt").getAsString();
@@ -448,9 +450,9 @@ public class CompilationAnalyzer {
 
 
         /* SF110 */
-       generateReport("SF110", "OpenAI", new String[]{/*"original",*/ "scenario4"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{4000/*,4000*/});
+    //   generateReport("SF110", "OpenAI", new String[]{/*"original",*/ "scenario4"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{4000/*,4000*/});
   //      generateReport("SF110", "GPT3.5", new String[]{/*"original",*/ "original"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{2000/*,4000*/});
-   //     generateReport("SF110", "CodeGen", new String[]{/*"original",*/ "original"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{2000/*,4000*/});
+       generateReport("SF110", "CodeGen", new String[]{/*"original",*/ "scenario3"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{2000/*,4000*/});
 //
     }
 }
