@@ -30,7 +30,7 @@ public class Main {
 //        }
 
 //        String fileName = "/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-results/OpenAI/HumanEvalJava-Results/csv-data/TestSmellInput-HumanEvalJava-Codex.csv";
-        String fileName = "/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-results/TestSmellsInput_HumanEvalJava_Evosuite.csv";
+        String fileName = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/GPT3.5/SF110-Results/csv-data/TestSmellInput-SF110-GPT3.5_scenario2.csv";
         TestSmellDetector testSmellDetector = new TestSmellDetector(new DefaultThresholds());
 
         /*

@@ -256,6 +256,9 @@ public class CompilationAnalyzer {
                             // process the generated code
                             String fixedCode = resp.get("choices").getAsJsonArray().get(0)
                                     .getAsJsonObject().get("text").getAsString();
+
+                            if(fixedCode.trim().length() ==0) continue;
+
                             // if it does not contain the prompt, then prepend it
                             String jUnitCodeAfterFix = fixedCode.contains(prompt.strip()) || fixedCode.contains("class %sTest {".formatted(classname)) ?
                                     fixedCode :
@@ -441,7 +444,8 @@ public class CompilationAnalyzer {
 
 
         /* SF110 */
-        generateReport("SF110", "OpenAI", new String[]{/*"original",*/ "scenario4"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{4000/*,4000*/});
-
+//       generateReport("SF110", "OpenAI", new String[]{/*"original",*/ "original"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{2000/*,4000*/});
+        generateReport("SF110", "GPT3.5", new String[]{/*"original",*/ "scenario3"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{2000/*,4000*/});
+//
     }
 }

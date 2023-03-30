@@ -105,7 +105,7 @@
         <path refid="test.lib" />
       </classpath>
 
-      <testclasses outputdir="${result.dir}">
+      <testclasses outputdir="${result.dir}/../">
         <fileset dir="${result.tests.dir}" />
         <listener type="legacy-brief" sendSysOut="true" />
         <listener type="legacy-xml" sendSysErr="true" sendSysOut="true" />

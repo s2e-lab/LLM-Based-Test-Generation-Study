@@ -87,9 +87,9 @@ def remove_original_code(gen_code: str, r: dict) -> str:
 
 def main():
     config = load_config("config.json")
-    dataset = "HumanEvalJava"
+    dataset = "SF110"
     model = "CodeGen"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3"]
+    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
     tokens = [2000]
     for max_tokens in tokens:
         for scenario in scenarios:
