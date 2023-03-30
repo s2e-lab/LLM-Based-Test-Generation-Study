@@ -114,7 +114,10 @@ def get_generated_test(model: str, response: dict):
     if model == "OpenAI":
         return response["choices"][0]["text"]
     if model == "GPT3.5":
-        return response["choices"][0]["message"]["content"]
+        if "message" in response["choices"][0]:
+            return response["choices"][0]["message"]["content"]
+        else:
+            return ""
 
     raise Exception(f"{model} is an unexpected value")
 
@@ -149,6 +152,10 @@ def fix_extra_code(
     # creates a new array with responses that are fixed
     filtered_responses = []
     for r in previous_responses:
+        if "ERROR - " in r["choices"][0]["finish_reason"]:
+            filtered_responses.append(r)
+            continue
+
         old_code = get_generated_test(model, r)  # r["choices"][0]["text"]
         new_code, applied_heuristics = remove_extra_code(model, old_code, scenario)
         r["removed_extra_code"] = old_code != new_code
@@ -158,9 +165,10 @@ def fix_extra_code(
         if model == "OpenAI":
             r["choices"][0]["text"] = new_code
         if model == "GPT3.5":
-            r["choices"][0]["message"]["content"] = new_code
-            with open("./dummy_output/" + r["prompt_id"].replace("/", "_"), "w") as f:
-                f.write(new_code)
+            if "message" in r["choices"][0]:
+                r["choices"][0]["message"]["content"] = new_code
+                # with open("./dummy_output/" + r["prompt_id"].replace("/", "_"), "w") as f:
+                #     f.write(new_code)
 
         r["choices"][0]["text"] = new_code
         print("\tPROMPT", r["prompt_id"], "APPLIED HEURISTICS", r["applied_heuristics"])
@@ -200,9 +208,9 @@ def run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario):
 def main():
     config = load_config("config.json")
     dataset = "SF110" # Possible values: "HumanEvalJava" "SF110"
-    model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5" "CodeGen"
+    model = "GPT3.5"  # Possible values: "OpenAI" "GPT3.5" "CodeGen"
     scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
-    tokens = [2000, 4000]
+    tokens = [2000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2

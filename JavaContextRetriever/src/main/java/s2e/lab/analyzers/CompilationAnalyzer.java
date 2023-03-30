@@ -441,7 +441,7 @@ public class CompilationAnalyzer {
 
 
         /* SF110 */
-        generateReport("SF110", "OpenAI", new String[]{"original"/*, "scenario1", "scenario2", "scenario3", "scenario4"*/}, new int[]{2000/*,4000*/});
+        generateReport("SF110", "OpenAI", new String[]{/*"original",*/ "scenario4"/*, "scenario2", "scenario3", "scenario4"*/}, new int[]{4000/*,4000*/});
 
     }
 }
