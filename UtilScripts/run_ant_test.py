@@ -8,7 +8,7 @@ projects = []
 scenario = "scenario3"
 token = "2000"
 
-for project in os.listdir("../RQ2_Prompt_Elements/CodeGen_Data/%s_input" % ("SF110")):
+for project in os.listdir("../RQ2_Prompt_Elements/OpenAI_Data/%s_input" % ("SF110")):
     if project.endswith(".csv"):
         continue
     if "scenario1" in project:
@@ -41,8 +41,8 @@ for subfolder in subfolders:
 
     while run_ant:
         run_count += 1
-        if run_count > 10:
-            break
+        # if run_count > 10:
+        #     break
         try:
             # Run the "mvn test" command and capture the output
             process = subprocess.Popen(["ant"], stdout=subprocess.PIPE)
@@ -66,7 +66,7 @@ for subfolder in subfolders:
                 start, end = -1, -1
                 for i in range(0, len(lines)):
                     line = lines[i]
-                    if start == -1 and "error:" in line:
+                    if start == -1 and "compile-tests:" in line:
                         start = i 
                     if start >= 0 and (i > start + 1) and "[javac]" in line:
                         end = i + 1
@@ -84,10 +84,11 @@ for subfolder in subfolders:
                             continue
                         location = parts[1].split(":")[1][1:-1]
                         error = " ".join(parts[2:])
-                        if "error: cannot find symbol" in error:
-                            error_symbol = lines[i + 3].split("[javac]")[1].strip()
-                            error_location = lines[i + 4].split("[javac]")[1].strip()
-                            error = error + " " + error_symbol + " " + error_location
+                        if "error: cannot find symbol" in error and i+3 < len(lines) and i+4 < len(lines):
+                            if "[javac]" in lines[i + 3] and "[javac]" in lines[i + 4]:
+                                error_symbol = lines[i + 3].split("[javac]")[1].strip()
+                                error_location = lines[i + 4].split("[javac]")[1].strip()
+                                error = error + " " + error_symbol + " " + error_location
 
                         to_delete.append(file)
                         output.append("\t".join([file, location, error]))

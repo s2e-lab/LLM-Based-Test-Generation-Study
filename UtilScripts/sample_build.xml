@@ -75,6 +75,7 @@
       encoding="${compile.encoding}"
       includeantruntime="false"
     >
+     <compilerarg value="-Xlint:all" />
       <src path="${test.dir}" />
       <!-- <include name="SCENARIO/*_TOKEN_Test.java" /> -->
 
