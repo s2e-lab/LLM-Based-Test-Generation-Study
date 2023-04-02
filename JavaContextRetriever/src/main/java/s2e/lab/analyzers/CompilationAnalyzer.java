@@ -54,9 +54,9 @@ public class CompilationAnalyzer {
             RQ2_BASE_DIR + "%s_Data/%s_input/%s_prompt.csv";
     // where to save things (solely based on the dataset & model!)
     public static String STATISTICS_CSV_OUTPUT =
-            "../../ICSE23-results/%s/%s-Results/csv-data/%s.csv";
+            "../../ICSE23-FAKE/%s/%s-Results/csv-data/%s.csv";
     public static String STATISTICS_JAVA_OUTPUT =
-            "../../ICSE23-results/%s/%s-Results/%s/src/test/java/%s/%s.java";
+            "../../ICSE23-FAKE/%s/%s-Results/%s/src/test/java/%s/%s.java";
 
 
     // metadata saved
@@ -170,8 +170,6 @@ public class CompilationAnalyzer {
     public static void generateReport(String dataset, String model, String[] scenarios, int[] max_tokens) throws IOException {
 
 
-
-
         String csvFilePath = STATISTICS_CSV_OUTPUT.formatted(model, dataset, "compilation_" + dataset);
         FileWriter csvWriter = new FileWriter(csvFilePath);
         CSVFormat csvFormat = CSVFormat.DEFAULT
@@ -196,10 +194,6 @@ public class CompilationAnalyzer {
                             if (scenario.equals("original")) filename = projectName;
                             else filename = scenario + "_" + projectName;
                         }
-                        // deletes old test files
-                        // "../../ICSE23-results/%s/%s-Results/%s/src/test/java/%s/%s.java"
-                        File projectTestFolder = new File(STATISTICS_JAVA_OUTPUT.formatted(model, dataset, dataset.equals("SF110") ? projectName : "", "", "").replace("//.java", ""));
-                        if(projectTestFolder.exists()) { FileUtils.cleanDirectory(projectTestFolder); }
 
 
                         String promptInputFile = format(rqCsvFile, model, dataset, filename);
@@ -236,11 +230,11 @@ public class CompilationAnalyzer {
                             // recall CodeGen generates 10 suggestions, per prompt, so we need to add this to the suffix
                             String choiceNo = resp.has("choice_no") ? resp.get("choice_no").getAsString() : "";
                             if (!choiceNo.isEmpty())
-                                suffix += "_" + choiceNo;
+                                suffix += suffix.isEmpty() ? choiceNo : "_" + choiceNo;
 
 
-                            String jUnitTestFileName = "%s_%s_%s_%d_%sTest".formatted(
-                                    dataset.equals("SF110") ? scenario : "",
+                            String jUnitTestFileName = "%s%s_%s_%d_%sTest".formatted(
+                                    dataset.equals("SF110") ? scenario + "_" : "",
                                     classname, methodName, token,
                                     !suffix.isEmpty() ? suffix + "_" : ""
                             );
@@ -432,16 +426,27 @@ public class CompilationAnalyzer {
     }
 
 
+    public static void delete(String model, String dataset, String projectName) throws IOException {
+        // deletes old test files
+        // "../../ICSE23-results/%s/%s-Results/%s/src/test/java/%s/%s.java"
+        File projectTestFolder = new File(STATISTICS_JAVA_OUTPUT.formatted(model, dataset, projectName, "", "").replace("//.java", ""));
+        if (projectTestFolder.exists()) {
+            FileUtils.cleanDirectory(projectTestFolder);
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         /* HumanEvalJava */
-
-//        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-//        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-//        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000,4000});
+        delete("CodeGen", "HumanEvalJava", "");
+        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+        delete("GPT3.5", "HumanEvalJava", "");
+        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+        delete("OpenAI", "HumanEvalJava", "");
+        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
 
 
         /* SF110 */
-        generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
+//        generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
 
     }
 }

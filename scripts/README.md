@@ -3,8 +3,8 @@
 - `generate_tests_*.py`:
 Generates test cases using an LLM (Codex, ChatGPT3.5, or CodeGen). It produces a JSON containing the results metadata as well as all the generated test files in separate `.java` files. 
 The token size and scenario under analysis are specified as program arguments.
-- `fix_extracode_openai.py`: It inspects the JSON outputs and apply heuristics to remove extra code and/or common patterns of syntax errors. It works for OpenAI models (ie Codex, ChatGPT3.5)
-- `merge_tests_codegen.py`: It process the JSON outputs to create one prompt-output per generated suggestion. This is because CodeGen has a different configuration (we ask for 1 unit test and 10 suggestions for it).
+- `fix_tests_openai.py`: It inspects the JSON outputs and apply heuristics to remove extra code and/or common patterns of syntax errors. It works for OpenAI models (ie Codex, ChatGPT3.5)
+- `fix_tests_codegen.py`: It process the JSON outputs to create one prompt-output per generated suggestion. This is because CodeGen has a different configuration (we ask for 1 unit test and 10 suggestions for it).
 - `*_job.sh`: shell scripts to run the job on a computing server.
 
 # Configuration
