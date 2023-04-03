@@ -69,7 +69,7 @@ def heuristic_3(code: str, cut_classname: str) -> tuple[str, bool]:
 
 def heuristic_4_and_5(code: str, package: str, test_classname: str) -> tuple[str, bool, bool]:
     """
-    Replaces the package name with the scenario name.
+    Fixes package declaration (i.e., add/replace/remove if needed).
     @param test_classname: the simple name of the generated test class
     @param code: generated code.
     @param package: the package where the CUT is
@@ -92,8 +92,28 @@ def heuristic_4_and_5(code: str, package: str, test_classname: str) -> tuple[str
     if package and missing:
         code = f"package {package};\n" + code
         applied_heuristic_h5 = True
-
+    if not package and not missing:
+        # remove the package declaration
+        code = code[:m.start()] + code[m.end():]
+        applied_heuristic_h5 = True
     return code, applied_heuristic_h4, applied_heuristic_h5
+
+
+def heuristic_6(code: str, test_classname: str) -> tuple[str, bool]:
+    # find all literals in code
+    literals = re.findall(r"\"[^\"]*\"", code)
+    # find all number constants in code
+    numbers = re.findall(r"\d+", code)
+    # uses javalang to find all literals and number constants in the code
+    # (this is more accurate than the regex above)
+    try:
+        tree = javalang.parse.parse(code)
+        literals = [node.value for path, node in tree.filter(javalang.tree.Literal)]
+        numbers = [node.value for path, node in tree.filter(javalang.tree.Number)]
+    except:
+        pass
+    # remove all literals and number constants from the code
+
 
 def get_classname(code: str) -> str:
     """
@@ -103,9 +123,11 @@ def get_classname(code: str) -> str:
     """
     return code.split("\n")[0][3:-5].strip()
 
+
 def get_full_code(code: str, response: dict) -> str:
     """
     Gets the full code from the response (including the test prompt).
+
     @param code: generated code.
     @param response: the original response from the model
     @return: full code
@@ -123,12 +145,11 @@ def get_full_code(code: str, response: dict) -> str:
     return (test_prompt + "\n\t\t" + code).strip()
 
 
-def fix_code(model: str, code: str, scenario: str, response: dict) -> str:
+def fix_code(model: str, code: str, response: dict) -> str:
     """
     Removes the extra code from the generated tests.
     @param model: model name (ex: OpenAI, CodeGen)
     @param code: generated code.
-    @param scenario: scenario name
     @param response: the original response from the model
     @return: code without the extra code
     """
@@ -150,7 +171,7 @@ def fix_code(model: str, code: str, scenario: str, response: dict) -> str:
     # H3: remove the original code from the CUT
     full_code, applied_heuristics[2] = heuristic_3(full_code, cut_classname)
     # H4: replaces the package name with the scenario name
-    # H5: adds the package name if it is missing
+    # H5: adds the package name if it is missing (or remove it, if it is not needed)
     full_code, applied_heuristics[3], applied_heuristics[4] = heuristic_4_and_5(full_code, package_name, test_classname)
 
     applied_heuristics = [f"H{i + 1}" for i in range(0, 5) if applied_heuristics[i]]
@@ -173,11 +194,9 @@ def get_generated_test(model: str, response: dict):
     raise Exception(f"{model} is an unexpected value")
 
 
-def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str,
-                   scenario: str) -> None:
+def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str) -> None:
     """
     Fixes the extra code in the generated tests.
-    @param scenario: scenario name (ex: scenario1)
     @param model: model name (ex: OpenAI, CodeGen)
     @param max_tokens: token size
     @param prompt_file:  filename for the scenario (ex: "Scenario1_prompt.json")
@@ -197,8 +216,8 @@ def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_to
     # creates a new array with responses that are fixed
     filtered_responses = []
     for r in previous_responses:
-        old_code = get_generated_test(model, r)  # r["choices"][0]["text"]
-        new_code, applied_heuristics = fix_code(model, old_code, scenario, r)
+        old_code = get_generated_test(model, r)
+        new_code, applied_heuristics = fix_code(model, old_code, r)
         r["original_generated_code"] = old_code
         r["applied_heuristics"] = ";".join(applied_heuristics)
 
@@ -222,13 +241,13 @@ def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_to
     print("SAVED AT ", fixed_json_file)
 
 
-def run_humaneval(config, dataset, max_tokens, model, rq, rq_folder, scenario):
+def run_humaneval(config: dict, dataset: str, max_tokens: int, model: str, rq: int, rq_folder, scenario):
     prompt_file = (
         f"{rq_folder}/{model}_Data/HumanEvalJava_input/{scenario}_prompt.json"
     )
     print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
-    fix_extra_code(
-        config, rq, dataset, prompt_file, max_tokens, model, scenario
+    run_analysis(
+        config, rq, dataset, prompt_file, max_tokens, model
     )
 
 
@@ -239,8 +258,8 @@ def run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario):
                     f.endswith(".json") and ((rq == 1) or (rq == 2 and scenario in f))]
     for prompt_file in prompt_files:
         print(f"RQ{rq}\tScenario: {scenario}\tToken: {max_tokens}\tPrompt: {prompt_file}")
-        fix_extra_code(
-            config, rq, dataset, prompt_file, max_tokens, model, scenario
+        run_analysis(
+            config, rq, dataset, prompt_file, max_tokens, model
         )
 
 
