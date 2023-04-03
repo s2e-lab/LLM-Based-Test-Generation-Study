@@ -1,7 +1,7 @@
 import copy
 import json
 import re
-from fix_tests_openai import remove_extra_code
+from fix_tests_openai import fix_code
 from utils import load_config, get_output_files
 
 

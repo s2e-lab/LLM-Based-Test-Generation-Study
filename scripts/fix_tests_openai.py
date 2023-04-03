@@ -2,27 +2,31 @@ import json
 import os
 import re
 
+import javalang
+from javalang.parser import JavaSyntaxError
+from javalang.tokenizer import LexerError
+
 from utils import load_config, get_output_files
 
-EOF = ["\n\n// ", "\n```\n\n##", "</code>"]
 
-
-def heuristic_1(code: str) -> tuple[str, bool]:
+def heuristic_1(code: str, cut_classname: str) -> tuple[str, bool]:
     """
     Removes the extra code from the generated tests.
+    @param cut_classname: the simple name of the class under test
     @param code: generated code.
-    @return: a tuple.
-        (code without the extra code, bool indicating whether heuristic was or not applied)
+    @return: a tuple (str, bool).
+        [0] = code without the extra code; [1] = true if this heuristic was applied
     """
-    old_code = code
-    ignore_line_before = 150
+    ignore_line_before = code.index("@Test")  # make sure to not remove code too early
     # removes the extra code
-    for e in EOF:
-        if e in code:
-            if code.index(e) < ignore_line_before:
-                continue
-            code = code[: code.index(e)]
-    return code, old_code != code
+    eof_tokens = [f"\n\n// {cut_classname}", "\n```\n\n##", "</code>"]
+    applied_heuristic = False
+    for e in eof_tokens:
+        index = code.index(e) if e in code else None
+        if index and index > ignore_line_before:
+            code = code[:index]
+            applied_heuristic = True
+    return code, applied_heuristic
 
 
 def heuristic_2(code: str) -> tuple[str, bool]:
@@ -55,17 +59,17 @@ def heuristic_3(code: str) -> tuple[str, bool]:
     return code, old_code != code
 
 
-def heuristic_4(code: str, scenario: str) -> tuple[str, bool]:
+def heuristic_4(code: str, package: str) -> tuple[str, bool]:
     """
     Replaces the package name with the scenario name.
     @param code: generated code.
-    @param scenario: scenario name
+    @param package: the package where the CUT is
     @return: code with the scenario name as the package name
     """
     old_code = code
-    keywords = ["updated", "revised", "modified", "changed", "altered", "corrected"]
+    keywords = ["updated", "revised", "modified", "changed", "altered", "corrected", "refactored", "fixed"]
     for keyword in keywords:
-        code = code.replace(f"package {keyword};", f"package {scenario};")
+        code = code.replace(f"package {keyword};", f"package {package};")
     return code, old_code != code
 
 
@@ -82,26 +86,71 @@ def heuristic_5(code: str, scenario: str) -> tuple[str, bool]:
     return code, old_code != code
 
 
-def remove_extra_code(model: str, code: str, scenario: str) -> str:
+def get_classname(code: str) -> str:
+    """
+    Gets the name of the CUT from the test prompt.
+    @param code: the test prompt or the original code (it assumes it starts with `// classname.java`)
+    @return: the classname of the CUT or the unit test to be generated
+    """
+    return code.split("\n")[0][3:-5].strip()
+
+
+def get_full_code(code: str, response: dict) -> str:
+    """
+    Gets the full code from the response (including the test prompt).
+    @param code: generated code.
+    @param response: the original response from the model
+    @return: full code
+    """
+    test_prompt = response["test_prompt"]
+    test_classname = get_classname(test_prompt)
+    # code does not contain the test prompt
+    if test_prompt.strip() in code:
+        return code
+    # if it contains the prompt, the test prompt class should appear before the first @Test annotation
+    if f"class {test_classname}" in code and code.index(f"class {test_classname}") < code.index("@Test"):
+        return code
+    # if we reach here, the code needs to be pre-pended with the test prompt
+    return (test_prompt + "\n\t\t" + code).strip()
+
+
+def fix_code(model: str, code: str, scenario: str, response: dict) -> str:
     """
     Removes the extra code from the generated tests.
     @param model: model name (ex: OpenAI, CodeGen)
     @param code: generated code.
     @param scenario: scenario name
+    @param response: the original response from the model
     @return: code without the extra code
     """
-    # tracks what heuristic(s) were applied, if any
+    full_code = get_full_code(code, response)
+    cu = parse_code(full_code)
+    # code is compilable already, nothing to do in here
+    if cu: return full_code, []
+
+    cu_original = parse_code(response["original_code"])
+    package_name = cu_original.package.name if cu_original.package else None
+    test_classname = get_classname(response["test_prompt"])
+    cut_classname = cu_original.types[0].name
+    # track what heuristic(s) were applied, if any
     applied_heuristics = [False for _ in range(0, 5)]
 
-    if model == "GPT3.5":
-        code, applied_heuristics[1] = heuristic_2(code)
-        code, applied_heuristics[2] = heuristic_3(code)
-        code, applied_heuristics[3] = heuristic_4(code, scenario)
-        code, applied_heuristics[4] = heuristic_5(code, scenario)
-    code, applied_heuristics[0] = heuristic_1(code)
+    # if model == "GPT3.5":
+    #     # H2: retrieve code in between the triple backticks (only applies to ChatGPT)
+    #     full_code, applied_heuristics[1] = heuristic_2(full_code)
+
+    # H1: removes the extra code (after the unit test)
+    full_code, applied_heuristics[0] = heuristic_1(full_code, cut_classname)
+    # # H3: remove the original code from the CUT
+    # full_code, applied_heuristics[2] = heuristic_3(full_code, cut_classname)
+    # # H4: replaces the package name with the scenario name
+    # full_code, applied_heuristics[3] = heuristic_4(full_code, package_name)
+    # # H5: adds the package name if it is missing
+    # full_code, applied_heuristics[4] = heuristic_5(full_code, package_name)
+
     applied_heuristics = [f"H{i + 1}" for i in range(0, 5) if applied_heuristics[i]]
 
-    return code, applied_heuristics
+    return full_code, applied_heuristics
 
 
 def get_generated_test(model: str, response: dict):
@@ -119,17 +168,11 @@ def get_generated_test(model: str, response: dict):
     raise Exception(f"{model} is an unexpected value")
 
 
-def fix_extra_code(
-        config: dict,
-        rq: int,
-        dataset: str,
-        prompt_file: str,
-        max_tokens: int,
-        model: str,
-        scenario: str,
-) -> None:
+def fix_extra_code(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str,
+                   scenario: str) -> None:
     """
     Fixes the extra code in the generated tests.
+    @param scenario: scenario name (ex: scenario1)
     @param model: model name (ex: OpenAI, CodeGen)
     @param max_tokens: token size
     @param prompt_file:  filename for the scenario (ex: "Scenario1_prompt.json")
@@ -150,8 +193,7 @@ def fix_extra_code(
     filtered_responses = []
     for r in previous_responses:
         old_code = get_generated_test(model, r)  # r["choices"][0]["text"]
-        new_code, applied_heuristics = remove_extra_code(model, old_code, scenario)
-        r["removed_extra_code"] = old_code != new_code
+        new_code, applied_heuristics = fix_code(model, old_code, scenario, r)
         r["original_generated_code"] = old_code
         r["applied_heuristics"] = ";".join(applied_heuristics)
 
@@ -197,11 +239,18 @@ def run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario):
         )
 
 
+def parse_code(code) -> bool:
+    try:
+        return javalang.parse.parse(code)  # code is compilable
+    except (JavaSyntaxError, LexerError, TypeError) as e:
+        return None
+
+
 def main():
     config = load_config("config.json")
-    dataset = "SF110" # Possible values: "HumanEvalJava" "SF110"
-    model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5" "CodeGen"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
+    dataset = "HumanEvalJava"  # Possible values: "HumanEvalJava" "SF110"
+    model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5"
+    scenarios = ["original"]  # , "scenario1", "scenario2", "scenario3", "scenario4"]
     tokens = [2000, 4000]
     for max_tokens in tokens:
         for scenario in scenarios:
