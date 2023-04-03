@@ -73,7 +73,7 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
 def remove_original_code(gen_code: str, r: dict) -> str:
     # strip off the original code if needed (this is a more strict way of creating a customized regex)
     classname = r["original_code"].split("\n")[0][2:-5].strip()
-    pattern = r"(\/\/ " + classname + ".java)([\S\s.]*?)(\/\/ " + classname + "Test.java)"
+    pattern = r"(\/\/ " + classname + ".java)([\S\s.]*?)(\/\/ " + classname + "[0-9a-zA-Z_]*Test.java)"
     bad_code = re.findall(pattern, gen_code, re.DOTALL)
     if len(bad_code) > 0:
         header_comment, original_code, test_comment = bad_code[0]

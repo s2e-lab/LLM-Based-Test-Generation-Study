@@ -17,7 +17,11 @@ def heuristic_1(code: str, cut_classname: str) -> tuple[str, bool]:
     @return: a tuple (str, bool).
         [0] = code without the extra code; [1] = true if this heuristic was applied
     """
-    ignore_line_before = code.index("@Test")  # make sure to not remove code too early
+
+    # notice that if the file had an error, it won't have the @Test annotation,
+    # so we use the class name instead because it should be there from the prompt,
+    # which has `class ClassName...Test{}`
+    ignore_line_before = code.index("@Test") if "@Test" in code else code.index(f"class {cut_classname}")
     # removes the extra code
     eof_tokens = [f"\n\n// {cut_classname}", "\n```\n\n##", "</code>"]
     applied_heuristic = False
@@ -35,56 +39,61 @@ def heuristic_2(code: str) -> tuple[str, bool]:
     @param code: generated code.
     @return: code between the triple backticks
     """
-    old_code = code
+    applied_heuristic = False
     pattern = r"[\S\s.]*?\`\`\`([\S\s.]*?)\`\`\`[\S\s.]*?"
     good_code = re.findall(pattern, code, re.DOTALL)
     if len(good_code) > 0:
         code = good_code[0]
-    return code, old_code != code
+        applied_heuristic = True
+    return code, applied_heuristic
 
 
-def heuristic_3(code: str) -> tuple[str, bool]:
+def heuristic_3(code: str, cut_classname: str) -> tuple[str, bool]:
     """
     Remove the code that is not part of the test.
+    @param cut_classname: simple name of the class under test.
     @param code: generated code.
     @return: code that is part of the test
     """
-    old_code = code
-    pattern = r"([\S\s.]*?)(\/\/ [A-Za-z0-9]+Test.java)"
+    applied_heuristic = False
+    # a more strict pattern that only matches the test class name
+    pattern = r"(\/\/ " + cut_classname + ".java[\S\s.]*?)(\/\/ " + cut_classname + "[0-9a-zA-Z_]*Test.java)"
     bad_code = re.findall(pattern, code, re.DOTALL)
     if len(bad_code) > 0:
         bad_code = bad_code[0][0]
         if len(bad_code.strip()) != 0:
-            code = code.replace(bad_code, "\n")
-    return code, old_code != code
+            code = code.replace(bad_code, "\n").strip()
+            applied_heuristic = True
+    return code, applied_heuristic
 
 
-def heuristic_4(code: str, package: str) -> tuple[str, bool]:
+def heuristic_4_and_5(code: str, package: str, test_classname: str) -> tuple[str, bool, bool]:
     """
     Replaces the package name with the scenario name.
+    @param test_classname: the simple name of the generated test class
     @param code: generated code.
     @param package: the package where the CUT is
-    @return: code with the scenario name as the package name
+    @return: the code with the package (if needed), and two booleans (H4, H5) to indicate what heuristic was applied.
+    (code, H4, H5)
     """
-    old_code = code
-    keywords = ["updated", "revised", "modified", "changed", "altered", "corrected", "refactored", "fixed"]
-    for keyword in keywords:
-        code = code.replace(f"package {keyword};", f"package {package};")
-    return code, old_code != code
+    applied_heuristic_h4, applied_heuristic_h5 = False, False
+    package_regex = r"package\s+([a-z][a-z0-9_\.]*)\s*;"
+    # search only in the beginning of the file (before the test class)
+    m = re.search(package_regex, code[:code.index(f"class {test_classname}")], re.IGNORECASE)
+    missing = True
+    if m:
+        missing = False
+        actual_package = m.group(1)
+        if package and actual_package != package:
+            applied_heuristic_h4 = True
+            code = code[:m.start()] + f"package {package};\n" + code[m.end():]
+    # test should be in a package, but package declaration is missing
+    # thus, apply H5 here
+    if package and missing:
+        code = f"package {package};\n" + code
+        applied_heuristic_h5 = True
 
-
-def heuristic_5(code: str, scenario: str) -> tuple[str, bool]:
-    """
-    Adds the package name if it is missing.
-    @param code: generated code.
-    @param scenario: scenario name
-    @return: code with the scenario name as the package name
-    """
-    old_code = code
-    if f"package {scenario};" not in code:
-        code = f"package {scenario};\n" + code
-    return code, old_code != code
-
+    return code, applied_heuristic_h4, applied_heuristic_h5
 
 def get_classname(code: str) -> str:
     """
@@ -93,7 +102,6 @@ def get_classname(code: str) -> str:
     @return: the classname of the CUT or the unit test to be generated
     """
     return code.split("\n")[0][3:-5].strip()
-
 
 def get_full_code(code: str, response: dict) -> str:
     """
@@ -105,7 +113,8 @@ def get_full_code(code: str, response: dict) -> str:
     test_prompt = response["test_prompt"]
     test_classname = get_classname(test_prompt)
     # code does not contain the test prompt
-    if test_prompt.strip() in code:
+    # and the test prompt class should appear before the first @Test annotation
+    if test_prompt.strip() in code and code.index(test_prompt.strip()) < code.index("@Test"):
         return code
     # if it contains the prompt, the test prompt class should appear before the first @Test annotation
     if f"class {test_classname}" in code and code.index(f"class {test_classname}") < code.index("@Test"):
@@ -124,9 +133,6 @@ def fix_code(model: str, code: str, scenario: str, response: dict) -> str:
     @return: code without the extra code
     """
     full_code = get_full_code(code, response)
-    cu = parse_code(full_code)
-    # code is compilable already, nothing to do in here
-    if cu: return full_code, []
 
     cu_original = parse_code(response["original_code"])
     package_name = cu_original.package.name if cu_original.package else None
@@ -135,18 +141,17 @@ def fix_code(model: str, code: str, scenario: str, response: dict) -> str:
     # track what heuristic(s) were applied, if any
     applied_heuristics = [False for _ in range(0, 5)]
 
-    # if model == "GPT3.5":
-    #     # H2: retrieve code in between the triple backticks (only applies to ChatGPT)
-    #     full_code, applied_heuristics[1] = heuristic_2(full_code)
+    if model == "GPT3.5":
+        # H2: retrieve code in between the triple backticks (only applies to ChatGPT)
+        full_code, applied_heuristics[1] = heuristic_2(full_code)
 
     # H1: removes the extra code (after the unit test)
     full_code, applied_heuristics[0] = heuristic_1(full_code, cut_classname)
-    # # H3: remove the original code from the CUT
-    # full_code, applied_heuristics[2] = heuristic_3(full_code, cut_classname)
-    # # H4: replaces the package name with the scenario name
-    # full_code, applied_heuristics[3] = heuristic_4(full_code, package_name)
-    # # H5: adds the package name if it is missing
-    # full_code, applied_heuristics[4] = heuristic_5(full_code, package_name)
+    # H3: remove the original code from the CUT
+    full_code, applied_heuristics[2] = heuristic_3(full_code, cut_classname)
+    # H4: replaces the package name with the scenario name
+    # H5: adds the package name if it is missing
+    full_code, applied_heuristics[3], applied_heuristics[4] = heuristic_4_and_5(full_code, package_name, test_classname)
 
     applied_heuristics = [f"H{i + 1}" for i in range(0, 5) if applied_heuristics[i]]
 
@@ -249,9 +254,9 @@ def parse_code(code) -> bool:
 def main():
     config = load_config("config.json")
     dataset = "HumanEvalJava"  # Possible values: "HumanEvalJava" "SF110"
-    model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5"
+    model = "GPT3.5"  # Possible values: "OpenAI" "GPT3.5"
     scenarios = ["original"]  # , "scenario1", "scenario2", "scenario3", "scenario4"]
-    tokens = [2000, 4000]
+    tokens = [2000]  # , 4000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
