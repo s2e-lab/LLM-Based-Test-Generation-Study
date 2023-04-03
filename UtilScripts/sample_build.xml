@@ -1,5 +1,4 @@
 <project name="PROJECT_NAME" default="rebuild" basedir="." xmlns:jacoco="antlib:org.jacoco.ant">
-
   <!-- Javac -->
   <property name="compile.debug" value="true" />
   <property name="compile.deprecation" value="true" />
@@ -32,14 +31,20 @@
     <fileset dir="test-lib">
       <include name="**/*.jar" />
     </fileset>
-    <pathelement location="${lib.dir}/junit-4.11.jar" />
+    <pathelement location="${lib.dir}/junit-jupiter-api-5.9.2.jar" />
   </path>
-
 
   <!--  Step 1: Import JaCoCo Ant tasks  -->
   <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
     <classpath path="${lib.dir}/jacocoant.jar" />
   </taskdef>
+  <path id="junit.platform.libs.classpath">
+    <fileset dir="${lib.dir}/junit-platform/" />
+  </path>
+
+  <path id="junit.engine.jupiter.classpath">
+    <fileset dir="${lib.dir}/jupiter/" />
+  </path>
 
   <target name="clean">
     <delete dir="${result.dir}" />
@@ -61,7 +66,8 @@
 
   <target name="compile-tests" depends="compile">
     <mkdir dir="${result.tests.dir}" />
-    <javac srcdir="${test.dir}" destdir="${result.tests.dir}" source="${compile.source}"
+    <javac destdir="${result.tests.dir}"
+      source="${compile.source}"
       target="${compile.target}"
       debug="${compile.debug}"
       deprecation="${compile.deprecation}"
@@ -69,6 +75,10 @@
       encoding="${compile.encoding}"
       includeantruntime="false"
     >
+     <compilerarg value="-Xlint:all" />
+      <src path="${test.dir}" />
+      <!-- <include name="SCENARIO/*_TOKEN_Test.java" /> -->
+
       <classpath>
         <path refid="source.lib" />
         <path refid="test.lib" />
@@ -79,23 +89,32 @@
 
   <target name="test" depends="compile-tests">
     <!--  Step 2: Wrap test execution with the JaCoCo coverage task  -->
-    <jacoco:coverage destfile="${result.exec.file}">
-      <junit printsummary="yes" haltonfailure="no" fork="yes"
-        showoutput="yes">
-        <formatter type="plain" usefile="false" />
-        <classpath>
-          <pathelement path="${result.classes.dir}" />
-          <pathelement path="${result.tests.dir}" />
-          <path refid="source.lib" />
-          <path refid="test.lib" />
-        </classpath>
-        <batchtest fork="yes">
-          <fileset dir="${test.dir}">
-            <include name="**/*.java" />
-          </fileset>
-        </batchtest>
-      </junit>
-    </jacoco:coverage>
+    <jacoco:agent property="jacocoagent" destfile="${result.exec.file}" />
+
+    <junitlauncher>
+      <!-- include the JUnit platform related libraries
+      required to run the tests -->
+      <classpath refid="junit.platform.libs.classpath" />
+
+      <!-- include the JUnit Jupiter engine libraries -->
+      <classpath refid="junit.engine.jupiter.classpath" />
+      <classpath>
+        <!-- the test classes themselves -->
+        <pathelement path="${result.classes.dir}" />
+        <pathelement path="${result.tests.dir}" />
+        <path refid="source.lib" />
+        <path refid="test.lib" />
+      </classpath>
+
+      <testclasses outputdir="${result.dir}/../">
+        <fileset dir="${result.tests.dir}" />
+        <listener type="legacy-brief" sendSysOut="true" />
+        <listener type="legacy-xml" sendSysErr="true" sendSysOut="true" />
+        <fork>
+          <jvmarg value="${jacocoagent}" />
+        </fork>
+      </testclasses>
+    </junitlauncher>
   </target>
   <target name="report" depends="test">
     <!--  Step 3: Create coverage report  -->
@@ -115,8 +134,9 @@
       </structure>
       <!--  to produce reports in different formats.  -->
       <html destdir="${result.report.dir}" />
-      <csv destfile="${result.report.dir}/jacoco-NO_PROJECT_NAME.csv" />
-      <xml destfile="${result.report.dir}/jacoco-NO_PROJECT_NAME.xml" />
+
+      <csv destfile="./jacoco-NO_PROJECT_NAME_SCENARIO_TOKEN.csv" />
+      <xml destfile="./jacoco-NO_PROJECT_NAME_SCENARIO_TOKEN.xml" />
     </jacoco:report>
   </target>
   <target name="rebuild" depends="clean,compile,compile-tests,test,report" />

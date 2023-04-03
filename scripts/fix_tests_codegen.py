@@ -3,6 +3,7 @@ import json
 import re
 from fix_tests_openai import fix_code
 from utils import load_config, get_output_files
+import os
 
 
 def get_generated_test(model: str, response: dict):
@@ -24,7 +25,7 @@ def get_generated_test(model: str, response: dict):
     return test_code
 
 
-def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str) -> None:
+def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str, scenario: str) -> None:
     """
     Fixes the extra code in the generated tests.
     @param model: model name (ex: OpenAI, CodeGen)
@@ -70,6 +71,8 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
     print("SAVED AT ", fixed_json_file)
 
 
+
+
 def remove_original_code(gen_code: str, r: dict) -> str:
     # strip off the original code if needed (this is a more strict way of creating a customized regex)
     classname = r["original_code"].split("\n")[0][2:-5].strip()
@@ -84,20 +87,33 @@ def remove_original_code(gen_code: str, r: dict) -> str:
 
     return gen_code
 
+def run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario):
+    prompt_folder = f"../{rq_folder}/{model}_Data/SF110_input/"
+    # finds all json files in prompt_folder
+    prompt_files = [f for f in os.listdir(prompt_folder) if
+                    f.endswith(".json") and ((rq == 1) or (rq == 2 and scenario in f))]
+    for prompt_file in prompt_files:
+        print(f"RQ{rq}\tScenario: {scenario}\tToken: {max_tokens}\tPrompt: {prompt_file}")
+        merge_suggestions(
+            config, rq, dataset, prompt_file, max_tokens, model, scenario
+        )
+
+
 
 def main():
     config = load_config("config.json")
-    dataset = "HumanEvalJava"
+    dataset = "SF110"
     model = "CodeGen"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3"]
+    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
     tokens = [2000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
             rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
-            prompt_file = f"{rq_folder}/{model}_Data/HumanEvalJava_input/{scenario}_prompt.json"
+            prompt_file = f"{rq_folder}/{model}_Data/{dataset}_input/{scenario}_prompt.json"
             print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
-            merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model)
+            # merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model)
+            run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario)
 
 
 if __name__ == "__main__":
