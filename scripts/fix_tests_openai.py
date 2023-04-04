@@ -12,6 +12,36 @@ MAX_INTEGER = 2147483647
 MIN_INTEGER = -2147483648
 
 
+def get_classname(code: str) -> str:
+    """
+    Gets the name of the CUT from the test prompt.
+    @param code: the test prompt or the original code (it assumes it starts with `// classname.java`)
+    @return: the classname of the CUT or the unit test to be generated
+    """
+    return code.split("\n")[0][3:-5].strip()
+
+
+def get_full_code(code: str, response: dict) -> str:
+    """
+    Gets the full code from the response (including the test prompt).
+
+    @param code: generated code.
+    @param response: the original response from the model
+    @return: full code
+    """
+    test_prompt = response["test_prompt"]
+    test_classname = get_classname(test_prompt)
+    # code does not contain the test prompt
+    # and the test prompt class should appear before the first @Test annotation
+    if test_prompt.strip() in code and code.index(test_prompt.strip()) < code.index("@Test"):
+        return code
+    # if it contains the prompt, the test prompt class should appear before the first @Test annotation
+    if f"class {test_classname}" in code and code.index(f"class {test_classname}") < code.index("@Test"):
+        return code
+    # if we reach here, the code needs to be pre-pended with the test prompt
+    return (test_prompt + "\n\t\t" + code).strip()
+
+
 def heuristic_1(code: str, cut_classname: str) -> tuple[str, bool]:
     """
     Removes the extra code from the generated tests.
@@ -139,49 +169,48 @@ def heuristic_6(code: str) -> tuple[str, bool]:
             previous_end = column + len(token.value)
             last_val = token.value
 
-        return new_code, applied_heuristic
+        return new_code if applied_heuristic else code, applied_heuristic
     except:
         return code, False
 
 
-# replace <> by ""
-def heuristic_7(code: str, test_classname: str) -> tuple[str, bool]:
-    pass
-
-
-# try to fix incomplete code by iteratively deleting staements and adding curly brackets
-def heuristic_8(code: str, test_classname: str) -> tuple[str, bool]:
-    pass
-
-
-def get_classname(code: str) -> str:
+def heuristic_7(code: str) -> tuple[str, bool]:
     """
-    Gets the name of the CUT from the test prompt.
-    @param code: the test prompt or the original code (it assumes it starts with `// classname.java`)
-    @return: the classname of the CUT or the unit test to be generated
+        Fixes 'incomplete statements' type of compilation errors.
+        Try to fix incomplete code by iteratively deleting lines and adding curly brackets.
+        @param code: generated code.
+        @return: the code that replaces the large integer by Integer.parseInt(n) (if needed),
+        and one boolean to indicate whether the heuristic was applied: (code, applied_heuristic).
     """
-    return code.split("\n")[0][3:-5].strip()
+    # if the code is valid, return it
+    cu = parse_code(code)
+    if cu: return code, False
+    # otherwise, try to fix it
+    new_code = code
+    num_attempts = 0
+    # test prompt is length of 10, so we try to fix the code by removing lines until we reach 10
+    while new_code.count("\n") > 10:
+        num_attempts += 1
+        # append a curly bracket
+        cu = parse_code(new_code + "\n}")
+        if cu: return new_code + "\n}", True
 
+        # append two curly brackets
+        cu = parse_code(new_code + "\n}\n}")
+        if cu: return new_code + "\n}\n}", True
 
-def get_full_code(code: str, response: dict) -> str:
-    """
-    Gets the full code from the response (including the test prompt).
+        # remove the last line
+        new_code = new_code[:new_code.rfind("\n")]
 
-    @param code: generated code.
-    @param response: the original response from the model
-    @return: full code
-    """
-    test_prompt = response["test_prompt"]
-    test_classname = get_classname(test_prompt)
-    # code does not contain the test prompt
-    # and the test prompt class should appear before the first @Test annotation
-    if test_prompt.strip() in code and code.index(test_prompt.strip()) < code.index("@Test"):
-        return code
-    # if it contains the prompt, the test prompt class should appear before the first @Test annotation
-    if f"class {test_classname}" in code and code.index(f"class {test_classname}") < code.index("@Test"):
-        return code
-    # if we reach here, the code needs to be pre-pended with the test prompt
-    return (test_prompt + "\n\t\t" + code).strip()
+        # append a curly bracket
+        cu = parse_code(new_code + "\n}")
+        if cu: return new_code + "\n}", True
+
+        # append two curly brackets
+        cu = parse_code(new_code + "\n}\n}")
+        if cu: return new_code + "\n}\n}", True
+    # if we reach here, the code is still invalid
+    return code, False
 
 
 def fix_code(model: str, code: str, response: dict) -> str:
@@ -199,7 +228,7 @@ def fix_code(model: str, code: str, response: dict) -> str:
     test_classname = get_classname(response["test_prompt"])
     cut_classname = cu_original.types[0].name
     # track what heuristic(s) were applied, if any
-    applied_heuristics = [False for _ in range(0, 5)]
+    applied_heuristics = [False for _ in range(0, 7)]
 
     if model == "GPT3.5":
         # H2: retrieve code in between the triple backticks (only applies to ChatGPT)
@@ -212,9 +241,14 @@ def fix_code(model: str, code: str, response: dict) -> str:
     # H4: replaces the package name with the scenario name
     # H5: adds the package name if it is missing (or remove it, if it is not needed)
     full_code, applied_heuristics[3], applied_heuristics[4] = heuristic_4_and_5(full_code, package_name, test_classname)
+    # H6: fixes 'integer number too large' type of compilation errors
+    full_code, applied_heuristics[5] = heuristic_6(full_code)
 
-    heuristic_6(full_code)
-    applied_heuristics = [f"H{i + 1}" for i in range(0, 5) if applied_heuristics[i]]
+    # H7: fixes incomplete code by iteratively deleting statements and adding curly brackets
+    if response["choices"][0]["finish_reason"] == "length":
+        full_code, applied_heuristics[6] = heuristic_7(full_code)
+
+    applied_heuristics = [f"H{i + 1}" for i in range(0, 7) if applied_heuristics[i]]
 
     return full_code, applied_heuristics
 
@@ -269,7 +303,8 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
             f.write(new_code)
 
         r["choices"][0]["text"] = new_code
-        print("\tPROMPT", r["prompt_id"], "APPLIED HEURISTICS", r["applied_heuristics"])
+        print("\tPROMPT", r["prompt_id"], "CLASS:", r["original_code"].split("\n")[0][3:-4], "APPLIED HEURISTICS",
+              r["applied_heuristics"])
         # code has un-matching {} pairs
         # check_code_blocks(new_code, r)
 
