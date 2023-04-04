@@ -187,29 +187,29 @@ def heuristic_7(code: str) -> tuple[str, bool]:
     if cu: return code, False
     # otherwise, try to fix it
     new_code = code
-    # num_attempts = 0
+    num_lines = new_code.count("\n")
     # test prompt is length of 10, so we try to fix the code by removing lines until we reach 10
-    while new_code.count("\n") > 10:
-        # num_attempts += 1
-        # append a curly bracket
-        cu = parse_code(new_code + "\n}")
-        if cu: return new_code + "\n}", True
-
+    while num_lines > 10:
         # append two curly brackets
         cu = parse_code(new_code + "\n}\n}")
         if cu: return new_code + "\n}\n}", True
+
+        # append one curly bracket
+        cu = parse_code(new_code + "\n}")
+        if cu: return new_code + "\n}", True
 
         # remove the last line
         new_code = new_code[:new_code.rfind("\n")]
-
-        # append a curly bracket
-        cu = parse_code(new_code + "\n}")
-        if cu: return new_code + "\n}", True
+        num_lines -= 1
 
         # append two curly brackets
         cu = parse_code(new_code + "\n}\n}")
         if cu: return new_code + "\n}\n}", True
-    # if we reach here, the code is still invalid
+        # append one curly bracket
+        cu = parse_code(new_code + "\n}")
+        if cu: return new_code + "\n}", True
+
+    # if we reach here, the code is still unfixable
     return code, False
 
 
