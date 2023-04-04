@@ -63,16 +63,16 @@ public class CompilationAnalyzer {
     private static final String[] CSV_HEADERS = new String[]{
             "id",
             "scenario",
-            "token_size",
-            "jUnitTestFileName",
-            "finish_reason",
-            "original_syntax_ok",
-            "removed_extra_code",
-            "syntax_ok_after_extra_code_removal",
-            "number_test_methods",
-            "number_assertions",
-            "syntax_check",
-            "applied_heuristics"
+            "token size",
+            "JUnit Test File Name",
+            "finish reason",
+            "original syntax ok?",
+            "modified original?",
+            "syntax ok after heuristics?",
+            "number test methods",
+            "number assertions",
+            "syntax check",
+            "applied heuristics"
     };
 
     /**
@@ -87,7 +87,7 @@ public class CompilationAnalyzer {
         if (isOriginalCompilable)
             return "ORIGINAL_SYNTAX_OK";
         if (isCompilableAfterFix)
-            return "EXTRA_CODE";
+            return "EXTRA_CODE";// FIXME: this label should be based on the applied heuristics!
         if (finishReason.equals("length"))
             return "INCOMPLETE_CODE";
         return "UNKNOWN_SYNTAX_ERROR";
@@ -227,22 +227,22 @@ public class CompilationAnalyzer {
                                 String methodName = promptMetadata.get(key).get("method_signature").split("\\(")[0];
                                 String packageName = promptMetadata.get(key).get("package");
 
-                            // ensure a situation of unit testing an overload method (same name, different parameters)
-                            String suffix = promptMetadata.get(key).get("suffix");
-                            // choice_no is something related to codegen, it's the suggestion position
-                            // recall CodeGen generates 10 suggestions, per prompt, so we need to add this to the suffix
-                            String choiceNo = resp.has("choice_no") ? resp.get("choice_no").getAsString() : "";
-                            if (!choiceNo.isEmpty())
-                                suffix += suffix.isEmpty() ? choiceNo : "_" + choiceNo;
+                                // ensure a situation of unit testing an overload method (same name, different parameters)
+                                String suffix = promptMetadata.get(key).get("suffix");
+                                // choice_no is something related to codegen, it's the suggestion position
+                                // recall CodeGen generates 10 suggestions, per prompt, so we need to add this to the suffix
+                                String choiceNo = resp.has("choice_no") ? resp.get("choice_no").getAsString() : "";
+                                if (!choiceNo.isEmpty())
+                                    suffix += suffix.isEmpty() ? choiceNo : "_" + choiceNo;
 
 
-                            String jUnitTestFileName = "%s%s_%s_%d_%sTest".formatted(
-                                    dataset.equals("SF110") ? scenario + "_" : "",
-                                    classname, methodName, token,
-                                    !suffix.isEmpty() ? suffix + "_" : ""
-                            );
-                            File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
-                                    model, dataset, dataset.equals("SF110") ? projectName : "", packageName.replace(".", "/"), jUnitTestFileName));
+                                String jUnitTestFileName = "%s%s_%s_%d_%sTest".formatted(
+                                        dataset.equals("SF110") ? scenario + "_" : "",
+                                        classname, methodName, token,
+                                        !suffix.isEmpty() ? suffix + "_" : ""
+                                );
+                                File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
+                                        model, dataset, dataset.equals("SF110") ? projectName : "", packageName.replace(".", "/"), jUnitTestFileName));
 
                                 // replace the "_[0-9]+Test.java" with ".java"
                                 String productionFilePath = promptID.replaceAll("_[0-9]+Test.java", ".java");
@@ -253,9 +253,6 @@ public class CompilationAnalyzer {
                                 // process the generated code
                                 String fixedCode = resp.get("choices").getAsJsonArray().get(0)
                                         .getAsJsonObject().get("text").getAsString();
-
-                                if (fixedCode.trim().length() == 0) continue;
-
                                 // if it does not contain the prompt, then prepend it
                                 String jUnitCodeAfterFix = fixedCode.contains(prompt.strip()) || fixedCode.contains("class %sTest {".formatted(classname)) ?
                                         fixedCode :
@@ -270,17 +267,15 @@ public class CompilationAnalyzer {
                                 boolean isOriginalCompilable = originalCUnit != null;
                                 CompilationUnit fixedCUnit = getCompilationUnit(jUnitCodeAfterFix);
                                 boolean isCompilableAfterFix = fixedCUnit != null;
-                                boolean removedExtraCode = resp.get("removed_extra_code").getAsBoolean();
                                 String appliedHeuristics = resp.has("applied_heuristics") ? resp.get("applied_heuristics").getAsString() : "";
+                                boolean modifiedCode = !appliedHeuristics.trim().isEmpty();
                                 CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
-                                promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
+                                promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, modifiedCode));
 
 
-                                // "id", "scenario", "token_size", "jUnitTestFileName", "finish_reason",
-                                // "original_syntax_ok", "removed_extra_code", "syntax_ok_after_extra_code_removal"
-                                // "number_test_methods", "number_assertions", "test_filename", "applied_heuristics"
+
                                 printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
-                                        isOriginalCompilable, removedExtraCode, isCompilableAfterFix,
+                                        isOriginalCompilable, modifiedCode, isCompilableAfterFix,
                                         computeNumberTestMethods(cu), computeNumberAssertions(cu),
                                         getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason), appliedHeuristics
                                 );
@@ -291,26 +286,21 @@ public class CompilationAnalyzer {
                                     cu.addImport("static org.junit.jupiter.api.Assertions.*");
 
                                     // add an import statement for the static method in HumanEvalJava
-                                    String fullyQualifiedCutName = getFullyQualifiedCutName(dataset, promptID, classname);
-
                                     if (dataset.equals("HumanEvalJava")) {
+                                        String fullyQualifiedCutName = getFullyQualifiedCutName(dataset, promptID, classname);
                                         cu.addImport("static %s.*".formatted(fullyQualifiedCutName));
-                                    } else if (dataset.equals("SF110")) {
-                                        //TODO: do we need this? probably not if the test is in the same package as the CUT
-//                                    CompilationUnit cuOriginalCode = getCompilationUnit(resp.get("original_code").getAsString());
-//                                    if (cuOriginalCode.getPackageDeclaration().isPresent())
-//                                        cu.addImport(cuOriginalCode.getPackageDeclaration().get().getName() + "." + classname);
                                     }
 
                                     // ensure class is on the right package (in case the generated test miss a package declaration or changed it)
                                     if (!packageName.isEmpty())
                                         cu.setPackageDeclaration(packageName);
-
+                                    else // remove package declaration if it's meant to be on default package
+                                        cu.removePackageDeclaration();
+                                    // update the constructor name to match the renaming scheme
                                     cu.getType(0).getConstructors().forEach(c -> {
-                                        // update the constructor name to match the renaming scheme
                                         c.setName(jUnitTestFileName);
                                     });
-                                    // update the class name to our custom name
+                                    // update the class name to match our custom name
                                     cu.getType(0).setName(jUnitTestFileName);
 
                                     sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
@@ -319,6 +309,10 @@ public class CompilationAnalyzer {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+
+
+                            // saves the original file too
+//                            saveToJavaFile(new File(jUnitTestFile.getCanonicalPath().replace(".java", "_ORIGINAL.java")), cu != null ? cu.toString() : jUnitOriginalCode);
                         }
                     }
                 }
@@ -446,8 +440,8 @@ public class CompilationAnalyzer {
 
     public static void main(String[] args) throws IOException {
         /* HumanEvalJava */
-        delete("CodeGen", "HumanEvalJava", "");
-        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+//        delete("CodeGen", "HumanEvalJava", "");
+//        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
         delete("GPT3.5", "HumanEvalJava", "");
         generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
         delete("OpenAI", "HumanEvalJava", "");
