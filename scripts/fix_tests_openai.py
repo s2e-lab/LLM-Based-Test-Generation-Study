@@ -187,10 +187,10 @@ def heuristic_7(code: str) -> tuple[str, bool]:
     if cu: return code, False
     # otherwise, try to fix it
     new_code = code
-    num_attempts = 0
+    # num_attempts = 0
     # test prompt is length of 10, so we try to fix the code by removing lines until we reach 10
     while new_code.count("\n") > 10:
-        num_attempts += 1
+        # num_attempts += 1
         # append a curly bracket
         cu = parse_code(new_code + "\n}")
         if cu: return new_code + "\n}", True
