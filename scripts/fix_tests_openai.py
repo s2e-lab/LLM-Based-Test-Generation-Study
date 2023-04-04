@@ -33,10 +33,10 @@ def get_full_code(code: str, response: dict) -> str:
     test_classname = get_classname(test_prompt)
     # code does not contain the test prompt
     # and the test prompt class should appear before the first @Test annotation
-    if test_prompt.strip() in code and code.index(test_prompt.strip()) < code.index("@Test"):
+    if test_prompt.strip() in code and code.find(test_prompt.strip()) < code.find("@Test"):
         return code
     # if it contains the prompt, the test prompt class should appear before the first @Test annotation
-    if f"class {test_classname}" in code and code.index(f"class {test_classname}") < code.index("@Test"):
+    if f"class {test_classname}" in code and code.find(f"class {test_classname}") < code.find("@Test"):
         return code
     # if we reach here, the code needs to be pre-pended with the test prompt
     return (test_prompt + "\n\t\t" + code).strip()
@@ -54,12 +54,12 @@ def heuristic_1(code: str, cut_classname: str) -> tuple[str, bool]:
     # notice that if the file had an error, it won't have the @Test annotation,
     # so we use the class name instead because it should be there from the prompt,
     # which has `class ClassName...Test{}`
-    ignore_line_before = code.index("@Test") if "@Test" in code else code.index(f"class {cut_classname}")
+    ignore_line_before = code.find("@Test") if "@Test" in code else code.find(f"class {cut_classname}")
     # removes the extra code
     eof_tokens = [f"\n\n// {cut_classname}", "\n```\n\n##", "</code>"]
     applied_heuristic = False
     for e in eof_tokens:
-        index = code.index(e) if e in code else None
+        index = code.find(e) if e in code else None
         if index and index > ignore_line_before:
             code = code[:index]
             applied_heuristic = True
@@ -112,7 +112,7 @@ def heuristic_4_and_5(code: str, package: str, test_classname: str) -> tuple[str
     applied_heuristic_h4, applied_heuristic_h5 = False, False
     package_regex = r"package\s+([a-z][a-z0-9_\.]*)\s*;"
     # search only in the beginning of the file (before the test class)
-    m = re.search(package_regex, code[:code.index(f"class {test_classname}")], re.IGNORECASE)
+    m = re.search(package_regex, code[:code.find(f"class {test_classname}")], re.IGNORECASE)
     missing = True
     if m:
         missing = False
@@ -263,7 +263,10 @@ def get_generated_test(model: str, response: dict):
     if model == "OpenAI":
         return response["choices"][0]["text"]
     if model == "GPT3.5":
-        return response["choices"][0]["message"]["content"]
+        if "message" in response["choices"][0]:
+            return response["choices"][0]["message"]["content"]
+        else:
+            return ""
 
     raise Exception(f"{model} is an unexpected value")
 
@@ -298,7 +301,8 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
         if model == "OpenAI":
             r["choices"][0]["text"] = new_code
         if model == "GPT3.5":
-            r["choices"][0]["message"]["content"] = new_code
+            if "message" in r["choices"][0]:
+                r["choices"][0]["message"]["content"] = new_code
         with open("./dummy_output/" + r["prompt_id"][1:].replace("/", "_"), "w") as f:
             f.write(new_code)
 
@@ -347,10 +351,10 @@ def parse_code(code) -> bool:
 
 def main():
     config = load_config("config.json")
-    dataset = "HumanEvalJava"  # Possible values: "HumanEvalJava" "SF110"
+    dataset = "SF110"  # Possible values: "HumanEvalJava" "SF110"
     model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3"]  # , "scenario4"]
-    tokens = [2000, 4000]
+    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
+    tokens = [2000,4000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
