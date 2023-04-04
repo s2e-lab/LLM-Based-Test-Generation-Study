@@ -8,6 +8,9 @@ from javalang.tokenizer import LexerError
 
 from utils import load_config, get_output_files
 
+MAX_INTEGER = 2147483647
+MIN_INTEGER = -2147483648
+
 
 def heuristic_1(code: str, cut_classname: str) -> tuple[str, bool]:
     """
@@ -99,20 +102,55 @@ def heuristic_4_and_5(code: str, package: str, test_classname: str) -> tuple[str
     return code, applied_heuristic_h4, applied_heuristic_h5
 
 
-def heuristic_6(code: str, test_classname: str) -> tuple[str, bool]:
-    # find all literals in code
-    literals = re.findall(r"\"[^\"]*\"", code)
-    # find all number constants in code
-    numbers = re.findall(r"\d+", code)
-    # uses javalang to find all literals and number constants in the code
-    # (this is more accurate than the regex above)
-    try:
-        tree = javalang.parse.parse(code)
-        literals = [node.value for path, node in tree.filter(javalang.tree.Literal)]
-        numbers = [node.value for path, node in tree.filter(javalang.tree.Number)]
-    except:
-        pass
-    # remove all literals and number constants from the code
+def heuristic_6(code: str) -> tuple[str, bool]:
+    """
+        Fixes 'integer number too large' type of compilation errors
+        @param code: generated code.
+        @return: the code that replaces the large integer by Integer.parseInt(n) (if needed),
+        and one boolean to indicate whether the heuristic was applied: (code, applied_heuristic).
+        """
+    # uses javalang to find all number constants in the code
+    tokens = javalang.tokenizer.tokenize(code)
+    previous_line, previous_end, new_code = 1, 0, ""
+    applied_heuristic = False
+
+    for token in tokens:
+        line, column = token.position
+
+        if line != previous_line:
+            new_code += "\n"
+            new_code += " " * (column - 1)
+        else:
+            new_code += " " * (column - previous_end)
+
+
+        if isinstance(token, (javalang.tokenizer.DecimalInteger)):
+            num_value = int(token.value[:-1]) if "L" in token.value.upper() else int(token.value)
+            if num_value > MAX_INTEGER:
+                if "L" in token.value.upper():
+                    replacement = 'Long.parseLong("%s")' % token.value[:-1]
+                else:
+                    replacement = 'Integer.parseInt("%s")' % token.value
+                new_code += replacement
+                applied_heuristic = True
+            else:
+                new_code += token.value
+        else:
+            new_code += token.value
+        previous_line = line
+        previous_end = column + len(token.value)
+
+    return new_code, applied_heuristic
+
+
+# replace <> by ""
+def heuristic_7(code: str, test_classname: str) -> tuple[str, bool]:
+    pass
+
+
+# try to fix incomplete code by iteratively deleting staements and adding curly brackets
+def heuristic_8(code: str, test_classname: str) -> tuple[str, bool]:
+    pass
 
 
 def get_classname(code: str) -> str:
@@ -174,6 +212,7 @@ def fix_code(model: str, code: str, response: dict) -> str:
     # H5: adds the package name if it is missing (or remove it, if it is not needed)
     full_code, applied_heuristics[3], applied_heuristics[4] = heuristic_4_and_5(full_code, package_name, test_classname)
 
+    heuristic_6(full_code)
     applied_heuristics = [f"H{i + 1}" for i in range(0, 5) if applied_heuristics[i]]
 
     return full_code, applied_heuristics
@@ -225,8 +264,8 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
             r["choices"][0]["text"] = new_code
         if model == "GPT3.5":
             r["choices"][0]["message"]["content"] = new_code
-            with open("./dummy_output/" + r["prompt_id"].replace("/", "_"), "w") as f:
-                f.write(new_code)
+        with open("./dummy_output/" + r["prompt_id"][1:].replace("/", "_"), "w") as f:
+            f.write(new_code)
 
         r["choices"][0]["text"] = new_code
         print("\tPROMPT", r["prompt_id"], "APPLIED HEURISTICS", r["applied_heuristics"])
@@ -273,9 +312,9 @@ def parse_code(code) -> bool:
 def main():
     config = load_config("config.json")
     dataset = "HumanEvalJava"  # Possible values: "HumanEvalJava" "SF110"
-    model = "GPT3.5"  # Possible values: "OpenAI" "GPT3.5"
-    scenarios = ["original"]  # , "scenario1", "scenario2", "scenario3", "scenario4"]
-    tokens = [2000]  # , 4000]
+    model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5"
+    scenarios = ["original", "scenario1", "scenario2", "scenario3"]  # , "scenario4"]
+    tokens = [2000, 4000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
