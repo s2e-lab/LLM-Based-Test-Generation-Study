@@ -63,16 +63,16 @@ public class CompilationAnalyzer {
     private static final String[] CSV_HEADERS = new String[]{
             "id",
             "scenario",
-            "token_size",
-            "jUnitTestFileName",
-            "finish_reason",
-            "original_syntax_ok",
-            "removed_extra_code",
-            "syntax_ok_after_extra_code_removal",
-            "number_test_methods",
-            "number_assertions",
-            "syntax_check",
-            "applied_heuristics"
+            "token size",
+            "JUnit Test File Name",
+            "finish reason",
+            "original syntax ok?",
+            "modified original?",
+            "syntax ok after heuristics?",
+            "number test methods",
+            "number assertions",
+            "syntax check",
+            "applied heuristics"
     };
 
     /**
@@ -87,7 +87,7 @@ public class CompilationAnalyzer {
         if (isOriginalCompilable)
             return "ORIGINAL_SYNTAX_OK";
         if (isCompilableAfterFix)
-            return "EXTRA_CODE";
+            return "EXTRA_CODE";// FIXME: this label should be based on the applied heuristics!
         if (finishReason.equals("length"))
             return "INCOMPLETE_CODE";
         return "UNKNOWN_SYNTAX_ERROR";
@@ -264,17 +264,17 @@ public class CompilationAnalyzer {
                             boolean isOriginalCompilable = originalCUnit != null;
                             CompilationUnit fixedCUnit = getCompilationUnit(jUnitCodeAfterFix);
                             boolean isCompilableAfterFix = fixedCUnit != null;
-                            boolean removedExtraCode = resp.get("removed_extra_code").getAsBoolean();
                             String appliedHeuristics = resp.has("applied_heuristics") ? resp.get("applied_heuristics").getAsString() : "";
+                            boolean modifiedCode = !appliedHeuristics.trim().isEmpty();
                             CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
-                            promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, removedExtraCode));
+                            promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, modifiedCode));
 
 
                             // "id", "scenario", "token_size", "jUnitTestFileName", "finish_reason",
-                            // "original_syntax_ok", "removed_extra_code", "syntax_ok_after_extra_code_removal"
+                            // "original_syntax_ok", "modified_original_code", "syntax_ok_after_heuristics",
                             // "number_test_methods", "number_assertions", "test_filename", "applied_heuristics"
                             printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
-                                    isOriginalCompilable, removedExtraCode, isCompilableAfterFix,
+                                    isOriginalCompilable, modifiedCode, isCompilableAfterFix,
                                     computeNumberTestMethods(cu), computeNumberAssertions(cu),
                                     getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason), appliedHeuristics
                             );
@@ -299,7 +299,8 @@ public class CompilationAnalyzer {
                                 // ensure class is on the right package (in case the generated test miss a package declaration or changed it)
                                 if (!packageName.isEmpty())
                                     cu.setPackageDeclaration(packageName);
-
+                                else // remove package declaration if it's meant to be on default package
+                                    cu.removePackageDeclaration();
                                 cu.getType(0).getConstructors().forEach(c -> {
                                     // update the constructor name to match the renaming scheme
                                     c.setName(jUnitTestFileName);
@@ -310,6 +311,10 @@ public class CompilationAnalyzer {
                                 sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
                                 saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
                             }
+
+
+                            // saves the original file too
+//                            saveToJavaFile(new File(jUnitTestFile.getCanonicalPath().replace(".java", "_ORIGINAL.java")), cu != null ? cu.toString() : jUnitOriginalCode);
                         }
                     }
                 }
@@ -437,8 +442,8 @@ public class CompilationAnalyzer {
 
     public static void main(String[] args) throws IOException {
         /* HumanEvalJava */
-        delete("CodeGen", "HumanEvalJava", "");
-        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+//        delete("CodeGen", "HumanEvalJava", "");
+//        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
         delete("GPT3.5", "HumanEvalJava", "");
         generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
         delete("OpenAI", "HumanEvalJava", "");
