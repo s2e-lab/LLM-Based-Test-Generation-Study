@@ -30,7 +30,7 @@ public class Main {
 //        }
 
 //        String fileName = "/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-results/OpenAI/HumanEvalJava-Results/csv-data/TestSmellInput-HumanEvalJava-Codex.csv";
-        String fileName = "/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-results/TestSmellsInput_HumanEvalJava_Evosuite.csv";
+        String fileName = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/CodeGen/SF110-Results/csv-data/TestSmell_Input/TestSmellInput-SF110-CodeGen_scneario3.csv";
         TestSmellDetector testSmellDetector = new TestSmellDetector(new DefaultThresholds());
 
         /*
@@ -81,30 +81,34 @@ public class Main {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date;
         for (TestFile file : testFiles) {
-            date = new Date();
-            System.out.println(dateFormat.format(date) + " Processing: " + file.getTestFilePath());
-            System.out.println("Processing: " + file.getTestFilePath());
+            try {
+                date = new Date();
+                System.out.println(dateFormat.format(date) + " Processing: " + file.getTestFilePath());
+                System.out.println("Processing: " + file.getTestFilePath());
 
-            //detect smells
-            tempFile = testSmellDetector.detectSmells(file);
+                //detect smells
+                tempFile = testSmellDetector.detectSmells(file);
 
-            //write output
-            columnValues = new ArrayList<>();
-            columnValues.add(file.getApp());
-            columnValues.add(file.getTestFileName());
-            columnValues.add(file.getTestFilePath());
-            columnValues.add(file.getProductionFilePath());
-            columnValues.add(file.getRelativeTestFilePath());
-            columnValues.add(file.getRelativeProductionFilePath());
-            columnValues.add(String.valueOf(file.getNumberOfTestMethods()));
-            for (AbstractSmell smell : tempFile.getTestSmells()) {
-                try {
-                    columnValues.add(String.valueOf(smell.getNumberOfSmellyTests()));
-                } catch (NullPointerException e) {
-                    columnValues.add("");
+                //write output
+                columnValues = new ArrayList<>();
+                columnValues.add(file.getApp());
+                columnValues.add(file.getTestFileName());
+                columnValues.add(file.getTestFilePath());
+                columnValues.add(file.getProductionFilePath());
+                columnValues.add(file.getRelativeTestFilePath());
+                columnValues.add(file.getRelativeProductionFilePath());
+                columnValues.add(String.valueOf(file.getNumberOfTestMethods()));
+                for (AbstractSmell smell : tempFile.getTestSmells()) {
+                    try {
+                        columnValues.add(String.valueOf(smell.getNumberOfSmellyTests()));
+                    } catch (NullPointerException e) {
+                        columnValues.add("");
+                    }
                 }
+                resultsWriter.writeLine(columnValues);
+            }catch (Exception e){
+                System.out.println("Error: " + e.getMessage());
             }
-            resultsWriter.writeLine(columnValues);
         }
 
         System.out.println("end");
