@@ -38,3 +38,4 @@ hs_err_pid*
 Old_data/
 # ignore duplicated data for now
 RQ1_Test_Generation/RQ1_Results
+dummy_output/
