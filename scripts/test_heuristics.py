@@ -47,7 +47,7 @@ class LargestPrimeFactor_largestPrimeFactor_4000_Test {
         assertEquals(29, LargestPrimeFactor.largestPrimeFactor(13195));
         assertEquals(6857, LargestPrimeFactor.largestPrimeFactor(600851475143));
         assertEquals(5, LargestPrimeFactor.largestPrimeFactor(5));
-        assertEquals(2, LargestPrimeFactor.largestPrimeFactor(600851475143L));
+        assertEquals(2, LargestPrimeFactor.largestPrimeFactor(800851475142L));
         assertEquals(13, LargestPrimeFactor.largestPrimeFactor(26));
         assertEquals(13, LargestPrimeFactor.largestPrimeFactor(63f));
         assertEquals(13, LargestPrimeFactor.largestPrimeFactor(59d));
@@ -61,7 +61,16 @@ class LargestPrimeFactor_largestPrimeFactor_4000_Test {
 
 def test_integer_too_large():
     new_code, applied_heuristic = heuristic_6(INTEGER_TOO_LARGE)
-    print(new_code)
+    assert applied_heuristic
+    assert 'Integer.parseInt("600851475143")' in new_code
+    assert 'Long.parseLong("800851475142")' in new_code
+    assert 'largestPrimeFactor(5)' in new_code
+    assert 'largestPrimeFactor(-2147483647)' in new_code
+
+def test_floating_point_code():
+    new_code, applied_heuristic = heuristic_6(SMALL_FLOATING_POINT)
+    assert applied_heuristic == False
+    assert 'TruncateNumber.truncateNumber(2147483648d)' in new_code
 
 
 

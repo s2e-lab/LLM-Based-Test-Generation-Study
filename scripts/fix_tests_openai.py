@@ -108,39 +108,40 @@ def heuristic_6(code: str) -> tuple[str, bool]:
         @param code: generated code.
         @return: the code that replaces the large integer by Integer.parseInt(n) (if needed),
         and one boolean to indicate whether the heuristic was applied: (code, applied_heuristic).
-        """
+    """
     # uses javalang to find all number constants in the code
-    tokens = javalang.tokenizer.tokenize(code)
-    previous_line, previous_end, new_code = 1, 0, ""
-    applied_heuristic = False
+    try:
+        tokens = javalang.tokenizer.tokenize(code)
+        previous_line, previous_end, new_code, last_val = 1, 0, "", None
+        applied_heuristic = False
+        for token in tokens:
+            line, column = token.position
+            if line != previous_line:
+                new_code += "\n"
+                new_code += " " * (column - 1)
+            else:
+                new_code += " " * (column - previous_end)
 
-    for token in tokens:
-        line, column = token.position
-
-        if line != previous_line:
-            new_code += "\n"
-            new_code += " " * (column - 1)
-        else:
-            new_code += " " * (column - previous_end)
-
-
-        if isinstance(token, (javalang.tokenizer.DecimalInteger)):
-            num_value = int(token.value[:-1]) if "L" in token.value.upper() else int(token.value)
-            if num_value > MAX_INTEGER:
-                if "L" in token.value.upper():
-                    replacement = 'Long.parseLong("%s")' % token.value[:-1]
+            if isinstance(token, javalang.tokenizer.DecimalInteger):
+                num_value = int(token.value[:-1]) if "L" in token.value.upper() else int(token.value)
+                if num_value > MAX_INTEGER or (last_val == '-' and -1 * num_value < MIN_INTEGER):
+                    if "L" in token.value.upper():
+                        replacement = 'Long.parseLong("%s")' % token.value[:-1]
+                    else:
+                        replacement = 'Integer.parseInt("%s")' % token.value
+                    new_code += replacement
+                    applied_heuristic = True
                 else:
-                    replacement = 'Integer.parseInt("%s")' % token.value
-                new_code += replacement
-                applied_heuristic = True
+                    new_code += token.value
             else:
                 new_code += token.value
-        else:
-            new_code += token.value
-        previous_line = line
-        previous_end = column + len(token.value)
+            previous_line = line
+            previous_end = column + len(token.value)
+            last_val = token.value
 
-    return new_code, applied_heuristic
+        return new_code, applied_heuristic
+    except:
+        return code, False
 
 
 # replace <> by ""
