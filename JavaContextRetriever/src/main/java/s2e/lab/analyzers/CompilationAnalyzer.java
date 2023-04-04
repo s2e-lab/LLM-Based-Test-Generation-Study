@@ -273,9 +273,7 @@ public class CompilationAnalyzer {
                                 promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, modifiedCode));
 
 
-                                // "id", "scenario", "token_size", "jUnitTestFileName", "finish_reason",
-                                // "original_syntax_ok", "modified_original_code", "syntax_ok_after_heuristics",
-                                // "number_test_methods", "number_assertions", "test_filename", "applied_heuristics"
+
                                 printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
                                         isOriginalCompilable, modifiedCode, isCompilableAfterFix,
                                         computeNumberTestMethods(cu), computeNumberAssertions(cu),
@@ -288,30 +286,22 @@ public class CompilationAnalyzer {
                                     cu.addImport("static org.junit.jupiter.api.Assertions.*");
 
                                     // add an import statement for the static method in HumanEvalJava
-                                    String fullyQualifiedCutName = getFullyQualifiedCutName(dataset, promptID, classname);
-
                                     if (dataset.equals("HumanEvalJava")) {
+                                        String fullyQualifiedCutName = getFullyQualifiedCutName(dataset, promptID, classname);
                                         cu.addImport("static %s.*".formatted(fullyQualifiedCutName));
-                                    } else if (dataset.equals("SF110")) {
-                                        //TODO: do we need this? probably not if the test is in the same package as the CUT
-//                                    CompilationUnit cuOriginalCode = getCompilationUnit(resp.get("original_code").getAsString());
-//                                    if (cuOriginalCode.getPackageDeclaration().isPresent())
-//                                        cu.addImport(cuOriginalCode.getPackageDeclaration().get().getName() + "." + classname);
                                     }
-
 
                                     // ensure class is on the right package (in case the generated test miss a package declaration or changed it)
                                     if (!packageName.isEmpty())
                                         cu.setPackageDeclaration(packageName);
                                     else // remove package declaration if it's meant to be on default package
                                         cu.removePackageDeclaration();
+                                    // update the constructor name to match the renaming scheme
                                     cu.getType(0).getConstructors().forEach(c -> {
-                                        // update the constructor name to match the renaming scheme
                                         c.setName(jUnitTestFileName);
                                     });
-                                    // update the class name to our custom name
+                                    // update the class name to match our custom name
                                     cu.getType(0).setName(jUnitTestFileName);
-
 
                                     sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
                                     saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
