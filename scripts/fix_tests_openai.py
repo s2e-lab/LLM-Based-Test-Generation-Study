@@ -117,24 +117,27 @@ def heuristic_4_and_5(code: str, package: str, test_classname: str) -> tuple[str
     """
     applied_heuristic_h4, applied_heuristic_h5 = False, False
     package_regex = r"package\s+([a-z][a-z0-9_\.]*)\s*;"
-    # search only in the beginning of the file (before the test class)
-    m = re.search(package_regex, code[:code.index(f"class {test_classname}")], re.IGNORECASE)
-    missing = True
-    if m:
-        missing = False
-        actual_package = m.group(1)
-        if package and actual_package != package:
-            applied_heuristic_h4 = True
-            code = code[:m.start()] + f"package {package};\n" + code[m.end():]
-    # test should be in a package, but package declaration is missing
-    # thus, apply H5 here
-    if package and missing:
-        code = f"package {package};\n" + code
-        applied_heuristic_h5 = True
-    if not package and not missing:
-        # remove the package declaration
-        code = code[:m.start()] + code[m.end():]
-        applied_heuristic_h5 = True
+    try:
+        # search only in the beginning of the file (before the test class)
+        m = re.search(package_regex, code[:code.index(f"class {test_classname}")], re.IGNORECASE)
+        missing = True
+        if m:
+            missing = False
+            actual_package = m.group(1)
+            if package and actual_package != package:
+                applied_heuristic_h4 = True
+                code = code[:m.start()] + f"package {package};\n" + code[m.end():]
+        # test should be in a package, but package declaration is missing
+        # thus, apply H5 here
+        if package and missing:
+            code = f"package {package};\n" + code
+            applied_heuristic_h5 = True
+        if not package and not missing:
+            # remove the package declaration
+            code = code[:m.start()] + code[m.end():]
+            applied_heuristic_h5 = True
+    except Exception as e:
+        print(f"Error in heuristic 4 and 5: {e}")
     return code, applied_heuristic_h4, applied_heuristic_h5
 
 
@@ -296,6 +299,12 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
     # creates a new array with responses that are fixed
     filtered_responses = []
     for r in previous_responses:
+        if "message" not in r["choices"][0]:
+            r["choices"][0]["text"] = ""
+            r["original_generated_code"] = ""
+            r["applied_heuristics"] = ""
+            filtered_responses.append(r)
+            continue
         old_code = get_generated_test(model, r)
         new_code, applied_heuristics = fix_code(model, old_code, r)
         r["original_generated_code"] = old_code
@@ -354,10 +363,10 @@ def parse_code(code) -> bool:
 
 def main():
     config = load_config("config.json")
-    dataset = "HumanEvalJava"  # Possible values: "HumanEvalJava" "SF110"
-    model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3"]  # , "scenario4"]
-    tokens = [2000, 4000]
+    dataset = "SF110"  # Possible values: "HumanEvalJava" "SF110"
+    model = "GPT3.5"  # Possible values: "OpenAI" "GPT3.5"
+    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
+    tokens = [2000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
