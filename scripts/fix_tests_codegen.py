@@ -1,12 +1,14 @@
 import copy
 import json
+import os
 import re
 from fix_tests_openai import fix_code
-from utils import load_config, get_output_files
-import os
+from utils import load_config, get_output_files, save_to_dummy_folder
 
 
-def get_generated_test(model: str, response: dict):
+DEBUG = True
+
+def get_generated_test(response: dict):
     generated_test = []
     for c in response["choices"]:
         gen_code = c["text"]
@@ -25,7 +27,8 @@ def get_generated_test(model: str, response: dict):
     return test_code
 
 
-def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str, scenario: str) -> None:
+def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max_tokens: int, model: str,
+                      scenario: str) -> None:
     """
     Fixes the extra code in the generated tests.
     @param model: model name (ex: OpenAI, CodeGen)
@@ -53,24 +56,27 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
             new_resp = copy.deepcopy(r)
             gen_code = c["text"]
 
-            new_code = remove_original_code(gen_code, r)
-
-            new_resp["removed_extra_code"] = new_code != gen_code
+            # new_code = remove_original_code(gen_code, r)
+            new_code, applied_heuristics = fix_code(model, gen_code, r)
+            r["applied_heuristics"] = ";".join(applied_heuristics)
+            # new_resp["removed_extra_code"] = new_code != gen_code
             new_resp["original_generated_code"] = gen_code
             new_resp["choices"][0]["text"] = new_code
             new_resp["choice_no"] = i
+
             # only keep the first recommendation, that has the merged output with test prompt
             del new_resp["choices"][1:]
             filtered_responses.append(new_resp)
             i += 1
-            # print("\tPROMPT", r["prompt_id"], "choice=", new_resp["choice_no"])
+            print("\tPROMPT", r["prompt_id"], "CLASS:", r["original_code"].split("\n")[0][3:-4], "APPLIED HEURISTICS",
+                  r["applied_heuristics"])
+            # save to dummy folder
+            if DEBUG: save_to_dummy_folder(new_code, r)
 
     fixed_json_file = json_file.replace(".json", "_fixed_extracode.json")
     with open(fixed_json_file, "w") as f:
         f.write(json.dumps(filtered_responses, indent=4))
     print("SAVED AT ", fixed_json_file)
-
-
 
 
 def remove_original_code(gen_code: str, r: dict) -> str:
@@ -84,36 +90,37 @@ def remove_original_code(gen_code: str, r: dict) -> str:
             gen_code = gen_code.replace(header_comment, "\n").replace(original_code, "\n").strip()
             r["applied_heuristics"] = "H3"
 
-
     return gen_code
-
-def run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario):
-    prompt_folder = f"../{rq_folder}/{model}_Data/SF110_input/"
-    # finds all json files in prompt_folder
-    prompt_files = [f for f in os.listdir(prompt_folder) if
-                    f.endswith(".json") and ((rq == 1) or (rq == 2 and scenario in f))]
-    for prompt_file in prompt_files:
-        print(f"RQ{rq}\tScenario: {scenario}\tToken: {max_tokens}\tPrompt: {prompt_file}")
-        merge_suggestions(
-            config, rq, dataset, prompt_file, max_tokens, model, scenario
-        )
-
 
 
 def main():
     config = load_config("config.json")
-    dataset = "SF110"
+    dataset = "HumanEvalJava" # "SF110"
     model = "CodeGen"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
+    scenarios = ["original", "scenario1", "scenario2", "scenario3" ] #, "scenario4"]
     tokens = [2000]
+
+    # this code only works for CodeGen
+    assert model == "CodeGen" and dataset in ["SF110", "HumanEvalJava"] and tokens == [2000]
+
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
             rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
-            prompt_file = f"{rq_folder}/{model}_Data/{dataset}_input/{scenario}_prompt.json"
-            print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
-            # merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model)
-            run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario)
+            prompt_folder = f"../{rq_folder}/{model}_Data/{dataset}_input/"
+            if dataset == "HumanEvalJava":
+                print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
+                prompt_file = prompt_folder + f"{scenario}_prompt.json"
+                merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model, scenario)
+            elif dataset == "SF110":
+                # finds all json files in prompt_folder
+                prompt_files = [f for f in os.listdir(prompt_folder) if
+                                f.endswith(".json") and ((rq == 1) or (rq == 2 and scenario in f))]
+                for prompt_file in prompt_files:
+                    print(f"RQ{rq}\tScenario: {scenario}\tToken: {max_tokens}\tPrompt: {prompt_file}")
+                    merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model, scenario)
+            else:
+                raise Exception("Unknown dataset")
 
 
 if __name__ == "__main__":

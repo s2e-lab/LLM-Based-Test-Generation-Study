@@ -6,10 +6,11 @@ import javalang
 from javalang.parser import JavaSyntaxError
 from javalang.tokenizer import LexerError
 
-from utils import load_config, get_output_files
+from utils import load_config, get_output_files, save_to_dummy_folder
 
 MAX_INTEGER = 2147483647
 MIN_INTEGER = -2147483648
+DEBUG = True
 
 
 def get_classname(code: str) -> str:
@@ -29,15 +30,20 @@ def get_full_code(code: str, response: dict) -> str:
     @param response: the original response from the model
     @return: full code
     """
-    test_prompt = response["test_prompt"]
+    test_prompt = response["test_prompt"].strip()
     test_classname = get_classname(test_prompt)
-    # code does not contain the test prompt
-    # and the test prompt class should appear before the first @Test annotation
-    if test_prompt.strip() in code and code.find(test_prompt.strip()) < code.find("@Test"):
-        return code
-    # if it contains the prompt, the test prompt class should appear before the first @Test annotation
-    if f"class {test_classname}" in code and code.find(f"class {test_classname}") < code.find("@Test"):
-        return code
+    test_annotation_idx = code.find("@Test")
+    # unit test is smaller than prompt, so no need to check prompt is there, it won't
+    if len(code) > len(test_prompt):
+        # code does not contain the test prompt and the test prompt class
+        # should appear before the first @Test annotation
+        test_prompt_idx = code.find(test_prompt)
+        if test_prompt_idx > 0 and test_prompt_idx < test_annotation_idx:
+            return code
+        prompt_class_idx = code.find(f"class {test_classname}")
+        # the test prompt class should appear before the first @Test annotation
+        if prompt_class_idx > 0 and prompt_class_idx < test_annotation_idx:
+            return code
     # if we reach here, the code needs to be pre-pended with the test prompt
     return (test_prompt + "\n\t\t" + code).strip()
 
@@ -54,12 +60,12 @@ def heuristic_1(code: str, cut_classname: str) -> tuple[str, bool]:
     # notice that if the file had an error, it won't have the @Test annotation,
     # so we use the class name instead because it should be there from the prompt,
     # which has `class ClassName...Test{}`
-    ignore_line_before = code.find("@Test") if "@Test" in code else code.find(f"class {cut_classname}")
+    ignore_line_before = code.index("@Test") if "@Test" in code else code.index(f"class {cut_classname}")
     # removes the extra code
     eof_tokens = [f"\n\n// {cut_classname}", "\n```\n\n##", "</code>"]
     applied_heuristic = False
     for e in eof_tokens:
-        index = code.find(e) if e in code else None
+        index = code.index(e) if e in code else None
         if index and index > ignore_line_before:
             code = code[:index]
             applied_heuristic = True
@@ -112,7 +118,7 @@ def heuristic_4_and_5(code: str, package: str, test_classname: str) -> tuple[str
     applied_heuristic_h4, applied_heuristic_h5 = False, False
     package_regex = r"package\s+([a-z][a-z0-9_\.]*)\s*;"
     # search only in the beginning of the file (before the test class)
-    m = re.search(package_regex, code[:code.find(f"class {test_classname}")], re.IGNORECASE)
+    m = re.search(package_regex, code[:code.index(f"class {test_classname}")], re.IGNORECASE)
     missing = True
     if m:
         missing = False
@@ -187,29 +193,29 @@ def heuristic_7(code: str) -> tuple[str, bool]:
     if cu: return code, False
     # otherwise, try to fix it
     new_code = code
-    # num_attempts = 0
+    num_lines = new_code.count("\n")
     # test prompt is length of 10, so we try to fix the code by removing lines until we reach 10
-    while new_code.count("\n") > 10:
-        # num_attempts += 1
-        # append a curly bracket
-        cu = parse_code(new_code + "\n}")
-        if cu: return new_code + "\n}", True
-
+    while num_lines > 10:
         # append two curly brackets
         cu = parse_code(new_code + "\n}\n}")
         if cu: return new_code + "\n}\n}", True
+
+        # append one curly bracket
+        cu = parse_code(new_code + "\n}")
+        if cu: return new_code + "\n}", True
 
         # remove the last line
         new_code = new_code[:new_code.rfind("\n")]
-
-        # append a curly bracket
-        cu = parse_code(new_code + "\n}")
-        if cu: return new_code + "\n}", True
+        num_lines -= 1
 
         # append two curly brackets
         cu = parse_code(new_code + "\n}\n}")
         if cu: return new_code + "\n}\n}", True
-    # if we reach here, the code is still invalid
+        # append one curly bracket
+        cu = parse_code(new_code + "\n}")
+        if cu: return new_code + "\n}", True
+
+    # if we reach here, the code is still unfixable
     return code, False
 
 
@@ -263,10 +269,7 @@ def get_generated_test(model: str, response: dict):
     if model == "OpenAI":
         return response["choices"][0]["text"]
     if model == "GPT3.5":
-        if "message" in response["choices"][0]:
-            return response["choices"][0]["message"]["content"]
-        else:
-            return ""
+        return response["choices"][0]["message"]["content"]
 
     raise Exception(f"{model} is an unexpected value")
 
@@ -301,10 +304,10 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
         if model == "OpenAI":
             r["choices"][0]["text"] = new_code
         if model == "GPT3.5":
-            if "message" in r["choices"][0]:
-                r["choices"][0]["message"]["content"] = new_code
-        with open("./dummy_output/" + r["prompt_id"][1:].replace("/", "_"), "w") as f:
-            f.write(new_code)
+            r["choices"][0]["message"]["content"] = new_code
+
+        # save to dummy folder
+        if DEBUG: save_to_dummy_folder(new_code, r)
 
         r["choices"][0]["text"] = new_code
         print("\tPROMPT", r["prompt_id"], "CLASS:", r["original_code"].split("\n")[0][3:-4], "APPLIED HEURISTICS",
@@ -351,10 +354,10 @@ def parse_code(code) -> bool:
 
 def main():
     config = load_config("config.json")
-    dataset = "SF110"  # Possible values: "HumanEvalJava" "SF110"
+    dataset = "HumanEvalJava"  # Possible values: "HumanEvalJava" "SF110"
     model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
-    tokens = [2000,4000]
+    scenarios = ["original", "scenario1", "scenario2", "scenario3"]  # , "scenario4"]
+    tokens = [2000, 4000]
     for max_tokens in tokens:
         for scenario in scenarios:
             rq = 1 if scenario == "original" else 2
