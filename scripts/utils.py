@@ -82,7 +82,7 @@ def save_generated_code(prompt: dict, response: dict, max_tokens: int, output_fo
             gen_file.write(prompt["test_prompt"] + "\n" + response['choices'][0]["text"])
 
 
-def save_response(json_file, csv_file, prompt: dict, prompts: list, response: dict, isGPT = False) -> None:
+def save_response(json_file, csv_file, prompt: dict, prompts: list, response: dict, isGPT=False) -> None:
     """
         Saves a response into an open json file
         @param csv_file: an open writeable file where to save the results in CSV format
@@ -109,11 +109,11 @@ def save_response(json_file, csv_file, prompt: dict, prompts: list, response: di
 
         csv_file.writerow(
             [response['id'], response['prompt_id'], response['time_taken'],
-            response["choices"][0]["finish_reason"],
-            response["original_code"],
-            response['test_prompt'],
-            prompt["test_prompt"] + "\n" + response['choices'][0]["text"]
-            ])
+             response["choices"][0]["finish_reason"],
+             response["original_code"],
+             response['test_prompt'],
+             prompt["test_prompt"] + "\n" + response['choices'][0]["text"]
+             ])
 
 
 def get_mock_response(prompt: dict, error_msg: str) -> dict:
@@ -134,3 +134,12 @@ def get_mock_response(prompt: dict, error_msg: str) -> dict:
         test_prompt=prompt["test_prompt"],
         time_taken=-1,  # dummy
     )
+
+
+def save_to_dummy_folder(new_code: str, r: dict) -> None:
+    """
+    Saves the generated code to the dummy_output folder
+    @param r: the response dictionary
+    """
+    with open("./dummy_output/" + r["prompt_id"][1:].replace("/", "_"), "w") as f:
+        f.write(new_code)

@@ -6,10 +6,11 @@ import javalang
 from javalang.parser import JavaSyntaxError
 from javalang.tokenizer import LexerError
 
-from utils import load_config, get_output_files
+from utils import load_config, get_output_files, save_to_dummy_folder
 
 MAX_INTEGER = 2147483647
 MIN_INTEGER = -2147483648
+DEBUG = True
 
 
 def get_classname(code: str) -> str:
@@ -29,15 +30,20 @@ def get_full_code(code: str, response: dict) -> str:
     @param response: the original response from the model
     @return: full code
     """
-    test_prompt = response["test_prompt"]
+    test_prompt = response["test_prompt"].strip()
     test_classname = get_classname(test_prompt)
-    # code does not contain the test prompt
-    # and the test prompt class should appear before the first @Test annotation
-    if test_prompt.strip() in code and code.index(test_prompt.strip()) < code.index("@Test"):
-        return code
-    # if it contains the prompt, the test prompt class should appear before the first @Test annotation
-    if f"class {test_classname}" in code and code.index(f"class {test_classname}") < code.index("@Test"):
-        return code
+    test_annotation_idx = code.find("@Test")
+    # unit test is smaller than prompt, so no need to check prompt is there, it won't
+    if len(code) > len(test_prompt):
+        # code does not contain the test prompt and the test prompt class
+        # should appear before the first @Test annotation
+        test_prompt_idx = code.find(test_prompt)
+        if test_prompt_idx > 0 and test_prompt_idx < test_annotation_idx:
+            return code
+        prompt_class_idx = code.find(f"class {test_classname}")
+        # the test prompt class should appear before the first @Test annotation
+        if prompt_class_idx > 0 and prompt_class_idx < test_annotation_idx:
+            return code
     # if we reach here, the code needs to be pre-pended with the test prompt
     return (test_prompt + "\n\t\t" + code).strip()
 
@@ -299,8 +305,9 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
             r["choices"][0]["text"] = new_code
         if model == "GPT3.5":
             r["choices"][0]["message"]["content"] = new_code
-        with open("./dummy_output/" + r["prompt_id"][1:].replace("/", "_"), "w") as f:
-            f.write(new_code)
+
+        # save to dummy folder
+        if DEBUG: save_to_dummy_folder(new_code, r)
 
         r["choices"][0]["text"] = new_code
         print("\tPROMPT", r["prompt_id"], "CLASS:", r["original_code"].split("\n")[0][3:-4], "APPLIED HEURISTICS",

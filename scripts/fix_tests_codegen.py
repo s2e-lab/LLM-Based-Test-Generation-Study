@@ -2,11 +2,13 @@ import copy
 import json
 import os
 import re
+from fix_tests_openai import fix_code
+from utils import load_config, get_output_files, save_to_dummy_folder
 
-from utils import load_config, get_output_files
 
+DEBUG = True
 
-def get_generated_test(model: str, response: dict):
+def get_generated_test(response: dict):
     generated_test = []
     for c in response["choices"]:
         gen_code = c["text"]
@@ -54,17 +56,22 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
             new_resp = copy.deepcopy(r)
             gen_code = c["text"]
 
-            new_code = remove_original_code(gen_code, r)
-
-            new_resp["removed_extra_code"] = new_code != gen_code
+            # new_code = remove_original_code(gen_code, r)
+            new_code, applied_heuristics = fix_code(model, gen_code, r)
+            r["applied_heuristics"] = ";".join(applied_heuristics)
+            # new_resp["removed_extra_code"] = new_code != gen_code
             new_resp["original_generated_code"] = gen_code
             new_resp["choices"][0]["text"] = new_code
             new_resp["choice_no"] = i
+
             # only keep the first recommendation, that has the merged output with test prompt
             del new_resp["choices"][1:]
             filtered_responses.append(new_resp)
             i += 1
-            # print("\tPROMPT", r["prompt_id"], "choice=", new_resp["choice_no"])
+            print("\tPROMPT", r["prompt_id"], "CLASS:", r["original_code"].split("\n")[0][3:-4], "APPLIED HEURISTICS",
+                  r["applied_heuristics"])
+            # save to dummy folder
+            if DEBUG: save_to_dummy_folder(new_code, r)
 
     fixed_json_file = json_file.replace(".json", "_fixed_extracode.json")
     with open(fixed_json_file, "w") as f:
@@ -104,7 +111,7 @@ def main():
             if dataset == "HumanEvalJava":
                 print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
                 prompt_file = prompt_folder + f"{scenario}_prompt.json"
-                merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model)
+                merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model, scenario)
             elif dataset == "SF110":
                 # finds all json files in prompt_folder
                 prompt_files = [f for f in os.listdir(prompt_folder) if
