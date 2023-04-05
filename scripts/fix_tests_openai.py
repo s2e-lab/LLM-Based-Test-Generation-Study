@@ -354,20 +354,28 @@ def parse_code(code) -> bool:
 
 def main():
     config = load_config("config.json")
-    dataset = "HumanEvalJava"  # Possible values: "HumanEvalJava" "SF110"
-    model = "OpenAI"  # Possible values: "OpenAI" "GPT3.5"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3"]  # , "scenario4"]
-    tokens = [2000, 4000]
-    for max_tokens in tokens:
-        for scenario in scenarios:
-            rq = 1 if scenario == "original" else 2
-            rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
-            if dataset == "HumanEvalJava":
-                run_humaneval(config, dataset, max_tokens, model, rq, rq_folder, scenario)
-            elif dataset == "SF110":
-                run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario)
-            else:
-                raise Exception("Unknown")
+    all_scenarios = ["original", "scenario1", "scenario2", "scenario3" , "scenario4"]
+    all_tokens = [2000, 4000]
+
+    worklist = [
+        # ("HumanEvalJava", "OpenAI", all_scenarios, all_tokens),
+        # ("SF110", "OpenAI", all_scenarios, all_tokens),
+        ("HumanEvalJava", "GPT3.5", all_scenarios[:], all_tokens[:-1]),
+        # ("SF110", "GPT3.5", all_scenarios, all_tokens[:-1]),
+    ]
+
+
+    for dataset, model, scenarios, tokens in worklist:
+        for max_tokens in tokens:
+            for scenario in scenarios:
+                rq = 1 if scenario == "original" else 2
+                rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
+                if dataset == "HumanEvalJava":
+                    run_humaneval(config, dataset, max_tokens, model, rq, rq_folder, scenario)
+                elif dataset == "SF110":
+                    run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario)
+                else:
+                    raise Exception("Unknown")
 
 
 if __name__ == "__main__":
