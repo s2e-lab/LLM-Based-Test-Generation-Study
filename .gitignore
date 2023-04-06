@@ -39,3 +39,5 @@ Old_data/
 # ignore duplicated data for now
 RQ1_Test_Generation/RQ1_Results
 dummy_output/
+scripts/out.txt
+scripts/H4_5_Failed.txt
