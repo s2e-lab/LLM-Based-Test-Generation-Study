@@ -117,27 +117,25 @@ def heuristic_4_and_5(code: str, package: str, test_classname: str) -> tuple[str
     """
     applied_heuristic_h4, applied_heuristic_h5 = False, False
     package_regex = r"package\s+([a-z][a-z0-9_\.]*)\s*;"
-    try:
-        # search only in the beginning of the file (before the test class)
-        m = re.search(package_regex, code[:code.index(f"class {test_classname}")], re.IGNORECASE)
-        missing = True
-        if m:
-            missing = False
-            actual_package = m.group(1)
-            if package and actual_package != package:
-                applied_heuristic_h4 = True
-                code = code[:m.start()] + f"package {package};\n" + code[m.end():]
-        # test should be in a package, but package declaration is missing
-        # thus, apply H5 here
-        if package and missing:
-            code = f"package {package};\n" + code
-            applied_heuristic_h5 = True
-        if not package and not missing:
-            # remove the package declaration
-            code = code[:m.start()] + code[m.end():]
-            applied_heuristic_h5 = True
-    except Exception as e:
-        print(f"Error in heuristic 4 and 5: {e}")
+
+    # search only in the beginning of the file (before the test class)
+    m = re.search(package_regex, code[:code.index(f"class {test_classname}")], re.IGNORECASE)
+    missing = True
+    if m:
+        missing = False
+        actual_package = m.group(1)
+        if package and actual_package != package:
+            applied_heuristic_h4 = True
+            code = code[:m.start()] + f"package {package};\n" + code[m.end():]
+    # test should be in a package, but package declaration is missing
+    # thus, apply H5 here
+    if package and missing:
+        code = f"package {package};\n" + code
+        applied_heuristic_h5 = True
+    if not package and not missing:
+        # remove the package declaration
+        code = code[:m.start()] + code[m.end():]
+        applied_heuristic_h5 = True
     return code, applied_heuristic_h4, applied_heuristic_h5
 
 
@@ -230,7 +228,6 @@ def fix_code(model: str, code: str, response: dict) -> str:
     @param response: the original response from the model
     @return: code without the extra code
     """
-    full_code = get_full_code(code, response)
 
     cu_original = parse_code(response["original_code"])
     package_name = cu_original.package.name if cu_original.package else None
@@ -239,10 +236,12 @@ def fix_code(model: str, code: str, response: dict) -> str:
     # track what heuristic(s) were applied, if any
     applied_heuristics = [False for _ in range(0, 7)]
 
+    # we first need to get the code from the backticks (if it is a ChatGPT model)
     if model == "GPT3.5":
         # H2: retrieve code in between the triple backticks (only applies to ChatGPT)
-        full_code, applied_heuristics[1] = heuristic_2(full_code)
-
+        code, applied_heuristics[1] = heuristic_2(code)
+    # pre-pend the code with the test prompt
+    full_code = get_full_code(code, response)
     # H1: removes the extra code (after the unit test)
     full_code, applied_heuristics[0] = heuristic_1(full_code, cut_classname)
     # H3: remove the original code from the CUT
@@ -254,12 +253,12 @@ def fix_code(model: str, code: str, response: dict) -> str:
     full_code, applied_heuristics[5] = heuristic_6(full_code)
 
     # H7: fixes incomplete code by iteratively deleting statements and adding curly brackets
-    if response["choices"][0]["finish_reason"] == "length":
+    if response["choices"][0]["finish_reason"] == "length" or full_code.count("{") != full_code.count("}"):
         full_code, applied_heuristics[6] = heuristic_7(full_code)
 
     applied_heuristics = [f"H{i + 1}" for i in range(0, 7) if applied_heuristics[i]]
 
-    return full_code, applied_heuristics
+    return (full_code, applied_heuristics)
 
 
 def get_generated_test(model: str, response: dict):
@@ -272,6 +271,9 @@ def get_generated_test(model: str, response: dict):
     if model == "OpenAI":
         return response["choices"][0]["text"]
     if model == "GPT3.5":
+        if "message" not in response["choices"][0]:
+            response["choices"][0]["message"] = dict()
+            return None
         return response["choices"][0]["message"]["content"]
 
     raise Exception(f"{model} is an unexpected value")
@@ -299,15 +301,12 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
     # creates a new array with responses that are fixed
     filtered_responses = []
     for r in previous_responses:
-        if "message" not in r["choices"][0]:
-            r["choices"][0]["text"] = ""
-            r["original_generated_code"] = ""
-            r["applied_heuristics"] = ""
-            filtered_responses.append(r)
-            continue
         old_code = get_generated_test(model, r)
-        new_code, applied_heuristics = fix_code(model, old_code, r)
-        r["original_generated_code"] = old_code
+        if old_code:
+            new_code, applied_heuristics = fix_code(model, old_code, r)
+        else:
+            new_code, applied_heuristics = (f"{r['test_prompt']}\n\t/* {r['choices'][0]['finish_reason']} */\n}}", [])
+        r["original_generated_code"] = old_code if old_code else ""
         r["applied_heuristics"] = ";".join(applied_heuristics)
 
         if model == "OpenAI":
@@ -363,20 +362,29 @@ def parse_code(code) -> bool:
 
 def main():
     config = load_config("config.json")
-    dataset = "SF110"  # Possible values: "HumanEvalJava" "SF110"
-    model = "GPT3.5"  # Possible values: "OpenAI" "GPT3.5"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
-    tokens = [2000]
-    for max_tokens in tokens:
-        for scenario in scenarios:
-            rq = 1 if scenario == "original" else 2
-            rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
-            if dataset == "HumanEvalJava":
-                run_humaneval(config, dataset, max_tokens, model, rq, rq_folder, scenario)
-            elif dataset == "SF110":
-                run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario)
-            else:
-                raise Exception("Unknown")
+    all_scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
+    all_tokens = [2000, 4000]
+
+    worklist = [
+        # Codex
+        ("HumanEvalJava", "OpenAI", all_scenarios[:-1], all_tokens),
+        ("SF110", "OpenAI", all_scenarios, all_tokens),
+        # ChatGPT 3.5
+        ("HumanEvalJava", "GPT3.5", all_scenarios[:-1], all_tokens[:-1]),
+        ("SF110", "GPT3.5", all_scenarios, all_tokens[:-1]),
+    ]
+
+    for dataset, model, scenarios, tokens in worklist:
+        for max_tokens in tokens:
+            for scenario in scenarios:
+                rq = 1 if scenario == "original" else 2
+                rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
+                if dataset == "HumanEvalJava":
+                    run_humaneval(config, dataset, max_tokens, model, rq, rq_folder, scenario)
+                elif dataset == "SF110":
+                    run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario)
+                else:
+                    raise Exception("Unknown")
 
 
 if __name__ == "__main__":
