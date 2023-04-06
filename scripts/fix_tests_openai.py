@@ -229,7 +229,6 @@ def fix_code(model: str, code: str, response: dict) -> str:
     @return: code without the extra code
     """
 
-
     cu_original = parse_code(response["original_code"])
     package_name = cu_original.package.name if cu_original.package else None
     test_classname = get_classname(response["test_prompt"])
@@ -254,12 +253,12 @@ def fix_code(model: str, code: str, response: dict) -> str:
     full_code, applied_heuristics[5] = heuristic_6(full_code)
 
     # H7: fixes incomplete code by iteratively deleting statements and adding curly brackets
-    if response["choices"][0]["finish_reason"] == "length" or full_code.count("{")  != full_code.count("}"):
+    if response["choices"][0]["finish_reason"] == "length" or full_code.count("{") != full_code.count("}"):
         full_code, applied_heuristics[6] = heuristic_7(full_code)
 
     applied_heuristics = [f"H{i + 1}" for i in range(0, 7) if applied_heuristics[i]]
 
-    return full_code, applied_heuristics
+    return (full_code, applied_heuristics)
 
 
 def get_generated_test(model: str, response: dict):
@@ -270,10 +269,11 @@ def get_generated_test(model: str, response: dict):
     @return: generated test
     """
     if model == "OpenAI":
-        if "message" not in response["choices"][0]:
-            return None
         return response["choices"][0]["text"]
     if model == "GPT3.5":
+        if "message" not in response["choices"][0]:
+            response["choices"][0]["message"] = dict()
+            return None
         return response["choices"][0]["message"]["content"]
 
     raise Exception(f"{model} is an unexpected value")
@@ -302,7 +302,10 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
     filtered_responses = []
     for r in previous_responses:
         old_code = get_generated_test(model, r)
-        new_code, applied_heuristics = fix_code(model, old_code, r) if old_code else "", []
+        if old_code:
+            new_code, applied_heuristics = fix_code(model, old_code, r)
+        else:
+            new_code, applied_heuristics = (f"{r['test_prompt']}\n\t/* {r['choices'][0]['finish_reason']} */\n}}", [])
         r["original_generated_code"] = old_code if old_code else ""
         r["applied_heuristics"] = ";".join(applied_heuristics)
 
@@ -359,14 +362,16 @@ def parse_code(code) -> bool:
 
 def main():
     config = load_config("config.json")
-    all_scenarios = ["original", "scenario1", "scenario2", "scenario3" , "scenario4"]
+    all_scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
     all_tokens = [2000, 4000]
 
     worklist = [
-        # ("HumanEvalJava", "OpenAI", all_scenarios, all_tokens),
-        # ("SF110", "OpenAI", all_scenarios, all_tokens),
+        # Codex
+        ("HumanEvalJava", "OpenAI", all_scenarios[:-1], all_tokens),
+        ("SF110", "OpenAI", all_scenarios, all_tokens),
+        # ChatGPT 3.5
         ("HumanEvalJava", "GPT3.5", all_scenarios[:-1], all_tokens[:-1]),
-        # ("SF110", "GPT3.5", all_scenarios, all_tokens[:-1]),
+        ("SF110", "GPT3.5", all_scenarios, all_tokens[:-1]),
     ]
 
     for dataset, model, scenarios, tokens in worklist:
@@ -380,7 +385,6 @@ def main():
                     run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario)
                 else:
                     raise Exception("Unknown")
-
 
 
 if __name__ == "__main__":
