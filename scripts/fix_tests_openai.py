@@ -270,6 +270,8 @@ def get_generated_test(model: str, response: dict):
     @return: generated test
     """
     if model == "OpenAI":
+        if "message" not in response["choices"][0]:
+            return None
         return response["choices"][0]["text"]
     if model == "GPT3.5":
         return response["choices"][0]["message"]["content"]
@@ -299,15 +301,9 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
     # creates a new array with responses that are fixed
     filtered_responses = []
     for r in previous_responses:
-        # if "message" not in r["choices"][0]:
-        #     r["choices"][0]["text"] = ""
-        #     r["original_generated_code"] = ""
-        #     r["applied_heuristics"] = ""
-        #     filtered_responses.append(r)
-        #     continue
         old_code = get_generated_test(model, r)
-        new_code, applied_heuristics = fix_code(model, old_code, r)
-        r["original_generated_code"] = old_code
+        new_code, applied_heuristics = fix_code(model, old_code, r) if old_code else "", []
+        r["original_generated_code"] = old_code if old_code else ""
         r["applied_heuristics"] = ";".join(applied_heuristics)
 
         if model == "OpenAI":
