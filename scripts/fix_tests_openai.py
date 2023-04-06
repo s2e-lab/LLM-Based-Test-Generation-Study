@@ -367,10 +367,10 @@ def main():
 
     worklist = [
         # Codex
-        ("HumanEvalJava", "OpenAI", all_scenarios[:-1], all_tokens),
+        # ("HumanEvalJava", "OpenAI", all_scenarios[:-1], all_tokens),
         ("SF110", "OpenAI", all_scenarios, all_tokens),
         # ChatGPT 3.5
-        ("HumanEvalJava", "GPT3.5", all_scenarios[:-1], all_tokens[:-1]),
+        # ("HumanEvalJava", "GPT3.5", all_scenarios[:-1], all_tokens[:-1]),
         ("SF110", "GPT3.5", all_scenarios, all_tokens[:-1]),
     ]
 
