@@ -320,8 +320,6 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
         r["choices"][0]["text"] = new_code
         print("\tPROMPT", r["prompt_id"], "CLASS:", r["original_code"].split("\n")[0][3:-4], "APPLIED HEURISTICS",
               r["applied_heuristics"])
-        # code has un-matching {} pairs
-        # check_code_blocks(new_code, r)
 
         filtered_responses.append(r)
 
@@ -368,10 +366,10 @@ def main():
     worklist = [
         # Codex
         ("HumanEvalJava", "OpenAI", all_scenarios[:-1], all_tokens),
-        ("SF110", "OpenAI", all_scenarios, all_tokens),
+        # ("SF110", "OpenAI", all_scenarios, all_tokens),
         # ChatGPT 3.5
         ("HumanEvalJava", "GPT3.5", all_scenarios[:-1], all_tokens[:-1]),
-        ("SF110", "GPT3.5", all_scenarios, all_tokens[:-1]),
+        # ("SF110", "GPT3.5", all_scenarios, all_tokens[:-1]),
     ]
 
     for dataset, model, scenarios, tokens in worklist:
