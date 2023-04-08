@@ -55,9 +55,9 @@ public class CompilationAnalyzer {
             RQ2_BASE_DIR + "%s_Data/%s_input/%s_prompt.csv";
     // where to save things (solely based on the dataset & model!)
     public static String STATISTICS_CSV_OUTPUT =
-            "../../ICSE23-FAKE/%s/%s-Results/csv-data/%s.csv";
+            "../../ICSE23-RESULTS/%s/%s-Results/csv-data/%s.csv";
     public static String STATISTICS_JAVA_OUTPUT =
-            "../../ICSE23-FAKE/%s/%s-Results/%s/src/test/java/%s/%s.java";
+            "../../ICSE23-RESULTS/%s/%s-Results/%s/src/test/java/%s/%s.java";
 
 
     // metadata saved
@@ -462,7 +462,21 @@ public class CompilationAnalyzer {
 
 
         /* SF110 */
-//        generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
+
+        String scenario = "scenario4";
+        int token = 2000;
+        String model = "GPT3.5";
+
+        String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
+        for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, "SF110", scenario, token)) {
+
+            String projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
+            delete(model, "SF110", projectName);
+        }
+
+
+  //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
+       generateReport("SF110", model, new String[]{scenario}, new int[]{token});
 
     }
 }
