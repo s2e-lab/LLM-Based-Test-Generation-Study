@@ -16,6 +16,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
+import s2e.lab.searcher.JavaSearcher;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -69,8 +70,8 @@ public class CompilationAnalyzer {
             "original syntax ok?",
             "modified original?",
             "syntax ok after heuristics?",
-            "number test methods",
-            "number assertions",
+            "# test methods",
+            "# assertions",
             "syntax check",
             "applied heuristics"
     };
@@ -269,9 +270,14 @@ public class CompilationAnalyzer {
                                 boolean isCompilableAfterFix = fixedCUnit != null;
                                 String appliedHeuristics = resp.has("applied_heuristics") ? resp.get("applied_heuristics").getAsString() : "";
                                 boolean modifiedCode = !appliedHeuristics.trim().isEmpty();
-                                CompilationUnit cu = isOriginalCompilable ? originalCUnit : fixedCUnit;
+                                CompilationUnit cu = isOriginalCompilable && !modifiedCode ? originalCUnit : fixedCUnit;
                                 promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, modifiedCode));
 
+
+                                // if the finish reason is an error, it certainly should not be compilable before or after fix
+                                if(finishReason.startsWith("ERROR")) {
+                                    isOriginalCompilable = isCompilableAfterFix = false;
+                                }
 
 
                                 printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
@@ -279,6 +285,7 @@ public class CompilationAnalyzer {
                                         computeNumberTestMethods(cu), computeNumberAssertions(cu),
                                         getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason), appliedHeuristics
                                 );
+
                                 if (isOriginalCompilable || isCompilableAfterFix) {
                                     // import all the java util package, JUnit5 assertions, and method under test
                                     cu.addImport("java.util.*");
@@ -432,6 +439,12 @@ public class CompilationAnalyzer {
     public static void delete(String model, String dataset, String projectName) throws IOException {
         // deletes old test files
         // "../../ICSE23-results/%s/%s-Results/%s/src/test/java/%s/%s.java"
+//        if(dataset.equals("HumanEvalJava")){
+//           dataset = "HumanEvalJava-2021";
+//        }
+//
+//        JavaSearcher.
+
         File projectTestFolder = new File(STATISTICS_JAVA_OUTPUT.formatted(model, dataset, projectName, "", "").replace("//.java", ""));
         if (projectTestFolder.exists()) {
             FileUtils.cleanDirectory(projectTestFolder);
@@ -444,9 +457,8 @@ public class CompilationAnalyzer {
 //        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
 //        delete("GPT3.5", "HumanEvalJava", "");
 //        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-//        delete("OpenAI", "HumanEvalJava", "");
-//        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
-//
+        delete("OpenAI", "HumanEvalJava", "");
+        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
 
 
         /* SF110 */

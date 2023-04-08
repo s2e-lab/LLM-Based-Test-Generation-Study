@@ -62,6 +62,7 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
             # new_resp["removed_extra_code"] = new_code != gen_code
             new_resp["original_generated_code"] = gen_code
             new_resp["choices"][0]["text"] = new_code
+            new_resp["choices"][0]["finish_reason"] = c["finish_reason"]
             new_resp["choice_no"] = i
 
             # only keep the first recommendation, that has the merged output with test prompt
@@ -95,32 +96,37 @@ def remove_original_code(gen_code: str, r: dict) -> str:
 
 def main():
     config = load_config("config.json")
-    dataset = "HumanEvalJava" # "SF110"
-    model = "CodeGen"
-    scenarios = ["original", "scenario1", "scenario2", "scenario3" ] #, "scenario4"]
-    tokens = [2000]
+    all_scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
+    all_tokens = [2000]
+    worklist = [
+        ("HumanEvalJava", "CodeGen", all_scenarios[:-1], all_tokens),
+        # ("SF110", "CodeGen", all_scenarios, all_tokens),
+    ]
 
-    # this code only works for CodeGen
-    assert model == "CodeGen" and dataset in ["SF110", "HumanEvalJava"] and tokens == [2000]
 
-    for max_tokens in tokens:
-        for scenario in scenarios:
-            rq = 1 if scenario == "original" else 2
-            rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
-            prompt_folder = f"../{rq_folder}/{model}_Data/{dataset}_input/"
-            if dataset == "HumanEvalJava":
-                print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
-                prompt_file = prompt_folder + f"{scenario}_prompt.json"
-                merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model, scenario)
-            elif dataset == "SF110":
-                # finds all json files in prompt_folder
-                prompt_files = [f for f in os.listdir(prompt_folder) if
-                                f.endswith(".json") and ((rq == 1) or (rq == 2 and scenario in f))]
-                for prompt_file in prompt_files:
-                    print(f"RQ{rq}\tScenario: {scenario}\tToken: {max_tokens}\tPrompt: {prompt_file}")
+
+    for dataset, model, scenarios, tokens in worklist:
+        # this code only works for CodeGen
+        assert model == "CodeGen" and dataset in ["SF110", "HumanEvalJava"] and tokens == [2000]
+
+        for max_tokens in tokens:
+            for scenario in scenarios:
+                rq = 1 if scenario == "original" else 2
+                rq_folder = "RQ1_Test_Generation" if rq == 1 else "RQ2_Prompt_Elements"
+                prompt_folder = f"../{rq_folder}/{model}_Data/{dataset}_input/"
+                if dataset == "HumanEvalJava":
+                    print(f"RQ{rq}. Scenario: {scenario}. Token: {max_tokens}")
+                    prompt_file = prompt_folder + f"{scenario}_prompt.json"
                     merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model, scenario)
-            else:
-                raise Exception("Unknown dataset")
+                elif dataset == "SF110":
+                    # finds all json files in prompt_folder
+                    prompt_files = [f for f in os.listdir(prompt_folder) if
+                                    f.endswith(".json") and ((rq == 1) or (rq == 2 and scenario in f))]
+                    for prompt_file in prompt_files:
+                        print(f"RQ{rq}\tScenario: {scenario}\tToken: {max_tokens}\tPrompt: {prompt_file}")
+                        merge_suggestions(config, rq, dataset, prompt_file, max_tokens, model, scenario)
+                else:
+                    raise Exception("Unknown dataset")
 
 
 if __name__ == "__main__":
