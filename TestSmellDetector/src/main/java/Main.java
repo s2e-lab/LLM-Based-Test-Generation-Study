@@ -30,12 +30,12 @@ public class Main {
 //        }
 
 //        String fileName = "/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-results/OpenAI/HumanEvalJava-Results/csv-data/TestSmellInput-HumanEvalJava-Codex.csv";
-        String fileName = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/CodeGen/SF110-Results/csv-data/TestSmell_Input/TestSmellInput-SF110-CodeGen_scneario3.csv";
+        String fileName = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/GPT3.5/SF110-Results/csv-data/TestSmellInput-SF110-GPT3.5.csv";
         TestSmellDetector testSmellDetector = new TestSmellDetector(new DefaultThresholds());
 
         /*
-          Read the input file and build the TestFile objects
-         */
+//          Read the input file and build the TestFile objects
+//         */
         BufferedReader in = new BufferedReader(new FileReader(fileName));
         String str;
 
