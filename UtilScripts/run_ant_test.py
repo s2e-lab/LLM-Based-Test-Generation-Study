@@ -8,7 +8,7 @@ projects = []
 scenario = "scenario4"
 token = "2000"
 
-for project in os.listdir("../RQ2_Prompt_Elements/GPT3.5_Data/%s_input" % ("SF110")):
+for project in os.listdir("../RQ2_Prompt_Elements/CodeGen_Data/%s_input" % ("SF110")):
     if project.endswith(".csv"):
         continue
     if "scenario1" in project:
@@ -16,7 +16,7 @@ for project in os.listdir("../RQ2_Prompt_Elements/GPT3.5_Data/%s_input" % ("SF11
 
 ignore_projects = ["23_", "40_", "57_", "79_", "84_", "86_"]
 
-source_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/GPT3.5/SF110-Results"
+source_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/CodeGen/SF110-Results"
 subfolders = [f.path for f in os.scandir(source_folder) if f.is_dir()]
 
 for subfolder in subfolders:

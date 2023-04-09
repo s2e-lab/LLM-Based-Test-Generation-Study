@@ -207,7 +207,9 @@ public class CompilationAnalyzer {
                         for (JsonElement promptObj : promptArr) {
                             try {
 
+
                                 JsonObject resp = promptObj.getAsJsonObject();
+
                                 String promptID = resp.get("prompt_id").getAsString();
                                 String prompt = resp.get("test_prompt").getAsString();
                                 // this if condition is because there is some weirdness in the SF110 dataset, the promptID refers to the original folder rather than the scenario folder :(
@@ -465,7 +467,7 @@ public class CompilationAnalyzer {
 
         String scenario = "scenario4";
         int token = 2000;
-        String model = "GPT3.5";
+        String model = "CodeGen";
 
         String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
         for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, "SF110", scenario, token)) {
@@ -476,7 +478,7 @@ public class CompilationAnalyzer {
 
 
   //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
-    //   generateReport("SF110", model, new String[]{scenario}, new int[]{token});
+     // generateReport("SF110", model, new String[]{scenario}, new int[]{token});
 
     }
 }
