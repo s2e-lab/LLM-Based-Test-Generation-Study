@@ -5,7 +5,6 @@ import re
 from fix_tests_openai import fix_code
 from utils import load_config, get_output_files, save_to_dummy_folder
 
-
 DEBUG = True
 
 def get_generated_test(response: dict):
@@ -99,8 +98,8 @@ def main():
     all_scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
     all_tokens = [2000]
     worklist = [
-        ("HumanEvalJava", "CodeGen", all_scenarios[:-1], all_tokens),
-        # ("SF110", "CodeGen", all_scenarios, all_tokens),
+        #("HumanEvalJava", "CodeGen", all_scenarios[:-1], all_tokens),
+         ("SF110", "CodeGen", all_scenarios, all_tokens),
     ]
 
 
