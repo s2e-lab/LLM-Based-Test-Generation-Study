@@ -457,8 +457,8 @@ public class CompilationAnalyzer {
 //        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
 //        delete("GPT3.5", "HumanEvalJava", "");
 //        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-        delete("OpenAI", "HumanEvalJava", "");
-        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
+//        delete("OpenAI", "HumanEvalJava", "");
+//        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
 
 
         /* SF110 */
@@ -476,7 +476,7 @@ public class CompilationAnalyzer {
 
 
   //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
-       generateReport("SF110", model, new String[]{scenario}, new int[]{token});
+    //   generateReport("SF110", model, new String[]{scenario}, new int[]{token});
 
     }
 }
