@@ -204,6 +204,7 @@ public class CompilationAnalyzer {
                         for (JsonElement promptObj : promptArr) {
                             JsonObject resp = promptObj.getAsJsonObject();
                             String promptID = resp.get("prompt_id").getAsString();
+
                             String prompt = resp.get("test_prompt").getAsString();
                             // this if condition is because there is some weirdness in the SF110 dataset, the promptID refers to the original folder rather than the scenario folder :(
                             String key = promptMetadata.containsKey(promptID) ? promptID : promptID.replace("/%s/".formatted(scenario), "/original/");
@@ -447,30 +448,30 @@ public class CompilationAnalyzer {
 
     public static void main(String[] args) throws IOException {
         /* HumanEvalJava */
-        delete("CodeGen", "HumanEvalJava", "");
-        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-        delete("GPT3.5", "HumanEvalJava", "");
-        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-        delete("OpenAI", "HumanEvalJava", "");
-        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
+//        delete("CodeGen", "HumanEvalJava", "");
+//        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+//        delete("GPT3.5", "HumanEvalJava", "");
+//        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+//        delete("OpenAI", "HumanEvalJava", "");
+//        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
 
 
 //        /* SF110 */
-//
-//        String scenario = "scenario4";
-//        int token = 2000;
-//        String model = "GPT3.5";
-//
-//        String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
-//        for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, "SF110", scenario, token)) {
-//
-//            String projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
-//            delete(model, "SF110", projectName);
-//        }
-//
-//
-//  //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
-//       generateReport("SF110", model, new String[]{scenario}, new int[]{token});
+
+        String scenario = "scenario2";
+        int token = 2000;
+        String model = "CodeGen";
+
+        String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
+        for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, "SF110", scenario, token)) {
+
+            String projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
+            delete(model, "SF110", projectName);
+        }
+
+
+  //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
+       generateReport("SF110", model, new String[]{scenario}, new int[]{token});
 
     }
 }
