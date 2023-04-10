@@ -5,7 +5,6 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.utils.Pair;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -184,21 +183,16 @@ public class CompilationAnalyzer {
                     for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, dataset, scenario, token)) {
 
                         String projectName = "";
-//                        JsonArray promptArr = getJsonArray(format(rqJsonOutFile, model, dataset, scenario, token));
 
-                        // key = promptID, value = Pair<classname, method_signature>
                         String filename = scenario;
                         if (dataset.equals("SF110")) {
                             projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
                             if (scenario.equals("original")) filename = projectName;
                             else filename = scenario + "_" + projectName;
                         }
-
-
                         String promptInputFile = format(rqCsvFile, model, dataset, filename);
+                        // key = promptID, value = Map<String, String> (keys = "method_signature", "classname", "package", "suffix")
                         Map<String, Map<String, String>> promptMetadata = loadCsvInputPrompts(promptInputFile);
-                        // key = promptID, value = Pair<isCompilable, hasExtraCode>
-                        Map<String, Pair<Boolean, Boolean>> promptCompileStatus = new HashMap<>();
                         // enforce some integrity checks: either we have the same # of prompts, or 10x more, for CodeGen
                         assert promptArr.size() == promptMetadata.size() || promptArr.size() == promptMetadata.size() * 10;
                         for (JsonElement promptObj : promptArr) {
@@ -269,8 +263,6 @@ public class CompilationAnalyzer {
                             // there could be a situation that both original and after heuristics is = true
                             // we prioritize the after heuristics code, rather than the original code!
                             CompilationUnit cu = isCompilableAfterFix ? fixedCUnit : originalCUnit;
-                            promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, modifiedCode));
-
 
                             // if the finish reason is an error, it certainly should not be compilable before or after fix
                             if (finishReason.startsWith("ERROR")) {
