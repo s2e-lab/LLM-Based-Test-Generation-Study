@@ -136,10 +136,14 @@ def get_mock_response(prompt: dict, error_msg: str) -> dict:
     )
 
 
-def save_to_dummy_folder(new_code: str, r: dict) -> None:
+def save_to_dummy_folder(new_code: str, r: dict, suffix: int = 0) -> None:
     """
     Saves the generated code to the dummy_output folder
+    @param suffix: a suffix to distinguish between multiple generated code to this function
+    @param new_code: code to be saved
     @param r: the response dictionary
     """
-    with open("./dummy_output/" + r["prompt_id"][1:].replace("/", "_"), "w") as f:
+    filename = r["prompt_id"][1:].replace("/", "_")
+    if suffix > 0: filename = filename.replace(".java",f"_{suffix}.java")
+    with open(f"./dummy_output/{filename}" , "w") as f:
         f.write(new_code)

@@ -55,9 +55,9 @@ public class CompilationAnalyzer {
             RQ2_BASE_DIR + "%s_Data/%s_input/%s_prompt.csv";
     // where to save things (solely based on the dataset & model!)
     public static String STATISTICS_CSV_OUTPUT =
-            "../../ICSE23-RESULTS/%s/%s-Results/csv-data/%s.csv";
+            "../../ICSE23-results/%s/%s-Results/csv-data/%s.csv";
     public static String STATISTICS_JAVA_OUTPUT =
-            "../../ICSE23-RESULTS/%s/%s-Results/%s/src/test/java/%s/%s.java";
+            "../../ICSE23-results/%s/%s-Results/%s/src/test/java/%s/%s.java";
 
 
     // metadata saved

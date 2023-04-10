@@ -318,8 +318,9 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
         if DEBUG: save_to_dummy_folder(new_code, r)
 
         r["choices"][0]["text"] = new_code
-        print("\tPROMPT", r["prompt_id"], "CLASS:", r["original_code"].split("\n")[0][3:-4], "APPLIED HEURISTICS",
-              r["applied_heuristics"])
+        print("\tMODEL", model, "PROMPT", r["prompt_id"],
+              "CLASS:", r["original_code"].split("\n")[0][3:-4],
+              "APPLIED HEURISTICS", r["applied_heuristics"])
 
         filtered_responses.append(r)
 
