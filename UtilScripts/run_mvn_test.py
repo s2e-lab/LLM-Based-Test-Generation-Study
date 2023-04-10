@@ -16,7 +16,7 @@ for llm in ["OpenAI","CodeGen", "GPT3.5"]:
         try:
             # Run the "mvn test" command and capture the output
             process = subprocess.Popen(['mvn', 'test'], stdout=subprocess.PIPE)
-            process_output, process_error = process.communicate(timeout=60)
+            process_output, process_error = process.communicate(timeout=45)
 
             # Print the output of the command
             test_results = process_output.decode('utf-8')
@@ -90,13 +90,15 @@ import os
 import csv 
 absFilePath = os.path.abspath(__file__)
 os.chdir( os.path.dirname(absFilePath) )
+out_file = f"output{time.time()}.csv"
 
-with open(f"output{time.time()}.csv", 'w', newline='', encoding='UTF8',) as csvfile:
+with open(out_file, 'w', newline='', encoding='UTF8',) as csvfile:
     csv_writer = csv.writer(csvfile)
-
     for row in output:
         csv_writer.writerow(row)
-    
+
+
+print("SUCCESS: Saved all",len(output),"errors in", out_file)    
 
 
 
