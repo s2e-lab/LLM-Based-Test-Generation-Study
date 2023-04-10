@@ -8,7 +8,7 @@ projects = []
 scenario = "scenario4"
 token = "2000"
 
-for project in os.listdir("../RQ2_Prompt_Elements/GPT3.5_Data/%s_input" % ("SF110")):
+for project in os.listdir("../RQ2_Prompt_Elements/CodeGen_Data/%s_input" % ("SF110")):
     if project.endswith(".csv"):
         continue
     if "scenario1" in project:
@@ -16,7 +16,7 @@ for project in os.listdir("../RQ2_Prompt_Elements/GPT3.5_Data/%s_input" % ("SF11
 
 ignore_projects = ["23_", "40_", "57_", "79_", "84_", "86_"]
 
-source_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/GPT3.5/SF110-Results"
+source_folder = "/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/CodeGen/SF110-Results"
 subfolders = [f.path for f in os.scandir(source_folder) if f.is_dir()]
 
 for subfolder in subfolders:
@@ -31,6 +31,8 @@ for subfolder in subfolders:
             break
     if is_continue:
         continue
+    
+
 
     print("Running ant test for ", projectName)
     os.chdir(subfolder)
@@ -84,11 +86,29 @@ for subfolder in subfolders:
                             continue
                         location = parts[1].split(":")[1][1:-1]
                         error = " ".join(parts[2:])
-                        if "error: cannot find symbol" in error and i+3 < len(lines) and i+4 < len(lines):
-                            if "[javac]" in lines[i + 3] and "[javac]" in lines[i + 4]:
-                                error_symbol = lines[i + 3].split("[javac]")[1].strip()
-                                error_location = lines[i + 4].split("[javac]")[1].strip()
-                                error = error + " " + error_symbol + " " + error_location
+                        # print(error)
+                        for j in range(i + 1, end):
+                            # print(lines[j])
+                            if "[javac]" not in lines[j]:
+                                break
+                            # print("Parsing 1: ", lines[j])
+                            if "[javac]" in lines[j] and ("error:" in lines[j] or "errors" in lines[j] or "warning" in lines[j] or "1 error" in lines[j]):
+                                break
+                            # print("Parsing 2: ", lines[j])
+                            
+                            if "[javac]"  in lines[j]:
+                                current_error = lines[j].split("[javac]")[1].strip()
+                                if "^" in current_error:
+                                    continue
+                                if len(current_error) > 0:
+                                    error = error + " " + current_error
+                            # print("Parsing 3: ", lines[j])
+
+                        # if "error: cannot find symbol" in error and i+3 < len(lines) and i+4 < len(lines):
+                        #     if "[javac]" in lines[i + 3] and "[javac]" in lines[i + 4]:
+                        #         error_symbol = lines[i + 3].split("[javac]")[1].strip()
+                        #         error_location = lines[i + 4].split("[javac]")[1].strip()
+                        #         error = error + " " + error_symbol + " " + error_location
 
                         to_delete.append(file)
                         output.append("\t".join([file, location, error]))

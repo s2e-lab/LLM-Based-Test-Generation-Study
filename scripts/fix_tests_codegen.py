@@ -100,8 +100,8 @@ def main():
     all_scenarios = ["original", "scenario1", "scenario2", "scenario3", "scenario4"]
     all_tokens = [2000]
     worklist = [
-        ("HumanEvalJava", "CodeGen", all_scenarios[:-1], all_tokens),
-        # ("SF110", "CodeGen", all_scenarios, all_tokens),
+        #("HumanEvalJava", "CodeGen", all_scenarios[:-1], all_tokens),
+         ("SF110", "CodeGen", all_scenarios, all_tokens),
     ]
 
     for dataset, model, scenarios, tokens in worklist:
