@@ -355,7 +355,7 @@ def run_sf110(config, dataset, max_tokens, model, rq, rq_folder, scenario):
 def parse_code(code) -> bool:
     try:
         return javalang.parse.parse(code)  # code is compilable
-    except (JavaSyntaxError, LexerError, TypeError) as e:
+    except (JavaSyntaxError, LexerError, TypeError, RecursionError) as e:
         return None
 
 
