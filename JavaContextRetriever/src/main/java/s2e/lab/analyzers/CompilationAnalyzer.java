@@ -450,7 +450,7 @@ public class CompilationAnalyzer {
 
 //        /* SF110 */
 
-        String scenario = "scenario2";
+        String scenario = "scenario4";
         int token = 2000;
         String model = "CodeGen";
 
@@ -463,7 +463,7 @@ public class CompilationAnalyzer {
 
 
   //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
-       generateReport("SF110", model, new String[]{scenario}, new int[]{token});
+     //  generateReport("SF110", model, new String[]{scenario}, new int[]{token});
 
     }
 }

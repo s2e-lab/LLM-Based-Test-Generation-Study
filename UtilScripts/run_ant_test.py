@@ -5,7 +5,7 @@ import time
 
 projects = []
 
-scenario = "scenario2"
+scenario = "scenario4"
 token = "2000"
 
 for project in os.listdir("../RQ2_Prompt_Elements/CodeGen_Data/%s_input" % ("SF110")):
