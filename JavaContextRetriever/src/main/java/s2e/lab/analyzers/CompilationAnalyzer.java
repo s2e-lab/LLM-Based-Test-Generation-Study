@@ -14,9 +14,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.apache.commons.lang3.tuple.Triple;
-import s2e.lab.searcher.JavaSearcher;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -55,9 +52,9 @@ public class CompilationAnalyzer {
             RQ2_BASE_DIR + "%s_Data/%s_input/%s_prompt.csv";
     // where to save things (solely based on the dataset & model!)
     public static String STATISTICS_CSV_OUTPUT =
-            "../../ICSE23-RESULTS/%s/%s-Results/csv-data/%s.csv";
+            "../../ICSE23-FAKE/%s/%s-Results/csv-data/%s.csv";
     public static String STATISTICS_JAVA_OUTPUT =
-            "../../ICSE23-RESULTS/%s/%s-Results/%s/src/test/java/%s/%s.java";
+            "../../ICSE23-FAKE/%s/%s-Results/%s/src/test/java/%s/%s.java";
 
 
     // metadata saved
@@ -205,118 +202,113 @@ public class CompilationAnalyzer {
                         // enforce some integrity checks: either we have the same # of prompts, or 10x more, for CodeGen
                         assert promptArr.size() == promptMetadata.size() || promptArr.size() == promptMetadata.size() * 10;
                         for (JsonElement promptObj : promptArr) {
-                            try {
-
-
-                                JsonObject resp = promptObj.getAsJsonObject();
-
-                                String promptID = resp.get("prompt_id").getAsString();
-                                String prompt = resp.get("test_prompt").getAsString();
-                                // this if condition is because there is some weirdness in the SF110 dataset, the promptID refers to the original folder rather than the scenario folder :(
-                                String key = promptMetadata.containsKey(promptID) ? promptID : promptID.replace("/%s/".formatted(scenario), "/original/");
-                                // this if below is because some weird thing happened!
-                                // on the prompt output, ID is TransportKeyStoreBean0.java
-                                // but the original prompt ID is TransportKeyStoreBean_0Test.java
-                                if (!promptMetadata.containsKey(key)) {
-                                    key = key.replace(".java", "Test.java");
-                                    for (int i = key.length() - 4; i >= 0; i--) {
-                                        if (promptMetadata.containsKey(key.substring(0, i) + "_" + key.substring(i))) {
-                                            key = key.substring(0, i) + "_" + key.substring(i);
-                                            break;
-                                        }
+                            JsonObject resp = promptObj.getAsJsonObject();
+                            String promptID = resp.get("prompt_id").getAsString();
+                            String prompt = resp.get("test_prompt").getAsString();
+                            // this if condition is because there is some weirdness in the SF110 dataset, the promptID refers to the original folder rather than the scenario folder :(
+                            String key = promptMetadata.containsKey(promptID) ? promptID : promptID.replace("/%s/".formatted(scenario), "/original/");
+                            // this if below is because some weird thing happened!
+                            // on the prompt output, ID is TransportKeyStoreBean0.java
+                            // but the original prompt ID is TransportKeyStoreBean_0Test.java
+                            if (!promptMetadata.containsKey(key)) {
+                                key = key.replace(".java", "Test.java");
+                                for (int i = key.length() - 4; i >= 0; i--) {
+                                    if (promptMetadata.containsKey(key.substring(0, i) + "_" + key.substring(i))) {
+                                        key = key.substring(0, i) + "_" + key.substring(i);
+                                        break;
                                     }
                                 }
-                                String classname = promptMetadata.get(key).get("classname");
-                                String methodName = promptMetadata.get(key).get("method_signature").split("\\(")[0];
-                                String packageName = promptMetadata.get(key).get("package");
+                            }
+                            String classname = promptMetadata.get(key).get("classname");
+                            String methodName = promptMetadata.get(key).get("method_signature").split("\\(")[0];
+                            String packageName = promptMetadata.get(key).get("package");
 
-                                // ensure a situation of unit testing an overload method (same name, different parameters)
-                                String suffix = promptMetadata.get(key).get("suffix");
-                                // choice_no is something related to codegen, it's the suggestion position
-                                // recall CodeGen generates 10 suggestions, per prompt, so we need to add this to the suffix
-                                String choiceNo = resp.has("choice_no") ? resp.get("choice_no").getAsString() : "";
-                                if (!choiceNo.isEmpty())
-                                    suffix += suffix.isEmpty() ? choiceNo : "_" + choiceNo;
-
-
-                                String jUnitTestFileName = "%s%s_%s_%d_%sTest".formatted(
-                                        dataset.equals("SF110") ? scenario + "_" : "",
-                                        classname, methodName, token,
-                                        !suffix.isEmpty() ? suffix + "_" : ""
-                                );
-                                File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
-                                        model, dataset, dataset.equals("SF110") ? projectName : "", packageName.replace(".", "/"), jUnitTestFileName));
-
-                                // replace the "_[0-9]+Test.java" with ".java"
-                                String productionFilePath = promptID.replaceAll("_[0-9]+Test.java", ".java");
-                                File productionFile = new File("..", productionFilePath);
-                                assert productionFile.exists();
+                            // ensure a situation of unit testing an overload method (same name, different parameters)
+                            String suffix = promptMetadata.get(key).get("suffix");
+                            // choice_no is something related to codegen, it's the suggestion position
+                            // recall CodeGen generates 10 suggestions, per prompt, so we need to add this to the suffix
+                            String choiceNo = resp.has("choice_no") ? resp.get("choice_no").getAsString() : "";
+                            if (!choiceNo.isEmpty())
+                                suffix += suffix.isEmpty() ? choiceNo : "_" + choiceNo;
 
 
-                                // process the generated code
-                                String fixedCode = resp.get("choices").getAsJsonArray().get(0)
-                                        .getAsJsonObject().get("text").getAsString();
-                                // if it does not contain the prompt, then prepend it
-                                String jUnitCodeAfterFix = fixedCode.contains(prompt.strip()) || fixedCode.contains("class %sTest {".formatted(classname)) ?
-                                        fixedCode :
-                                        prompt + "\n\t\t" + fixedCode;
-                                // if it does not contain the prompt, then prepend it
-                                String originalCode = resp.get("original_generated_code").getAsString();
-                                String jUnitOriginalCode = originalCode.contains(prompt.strip()) || originalCode.contains("class %sTest {".formatted(classname)) ?
-                                        originalCode :
-                                        prompt + "\n\t\t" + originalCode;
-                                String finishReason = getFinishReason(resp);
-                                CompilationUnit originalCUnit = getCompilationUnit(jUnitOriginalCode);
-                                boolean isOriginalCompilable = originalCUnit != null;
-                                CompilationUnit fixedCUnit = getCompilationUnit(jUnitCodeAfterFix);
-                                boolean isCompilableAfterFix = fixedCUnit != null;
-                                String appliedHeuristics = resp.has("applied_heuristics") ? resp.get("applied_heuristics").getAsString() : "";
-                                boolean modifiedCode = !appliedHeuristics.trim().isEmpty();
-                                CompilationUnit cu = isOriginalCompilable && !modifiedCode ? originalCUnit : fixedCUnit;
-                                promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, modifiedCode));
+                            String jUnitTestFileName = "%s%s_%s_%d_%sTest".formatted(
+                                    dataset.equals("SF110") ? scenario + "_" : "",
+                                    classname, methodName, token,
+                                    !suffix.isEmpty() ? suffix + "_" : ""
+                            );
+                            File jUnitTestFile = new File(STATISTICS_JAVA_OUTPUT.formatted(
+                                    model, dataset, dataset.equals("SF110") ? projectName : "", packageName.replace(".", "/"), jUnitTestFileName));
+
+                            // replace the "_[0-9]+Test.java" with ".java"
+                            String productionFilePath = promptID.replaceAll("_[0-9]+Test.java", ".java");
+                            File productionFile = new File("..", productionFilePath);
+                            assert productionFile.exists();
 
 
-                                // if the finish reason is an error, it certainly should not be compilable before or after fix
-                                if(finishReason.startsWith("ERROR")) {
-                                    isOriginalCompilable = isCompilableAfterFix = false;
+                            // process the generated code
+                            String fixedCode = resp.get("choices").getAsJsonArray().get(0)
+                                    .getAsJsonObject().get("text").getAsString();
+                            // if it does not contain the prompt, then prepend it
+                            String jUnitCodeAfterFix = fixedCode.contains(prompt.strip()) || fixedCode.contains("class %sTest {".formatted(classname)) ?
+                                    fixedCode :
+                                    prompt + "\n\t\t" + fixedCode;
+                            // if it does not contain the prompt, then prepend it
+                            String originalCode = resp.get("original_generated_code").getAsString();
+                            String jUnitOriginalCode = originalCode.contains(prompt.strip()) || originalCode.contains("class %sTest {".formatted(classname)) ?
+                                    originalCode :
+                                    prompt + "\n\t\t" + originalCode;
+                            String finishReason = getFinishReason(resp);
+                            CompilationUnit originalCUnit = getCompilationUnit(jUnitOriginalCode);
+                            boolean isOriginalCompilable = originalCUnit != null;
+                            CompilationUnit fixedCUnit = getCompilationUnit(jUnitCodeAfterFix);
+                            boolean isCompilableAfterFix = fixedCUnit != null;
+                            String appliedHeuristics = resp.has("applied_heuristics") ? resp.get("applied_heuristics").getAsString() : "";
+                            boolean modifiedCode = !appliedHeuristics.trim().isEmpty();
+                            // there could be a situation that both original and after heuristics is = true
+                            // we prioritize the after heuristics code, rather than the original code!
+                            CompilationUnit cu = isCompilableAfterFix ? fixedCUnit : originalCUnit;
+                            promptCompileStatus.put(promptID, new Pair<>(isOriginalCompilable, modifiedCode));
+
+
+                            // if the finish reason is an error, it certainly should not be compilable before or after fix
+                            if (finishReason.startsWith("ERROR")) {
+                                isOriginalCompilable = isCompilableAfterFix = false;
+                            }
+
+
+                            printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
+                                    isOriginalCompilable, modifiedCode, isCompilableAfterFix,
+                                    computeNumberTestMethods(cu), computeNumberAssertions(cu),
+                                    getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason), appliedHeuristics
+                            );
+
+                            if (isOriginalCompilable || isCompilableAfterFix) {
+                                // import all the java util package, JUnit5 assertions, and method under test
+                                cu.addImport("java.util.*");
+                                cu.addImport("org.junit.jupiter.api.*");
+                                cu.addImport("static org.junit.jupiter.api.Assertions.*");
+
+                                // add an import statement for the static method in HumanEvalJava
+                                if (dataset.equals("HumanEvalJava")) {
+                                    String fullyQualifiedCutName = getFullyQualifiedCutName(dataset, promptID, classname);
+                                    cu.addImport("static %s.*".formatted(fullyQualifiedCutName));
                                 }
 
+                                // ensure class is on the right package (in case the generated test miss a package declaration or changed it)
+                                if (!packageName.isEmpty())
+                                    cu.setPackageDeclaration(packageName);
+                                else // remove package declaration if it's meant to be on default package
+                                    cu.removePackageDeclaration();
+                                // update the constructor name to match the renaming scheme
+                                cu.getType(0).getConstructors().forEach(c -> {
+                                    c.setName(jUnitTestFileName);
+                                });
+                                // update the class name to match our custom name
+                                cu.getType(0).setName(jUnitTestFileName);
 
-                                printer.printRecord(promptID, scenario, token, jUnitTestFileName, finishReason,
-                                        isOriginalCompilable, modifiedCode, isCompilableAfterFix,
-                                        computeNumberTestMethods(cu), computeNumberAssertions(cu),
-                                        getSyntaxCheck(isOriginalCompilable, isCompilableAfterFix, finishReason), appliedHeuristics
-                                );
-
-                                if (isOriginalCompilable || isCompilableAfterFix) {
-                                    // import all the java util package, JUnit5 assertions, and method under test
-                                    cu.addImport("java.util.*");
-                                    cu.addImport("org.junit.jupiter.api.*");
-                                    cu.addImport("static org.junit.jupiter.api.Assertions.*");
-
-                                    // add an import statement for the static method in HumanEvalJava
-                                    if (dataset.equals("HumanEvalJava")) {
-                                        String fullyQualifiedCutName = getFullyQualifiedCutName(dataset, promptID, classname);
-                                        cu.addImport("static %s.*".formatted(fullyQualifiedCutName));
-                                    }
-
-                                    // ensure class is on the right package (in case the generated test miss a package declaration or changed it)
-                                    if (!packageName.isEmpty())
-                                        cu.setPackageDeclaration(packageName);
-                                    else // remove package declaration if it's meant to be on default package
-                                        cu.removePackageDeclaration();
-                                    // update the constructor name to match the renaming scheme
-                                    cu.getType(0).getConstructors().forEach(c -> {
-                                        c.setName(jUnitTestFileName);
-                                    });
-                                    // update the class name to match our custom name
-                                    cu.getType(0).setName(jUnitTestFileName);
-
-                                    sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
-                                    saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                sb.append("%s-%s,%s,%s\n".formatted(dataset, scenario, jUnitTestFile.getCanonicalPath(), productionFile.getCanonicalPath()));
+                                saveToJavaFile(jUnitTestFile, cu != null ? cu.toString() : jUnitOriginalCode);
                             }
 
 
@@ -455,30 +447,30 @@ public class CompilationAnalyzer {
 
     public static void main(String[] args) throws IOException {
         /* HumanEvalJava */
-//        delete("CodeGen", "HumanEvalJava", "");
-//        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-//        delete("GPT3.5", "HumanEvalJava", "");
-//        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
-//        delete("OpenAI", "HumanEvalJava", "");
-//        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
+        delete("CodeGen", "HumanEvalJava", "");
+        generateReport("HumanEvalJava", "CodeGen", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+        delete("GPT3.5", "HumanEvalJava", "");
+        generateReport("HumanEvalJava", "GPT3.5", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
+        delete("OpenAI", "HumanEvalJava", "");
+        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
 
 
-        /* SF110 */
-
-        String scenario = "scenario4";
-        int token = 2000;
-        String model = "CodeGen";
-
-        String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
-        for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, "SF110", scenario, token)) {
-
-            String projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
-            delete(model, "SF110", projectName);
-        }
-
-
-  //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
-     // generateReport("SF110", model, new String[]{scenario}, new int[]{token});
+//        /* SF110 */
+//
+//        String scenario = "scenario4";
+//        int token = 2000;
+//        String model = "GPT3.5";
+//
+//        String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
+//        for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, "SF110", scenario, token)) {
+//
+//            String projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
+//            delete(model, "SF110", projectName);
+//        }
+//
+//
+//  //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});
+//       generateReport("SF110", model, new String[]{scenario}, new int[]{token});
 
     }
 }

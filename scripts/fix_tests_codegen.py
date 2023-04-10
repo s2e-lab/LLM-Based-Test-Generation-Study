@@ -2,10 +2,12 @@ import copy
 import json
 import os
 import re
+
 from fix_tests_openai import fix_code
 from utils import load_config, get_output_files, save_to_dummy_folder
 
 DEBUG = True
+
 
 def get_generated_test(response: dict):
     generated_test = []
@@ -54,24 +56,24 @@ def merge_suggestions(config: dict, rq: int, dataset: str, prompt_file: str, max
         for c in r["choices"]:
             new_resp = copy.deepcopy(r)
             gen_code = c["text"]
-
-            # new_code = remove_original_code(gen_code, r)
-            new_code, applied_heuristics = fix_code(model, gen_code, r)
-            r["applied_heuristics"] = ";".join(applied_heuristics)
-            # new_resp["removed_extra_code"] = new_code != gen_code
+            # copy the original generated code to position zero such that the heuristics work normally
             new_resp["original_generated_code"] = gen_code
-            new_resp["choices"][0]["text"] = new_code
+            new_resp["choices"][0]["text"] = gen_code
             new_resp["choices"][0]["finish_reason"] = c["finish_reason"]
             new_resp["choice_no"] = i
-
             # only keep the first recommendation, that has the merged output with test prompt
             del new_resp["choices"][1:]
+            # apply heuristics and assign the new code to the first choice
+            new_resp["choices"][0]["text"], applied_heuristics = fix_code(model, gen_code, new_resp)
+            r["applied_heuristics"] = ";".join(applied_heuristics)
+
             filtered_responses.append(new_resp)
             i += 1
-            print("\tPROMPT", r["prompt_id"], "CLASS:", r["original_code"].split("\n")[0][3:-4], "APPLIED HEURISTICS",
-                  r["applied_heuristics"])
+            print("\tMODEL", model, "PROMPT", r["prompt_id"],
+                  "CLASS:", r["original_code"].split("\n")[0][3:-4],
+                  "APPLIED HEURISTICS", r["applied_heuristics"])
             # save to dummy folder
-            if DEBUG: save_to_dummy_folder(new_code, r)
+            if DEBUG: save_to_dummy_folder(new_resp["choices"][0]["text"], r, i)
 
     fixed_json_file = json_file.replace(".json", "_fixed_extracode.json")
     with open(fixed_json_file, "w") as f:
@@ -101,8 +103,6 @@ def main():
         #("HumanEvalJava", "CodeGen", all_scenarios[:-1], all_tokens),
          ("SF110", "CodeGen", all_scenarios, all_tokens),
     ]
-
-
 
     for dataset, model, scenarios, tokens in worklist:
         # this code only works for CodeGen
