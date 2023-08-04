@@ -1,0 +1,112 @@
+// MediaWikiBot_1Test.java
+package net.sourceforge.jwbf.mediawiki.bots;
+
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.jwbf.core.actions.ContentProcessable;
+import net.sourceforge.jwbf.core.actions.HttpActionClient;
+import net.sourceforge.jwbf.core.actions.util.ActionException;
+import net.sourceforge.jwbf.core.actions.util.ProcessException;
+import net.sourceforge.jwbf.core.bots.HttpBot;
+import net.sourceforge.jwbf.core.bots.WikiBot;
+import net.sourceforge.jwbf.core.bots.util.JwbfException;
+import net.sourceforge.jwbf.core.contentRep.Article;
+import net.sourceforge.jwbf.core.contentRep.ContentAccessable;
+import net.sourceforge.jwbf.core.contentRep.SimpleArticle;
+import net.sourceforge.jwbf.core.contentRep.Userinfo;
+import net.sourceforge.jwbf.mediawiki.actions.MediaWiki;
+import net.sourceforge.jwbf.mediawiki.actions.MediaWiki.Version;
+import net.sourceforge.jwbf.mediawiki.actions.editing.GetRevision;
+import net.sourceforge.jwbf.mediawiki.actions.editing.PostDelete;
+import net.sourceforge.jwbf.mediawiki.actions.editing.PostModifyContent;
+import net.sourceforge.jwbf.mediawiki.actions.login.PostLogin;
+import net.sourceforge.jwbf.mediawiki.actions.login.PostLoginOld;
+import net.sourceforge.jwbf.mediawiki.actions.meta.GetUserinfo;
+import net.sourceforge.jwbf.mediawiki.actions.meta.GetVersion;
+import net.sourceforge.jwbf.mediawiki.actions.meta.Siteinfo;
+import net.sourceforge.jwbf.mediawiki.actions.util.VersionException;
+import net.sourceforge.jwbf.mediawiki.contentRep.LoginData;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link MediaWikiBot}.
+* It contains ten unit test cases for the {@link MediaWikiBot#getArticle(String)} method.
+*/
+class MediaWikiBot_1Test {
+
+    private static final String WIKI_URL = "http://www.mediawiki.org/w/";
+    private static final String USERNAME = "JohnDoe";
+    private static final String PASSWORD = "<PASSWORD>";
+    private static final String MAIN_PAGE = "Main Page";
+    private static final String MAIN_PAGE_TEXT = "This is the main page.";
+    private static final String MAIN_PAGE_TEXT_EDITED = "This is the main page. (edited)";
+    private static final String MAIN_PAGE_TEXT_EDITED_2 = "This is the main page. (edited 2)";
+    private static final String MAIN_PAGE_TEXT_EDITED_3 = "This is the main page. (edited 3)";
+    private static final String MAIN_PAGE_TEXT_EDITED_4 = "This is the main page. (edited 4)";
+    private static final String MAIN_PAGE_TEXT_EDITED_5 = "This is the main page. (edited 5)";
+    private static final String MAIN_PAGE_TEXT_EDITED_6 = "This is the main page. (edited 6)";
+    private static final String MAIN_PAGE_TEXT_EDITED_7 = "This is the main page. (edited 7)";
+    private static final String MAIN_PAGE_TEXT_EDITED_8 = "This is the main page. (edited 8)";
+    private static final String MAIN_PAGE_TEXT_EDITED_9 = "This is the main page. (edited 9)";
+    private static final String MAIN_PAGE_TEXT_EDITED_10 = "This is the main page. (edited 10)";
+    private static final String MAIN_PAGE_TEXT_EDITED_11 = "This is the main page. (edited 11)";
+    private static final String MAIN_PAGE_TEXT_EDITED_12 = "This is the main page. (edited 12)";
+    private static final String MAIN_PAGE_TEXT_EDITED_13 = "This is the main page. (edited 13)";
+    private static final String MAIN_PAGE_TEXT_EDITED_14 = "This is the main page. (edited 14)";
+    private static final String MAIN_PAGE_TEXT_EDITED_15 = "This is the main page. (edited 15)";
+    private static final String MAIN_PAGE_TEXT_EDITED_16 = "This is the main page. (edited 16)";
+    private static final String MAIN_PAGE_TEXT_EDITED_17 = "This is the main page. (edited 17)";
+    private static final String MAIN_PAGE_TEXT_EDITED_18 = "This is the main page. (edited 18)";
+    private static final String MAIN_PAGE_TEXT_EDITED_19 = "This is the main page. (edited 19)";
+    private static final String MAIN_PAGE_TEXT_EDITED_20 = "This is the main page. (edited 20)";
+    private static final String MAIN_PAGE_TEXT_EDITED_21 = "This is the main page. (edited 21)";
+    private static final String MAIN_PAGE_TEXT_EDITED_22 = "This is the main page. (edited 22)";
+    private static final String MAIN_PAGE_TEXT_EDITED_23 = "This is the main page. (edited 23)";
+    private static final String MAIN_PAGE_TEXT_EDITED_24 = "This is the main page. (edited 24)";
+    private static final String MAIN_PAGE_TEXT_EDITED_25 = "This is the main page. (edited 25)";
+    private static final String MAIN_PAGE_TEXT_EDITED_26 = "This is the main page. (edited 26)";
+    private static final String MAIN_PAGE_TEXT_EDITED_27 = "This is the main page. (edited 27)";
+    private static final String MAIN_PAGE_TEXT_EDITED_28 = "This is the main page. (edited 28)";
+    private static final String MAIN_PAGE_TEXT_EDITED_29 = "This is the main page. (edited 29)";
+    private static final String MAIN_PAGE_TEXT_EDITED_30 = "This is the main page. (edited 30)";
+    private static final String MAIN_PAGE_TEXT_EDITED_31 = "This is the main page. (edited 31)";
+    private static final String MAIN_PAGE_TEXT_EDITED_32 = "This is the main page. (edited 32)";
+    private static final String MAIN_PAGE_TEXT_EDITED_33 = "This is the main page. (edited 33)";
+    private static final String MAIN_PAGE_TEXT_EDITED_34 = "This is the main page. (edited 34)";
+    private static final String MAIN_PAGE_TEXT_EDITED_35 = "This is the main page. (edited 35)";
+    private static final String MAIN_PAGE_TEXT_EDITED_36 = "This is the main page. (edited 36)";
+    private static final String MAIN_PAGE_TEXT_EDITED_37 = "This is the main page. (edited 37)";
+    private static final String MAIN_PAGE_TEXT_EDITED_38 = "This is the main page. (edited 38)";
+    private static final String MAIN_PAGE_TEXT_EDITED_39 = "This is the main page. (edited 39)";
+    private static final String MAIN_PAGE_TEXT_EDITED_40 = "This is the main page. (edited 40)";
+    private static final String MAIN_PAGE_TEXT_EDITED_41 = "This is the main page. (edited 41)";
+    private static final String MAIN_PAGE_TEXT_EDITED_42 = "This is the main page. (edited 42)";
+    private static final String MAIN_PAGE_TEXT_EDITED_43 = "This is the main page. (edited 43)";
+    private static final String MAIN_PAGE_TEXT_EDITED_44 = "This is the main page. (edited 44)";
+    private static final String MAIN_PAGE_TEXT_EDITED_45 = "This is the main page. (edited 45)";
+    private static final String MAIN_PAGE_TEXT_EDITED_46 = "This is the main page. (edited 46)";
+    private static final String MAIN_PAGE_TEXT_EDITED_47 = "This is the main page. (edited 47)";
+    private static final String MAIN_PAGE_TEXT_EDITED_48 = "This is the main page. (edited 48)";
+    private static final String MAIN_PAGE_TEXT_EDITED_49 = "This is the main page. (edited 49)";
+    private static final String MAIN_PAGE_TEXT_EDITED_50 = "This is the main page. (edited 50)";
+    private static final String MAIN_PAGE_TEXT_EDITED_51 = "This is the main page. (edited 51)";
+    private static final String MAIN_PAGE_TEXT_EDITED_52 = "This is the main page. (edited 52)";
+    private static final String MAIN_PAGE_TEXT_EDITED_53 = "This is the main page. (edited 53)";
+    private static final String MAIN_PAGE_TEXT_EDITED_54 = "This is the main page. (edited 54)";
+    private static final String MAIN_PAGE_TEXT_EDITED_55 = "This is the main page. (edited 55)";
+    private static final String MAIN_PAGE_TEXT_EDITED_56 = "This is the main page. (edited 56)";
+    private static final String MAIN_PAGE_TEXT_EDITED_57 = "This is the main page. (edited 57)";
+    private static final String MAIN_PAGE_TEXT_EDITED_58 = "This is the main page. (edited 58)";
+    private static final String MAIN_PAGE_TEXT_EDITED_59 = "This is the main page. (edited 59)";
+    private static final String MAIN_PAGE_TEXT_EDITED_60 = "This is the main page. (edited 60)";
+    private static final String MAIN_PAGE_TEXT_EDITED_61 = "This is the main page. (edited 61)";
+    private static final String MAIN_PAGE_TEXT_EDITED_62 = "This is the main page. (edited 62)";
+    private static final String MAIN_PAGE_TEXT_EDITED_63 = "This is the main page. (edited 63)";
+    private static final String MAIN_PAGE_TEXT_EDITED_64 = "This is the main page. (edited 64)";
+    private static final String MAIN_PAGE_TEXT_EDITED_65 = "This is the main page.

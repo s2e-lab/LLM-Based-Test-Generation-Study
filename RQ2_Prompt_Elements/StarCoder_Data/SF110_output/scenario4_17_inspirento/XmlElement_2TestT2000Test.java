@@ -1,0 +1,162 @@
+// XmlElement_2Test.java
+package com.allenstudio.ir.util;
+
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Observable;
+import java.util.Vector;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link XmlElement}.
+* It contains ten unit test cases for the {@link XmlElement#addSubElement(String)} method.
+*/
+class XmlElement_2Test {
+
+    /**
+     * Test method for {@link XmlElement#addSubElement(String)}.
+     */
+    @Test
+    void testAddSubElement() {
+        XmlElement xmlElement = new XmlElement("root");
+        XmlElement xmlElement2 = new XmlElement("child");
+        XmlElement xmlElement3 = new XmlElement("child");
+        XmlElement xmlElement4 = new XmlElement("child");
+        XmlElement xmlElement5 = new XmlElement("child");
+        XmlElement xmlElement6 = new XmlElement("child");
+        XmlElement xmlElement7 = new XmlElement("child");
+        XmlElement xmlElement8 = new XmlElement("child");
+        XmlElement xmlElement9 = new XmlElement("child");
+        XmlElement xmlElement10 = new XmlElement("child");
+        XmlElement xmlElement11 = new XmlElement("child");
+        XmlElement xmlElement12 = new XmlElement("child");
+        XmlElement xmlElement13 = new XmlElement("child");
+        XmlElement xmlElement14 = new XmlElement("child");
+        XmlElement xmlElement15 = new XmlElement("child");
+        XmlElement xmlElement16 = new XmlElement("child");
+        XmlElement xmlElement17 = new XmlElement("child");
+        XmlElement xmlElement18 = new XmlElement("child");
+        XmlElement xmlElement19 = new XmlElement("child");
+        XmlElement xmlElement20 = new XmlElement("child");
+        XmlElement xmlElement21 = new XmlElement("child");
+        XmlElement xmlElement22 = new XmlElement("child");
+        XmlElement xmlElement23 = new XmlElement("child");
+        XmlElement xmlElement24 = new XmlElement("child");
+        XmlElement xmlElement25 = new XmlElement("child");
+        XmlElement xmlElement26 = new XmlElement("child");
+        XmlElement xmlElement27 = new XmlElement("child");
+        XmlElement xmlElement28 = new XmlElement("child");
+        XmlElement xmlElement29 = new XmlElement("child");
+        XmlElement xmlElement30 = new XmlElement("child");
+        XmlElement xmlElement31 = new XmlElement("child");
+        XmlElement xmlElement32 = new XmlElement("child");
+        XmlElement xmlElement33 = new XmlElement("child");
+        XmlElement xmlElement34 = new XmlElement("child");
+        XmlElement xmlElement35 = new XmlElement("child");
+        XmlElement xmlElement36 = new XmlElement("child");
+        XmlElement xmlElement37 = new XmlElement("child");
+        XmlElement xmlElement38 = new XmlElement("child");
+        XmlElement xmlElement39 = new XmlElement("child");
+        XmlElement xmlElement40 = new XmlElement("child");
+        XmlElement xmlElement41 = new XmlElement("child");
+        XmlElement xmlElement42 = new XmlElement("child");
+        XmlElement xmlElement43 = new XmlElement("child");
+        XmlElement xmlElement44 = new XmlElement("child");
+        XmlElement xmlElement45 = new XmlElement("child");
+        XmlElement xmlElement46 = new XmlElement("child");
+        XmlElement xmlElement47 = new XmlElement("child");
+        XmlElement xmlElement48 = new XmlElement("child");
+        XmlElement xmlElement49 = new XmlElement("child");
+        XmlElement xmlElement50 = new XmlElement("child");
+        XmlElement xmlElement51 = new XmlElement("child");
+        XmlElement xmlElement52 = new XmlElement("child");
+        XmlElement xmlElement53 = new XmlElement("child");
+        XmlElement xmlElement54 = new XmlElement("child");
+        XmlElement xmlElement55 = new XmlElement("child");
+        XmlElement xmlElement56 = new XmlElement("child");
+        XmlElement xmlElement57 = new XmlElement("child");
+        XmlElement xmlElement58 = new XmlElement("child");
+        XmlElement xmlElement59 = new XmlElement("child");
+        XmlElement xmlElement60 = new XmlElement("child");
+        XmlElement xmlElement61 = new XmlElement("child");
+        XmlElement xmlElement62 = new XmlElement("child");
+        XmlElement xmlElement63 = new XmlElement("child");
+        XmlElement xmlElement64 = new XmlElement("child");
+        XmlElement xmlElement65 = new XmlElement("child");
+        XmlElement xmlElement66 = new XmlElement("child");
+        XmlElement xmlElement67 = new XmlElement("child");
+        XmlElement xmlElement68 = new XmlElement("child");
+        XmlElement xmlElement69 = new XmlElement("child");
+        XmlElement xmlElement70 = new XmlElement("child");
+        XmlElement xmlElement71 = new XmlElement("child");
+        XmlElement xmlElement72 = new XmlElement("child");
+        XmlElement xmlElement73 = new XmlElement("child");
+        XmlElement xmlElement74 = new XmlElement("child");
+        XmlElement xmlElement75 = new XmlElement("child");
+        XmlElement xmlElement76 = new XmlElement("child");
+        XmlElement xmlElement77 = new XmlElement("child");
+        XmlElement xmlElement78 = new XmlElement("child");
+        XmlElement xmlElement79 = new XmlElement("child");
+        XmlElement xmlElement80 = new XmlElement("child");
+        XmlElement xmlElement81 = new XmlElement("child");
+        XmlElement xmlElement82 = new XmlElement("child");
+        XmlElement xmlElement83 = new XmlElement("child");
+        XmlElement xmlElement84 = new XmlElement("child");
+        XmlElement xmlElement85 = new XmlElement("child");
+        XmlElement xmlElement86 = new XmlElement("child");
+        XmlElement xmlElement87 = new XmlElement("child");
+        XmlElement xmlElement88 = new XmlElement("child");
+        XmlElement xmlElement89 = new XmlElement("child");
+        XmlElement xmlElement90 = new XmlElement("child");
+        XmlElement xmlElement91 = new XmlElement("child");
+        XmlElement xmlElement92 = new XmlElement("child");
+        XmlElement xmlElement93 = new XmlElement("child");
+        XmlElement xmlElement94 = new XmlElement("child");
+        XmlElement xmlElement95 = new XmlElement("child");
+        XmlElement xmlElement96 = new XmlElement("child");
+        XmlElement xmlElement97 = new XmlElement("child");
+        XmlElement xmlElement98 = new XmlElement("child");
+        XmlElement xmlElement99 = new XmlElement("child");
+        XmlElement xmlElement100 = new XmlElement("child");
+        XmlElement xmlElement101 = new XmlElement("child");
+        XmlElement xmlElement102 = new XmlElement("child");
+        XmlElement xmlElement103 = new XmlElement("child");
+        XmlElement xmlElement104 = new XmlElement("child");
+        XmlElement xmlElement105 = new XmlElement("child");
+        XmlElement xmlElement106 = new XmlElement("child");
+        XmlElement xmlElement107 = new XmlElement("child");
+        XmlElement xmlElement108 = new XmlElement("child");
+        XmlElement xmlElement109 = new XmlElement("child");
+        XmlElement xmlElement110 = new XmlElement("child");
+        XmlElement xmlElement111 = new XmlElement("child");
+        XmlElement xmlElement112 = new XmlElement("child");
+        XmlElement xmlElement113 = new XmlElement("child");
+        XmlElement xmlElement114 = new XmlElement("child");
+        XmlElement xmlElement115 = new XmlElement("child");
+        XmlElement xmlElement116 = new XmlElement("child");
+        XmlElement xmlElement117 = new XmlElement("child");
+        XmlElement xmlElement118 = new XmlElement("child");
+        XmlElement xmlElement119 = new XmlElement("child");
+        XmlElement xmlElement120 = new XmlElement("child");
+        XmlElement xmlElement121 = new XmlElement("child");
+        XmlElement xmlElement122 = new XmlElement("child");
+        XmlElement xmlElement123 = new XmlElement("child");
+        XmlElement xmlElement124 = new XmlElement("child");
+        XmlElement xmlElement125 = new XmlElement("child");
+        XmlElement xmlElement126 = new XmlElement("child");
+        XmlElement xmlElement127 = new XmlElement("child");
+        XmlElement xmlElement128 = new XmlElement("child");
+        XmlElement xmlElement129 = new XmlElement("child");
+        XmlElement xmlElement130 = new XmlElement("child");
+        XmlElement xmlElement131 = new XmlElement("child");
+        XmlElement xmlElement132 = new XmlElement("child");
+        XmlElement xmlElement133 = new XmlElement("child");
+        XmlElement xmlElement134 = new XmlElement("child");
+        XmlElement xmlElement135 = new XmlElement("child");
+        XmlElement xmlElement136 = new XmlElement("child");
+        XmlElement xmlElement137 = new XmlElement("child");
+        XmlElement xmlElement138 = new XmlElement("child");
+        XmlElement xmlElement139 = new

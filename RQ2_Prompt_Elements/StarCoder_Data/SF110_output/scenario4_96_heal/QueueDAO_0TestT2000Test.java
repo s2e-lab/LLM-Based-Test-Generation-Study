@@ -1,0 +1,188 @@
+// QueueDAO_0Test.java
+package org.heal.module.catalog;
+
+import org.heal.module.metadata.CompleteMetadataBean;
+import org.heal.module.metadata.MetadataDAO;
+import org.heal.util.CommonDAO;
+import javax.sql.DataSource;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link QueueDAO}.
+* It contains ten unit test cases for the {@link QueueDAO#getQueueByType(String)} method.
+*/
+class QueueDAO_0Test {
+
+    private QueueDAO queueDAO;
+
+    private MetadataDAO metadataDAO;
+
+    private CommonDAO commonDAO;
+
+    private DataSource dataSource;
+
+    @Test
+    void getQueueByType_0() {
+        // Arrange
+        final String type = "approval";
+        final List<QueuedRecordBean> expected = new ArrayList<>();
+        final QueuedRecordBean queuedRecordBean = new QueuedRecordBean();
+        queuedRecordBean.setQueuedRecordId("1");
+        queuedRecordBean.setMetadataId("1");
+        queuedRecordBean.setStatus("approved");
+        queuedRecordBean.setComments("approved");
+        expected.add(queuedRecordBean);
+        final QueuedRecordBean queuedRecordBean2 = new QueuedRecordBean();
+        queuedRecordBean2.setQueuedRecordId("2");
+        queuedRecordBean2.setMetadataId("2");
+        queuedRecordBean2.setStatus("approved");
+        queuedRecordBean2.setComments("approved");
+        expected.add(queuedRecordBean2);
+        final QueuedRecordBean queuedRecordBean3 = new QueuedRecordBean();
+        queuedRecordBean3.setQueuedRecordId("3");
+        queuedRecordBean3.setMetadataId("3");
+        queuedRecordBean3.setStatus("approved");
+        queuedRecordBean3.setComments("approved");
+        expected.add(queuedRecordBean3);
+        final QueuedRecordBean queuedRecordBean4 = new QueuedRecordBean();
+        queuedRecordBean4.setQueuedRecordId("4");
+        queuedRecordBean4.setMetadataId("4");
+        queuedRecordBean4.setStatus("approved");
+        queuedRecordBean4.setComments("approved");
+        expected.add(queuedRecordBean4);
+        final QueuedRecordBean queuedRecordBean5 = new QueuedRecordBean();
+        queuedRecordBean5.setQueuedRecordId("5");
+        queuedRecordBean5.setMetadataId("5");
+        queuedRecordBean5.setStatus("approved");
+        queuedRecordBean5.setComments("approved");
+        expected.add(queuedRecordBean5);
+        final QueuedRecordBean queuedRecordBean6 = new QueuedRecordBean();
+        queuedRecordBean6.setQueuedRecordId("6");
+        queuedRecordBean6.setMetadataId("6");
+        queuedRecordBean6.setStatus("approved");
+        queuedRecordBean6.setComments("approved");
+        expected.add(queuedRecordBean6);
+        final QueuedRecordBean queuedRecordBean7 = new QueuedRecordBean();
+        queuedRecordBean7.setQueuedRecordId("7");
+        queuedRecordBean7.setMetadataId("7");
+        queuedRecordBean7.setStatus("approved");
+        queuedRecordBean7.setComments("approved");
+        expected.add(queuedRecordBean7);
+        final QueuedRecordBean queuedRecordBean8 = new QueuedRecordBean();
+        queuedRecordBean8.setQueuedRecordId("8");
+        queuedRecordBean8.setMetadataId("8");
+        queuedRecordBean8.setStatus("approved");
+        queuedRecordBean8.setComments("approved");
+        expected.add(queuedRecordBean8);
+        final QueuedRecordBean queuedRecordBean9 = new QueuedRecordBean();
+        queuedRecordBean9.setQueuedRecordId("9");
+        queuedRecordBean9.setMetadataId("9");
+        queuedRecordBean9.setStatus("approved");
+        queuedRecordBean9.setComments("approved");
+        expected.add(queuedRecordBean9);
+        final QueuedRecordBean queuedRecordBean10 = new QueuedRecordBean();
+        queuedRecordBean10.setQueuedRecordId("10");
+        queuedRecordBean10.setMetadataId("10");
+        queuedRecordBean10.setStatus("approved");
+        queuedRecordBean10.setComments("approved");
+        expected.add(queuedRecordBean10);
+        final QueuedRecordBean queuedRecordBean11 = new QueuedRecordBean();
+        queuedRecordBean11.setQueuedRecordId("11");
+        queuedRecordBean11.setMetadataId("11");
+        queuedRecordBean11.setStatus("approved");
+        queuedRecordBean11.setComments("approved");
+        expected.add(queuedRecordBean11);
+        final QueuedRecordBean queuedRecordBean12 = new QueuedRecordBean();
+        queuedRecordBean12.setQueuedRecordId("12");
+        queuedRecordBean12.setMetadataId("12");
+        queuedRecordBean12.setStatus("approved");
+        queuedRecordBean12.setComments("approved");
+        expected.add(queuedRecordBean12);
+        final QueuedRecordBean queuedRecordBean13 = new QueuedRecordBean();
+        queuedRecordBean13.setQueuedRecordId("13");
+        queuedRecordBean13.setMetadataId("13");
+        queuedRecordBean13.setStatus("approved");
+        queuedRecordBean13.setComments("approved");
+        expected.add(queuedRecordBean13);
+        final QueuedRecordBean queuedRecordBean14 = new QueuedRecordBean();
+        queuedRecordBean14.setQueuedRecordId("14");
+        queuedRecordBean14.setMetadataId("14");
+        queuedRecordBean14.setStatus("approved");
+        queuedRecordBean14.setComments("approved");
+        expected.add(queuedRecordBean14);
+        final QueuedRecordBean queuedRecordBean15 = new QueuedRecordBean();
+        queuedRecordBean15.setQueuedRecordId("15");
+        queuedRecordBean15.setMetadataId("15");
+        queuedRecordBean15.setStatus("approved");
+        queuedRecordBean15.setComments("approved");
+        expected.add(queuedRecordBean15);
+        final QueuedRecordBean queuedRecordBean16 = new QueuedRecordBean();
+        queuedRecordBean16.setQueuedRecordId("16");
+        queuedRecordBean16.setMetadataId("16");
+        queuedRecordBean16.setStatus("approved");
+        queuedRecordBean16.setComments("approved");
+        expected.add(queuedRecordBean16);
+        final QueuedRecordBean queuedRecordBean17 = new QueuedRecordBean();
+        queuedRecordBean17.setQueuedRecordId("17");
+        queuedRecordBean17.setMetadataId("17");
+        queuedRecordBean17.setStatus("approved");
+        queuedRecordBean17.setComments("approved");
+        expected.add(queuedRecordBean17);
+        final QueuedRecordBean queuedRecordBean18 = new QueuedRecordBean();
+        queuedRecordBean18.setQueuedRecordId("18");
+        queuedRecordBean18.setMetadataId("18");
+        queuedRecordBean18.setStatus("approved");
+        queuedRecordBean18.setComments("approved");
+        expected.add(queuedRecordBean18);
+        final QueuedRecordBean queuedRecordBean19 = new QueuedRecordBean();
+        queuedRecordBean19.setQueuedRecordId("19");
+        queuedRecordBean19.setMetadataId("19");
+        queuedRecordBean19.setStatus("approved");
+        queuedRecordBean19.setComments("approved");
+        expected.add(queuedRecordBean19);
+        final QueuedRecordBean queuedRecordBean20 = new QueuedRecordBean();
+        queuedRecordBean20.setQueuedRecordId("20");
+        queuedRecordBean20.setMetadataId("20");
+        queuedRecordBean20.setStatus("approved");
+        queuedRecordBean20.setComments("approved");
+        expected.add(queuedRecordBean20);
+        final QueuedRecordBean queuedRecordBean21 = new QueuedRecordBean();
+        queuedRecordBean21.setQueuedRecordId("21");
+        queuedRecordBean21.setMetadataId("21");
+        queuedRecordBean21.setStatus("approved");
+        queuedRecordBean21.setComments("approved");
+        expected.add(queuedRecordBean21);
+        final QueuedRecordBean queuedRecordBean22 = new QueuedRecordBean();
+        queuedRecordBean22.setQueuedRecordId("22");
+        queuedRecordBean22.setMetadataId("22");
+        queuedRecordBean22.setStatus("approved");
+        queuedRecordBean22.setComments("approved");
+        expected.add(queuedRecordBean22);
+        final QueuedRecordBean queuedRecordBean23 = new QueuedRecordBean();
+        queuedRecordBean23.setQueuedRecordId("23");
+        queuedRecordBean23.setMetadataId("23");
+        queuedRecordBean23.setStatus("approved");
+        queuedRecordBean23.setComments("approved");
+        expected.add(queuedRecordBean23);
+        final QueuedRecordBean queuedRecordBean24 = new QueuedRecordBean();
+        queuedRecordBean24.setQueuedRecordId("24");
+        queuedRecordBean24.setMetadataId("24");
+        queuedRecordBean24.setStatus("approved");
+        queuedRecordBean24.setComments("approved");
+        expected.add(queuedRecordBean24);
+        final QueuedRecordBean queuedRecordBean25 = new QueuedRecordBean();
+        queuedRecordBean25.setQueuedRecordId("25");
+        queuedRecordBean25.setMetadataId("25");
+        queuedRecordBean25.setStatus("approved");
+        queuedRecordBean25.setComments("approved");
+        expected

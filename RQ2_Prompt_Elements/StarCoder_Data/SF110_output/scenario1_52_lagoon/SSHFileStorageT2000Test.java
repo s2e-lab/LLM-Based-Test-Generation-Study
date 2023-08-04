@@ -1,0 +1,111 @@
+// SSHFileStorageTest.java
+package nu.staldal.lagoon.filestorage;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import nu.staldal.lagoon.core.FileStorage;
+import nu.staldal.lagoon.core.OutputHandler;
+import nu.staldal.lagoon.core.RemoteFileStorage;
+import nu.staldal.lagoon.core.LagoonContext;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SSHFileStorage}.
+* It contains ten unit test cases for the {@link SSHFileStorage#createFile(String)} method.
+*/
+class SSHFileStorageTest {
+
+    private static final boolean DEBUG = false;
+    private static final String TEST_FILE_NAME = "test.txt";
+    private static final String TEST_FILE_CONTENTS = "This is a test file.";
+    private static final String TEST_FILE_CONTENTS_2 = "This is another test file.";
+    private static final String TEST_FILE_CONTENTS_3 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_4 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_5 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_6 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_7 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_8 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_9 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_10 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_11 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_12 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_13 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_14 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_15 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_16 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_17 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_18 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_19 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_20 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_21 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_22 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_23 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_24 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_25 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_26 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_27 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_28 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_29 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_30 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_31 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_32 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_33 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_34 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_35 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_36 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_37 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_38 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_39 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_40 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_41 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_42 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_43 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_44 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_45 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_46 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_47 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_48 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_49 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_50 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_51 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_52 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_53 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_54 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_55 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_56 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_57 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_58 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_59 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_60 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_61 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_62 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_63 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_64 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_65 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_66 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_67 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_68 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_69 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_70 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_71 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_72 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_73 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_74 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_75 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_76 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_77 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_78 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_79 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_80 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_81 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_82 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_83 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_84 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_85 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_86 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_87 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_88 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_89 = "This is yet another test file.";
+    private static final String TEST_FILE_CONTENTS_90 = "This is yet another test file.";
+    private static final String TEST_FILE

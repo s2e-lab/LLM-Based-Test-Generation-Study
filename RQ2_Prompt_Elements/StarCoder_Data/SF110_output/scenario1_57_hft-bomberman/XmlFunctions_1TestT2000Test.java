@@ -1,0 +1,117 @@
+// XmlFunctions_1Test.java
+package common;
+
+import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link XmlFunctions}.
+* It contains ten unit test cases for the {@link XmlFunctions#findXmlNodes(String)} method.
+*/
+class XmlFunctions_1Test {
+
+    private static final Logger logger = Logger.getLogger(XmlFunctions_1Test.class);
+    private static final String xmlFile = "src/test/resources/xml/test.xml";
+    private static final String xmlFile2 = "src/test/resources/xml/test2.xml";
+    private static final String xmlFile3 = "src/test/resources/xml/test3.xml";
+    private static final String xmlFile4 = "src/test/resources/xml/test4.xml";
+    private static final String xmlFile5 = "src/test/resources/xml/test5.xml";
+    private static final String xmlFile6 = "src/test/resources/xml/test6.xml";
+    private static final String xmlFile7 = "src/test/resources/xml/test7.xml";
+    private static final String xmlFile8 = "src/test/resources/xml/test8.xml";
+    private static final String xmlFile9 = "src/test/resources/xml/test9.xml";
+    private static final String xmlFile10 = "src/test/resources/xml/test10.xml";
+    private static final String xmlFile11 = "src/test/resources/xml/test11.xml";
+    private static final String xmlFile12 = "src/test/resources/xml/test12.xml";
+    private static final String xmlFile13 = "src/test/resources/xml/test13.xml";
+    private static final String xmlFile14 = "src/test/resources/xml/test14.xml";
+    private static final String xmlFile15 = "src/test/resources/xml/test15.xml";
+    private static final String xmlFile16 = "src/test/resources/xml/test16.xml";
+    private static final String xmlFile17 = "src/test/resources/xml/test17.xml";
+    private static final String xmlFile18 = "src/test/resources/xml/test18.xml";
+    private static final String xmlFile19 = "src/test/resources/xml/test19.xml";
+    private static final String xmlFile20 = "src/test/resources/xml/test20.xml";
+    private static final String xmlFile21 = "src/test/resources/xml/test21.xml";
+    private static final String xmlFile22 = "src/test/resources/xml/test22.xml";
+    private static final String xmlFile23 = "src/test/resources/xml/test23.xml";
+    private static final String xmlFile24 = "src/test/resources/xml/test24.xml";
+    private static final String xmlFile25 = "src/test/resources/xml/test25.xml";
+    private static final String xmlFile26 = "src/test/resources/xml/test26.xml";
+    private static final String xmlFile27 = "src/test/resources/xml/test27.xml";
+    private static final String xmlFile28 = "src/test/resources/xml/test28.xml";
+    private static final String xmlFile29 = "src/test/resources/xml/test29.xml";
+    private static final String xmlFile30 = "src/test/resources/xml/test30.xml";
+    private static final String xmlFile31 = "src/test/resources/xml/test31.xml";
+    private static final String xmlFile32 = "src/test/resources/xml/test32.xml";
+    private static final String xmlFile33 = "src/test/resources/xml/test33.xml";
+    private static final String xmlFile34 = "src/test/resources/xml/test34.xml";
+    private static final String xmlFile35 = "src/test/resources/xml/test35.xml";
+    private static final String xmlFile36 = "src/test/resources/xml/test36.xml";
+    private static final String xmlFile37 = "src/test/resources/xml/test37.xml";
+    private static final String xmlFile38 = "src/test/resources/xml/test38.xml";
+    private static final String xmlFile39 = "src/test/resources/xml/test39.xml";
+    private static final String xmlFile40 = "src/test/resources/xml/test40.xml";
+    private static final String xmlFile41 = "src/test/resources/xml/test41.xml";
+    private static final String xmlFile42 = "src/test/resources/xml/test42.xml";
+    private static final String xmlFile43 = "src/test/resources/xml/test43.xml";
+    private static final String xmlFile44 = "src/test/resources/xml/test44.xml";
+    private static final String xmlFile45 = "src/test/resources/xml/test45.xml";
+    private static final String xmlFile46 = "src/test/resources/xml/test46.xml";
+    private static final String xmlFile47 = "src/test/resources/xml/test47.xml";
+    private static final String xmlFile48 = "src/test/resources/xml/test48.xml";
+    private static final String xmlFile49 = "src/test/resources/xml/test49.xml";
+    private static final String xmlFile50 = "src/test/resources/xml/test50.xml";
+    private static final String xmlFile51 = "src/test/resources/xml/test51.xml";
+    private static final String xmlFile52 = "src/test/resources/xml/test52.xml";
+    private static final String xmlFile53 = "src/test/resources/xml/test53.xml";
+    private static final String xmlFile54 = "src/test/resources/xml/test54.xml";
+    private static final String xmlFile55 = "src/test/resources/xml/test55.xml";
+    private static final String xmlFile56 = "src/test/resources/xml/test56.xml";
+    private static final String xmlFile57 = "src/test/resources/xml/test57.xml";
+    private static final String xmlFile58 = "src/test/resources/xml/test58.xml";
+    private static final String xmlFile59 = "src/test/resources/xml/test59.xml";
+    private static final String xmlFile60 = "src/test/resources/xml/test60.xml";
+    private static final String xmlFile61 = "src/test/resources/xml/test61.xml";
+    private static final String xmlFile62 = "src/test/resources/xml/test62.xml";
+    private static final String xmlFile63 = "src/test/resources/xml/test63.xml";
+    private static final String xmlFile64 = "src/test/resources/xml/test64.xml";
+    private static final String xmlFile65 = "src/test/resources/xml/test65.xml";
+    private static final String xmlFile66 = "src/test/resources/xml/test66.xml";
+    private static final String xmlFile67 = "src/test/resources/xml/test67.xml";
+    private static final String xmlFile68 = "src/test/resources/xml/test68.xml";
+    private static final String xmlFile69 = "src/test/resources/xml/test69.xml";
+    private static final String xmlFile70 = "src/test/resources/xml/test70.xml";
+    private static final String xmlFile71 = "src/test/resources/xml/test71.xml";
+    private static final String xmlFile72 = "src/test/resources/xml/test72.xml";
+    private static final String xmlFile73 = "src/test/resources/xml/test73.xml";
+    private static final String xmlFile74 = "src/test/resources/xml/test74.xml";
+    private static final String xmlFile75 = "src/test/resources/xml/test75.xml";
+    private static final String xmlFile76 = "src/test/resources/xml/test76.xml";
+    private static final String xmlFile77 = "src/test/resources/xml/test77.xml";
+    private static final String xmlFile78 = "src/test/resources/xml/test78.xml";
+    private static final String xmlFile79 = "src/test/resources/xml/test79.xml";
+    private static final String xmlFile80 = "src/test/resources/xml/test80.xml";
+   

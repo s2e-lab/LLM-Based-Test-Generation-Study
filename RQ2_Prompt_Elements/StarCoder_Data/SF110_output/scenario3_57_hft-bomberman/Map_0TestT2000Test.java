@@ -1,0 +1,160 @@
+// Map_0Test.java
+package common;
+
+import java.awt.Point;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Vector;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Map}.
+* It contains ten unit test cases for the {@link Map#getTileByIndex(int, int)} method.
+*/
+class Map_0Test {
+
+    /**
+     * Test of {@link Map#getTileByIndex(int, int)} method.
+     */
+    @Test
+    void testGetTileByIndex() {
+        Map map = new Map_0();
+        Tile tile = map.getTileByIndex(0, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(1, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(2, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(3, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(4, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(5, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(6, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(7, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(8, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(9, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(10, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(11, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(12, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(13, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(14, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(15, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(16, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(17, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(18, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(19, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(20, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(21, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(22, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(23, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(24, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(25, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(26, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(27, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(28, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(29, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(30, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(31, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(32, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(33, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(34, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(35, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(36, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(37, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(38, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(39, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(40, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(41, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(42, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(43, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(44, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(45, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(46, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(47, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(48, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(49, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(50, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(51, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(52, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(53, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(54, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(55, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(56, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(57, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(58, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(59, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(60, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(61, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(62, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(63, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(64, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(65, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(66, 0);
+        assertEquals(tile.getTileType(), TileType.EMPTY);
+        tile = map.getTileByIndex(67, 0);
+        assertEquals(tile.getTileType(), Tile

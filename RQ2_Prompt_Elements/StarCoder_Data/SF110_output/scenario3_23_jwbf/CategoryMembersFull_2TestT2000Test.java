@@ -1,0 +1,165 @@
+// CategoryMembersFull_2Test.java
+package net.sourceforge.jwbf.mediawiki.actions.queries;
+
+import static net.sourceforge.jwbf.mediawiki.actions.MediaWiki.Version.MW1_11;
+import static net.sourceforge.jwbf.mediawiki.actions.MediaWiki.Version.MW1_12;
+import static net.sourceforge.jwbf.mediawiki.actions.MediaWiki.Version.MW1_13;
+import static net.sourceforge.jwbf.mediawiki.actions.MediaWiki.Version.MW1_14;
+import static net.sourceforge.jwbf.mediawiki.actions.MediaWiki.Version.MW1_15;
+import static net.sourceforge.jwbf.mediawiki.actions.MediaWiki.Version.MW1_16;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.jwbf.core.actions.Get;
+import net.sourceforge.jwbf.core.actions.util.ActionException;
+import net.sourceforge.jwbf.core.actions.util.HttpAction;
+import net.sourceforge.jwbf.core.actions.util.ProcessException;
+import net.sourceforge.jwbf.core.bots.util.JwbfException;
+import net.sourceforge.jwbf.mediawiki.actions.util.SupportedBy;
+import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
+import net.sourceforge.jwbf.mediawiki.contentRep.CategoryItem;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link CategoryMembersFull}.
+* It contains ten unit test cases for the {@link CategoryMembersFull#next()} method.
+*/
+class CategoryMembersFull_2Test {
+
+    /**
+    * Test method for {@link CategoryMembersFull#next()}.
+    */
+    @Test
+    void testNext() {
+        CategoryMembersFull testee = new CategoryMembersFull(new MediaWikiBot(), "Test");
+        testee.setContinueStr("||");
+        testee.setCmlimit("10");
+        testee.setCmtitle("Test");
+        testee.setCmtype("subcat");
+        testee.setCmcontinue("||");
+        testee.setCmexcludehidden("1");
+        testee.setCmrsort("timestamp");
+        testee.setCmwsort("timestamp");
+        testee.setCmwdir("descending");
+        testee.setCmrdir("descending");
+        testee.setCmrprop("timestamp");
+        testee.setCmwprop("timestamp");
+        testee.setCmwlimit("10");
+        testee.setCmrlimit("10");
+        testee.setCmwstart("2010-01-01T00:00:00Z");
+        testee.setCmrstart("2010-01-01T00:00:00Z");
+        testee.setCmwend("2010-01-01T00:00:00Z");
+        testee.setCmrend("2010-01-01T00:00:00Z");
+        testee.setCmwcontinue("||");
+        testee.setCmrcontinue("||");
+        testee.setCmwtoken("||");
+        testee.setCmrtoken("||");
+        testee.setCmwsearch("||");
+        testee.setCmrsearch("||");
+        testee.setCmwtagfilter("||");
+        testee.setCmrtagfilter("||");
+        testee.setCmwtagprefix("||");
+        testee.setCmrtagprefix("||");
+        testee.setCmwtagsearch("||");
+        testee.setCmrtagsearch("||");
+        testee.setCmwtagsearchlang("||");
+        testee.setCmrtagsearchlang("||");
+        testee.setCmwtagsearchlangprefix("||");
+        testee.setCmrtagsearchlangprefix("||");
+        testee.setCmwtagwhat("||");
+        testee.setCmrtagwhat("||");
+        testee.setCmwtagwhatprefix("||");
+        testee.setCmrtagwhatprefix("||");
+        testee.setCmwtagwhatlang("||");
+        testee.setCmrtagwhatlang("||");
+        testee.setCmwtagwhatlangprefix("||");
+        testee.setCmrtagwhatlangprefix("||");
+        testee.setCmwtagwhatfallback("||");
+        testee.setCmrtagwhatfallback("||");
+        testee.setCmwtagwhatfallbackprefix("||");
+        testee.setCmrtagwhatfallbackprefix("||");
+        testee.setCmwtagwhatfallbacklang("||");
+        testee.setCmrtagwhatfallbacklang("||");
+        testee.setCmwtagwhatfallbacklangprefix("||");
+        testee.setCmrtagwhatfallbacklangprefix("||");
+        testee.setCmwtagwhatfallbacklist("||");
+        testee.setCmrtagwhatfallbacklist("||");
+        testee.setCmwtagwhatfallbacklistprefix("||");
+        testee.setCmrtagwhatfallbacklistprefix("||");
+        testee.setCmwtagwhatfallbacklistlang("||");
+        testee.setCmrtagwhatfallbacklistlang("||");
+        testee.setCmwtagwhatfallbacklistlangprefix("||");
+        testee.setCmrtagwhatfallbacklistlangprefix("||");
+        testee.setCmwtagwhatlist("||");
+        testee.setCmrtagwhatlist("||");
+        testee.setCmwtagwhatlistprefix("||");
+        testee.setCmrtagwhatlistprefix("||");
+        testee.setCmwtagwhatlistlang("||");
+        testee.setCmrtagwhatlistlang("||");
+        testee.setCmwtagwhatlistlangprefix("||");
+        testee.setCmrtagwhatlistlangprefix("||");
+        testee.setCmwtagwhatlanglist("||");
+        testee.setCmrtagwhatlanglist("||");
+        testee.setCmwtagwhatlanglistprefix("||");
+        testee.setCmrtagwhatlanglistprefix("||");
+        testee.setCmwtagwhatlanglistlang("||");
+        testee.setCmrtagwhatlanglistlang("||");
+        testee.setCmwtagwhatlanglistlangprefix("||");
+        testee.setCmrtagwhatlanglistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlist("||");
+        testee.setCmrtagwhatlangprefixlist("||");
+        testee.setCmwtagwhatlangprefixlistprefix("||");
+        testee.setCmrtagwhatlangprefixlistprefix("||");
+        testee.setCmwtagwhatlangprefixlistlang("||");
+        testee.setCmrtagwhatlangprefixlistlang("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmrtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtagwhatlangprefixlistlangprefix("||");
+        testee.setCmwtag
