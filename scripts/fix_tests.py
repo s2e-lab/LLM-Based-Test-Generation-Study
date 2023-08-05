@@ -276,6 +276,11 @@ def get_generated_test(model: str, response: dict):
             return None
         return response["choices"][0]["message"]["content"]
 
+    if model == "StarCoder":
+        if "choices" in response:
+            if "text" in response["choices"][0]:
+                return response["choices"][0]["text"]
+
     raise Exception(f"{model} is an unexpected value")
 
 
@@ -296,6 +301,10 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
 
     # load previously computed response
     with open(json_file, "r") as f:
+        size = os.path.getsize(json_file)
+        if size == 0:
+            print("EMPTY FILE")
+            return
         previous_responses = json.load(f)
 
     # creates a new array with responses that are fixed
@@ -366,11 +375,13 @@ def main():
 
     worklist = [
         # Codex
-        ("HumanEvalJava", "OpenAI", all_scenarios[:-1], all_tokens),
+        # ("HumanEvalJava", "OpenAI", all_scenarios[:-1], all_tokens),
+        ("HumanEvalJava", "StarCoder", all_scenarios[:-1], all_tokens[:-1]),
         # ("SF110", "OpenAI", all_scenarios, all_tokens),
         # ChatGPT 3.5
-        ("HumanEvalJava", "GPT3.5", all_scenarios[:-1], all_tokens[:-1]),
+        # ("HumanEvalJava", "GPT3.5", all_scenarios[:-1], all_tokens[:-1]),
         # ("SF110", "GPT3.5", all_scenarios, all_tokens[:-1]),
+        # ("SF110", "StarCoder", all_scenarios, all_tokens[:-1]),
     ]
 
     for dataset, model, scenarios, tokens in worklist:
