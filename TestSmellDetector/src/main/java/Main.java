@@ -26,12 +26,12 @@ public class Main {
 //                return;
 //            }
 //        }
-        for (String model : new String[]{"OpenAI", "CodeGen", "GPT3.5"}) {
-            for (String scenario : new String[]{"original", "scenario1", "scenario2", "scenario3"}) {
+        for (String model : new String[]{/*"OpenAI", "CodeGen", "GPT3.5", */ "StarCoder"}) {
+            for (String scenario : new String[]{/*"original",*/ "scenario4"/*,"scenario2", "scenario3"*/}) {
                 for (int token : new int[]{2000, 4000}) {
                     if(!model.equals("OpenAI") && token == 4000) continue;
                     String suffix = String.format("%s_%s_%d", model, scenario, token);
-                    String fileName = String.format("/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-FAKE/%s/HumanEvalJava-Results/csv-data/TestSmellInput-%s-%d.csv", model, scenario, token);
+                    String fileName = String.format("/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/%s/SF110-Results/csv-data/TestSmell_Input/TestSmellInput-%s-%d.csv", model, scenario, token);
                     runTsDetect(fileName, suffix);
                 }
             }
@@ -56,9 +56,9 @@ public class Main {
 
             //check if the test file has an associated production file
             if (lineItem.length == 2) {
-                testFile = new TestFile(lineItem[0], lineItem[1].replace("ICSE23-results", "ICSE23-fake"), "");
+                testFile = new TestFile(lineItem[0], lineItem[1]/*.replace("ICSE23-results", "ICSE23-fake")*/, "");
             } else {
-                testFile = new TestFile(lineItem[0], lineItem[1].replace("ICSE23-results", "ICSE23-fake"), lineItem[2]);
+                testFile = new TestFile(lineItem[0], lineItem[1]/*.replace("ICSE23-results", "ICSE23-fake")*/, lineItem[2]);
             }
 
             testFiles.add(testFile);
