@@ -318,15 +318,17 @@ def run_analysis(config: dict, rq: int, dataset: str, prompt_file: str, max_toke
         r["original_generated_code"] = old_code if old_code else ""
         r["applied_heuristics"] = ";".join(applied_heuristics)
 
-        if model == "OpenAI":
-            r["choices"][0]["text"] = new_code
+        # if model == "OpenAI" or model == "StarCoder": 
+        #     r["choices"][0]["text"] = new_code
         if model == "GPT3.5":
             r["choices"][0]["message"]["content"] = new_code
+        else:
+            r["choices"][0]["text"] = new_code
 
         # save to dummy folder
         if DEBUG: save_to_dummy_folder(new_code, r)
 
-        r["choices"][0]["text"] = new_code
+        # r["choices"][0]["text"] = new_code
         print("\tMODEL", model, "PROMPT", r["prompt_id"],
               "CLASS:", r["original_code"].split("\n")[0][3:-4],
               "APPLIED HEURISTICS", r["applied_heuristics"])
