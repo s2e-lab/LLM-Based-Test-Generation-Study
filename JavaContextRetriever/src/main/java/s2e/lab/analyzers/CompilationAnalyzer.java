@@ -447,19 +447,21 @@ public class CompilationAnalyzer {
 //        delete("OpenAI", "HumanEvalJava", "");
 //        generateReport("HumanEvalJava", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000, 4000});
 
+        delete("StarCoder", "HumanEvalJava", "");
+        generateReport("HumanEvalJava", "StarCoder", new String[]{"original", "scenario1", "scenario2", "scenario3"}, new int[]{2000});
 
 //        /* SF110 */
 
-        String scenario = "scenario4";
-        int token = 2000;
-        String model = "StarCoder";
-
-        String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
-        for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, "SF110", scenario, token)) {
-
-            String projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
-            delete(model, "SF110", projectName);
-        }
+//        String scenario = "scenario4";
+//        int token = 2000;
+//        String model = "StarCoder";
+//
+//        String rqJsonFile = scenario.equals("original") ? RQ1_JSON_OUTPUT : RQ2_JSON_OUTPUT;
+//        for (JsonArray promptArr : getPromptArrays(rqJsonFile, model, "SF110", scenario, token)) {
+//
+//            String projectName = promptArr.get(0).getAsJsonObject().get("prompt_id").getAsString().split("/")[3];
+//            delete(model, "SF110", projectName);
+//        }
 
 
   //      generateReport("SF110", "OpenAI", new String[]{"original", "scenario1", "scenario2", "scenario3", "scenario4"}, new int[]{2000, 4000});

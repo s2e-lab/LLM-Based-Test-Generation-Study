@@ -27,11 +27,11 @@ public class Main {
 //            }
 //        }
         for (String model : new String[]{/*"OpenAI", "CodeGen", "GPT3.5", */ "StarCoder"}) {
-            for (String scenario : new String[]{/*"original",*/ "scenario4"/*,"scenario2", "scenario3"*/}) {
+            for (String scenario : new String[]{/*"original",*/ "scenario3"/*,"scenario2", "scenario3"*/}) {
                 for (int token : new int[]{2000, 4000}) {
                     if(!model.equals("OpenAI") && token == 4000) continue;
                     String suffix = String.format("%s_%s_%d", model, scenario, token);
-                    String fileName = String.format("/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/%s/SF110-Results/csv-data/TestSmell_Input/TestSmellInput-%s-%d.csv", model, scenario, token);
+                    String fileName = String.format("/Users/lsiddiqsunny/Documents/Notre_Dame/Research/ICSE23-results/%s/HumanEvalJava-Results/csv-data/TestSmellInput/TestSmellInput-%s-%d.csv", model, scenario, token);
                     runTsDetect(fileName, suffix);
                 }
             }
