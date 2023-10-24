@@ -1,0 +1,188 @@
+// Base64Coder_2Test.java
+package com.pmdesigns.jvc.tools;
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Base64Coder}.
+* It contains ten unit test cases for the {@link Base64Coder#encode(byte[], int)} method.
+*/
+class Base64Coder_2Test {
+
+    /**
+    * Test case for {@link Base64Coder#encode(byte[], int)}.
+    * @throws Exception if an error occurs
+    */
+    @Test
+    void testEncode() throws Exception {
+        byte[] in = new byte[0];
+        char[] out = Base64Coder.encode(in, 0);
+        assertEquals(0, out.length);
+        out = Base64Coder.encode(in, 1);
+        assertEquals(4, out.length);
+        assertEquals('A', out[0]);
+        assertEquals('A', out[1]);
+        assertEquals('A', out[2]);
+        assertEquals('A', out[3]);
+        out = Base64Coder.encode(in, 2);
+        assertEquals(4, out.length);
+        assertEquals('A', out[0]);
+        assertEquals('A', out[1]);
+        assertEquals('A', out[2]);
+        assertEquals('A', out[3]);
+        in = new byte[] { 0x61 };
+        out = Base64Coder.encode(in, 1);
+        assertEquals(4, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('g', out[1]);
+        assertEquals('g', out[2]);
+        assertEquals('g', out[3]);
+        out = Base64Coder.encode(in, 2);
+        assertEquals(4, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('g', out[1]);
+        assertEquals('g', out[2]);
+        assertEquals('g', out[3]);
+        in = new byte[] { 0x61, 0x62 };
+        out = Base64Coder.encode(in, 2);
+        assertEquals(4, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('g', out[2]);
+        assertEquals('g', out[3]);
+        in = new byte[] { 0x61, 0x62, 0x63 };
+        out = Base64Coder.encode(in, 3);
+        assertEquals(8, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('I', out[2]);
+        assertEquals('I', out[3]);
+        assertEquals('I', out[4]);
+        assertEquals('I', out[5]);
+        assertEquals('I', out[6]);
+        assertEquals('I', out[7]);
+        in = new byte[] { 0x61, 0x62, 0x63, 0x64 };
+        out = Base64Coder.encode(in, 4);
+        assertEquals(8, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('I', out[2]);
+        assertEquals('J', out[3]);
+        assertEquals('I', out[4]);
+        assertEquals('J', out[5]);
+        assertEquals('I', out[6]);
+        assertEquals('I', out[7]);
+        in = new byte[] { 0x61, 0x62, 0x63, 0x64, 0x65 };
+        out = Base64Coder.encode(in, 5);
+        assertEquals(12, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('I', out[2]);
+        assertEquals('J', out[3]);
+        assertEquals('K', out[4]);
+        assertEquals('I', out[5]);
+        assertEquals('J', out[6]);
+        assertEquals('I', out[7]);
+        assertEquals('I', out[8]);
+        assertEquals('I', out[9]);
+        assertEquals('I', out[10]);
+        assertEquals('I', out[11]);
+        in = new byte[] { 0x61, 0x62, 0x63, 0x64, 0x65, 0x66 };
+        out = Base64Coder.encode(in, 6);
+        assertEquals(12, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('I', out[2]);
+        assertEquals('J', out[3]);
+        assertEquals('K', out[4]);
+        assertEquals('L', out[5]);
+        assertEquals('I', out[6]);
+        assertEquals('J', out[7]);
+        assertEquals('I', out[8]);
+        assertEquals('I', out[9]);
+        assertEquals('I', out[10]);
+        assertEquals('I', out[11]);
+        in = new byte[] { 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67 };
+        out = Base64Coder.encode(in, 7);
+        assertEquals(16, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('I', out[2]);
+        assertEquals('J', out[3]);
+        assertEquals('K', out[4]);
+        assertEquals('L', out[5]);
+        assertEquals('M', out[6]);
+        assertEquals('I', out[7]);
+        assertEquals('J', out[8]);
+        assertEquals('I', out[9]);
+        assertEquals('I', out[10]);
+        assertEquals('I', out[11]);
+        assertEquals('I', out[12]);
+        assertEquals('I', out[13]);
+        assertEquals('I', out[14]);
+        assertEquals('I', out[15]);
+        in = new byte[] { 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68 };
+        out = Base64Coder.encode(in, 8);
+        assertEquals(16, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('I', out[2]);
+        assertEquals('J', out[3]);
+        assertEquals('K', out[4]);
+        assertEquals('L', out[5]);
+        assertEquals('M', out[6]);
+        assertEquals('N', out[7]);
+        assertEquals('I', out[8]);
+        assertEquals('J', out[9]);
+        assertEquals('I', out[10]);
+        assertEquals('I', out[11]);
+        assertEquals('I', out[12]);
+        assertEquals('I', out[13]);
+        assertEquals('I', out[14]);
+        assertEquals('I', out[15]);
+        in = new byte[] { 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69 };
+        out = Base64Coder.encode(in, 9);
+        assertEquals(20, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('I', out[2]);
+        assertEquals('J', out[3]);
+        assertEquals('K', out[4]);
+        assertEquals('L', out[5]);
+        assertEquals('M', out[6]);
+        assertEquals('N', out[7]);
+        assertEquals('O', out[8]);
+        assertEquals('I', out[9]);
+        assertEquals('J', out[10]);
+        assertEquals('I', out[11]);
+        assertEquals('I', out[12]);
+        assertEquals('I', out[13]);
+        assertEquals('I', out[14]);
+        assertEquals('I', out[15]);
+        assertEquals('I', out[16]);
+        assertEquals('I', out[17]);
+        assertEquals('I', out[18]);
+        assertEquals('I', out[19]);
+        in = new byte[] { 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a };
+        out = Base64Coder.encode(in, 10);
+        assertEquals(20, out.length);
+        assertEquals('Y', out[0]);
+        assertEquals('h', out[1]);
+        assertEquals('I', out[2]);
+        assertEquals('J', out[3]);
+        assertEquals('K', out[4]);
+        assertEquals('L', out[5]);
+        assertEquals('M', out[6]);
+        assertEquals('N', out[7]);
+        assertEquals('O', out[8]);
+        assertEquals('P', out[9]);
+        assertEquals('I', out[10]);
+        assertEquals('J', out[11]);
+        assertEquals('I', out[12]);
+        assertEquals('I', out[13]);
+        assertEquals('I', out[14]);
+        assertEquals('I', out[15]);
+        assertEquals('I', out[16]);
+        assertEquals('I', out[17

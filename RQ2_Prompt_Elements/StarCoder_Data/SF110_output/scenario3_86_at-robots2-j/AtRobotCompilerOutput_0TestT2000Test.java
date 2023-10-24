@@ -1,0 +1,184 @@
+// AtRobotCompilerOutput_0Test.java
+package net.virtualinfinity.atrobots.compiler;
+
+import net.virtualinfinity.atrobots.computer.DebugInfo;
+import net.virtualinfinity.atrobots.computer.Program;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link AtRobotCompilerOutput}.
+* It contains ten unit test cases for the {@link AtRobotCompilerOutput#createRobotFactory(String)} method.
+*/
+class AtRobotCompilerOutput_0Test {
+
+    /**
+     * Test case for the {@link AtRobotCompilerOutput#createRobotFactory(String)} method.
+     *
+     * @throws IllegalStateException if there are compiler errors.
+     */
+    @Test
+    void testCreateRobotFactory() {
+        final AtRobotCompilerOutput output = new AtRobotCompilerOutput_0();
+        final RobotFactory factory = output.createRobotFactory("Test");
+        final Program program = factory.createProgram();
+        final DebugInfo debugInfo = program.getDebugInfo();
+        assertEquals(1, debugInfo.getProgramCounter());
+        assertEquals(1, debugInfo.getStackDepth());
+        assertEquals(0, debugInfo.getMemoryDepth());
+        assertEquals(0, debugInfo.getRegisterDepth());
+        assertEquals(0, debugInfo.getCallDepth());
+        assertEquals(0, debugInfo.getReturnDepth());
+        assertEquals(0, debugInfo.getLoopDepth());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals(0, debugInfo.getLoopCounter());
+        assertEquals

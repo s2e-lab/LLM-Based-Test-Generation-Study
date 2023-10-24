@@ -1,0 +1,118 @@
+// HttpAnalyzerAppTest.java
+package httpanalyzer;
+
+import org.jdesktop.application.Application;
+import org.jdesktop.application.SingleFrameApplication;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link HttpAnalyzerApp}.
+* It contains ten unit test cases for the {@link HttpAnalyzerApp#getApplication()} method.
+*/
+class HttpAnalyzerAppTest {
+
+    /**
+    * Test case for {@link HttpAnalyzerApp#getApplication()}.
+    */
+    @Test
+    void testGetApplication() {
+        HttpAnalyzerApp app = HttpAnalyzerApp.getApplication();
+        assertNotNull(app);
+        assertSame(app, HttpAnalyzerApp.getApplication());
+    }
+}
+
+// HttpAnalyzerView.java
+package httpanalyzer;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import org.jdesktop.application.Action;
+import org.jdesktop.application.ResourceMap;
+import org.jdesktop.application.SingleFrameApplication;
+import org.jdesktop.application.FrameView;
+import org.jdesktop.application.TaskMonitor;
+import org.jdesktop.application.Task;
+import org.jdesktop.application.Task.BlockingScope;
+import org.jdesktop.application.Task.QueuedScope;
+import org.jdesktop.application.TaskMonitor.Monitor;
+import org.jdesktop.application.TaskMonitor.ProgressListener;
+import org.jdesktop.application.TaskMonitor.ProgressEvent;
+import org.jdesktop.application.TaskMonitor.State;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorListener;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.Type;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.StateType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressStateType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressStateEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressStateEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventType;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEventStateEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEventEvent;
+import org.jdesktop.application.TaskMonitor.TaskMonitorEvent.ProgressEventStateEvent

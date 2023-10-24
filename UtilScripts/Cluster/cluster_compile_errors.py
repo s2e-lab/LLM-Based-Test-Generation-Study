@@ -4,12 +4,12 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.cluster import KMeans
 
-data=pd.read_excel('sample.xlsx') 
-idea=data.iloc[:,0:1] #Selecting the first column that has text. 
+data = pd.read_csv('compilationErrorsSF110.csv')
+
 #Converting the column of data from excel sheet into a list of documents, where each document corresponds to a group of sentences.
 corpus=[]
-for index,row in idea.iterrows():
-    corpus.append(row['compile_error'])
+for index,row in data.iterrows():
+    corpus.append(row['ERROR'])
 
 corpus = [str(item).replace(" ","-") for item in corpus]
 
@@ -24,7 +24,7 @@ print(tfidf.shape )
 
 
 
-num_clusters = 10 #Change it according to your data.
+num_clusters = 48 #Change it according to your data.
 km = KMeans(n_clusters=num_clusters)
 km.fit(tfidf)
 clusters = km.labels_.tolist()

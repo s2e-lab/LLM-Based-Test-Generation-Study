@@ -1,0 +1,117 @@
+// Login_0Test.java
+package com.browsersoft.aacs;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
+import javax.security.auth.login.LoginException;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+import com.browsersoft.aacs.xacml.PDPadapter;
+import com.browsersoft.aacs.xacml.RequestBuilder;
+import com.sun.xacml.Indenter;
+import com.sun.xacml.ctx.RequestCtx;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link Login}.
+* It contains ten unit test cases for the {@link Login#getProps(String)} method.
+*/
+class Login_0Test {
+
+    private static final String CONFIG_FILE = "config.properties";
+    private static final String CONFIG_FILE_INVALID = "config_invalid.properties";
+    private static final String CONFIG_FILE_INVALID_2 = "config_invalid_2.properties";
+    private static final String CONFIG_FILE_INVALID_3 = "config_invalid_3.properties";
+    private static final String CONFIG_FILE_INVALID_4 = "config_invalid_4.properties";
+    private static final String CONFIG_FILE_INVALID_5 = "config_invalid_5.properties";
+    private static final String CONFIG_FILE_INVALID_6 = "config_invalid_6.properties";
+    private static final String CONFIG_FILE_INVALID_7 = "config_invalid_7.properties";
+    private static final String CONFIG_FILE_INVALID_8 = "config_invalid_8.properties";
+    private static final String CONFIG_FILE_INVALID_9 = "config_invalid_9.properties";
+    private static final String CONFIG_FILE_INVALID_10 = "config_invalid_10.properties";
+    private static final String CONFIG_FILE_INVALID_11 = "config_invalid_11.properties";
+    private static final String CONFIG_FILE_INVALID_12 = "config_invalid_12.properties";
+    private static final String CONFIG_FILE_INVALID_13 = "config_invalid_13.properties";
+    private static final String CONFIG_FILE_INVALID_14 = "config_invalid_14.properties";
+    private static final String CONFIG_FILE_INVALID_15 = "config_invalid_15.properties";
+    private static final String CONFIG_FILE_INVALID_16 = "config_invalid_16.properties";
+    private static final String CONFIG_FILE_INVALID_17 = "config_invalid_17.properties";
+    private static final String CONFIG_FILE_INVALID_18 = "config_invalid_18.properties";
+    private static final String CONFIG_FILE_INVALID_19 = "config_invalid_19.properties";
+    private static final String CONFIG_FILE_INVALID_20 = "config_invalid_20.properties";
+    private static final String CONFIG_FILE_INVALID_21 = "config_invalid_21.properties";
+    private static final String CONFIG_FILE_INVALID_22 = "config_invalid_22.properties";
+    private static final String CONFIG_FILE_INVALID_23 = "config_invalid_23.properties";
+    private static final String CONFIG_FILE_INVALID_24 = "config_invalid_24.properties";
+    private static final String CONFIG_FILE_INVALID_25 = "config_invalid_25.properties";
+    private static final String CONFIG_FILE_INVALID_26 = "config_invalid_26.properties";
+    private static final String CONFIG_FILE_INVALID_27 = "config_invalid_27.properties";
+    private static final String CONFIG_FILE_INVALID_28 = "config_invalid_28.properties";
+    private static final String CONFIG_FILE_INVALID_29 = "config_invalid_29.properties";
+    private static final String CONFIG_FILE_INVALID_30 = "config_invalid_30.properties";
+    private static final String CONFIG_FILE_INVALID_31 = "config_invalid_31.properties";
+    private static final String CONFIG_FILE_INVALID_32 = "config_invalid_32.properties";
+    private static final String CONFIG_FILE_INVALID_33 = "config_invalid_33.properties";
+    private static final String CONFIG_FILE_INVALID_34 = "config_invalid_34.properties";
+    private static final String CONFIG_FILE_INVALID_35 = "config_invalid_35.properties";
+    private static final String CONFIG_FILE_INVALID_36 = "config_invalid_36.properties";
+    private static final String CONFIG_FILE_INVALID_37 = "config_invalid_37.properties";
+    private static final String CONFIG_FILE_INVALID_38 = "config_invalid_38.properties";
+    private static final String CONFIG_FILE_INVALID_39 = "config_invalid_39.properties";
+    private static final String CONFIG_FILE_INVALID_40 = "config_invalid_40.properties";
+    private static final String CONFIG_FILE_INVALID_41 = "config_invalid_41.properties";
+    private static final String CONFIG_FILE_INVALID_42 = "config_invalid_42.properties";
+    private static final String CONFIG_FILE_INVALID_43 = "config_invalid_43.properties";
+    private static final String CONFIG_FILE_INVALID_44 = "config_invalid_44.properties";
+    private static final String CONFIG_FILE_INVALID_45 = "config_invalid_45.properties";
+    private static final String CONFIG_FILE_INVALID_46 = "config_invalid_46.properties";
+    private static final String CONFIG_FILE_INVALID_47 = "config_invalid_47.properties";
+    private static final String CONFIG_FILE_INVALID_48 = "config_invalid_48.properties";
+    private static final String CONFIG_FILE_INVALID_49 = "config_invalid_49.properties";
+    private static final String CONFIG_FILE_INVALID_50 = "config_invalid_50.properties";
+    private static final String CONFIG_FILE_INVALID_51 = "config_invalid_51.properties";
+    private static final String CONFIG_FILE_INVALID_52 = "config_invalid_52.properties";
+    private static final String CONFIG_FILE_INVALID_53 = "config_invalid_53.properties";
+    private static final String CONFIG_FILE_INVALID_54 = "config_invalid_54.properties";
+    private static final String CONFIG_FILE_INVALID_55 = "config_invalid_55.properties";
+    private static final String CONFIG_FILE_INVALID_56 = "config_invalid_56.properties";
+    private static final String CONFIG_FILE_INVALID_57 = "config_invalid_57.properties";
+    private static final String CONFIG_FILE_INVALID_58 = "config_invalid_58.properties";
+    private static final String CONFIG_FILE_INVALID_59 = "config_invalid_59.properties";
+    private static final String CONFIG_FILE_INVALID_60 = "config_invalid_60.properties";
+    private static final String CONFIG_FILE_INVALID_61 = "config_invalid_61.properties";
+    private static final String CONFIG_FILE_INVALID_62 = "config_invalid_62.properties";
+    private static final String CONFIG_FILE_INVALID_63 = "config_invalid_63.properties";
+    private static final String CONFIG_FILE_INVALID_64 = "config_invalid_64.properties";
+    private static final String CONFIG_FILE_INVALID_65 = "config_invalid_65.properties";
+    private static final String CONFIG_FILE_INVALID_66 = "config_invalid_66.properties";
+    private static final String CONFIG_FILE_INVALID_67 = "config_invalid_67.properties";
+    private static final String CONFIG_FILE_INVALID_68 = "config_invalid_68.properties";
+    private static final String CONFIG_FILE_INVALID_69 = "config_invalid_69.properties";
+    private static final String CONFIG_FILE_INVALID_70 = "config_invalid_70.properties";
+    private static final String CONFIG_FILE_INVALID_71 = "config_invalid_71.properties";
+    private static final String CONFIG_FILE_INVALID_72 = "config_invalid_72.properties";
+    private static final String CONFIG_FILE_INVALID_73 = "config_invalid_73.properties";
+    private static final String CONFIG_FILE_INVALID_74 = "config_invalid_74.properties";
+    private static final String CONFIG_FILE_INVALID_75 = "config_invalid_75.properties";
+    private static final String CONFIG_FILE_INVALID_76 = "config_invalid_76.properties";
+    private static final String CONFIG_FILE_INVALID_77 = "config_invalid_77.properties";
+    private static final String CONFIG_FILE_INVALID_78 = "config_invalid_78.properties";
+    private static final String CONFIG_FILE_INVALID_79 = "config_invalid_79.properties";
+    private static final String CONFIG_FILE_INVALID_80 = "config_invalid_80.properties";
+    private static final String CONFIG_FILE_INVALID_81 = "config_invalid_81.properties";
+    private static final String CONFIG_FILE_INVALID_82 = "config_invalid_82.properties";
+    private static final String CONFIG_FILE_INVALID_83 = "config_invalid_83.properties";
+    private static final String CONFIG_FILE_INVALID_84 = "config

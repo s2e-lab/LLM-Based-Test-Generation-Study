@@ -1,0 +1,44 @@
+// JniInchiStructure_0Test.java
+package net.sf.jniinchi;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link JniInchiStructure}.
+* It contains ten unit test cases for the {@link JniInchiStructure#addAtom(JniInchiAtom)} method.
+*/
+class JniInchiStructure_0Test {
+
+    /**
+    * Test of {@link JniInchiStructure#addAtom(JniInchiAtom)} method, of class {@link JniInchiStructure}.
+    */
+    @Test
+    void testAddAtom() {
+        System.out.println("addAtom");
+        JniInchiAtom atom = new JniInchiAtom();
+        JniInchiStructure instance = new JniInchiStructure();
+        JniInchiAtom expResult = atom;
+        JniInchiAtom result = instance.addAtom(atom);
+        assertEquals(expResult, result);
+    }
+
+    /**
+    * Test of {@link JniInchiStructure#addAtom(JniInchiAtom)} method, of class {@link JniInchiStructure}.
+    */
+    @Test
+    void testAddAtom_0args() {
+        System.out.println("addAtom");
+        JniInchiStructure instance = new JniInchiStructure();
+        JniInchiAtom expResult = new JniInchiAtom();
+        JniInchiAtom result = instance.addAtom();
+        assertEquals(expResult, result);
+    }
+
+    /**
+    * Test of {@link JniInchiStructure#addAtom(JniInchiAtom)} method, of class {@link JniInchiStructure}.
+    */
+    @Test
+    void testAddAtom_String_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int_int

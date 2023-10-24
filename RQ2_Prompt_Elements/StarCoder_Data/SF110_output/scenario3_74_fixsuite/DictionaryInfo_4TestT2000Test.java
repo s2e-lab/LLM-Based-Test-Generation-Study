@@ -1,0 +1,186 @@
+// DictionaryInfo_4Test.java
+package org.fixsuite.message.info;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link DictionaryInfo}.
+* It contains ten unit test cases for the {@link DictionaryInfo#getMessage(int)} method.
+*/
+class DictionaryInfo_4Test {
+
+    /**
+     * Test case for {@link DictionaryInfo#getMessage(int)}
+     *
+     * @throws Exception
+     */
+    @Test
+    void getMessage() throws Exception {
+        DictionaryInfo dictionaryInfo = new DictionaryInfo_4();
+        MessageInfo messageInfo = dictionaryInfo.getMessage(1);
+        assertEquals("Heartbeat", messageInfo.getName());
+        assertEquals("Heartbeat", messageInfo.getMsgType());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName());
+        assertEquals("Heartbeat", messageInfo.getMsgName

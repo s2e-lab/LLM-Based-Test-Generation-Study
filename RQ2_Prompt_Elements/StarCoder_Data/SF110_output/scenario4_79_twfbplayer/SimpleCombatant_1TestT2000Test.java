@@ -1,0 +1,211 @@
+// SimpleCombatant_1Test.java
+package de.outstare.fortbattleplayer.model.impl;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
+import de.outstare.fortbattleplayer.model.Area;
+import de.outstare.fortbattleplayer.model.CharacterClass;
+import de.outstare.fortbattleplayer.model.Combatant;
+import de.outstare.fortbattleplayer.model.CombatantObserver;
+import de.outstare.fortbattleplayer.model.CombatantSide;
+import de.outstare.fortbattleplayer.model.CombatantState;
+import de.outstare.fortbattleplayer.model.SectorBonus;
+import de.outstare.fortbattleplayer.model.Weapon;
+import de.outstare.fortbattleplayer.model.WeaponData;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SimpleCombatant}.
+* It contains ten unit test cases for the {@link SimpleCombatant#_getCurrentLP()} method.
+*/
+class SimpleCombatant_1Test {
+
+    private static final transient Logger LOG = Logger.getLogger(SimpleCombatant_1Test.class.getName());
+
+    /**
+     * Test method for {@link SimpleCombatant#_getCurrentLP()}.
+     */
+    @Test
+    void test_getCurrentLP() {
+        final CombatantSide side = CombatantSide.ENEMY;
+        final CombatantState initialState = CombatantState.ALIVE;
+        final int maxHealth = 100;
+        final String name = "Test";
+        final CharacterClass characterClass = null;
+        final Weapon weapon = new Weapon(WeaponData.BAYONET);
+        final String city = "Test";
+        final Combatant combatant = new SimpleCombatant(side, initialState, maxHealth, name, characterClass, weapon, city);
+        assertEquals(100, combatant._getCurrentLP());
+    }
+}
+
+// SimpleCombatant_2Test.java
+package de.outstare.fortbattleplayer.model.impl;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
+import de.outstare.fortbattleplayer.model.Area;
+import de.outstare.fortbattleplayer.model.CharacterClass;
+import de.outstare.fortbattleplayer.model.Combatant;
+import de.outstare.fortbattleplayer.model.CombatantObserver;
+import de.outstare.fortbattleplayer.model.CombatantSide;
+import de.outstare.fortbattleplayer.model.CombatantState;
+import de.outstare.fortbattleplayer.model.SectorBonus;
+import de.outstare.fortbattleplayer.model.Weapon;
+import de.outstare.fortbattleplayer.model.WeaponData;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SimpleCombatant}.
+* It contains ten unit test cases for the {@link SimpleCombatant#_getMaxLP()} method.
+*/
+class SimpleCombatant_2Test {
+		
+    private static final transient Logger LOG = Logger.getLogger(SimpleCombatant_2Test.class.getName());
+
+    /**
+     * Test method for {@link SimpleCombatant#_getMaxLP()}.
+     */
+    @Test
+    void test_getMaxLP() {
+        final CombatantSide side = CombatantSide.ENEMY;
+        final CombatantState initialState = CombatantState.ALIVE;
+        final int maxHealth = 100;
+        final String name = "Test";
+        final CharacterClass characterClass = null;
+        final Weapon weapon = new Weapon(WeaponData.BAYONET);
+        final String city = "Test";
+        final Combatant combatant = new SimpleCombatant(side, initialState, maxHealth, name, characterClass, weapon, city);
+        assertEquals(100, combatant._getMaxLP());
+    }
+}
+
+// SimpleCombatant_3Test.java
+package de.outstare.fortbattleplayer.model.impl;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
+import de.outstare.fortbattleplayer.model.Area;
+import de.outstare.fortbattleplayer.model.CharacterClass;
+import de.outstare.fortbattleplayer.model.Combatant;
+import de.outstare.fortbattleplayer.model.CombatantObserver;
+import de.outstare.fortbattleplayer.model.CombatantSide;
+import de.outstare.fortbattleplayer.model.CombatantState;
+import de.outstare.fortbattleplayer.model.SectorBonus;
+import de.outstare.fortbattleplayer.model.Weapon;
+import de.outstare.fortbattleplayer.model.WeaponData;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SimpleCombatant}.
+* It contains ten unit test cases for the {@link SimpleCombatant#_health()} method.
+*/
+class SimpleCombatant_3Test {
+		
+    private static final transient Logger LOG = Logger.getLogger(SimpleCombatant_3Test.class.getName());
+
+    /**
+     * Test method for {@link SimpleCombatant#_health()}.
+     */
+    @Test
+    void test_health() {
+        final CombatantSide side = CombatantSide.ENEMY;
+        final CombatantState initialState = CombatantState.ALIVE;
+        final int maxHealth = 100;
+        final String name = "Test";
+        final CharacterClass characterClass = null;
+        final Weapon weapon = new Weapon(WeaponData.BAYONET);
+        final String city = "Test";
+        final Combatant combatant = new SimpleCombatant(side, initialState, maxHealth, name, characterClass, weapon, city);
+        assertEquals(100, combatant._health());
+    }
+}
+
+// SimpleCombatant_4Test.java
+package de.outstare.fortbattleplayer.model.impl;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
+import de.outstare.fortbattleplayer.model.Area;
+import de.outstare.fortbattleplayer.model.CharacterClass;
+import de.outstare.fortbattleplayer.model.Combatant;
+import de.outstare.fortbattleplayer.model.CombatantObserver;
+import de.outstare.fortbattleplayer.model.CombatantSide;
+import de.outstare.fortbattleplayer.model.CombatantState;
+import de.outstare.fortbattleplayer.model.SectorBonus;
+import de.outstare.fortbattleplayer.model.Weapon;
+import de.outstare.fortbattleplayer.model.WeaponData;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SimpleCombatant}.
+* It contains ten unit test cases for the {@link SimpleCombatant#_state()} method.
+*/
+class SimpleCombatant_4Test {
+		
+    private static final transient Logger LOG = Logger.getLogger(SimpleCombatant_4Test.class.getName());
+
+    /**
+     * Test method for {@link SimpleCombatant#_state()}.
+     */
+    @Test
+    void test_state() {
+        final CombatantSide side = CombatantSide.ENEMY;
+        final CombatantState initialState = CombatantState.ALIVE;
+        final int maxHealth = 100;
+        final String name = "Test";
+        final CharacterClass characterClass = null;
+        final Weapon weapon = new Weapon(WeaponData.BAYONET);
+        final String city = "Test";
+        final Combatant combatant = new SimpleCombatant(side, initialState, maxHealth, name, characterClass, weapon, city);
+        assertEquals(CombatantState.ALIVE, combatant._state());
+    }
+}
+
+// SimpleCombatant_5Test.java
+package de.outstare.fortbattleplayer.model.impl;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
+import de.outstare.fortbattleplayer.model.Area;
+import de.outstare.fortbattleplayer.model.CharacterClass;
+import de.outstare.fortbattleplayer.model.Combatant;
+import de.outstare.fortbattleplayer.model.CombatantObserver;
+import de.outstare.fortbattleplayer.model.CombatantSide;
+import de.outstare.fortbattleplayer.model.CombatantState;
+import de.outstare.fortbattleplayer.model.SectorBonus;
+import de.outstare.fortbattleplayer.model.Weapon;
+import de.outstare.fortbattleplayer.model.WeaponData;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+* Test class of {@link SimpleCombatant}.
+* It contains ten unit test cases for the {@link SimpleCombatant#_getLocation()} method.
+*/
+class SimpleCombatant_5Test {
+		
+    private static final transient Logger LOG = Logger.getLogger(SimpleCombatant_5Test.class.getName());
+
+    /**
+     * Test method for {@link SimpleCombatant#_getLocation()}.
+     */
+    @Test
+    void test_getLocation() {
+        final CombatantSide side = CombatantSide.ENEMY;
+        final CombatantState initialState = CombatantState.ALIVE;
+        final int maxHealth = 100;
+        final String name = "Test";
+        final CharacterClass characterClass = null;
+        final Weapon weapon = new Weapon(WeaponData.BAYONET);
+        final String city = "Test";
+        final Combatant combatant = new Simple

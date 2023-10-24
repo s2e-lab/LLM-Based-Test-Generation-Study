@@ -6,9 +6,8 @@ import time
 # accumulates all results
 output = []
 
-# 
-for llm in ["OpenAI","CodeGen", "GPT3.5"]:
-    os.chdir(f"/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-FAKE/{llm}/HumanEvalJava-Results")
+for llm in [ "StarCoder"]: # ["OpenAI","CodeGen", "GPT3.5", "StarCoder"]
+    os.chdir(f"/Users/joanna/Documents/Portfolio/GitHub/S2E-Lab/ICSE23-results/{llm}/HumanEvalJava-Results")
 
     run_maven = True
 
